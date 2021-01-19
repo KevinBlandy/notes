@@ -1,0 +1,141 @@
+JAVAWEB监听器 
+三大组键
+Servlet
+Listener
+Filter
+
+----------Listener
+1,监听器概述
+Listener -- 监听器
+	初次相见,AWT！GUI编程,还记得不？
+	二次相见,SAX,基于事件驱动
+监听器的特点：
+   * 它是一个接口,内容由我们来实现
+   * 需要注册:例如,注册在按钮上
+   * 监听器中的方法会在特定事件发生时被调用
+
+观察者模式: 
+   * 事件源--引发事件的"东西"
+	贼	--	事件源
+   * 事件
+	偷窃	--	事件
+   * 监听器(可能有多个方法,一个事件对应一个方法)
+	警察	--	监听器
+	监听器中的方法	--	抓捕
+
+JAVAWEB中的监听器
+事件源	--	三大域(ServletContext,HttpSession,HttpSerlvetRequest)	
+出生后,死之前
+**********************************	ServletContext(与服务器同生共死)	**********************************
+   * 生命周期监听:ServletContextListener  有两个方法,一个出生时调用,一个在死亡时调用
+	void contextDestroyed(ServletContextEvent sce)(在对象创建之后调用)
+	void contextInitialized(ServletContextEvent sce)   (在对象死亡之前调用)
+   * 属性监听:ServletContextAttributeLitener  它有三个方法,一个在添加属性时调用,一个在替换属性时调用,一个在删除属性时使用  
+	void attributeAdded(ServletContextAttributeEvent scab);在添加属性之后调用
+	void attributeRemoved(ServletContextAttributeEvent scab); 在删除属性之后调用
+	void attributeReplaced(ServletContextAttributeEvent scab); 在替换属性之后调用
+**********************************	HttpSession(单次会话)	**********************************
+   * 生命周期监听:HttpSessionListener  有两个方法,一个出生时调用,一个在死亡时调用
+	sessionCreated(HttpSessionEvent se) (在Session创建之后调用)
+	sessionDestroyed(HttpSessionEvent se) (在Session死亡之前调用)
+   * 属性监听:HttpSessionAttributeLitener  它有三个方法,一个在添加属性时调用,一个在替换属性时调用,一个在删除属性时使用  
+	 void attributeAdded(HttpSessionBindingEvent se) 
+	 void attributeRemoved(HttpSessionBindingEvent se)  
+	 void attributeReplaced(HttpSessionBindingEvent se) 
+**********************************	HttpSerlvetRequest(单次请求)	**********************************
+   * 生命周期监听:ServletRequestListener  有两个方法,一个出生时调用,一个在死亡时调用
+	 void requestInitialized(ServletRequestEvent sre)  (在request创建之后调用)
+	 void requestDestroyed(ServletRequestEvent sre)	(在request死亡之前调用)
+   * 属性监听:SerlvetRequestAttributeLitener  它有三个方法,一个在添加属性时调用,一个在替换属性时调用,一个在删除属性时使用  
+	void attributeAdded(ServletRequestAttributeEvent srae)  
+	void attributeRemoved(ServletRequestAttributeEvent srae)  
+	void attributeReplaced(ServletRequestAttributeEvent srae)  
+
+JAVAWEB中完成编写监听器
+   * 写一个监听器类,要求必须去实现某个监听器接口
+   * 注册,在web.xml中配置来完成注册
+	<listener>
+		<listener-class>com.kevin.web.listener.Alistener</listener-class>
+	</listener>
+相关的事件对象	--	声明周期监听
+ServletContextEvent
+   getServletContext();返回SerlvetContext
+HttpSessionEvent
+   getSession();返回Sesssion
+ServletRequestEvent
+   getServletContext();//返回ServletContext
+   getServletRequest();//返回HttpServletRequest
+相关的事件对象 --	属性监听
+ServletContextAttributeEvent
+   getServletContext();//返回ServletContext
+   getName();//属性名称
+   getValue();//属性值(在替换的时候,返回的是被替换的值)
+
+剩下的两个属性监听也都一毛一样,不一一列举
+
+-------感知监听器(都域HttpSession相关)
+感知监听器(都域HttpSession相关)
+   它用来添加到 javaBean上,而不是添加到三大域上！
+   这两个监听器,都不需要在web.xml中注册
+ 
+让javaBeanq实现HttpSessionBindingListener这个接口！那么这个javaBean就能够知道自己是否被session存储或者移除了！
+	HttpSessionBindingListener
+绑定时调用	public void valueBound(HttpSessionBindingEvent arg0) 
+解绑时调用	public void valueUnbound(HttpSessionBindingEvent arg0) 
+
+-------钝化活化监听器
+session的序列化(关闭和开启服务器完成的操作)
+   服务器(正常)关闭的时候项目所有的sesssion会被保存到硬盘！一个项目所有的session文件其实是保存在 
+   C:\apache-tomcat-8.0.26\work\Catalina\localhost\项目名\SESSIONS.ser(所有的session,都在这个文件里面)
+   SESSIONS.ser --- ser就是序列化接口serziable的缩写
+   当服务器启动的时候这个session就没有了,因为服务器又把它读回到了内存
+
+   如果要废掉这个session序列化行为,在context.xml文件中加上
+	<Context ..>
+		...
+		<Manager pathname=""/>
+		...
+	</Context>
+
+session的钝化和活化(未关闭或者开启服务器)
+   配置Tomcat钝化session的参数
+   把下面文件放置到tomcat\conf\catalina\localhost目录下,文件名为项目名
+   (如果直接写在tomcat\conf\context.xml中就是对所有项目都生效)
+	<Context>
+		<Manager className="org.apache.catalina.session.PresistentManager" maxIdleSwap="1">
+			<Store className="org.apache.catalina.session.FileStore" directory="mysession" />
+		</Manager>
+	</Context>
+   maxIdleSwap:单位是分钟,表示session多久没有活动!服务器就钝化它!(因为session一直留着内存,很占内存空间,需要序列化到硬盘,保存数据)
+   directory:表示session存放在:tomcat\work\Catalina\localhost\listener\mysession目录下(一个session,一个文件。名字就是SESSIONID)
+   所谓的活化,就是把别序列化的session重新加载到内存！
+   而这个序列化的规则,我们可以自己定义.客户端是感觉不到session经历了什么变化！
+
+   注:session里面如果存有自定义类,那么必须实现Serializable标记接口,不然不能完成序列化
+
+
+javaBean实现监听钝化/活化的的接口
+HttpSessionActivationListener
+   public void sessionDidActivate(HttpSessionEvent arg0);
+   public void sessionWillPassivate(HttpSessionEvent arg0);
+  
+
+-------SESSIONID变化监听器
+HttpSessionIdListener
+	void sessionIdChanged(HttpSessionEvent event, String oldSessionId);	
+
+——————————————————————————
+总结			  |
+——————————————————————————
+ServletContextListener
+ServletContextAttributeLitener
+
+HttpSessionListener
+HttpSessionAttributeLitener
+
+ServletRequestListener
+SerlvetRequestAttributeLitener
+
+HttpSessionBindingListener
+HttpSessionActivationListener
+HttpSessionIdListener

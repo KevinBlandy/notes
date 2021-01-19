@@ -1,0 +1,36 @@
+schema约束
+	也是一种约束xml文件的语言
+	Demo.xsd -- 文件格式
+根节点就是:
+	<?xml version="1.0" encoding="UTF-8"?>
+	<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/1" xmlns:tns="http://www.example.org/1" elementFormDefault="qualified">
+		
+	</schema>
+
+根节点属性介绍
+xmlns:表示当前文件为约束文档
+targetNamespace:表示出一个路径,其他的xml文件通过导入这个路径来导入这个schame约束
+	> targetNamespace="http://kevinblandy.com/20151116"
+
+--回顾一下DTD
+<!ELEMENT 元素名称 约束>
+--
+
+
+schema完全不一样！
+	shcema本身也要遵循xml语法归法,其实它里面写的就是xml语句
+简介
+*  schema符合xml的语法,xml语句
+*  一个xml中可以有多个schema,多个schema使用名称空间区分(类似于java包名)
+*  dtd里面有PCDATA类型,但在schema里面可以支持更多的数据类型
+	> 可以限定xml的数据类型只能是整数
+*  比DTD更加复杂,但是比DTD更加严格,它正在逐步的替代DTD.
+*  schema文件中使用W3C提供的属性和标签来约束xml文件
+快速入门
+*  创建一个schema文件
+   步骤:
+   (1)查看xml文件中有多少个元素
+   (2)看是简单元素还是复杂元素
+   (3)引入约束文件
+	*  
+

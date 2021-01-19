@@ -1,0 +1,16 @@
+----------------
+一,环境搭建	|
+----------------
+1,把以下jar包加入工程的classPath下
+commons-logging-1.1.3.jar
+	> spring,没有提供!需要我们额外的导入
+spring-beans-4.0.0.RELEASE.jar
+spring-context-4.0.0.RELEASE.jar
+spring-core-4.0.0.RELEASE.jar
+spring-expression-4.0.0.RELEASE.jar
+2,spring配置文件
+	一个典型的spring项目需要创建一个或多个Bean配置文件,这些配置用于在springIOC容器里面配置Bean.
+	Bean的配置文件可以放在classPath下,也可以放在其他的目录下
+
+
+Spring下载地址:http://repo.spring.io/release/org/springframework/spring/

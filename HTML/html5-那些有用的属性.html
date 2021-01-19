@@ -1,0 +1,7 @@
+download
+	* 直接可以实现图片/文件的下载,不需要通过服务端
+		<a href="index_logo.gif" download="_5332_.gif">下载</a>
+	* 检测是否支持 download 属性
+		var isSupportDownload = 'download' in document.createElement('a');
+	* 还可以是PDF资源,或者txt资源等等.尤其Chrome等浏览器可以直接打开PDF文件,使得此文件格式需要download处理的场景越来越普遍
+

@@ -1,0 +1,86 @@
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xmlns='http://www.ehcache.org/v3'
+	xsi:schemaLocation="http://www.ehcache.org/v3 
+	http://www.ehcache.org/schema/ehcache-core.xsd">
+	
+	<!-- 磁盘存储位置 -->
+	<persistence directory="E:\ehcache"/>
+	
+	<!-- 配置线程池 -->
+	<thread-pools>
+		<!-- 默认的线程池 -->
+		<thread-pool alias="default" min-size="1" max-size="10" default="true"/>
+		<thread-pool alias="eventPool" min-size="2" max-size="2" />
+		<thread-pool alias="writeBehindPool" min-size="1" max-size="3"/>
+		<thread-pool alias="diskPool" min-size="1" max-size="3"/>
+	</thread-pools>
+
+	<!-- 统一指定处理事件的线程池 -->
+	<event-dispatch thread-pool="eventPool" />
+	<!-- 统一指定处理异步写入的线程池 -->
+	<write-behind thread-pool="writeBehindPool" />
+	<!-- 统一指定磁盘序列化的线程池 -->
+	<disk-store thread-pool="diskPool" />
+		
+	<!-- 通用的配置模版 -->
+	<cache-template name="defaults">
+		<key-type>java.lang.Long</key-type>
+		<value-type>java.lang.String</value-type>
+		<!-- 仅仅在堆上使用,最多存储200KB -->
+		<heap unit="kB">200</heap>
+	</cache-template>
+
+	<!-- 定义一个cache -->
+	<cache alias="foo">
+		<!-- 键和值被声明为Long/String,如果未指定,则默认为java.lang.Object -->
+		<key-type>java.lang.Long</key-type>
+		<value-type>java.lang.String</value-type>
+		<!-- 缓存失效控制,一共有四种类型,只能出现一种 -->
+		<expiry>
+			<!-- 自定义的过期策略
+				<class></class>
+			-->
+			 
+			<!-- 不过期和ttl
+				<none/>
+				<ttl unit="seconds">20</ttl>  
+			-->
+			<tti unit="seconds">20</tti>
+		</expiry>
+		<!-- 事件监听器 -->
+		<listeners>
+			<!-- 指定一个事件监听 -->
+			<listener>
+				<!-- CacheEventListener 实现 -->
+				<class>com.tedi.door.utils.Li</class>
+				<!-- 处理方式,同步/异步 -->
+				<event-firing-mode>ASYNCHRONOUS</event-firing-mode>
+				<!-- 事件排序策略 -->
+				<event-ordering-mode>UNORDERED</event-ordering-mode>
+				<!--  -->
+				<events-to-fire-on>CREATED</events-to-fire-on>
+			</listener>
+		</listeners>
+		<!-- resources 定义了换成资源的位置,以及属性,可以单独使用,也可以组合使用 -->
+		<resources>
+			<!-- 在堆上最多可缓存100个条目 -->
+			<heap unit="entries">100</heap>
+			<!-- 堆外层500 MB的堆外存储器 -->
+			<offheap unit="MB">150</offheap>
+			<!-- 磁盘 ,最大10GB persistent,决定了是否要持久化-->
+			<disk unit="GB" persistent="true">500</disk>
+		</resources>
+		<!-- 指定磁盘序列化,分段数量-->
+		<disk-store-settings disk-segments="16"/>
+	</cache>
+
+	<!-- 继承 defaults 模版,覆写了 key-type属性-->
+	<cache alias="bar" uses-template="defaults">
+		<key-type>java.lang.String</key-type>
+	</cache>
+	
+	<!-- 完全继承 defaults -->
+	<cache alias="simpleCache" uses-template="defaults" />
+</config>
+
+

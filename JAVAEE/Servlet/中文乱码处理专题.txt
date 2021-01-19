@@ -1,0 +1,79 @@
+发生中文乱码有三种情况
+1,表单提交(只要涉及到数据提交就有可能会涉及到中文乱码)
+	post
+	针对post的解决方法：在接收的一放request.setCharacterEncoding("与浏览器一致的字符编码/utf-8");
+	get
+	针对Get的解决办法:new String(request.getParameter("参数名").getBytes("iso-8859-1"),"utf-8");
+	 一般建议写成一个工具类。
+2,超链接
+	用get方式解决。
+3,sendRedirect();
+	response.sendRedirect("servlet地址"?usernam="kevin");
+ ------------------
+请求和响应都有可能会出现乱码
+常见编码：
+iso-8859-1(不支持中文)
+gbk(系统默认编码.中国的国标码--带有日本的片假名)
+utf-8(万国码,支持全世界编码)--我们选择这个
+--------------------
+服务器默认解码就是ISO。。。TomCat是UTF-8
+浏览器默认解码就是GBK
+--------------------
+--------------------响应编码
+
+response.setCharacterEncoding("utf-8");
+	|--服务器设置响应编码。那么发送出去的字符就是UTF-8
+	|--告诉服务器自己的编码
+response.setHeader("Content-Type","text/html;charset=utf-8");
+	|--设置文本以及浏览器的解码方式
+	|--这个方法。直接就设置了服务器自己的编码以及告诉了浏览器的解码方式。
+response.setContentType("text/html;charset=utf-8");
+	|--直接搞定所有。
+总结：想不乱,在使用getWriter()方法之前。先调用上面的方法。
+--------------------请求编码
+在地址栏中直接手动输入的字符是:GBK
+在网页同通过表单/连接的字符是(UTF-8).如果你的页面是UTF-8。
+
+请求体(POST)
+只需要在获取参数在前,调用request的setCharacterEncoding("POS数据相同的编码");就可以！
+request.setCharacterEncoding("utf-8");
+	|--让服务器以utf-8来解码pos方式提交来的数据
+
+URL中的(GET)
+想设置?要到服务器目录Config/server.xml中去设置
+
+<Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" URIEncoding="utf-8"/>
+
+在以上这个标签后面加上: URIEncoding="utf-8"  
+当设置之后,GET请求参数就默认的用utf-8！
+但是,别这样搞！
+
+真正要使用的方法:
+首先先把乱码的东西都拿过来
+1, String name = request.getParameter("name");//得到的数据是乱码
+2, 反编回来,看下面
+3, byte[] bytes = name.getBytes("ISO-8859-1");//我先按照服务器默认的格式。把你打回原形,一大堆字节
+4, name = new String(bytes,"utf-8");//然后。我在通过我的方式你让你回来！就OK！
+5, 简化
+   String name = new String(request.getParameter("name").getBytes("ios-8859-1"),"utf-8");
+------------------URL编码
+表单的类型:Content-Type:application/x-www-form-urlencoded
+	把中文转换成%后面跟两位16进制
+	因为在客户端和服务端之间传递中文时,需要把它转换成网络适合的方式。
+	GET请求中没有URL编码。可能出会出现丢失字节。
+	浏览器是可以自动解码URL编码的！
+俩对象可以对字符进行URL编码和解码
+ *它不是字符编码
+ *它是用来在客户端与服务器直接传递参数的一种方式
+ *URL编码需要先'指定一种字符编码'.把字符串解码后得到byte[].然后把小于0的字节。加上256再转换成16进制.前面再加上一个%
+ *URL编码
+	String name = URLEncoder.encode("余文朋",StandardCharsets.UTF_8.name());
+	System.out.println(name);	//%E4%BD%99%E6%96%87%E6%9C%8B
+ *URL解码
+	name = URLDecoder.decode(name,StandardCharsets.UTF_8.name());
+	System.out.println(name);	//余文朋
+
+---今后需要把连接中的中文参数使用URL来编码。今天不行。目前HTML还不能给出JAVA代码！但是后面学了JSP后就可以了。
+

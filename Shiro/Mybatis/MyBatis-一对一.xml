@@ -1,0 +1,63 @@
+
+————————————————————————
+1,MyBatis-一对一关联查询|
+————————————————————————
+	
+	MyBatis中,SQL的功底非常的重要.
+	
+	1,确定查询的主表
+		* 从需求上解读
+	2,确定查询的从表
+		* 从需求上解读
+
+————————————————————————————————————
+1,resultType方式实现				|
+————————————————————————————————————
+		1,确定SQL语句
+		2,mapper.xml与mapper.java
+		3,写一个类.去继承POJO类.然后作为resultType
+		* 这种方式,其实就是!多表查询的时候,查询到的是一大堆的字段,是两个POJO类的字段.所有我们写一个POJO类.继承一个POJO ,然后补上缺少的字段,作为返回类型...没啥意思.很勉强的
+
+————————————————————————————————————
+2,resultMap方式实现					|
+————————————————————————————————————
+
+		* 这种方式,其实就是通过 resultMap,把联合查询出来的数据.其中单独的一部分,抽取出来封装对象设置到返回类型对象中
+		<!-- 
+			配置订单映射信息
+		 -->
+		<resultMap type="com.kevin.domian.Orders" id="demo">
+			 <id column="id" property="id"/>
+			 <result column="createtime" property="createtime"/>
+			 <result column="note" property="note"/>
+			 <result column="number" property="number"/>
+			 <result column="user_id" property="userId"/>
+			 <!-- 
+				配置用户映射信息(关联的用户),其实就是传说中的多对一
+				association:用于映射关联查询 单个对象 的信息
+				property:要把关联查询的信息,映射到哪个属性?其实就是哪个属性是引用.
+				column:这个就别乱写,这个的意思是,查询结果的哪个字段引用了主表的主键.
+				property:就是要被赋值的,javaType中对应的属性名称
+				javaType:类型全限定名
+				* 其下的所有属性,都是同样的.不浪费篇幅多做解释
+			 -->
+			 <association property="user" javaType="com.kevin.domian.User">
+				<id column="user_id" property="id"/>
+				<result column="username" property="username"/>
+				<result column="sex" property="sex"/>
+				<result column="birthday" property="birthday"/>
+				<result column="address" property="address"/>
+			 </association>
+		</resultMap>
+		<!--
+			配置statemen
+		-->
+		<select id="getOrder" resultMap="demo">
+			SELECT * FROM orders o,user u WHERE o.user_id=u.id;
+		</select>
+		* 非常需要注意的是
+		  如果俩表都有共同的字段叫做id(Order对象有个id,User对象也有个id),那么在查询的时候(select *)没有起别名,会出问题
+		  会直接的就把Order的id,赋值给了User的id.
+		* 反正就是要注意,多表查询的时候,结果列的名称.有重复的.那么在进行赋值的时候,有可能会出现问题,尽量都使用别名
+
+

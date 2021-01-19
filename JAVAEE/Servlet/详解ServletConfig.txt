@@ -1,0 +1,30 @@
+详解ServletConfig
+
+
+  ServletConfig是Servlet中的init()方法的参数类型，服务器会在调用init()方法时传递ServletConfig对象给init()方法。
+  ServletConfig对象封装了Servlet在web.xml中的配置信息，它对应<servlet>元素。ServletConfig类的功能有：
+
+getServletName();
+	|--返回String类型。获取Servlet配置名，即<servlet-name>的值;
+getServletContext();
+	|--获取(返回)ServletContext对象，【这个对象稍后介绍】
+getInitParameter(String name);
+	|--返回String类型。获取指定名称的,初始化参数(<param-name>标签对应的value)
+getInitParameterNames();
+	|--返回的是一个枚举 Enumeration<String> 获取的所有初始化参数的名称(注意,是名称)
+
+  *****ServletConfig提供了获取<servlet-name>的方法。但是不提供获取<servlet-class>的方法。因为它觉得是不安全的！
+
+  在web.xml文件中，配置<servlet>时可以为<servlet>配置0~N个初始化参数，例如：
+<servlet>
+	<servlet-name>xxx</servlet-name>
+	<servlet-class>com.kevin.MyServlet</servlet-class>
+	<init-param>
+		<param-name>p1</param-name>
+		<param-value>v1</param-value>
+	</init-param>
+	<init-param>
+		<param-name>p2</param-name>
+		<param-value>v2</param-value>
+	</init-param>
+</servlet>

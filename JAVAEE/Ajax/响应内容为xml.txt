@@ -1,0 +1,5 @@
+响应内容为xml
+* 服务器端要进行修改
+ > 设置响应头:ContentType的值为:text/xml;charset=utf-8
+* 客户端
+ > var doc = xmlHttp.responseXML;//得到的是一个Document对象！

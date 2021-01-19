@@ -1,0 +1,78 @@
+一,自定义标签(理解,实际开发中,一般我们很少写标签.能看懂别人的标签,会使用别人的标签就好)
+	我们在JSP页面中使用标签就等于调用某个对象的方法一样。例如<c:if test=""/>,这就是在调用对象的方法一样。
+	自定义标签其实就是自定义类一样！
+1.1 自定义标签的步骤
+	* 定义标签处理类,必须是Tag或者SimpleTag的实现类
+	* 编写标签库描述符文件(TLD)
+	
+	Simple接口是JSP2.0中新出的接口,用来简化自定义标签,所以现在我们基本上都是使用SimpleTag
+	SimpleTag是老的,传统的自定义标签时使用的接口,现在不建议使用它了。
+概述
+1,步骤
+   * 标签处理类(标签也是一个对象,那么需要先有类,其实执行标签就是执行了某个类的某个方法)
+   * tld文件,它是一个xml
+   * 页面中使用<%@taglib%>来指定tld文件的位置
+----------------------------------------------------------------
+2,标签处理类(单例,只有一个对象)
+   Tag标签,比较古老的一个接口2.0的时候出现的。
+   SimpleTag(5个方法)
+   2.0以后出现了一个JspTag,成了Tag和SimpleTag的父类！
+   SimpleTag interface
+	   * doTag();(void)每次执行标签时都会调用这个方法
+
+	   * getparent();(JspTag)返回父标签(非生命周期方法)
+
+	   * setParent(JspTag);(void)设置父标签
+
+	   * setJspBody(JspFragment);(void)设置标签体
+
+	   * setJspContext(JspContext);(void)设置Jsp上下文对象,它儿子是PageContext
+
+	   所有的setXXX();方法都会在doTag()方法之前被Tomcat调用,所以在doTag()中就可以使用Tomcat传递过来的对象
+	   其中doGet();会在其他三个方法之后被Tomcat调用
+
+3,配置tld文件
+	tld文件一般都放在WEB-INF目录下,这样保证客户端访问不到！
+	<tag>
+		<name>MyTag</name><!--指定当前标签的名称-->
+		<tag-class>com.kevin.MyTag</tag-class><!--指定当前标签处理类-->
+		<body-content>empty</body-content><!--指定标签体的类型-->
+		<attribute><!--不一定需要这个标签-->
+			<name>属性名</name>
+			<required>true</required><!--是否是必须的(boolean类型)-->
+			<rtexprvalue>true</rtexprvalue><!--运行时表达式值,也就是是说可不可以是EL表达式(boolean类型)-->
+		</attribute>
+	</tag>
+
+--标签体内容
+<bady-content></bady-content>元素可选值有
+* 1,empty:无标签体
+* 2,JSP:创痛标签支持它,SimpleTag已经不在支持。2.0已经不在支持它！
+   表示标签体内容可以是:java脚本,可以是标签,可以是EL表达式
+* 3,scriptless:只能是EL表达式,其实也可以是其他标签！
+* tagdependent:几乎没人用,标签体内容不会被执行。而是直接复赋给Tag(标签处理类)
+--标签属性
+步骤		
+1,给你的标签处理类添加属性
+	为标签处理类添加属性,属性至少且有一个set方法,这个set方法会在doTag方法之前被Tomcat执行,所有在dotag中就可以使用
+2,在tld文件中对属性进行配置
+	<attribute></attribute>
+
+4,页面中指定tld文件位置
+   <%@taglib prefix="" uri="tld文件路径">
+
+其实,有更简单的方法。***********
+
+  SimpleTagSupport类实现了SimpleTag接口,它已经实现了SimleTag接口的所有方法
+  并且已经保存了Tomcat传递的数据,而且还提供了get方法方法供子类调用！
+ public class MyTag extends SimpleTagSupport
+ {
+	public void doTag()throws JspException,IOException
+	{
+		this.getJspContext().getOut().write("hello SimpleTag");
+	}
+ }
+
+
+
+

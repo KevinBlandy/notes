@@ -1,0 +1,448 @@
+在Spring的IOC容器里面配置Bean
+————————————————————
+一,xml中配置Bean	|
+————————————————————
+
+1,在xml文件中通过Bean节点来配置Bean
+	<bean id="自定义名称" class="类全限定名">
+		...
+	</bean>
+	* 通过id,来获取这个Bean的实例
+	* 同一xml配置中,多个Bean的id不能重复(xml也有约束)
+	* 要求Bean要有无参构造器(人家是玩反射来的..),不然抛出异常
+2,基本属性注入
+	[使用基本的属性注入]
+	* 属性注入,也就是通过setter方法注入Bean的属性值或依赖的对象
+	* 属性注入使用<property>元素,name属性指定Bean属性的值,value属性,或者<value>子节点,指定属性值
+	* 属性注入,是实际应用中最常用的注入方式
+	* 所有的基本属性,都是以字符串来进行赋值的:boolean,double...
+	<bean id="" class="">
+		<property name="属性名" value="属性值"/>
+	</bean>
+	[使用构造器进行注入]
+	* 通过够早方法注入Bean属性值,或依赖的对象,它保证了Bean实例在实例化后就可以使用
+	* 构造注入在<constructor-arg>元素里声明属性,value表示构造器的实参值,index代表第几个参数,从0开始!按照顺序排放value,可以省略index
+	* 构造函数,可以重载,以type属性配合index属性,来进行构造器的重载!按照顺序表示构造器的实参,type,也可以省略不写
+	* 如果bean没有提供无参构造器,那么就必须要显示的在标签中配置构造器参数
+	* 如果类中没有与配置文件对应的构造函数,那么就会抛！出！异！常！
+	<bean id="" class="">
+		<constructor-arg value="第一个参数" index="0" type="java.lang.String"/>
+		<constructor-arg value="第二个参数" index="1" />
+		<constructor-arg value="第三个参数" index="2"/>
+		... ...
+	</bean>
+3,对象属性注入(引用其他的Bean)
+	* 用<prperty>标签的ref指向另一个bean的id属性,那么就会把指向的bean赋值给当前bean的指定属性
+	* 也可以通过构造器参数,指定对Bean的引用
+	<bean id="" class="">
+		...
+		<property name="last" ref="其他Bean的id值"/>
+		...
+		<constructor-arg ref="其他Bean的id值"/>
+	</bean>
+	* 关于内部Bean,其实就是在xml表达中采取另一种表达方式
+	* 在需要用到<property>的子标签就是一个Bean,也符合Bean的规范!那么这个Bean就会给赋给对应的<property>标签的属性
+	* 内部Bean不能够被外部引用
+	<bean id="" class="">
+		...
+		<property name="属性名">
+			<bean class="属性的类全限定名">
+				<property name="" value=""/>
+				...
+			</bean>
+		</property>
+	</bean>
+4,null值,以及级联属性
+	* null值,这个没多大意义!你注值就是null(引用型变量),可以使用<null/>标签为Bean的字符串或者其他对象型属性注入null值
+	* 和struts,hibernate等框架一样,Spring也支持级联属性的配置
+	* 就是在property标签里面.name属性就是本类的引用型变量的属性名称.引用型变量类的属性名!value就是值,这样就能给本类成员的成员进行赋值
+	* 需要注意的是,在进行级联赋值的时候,必须要保证先前已经给级联的属性进行赋值了!不然它就是一个null,你进行赋值就抛出异常!跟struts2不一样!这个一般用不着!
+	<bean id="" class="">
+		<constructor-arg ref=""/>
+		<property name="引用对象属性名.对象的属性" value="值"/>
+		...
+	</bean>
+5,关于集合属性的注入
+	[List]集合
+	* 在<list>标签的<ref>子标签的bean属性,添加其他bean属性的id,就可以把对应的bean装载进这个对象
+	* 通过value,指定简单的常量值!通过<ref>指定对其他bean的引用!通过<bean>指定内置bean定义,通过<null/>指定空元素,甚至可以内嵌其他集合
+	* 需要注意泛型的问题!(list节点下的Bean都是一个类)
+	* 数组的定义和list是一样的!
+	<bean id="" class="">
+		<property name="集合属性名">
+			<list>
+				<ref bean="指定bean id属性"/>
+				<bean class="内部beanClass全限定名">
+					..
+					<property name="内部bean属性" value="对应值"/>
+				</bean>
+			</list>
+			<!-- 集合普通值注入,当然有泛型的情况下,普通值肯定不会跟上面的引用值同时存在一个容器,这里只是做个演示,你千万别傻 -->
+			<list>
+				<value>1.060650★</value><!-- 这里是String -->
+			</list>
+			<!-- 空值 -->
+			<list>
+				<value><null/></value>
+			</list>
+		</property>
+	</bean>
+	[Set集合]
+	* 跟上面差不多!不多做演示
+	<set>
+		...
+	</set>
+	[Map集合]
+	* entry,不多解释!肯定知道!
+	<bean id="" class="">
+		...
+		<property name="">
+			<map>
+				<!-- 值是引用对象 -->
+				<entry key="String" value-ref="其他的beanId"/>
+				<entry key="String" value-ref="其他的BeanId"/>
+				<!-- 都是值类型 -->
+				<entry key="String" value="字符串/Integer/Long.."/>
+				<entry key="String" value="字符串/Integer/Long.."/>
+				<!-- 值键都是对象 -->
+				<entry key-ref="beanId" value-ref="beanId"/>
+				<entry key-ref="beanId" value-ref="beanId"/>
+			</map>
+		</property>
+	</bean>
+	[properties]
+	* 这个比较简单,键值对都是字符串,一看就懂
+	<bean>
+		<property name="prop">
+			<props>
+				<prop key="1">卧槽</prop>
+				<prop key="2">哈哈</prop>
+			</props>
+		</property>
+	</bean>
+	[配置独立的集合]
+	* 以上的集合都是配置在bean内部,别的Bean摸不到
+	* 可以配置单独存在的集合,供多个Bean使用
+	* 需要在顶部的根元素(DTD约束)添加一个新的属性
+	xmlns:util="http://www.springframework.org/schema/util
+	* 其他bean使用的时候,只需要<property name="arr" ref="util:list的id"/>就能引用到这个集合
+	<util:list id="">
+		<!-- 元素:内部创建bean -->
+		<bean class="">
+			<property name="" value=""/>
+		</bean>
+		<!-- 元素:引用其他的bean -->
+		<ref bean=""/>
+	</util:list>
+
+
+	
+	
+6,细节问题
+	* 字面值:可以用字符串表示的值,可以直接通过value标签,或者value元素进行注入.系统会自动转型
+		> <property name="flag" value="false"/>
+	* 基本数据类型以及封装类,String等类型都可以采用字面值注入的方式
+		> 但是要注意符合规范,例如Integer的属性,如果vlaue值是一个小数的字符串,那么就会抛出异常
+	* 如果字面值里面包含了特殊字符,可以使用<![CDATA[特殊字符]]>把字面值进行包裹处理
+		> <![CDATA[<上海>]]>
+	* 构造器注入可以和基本注入同时出现!但是如果有相同的属性,那么基本注入的属性值会覆盖掉构造器注入的属性值
+
+————————————————————
+二,名称空间p注值	|
+————————————————————
+	* 这个是Spring 2.5版本极其以后才有的这个东西!
+1,为看简化XML文件的配置,越来越多的XML文件采用属性而非子元素配置信息
+2,spring从2.5版本开始引入了一个新的p命名空间,可以通过<bean>元素属性的方式配置Bean的属性
+3,使用P命名空间后,基于XML的配置方法将进一步简化
+4,需要引入一个名称空间,自己去查吧
+需要引入新的约束,也就是在根元素要添加新的属性
+<!-- 普通属性 -->
+<bean id="" class="" p:name="传说中的命名空间直接赋值"/>
+	> name:就是当前类中的一个属性,可以通过这种方式赋值
+<!-- 引用属性 -->
+<bean id="" class="" p:arr-ref="其他bean"/>
+	> arr:也是当前类中的一个属性(集合/对象),不过加上了-ref就能指向其他的Bean/集合,赋值!
+
+————————————————————
+三,自动装配			|
+————————————————————
+springIOC容器可以自动装配Bean,需要做的仅仅是在<Bean>的autowire属性里指定自动装配的模式
+> 实际开发,没事别用这个,简直有病!
+<bean ...autowire="自动装配的模式"/>
+[自动装配的模式]
+byType
+	> 根据类型自动装配
+	> IOC容器中多个与目标Bean类型一致的Bean,在这种情况下,Spring将无法判断哪个Bean最适合该属性,因此不能执行自动装配
+	<bean id="" class="" autowire="byType"/>
+	* 根据本bean中的属性类型,去xml中找寻其他相同类型的bean,来进行赋值!如果存在多个相同类型,会抛出异常
+byName
+	> 根据名称自动装配
+	> 比把目标Bean的名称和属性设置得完全相同
+	<bean id="" class="" autowire="byName"/>
+	* 当xml中有其他bean的id名称跟这个对象属性名称一样,那么就会自动去把另外的Bean赋值给这个Bean
+constructor
+	> 通过构造器自动装配
+	> 当Bean中存在多个构造器时,这种装配方式将会很复杂'不推荐使用'
+	
+————————————————————
+四,Bean之间的关系	|
+————————————————————
+1,继承关系
+>	此处的继承,并非是java中类与类的继承,指的是'配置上的继承'
+	<bean id="" class="" parent="父类beanId"/>
+	* 在这里,这个bean就继承了'父类'bean的所有同名属性值!如果你在下面再次对自己属性进行了赋值,那么就会'覆写'!其实就是值的覆盖
+	* 再次强调,这个所谓的继承,父类,覆写!跟java类没一点关系!在这里仅仅是为了节约书写!
+总结: spring 允许继承Bean的配置,被继承的Bean成为父Bean,继承这个父Bean的Bean称为子Bean!
+	  子Bean从父Bean中继承配置,包括Bean的属性配置,子Bean也可以覆盖从父Bean继承过来的配置
+	  父Bean可以作为配置模板,也可以作为Bean的实例
+	  如果只是想把父Bean作为模板,可以在Bean中添加abstract属性,值为true,这样的话,spring就不会实例化这个Bean
+	  <bean abstract="true">
+		...
+	  </bean>
+	  并不是所有的属性都会被继承,例如:abstract,autowire等属性就不会被继承
+	  也可以忽略父Bean的class属性,让子Bean指定自己的类,而共享相同属性的配置,此时,abstract必须为true
+2,依赖关系
+	spring允许用户通过:depends-on属性设定Bean前置依赖Bean,前置依赖的Bean会在本Bean实例化之前创建好
+	如果前置依赖于多个Bean,可以通过逗号,空格方式配置多个Bean的名称
+	<bean id="" class="" depends-on="指定bean"/>
+	* 说白了就是,在生成这个javaBean实例的时候,必须要有指定的Bean实例,且会先生成,不然就会报错,理解成是一种约束吧
+
+————————————————————
+五,Bean的作用域		|
+————————————————————
+	在Spring框架中,Bean默认的作用域是:单例的,也就是你对同一个Bean的N多次get,其实就一个!
+	可以通过scope属性来进行配置
+	<bean... scope="singleton"/><!-- 默认 -->
+	prototype	
+		> 并不是在容器初始化时创建实例,而是每次请求getBean,都会创建一个新的Bean!(Sturuts2框架里面的Action就需要这个配置)
+	request
+		> 创建了这个对象,存入到了request域当中(reuqest.setAttribuilte();)
+	session	(WEB环境)
+		> 创建了这个对象,存入到了session域当中
+	singleton(WEB环境)
+		> 默认的,单例!在容器初始化的时候就创建好,以后的每次请求getBean都会返回已经创建好的Bean
+	globalSession
+		> 一般用于porlet应用环境,该作用域仅适用于 WebApplictionContext环境
+		* 分布式开发.就像QQ登录后.在QQ空间,QQ邮箱...都能识别你的身份!登录一个系统之后,进入其他的子系统.不需要你再次进行登录!
+		* 如果你的环境不是porlet环境,那么这个设置就等同于session
+注意:如果是多个<bean..>指向了同一个class,那么从他们id,get出来的对象,是不同的对象!
+
+————————————————————
+六,使用外部属性文件	|
+————————————————————
+	> 通过文件来配置Bean时,有时候需要,在Bean的配置里"混入系统部署的细节信息",如:文件路径,数据源配置信息等...
+	而这些部署细节实际上需要和Bean配置相分离
+	> spring提供了一个 PropertyPlaceholderConfigurer 的Bean 后置处理器,这个处理器运行用户把Bean配置的部分内容外移到属性文件中
+	可以在Bean配置文件里面使用形式为${var}的变量!
+	PropertyPlaceholderConfigurer 从属性文件中加载属性,并使用这些属性类替换变量
+	> spring还允许在属性文件中使用${propName},以实现属性之间的相互引用
+	> 在pring2.0的时候,需要手动的去注册(配置) PropertyPlaceholderConfigurer
+	2.5之后,可以通过一个标签元素简化
+	1, <beans>中添加context Schema定义
+		xmlns:context="http://www.springframework.org/schema/context
+		...还有忘记了,用到的时候自己查
+	2,在配置文件中添加如下配置
+		<context:property-placeholder location="classpath:c3p0.properties"/>
+	3,在bean中就可以使用${name},来获取properties文件中对应的值了
+		<bean id="c" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+			<property name="jdbcUrl" value="${jdbcUrl}"/>
+			<property name="user" value="${user}"/>
+			<property name="password" value="${password}"/>
+			<property name="driverClass" value="${driverClass}"/>
+		</bean>
+	
+	还可以通过这种方式来引入外部的xml配置文件
+	<import resource="源码路径下的文件.xml"/>
+		* 那么俩配置文件中的元素,可以相互引用!
+————————————————————
+七,spring表达式SpEL	|
+————————————————————
+	Spring表达式语言,简称:SpEL
+	> 是一个支持运行时,查询和操作对象图的强大的表达式语言!
+	> 语法类似于EL:SpEL使用#{..}作为定界符,所有在大括号中的字符都被认为是SpEL
+	> SpEL为bean的属性进行动态赋值,提供了便利
+1,字面量
+	<bean>
+		<property name="" value="#{5}"/>
+		<property name="" value="#{3.14}"/>
+		<property name="" value="#{'字符串'}"/><!-- 字符串的话,必须要用单引号或者双引号 -->
+		<property name="" value="#{false}">
+	</bean>
+	* 鸡肋,跟没用一样!
+2,通过Bean的id对Bean进行引用
+	
+3,调用方法以及引用对象中的属性
+	<bean>
+		<property name="" value="#{其他bean的id值}"/>
+		* 以前我们是写ref表示属性的引用,现在可以用value直接这样
+		<property name="" value="#{其他BeanId.属性名}"/>
+		* 这个就是说把指定Bean的指定属性的值,赋给了当前Bean的当前的这个属性,鸡肋!呵呵
+		<property name="" value="${其他beanId.toString()}"/>
+		* 一看就懂,就是可以调用其他Bean的方法,把返回值赋给当前Bean的当前这个属性
+		<proeprty name="" value="#{其他beanId.toString().UppserCase()}"/>
+		* 还是跟上面一样,不过这个又调用了另一个方法,方法链
+		<property name="" value="#{T(java.Lang.Math).PI}"/>
+		* 这个是调用静态方法的属性,通过T()调用一个类的静态方法,返回的是一个Class Object
+		* 然后再调用相应的方法.T,就是一个类类型!
+	</bean>
+4,计算表达式的值
+	<bean>
+		<property name="" value="#{其他beanId.属性 + 42}"/>
+		* 一看就知道,别说+了,减乘除取模算圆周率....都可以!
+		<property name="" value="#{其他BeanId.属性 + ' ' + 其他beanId.属性}"/>
+		* 连接字符串
+		<property name="" value="#{其他beanId.属性 == 100}"/>
+		* 别说布尔值,>,<,<=,>=,lt,gt,eq,le,ge..都可以吓哭没?
+		* lt,gt什么的都是比较用的
+		<property name="" value="#{!xxx == xxx and xxx gt xxx}"/>
+		* 还支持逻辑运算and,or,nt,!...
+		<property name="" value="#{xxx==xxx?aaa:bbb}"/>
+		* 三目运算....
+		<property name="" value="#{xxx?:aaa}"/>
+		* 还是三目运算
+		<property name="" value="admin.email matches'[正则表达式]'"/>
+		* 正则表达式
+	</bean>
+
+————————————————————
+八,IOC中Bean生命周期|
+————————————————————
+一,Bean的生命周期方法
+	> springIOC容器可以管理Bean的生命周期,Spring允许,在Bean生命周期的特定执行定制的任务
+	> SpringIOC容器对Bean的生命周期进行管理的过程
+	* 通过构造器或者工厂方法创建Bean实例
+	* 为Bean属性设置值和其他Bean的引用
+	* 调用Bean的初始化(创建实例)方法	【生命周期方法】
+	* Bean,可以被使用
+	* 容器关闭时,调用Bean的销毁方法		【生命周期方法】
+	> 在Bean的声明里面设置:init-method,和destroy-method属性,作为Bean指定初始化和销毁的方法
+	<bean id="" class="" init-method="初始化后方法名" destroy-method="销毁前方法名"><!-- Bean中一定要有对应的方法存在 -->
+		> 这个很显然了,对象被创建之后,里面就会执行初始化方法,IOC容器关闭前,里面就会执行销毁前方法!
+		> 而且经过本人验证,方法可以是:有返回值的,没返回值的,private,public,static的都行,只要有对应名称的方法...其他情况?没试,不过应该没问题!毕竟这些都没问题
+注意:
+	1,销毁方法的调用是要在容器关闭之前,注意是容器关闭!你得要知道,具备close();这个方法的接口是:ConfigurableApplicationContext
+		* 如果你的引用是他爹 ApplicationContext,那就没close方法,也就是说见不到销毁方法的执行,!解决办法如下
+			> 把引用接口换成:ConfigurableApplicationContext
+			> 或者直接用实现类引用(建议面向接口编程,引用一般都是祖宗级别的接口,不建议使用最下面的孙子)
+	2,IOC容器对象,必须是调用了close();这个方法,才会执行Bean的销毁方法
+	3,而且,Bean的作用域不能是:prototype(非单例,每次getBean都会访问构造器创建新的实例)
+		> 我自己测试的,我也不知道为什么,如果是这种方式的话,销毁方法竟然不执行!
+		> 默认的是没问题:singleton(单例,随着ICO容器生而创建,每次getBean都返回这个已经创建好的Bean)
+	4,必须要在bean标签上指出属性,不然有方法也不执行
+
+二,后置处理器
+	> Bean后置处理器允许在调用初始化方法前后对Bean进行额外的处理
+	> Bean后置处理器对IOC容器里面的所有Bean实例逐一处理,而非单一实例
+		> 只要是IOC创建的实例,都会来这里报到
+		> 典型的应用场景:检查Bean属性的正确性,或者根据特定的表中更改Bean属性
+	> 对于Bean后置处理器而言,需要实现一个接口: BeanPostProcessor 接口,初始化方法被调用后,Spring将把每个Bean实例分别传递给上述接口中的一下俩方法
+	> 创建一个类,实现 BeanPostProcessor 接口,然后覆写下面俩方法
+		public Object postProcessAfterInitialization(Object obj, String str);
+		public Object postProcessBeforeInitialization(Object obj, String str);
+		* obj 就是这个Bean的对象,str,就是<bean> id或者是name的名称
+	> 我们在这里可以获取到IOC容器给我创建的实例对象,刚创建好就给我们了,还冒着热气!我们就可以检查初始化参数,甚至是进行一些修改!那么在还给容器!
+	> 在初始化方法执行前给一次,初始化方法执行后给一次.我们都可以进行修改/检查
+	> 如果没有定义初始化方法,那就先执行before,再执行aftet....,如果两次执行我们都对属性进行修改,那么就会产生覆盖!很显然是after覆盖before
+	> 把对象还给容器后,我们以后调用的就是这个被我修改,或者没修改的obj!
+	> 在xml配置文件中进行配置
+	<bean class=""/>
+		* 不需要写id,只需要把你的这个实现类全限定写上就OK.容器会自动的扫描.看看哪些类是实现了:BeanPostProcessor接口,如果有,那么就在规定的时机调用
+	> 这个东西,可以达到一个'加强类'的效果,我们可以把容器创建好的类进行包装后,再还给容器.那么以后我们get的对象都是被增强的
+	> 装饰,继承,动态打理..都可以!处理后,返回给容器就好.这样这样对象就是增强的!
+
+
+有了后置处理器后Bean的生命周期
+	* 通过构造器或者工厂方法创建Bean实例
+	* 为Bean属性设置值和其他Bean的引用
+	# 把Bean实例传递给Bean后置处理器的postProcessBeforeInitialization方法
+	* 调用Bean的初始化方法	【生命周期方法】
+	# 把Bean实例传递给Bean后置处理器的postProcessAfterInitialization方法
+	* Bean,可以被使用,进行逻辑操作
+	* 容器关闭时,调用Bean的销毁方法	【生命周期方法】
+
+————————————————————————
+九,一些值得注意的问题	|
+————————————————————————
+1,id,name的区别
+	<bean name=""../>
+	<bean id=""..../>
+		* 一般情况下,装配一个Bean时,通过指定一个id属性作为Bean的名称
+		* id属性在IOC容器中必须是唯一的(xml约束)
+		* id命名也要满足xml对id属性命名规范(xml约束)
+			* 必须是以字母开始,可以使用字母,数字,连字符,下划线,句号,冒号
+		* 如果Bean的名称中含有特殊字符,就可以考虑使用name属性
+			* <bean name="#xxx" .../>
+		* 因为name的属性可以相同.所有,后出现的Bean会覆盖之前出现的同名的Bean
+		* 如果标签没有配置 id,那么name就可以作为id来进行获取!
+		* 早起的开发中,Spring跟struts1整合的时候就很坑爹,那时候就会用到name属性.
+
+2,xml中配置的Bean实例会随着IOC容器的创建而创建
+	* 除了scope="prototype"多例的,只有在调用的时候,才会创建
+	* 而且加载实例是上往下,如果有依赖对象,应该置于高处
+
+3,头部约束文件
+	<?xml version="1.0" encoding="UTF-8"?>
+		<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+		</beans>
+
+4,生命周期方法 -- 销毁方法.对非单例的对象无效
+	* scope="prototype" ,有这个属性的销毁方法没用
+	* 而且销毁方法是IOC容器执行关闭,有关闭功能的容器对象是ConfigurableApplicationContext.是 ApplictionContext的一个子接口
+
+5,IOC创建Bean实例,一共11个步骤详解
+	* 也是Bean的生命周期
+		1,instantiate bean 对象实例化
+
+		2,populate properties 封装属性
+
+		3,如果Bean实现 BeanNameAware 执行 setBeanName
+			* 会自动的把Bean在配置文件中的名称,通过set方法传递到该类中
+
+		4,如果Bean实现 BeanFactoryAware 或 ApplicationContextAware 设置工厂 setBeanFactory 或上下文对象 setApplictionContext
+			* 会自动的把BeanFactory或ApplicationContextAwar通过set方法传递到该类中
+			* ..Aware 类很多,可以实现不同的功能
+
+*		5,如果存在类实现 BeanPostProcessor(后处理Bean).执行该类 postProcessBeforeInitialization
+			* 后置处理,会在Bean的初始化方法之前调用
+
+		6,如果Bean实现 InitializingBean 执行 afterPropertlesSet
+			* 属性注入后方法
+
+		7,调用<bean init-method="">.执行初始化方法
+
+*		8,如果存在类实现 BeanPostProcessor(后处理Bean).执行该类 postProcessAfterInitialization
+			* 后置处理,会在Bean的初始化方法之后调用
+
+		9,执行业务处理 ***
+
+		10,如果实现 DisposableBean 执行destory
+			* 执行销毁方法
+
+		11,调用<bean destory-method="">.指定的销毁方法
+			
+	* 需要被记住的
+		
+6,BeanFactory和ApplictionContext区别
+	ApplictionContext	:其实就是继承了BeanFactory这个类!
+	BeanFactory			:采用延迟加载,第一次getBean时才会初始化Bean
+	ApplictionContext是对BeanFactory的扩展,提供了更多的功能
+		1,国际化处理
+		2,事件传递
+		3,Bean自动装配
+		4,各种不同应用层的Context实现
+
+
+
+
+
+
+BeanFactoryPostProcessor
+ApplicationListener
+ElasticProcessor
+ClassPathBeanDefinitionScanner
+ImportBeanDefinitionRegistrar
+ResourceLoaderAware
+EnvironmentAware

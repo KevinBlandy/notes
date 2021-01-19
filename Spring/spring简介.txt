@@ -1,0 +1,49 @@
+一,简介
+spring是一个开源框架
+spring为简化企业级应用而开发,使用spring可以使简单的javaBaean实现,以前只有EJB才能实现的功能
+spring是一个IOC(DI)和AOP容器框架
+	>IOC 反转控制
+	>ID 依赖注入
+	>AOP 面向切面
+
+
+struts2-spring-hibernate
+		> 三基友,所谓的企业轻量级框架!你值得拥有和学习
+二,详细描述特点
+1,轻量级
+	spring是非入侵性的,基于spring开发的应用中对象可以不依赖于spring的API
+2,依赖注入
+	DI --- Depenedency Oriented Programming
+3,容器
+	spring是一个容器,因为它包含并且管理应用对象的生命周期
+4,框架
+	spring实现了使用简单的组建配置组合成一个复杂的应用
+5,一站式
+	在IOC和AOP的基础上可以整合各种企业应用的开源框架和优秀的第三方类库
+	(实际上spring自身也提供了展现层的SpringMVC和持久层的SpringJDBC)
+6,SpringMVC下载地址
+	http://repo.spring.io/release/org/springframework/spring/
+
+7,schema
+	<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:mvc="http://www.springframework.org/schema/mvc" 
+		xmlns:cache="http://www.springframework.org/schema/cache" 
+		xmlns:p="http://www.springframework.org/schema/p"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/aop
+			http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+			http://www.springframework.org/schema/mvc 
+			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/tx
+			http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+			http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd">
+				
+	</beans>
+

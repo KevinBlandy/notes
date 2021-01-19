@@ -1,0 +1,169 @@
+数据库连接池
+池参数(都有默认值),需要配置这些参数来控制池的性能
+	初始大小10个,最小空闲连接数3个
+	增量,一次创建的最小单位5个
+	最大空闲连接数12
+	最大连接数20
+	最大等待时间1000毫秒
+
+连接池对象，需四个大连接参数(className,url,userName,passWord)来完成连接池的创建
+连接池必须实现java.sql.Datasource接口
+从连接池得到的连接对象的close();方法并不是关闭连接。而是还给连接池
+
+
+连接池内部通过参数创建了连接对象。MYSQL提供的Connection
+连接池使用MYSQL的的连接对象进行了装饰，只对close进行了装饰!
+调用close方法的时候,就不是关闭。而是归还给连接池！
+
+JAVA本身不提供连接池的API,都是第三方提供。但是,JAVA却提供了连接池的规范
+
+***************************	DBCP连接池	***************************
+底层使用的是装饰者模式
+javax.sql.DataSource
+1.4以后才出现的,javax包都是扩展的意思！任何实现了这个接口的,都是连接池
+
+dbcp---Apatch提供的Comms组件
+commons-dbcp-1.4.jar
+依赖 ↓
+commons-pool-1.3.jar
+
+
+BasicDataSource 对象！
+------------------------------------------
+import java.sql.Connection;
+import java.sql.SQLException;
+import org.apache.commons.dbcp.BasicDataSource;
+/**
+ * DBCP连接池
+ * */
+public class Demo
+{
+	public static void main(String[] args) throws SQLException
+	{
+		method1();
+	}
+	public static void method1() throws SQLException
+	{
+		/**
+		 * 创建连接池对象,配置四大参数
+		 * 配置池参数
+		 * 得到连接对象
+		 * */
+		BasicDataSource dataSource = new BasicDataSource();//创建连接池对象
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");//配置四大参数
+		dataSource.setUrl("jdbc:mysql://localhost:3306/demo");
+		dataSource.setUsername("root");
+		dataSource.setPassword("root");
+		dataSource.setMaxActive(20);//设置最大活动连接数
+		dataSource.setMinIdle(3);//设置最小的空闲连接
+		dataSource.setMaxWait(1000);//设置最大等待时间
+		Connection conn = dataSource.getConnection();//得到连接池对象
+		System.out.println(conn.getClass().getName()
+		//返回的这个Connection是一个被装饰的！就把close();这个方法给'增强了'.
+		conn.close();//把连接归还给连接池
+		
+	}
+}
+------------------------------------------
+***************************	C3P0连接池	***************************
+底层使用的是动态代理,并非装饰者模式
+c3p0-0.9.2-pre1.jar (c3p0-oracle-thin-extras-0.9.2-pre1.jar[是Oracle专用])
+依赖↓
+mchange-commons-0.2.jar
+C3P0简介:开源的免费连接池,也是被很多人看好(我们一般选择这个)
+C3P0中池类是:
+ComboPooledDataSource ds = new ComboPooledDataSource();
+------------------------------------------
+import java.beans.PropertyVetoException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import org.apache.commons.dbcp.BasicDataSource;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+/**
+ * C3P0连接池
+ * */
+public class Demo
+{
+	public static void main(String[] args) throws SQLException, PropertyVetoException
+	{
+		method1();
+	}
+	public static void method1() throws SQLException, PropertyVetoException
+	{
+		/**
+		 * 创建连接池对象,配置四大参数
+		 * 配置池参数
+		 * 得到连接对象
+		 * */
+		ComboPooledDataSource ds = new ComboPooledDataSource();
+		ds.setJdbcUrl("jdbc:mysql://localhost:3306/demo");//配置4大参数
+		ds.setUser("root");
+		ds.setPassword("root");
+		ds.setDriverClass("com.mysql.jdbc.Driver");
+		//配置池参数
+		ds.setAcquireIncrement(5);//配置连接数的增量
+		ds.setInitialPoolSize(20);//池的初始大小
+		ds.setMinPoolSize(2);//最小连接数
+		ds.setMaxPoolSize(50);//最大连接数
+		Connection conn = ds.getConnection();
+		System.out.println(conn);
+		conn.close();
+	}
+}
+------------------------------------------
+C3P0也可以指定配置文件,而且配置文件可以是properties,也可以是xml。当然xml要高级一些！C3P0的配置文件名必须是:c3p0-config.xml并且必须放在类路径下。
+要求：
+1,文件名必须是:c3p0-config.xml
+2,文件位置必须在src下
+<?xml version="1.0" encoding="utf-8"?>
+<c3p0-config>
+	<default-config><!-- 连接参数配置和池参数配置 -->
+		<property name="jdbcUrl">jdbc:mysql://localhost:3306/demo</property>
+		<property name="driverClass">com.mysql.jdbc.Driver</property>
+		... ...略,参考API
+	</default-config>
+	<!-- 专门为Oracle配置 -->
+	<named-config name="Oracle-cofig">
+	<property name="jdbcUrl">oracle...</property>
+	...
+</named-config>
+</c3p0-config>
+
+
+在创建连接池对象的时候,这个对象就会加载配置文件(必须符合要求),不用我们指定！如果你在代码中进行了修改,那么以你修改的为准！
+
+命名配置,所谓的命名配置就是：
+xml文件中配置了多个种类的数据库信息(<named-config>)。那么我们可以在创建对象的时候指定对象,去加载xml中哪一段信息
+ComboPooledDataSource ds = new ComboPooledDataSource("Oracle-config");//加载的就是xml文件中的Oracle的信息
+配置文件中可以给出多个配置信息(Oracle,MSSQL,DB2... ...)
+<named-config name="Oracle-cofig">
+	<property name="jdbcUrl">oracle...</property>
+	...
+</named-config>
+
+代码配置
+默认配置
+指定配置
+--------------------------------------------------------------
+
+***************************	TOMCAT配置JNDI	***************************
+JNDI -- JAVA命名和目录接口！
+JNDI的作用就是:
+	在服务器上配置资源,然后通过统一的方式来获取配置的资源(有很多资源)
+	这里配置的资源,就是连接池,这样的话,项目就可以通过统一的方式来获取连接池对象
+
+----------
+
+<Context>
+...
+	<Resource name="" auth="" type="" factory="org.apache.naming.factory.BeanFactory" bar="23"/>
+...
+</Context>
+name:指定资源的名称,这个名称可以自定义,在获取资源的时候需要这个名称
+factory:用来创建资源的工厂,这个值基本是固定的不用修改
+type:资源类型,我们要给出的类型就是连接池的类型
+bar:表示资源的属性,如果资源存在bar的属性,那么就去配置bar的值。对于DBCP连接池而言,不需要bar,它是没有bar这个属性,应该配置url,username等属性.
+可以把c3p0-config.xml文件的配置信息,添加到在这个配置里面！
+----获取资源.
+	配置资源的目的是为了获取资源 ,只要启动了Tomcat就可以在任何项目,任何类中通过JNDI获取资源的方式来获取资源
+... ...不会写了

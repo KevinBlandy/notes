@@ -1,0 +1,170 @@
+#------------------------
+# 常用的配置
+#------------------------
+
+# 响应压缩
+server:
+  compression:
+    enabled: true
+    mime-types: 
+      - application/json
+      - application/xml
+      - application/javascript
+      - text/html
+      - text/xml
+      - text/plain
+      - text/css
+      - text/javascript
+    min-response-size: 2048
+  forward-headers-strategy: native
+  server-header: "PHP/7.3.1"
+  shutdown: GRACEFUL
+  undertow:
+    direct-buffers: true
+  servlet:
+    encoding:
+      enabled: true
+      charset: UTF-8
+
+# logback日志
+logging:
+   config: classpath:logback-spring.xml
+
+spring:
+  application:
+    name: Javaweb开发者社区
+  lifecycle:
+    timeout-per-shutdown-phase: 30  
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 1000MB
+      location: D:\\temp
+      file-size-threshold: 10MB
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+      date: yyyy-MM-dd
+    throw-exception-if-no-handler-found: true
+    static-path-pattern: /static/**
+	converters:
+      preferred-json-mapper: gson
+
+  web:
+    resources:
+      static-locations:
+        - classpath:/static/
+        - classpath:/META-INF/resources/
+        - classpath:/resources/
+        - classpath:/public/
+
+  cache:
+    type: JCACHE
+ 
+  freemarker:
+    enabled: true
+    cache: true
+    content-type: text/html
+    charset: utf-8
+    suffix: .ftl
+    request-context-attribute: request
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: true
+    check-template-location: true
+    template-loader-path:
+      - classpath:/templates/views/
+      - classpath:/templates/inclues/
+      - classpath:/templates/macros/
+    settings:
+      datetime_format: yyyy-MM-dd HH:mm:ss
+  
+  data:
+    jpa:
+      repositories:
+        enabled: true
+        bootstrap-mode: default
+   
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL57Dialect
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate.format_sql: false
+    hibernate:
+      ddl-auto: none
+      
+      
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations:
+    - classpath:mapper/**/*-mapper.xml
+    - classpath:mapper/**/*-mapper-ext.xml
+
+#------------------------
+# 不同环境配置
+#------------------------
+
+
+server:
+  port: 443
+  servlet:
+    context-path: /
+  ssl:
+    enabled: true
+    key-store: classpath:ssl/localhost.keystore
+    key-store-type: PKCS12
+    key-store-password: 123456
+  http2:
+    enabled: true
+    
+
+spring:
+  main:
+    lazy-initialization: false
+  
+  pid:
+    file: D:\\zebra-manager.pid
+    fail-on-write-error: true
+
+  gson:
+    pretty-printing: true
+
+  servlet:
+    multipart:
+      location: D:\\temp
+  
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/javaweb?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&serverTimezone=GMT%2b8
+    username: root
+    password: root
+    initialSize: 2
+    filters: stat
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=2000
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+    timeout: 2000
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+
+  freemarker:
+    cache: false
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+    hibernate:
+      ddl-auto: update
+

@@ -1,0 +1,102 @@
+约束,是添加到列上用来约束列的
+1,主键约束(唯一标识)
+	非空
+	唯一
+	被引用(学习外键时)
+   * 当表的某一列被指定为主键以后,该列就不能为空,不能有重复值出现
+     当创建表时指定逐渐的两种方式
+     >
+     create table demo(
+     id char(6) primary key,
+     age int,
+     gender varchar(10)
+     );
+     指定id为主键列,即id列添加主键约束
+     >
+     create table demo(
+     id char(6),
+     name varchar(20),
+     age int,
+     gender varchar(10),
+     primary key id
+     );
+     指定id为主键列,id列添加主键约束
+   * 修改表时指定主键:alter table demo add primary key(id);
+   * 删除主键:alter table demo drop primary key;
+ ----只有MySQL支持组合主键(多个字段组成的主键)----其他语言不支持
+2,主键自增长
+  * 因为主键列的特性是:必须是唯一,不能为空!所以我们通常会指定主键类为整形,然后设置其自动增长,这样可以保证主键列插入的时候保证唯一性以及非空.
+  * 创建表时指定主键自增长
+  create table demo(
+  id int(10) primary key auto_increment,
+  name vahrchar(10),
+  age int(10),
+  gender varchar(10)
+  );
+  * 修改表时设置主键自增长:alter table demo change id id int auto_increment;
+  * 修改表时删除主键自增长:alter table demo change id id int;
+3,非空约束
+   * 因为某些列不能设置为null值,所以可以对列添加非空约束
+   * 例如
+   create table demo(
+   id int primary key auto_carement,
+   name varchar(20) not null,
+   age int,
+   gender varchar(10)
+   );
+   --对name设置了非空约束
+4,唯一约束(unique)
+   * 数据库某些列不能设置重复的值,所以可以对列添加唯一约束
+   * 例如:
+   create table demo(
+   id int primary key auto_increment,
+   name varchar(10) not null unique,
+   gender varchar(10)
+   );
+   * 对name设置了唯一约束
+5,概念模型
+   对象模型:在JAVA中,是domain！！例如User,student
+   关系模型:在数据库中,就是表
+   当我们要完成一个软件系统时,需要把系统中的实体抽取出来,形成概念模型
+   例如,部门和员工都是系统中的实体.概念模型中的实体最终会成为JAVA中的类,数据库中的表.
+   实体直接还存在着关系,关系有三种:
+   * 1对多:例如,每个员工都属一个部门,而一个部门可以有多个员工,其中员工就是多方,而部门就是一方
+   * 1对1:例如,妻子和丈夫就是一对一的关系,一个丈夫只能有一个妻子,而一个妻子也只能有一个丈夫
+   * 多对多:老师与学生的关系就是多对多的关系,一个老师可以有多个学生.一个学生可以有多个老师.
+
+   概念模型在JAVA中成为实体类(javaBean)
+   类就使用成员变量来完成联系,一般都是双向关联
+   多对一双向中关联,即员工关联部门,部门也关联员工
+6,外键约束
+   * 外键必须是另一表的主键的值
+   * 外键可以重复
+   * 外键可以为空
+   * 一张表中可以有多个外键
+
+   概念模型在数据库中为表创建外键
+   constrant fk_从表_主表 foreion key(外键列,就是本表的列) refrences dept(从表主键);
+   pk 主键
+   fk 外键
+  
+  --------------------------------------------------外键详谈
+  【在创建表的时候写这个】
+ constraint `备注` foreign key (本表字段) references 外表名 (外表字段) on delete set null on update cascade
+  									|--删除时候设置null,修改时候跟着修改
+ constraint `备注` foreign key (本表字段) references 外表名 (外表字段) on delete set null on update cascade
+									|--删除时候设置null,修改时候跟着修改
+
+  【修改表的时候添加约束--直复制上面的】
+ alter table 本表名 add constraint 本表名 foreign key (本表字段) references 外表名 (外表字段) on delete set null on update cascade
+  									|--删除时候设置null,修改时候跟着修改
+  【多表查】
+   select user.*, class.* from user left joni class on user.cid = class.cname;
+   select * from 朱表名 ,从表名 where 主表.外键=从表.主键 and 主表名.主表字段=值;//根据条件可以返回多个或者单个
+  特！别！注！意！
+  在判断的字段是字符串的时候一定要加上 '值'!
+
+
+
+
+   
+
+

@@ -1,0 +1,59 @@
+JSP九大内置对象
+在JSP中无需创建就可以使用的9个对象。
+
+out(jspWriter)
+	> 等同于response.getWriter(),用来向客户端发送文本数据
+config(ServletConfig)
+	> 对应"真身"中的ServletConfig
+page(当前JSP的真身类型)
+	> 当前JSP页面的"this",即当前对象,其实是Object类型的。Object page = this;
+pageContext(PageContext)
+	> 页面上下文对象,它是域对象
+exception(Throwable)
+	> 只有在错误页面中可以使用这个对象
+request(HttpServletRequest)
+	> 就是HttpServletRequest类的对象
+response(HttpServletResponse)
+	> 就是HttpServletResponse类的对象
+application(ServletContext)
+	> 即ServletContext类的对象(Tomcat开启就存在,Tomcat进程结束它才消失.生命周期最长且只有一个)
+session(HttpSession)
+	> 即HtttpSession类的对象.不是每个JSP页面中都可以使用。如果在某个JSP页面中设置<%@page sessio"false"%>,说明这个页面不能使用session
+
+以上9个对象中极少被使用的
+	config,page,exception基本不会使用
+以上9个对象中有两个,并不是每个JSP页面一定能使用(与指令相关)
+	exception,session
+
+
+
+pageContext(JSP里面有,Servlet中没有)
+   * 一个顶九个
+   * Servlet中有三大域,而JSP中有四大域。它就是最后一个域对象
+	> ServletContext:整个应用程序
+	> session:整个会话(一个会话中只有一个用户)
+	> request:一个请求链
+	> pageContext:一个JSP页面 --- 这个域是在当前JSP页面和当前JSP页面中使用的标签之间共享数据。
+		> 域对象
+		> 代理其他域(可以使用这个对象,它往其他域对象中存/取/删东西)
+			pageContext.setAttribute("xxx","xxx",PageContext.SESSION_SOCPE);//void,用pageContext往SESSION里面存放数据。
+			pageContext.getAttribute("xxx","xxx",PageContext.REQUEST_SOCPE);//Object,获取Request域中的数据
+			pageContext.removeAttribute(String name,PageContext.SESSION_SOCPE);//void,删除session中的指定数据
+			pageContext.findAttribute(String name);//Object,依次在page,request,session,application范围查找指定名称的数据。
+
+		> 全域查找(重中之重)
+			pageContext.findAttribute("xxx");//四个域,全部找！从小到大依次查找(注意数据名重名,小域优先级最高)！非常叼！
+		> 获取其他八个内置对象(一个顶九个)
+
+一些方法的总结
+pageContext.setAttribute("xxx","xxx",SESSION_SOCPE);//void,用pageContext往SESSION里面存放数据。
+pageContext.getAttribute("xxx","xxx",REQUEST_SOCPE);//Object,获取Request域中的数据
+pageContext.removeAttribute(String name,SESSION_SOCPE);//void,删除session中的指定数据
+pageContext.findAttribute(String name);//Object,依次在page,request,session,application范围查找指定名称的数据
+pageContext.getOut();//(jspWriter)获取out内置对象
+pageContext.getServletConfig();//(ServletConfig)获取config对象
+pageContext.getPage();//(Object)获取page内置对象
+pageContext.getRequest();//(ServletRequest)获取request内置对象
+pageContext.getResponse();//(ServletResponse)获取response内置对象
+pageContext.getSession();//(HttpSession)获取Session内置对象
+pageContext.getException();//(Exception)获取exception内置对象

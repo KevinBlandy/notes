@@ -1,0 +1,188 @@
+---------------------------------------
+Dubbo-可运行jar服务,Maven构建配置		|
+---------------------------------------
+	# 重点在于四个地方
+		1,资源文件的配置
+		2,Dubbo加载spring文件的配置
+		3,依赖包存放目录
+		4,依赖包加载目录
+
+
+<!-- 构建配置 -->
+<build>
+	<!-- 
+		jar包名 
+	-->
+	<finalName>dubbo-provider</finalName>
+	<resources>
+		<!-- 
+			资源文件包含设置
+			把 src/main/resources 目录下指定的目录和文件包含进jar中
+			主要是把一堆配置文件,全部都给复制到jar的classes目录下
+		-->
+		<resource>
+			<!-- 目标目录 -->
+			<targetPath>${project.build.directory}/classes</targetPath>
+			<!-- 配置文件目录 -->
+			<directory>src/main/resources</directory>
+			<filtering>true</filtering>
+			<includes>
+				<!-- 
+					也可以直接指定所有目录和所有文件 **/* 
+				-->
+				<include>**/*.xml</include>
+				<include>**/*.properties</include>
+			</includes>
+		</resource>
+		<!-- 
+			Dubbo加载Spring配置
+			把 src/main/resources/spring 下的一堆xml,配置文件复制到 META-INF/spring下
+			Dubbo默认就会加载 META-INF/spring 目录下的所有xml配置文件
+		 -->
+		<resource>
+			<!-- 目标目录 -->
+			<targetPath>${project.build.directory}/classes/META-INF/spring</targetPath>
+			<!-- spring配置文件目录 -->
+			<directory>src/main/resources/spring</directory>
+			<filtering>true</filtering>
+			<includes>
+				<!-- spring配置文件 ,也可以使用通配符-->
+				<include>**/*.xml</include>
+			</includes>
+		</resource>
+	</resources>
+	
+	<pluginManagement>
+		<plugins>
+			<!-- 解决Maven插件在Eclipse内执行了一系列的生命周期引起冲突 -->
+			<plugin>
+				<groupId>org.eclipse.m2e</groupId>
+				<artifactId>lifecycle-mapping</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<lifecycleMappingMetadata>
+						<pluginExecutions>
+							<pluginExecution>
+								<pluginExecutionFilter>
+									<groupId>org.apache.maven.plugins</groupId>
+									<artifactId>maven-dependency-plugin</artifactId>
+									<versionRange>[2.0,)</versionRange>
+									<goals>
+										<goal>copy-dependencies</goal>
+									</goals>
+								</pluginExecutionFilter>
+								<action>
+									<ignore />
+								</action>
+							</pluginExecution>
+						</pluginExecutions>
+					</lifecycleMappingMetadata>
+				</configuration>
+			</plugin>
+		</plugins>
+	</pluginManagement>
+	<plugins>
+		<!-- 
+			打包jar文件时，配置manifest文件，加入lib包的jar依赖 
+		-->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+			<configuration>
+				<classesDirectory>target/classes/</classesDirectory>
+				<archive>
+					<manifest>
+						<!-- 
+							指定main函数 
+						-->
+						<mainClass>com.alibaba.dubbo.container.Main</mainClass>
+						<!-- 
+							打包时 MANIFEST.MF文件不记录的时间戳版本
+						-->
+						<useUniqueVersions>false</useUniqueVersions>
+						<addClasspath>true</addClasspath>
+						<!-- 
+							依赖包加载目录名称
+						 -->
+						<classpathPrefix>lib/</classpathPrefix>
+					</manifest>
+					<manifestEntries>
+						<Class-Path>.</Class-Path>
+					</manifestEntries>
+				</archive>
+			</configuration>
+		</plugin>
+		<!-- 依赖包的处理插件 -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>copy-dependencies</id>
+					<phase>package</phase>
+					<goals>
+						<goal>copy-dependencies</goal>
+					</goals>
+					<configuration>
+						<type>jar</type>
+						<includeTypes>jar</includeTypes>
+						<useUniqueVersions>false</useUniqueVersions>
+						<!-- 
+							依赖包存放目录名称
+						 -->
+						<outputDirectory>
+							${project.build.directory}/lib
+						</outputDirectory>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+</build>
+
+
+<!-- parent配置--->
+<build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-deploy-plugin</artifactId>
+			<version>2.7</version>
+			<configuration>
+				<uniqueVersion>false</uniqueVersion>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-eclipse-plugin</artifactId>
+			<version>2.8</version>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>2.3.2</version>
+			<configuration>
+				<failOnError>true</failOnError>
+				<verbose>true</verbose>
+				<fork>true</fork>
+				<compilerArgument>-nowarn</compilerArgument>
+				<source>1.6</source>
+				<target>1.6</target>
+				<encoding>UTF-8</encoding>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-source-plugin</artifactId>
+			<version>2.1.2</version>
+			<executions>
+				<execution>
+					<id>attach-sources</id>
+					<goals>
+						<goal>jar</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+</build>

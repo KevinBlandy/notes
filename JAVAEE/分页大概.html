@@ -1,0 +1,67 @@
+<!-- 页码计算开始 -->
+			<!-- 
+					private Integer pageCode;			//当前页
+					private List<T> beanList;			//当前页数据
+					private Integer totalPages;			//总页数
+					private Integer pageSize = 10;		//每页记录数
+					private Integer totalRecored;		//总记录数
+-->
+<center>
+		<font>第${requestScope.pageBean.pageCode }页</font>
+			<!-- 上一页溢出 -->
+			<c:choose>
+				<c:when test="${当前页 <= 1}">
+					<font>上一页</font>
+				</c:when>
+				<c:otherwise>
+					<font><a href="<c:url value='/customer_getAllCustomer.php?pageCode=1'/>">首页</a></font>
+					<font><a href="<c:url value='/customer_getAllCustomer.php?pageCode=${当前页 - 1}'/>">上一页</a></font>
+				</c:otherwise>
+			</c:choose>
+			<c:choose>
+				<!-- 当前页小于等于10,开始页码就为1,结束页码就为总页数 -->
+				<c:when test="${总页数 <=10 }">
+					<c:set var="begin" value="1"/>
+					<c:set var="end" value="${总页数 }"/>
+				</c:when>
+				<!-- 当前页大于10,那么开始页码就是:当前页-5.结束页码就是:当前页码+4 -->
+				<c:otherwise>
+					<c:set var="begin" value="${当前页 - 5 }"/>
+					<c:set var="end" value="${当前页+4 }"/>
+					<!-- 如果当前页面码小于1,那么开始页码就是1.结束页码就是10 -->
+					<c:if test="${begin < 1 }">
+						<c:set var="begin" value="1"/>
+						<c:set var="end" value="10"/>
+					</c:if>
+					<!-- 当结束页码大于总页数.那么开始页码就是为总页数-9,结束页码就为总页数 -->
+					<c:if test="${end > 总页数 }">
+						<c:set var="begin" value="${总页数 - 9 }"/>
+						<c:set var="end" value="${总页数 }"/>
+					</c:if>
+				</c:otherwise>
+			</c:choose>
+			<!-- 页码计算结束 -->
+			<!-- 循环遍历开始 -->
+			<c:forEach var="x" begin="${begin }" end="${end }">
+				<c:choose>
+					<c:when test="${x eq 当前页 }">
+						${x }
+					</c:when>
+					<c:otherwise>
+						<a href="<c:url value='/customer_getAllCustomer.php?pageCode=${x }'/>">[${x }]</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<!-- 循环结束 -->
+			<!-- 下一页溢出 -->
+			<c:choose>
+				<c:when test="${当前页 < 总页数}">
+					<font><a href="<c:url value='/customer_getAllCustomer.php?pageCode=${总页数}'/>">尾页</a></font>
+					<font><a href="<c:url value='/customer_getAllCustomer.php?pageCode=${当前页 + 1}'/>">下一页</a></font>
+				</c:when>
+				<c:otherwise>
+					<font>下一页</font>
+				</c:otherwise>
+			</c:choose>
+		<font>一共${总页数}页</font>
+	</center>

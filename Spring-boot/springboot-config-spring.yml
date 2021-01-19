@@ -1,0 +1,8 @@
+
+spring.main.lazy-initialization=false
+	* 是否延迟初始化bean
+	* 启用延迟初始化可以大大减少启动时间
+
+spring.lifecycle.timeout-per-shutdown-phase=30s
+	* 优雅停机下，最长等待多少时间
+	* 超过这个时间，超时候无论线程任务是否执行完毕都会停机处理

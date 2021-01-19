@@ -1,0 +1,78 @@
+————————————————————————————————
+一,Action配置					|
+————————————————————————————————
+1,标签,属性详解
+	<package>
+		> 该标签是用于一个包,用于管理action!就像java中的package是管理java类的!实际开发中,一个模块一个包
+		name
+			* 作用是给包起个名,并且包的名称不能重复!
+		namespace
+			* 与<action>标签的name属性,一起组成了一个唯一的action访问路径,在项目中必须是唯一的
+			* 可以不写,默认值是:""		(空)
+		extends
+			* 它代表继承,可以继承另一个包中的所有东西!一般去继承:struts-default
+		abstract
+			* boolean值,默认为false如果为true,就表示这个包就是用来继承的!
+	<action>
+		> 用于声明一个action
+		name
+			* 给action起名!在同一个包内,必须是唯一的
+		class
+			* action实体类的全限定名
+			* 可以不写,默认是:com.opensymphony.xwork2.ActionSupport
+		method
+			* 指定调用的方法名称
+			* 可以不写,默认是:execute
+	<result>
+		> 用于确定返回结果
+		name 
+		* 与action中的方法返回值对应!确定视图!
+		* 可以不写,默认值是:"success"
+	
+2,结构形式
+<package name="" namespace="" extends="" abstract="">
+	<action name="">
+		<result name=""></result>
+		...
+	</action>
+	...
+</package>
+
+————————————————————————————————
+一,Action配置的默认系列			|
+————————————————————————————————
+
+1,默认的action
+	作用:处理其他action处理不了的路径!
+	<package name="default" namespace="/" extends="struts-default">
+		<default-action-ref name="demo"/>
+		...
+	</package>
+	这个default标签的name就是,当前包下的任意action的name,如果有人访问这个包,但是没有找到action,就会先去找默认命名空间中是否有目标action,
+	如果默认命名空间中也没有!就会找当前包下的,这个默认action来进行处理!default-action-ref
+	
+2,还有一个action默认的class属性
+	> 这个东西吧,其实就是struts-default.xml中struts-defaul包配置的!你继承了它,那么你的默认处理类也是随他了!
+	> 可以覆写
+	<default-class-ref class="类的全限定名" />
+
+————————————————————————————————
+一,Action配置细节问题			|
+————————————————————————————————
+1,package标签的namespace属性,以及问题
+	<package name="default" namespace="/" extends="struts-default">		<!-- 根命名空间 -->
+	<package name="test" extends="struts-default">						<!-- 默认的命名空间 -->
+	* 所谓的默认命名空间,举个栗子
+		http://localhost:8080/a/b/c.action
+		> 如果/a/b/c包下存在一个a.action就调用!如果不存在,那么默认命名空间包下有a.action.就会去调用它
+		> 默认命名空间下的action可以在前面无所谓的加上/das/a/ds/asd/as/das/....能够保证被访问,只要action名称正确
+	* 根命名空间.也举个栗子
+		http://localhost/a.action
+		> 看到没有?意思就是,根,根,根!网站主机名称后面就是action的名称
+		> 根命名空间下的action,前面啥也不能加.主机名过了就得是正确的action的名称!
+	
+	> 当这俩有冲突的时候
+	* 根命名空间下有一个demo.action
+	* 默认命名空间也有个demo.action
+	* 地址栏输入:http://localhost:8080/demo.action			的时候,根命名空间的action会被访问,它要优先于默认命名空间
+	> 在同样匹配的情况下,根命名空间要优先于默认命名空间

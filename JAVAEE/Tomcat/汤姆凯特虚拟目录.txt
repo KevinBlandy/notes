@@ -1,0 +1,24 @@
+配置虚拟目录
+一	
+	配置虚拟目录在tomcat的conf目录下的。server.xml的<Host>节点之间。添加以下代码 
+	<Context path="" docBase=""/>
+		例:<Comtext path='test' docBase='D:/Demo'/> <!--把D盘下的Demo文件夹资源(必须符合WEB资源的目录形式)映射成test目录-->
+	path - 属性就是外界访问的虚拟目录名称。
+	docBase - 属性就是实际的目录(必须是绝对路径)。
+	reloadable - 属性要么是true要么是false 默认的是false 。如果是true的话，那么tomcat会监视WEB-INF/classes和WEB-INF/lib目录下类的改变。如果发现类被更新。
+		tomcat服务器将自动重新加载该web应用程序。开发阶段有用。但是需要额外的资源开销。产品发布的时候不建议使用。
+	unpackWAR - true/false ture就是自动解压，false就不自动解压。
+二
+	在服务器的：
+		apache-tomcat-7.0.47\conf\Catalina\localhost
+	目录下创建Demo.xml文件。在xml文件中写入:
+		<Context docBase='C:/hello'/>
+			①Demo：指当前WEB应用的名称(可以自定义，以你的WEB资源名称命名)
+			②docBase:指应用的物理地址
+			③浏览器访问路径
+		http://localhost:8080/Demo/index.html
+
+
+
+
+<Context path="" debug="0" docBase="你项目的决定路径" reloadable="true"  sessionCookiePath="/" sessionCookieName="fuck_you_man"/>

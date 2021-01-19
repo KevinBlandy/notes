@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans.xsd 
+			http://www.springframework.org/schema/security 
+			http://www.springframework.org/schema/security/spring-security.xsd">
+	
+	<!-- 授权管理器 -->
+	<security:authentication-manager>
+		<!--认证管理
+			user-service-ref
+				* 指向 UserDetailsService 接口实现
+				* 通过该接口获取到 UserDetailsService 
+		 -->
+		<security:authentication-provider user-service-ref="">
+			<!-- 指定密码的编码器
+				ref
+					* 编码器接口: PasswordEncoder 的实现
+				base64
+					* 
+				hash
+			 -->
+			<security:password-encoder ref="" base64="true" hash="bcrypt">
+				<!-- 配置盐 
+					ref
+					system-wide
+					user-property
+				 -->
+				<security:salt-source ref="" system-wide="" user-property=""/>
+			</security:password-encoder>
+			<!-- 如果[security:authentication-provider]没配置 [user-service-ref] 属性，那么可以通过该标签配置在内存中的用户信息
+			 -->
+			<security:user-service>
+				<!-- 配置多个用户
+					name
+						* 用户名
+					password
+						* 密码，security要求密码必须是加密的
+						* 通过 {noop}前缀，表示不加密
+					authorities
+						* 设置一个或者多个角色信息，使用逗号分隔
+				 -->
+				<security:user name="user" password="{noop}user" authorities="ROLE_USER" />
+				<security:user name="admin" password="{noop}admin" authorities="ROLE_ADMIN" />
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	<!-- http相关的安全配置，可以有多个
+		auto-config
+			* 启用自动配置，必须为：true
+		use-expressions
+			* 启用表达式
+		pattern
+			* 该安全配置，针对的uri表达式
+		security
+			* 该属性只有一个值：none
+			* 如果配置它，那么[security:http]不能有子节点，表示符合 patter 下的所有的请求都不会经过security系统，不会经过拦截器链
+			* 不会有 SecurityContext，完全绕开了security的管理
+	 -->
+	<security:http pattern="/static/**" security="none"/>
+	<security:http auto-config="true" use-expressions="true">
+		<!-- 记住我的配置 
+			data-source-ref
+				* 配置数据源，在需要持久化，存储到DB的时候配置
+			remember-me-parameter
+				* 记住我的参数
+			token-validity-seconds
+				* 设置在记住我的设置下，token的存储时间，单位是秒
+		 -->
+		<security:remember-me data-source-ref="" remember-me-parameter=""
+						token-validity-seconds="60"/>
+		<!-- 配置权限拦截没，可以有多个配置节点出现，建议匹配范围越广的，越在下面。
+			pattern
+				* 拦截路径，/**：表示所有
+			access
+				* 基于表达式的权限控制，例如：hasRole('ROLE_USER')
+					permitAll()	
+						- 放行所有人，但是还是会经过后续的截器链		
+				* 基类是：SecurityExpressionRoot
+					
+		 -->
+		<security:intercept-url pattern="/login" access="permitAll()"/>
+		<security:intercept-url pattern="/logout" access="permitAll()"/>
+		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		
+		
+		<!-- 配置登录信息
+			login-page
+				* 自定义登录页面的uri
+			login-processing-url
+				* 认证处理器的uri
+			default-target-url
+				* 认证成功后, 默认跳转的页面
+				* 如果是从其他的页面重定向到登录页面的，登录成功后，会重定向到原来的页面
+			authentication-failure-url
+				* 认证失败后的跳转页面
+			username-parameter
+				* 指定用户名的参数名称
+			password-parameter
+				* 指定密码的参数名称
+			
+		 -->
+		<security:form-login login-page="/login" login-processing-url="/login" default-target-url="/" 
+			authentication-failure-url="/logfailure" username-parameter="username" password-parameter="password"/>
+		
+		<!-- 配置登出的信息
+			logout-url
+				* 退出登录的uri
+			invalidate-session
+				* 是否要销毁session
+			delete-cookies
+				* 要删除的cookie名称
+			logout-success-url
+				* 退出成功后跳转的页面
+			success-handler-ref
+				* 退出成功后执行的处理器
+				* 跟 [logout-success-url] 只能同时出现一个
+		 -->
+		<security:logout logout-url="/logout" invalidate-session="true"  delete-cookies="JSESSIONID" logout-success-url="/login"/>
+		
+		<!--csrf配置 
+			disabled
+				* 是否禁用
+			request-matcher-ref
+				* 指定验证匹配器，该匹配器匹配哪些请求要经过csrf验证。接口：RequestMatcher
+			token-repository-ref
+				* 指定 token的生成，解析实现。接口：CsrfTokenRepository
+		 
+		<security:csrf disabled="true" request-matcher-ref=""/> -->
+	
+		<!-- 设置异常的处理器 
+			error-page
+				* 异常的处理页面
+			ref
+							
+		 -->
+		<security:access-denied-handler error-page="" ref=""/>
+	</security:http>
+	
+	<!-- 开启动态的注解权限支持
+		secured-annotations
+			* 启用 spring-security内置的权限控制注解
+		pre-post-annotations
+			* 启用 spring 指定的权限控制注解
+		jsr250-annotations
+			* 启用 jsr250 标准定制的权限控制注解
+			* java 提供的标准
+		
+		！！！ 此项配置应该配置ioc的子容器(DispaterServlet加载的ioc)中，因为权限控制注解需要标识在@Controller 
+	 -->
+	<security:global-method-security secured-annotations="disabled" pre-post-annotations="disabled" jsr250-annotations="disabled">
+	</security:global-method-security>
+</beans>

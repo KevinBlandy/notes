@@ -1,0 +1,32 @@
+# 页面内容太少,无法占满一屏的高度,底栏就会抬高到页面的中间
+# 这时可以采用Flex布局,让底栏总是出现在页面的底部
+
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Index</title>
+		<style type="text/css">
+			.Site {
+			  display: flex;
+			  /** body的最低高度 **/
+			  min-height: 98vh;
+			  /** 从上往下堆列  **/
+			  flex-direction: column;
+			}
+			.Site-content {
+			  /** 总是上下撑满,则会把底部的footer永远顶在在最下面 **/
+			  flex: 1;
+			}
+		</style>
+	</head>
+	<body class="Site">
+	  <header style="background-color: pink;height: 100px;">
+	  		header
+	  </header>
+	  <div class="Site-content">body</div>
+	  <footer style="background-color: pink;height: 100px;">固定的底部</footer>
+	</body>
+</html>

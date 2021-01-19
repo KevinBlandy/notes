@@ -1,0 +1,43 @@
+HttpServletRequest详解
+HttpServletRequest对象代表客户端的请求。当客户端通过Http协议访问服务器时。Http请求头中的所有信息都封装在这个对象里面。
+开发人员通过这个对象的方法，可以获得客户这些信息！
+----方法
+setCharacterEncoding("utf-8");//把从浏览器接收到的字符数据转换成utf-8格式
+getRequestURL();//返回客户端发出请求时的完整URL()
+	返回的是 StringBuffer
+getRequestURI();//返回请求行中的资源部分()
+getQueryString();//返回请求行中的参数部分(参数名+值)。该函数可以获取请求部分的数据。地址后面的数据name=kevin
+	如果没有。就返回null
+	准确的说。就是接收的是以Get方式(参数=参数值)提交的参数。
+getRemoteAddr();//返回发出请求的客户端的IP地址
+getRemoteHost();//返回发出请求的客户端的完整主机名
+	如果客户机没有在DNS服务器上注册。则返回IP地址！否则返回主机名
+getRemotePort();//返回发出请求的客户端所使用的网络端口号
+getLocalPort();//返回WEB服务器所使用的网络端口号
+	返回int类型的数据。
+getLocalAddr();//方法返回WEB服务器的IP地址
+getLocalName();//返回WEB服务器的主机名
+getHeader("消息头名称");//获取客户端http协议中指定消息头的值
+getParameter();//接收表单(单个下拉框,单个选择框)数据--单个的！
+	返回的是String类型的数据
+getParameterValues();//接收复选框/或者多个下拉列表的内容
+	返回的是字符串类型的数组String[]
+getHeaderNames();//获取到客户端http所有的消息头
+	返回的是一个Enumeration<String>的枚举
+---------------------请求转发
+收到浏览器请求之后。【通知服务器调用另一个WEB资源进行处理!!!】而不是通知浏览器
+request.setAttribute("user", user);
+	使用这种方法。不能转发到该WEB应用之外的URL
+使用response.sendRedirect();方法不能通过request.setAttribute();把属性传递给下一个servlet
+地址栏只会停留在第一个servlet地址。不论后面怎么转。地址栏都是第一个Servlet的位置。
+面试题：请问sendRedirect();和forward();区别是什么
+答：
+1,叫法不一样。第一个叫做(重定向)转发。第二个叫做转向。
+2,实际发生的位置不一样。第一个发生是在浏览器，第二个是发生在WEB服务器。
+3,用法不一样。 
+	1,response.sendRedirect("WEB应用/资源/uri");
+	2,request.getRequestDispatcher("资源名(uri)").forword(request,response);
+4,能够转向的范围(url)不一样
+	1,可以去任意url
+	2,只能去当前的WEB应用的某个资源
+一次请求的概念【只要没有停止，也没有回到浏览器重定向。就算是一次】

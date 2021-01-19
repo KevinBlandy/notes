@@ -1,0 +1,19 @@
+其实表单的重复提交很好理解,就是客户端在提交表单数据的时候,因为网络延迟等种种原因.卡了一下
+有些客户不就耐烦的重复点击提交摁扭,甚至是恶意点击！那么服务器端就会收到相同的表单数据,如果不处理
+会影响服务器的效率,以及数据库误插入相同数据.
+其实在struts2等框架中都有防止表单重复提交的措施,以及javascript也可以处理表单的重复提交
+那么在这里,我只介绍简单有效的服务器端防止表单重复的提交
+
+一,在给客户端相应表单页面前,产生一个随机数.UUID,你懂的
+	> UUID,就可以为"表单号",而更专业的说法叫做:token,令牌！struts2中,就有token机制
+	> 如果你不是使用UUID,那么你的可以使用Ramdon,等工具!但是,此时.尽量使用单例设计模式,避免重复数
+
+二,把这个token保存到session,并且作为隐藏域<input hidden.../>,输出给客户端
+	String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase();
+	request.getSession().setAttribute("token",uuid);
+
+三,处理表单提交的时候,把session,中的token提出出来,跟表单中的进行对比.如果相同,就正常进行处理,并且把这个token从session里面移除！
+如果客户端表单提交过来的数据,里面的token,没有在session中找到,那就说明,这个是重复提交的表单.
+	> token相同,移除session中的token,处理数据
+	> token没有,直接打会,这是坏人,不鸟
+	> token与session不匹配,打回,重复提交

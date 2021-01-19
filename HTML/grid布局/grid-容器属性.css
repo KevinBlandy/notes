@@ -1,0 +1,189 @@
+--------------------
+容器属性			|
+--------------------
+	# 定义在容器上面
+
+	# 声明容器使用 grid 布局
+
+		display: grid
+			* 指定一个容器采用网格布局
+			* 块级元素
+		
+		display: inline-grid
+			* 指定一个容器采用网格布局
+			* 行内元素
+	
+		* 设为网格布局以后，容器子元素（项目）的float、display: inline-block、display: table-cell、vertical-align和column-*等设置都将失效。
+	
+	# 行和列的划分
+		grid-template-columns
+			* 属性定义每一列的列宽
+				grid-template-columns: 200px 200px; 
+		grid-template-rows
+			* 定义每一行的行高
+				grid-template-rows: 200px 200px;
+		
+		
+		* 除了使用绝对单位，也可以使用百分比。
+			grid-template-rows: 33.33% 33.33% 33.33%;
+
+		* 有时候，重复写同样的值非常麻烦，尤其网格很多时。
+		* 可以使用repeat()函数，简化重复的值。
+			 grid-template-columns: repeat(3, 33.33%);
+	
+
+		* 单元格的大小是固定的，但是容器的大小不确定
+		* 如果希望每一行（或每一列）容纳尽可能多的单元格，这时可以使用 auto-fill 关键字表示自动填充。
+			grid-template-columns: repeat(auto-fill, 100px); /* 每列宽度100px，然后自动填充，直到容器不能放置更多的列 */
+
+
+		* 按照比例的划分
+		* 为了方便表示比例关系，网格布局提供了fr关键字（fraction 的缩写，意为"片段"）
+		* 如果两列的宽度分别为1fr和2fr，就表示后者是前者的两倍。
+			grid-template-columns: 1fr 1fr;  /* 两个相同宽度的列 */
+		
+
+		* fr可以与绝对长度的单位结合使用
+			grid-template-columns: 150px 1fr 2fr;  /* 第一列的宽度为150像素，第二列的宽度是第三列的一半。 */
+		
+
+		* minmax() 函数产生一个长度范围，表示长度就在这个范围之中。它接受两个参数，分别为最小值和最大值
+			grid-template-columns: 1fr 1fr minmax(100px, 1fr);  /* 表示列宽不小于100px，不大于1fr。 */
+		
+
+		* auto关键字表示由浏览器自己决定长度
+			grid-template-columns: 100px auto 100px; /* 第二列的宽度，基本上等于该列单元格的最大宽度，除非单元格内容设置了min-width，且这个值大于最大宽度。 */
+	
+
+		* 可以使用方括号，指定每一根网格线的名字，方便以后的引用
+		* 网格布局允许同一根线有多个名字，比如[fifth-line row-5]
+			grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];
+			grid-template-rows: [r1] 100px [r2] 100px [r3] auto [r4];		/** 方括号里面依次是这八根线的名字。 **/
+		
+
+	# 间隔
+		grid-row-gap
+			* 设置行与行的间隔（行间距）
+				grid-row-gap: 20px;
+		grid-column-gap
+			* 设置列与列的间隔（列间距）
+				grid-column-gap: 20px;
+		
+		grid-gap
+			* 行列间距的简写
+				grid-gap: <grid-row-gap> <grid-column-gap>;
+			* 如果省略了第二个值，浏览器认为第二个值等于第一个值。
+		
+		* 根据最新标准，这三个属性名的grid-前缀已经删除
+		* grid-column-gap和grid-row-gap写成column-gap和row-gap，grid-gap写成gap。
+		
+	
+	# 区域
+		* 网格布局允许指定"区域"（area），一个区域由单个或多个单元格组成
+
+		grid-template-areas
+			* 划分区域
+				grid-template-columns: 100px 100px 100px;
+				grid-template-rows: 100px 100px 100px;
+				grid-template-areas: 'a b c' 
+										'd e f' 
+										'g h i';	/* 划分出9个单元格，然后将其定名为a到i的九个区域，分别对应这九个单元格。 */
+		
+		* 多个单元格合并成一个区域
+			grid-template-columns-template-areas: 'a a a' 
+													'b b b'
+													'c c c'; /* 9个单元格分成a、b、c三个区域。 */
+		
+		* 如果某些区域不需要利用，则使用"点"（.）表示
+			grid-template-areas: 'a . c'
+									 'd . f'
+				                     'g . i';  /*中间一列为点，表示没有用到该单元格，或者该单元格不属于任何区域。*/
+		
+
+		* 区域的命名会影响到网格线。每个区域的起始网格线，会自动命名为：区域名-start，终止网格线自动命名为：区域名-end。
+		* 比如，区域名为header，则起始位置的水平网格线和垂直网格线叫做header-start，终止位置的水平网格线和垂直网格线叫做header-end。
+	
+	# 排序
+		* 划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格
+		* 默认的放置顺序是"先行后列"，即先填满第一行，再开始放入第二行
+
+		* grid-auto-flow属性决定，默认值是row，即"先行后列"。也可以将它设成column，变成"先列后行"。
+			grid-auto-flow: column;
+		
+
+		* 还可以设成 row dense 和 column dense
+			grid-auto-flow: row dense;			/* 先行后列，尽可能紧密填满，尽量不出现空格。 */
+			grid-auto-flow: column dense;		/* 先列后行，并且尽量填满空格。 */
+		* 这两个值主要用于，某些项目指定位置以后，剩下的项目怎么自动放置。
+
+
+	
+	# 单元格内容的水平位置
+		justify-items
+			* 属性设置单元格内容的水平位置（左中右）
+				justify-items: start | end | center | stretch;
+		align-items
+			* 属性设置单元格内容的垂直位置（上中下）。
+				align-items: start | end | center | stretch;
+		
+		* 枚举值
+			start：对齐单元格的起始边缘。
+			end：对齐单元格的结束边缘。
+			center：单元格内部居中。
+			stretch：拉伸，占满单元格的整个宽度（默认值）。
+
+		place-items
+			* align-items属性和justify-items属性的合并简写形式
+				place-items: <align-items> <justify-items>;
+			* 如果省略第二个值，则浏览器认为与第一个值相等。
+	
+	# 整个内容区域在容器里面的位置
+		justify-content
+			* 整个内容区域在容器里面的水平位置（左中右）
+
+		align-content
+			* 是整个内容区域的垂直位置（上中下）。
+		
+		place-content
+			* align-content属性和justify-content属性的合并简写形式。
+				place-content: <align-content> <justify-content>
+			* 如果省略第二个值，浏览器就会假定第二个值等于第一个值。
+		
+		* 枚举值
+			start - 对齐容器的起始边框。
+			end - 对齐容器的结束边框。
+			center - 容器内部居中。
+			stretch - 项目大小没有指定时，拉伸占据整个网格容器。
+			space-around - 每个项目两侧的间隔相等。所以，项目之间的间隔比项目与容器边框的间隔大一倍。
+			space-evenly - 项目与项目的间隔相等，项目与容器边框之间也是同样长度的间隔
+
+	
+	# 多余的行和列
+		* 一些项目的指定位置，在现有网格的外部。比如网格只有3列，但是某一个项目指定在第5行。
+		* 这时，浏览器会自动生成多余的网格，以便放置项目。
+
+		grid-auto-columns
+			* 设置，浏览器自动创建的多余网格的列宽
+
+		grid-auto-rows
+			* 设置，浏览器自动创建的多余网格的行高
+
+		
+		* 如果不指定这两个属性，浏览器完全根据单元格内容的大小，决定新增网格的列宽和行高。
+	
+	# 属性的简写
+		grid-template
+			* grid-template-columns、grid-template-rows和grid-template-areas这三个属性的合并简写形式。
+		grid 
+			* grid-template-rows、grid-template-columns、grid-template-areas、 grid-auto-rows、grid-auto-columns、grid-auto-flow这六个属性的合并简写形式。
+	
+
+		
+
+		
+
+
+
+				
+
+		

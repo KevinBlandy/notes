@@ -1,0 +1,35 @@
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- -->
+			<tx:method name="query*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="load*" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 读写分离,动态数据源,AOP切面类 -->
+	<bean class="com.tedi.zhsq.manager.web.datasource.DataSourceAspect" id="dataSourceAspect" >
+		<!-- 注入事务策略 -->
+		<property name="txAdvice" ref="txAdvice"/>
+		<!-- 
+			以下开头的方法,标记为只读.使用slave库
+			事务策略  > 该处配置 > 默认配置
+			只要有一处匹配成功,则添加读库标识,任何一处匹配失败,则添加写库标识
+		--> 
+		<property name="slaveMethodStart" value="query,read,load,get,find"/>
+	</bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* xin.suen.teach.service..*(..))" id="zhsq"/>
+		<!-- 事务切面 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="zhsq" />
+		<!-- 动态数据源切面,应用到业务层,-9999保证该切面优先级最高执行 -->
+		<aop:aspect ref="dataSourceAspect" order="-9999">
+			<aop:before method="before" pointcut-ref="zhsq" />
+		</aop:aspect>
+	</aop:config>

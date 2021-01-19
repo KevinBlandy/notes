@@ -1,0 +1,79 @@
+
+!!!!!!!!!!!!!!!!!记住,上传不能使用BaseServlet
+BaseSerlvet的执行原理,是获取一个参数来确定要调用哪一个方法(通过反射).因为文件上传的表单数据不能通过getParameter得到了！
+上传文件
+文件的上传对于混迹互联网的人来说并不陌生,不多做讲述
+
+对客户端的要求
+	1,必须使用表单,而不能是超链接
+	2,表单的method必须是POST而不是GET
+	3,表单的enctype必须是:multipart/form-data(enctype="multipart/form-data")
+	4,在表单中添加file表单字段,即<input type="file" name="xxx"/>
+
+对Servlet的要求
+	1,request.getParameter("xxx");//这个方法,在表单为enctype="multipart/form-data"的时候作废,永远都返回null
+	* 包括其他的东西,就算是<input type="text" name="xxx"/>中的东西也不能拿request.getParameter("xxx");拿出来,也是返回null
+	2,request.getInputStream();返回一个ServletInputStream.它包含了整个请求的体
+
+-------------多部件表单的体
+1,分割出多个部件,即一个表单相一个部件
+2,一个部件中,自己包含请求头和空行以及请求体
+3,普通表单项
+	> 1个头,:Content-Disposition:包含name="xxx".也就是表单名称
+	> 体就是表单项的值
+4,文件表单项
+	> 2个头	
+		Content-Disposition:包含name="xxx".也就是表单名称 -- filename="xxx" 表示上传文件的名称
+		Content-Type:它是上传文件的MIME类型,例如:image/pjpeg 表示上传的时候图片中jpg格式的图片
+	> 体就是上传文件的内容
+
+-------------上传文件的细节问题
+保存路径的问题
+	1,文件必须保存到WEB-INF目录下,也可以保存其他盘符！目的是不能让浏览器直接访问到
+	把文件保存到WEB-INF目录下(因为有时候项目需要这个文件,所以不建议保存到其他地方)
+文件名称相关问题
+	1,有的浏览器,上传的文件名是绝对路径,需要切割. 
+	*  c:\files\test.jpg    我们就需要把test.jpg切割
+	* String fileName = itemFile.getName();
+	  int index = fileName.lastIndexOf("\\");
+	  if(index != -1)
+	  {
+		fileName = fileName.subString(index+1);
+	  }//搞定
+	2,文件名乱码或者普通表单项存在乱码:request.setCharacterEncoding("utf-8");因为fileupload内部会调用reuqest.getCharacterEncoding();
+	* request.setCharacterEncoding("utf-8");
+	* ServletFileUpload.setHeaderEncoding("utf-8");//优先级最高,但是优先使用上面个
+上传文件同名问题
+	1,我们需要为每个文件添加名称前缀,这个前缀要保证不能重复(UUID)
+	* 我们不能修改别人的后缀名以及不建议修改文件名,我们添加前缀
+	String fileName = itemFile.getName();
+	fileName = CommonUtils.uuid+"_"+fileName;//CommonUtils.uuid,是自己写的获取32位不重复的字符串,然后加上下划线目的是为了以后好切割文件
+目录打散问题
+	1,不能在一个目录下存放过多文件,会导致读取的速度放慢
+	> 首字母打散 -- 使用文件首字母来做为目录名称(例如:abc.jsp,那么我们把文件保存到a目录下,那么创建一个)
+	> 使用当前日期作为目录 -- 使用当前日期来创建文件夹(小时,天,周,月,年... ... 哈哈哈都可以自己看着办)
+	> 哈希打散 -- 任何对象都有一个hashCode();所有类的根类都有一个hashCode,得到一个int值
+	   *  通过文件名称获取一个int值,即hashCode;
+	   *  把它的int值,转换成16进制!  0~9,A~F
+	   *  获取这个十六进制的前两位,生存目录,目录为两层
+		-- 例如: 1B2C3D4E5F   /1/B/保存文件
+上传文件限制
+	1,单个文件大小限制
+	> ServletFileUpload解析有一个方法setFileSizeMax(100 * 1024);//限制单个文件大小为100kb
+	* 这个方法调用,必须在解析开始之前调用!也就是调用parseRequest(request);方法时候调用
+	* 如果上传的文件超出限制,那么在parseReuqest(reuqest);方法执行的时候抛出异常
+		--FileUploadBase.FileSizeLimitExceededException
+	2,整个请求的大小限制
+	> ServletFileUpload解析有一个方法setSizeMax(100 * 1024);//限制整个请求的大小为100KB
+	* 这个方法调用,必须在解析开始之前调用!也就是调用parseRequest(request);方法时候调用
+	* 如果上传的文件超出限制,那么在parseReuqest(reuqest);方法执行的时候抛出异常
+		--FileUploadBase.SizeLimitExceededException
+缓冲大小,与临时目录
+	1,超出多大才向硬盘保存？(缓存大小,默认为10KB)
+	* 如果你的文件小于10KB,就不用保存在硬盘,如果超出那么就先保存在硬盘(临时目录)
+	2,临时目录
+	* 在超大文件上传的时候,先让其保存在本地硬盘的临时文件夹,上传完毕后我们再把它剪切到项目文件目录
+	DiskFileItemFactory factory = new DiskFileItemFactory(int size,File file);//指定缓存大小,以及临时目录
+	|-- 默认的缓存大小是10KB
+	|-- 默认的临时目录在System.getProperty("java.io.tmpdir");
+	|-- 如果是匿名创建临时目录的话,尽量先手动创建目录

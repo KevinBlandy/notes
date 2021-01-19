@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>KevinBlandy</title>
+		<link rel="stylesheet" type="text/csss" href="css/bootstrap.min.css"/>
+		<!--[if lt IE 9]>
+		  <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		  <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<!-- 如果是ＩＥ９,不支持html标记,那么就导入俩ＪＳ文件，来进行处理 -->
+	</head>
+	</script>
+	<body>
+		<div class="container">
+			<h1 class="text-center"></h1>
+		<div>
+	</body>
+</html>
+<script type="text/javascript" src="js/jquery-1.12.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		setInterval(showTime,1000);
+	});
+	function showTime(){
+		$('h1:first').text(new Date().toLocaleString());
+	}
+</script>

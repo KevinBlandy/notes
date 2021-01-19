@@ -1,0 +1,31 @@
+-------------------------------
+GroupBy
+-------------------------------
+	# 都是静态方法
+		<K> GroupByBuilder<K> groupBy(Expression<K> key)
+		GroupByBuilder<List<?>> groupBy(Expression<?>... keys)
+		<E extends Comparable<? super E>> AbstractGroupExpression<E, E> min(Expression<E> expression)
+		<E extends Number> AbstractGroupExpression<E, E> sum(Expression<E> expression)
+		<E extends Number> AbstractGroupExpression<E, E> avg(Expression<E> expression)
+		<E extends Comparable<? super E>> AbstractGroupExpression<E, E> max(Expression<E> expression)
+		<E> AbstractGroupExpression<E, List<E>> list(Expression<E> expression)
+		<E, F> AbstractGroupExpression<E, List<F>> list(GroupExpression<E, F> groupExpression)
+		<E> AbstractGroupExpression<E, Set<E>> set(Expression<E> expression)
+		<E, F> GroupExpression<E, Set<F>> set(GroupExpression<E, F> groupExpression)
+		<E extends Comparable<? super E>> AbstractGroupExpression<E, SortedSet<E>> sortedSet(Expression<E> expression)
+		<E, F extends Comparable<? super F>> GroupExpression<E, SortedSet<F>> sortedSet(GroupExpression<E, F> groupExpression)
+		<E> AbstractGroupExpression<E, SortedSet<E>> sortedSet(Expression<E> expression, Comparator<? super E> comparator)
+		<E, F> GroupExpression<E, SortedSet<F>> sortedSet(GroupExpression<E, F> groupExpression, Comparator<? super F> comparator)
+		<K, V> AbstractGroupExpression<Pair<K, V>,Map<K, V>> map(Expression<K> key, Expression<V> value)
+		<K, V, T> AbstractGroupExpression<Pair<K, V>, Map<T, V>> map(GroupExpression<K, T> key, Expression<V> value)
+		<K, V, U> AbstractGroupExpression<Pair<K, V>, Map<K, U>> map(Expression<K> key,  GroupExpression<V, U> value)
+		<K, V, T, U> AbstractGroupExpression<Pair<K, V>, Map<T, U>> map(GroupExpression<K, T> key, GroupExpression<V, U> value)
+		<K extends Comparable<? super K>, V> AbstractGroupExpression<Pair<K, V>, SortedMap<K, V>> sortedMap(Expression<K> key, Expression<V> value)
+		<K, V, T extends Comparable<? super T>> AbstractGroupExpression<Pair<K, V>, SortedMap<T, V>> sortedMap(GroupExpression<K, T> key, Expression<V> value)
+		<K extends Comparable<? super K>, V, U> AbstractGroupExpression<Pair<K, V>, SortedMap<K, U>> sortedMap(Expression<K> key, GroupExpression<V, U> value)
+		<K, V, T extends Comparable<? super T>, U> AbstractGroupExpression<Pair<K, V>, SortedMap<T, U>> sortedMap(GroupExpression<K, T> key, GroupExpression<V, U> value)
+		<K, V> AbstractGroupExpression<Pair<K, V>, SortedMap<K, V>> sortedMap(Expression<K> key, Expression<V> value, Comparator<? super K> comparator)
+		<K, V, T> AbstractGroupExpression<Pair<K, V>, SortedMap<T, V>> sortedMap(GroupExpression<K, T> key, Expression<V> value, Comparator<? super T> comparator)
+		<K, V, U> AbstractGroupExpression<Pair<K, V>, SortedMap<K, U>> sortedMap(Expression<K> key, GroupExpression<V, U> value, Comparator<? super K> comparator)
+		<K, V, T, U> AbstractGroupExpression<Pair<K, V>, SortedMap<T, U>> sortedMap(GroupExpression<K, T> key, GroupExpression<V, U> value, Comparator<? super T> comparator)
+	

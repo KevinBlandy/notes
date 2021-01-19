@@ -1,0 +1,2 @@
+select * from class,user,authority where class.uid=user.uid and user.aid=authority.aid;
+select * from user,authority where user.aid=authority.aid;

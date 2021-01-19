@@ -1,0 +1,57 @@
+------------------
+persistence.xml
+------------------
+	# 它的路径是: META-INF/persistence.xml
+
+
+------------------
+persistence.xml
+------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+             http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+    <!-- 一个持久化单元
+		name
+			 * 持久化单元的名称
+		transaction-type
+			  * 事务的控制类型
+			  * 枚举
+				RESOURCE_LOCAL  本地事务
+				JTA             分布式事务
+
+     -->
+    <persistence-unit name="mysql" transaction-type="RESOURCE_LOCAL" >
+    	<!-- 指定JPA的实现。也就是接口：javax.persistence.spi.PersistenceProvider 接口的实现-->
+    	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <!--
+            JPA实现厂商的特定属性，Hibernate可以配置的属性都定义在接口：org.hibernate.cfg.AvailableSettings
+        -->
+        <properties>
+            <!--Hibernate方言 -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect" />
+            <!--配置数据库驱动 -->
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver" />
+            <!--配置数据库用户名 -->
+            <property name="hibernate.connection.username" value="root" />
+            <!--配置数据库密码 -->
+            <property name="hibernate.connection.password" value="root" />
+            <!--配置数据库url -->
+            <property name="hibernate.connection.url" value="jdbc:mysql://127.0.0.1:3306/jpa?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2b8&amp;allowMultiQueries=TRUE" />
+            <!--设置外连接抓取树的最大深度 -->
+            <property name="hibernate.max_fetch_depth" value="3" />
+            <!--建表策略 枚举:org.hibernate.tool.schema.Action
+				create		程序运行的时候创建数据表, 如果表已经存在, 会先删除
+				update		程序运行的时候创建数据表, 如果表已经存在, 不会删除
+				none		不会执行
+			 -->
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <!-- 是否打印SQL -->
+            <property name="hibernate.show_sql" value="true"/>
+            <!-- 是否对SQL格式化 -->
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>

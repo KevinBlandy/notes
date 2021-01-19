@@ -1,0 +1,13 @@
+---------------------------
+更新操作
+---------------------------
+	# 每个月在后台进行2次更新
+		/admin/upgrade
+	
+	# 每两个月进入SSH进行更新
+		cd /var/discourse
+		git pull
+		./launcher rebuild app
+
+	# docker 更新
+		wget -qO- https://get.docker.com/ | sh

@@ -1,0 +1,1 @@
+nohup python3 Application.py > /dev/null 2>&1 &

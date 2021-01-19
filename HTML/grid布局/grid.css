@@ -1,0 +1,37 @@
+--------------------
+基本概念			|
+--------------------
+	# 容器
+		* 最外层的元素就是容器
+
+	# 项目
+		* 项目只能是容器的顶层子元素，不包含项目的子元素
+
+	# 行与列
+		* 水平区域称为"行"（row），垂直区域称为"列"（column）
+
+	# 单元格
+		* 行和列的交叉区域，称为"单元格"（cell）。
+
+		* 正常情况下，n行和m列会产生n x m个单元格。比如，3行3列会产生9个单元格。
+
+	# 网格线
+		* 划分网格的线，称为"网格线"（grid line）
+		* 水平网格线划分出行，垂直网格线划分出列。
+
+		* 正常情况下，n行有n + 1根水平网格线，m列有m + 1根垂直网格线，比如三行就有四根水平网格线。
+	
+
+
+
+	
+	# 参考地址
+		https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout
+		http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html
+		
+		
+
+
+			
+			
+

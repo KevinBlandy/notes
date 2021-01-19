@@ -1,0 +1,152 @@
+————————————————————————————
+一,多对多的映射				|
+————————————————————————————
+双方表都一个德行
+
+		<!-- 多对多映射
+		 -->
+		 <set name="courses" table="stu_cou" cascade="all">
+		 	<key column="sid"/>
+		 	<many-to-many class="com.kevin.domain.Course" column="cid"/>
+		 </set>
+
+		 <!-- 多对多映射
+		 -->
+		 <set name="students" table="stu_cou" inverse="true">	//放弃表的维护权
+		 	<key column="cid"/>				//本类主键在中间表中的id
+		 	<many-to-many class="com.kevin.domain.Student" column="sid"/>
+		 </set>
+
+* 很显然有一个问题
+	学生里面有老师,老师里面有学生!向中间表插入数据的时候,就会出问题(中间表示联合主键)!会插入两条相同的数据,就是俩相同主键!就挂了
+	所有,我们必须要让一方放弃,表的维护权利!一般都是少的一方放弃.例如,老师和学生!一般都是老师放弃,让学生去维护!
+	
+inverse
+	查询没影响
+	插入:有控制权,会往中间表插入数据.没有就不会插
+	修改:有控制权,会修改中间表数据,例如:设置为null...
+	删除:有控制权,会先删除中间表数据,然后再删除自己.反之,会报错.因为中间表有引用,而自己又没有维护权
+
+
+
+* 多对多中的级联
+	就是,值保存学生,学生内部集合中的课程也会被保存进去!就在学生的那一段配cascade就好!
+		配置学生,保存课程
+		配置课程,保存学生
+	* 多对多的级联删除,很少使用!你可以删除中间表的记录!但是你不能删除个学生,把所有课程都给删除了!
+		拿学生的到集合,remove掉指定的课程就好!别直接删除学生!如果设置了级联,全部课程都挂了！其他学生也没课上了
+————————————————————————————
+一,旧笔记					|
+————————————————————————————
+	多对多关系
+	> 用户和权限
+		* 每个用户拥有很多的权限
+	> 教师和学生
+		* 每个学生对应很多教师,每个教师也会对应很多的学生
+----JAVA体现
+就是俩对象,每个对象自己内部都有一个存储对方对象的集合属性,这就是就是简单粗暴的代码体现了！
+
+----数据库体现
+	> 模拟数据库
+学生表						教师表
+id	name					id name
+1	Kevin					1	Litck
+2	Rocco					2	Tony
+3	Lenka					3	Leon
+
+				中间表
+sid(FK,引用学生表)			tid(FK,引用教师表)
+1(Keivn)							2(Tony)
+1(Kevin)							3(Leon)
+2(Rocco)							1(Litch)
+2(Rocco)							2(Tony)
+3(Lenka)							1(Litch)
+3(Lenka)							3(Leon)
+--------------------------------------------
+<!-- 学生表映射文件 -->
+<hibernate-mapping package="com.kevin.domain">
+    <class name="Student" table="student">
+        <id name="id" type="string" column="id" length="32">
+            <generator class="assigned"/>
+        </id>
+        <property name="name" type="string" column="name" length="20"/>
+   		<!-- 本类与其他类(Student)的.多对多映射关系,Set集合
+   		set:表示本类中的类成员是一个Set集合
+   			> name:本类中的这个Set的属性名称
+   			> table:与数据库的哪张表对应(中间表)
+   			* 从哪张表获取数据!这个table属性必写
+   		ket:集合外键(引用当前表主建的,那个外键名称)
+   			> column:就是名称,这张表的这个字段名,引用了这个本表的主键
+   			* 其实就是上面table属性里面,哪个字段名,引用了本表的主键
+   		many-to-many:
+   			> class:其实就是,本类Set集合中的对象Class地址,
+   			* 这个其实就是会根据中间表生成对象的Class地址
+   			> column:中间表中的哪个字段,引用了class属性对应表的主键.
+   			* table属性指定表中,哪个字段是指向了class属性,对应的表的主键
+   		 -->
+   		 <set name="teachers" table="stu_tea" inverse="false">
+   		 	<key column="sid"/>
+   		 	<many-to-many class="com.kevin.domain.Teacher" column="tid"/>
+   		 </set>
+    </class>
+</hibernate-mapping>
+----------------------------------------------------------------------------------------
+<!-- 教师版表映射文件 -->
+<hibernate-mapping package="com.kevin.domain">
+    <class name="Teacher" table="teacher">
+        <id name="id" type="string" column="id" length="32">
+            <generator class="assigned"/>
+        </id>
+        <property name="name" type="string" column="name" length="20"/>
+   		<!-- 本类与其他类(Student)的.多对多映射关系,Set集合
+   		set:表示本类中的类成员是一个Set集合
+   			> name:本类中的这个Set的属性名称
+   			> table:与数据库的哪张表对应(中间表)
+   			* 从哪张表获取数据,这个table的属必写!
+   		ket:集合外键(引用当前表主建的,那个外键名称)
+   			> column:就是名称,这张表的这个字段名,引用了这个本表的主键
+   			* 其实就是上面table属性里面,哪个字段名,引用了本表的主键
+   		many-to-many:
+   			> class:其实就是,本类Set集合中的对象Class地址,
+   			* 这个其实就是会根据中间表生成对象的Class地址
+   			> column:中间表中的哪个字段,引用了class属性对应表的主键.
+   			* table属性指定表中,哪个字段是指向了class属性,对应的表的主键
+   		 -->
+   		 <set name="students" table="stu_tea" inverse="true">
+   		 	<key column="tid"/>
+   		 	<many-to-many class="com.kevin.domain.Student" column="sid"/>
+   		 </set>
+    </class>
+</hibernate-mapping>
+----------------------------------------------------------------------------
+维护关联关系
+	对于多对多表结构中,就是在中间表中插入或者删除记录!
+存在这么一个问题
+	因为中间表中的两个字段,是联合主键!
+	而学生表和教师表都会主动的维护关系,他们俩都向这表里面插入数据
+	问题就来了,如果一个学生关联了老湿,插入数据后,这个老师也关联了学生,也插入数据!
+	那么这两条数据,其实是一模一样的！因为是同一个老师跟同一个学生!这样在中间表中就会存在两条相同的主键信息,就会抛出异常
+所以,为了解决这个问题
+一,
+	> 在多对多的时候,其中一个表的inverse,要设置为true,也就是说,这表.不进行关系维护!
+	> 因为是多对多,你有我,我就肯定有你!你是我的学生,那么我就肯定就是你的老师!在公共表中,只是学生表达出他教师的数据,那么也就同时表达出了他教师的学生数据!
+	> 只要一个去维护就好,不然有异常!俩表同时往中间表中插入相同主键数据,就挂!
+二,
+	> 这个方法就是跟代码体现相关了
+	student.add(teacher);//学生对象的Set集合添加了一个教师
+	teacher.add(student);//教师对象的Set集合添加了一个学生
+	> 上述代码,如果其中一个表的inverse都为false,的话,执行的时候,就会往中间表插入,相同的两条数据!学生id,教师id!
+	> 可以不修改两张表的inverse的默认值(false),只需要执行一个就好,注释掉一个!让学生关联老师,或者让老师关联学生,不要相互关联!就可以了!
+***	多对多关系表中,我们再选择让哪张表不进行关系的维护?也就是哪张表的inverse设置为true,一般选择较少的一方
+	> 例如学生,教师!一般都是学生去维护.所有教师就设置为false!
+---关于删除,修改
+删除的时候
+	谁动手删除自己的时候,谁就需要inverse=false,因为先要去把引用了自己主键的表的字段设置为null(其实就是中间表)!如果为true,就抛异常!
+修改的时候
+	谁移删除自己的对应对象(解除关系)之类的,也是要具备这个条件的!因为都是在操作公共的表！就是操作其他的表,你就必须要具备维护的属性
+
+	
+
+	
+
+	

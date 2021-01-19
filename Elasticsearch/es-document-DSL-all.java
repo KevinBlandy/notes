@@ -1,0 +1,54 @@
+-----------------------
+queryDSL 整个结构	   |
+-----------------------
+{
+	"query":{
+		"match_all":{},
+		"match":{"field":"value"},
+		"term":{
+			"field":"value"		
+		},
+		"terms":{
+			"field":["value1","value2"]	
+		}
+		"match_phrase":{
+			"field":"value"
+		}
+		"multi_match":{
+			"query":"value",
+			"fields":["field1,field2"]
+		},
+		"exists":{
+			"field":"field"
+	    },
+		"bool":{
+			"must":{
+				"match":{
+					"key":"value"
+				}
+			},
+			"filter":{
+				"range":{
+					"field":{"gt/lt/le/ge/ne":"value"}
+				}
+			}
+		}
+	},
+	"sort":[
+		{"key1":"desc"},
+		{"key2":"asc"}
+	],
+	"from":1,
+	"size":2,
+	"_source":[],
+	"highlight":{
+		"fields":{
+			"field":{}
+		}
+	},
+	"aggs":{
+	},
+	"properties":{
+	
+	}
+}

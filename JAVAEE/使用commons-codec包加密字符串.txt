@@ -1,0 +1,26 @@
+---------MD5加密方式
+String str = "abc";
+DigestUtils.md5Hex(str);
+
+//附.net生成MD5的方法，生成内容跟java一致：
+String str = "abc";
+FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5");
+
+---------SHA1加密方式
+String str = "abc";
+DigestUtils.shaHex(str);
+
+//附.net生成SHA1的方式，生成内容跟java一致：
+String str = "abc";
+FormsAuthentication.HashPasswordForStoringInConfigFile(str, "SHA1");
+
+---------Base64加密方式
+//加密
+String str= "abc"; // abc为要加密的字符串
+byte[] b = Base64.encodeBase64(str.getBytes(), true);
+System.out.println(new String(b));
+
+//解密
+String str = "YWJj"; // YWJj为要解密的字符串
+byte[] b = Base64.decodeBase64(str.getBytes());
+System.out.println(new String(b));

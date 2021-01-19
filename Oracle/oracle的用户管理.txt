@@ -1,0 +1,73 @@
+创建用户
+	在Oracle中创建用户需要用到dba,普通用户无法创建
+	> create user 用户名 identified by 密码;
+		*  密码必须以英文开头,不然是创建不起来的！
+		*  如果权限不足,就会提示权限不足
+
+给用户(自己)修改密码
+	> password 用户名;
+		* 这是修改指定用户的密码-如果是修改别人的密码,那么需要dba权限
+	> alter user 用户名 identified by 新密码
+		* 这是给别人或者自己修改密码,同样需要dba权限
+
+删除用户
+	在删除用户时注意,如果要删除的这个用户,已经创建了表.那么就需要在删除命令带上后面的参数
+	> drop user 用户名 [cascade]
+		*  也是需要dba的权限,自己不能删除自己
+		*  后面的参数,表示不仅删除用户,连同他创建的表一起干掉
+	
+为用户的赋权操作
+	新用户在被创建的时候是什么权限都没,甚至连登陆的权限都没
+	> grant connect to 用户;
+		*  授予指定用户,登陆的角色
+	> grant resource to 用户名;
+		*  授权指定用户,可以在任何表空间建表的角色
+	> grant dba to 用户名;
+		*  非常叼,直接dbal,别乱用,要粗事
+	> grant select on 表名 to 用户名;
+		* 授予指定用户查看某张表的对象权限
+		* 其中select代表对象权限中的一种,可以换成其他的..insert,update,delete...
+		* 需要系统权限,或者是'表的主人'才能进行这种对象授权
+		* 当被授权人需要查看指定表格的时候,要表名是谁的表
+			* select * from 授权账号.指定表;
+	> revoke select on 指定表 from 用户名;
+		* 收回指定用户查询某张表的权限
+		* 其中,select只是对象权限的一种,完全可以替换
+		* 表,用户都可以更换
+	> revoke connect from 用户
+		* 收回指定用户的登陆权限
+		* connect也可以换成其他的系统权限
+	【对角色权限的维护-权限的传递】
+	ganrt select on 表名 to 用户名 with grant option;
+		* 对象权限的传递,这个指定用户也可以把select这个权限授予给别人
+		* 得到这个授权后可以:grant select on 用户名.表名 to 另一个用户;
+	【对系统权限的维护】
+	grant connect to 用户名 with admin option;
+		* 由system指定,某个用户可以,为其他用户授予登陆的权限
+		* 带株连政策,就是说当拥有授权用户的权限被system回收的时候,被该用户授予权限的用户的权限是会被回收。
+		* 举个栗子--某个总统在位提拔起来了很多的将军司令,有一天他倒台了,这些将军司令也会倒台失去权力.
+		
+用户口令的管理-profile
+	--profile是口令限制,资源限制的命令集合,当建立数据库时,Oracle会自动建立名称为default的profile,当建立用户没有指定profile选项,那Oracle就会把default分配给账户
+	账户锁定
+	*	指定某个账户(用户)登陆时,最多可以输入几次密码,也可以指定用户在输入机会全部用完之后,就算再次登录输入正确也会被锁定的时间(天)!这个是需要dba的身份去执行的
+	> create profile lock_account limit failed_login_attempts 3 password_lock_time 2;
+		* dba创建了一个文件(规则)名为[lock_account]:只有输入3次密码的机会,如果三次都不成功,那么就会被锁定2天[没有秒,分,时的概念,都是天为单位.不能是小数。说白了最少一天]
+		* 其实这个时间限制是根据Orcale所在服务器的本地时间来确定的,也就是说你的Oracle在本地,你可以修改自己本地时间,来达到欺骗它的目的.
+	> alter user 用户名 profile lock_account;
+		* dba把这个规则[lock_account]搁到了指定用户的头上,那么这个用户就强制遵守这个规则了
+
+	账户解锁
+	> alter user 用户名 account unlock;
+		* 解锁指定的用户.
+	终止口令(强行让某个用户定期修改密码)
+	> create profile test limit password_life_time 10 password_grace_time 2;
+		* dba创建了一个名为"test"的规则(文件):该规则限定用户每隔10就要修改一次自己的密码,宽限期为2天
+		* 这个还不能是老密码,你别以为你就换个老密码是要挨揍的，太简单还不让过
+	> alter user 用户名 profile test;
+		* 把上面的规则搁到指定用户的头上
+	删除profile
+	> drop profile 文件(规则)名 [cascade];
+		* 删除某个规则(文件),如果该规则已经约束在某些用户上,必须加上cascade参数.
+	
+	

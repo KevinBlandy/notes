@@ -1,0 +1,6 @@
+
+
+# ≈‰÷√¿‡
+	MultipleJGitEnvironmentProperties
+	PropertySourceBootstrapProperties
+	ConfigServerHealthIndicator

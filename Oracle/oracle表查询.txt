@@ -1,0 +1,95 @@
+利用scott用户存在的几张表,emp,dept来做演示
+查询能力,是数据库能力的体现之处
+
+查询表的结构
+	> desc 表名;
+查询所有列
+	> select * from 表名;
+查询指定列
+	> select 字段1,字段2... from 表名;
+取消重复行
+	> select distinct 字段1,字段2,from 表名;
+
+-------------------------------------
+算数表达式的使用
+	> select 字段+值 from 表名;
+		* 不多做介绍,太简单
+别名
+	> select 字段1 "别名",字段2 "别名" from 表名;
+		* 别名易于区分,别名用双引号
+null值的处理(nvl 函数)
+	* 当一个运算表达式中出现了一个null值,那么整个表达式的结果就是null
+	> nvl(字段,指定值);
+		* 该表达式的意思是,如果指定字段的值是null,那么就用指定值替代(一般是0),如果不为空!那么就用原值
+字符串的链接
+	> select 字段1 ||'指定的字符串'|| 字段2 from 表名;
+		* 把字段1和字段2的结果加上'指定的字符串'连接起来.
+where子句
+	* 关于 >,<,=,!=,is null,not null..就不说了!太简单
+	* 关于日期的比,也是通过>,<来进行比较的.只是要记得遵循日期的格式,或者是自己去临时修改样式！
+	* 多个条件,要加上and关键字
+like操作符
+	* %
+		* 百分号,表示任意0-多个字符
+	> select * from 表名 where 字段名 like '%';
+	* _
+		* 下划线,表示任意单个字符
+	> select * from 表名 where 字段名 like '_';
+in操作符
+	> select * from 表名 where 字段名称 in(值1,值2,值3);
+		* 只要指定字段的值符合in中的任意值,就会被列出来
+逻辑操作运算符
+	* or
+		* 表示或的意思
+排序语句
+	* order by
+	> select * from 表名 order by 列名;
+		* 根据指定列来排序查询结果(默认由小到大)
+	> select * from 表名 order by 列名 desc;
+		* 倒序,从高到低,desc关键字
+	> select * from 表名 order by 列名1,列名2 desc;
+		* 这的意思是,先遵从列名1正序开始排,再列名1的范围内,按照列名2倒序排
+		* 按照员工的部分正序排,但是同一个部门中的员工薪资逆序排... ...就酱
+	> select ename as "名称",(sal+nvl(comm,0))*12 as "年薪" from emp order by "年薪";
+		* 这个操作里面,运用了"别名"操作,看到没？别名很强大！
+分页
+	* 我的天,这个分页比其他数据库的分页难点哟
+	
+复杂查询-数据分组
+	* max(最大)
+	> select max(字段名) from 表名;
+		* 查询出来的就是指定字段的最大值
+	> select ename,sal from emp where sal = (select max(sal) from emp);
+		*   查询出工资最高的人的名字
+	> select * from emp where sal > (select avg(sal) from emp);
+		*   查询出工资高于平均工资的人
+	* min(最小)
+	* avg(平均)
+	* sum(和)
+	* count(统计个数)
+	* group by
+		* 对于查询的结果分组统计
+	> select avg(sal),max(sal),deptno from emp group by deptno;
+		* 查询出每个部门的最高薪资以及最低薪资
+	* having
+		* 限制分组显示结果
+	对数据分组的总结,
+	1,分组函数只能出现在选择列表,having,order by句种
+	2,如果select 句种同时包含有group by,having,order by那么他们的顺序就是:group by,having,order by
+	3,在选择列中,如果有列,表达式,和分组函数,那么这些列和表达式必须有一个出现在group by 子句中,否则会出现错误
+	如:select deptno,avg(sal),max(sal) from emp group by deptno having avg(sal) < 2000;
+	这里的deptno就一定要出现在group by 中
+
+-------------------------------------
+多表查询,要疯
+	笛卡尔积(不加条件.第一张表的第一个字段会跟另一张表的所有字段都匹配一次...)
+	规定:一个原则,多查询,查询的条件至少不能少于表的个数-1.如果不满足的话,那么肯定是错的
+
+自连接
+	* 在同一张表的连接查询
+子查询
+	* 嵌入在其他sql语句中的select语句
+单行子查询
+	* 只返回一行数据的子查询语句
+多行子查询
+	* 返回多行数据的子查询

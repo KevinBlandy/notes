@@ -1,0 +1,41 @@
+JavaMail是JAVA提供的一组API,用来发送和接收邮件
+------------------
+邮件相关的协议
+	与HTTP协议相同,收发邮件也是需要有传输协议的
+	SMTP:(Simple Mail Transfer Protool,简单邮件传输协议)发邮件协议
+	POP3:(Post Office Protool Version 3,邮局协议第三版)收邮件协议
+	IMAP:(Internet Message Access Protool,因特网消息访问协议)收发邮件协议,这里不做介绍
+
+邮件服务器
+   * 其实每个邮件服务器都是由SMTP服务器和POP3服务器构成,其中SMTP负责发送邮件的请求,而POP3负责接收邮件的请求
+命名
+   * SMTP服务器默认端口号为25,服务器名称为smtp.xxx.xxx
+   * pop3服务器默认端口号为110,服务器名称为pop3.xxx.xxx
+   例:
+   163:smtp.163.com和pop3.163.com
+   126:smtp.126.com和pop3.126.com
+   qq:smtp.qq.com和pop3.qq.com
+   ... ...
+
+Base64加密
+sun.misc.BASE64Encoder 这个个包！
+这个包下的东西一般不给一般人使用,否则编译器会给出警告！这个包是
+java...
+javax...俩包的底层依赖.
+我们没有使用java/javax包的东西,直接使用底层,编译器会给出警告
+
+
+邮件发送过程
+	
+	一般的中小型公司.发送邮件服务器以及接收邮件服务器都在同一服务器上
+	大型的公司,很有可能是两个服务器分开的.
+
+邮件服务器的搭建
+	1,安装eyoumailserversetup.exe服务端软件
+	2,修改域名
+		* 工具--服务器设置
+	3,注册账号
+		* 账号--新建账号
+	4,安装客户端软件... ...
+		
+

@@ -1,0 +1,72 @@
+————————————————————————————————
+一,常量							|
+————————————————————————————————
+default.properties
+	> 它声明了struts中的一些常量,其实就是一些配置!struts会默认加载它!
+
+我们实际开发的时候,需要对这些常量进行配置!有三个地方可以进行配置!
+	1,struts.xml			[下面详解,重点掌握]
+	2,default.properties	[基本不用]
+	3,web.xml				[了解]
+	* 把常量以初始化参数的形式配置在web.xml中的前端控制器中
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+		<init-param>
+			<param-name>name</param-name>
+			<param-value>value</param-value>
+		</init-param>
+	</filter>
+
+要注意框架的加载顺序,最终的属性,由最后一个加载它的文件决定!
+default.properties	--->	struts.xml	--->	web.xml
+
+
+————————————————————————————————
+二,struts.xml中常量的配置		|
+————————————————————————————————
+配置形式
+<constant name="" value=""></constant>
+	* name	:常量名称
+	* value	:常量的值
+
+* 在default.xml中有很多常量,在使用的时候可以去参考进行配置
+----------------------------[常用的常量,基于struts.xml中进行配置]
+1,修改拦截后缀
+	<constant name="struts.action.extension" value="php,asp,"></constant>
+	* value后面可以跟多个值,包括'null'值!都能作为action的请求后缀,(注意,最有一个参数是null,啥也没连空格都不是)
+	* 需要注意的是,一旦设置了这个!那么properties中的默认值就会被覆盖!要注意加载顺序的问题
+2,指定默认编码集
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	* 这个i18n,其实就是internation.....i就是开头字母,中间有18个英文字母,最后一个英文是n..老外真逗
+	* 作用于.HttpServletRequest的setCharacterEncoding方法和freemarker,veloctiy的输出
+3,设置浏览器是否缓存
+	<constant name="struts.serve.static.borwserCache" value="false"></constant>
+	* 默认值为true,也就是浏览器会缓存
+	* 一般我们开发的时候都要设置为false,因为在测试的时候就怕被讨厌的浏览器给缓存了,测不出效果,正式发布项目为了客户着想要设置为true
+4,设置"热启动",也就是自动加载struts.xml文件
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	* 默认值为false,也就是struts.xml文件被修改后,需要重启服务器才能生效
+	* 为了便捷我们开发,一般开发情况下我么都要设置为true,只要一更改这个struts.xml,就算不重启服务器也能立即生效
+5,在开发模式下,打印出更加详细的错误信息
+	<constant name="struts.devMode" value="true"></constant>
+	* 没啥好解释的,true吧,提供详细的报错页面为了更好的看清错误,修改struts.xml后不需要重启服务器(不一定好使... ...)
+6,默认视图主题
+	<constant name="struts.ui.theme" value="simple"></constant>
+	* 这个就不让默认的视图主题生效
+	* 默认的主题意义不大,不太实用,会生成一些乱七八糟的html代码
+7,当与spring集成时,指定由spring负责action的对象创建
+	<constant name="struts.objectFactory" value="spring"></constant>
+	* 就action对象创建这活儿我不干,让spring框架去做吧
+8,设置struts2是否支持动态方法调用
+	<constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
+	* 该属性的默认值是true,如果需要关闭,设置为false就好
+9,上传文件的大小限制
+	<constant name="struts.multipart.maxSezie" value="10701096"></constant>
+	* 单位是字节
+	* 注意注意注意,这个不是指单个文件的大小,而是上传文件的总大小
+10,是否可以通过OGNL直接访问Action中的静态方法
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	* 默认值为false,必须设置为true,那么ognl才能访问到Action中的静态方法
+
+

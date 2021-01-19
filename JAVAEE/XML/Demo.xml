@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- ²âÊÔÎÄ¼þ -->
+<person>
+	<p>
+		<name>kevin</name>
+		<age>21</age>
+	</p>
+	<p>
+		<name>Litch</name>
+		<age>22</age>
+	</p>
+</person>

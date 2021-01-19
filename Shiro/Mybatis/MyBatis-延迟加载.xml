@@ -1,0 +1,80 @@
+————————————————————————
+1,MyBatis延迟加载		|
+————————————————————————
+	* resultMap,可以实现高级映射.仅有它能实现延迟加载(resultType不能实现延迟加载)
+	* 通俗的说,只有两个属性可以实现延迟加载
+		1,collection
+		2,association
+	* 延迟加载的意义在于,提升性能.先查询单表.再延迟查询关联表
+
+————————————————————————
+2,MyBatis延迟加载		|
+————————————————————————
+	* resultMap可以实现高级映射
+	<!-- 班级教师映射,延迟加载教师 -->
+	<resultMap type="com.kevin.vo.Classes" id="classAndTeacherLaze">
+		<id column="cid" property="id"/>
+		<result column="cname" property="name"/>
+		<!-- 把column指定的结果集参数传递给select指定的SQL语句,来获取结果 -->
+		<association property="adminTeacher" select="findTeacherById" column="cteacher">
+			
+		</association>
+	</resultMap>
+	<!-- 获取班级 -->
+	<select id="findClass" resultMap="classAndTeacherLaze">
+		SELECT 
+			c.id 		as cid,
+			c.name 		as cname,
+			c.teacher	as cteacher
+		 FROM
+		 	 _class as c
+	</select>
+	<!-- 根据id加载教师 -->
+	<select id="findTeacherById" parameterType="java.lang.String" resultType="com.kevin.vo.Teacher">
+		SELECT 
+			t.id,
+			t.name
+		FROM
+			_teacher as t
+		WHERE
+			t.id=#{id}
+	</select>
+
+	* column:其实就是_class查询结果集中的一个外键(teacher),引用了_teacher的主键
+	* select:就是,一个SQL语句,它的作用就是把column的值(teacher),给它.它能根据这个外键从_teacher中查询出一条记录
+
+	* 废话呢不?column就是引用了_teacher的主键.直接把这个主键值,拿到SQL查询里面.就能获得对应的记录(对象).
+	--------------------------------------------------------------
+	
+	* 在执行 findClass 的时候,只会查询 _class 的信息,这是一个单表.
+	* 如果使用到了教师信息的时候,才会去执行 findTeacherById,的语句.来查询对应的教师信息.
+	* 还要注意一个'缓存机制',如果某个教师已经被加载过,在缓存中有记录.那么下次查询,还是不会去查询数据库.
+
+	还需要在配置文件中开启懒加载配置,MyBatis默认没有开启延迟加载
+
+		<settings>
+			<setting name="lazyLoadingEnabled" value="true"/>
+			<setting name="aggressiveLazyLoading" value="false"/>
+		</settings>
+
+	lazyLoadingEnabled
+		* 全局性,设置懒加载.如果设置为 false ,则所有相关联的都会被初始化加载
+		
+	aggressiveLazyLoading(积极加载,默认值为 true)
+		* 当这是为 true 的时候,懒加载的对象可能被任何懒属性全部加载,否则每个属性都按需要加载
+		* 默认的就是,全部加载.
+
+
+
+	自定义延迟加载
+		1,定义一个方法,获取所有的班级对象,仅仅查询班级信息.不关联教师
+		2,定义一个方法,根据教师主键查询教师
+		
+		* 这东西好理解,其实就是,service层次写俩方法.我先查询班级.如果你需要该班级的教师?
+		* 那就把班级的教师外键,给我,我再传递给另一个方法(根据教师主键查询教师),获取教师
+		* 最好给你关联起来.
+	
+	* 这就是延迟加载的本质,离开框架.自己也能搞定.
+	* 实际开发,视需求而定.需要什么?我就只查询什么,少查一张表,性能就能提升一丢丢.
+	* 延迟加载可以使单表,也可以是关联查询.
+

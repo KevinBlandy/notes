@@ -1,0 +1,44 @@
+JSP动作标签
+   * 有标准动作标签,和自定义动作标签.这里只阐述部分标准动作标签
+   * jsp2.0的时候已经推出了20个动作标签！这些标签与html标签有本质的区别
+   * 动作标签是由Tomcat(服务器)来执行,它与JAVA代码一样，都是在服务器端执行的！
+   * html由浏览器来执行
+   * 动作元素基本上都是预定义的函数，JSP规范定义了一系列的标准动作，它用JSP作为前缀，可用的标准动作元素如下：
+---------------------------
+<jsp:forward>
+	> 转发,它与RequestDispatcher的forward方法是一样的！一个是在Servet中使用,一个是在JSP中使用
+	留头不留体,反正就是。JSP中有这个代码的时候。他的"体"会不存在！
+<jsp:include>
+	<jsp:forward page="/servlet/login" />
+	> 包含,它与RequestDispatcher的include方法是一样的！一个是在Servet中使用,一个是在JSP中使用
+	注意:
+	<%@include%>和<jsp:include>有什么不同
+	1,第一个是静态包含,是JSP页面在翻译成JAVA文件的时候合并成一个JAVA文件。
+	2,第二个是动态包含,是JSP翻译成了两个JAVA文件后,在运行的时候才合并。
+<jsp:param>
+	用来作为forward和include的子标签.用来给转发或包含的页面传递参数
+	<jsp:include>
+		<jsp:param value="Keivn" name="name"/>
+		<jsp:param value="admin" name="password"/>
+	</jsp:include>
+	在另一个页面request.getParameter("uname");就能获取
+
+<jsp:directive />
+	该行为其实可以替换JSP指令:
+	<jsp:directive.page language="java" contentType="text/html;charset=utf-8" />
+	<jsp:directive.page import="java.util.Date"/>
+	<jsp:directive.page import="java.util.ArrayList" />
+	<jsp:directive.taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" />
+
+--与javaBean相关的标签
+<jsp:useBean>
+	> 创建或者查询(要么创建要么查,有我就查给你返回.没我就给你创建一个)
+	> <jsp:uesBean id="user1" class="class文件路径" scope="指定域"/>
+		在指定域中查找名为user1的Bean如果不存在创建之!scope是把这个对象创建到哪个地方
+<jsp:setProperty>
+	> <jsp:setProperty property="username" name="user" value="admin"/>
+		设置名为user1的这个javaBean的username的属性值为admin
+<jsp:getProperty>
+	> <jsp:getProperty property="username" name="user1"/>
+		获取名为user1的javabean的名为username的属性
+----以上这些东西,一般都在Servlet中使用

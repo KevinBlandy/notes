@@ -1,0 +1,41 @@
+# 某个网格的宽度为固定的百分比,其余网格平均分配剩余的空间
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Index</title>
+		<style type="text/css">
+			.Grid {
+				display: flex;
+			}
+			
+			.Grid-cell {
+				flex: 1;
+			}
+			
+			.Grid-cell.u-full {
+				flex: 0 0 100%;
+			}
+			
+			.Grid-cell.u-1of2 {
+				flex: 0 0 50%;
+			}
+			
+			.Grid-cell.u-1of3 {
+				flex: 0 0 33.3333%;
+			}
+			
+			.Grid-cell.u-1of4 {
+				flex: 0 0 25%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="Grid">
+		  <div class="Grid-cell u-1of4">25%</div>
+		  <div class="Grid-cell">剩余的全占</div>
+		  <div class="Grid-cell u-1of3">33.3333%</div>
+		</div>
+	</body>
+</html>

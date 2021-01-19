@@ -1,0 +1,73 @@
+1,json
+	json是JS提供的一种转换格式.
+2,json语法
+	{}:是对象
+	> 属性名必须使用双引号括起来.单引号不行
+	> 属性值,
+		* 数字(整数或浮点数)
+		* 字符串(在双引号中)
+		* 逻辑值(true/false)
+		* 数组(在方括号中)
+3,应用json
+	var person = {"name":"kevin","age":22,"sex":"boy"};
+
+	String str = "{\"name\":}";
+
+
+eval();
+	* 这个函数,会把字符串当作js代码来执行
+	var str = "1" + "2";
+	var sum = eval("("+str+")");
+
+
+跟xml相比
+xml可读性比较高
+但是json解析速度比较快
+流行程度,还是xml还是比较好
+
+工具------------------------------
+Apache的的一个小工具:json-lib
+	* 能够把javaBean转换成json对象
+
+核心jar包
+	json-lib.jar;
+json-lib依赖jar包
+	commons-lang.jar;
+	commons-beanutils;
+	commons-logging.jar;
+	commons-collections.jar;
+	ezmorph.jar;
+
+核心类 
+JSONObject	--> map
+	toString();
+	...出来的结果就是一个json串
+JSONArray	-->List
+	toString();
+	...出来的结果就是一个json串
+
+----------------------JSONObject
+/**
+* 直接手动写入对象信息
+* */
+public static void demo()
+{
+	JSONObject map = new JSONObject();
+	map.put("username","kevin");
+	map.put("age",23);
+	map.put("sex","boy");
+	String json = map.toString();
+}
+/**
+* 自动的
+* */
+public static void demo()
+{
+	Person p = new Person("Kevin",23,"boy");
+	//把指定对象转换成JSONObject类型
+	JSONObject map = JSONObject.fromObject(p);
+	map.toString();
+}
+----------------------JSONArray
+..不想写了!!
+

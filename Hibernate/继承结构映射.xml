@@ -1,0 +1,119 @@
+-----------------策略一,所有类都使用一张表
+整个继承结果,使用一张表
+article表
+id title content type....
+	>  一张表包含了子父类中的所有的字段
+<!-- Article映射文件(所有类一张表) -->
+<hibernate-mapping package="com.kevin.domain">
+    <class name="Article" table="article">
+        <id name="id" type="int" column="id" length="32">
+        	<generator class="assigned"/>
+        </id>
+        <!-- 用于鉴别是什么类型的一个列-->
+        <discriminator type="string" column="class_"/>
+        <property name="title"/>
+       	<property name="content" type="text" length="10000"/>
+       	<property name="postTime" type="timestamp"/>
+       	<!-- 
+       		子类,Topic
+       		discriminator-value:用于鉴别是哪个类的一个值,表示这个值就是这个类
+       		> 如果不写,默认为类的全限定的名(带包名)
+       	 -->
+       	<subclass name="Topic" discriminator-value="Topic">
+       		<property name="type"/>
+       	</subclass>
+       	<!-- 
+       		子类,Reply
+       	 -->
+       	 <subclass name="Reply" discriminator-value="Reply">
+       	 	<property name="floor"/>
+       	 </subclass>
+    </class>
+</hibernate-mapping>
+-----------------策略二,每个类一张表
+1,把父类写成抽象的,抽象类,也对应表!
+2,每个表,只有当前表中的属性!
+article				topic			reply
+id title			id type			id floor
+<!-- Article映射文件(每个类一张表) -->
+<hibernate-mapping package="com.kevin.domain">
+    <class name="Article" table="article">
+        <id name="id" type="int" column="id" length="32">
+        	<generator class="assigned"/>
+        </id>
+        <!-- 用于鉴别是什么类型的一个列-->
+        <discriminator type="string" column="class_"/>
+        <property name="title"/>
+       	<property name="content" type="text" length="10000"/>
+       	<property name="postTime" type="timestamp"/>
+       	<!-- 
+       		子类,Topic
+       		discriminator-value:用于鉴别是哪个类的一个值,表示这个值就是这个类
+       		> 如果不写,默认为类的全限定的名(带包名)
+       		key:是一个列会引用父类的主键,column就是名称
+       	 -->
+       	<joined-subclass name="Topic" table="topic">
+       		<key column="id"/>
+       		<property name="type"/>
+       	</joined-subclass>
+       	<!-- 
+       		子类,Reply
+       	 -->
+       	 <joined-subclass name="Reply" table="reply">
+       	 	<key column="id"/>
+       		<property name="floor"/>
+       	</joined-subclass>
+    </class>
+</hibernate-mapping>
+-----------------策略三,每个类对应一张表(抽象类不再对应表)
+每个表中都有全部的信息,包括从抽象类继承过来的信息
+topic				reply
+id title type...	id title type...floor
+
+[这东西有问题,还没解决]
+<!-- Article映射文件(每个类一张表,抽象类没表) -->
+<hibernate-mapping package="com.kevin.domain">
+	<!--  
+		abstact:代表抽象类,没表,默认为false!
+		设置为true,表示为抽象的,不对应表!(类不一定要是抽象的)
+		这时,就会忽略table属性,就算你写了也会被忽略
+	-->
+    <class name="Article" abstract="false" table="article">
+        <id name="id" type="int" column="id" length="32">
+        	<generator class="assigned"/>
+        </id>
+        <!-- 用于鉴别是什么类型的一个列-->
+        <discriminator type="string" column="class_"/>
+        <property name="title"/>
+       	<property name="content" type="text" length="10000"/>
+       	<property name="postTime" type="timestamp"/>
+       	<!-- 
+       		子类,Topic
+       		union-subclass:其实就是联合查询, 这里我也没大弄懂是个什么意思
+       		父类的东西,会自动的加入到table指定的表里面去！
+       	 -->
+       	<union-subclass name="Topic" table="topic">
+       		<property name="type"/>
+       	</union-subclass>
+       	<!-- 
+       		子类,Reply
+       	 -->
+       	 <union-subclass name="Reply" table="reply">
+       		<property name="floor"/>
+       	</union-subclass>
+    </class>
+</hibernate-mapping>
+-----注意,这种方式
+	主键生成的策略不能是:identity!因为... ...
+	在整个继承结构中,主键值是不能重复的!
+-----总结
+在体现继承结构中,这里有三种形式
+1,所有体系都在一张表中
+	> 继承体系中的所有字段,都是在一张表中
+2,父类和子类都各自有自己的表
+	> 父类和子类都有自己的表,每张表包含了自己的字段
+3,父类和子类体系都有自己的表,但是,父类没表
+	...
+--------
+这种形式其实很少见,真正的项目的时候,这种方式效率不高！通常,继承这东西都是体现在JAVA逻辑代码上的!
+而在Hibernate框架上就没继承了,各存各的！

@@ -1,0 +1,136 @@
+————————————————————————————
+一,Hibernat的配置详解		|
+————————————————————————————
+	核心配置文件,有两种配置方式
+	1,属性文件配置
+		* hibernate.properties
+		* 这种配置方法,是没办法加载xml映射文件的,需要在程序中手动加载xml映射文件
+	2,xml文件配置
+		* hibernate.cfg.xml
+		* 该方式,可读性强!可以加载xml映射文件
+	
+
+	Hibernate的核心配置,大约分为两个部分
+	1,常规配置
+	2,映射文件
+
+————————————————————————————
+二,配置						|
+————————————————————————————
+	> 必须配置
+	 ★ 数据库四大参数
+	 ★ 方言
+	> 选择配置
+	 ★ 控制台是否打印SQL语句
+	 ★ 其他的数据库连接池(c3p0)
+	 ★ 是否格式化输出的SQL语句
+	 ★ DDL策略(自动建表/删除表)
+	 ★ 是否自动提交事务
+	 ★ 引入映射文件(也可以以代码的形式引入)
+————————————————————————————
+三,Hibernate核心配置大概	|
+————————————————————————————
+主配置文件:名称固定,其实不一定要放置在src目录下,只要保证能被读取到.(当然建议还是放置在源码目录下比较好)
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory name="foo">
+<!-- 数据库信息的基本配置 -->
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3307/hibernate</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">root</property>
+		<!-- 方言,全限定名 -->
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+<!-- c3p0连接池配置 -->
+		<!-- 使用c3p0连接池,配置连接池提供的供应商 -->		
+		<property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+		<!-- 设置连接池中可用数据库连接的最小数目 -->
+		<property name="c3p0.min_size">5</property>
+		<!-- 设置连接池中可用数据库连接的最大数目 -->
+		<property name="c3p0.max_size">20</property>
+		<!-- 设置数据库连接连接的超时时间,单位是秒,如果超时就断开连接 -->
+		<property name="c3p0.timeout">120</property>
+		<!-- 设置,检查连接池中所有空闲链接,的间隔时间,单位是秒 -->
+		<property name="c3p0.idle_test_period"></property>
+<!-- 二级缓存配置 -->
+		<!-- 制定缓存的提供商 (可以替换成其他更为专业的缓存)-->
+		<property name="cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property> 
+<!-- 其他设置 -->
+		<!-- 绑定Session到当前的线程SessionFactory.getCurrentSession(); -->
+		<property name="current_session_context_class">thread</property>
+		<!-- 显示SQL语句,会在控制台打印不写默认是false -->
+		<property name="show_sql">true</property>
+		<!-- 格式化生成的SQL语句 -->
+		<property name="format_sql">true</property>
+		<!-- 自动建表 -->
+		<property name="hbm2ddl.auto">update</property>
+		<!-- 设置默认的事务隔离级别[1,2,4,8] -->
+		<property name="connection.isolation">2</property>
+		<!-- 事务是否自动提交,默认为false -->
+		<property name="connection.autocommit">true</property>
+		<!-- 配置二级缓存类 -->
+		<class-cache usage="read-write" class="com.kevin.domain.Student"/>
+		<!-- 配置二级缓存的集合缓存 -->
+		<collection-cache usage="read-write" collection="com.kevin.domain.Student.teachers"/>
+		<!-- 导入配置文件 -->
+		<mapping resource="com.kevin.domain/User.hbm.xml"/>
+	</session-factory>
+</hibernate-configuration>
+
+注意点:
+1,配置的key前面,其实可以加上一个hibernate.前缀.可有可以无,并不影响!但是别人这样写,你要能看懂
+	> <property name="hibernate.connection.username">root</property>
+3,按作用可分为三类
+	> 数据库信息
+	<property.../>
+		* 方言		[因为数据库的不同,所有在SQL语句上会有些许差异]
+		> 方言的配置文件在project/etc/hibernate.properties文件中,找到对应的数据库,属性里面的hibernate.dialect属性,就是方言的全限定名称
+		* url		
+		* 驱动类全限定名
+		* 用户名
+		* 密码
+	> 导入映射文件
+		<mapping resource="com.kevin.domain/User.hbm.xml"/>
+		* 导入标签还有一个属性叫做file,也就是说映射文件也可以随意放置,但是不建议这样整
+	> 其他配置
+		<property.../>
+		<property name="format_sql">true</property>
+		* 显示生成的SQL语句
+		<property name="format_sql">true</property>
+		* 格式化生成的SQL语句
+		<property name="hbm2ddl.auto">create</property>
+		* 根据映射文件,自动建表-- > 开发环境使用
+		* 值有很多,效果不同,这些值都可以在hibernate.properties中找到
+		> create:先删除再创建
+		> update:如果表不存在就创建,不一样就更新,一样就什么也不做(不会做删除的操作)
+		> create-drop: 初始化时创建表(如果存在先删除),SessionFactory执行close()的时候删除表
+		> validate:验证表结构与hbm.xml映射文件中的配置是否一致,如果不一致就抛异常！
+		* 开发环境下建议使用update,项目上线就什么也不配置
+		
+生成表结构的两种方式
+	1,通过<property name="hbm2ddl.auto">update:如果表不存在就创建</property>配置来完成
+	2,使用工具类
+		Configuration cfg = new Configuration();
+		cfg.configure("hibernate.cfg.xml");
+		SchemaExport se = new SchemaExport(cfg);
+		se.create(true,true);
+		* 第一个true:在控制台会输出
+		* 第二个true:在数据库中会执行
+
+事务的隔离级别
+	<property name="connection.isolation">2</property>
+	关于事务的隔离级别
+	读未提交			1	0001	(脏读,最可怕)
+	读已提交			2	0010
+	可重复读			4	0100	(默认设置)
+	串行化(不可并发)	8	1000
+	这个东西可以在hibernate.cfg.xml中进行配置
+		>  如果你需要多个级别同时存在.那就按照二进制的规则来!
+	也可以在mysql的配置文件中进行修改!
+	这东西只在事务并发的时候有用！没并发就没用了！
+
+	
+	

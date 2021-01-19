@@ -1,0 +1,2 @@
+# 如果内存 <= 2GB，出现异常cannot remove ‘/swapfile’: Operation not permitted
+* 尝试先执行	swapoff /swapfile

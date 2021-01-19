@@ -1,0 +1,21 @@
+一,数据库操作
+show databases;[显示所有数据库名称]
+use 数据库名;[切换(操作)数据库]
+show tables;[查询默认数据库中的所有表名称]
+create database 数据库名;[创建指定名称的数据库(如果同名数据库已经存在那么就会报错)]
+create database if not exists 数据库名 charset=utf8;[创建数据库,如果已经存在则不执行,不会报错.并且指定字符编码]
+drop database 数据库名;[删除指定数据库]
+alter database 数据库名 character set utf8;[修改制定数据库的编码格式]
+
+一,数据表操作
+create table 表名(列名 列类型,列名 列类型,...);[创建表]
+desc 表名;[查看指定表的表结构]
+drop 表名;[删除指定的数据表]
+show tables;[查看数据库中的所有表]
+alter table 表名[修改系列操作]
+add	> alter table 表名 add(列名 列类型,列名 列类型);[对指定表添加字段(列)]
+modify	> alter table 表名 modify 列名 列类型;[修改指定表格指定字段的类型]
+change	> alter table 表名 change 原列名 新列名 列类型;[修改指定表格指定字段的名称]
+drop	> alter table 表名 drop 列名;[删除指定表格的指定字段]
+rename	> alter table 原表名 rename to 新表名;[修改指定表的名称]
+

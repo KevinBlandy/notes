@@ -1,0 +1,130 @@
+---------------------------------------------------------------------------------------------
+简单版
+---------------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 用户表SQL映射 -->
+<mapper namespace="User">
+	<!-- 根据id查询单个对象 -->
+	<select id="findById" parameterType="java.lang.String" resultType="com.kevin.vo.User">
+		SELECT * FROM user WHERE id=#{id}
+	</select>
+	<!-- 获取所有对象 -->
+	<select id="getAll" resultType="com.kevin.vo.User">
+		SELECT * FROM user
+	</select>
+	<!-- 保存一个对象 -->
+	<insert id="save" parameterType="com.kevin.vo.User">
+		INSERT INTO user VALUES(#{id},#{name},#{age},#{desc},#{gender})
+	</insert>
+	<!-- 删除一个对象 -->
+	<delete id="deleteById" parameterType="com.kevin.vo.User">
+		DELETE FROM user WHERE id=#{id} 
+	</delete>
+	<!-- 修改一个对象 -->
+	<update id="updateById" parameterType="com.kevin.vo.User">
+		UPDATE user as u SET u.name=#{name},u.age=#{age},u.desc=#{desc},u.gender=#{gender} WHERE u.id=#{id}
+	</update>
+	<!-- 获取记录总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM user
+	</select>
+</mapper>
+---------------------------------------------------------------------------------------------
+详情版
+---------------------------------------------------------------------------------------------
+ORM对象关系映射,把一个对象描述成关系型数据库的二维表
+
+命名规则
+	1,普通的映射文件:User.xml			//原始的,Ibatis的命名方式
+	2,代理的映射文件:User.Mapper.xml	
+
+DTD约束
+	<?xml version="1.0" encoding="UTF-8" ?>
+	<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+---------------------------------------------------
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace,命名空间 
+	对SQL进行分类化的管理(SQL隔离)
+	注意:使用mapper代理方法开发的时候, namespace有特殊重要的作用
+-->
+<mapper namespace="test">
+	<!-- 配置SQL语句 -->
+	<!-- 通过select指定查询
+		1,id:标识映射文件中的SQL(可以称为statementID),将来,这个SQL语句会封装到 mappedstatement 中
+		2,parameterType: 表示,占位符的数据类型(int..)
+		3,#{id}:表示一个占位符,其中简的id就表示:我们接受参数,的参数名就是"id"
+			   * 如果输入的参数,是简单的数据类型.那么#{}中的参数名可以是任意
+		4,resultType:指定单条SQL的输出结果,所映射的java对象.指定pojo类的全限定名
+		5,使用session.selectOne("test.find",1);		来进行查询,获取单个对象
+	 -->
+	<select id="find" parameterType="int" resultType="com.kevin.domian.User">
+		SELECT * FROM user u WHERE u.id=#{id}
+	</select>
+	<!-- 通过select模糊查询
+		1,其他都一样,只是此时,有可能会返回多条记录.也就是多个对象
+		2,resultType:指的是单条记录所映射的java对象类型.在这里还是使用它
+		3,使用session.selectList("test.findUserById","%Kevin%");		//来获取集合
+		4,${}:拼接SQL串,把接收到的参数内容,不加任何修饰,拼接在SQL中(会有SQL注入危险)
+		['注意']
+			这种模糊查询的SQL还有一种写法
+			..LIKE '%${value}%'
+			*　如果传递的参数是简单数据类型,那么这个参数名称,只能是value
+		5,使用session.select("test.findLike","%小明%"); 来获取集合
+	 -->
+	<select id="findLike" parameterType="java.lang.String" resultType="com.kevin.domian.User">
+		SELECT * FROM user u WHERE u.username LIKE #{username}
+	</select>
+	<!-- 通过 insert插入数据
+		1,parameterType:指定输入的参数类型(此处是POJO类)
+		2,#{}:指定POJO的属性名,那么就能接受到POJO的属性值!
+			* MyBatis也是通过OGNL来获取对象的属性值
+		3,使用session.insert(test.save,user); 来存储,注意.'这是插入操作,需要提交事务'session.commit(); 没有返回值
+	-->
+	<insert id="save" parameterType="com.kevin.domian.User">
+		<!-- 获取插入到数数据库中的对象的主键值(自增主键),得到刚才执行insert插入到数据库中数据的主键值.适用于自增主键
+				* 底层就是SQL语法: SELECT LAST_INSERT_ID()
+			1,keyProperty:要把我们查询到的主键值设置到 parameterType 指定对象的哪个属性?
+			2,order:相对于insert执行语句而言,这个SELECT LAS..的执行顺序
+			3,resultType:返回的主键的数据类型
+			4,理解:这东西吧,就是你创建了一个对象!这个对象没有设置主键值,因为主键是由MySQL自动生成的！就算你设置了没用!那么你把这个对象插入到数据库的时候,
+			    框架就会把它在数据库中自动生成的主键值,通过set方法.注入到指定的对象属性上
+			
+		 	 获取插入到数数据库中的对象的主键值(非自增主键), 例如,MYSQL使用的是UUID来做为主键,并不是自增
+		 	 	* 首先通过UUID,得到主键,然后把主键值设置到对象中,再执行插入操作
+		 	 resultType="string"
+		 	 order="BEFORE"
+		 	 总结:把order,变成BEFORE,把resultType变为string就OK!
+		 	 注意:因为非自动增长,所有,我们要在'SQL'语句中显示的声明出id字段,不能直接忽略!
+		-->
+		<selectKey keyProperty="id" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO user(id,username,birthday,sex,address) VALUES(#{id},#{username},#{birthday},#{sex},#{address})
+	</insert>
+	<!-- 使用delete删除用户
+		没啥好解释的了这个.注意一下,占位符的数据类型就OK
+		1,调用:session.delete("test.delete",30);
+	 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM user WHERE id=#{id}
+	</delete>
+	<!-- 使用update更新用户
+		 	需要传入多个数据.被更新的数据,主键值
+		 1,parameterType:指定一个对象,这个对象就包含主键,以及要被修改的参数
+		 	* id值,是必须存在的!不然就把整个表全给更新了.这样就不好了
+		 2,#{id}:就是接收到了 parameterType 指定输入对象的id属性值.其他属性同理
+		 3,调用方法:session.update("test.update",user);    user的id值,必须已经存在于数据库
+	 -->
+	<update id="update" parameterType="com.kevin.domian.User">
+		UPDATE user SET username=#{username},birthday=#{birthday},sex=#{sex},address=#{address} WHERE id=#{id}
+	</update>
+</mapper>

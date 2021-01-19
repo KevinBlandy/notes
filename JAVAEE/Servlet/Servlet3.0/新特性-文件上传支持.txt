@@ -1,0 +1,79 @@
+一,回忆
+	1,上传对表单的要求
+	  > method="post"
+	  > enctype="multipart/form-data"
+	    * 他的默认值是:application/x-www.form-urlencoded
+	  > <input type="file" name="必须给"/>
+	 2,上传中Servlet的使用
+	  > request.getParameter();不能再使用,废了
+	    * 相关的参数方法也挂了
+	  > request.getInputStream();
+	    * 使用它,来获取整个表单的数据
+	  > commons-fileupload
+	    * 创建工厂
+	    * 得到解析器
+	    * 使用解析器来解析request对象,
+	    * 得到List<FileItem>
+	    ...详情自己去看这个的详细笔记
+
+二,新特性
+1,Servlet3.0中对上传提供了支持
+2,表单要求还是不变
+3,在Servlet中不需要再使用Apache的上传组键
+3,使用Servlet3.0提供的上传组键接口
+	> 其实这个接口,底层还是使用了Apcahe的这个组键.打脸,哈哈哈哈哈哈
+
+三,接口介绍
+Part
+* 它就表示上传的文件	
+	> delete();//删除临时文件...先不管
+	> getContentType();//获取上传文件的类型
+		* 图片/文档/视频
+	> getHeader(String name);
+		* 获取头(上传表单中,每个部件都有自己独立的头和体)
+		* getHeader("Content-Disposition");
+		* 这个头名称就包含了,文件的名称,需要我们自己做字符串的切割来获取文件名称
+	> getInputStream();
+		* 获取上传文件的内容
+	> getName();
+		* 获取表单项的名称,注意,不是文件名称,而是页面中的name属性
+		* 这接口没提供获取文件名称的方法,有病...
+	> getSize()
+		* 获取上传文件的大小
+	> write(String filename);
+		* 保存文件到指定的路径
+
+	> getSubmittedFileName()
+		* 获取文件的名称,就是文件在磁盘系统中的名称
+		* servlet3.1新特性
+
+	> delete()
+		* 删除文件,包括删除缓存在磁盘的文件
+
+	
+四,得到Part
+Part p = request.getPart("name属性");
+	* 获取指定的name的'文件'
+Collection<?> c = request.getParts();
+	* 获取表单中的所有的Part
+
+五,上传步骤
+1,使用request.getPart("字段名");得到Part实例
+	通过它的一些方法,来操作这个对象
+	> getContentType();//获取上传文件的MIME类型
+	> getName();//获取表单项名称
+	> write(Strin path);//写入指定路径
+	>  ... ...自己看上面
+
+2,默认Servlet是不是支持使用上传组键的,我们需要给Servlet添加一个注解
+	@MultipartConfig
+	
+	* 不带任何参数,直接复制上去就好
+	* 该注解也有一些属性,可以控制上传的文件的大小,本地序列化的目录,请求体的总大小等等
+
+
+六,这东西没有提供获取上传文件名称的方法
+	* 这个需要我们自己从Content-Disposition头中获取出来,再截取
+	* 3.1 版本以后带有了这个API
+		getSubmittedFileName()
+	

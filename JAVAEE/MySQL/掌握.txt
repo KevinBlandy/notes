@@ -1,0 +1,25 @@
+数据库的创建
+create table if not exists db_name chareset=utf8;
+数据库的删除
+drop database db_name;
+数据库的使用
+use db_name;
+数据库的字符编码修改
+alter database db_name character set = utf8;
+
+表
+创建表
+create table if not exists tb_name();
+查看所有表
+show tables;
+查看表结构
+desc tb_name;
+删除表
+drop table tb_name;
+修改表
+删除列
+alter table tb_name drop 列名;
+alter table tb_name rename to 新名字;
+alter table tb_name modify 列名 新列名 属性
+alter table tb_name change 列名 属性;//修改
+alter table tb_name add 列名 属性;//添加

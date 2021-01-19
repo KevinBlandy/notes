@@ -1,0 +1,43 @@
+commons-fileupload
+ -- commons-fileupload.jar	↓依赖下面的jar包才能完成工作
+ -- commons-io.jar		(IO却不依赖上面,可以自己单独发挥)
+
+这个小组件可以帮我们解析request中的上传数据。
+解析后的结果是:一个表单项数据到一个FileItem对象中
+只需要调用FileItem的方法即可.
+
+上传三步
+	涉及到的相关类
+	* 工厂类:DiskFileItemFactory
+	* 解析器:ServletFileUpload
+	* 表单项:FileItem
+
+创建工厂
+	DiskFileItemFactory factory = new DiskFileItemFactory();
+	DiskFileItemFactory factory = new DiskFileItemFactory(int size,File file);//指定缓存大小,以及临时目录
+	|-- 默认的缓存大小是10KB
+	|-- 默认的临时目录在System.getProperty("java.io.tmpdir");
+	    *  -- C:\Users\KEVINB~1\AppData\Local\Temp\
+	|-- 如果是匿名创建临时目录的话,尽量先手动创建目录
+创建解析器
+	ServletFileUpload sfu = new ServletFileUpload(factory);//给它工厂
+	*  setFileSizeMax(100 * 1024);//限制单个文件最大的字节数
+	*  setHeaderEncoding("utf-8");//设置编码
+	*  setSizeMax(100 * 1024);//限制整个请求的大小为100KB
+使用解析器来解析request,得到FileItem集合
+	List<FileItem> fileItems = sfu.parseRequest(request);
+
+FileItem
+	* isFormField();(boolean)是否为普通表单项.返回true是普通表单项,false就是文件表单项
+
+--普通表单项的操作方法
+	* getFieldName();(String)返回当前表单项的名称
+	* getString("utf-8");(String)返回当前表单项的值(仅限于普通表单项,文件表单项不适合)
+
+--文件表单项的操作方法	
+	* getName();(String)返回上传的文件名称
+	* getSize();(long)返回上传文件的字节数
+	* getInputStream();(InputStream)返回上传文件对应的输入流.(就可以把数据写入硬盘)
+	* write(File file);(void)把上传的文件内容,保存到指定的文件中
+		-- 如果文件存在,那么就会把它替换掉,如果文件不存在就会创建
+	* getContentType();(String)//获取文件类型

@@ -1,0 +1,22 @@
+在MyEclipse中开发WEB工程的步骤
+1,建立WEB工程
+2,在src目录下创建一个包(包名自定义)
+	创建Servlet项目
+3,创建TomCat服务器
+4,发布项目(其实就是拷贝)
+------------
+1. General --> Workspace --> UTF-8 修改工作空间的字符编码
+2. General --> Editors --> Associations --> JSP --> MyEclipse JSP Editor 修改jsp的打开方式(效率问题)
+3. 搜索jsp --> UTF-8	
+4. Java --> Installed JREs --> 添加	删除IDE自带的JAVA环境以及jar包
+5. Tomcat	
+6. 去除MyEclise自带tomcat
+7. General --> Startup and Shutdown --> MyEclipse Derby
+
+如果你是win7系统，还要修改字体：
+第一步：C:\Windows\Fonts，找到Courier New，鼠标右键-->显示
+第二步：Ceneral --> Appearance --> Colors and Fonts --> Basic --> Text Font --> Edit，选择Courier New字体
+
+解除IDE禁用类
+Windows -> Preferences -> Java -> Compiler -> Errors/Warnings -> 
+Deprecated and trstricted API -> Forbidden reference (access rules): -> change to warning

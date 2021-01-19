@@ -1,0 +1,40 @@
+Web应用开发好后，若想供外界访问。需要把Web所在的目录交给Web服务器管理。这个过程，称之为虚拟目录的映射
+
+1,--------------------------
+在Server.xml配置文件中。 Host内。配置 Context
+	Contex -- 见到它就是WEB应用。
+<Context path="/Demo" docBase="C:\News"/>
+	|--其中path是一个虚拟目录，docBase是实际存在的目录。外界访问虚拟目录。就能访问到实际目录下的Web资源。
+		http://主机名:8080/Demo/Test.html
+	|--重启WEB服务器生效————弊端
+<Context path="" docBase="C:\News"/>
+	|--path 什么都没写。那么这就是一个缺省目录。
+		http://主机名:8080/Test.html
+	|--还是需要重启服务器生效。
+2,--------------------------
+apache-tomcat-7.0.47\conf\Catalina\localhost
+在这个目录下创建 xml文件。写入
+<Context docBase="C:\News"/>
+	|--xml的名字，就是虚拟目录。外界把xml名字当作路径来访问。就能访问到docBase指向的文件。
+		|--a#b#c.xml
+		浏览器访问的路径就是：http://主机名:8080/a/b/c/Test.html
+		这就是映射多级目录
+	|--不需要重启服务器
+3,--------------------------配置缺省目录
+apache-tomcat-7.0.47\conf\Catalina\localhost
+在该目录下把提供外界访问的xml资源(xml文件中写入实际的资源目录)更名为:ROOT.xml
+	|--外界直接通过 ：http://主机名:8080/Test.html 就能访问。配置为缺省的目录。
+
+
+【以上的方式，都是WEB资源在其他的目录下。那么就需要通过虚拟映射来提供对外的访问路径。其实也可以交给服务器自动管理】
+-----------------------------------------自动管理
+D:\apache-tomcat-7.0.47\webapps
+假如你可以在这个目录下创建"Demo"文件夹.里面包含了Test.html
+http://localhost:8080/Demo/Test.html
+
+在目录 C:\apache-tomcat-8.0.26\webapps\ROOT 中创建Test.html
+	浏览器可以直接 http://localhost:8080/Test.html 访问
+
+
+
+<Context docBase="" path="" debug="0"  reloadable="true"/>

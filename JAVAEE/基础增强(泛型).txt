@@ -1,0 +1,51 @@
+1,泛型
+2,注解
+3,Servlet3.0
+4,动态代码
+5,类加载器
+
+-----------泛型
+泛型类:
+1,具有一个或多个类型变量的类,就是泛型类
+	class A<T>(){}
+2,在创建泛型类实例时,需要为其类型 变量赋值
+	A<String> a = new A<Srring>();
+	* 如果创建实例的时,不给类型变量赋值.那么会有一个警告
+泛型方法:
+1,具有一个或多个类型变量的方法称之为泛型方法
+	public <T> T fun(T t1){} -- > 泛型方法
+	* 泛型方法与泛型类没有什么关系 ,泛型方法不一定非要在泛型类中
+泛型在类中：
+	可以在成员变量上使用 ！
+	可以在类中的方法,返回值,参数类型上使用！(返回值之前)
+	泛型还可以在局部变量的引用类型上引用！
+=============关于泛型的继承和实现
+继承泛型类
+	* 子类不是泛型类:  需要给父类传递类型常量
+	* 子类是泛型类:	 可以给父类传递常量,也可以传递类型变量
+
+=============泛型通配符
+	泛型引用和创建两端,给出的泛型变量必须相同
+public void test print(List<? extends Object> obj)
+{
+}
+//其中的问号,就是通配符
+
+通配符只能出现左边,不能出现在右边
+? 它表示一个不确定的类型,它的值会在调用时确定下来
+当使用通配符时,对泛型类中参数为泛型的方法起到了副作用--不能使用
+
+
+
+=============边界
+public void println(List<? extends Number> list)	--	只能是Number或者它的子类
+public void println(List<? super Integer> list)		--	只能是Integer的父类型
+
+
+=============反射泛型信息
+Class -->Type  tppe = getGenericSupperclass(); 
+Type -- > ParameterizedType 把Type强转成 ParameterizedType
+ParameterizedType -- > 参数化类型  --- Demo<String>
+
+
+...不想写了。。。

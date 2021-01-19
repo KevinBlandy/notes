@@ -1,0 +1,75 @@
+JDBC步骤
+1,确定连接的数据库类型,导入相关的jar包:驱动!
+2,加载驱动类(反射)进内存!
+3,给出URL,用户名,密码
+3,使用DriverManage得到连接对象
+4,得到Statement
+5,执行语句
+6,返回结果
+7,处理结果
+8,关闭资源(Connection是必须要关闭的)
+----------------
+所有实现了 java.sql.Driver的类,都会有一个static静态代码块.内容是是把自己注册到DriverManager中！
+JDBC4.0之后每个驱动jat包中。在META-INF/services目录下。提供了一个名为java.sql.Driver的文件。而文件的内容就是该接口的实现类名称！
+------------------------------
+Satement
+执行增,删,改操作
+   executeUpdate(String sql);//(int)可以发送DML,DDL!返回的是影响的行数
+执行查找
+   executeQuery(String sql);(ResultSet)必须是查询语句
+------------------------------
+ResultSet  对象(结果集)
+内部其实是有一个行光标
+next();//(boolean)把光标往下移动一下行,boolean表示当前行是否存在
+
+getInt(int num);
+getString(int num);
+getDouble(int num);
+getObject(int num);
+getDate(int num);
+getTime(int num);
+	> 以上方法都是针对光标当前行进行的操作。
+	num是第几列，也可以把参数换成数据库中字段名(字符串形式)。
+结果集特性(当得到Statment时候,就已经确定了结果集是什么特性)
+
+createStatement();//生成的结果集:
+不滚动
+不敏感
+不更新
+createStatement(带参数[详情参API]);//生成的结果集
+特性由参数决定
+敏感:就是时时盯着数据库,查询结果会跟随数据库变化。但是耗费资源！
+而且,没有驱动去支持这个东西。说白了就是。。空的！假的！
+------------------
+PreparedStatement
+它是Statement的子接口
+强大之处！
+1,防止SQL攻击
+2,提高代码的可读性和可维护性
+3,提高效率
+如何得到PreparedStatement
+1,给出SQL模版所有参数使用?代替
+2,调用Connection的preparedStatement(String sql模版);
+3,给参数赋值:PreparedStatement.setString(1,userName);//给第一个?赋值
+	     :PreparedStatement.setString(2,userName);//给第二个?赋值
+4,调用executeUpdate();或者executeQuery();。但是他们方法都没有参数！
+	String sql = "select * from users where userName=? and passWord=?";
+	PreparedStatement pstmt = conn.prepareStatment(sql);
+	pstmt.setString(1,userName);
+	pstmt.setString(2,passWord);
+	ResultSet rs = pstmt.executQuery();
+PreparedStatement:
+服务器的工作:
+	校验SQL语句的语法
+	编译(把SQL语句编程一个函数相似的东西)
+	执行(调用这个函数)
+PreparedStatement使用的前提
+	前提:连接的数据库必须支持预处理(几乎都支持)
+	每个PreparedStatement都与一个sql模板绑定在一起,先把SQL模板给数据库，数据库先进行校验。再进行编译、执行的时候只是把参数传递过去而已！
+	第二次执行的时候,就不用校验语法以及编译。直接执行
+---------MySQL的预处理,默认是关闭的!需要自己手动开启！
+
+
+
+
+

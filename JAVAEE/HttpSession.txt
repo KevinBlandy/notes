@@ -1,0 +1,103 @@
+1,HttpSession概述
+   * HttpSession是由JAVAWEB提供的,用来会话跟踪的类。session是服务端对象,保存在服务器端。
+   * HttpSession是Servlet三大域对象之一,所以它也有setAttribute(),getAttribute(),removeAttribute()方法.
+	> rquest(最小范围),一个请求创建一个
+	> HttpSession(会话),一个会话创建一个(打开浏览器--关闭浏览器)
+	> application(ServletContext),一个项目创建一个
+   * HttpSession底层依赖于Cookie,或是URL重写！
+
+2,HttpSession的作用
+   * 会话范围:会话范围是某个用户从首次访问服务器开始,直到该用户关闭浏览器结束.
+	> 会话:一个用户对服务器的多次连贯性请求!所谓连贯性请求,就是该用户多次请求中间没有关闭浏览器
+   * 服务器会为每个客户创建一个session对象,session对象就好比客户在服务端的账户, 它们被服务器保存到一个map中.这个map称之为session缓存
+	> Servlet中得到session对象:HttpSession session = request.getSession();
+	> Jsp中得到session对象:session是JSP内置对象之一,不用创建就可以直接使用
+   * session域相关方法
+	> setAttribute(String name,Object value);//void返回值,设置属性和值
+	> getAttribute(String name);//Object返回值,根据指定名次获取值.这个值是以Object形式返回的！
+	> removeAttribute(String name);//void返回值类型,删除指定的值和属性
+
+访问Servlet如果没有调用getSession();那么就不创建Session
+访问JSP就算不创建,也有Session,因为是内置对象
+
+5,HttpSession原理(理解)
+   * request.getSession();方法:
+     > 获取Cookie中的JSESSIONID
+       <> 如果sessionId不存在,创建ssesion,把session保存起来,把新创建的sessionId保存到Cookie中
+       <> 如果sessionId存在,通过sessionId查找session对象.如果没有查到,创建session对象,把session保存起来.把新创建的sessionId保存到Cookie中
+       <> 如果sessionId存在,通过sessionId查找到了session对象,那么就不会去创建session对象了.
+     > 如果创建了新的session,浏览器会得到一个包含了sessionId的Cookie,这个Cookie的生命为-1,即只在浏览器内存中存在.如果不关闭浏览器那么Cookie一直在！
+     > 下次请求时,再次执行request.getSession()方法时,因为可以通过Cookie中的sessionId找到session对象.所以与上一次请求使用的是同一session对象.
+     **** 服务器不会马上给你创建session,在第一次获取session的时才会给你创建！
+     session最大不活动时间30分钟.没有被碰过,就被服务器弄死了！
+     如果30分钟session没人碰的话。那么session就没了！
+     这个Cookie叫做[JSESSIONID]--32位16进制字符串
+
+     JSP会自动创建session
+     Servlet没有使用getSession()是不会创建的。
+  
+6,HttpSession其他方法(域方法没写噢,那可是最注意的方法)
+   * getId();//返回String类型,获取sessionId.
+   * getMaxInactiveInterval();//返回int类型,获取session的最大不活的时间.默认是30分钟。如果超过30分钟还没动静,就会被tomcat从session池里面干掉
+   * invalidate();//void,无返回类型.直接让session失效!调用这个方法会让session失效。失效后,客户端再次请求服务端会创建一个新的session并响应
+   * isNew();//boolean返回值类型,判断session是否为新！当浏览器第一次请求时.服务器为客户端创建session.但这是服务器还没响应客户端,也就是还没把sessionId给浏览器！
+	|--request.getSession().isNew();//能判断出来是创建session还是返回session
+   * getSession(false);//如果session缓存中不存在(Cookie不存在),那么返回null。而不会创建session对象
+	|--你ID给我看看。有session,我就给你.没session我也不创建给你返回null。
+   * getSession(true);
+   * getSession();//跟上面个方法一样
+
+7,web.xml中配置session的最大不活动时间(分钟)
+   * <session-config>
+	<session-tiomeout>30</session-timeout>
+     </session-config>
+
+8,URL重写(理解)
+	就是把页面中所有的路径都使用response.encodeURL("..");处理一下。
+   * session依赖Cookie.目的是让客户端发出请求时归还sessionId.这样才能找到对应的session.
+   * 如果客户端禁用了Cookie,那么就无法得到sessionId.那么session也就没用了.
+   * 也可以重写URL来替代Cookie
+	> 让网站的所有超链接,表单中都添加一个特殊的请求参数,即JSESSIONID.
+	> 这样服务器可以通过获取请求参数得到JSESSIONID,从而找到SESSION对象.
+   * response.encodeURL(String url)
+	> 该方法会对url进行智能重写:当请求中没有归还JSESSIONID这个这个Cookie.那么该方法会重写URL.否则不会重写！当然，URL必须是指向本站的url！
+	例：
+	<%
+		out.println(response.encodeURL("/Demo/aservlet"));
+	%>
+	--它会检查Cookie是否存在,如果不存在,就在指定的URL后面添加JSESSIONID参数
+	--如果Cookie存在,它就不会在URL后添加任何东西.
+
+
+
+9,Session其实是保存到本地的
+10,对象存储到Session后并不是保存的引用.修改外面的对象.不会影响到Session中的对象
+11,Session钝化活化机智
+	session的序列化(关闭和开启服务器完成的操作)
+	   服务器(正常)关闭的时候项目所有的sesssion会被保存到硬盘！一个项目所有的session文件其实是保存在 
+	   C:\apache-tomcat-8.0.26\work\Catalina\localhost\项目名\SESSIONS.ser(所有的session,都在这个文件里面)
+	   SESSIONS.ser --- ser就是序列化接口serziable的缩写
+	   当服务器启动的时候这个session就没有了,因为服务器又把它读回到了内存
+
+	   如果要废掉这个session序列化行为,在context.xml文件中加上
+		<Context ..>
+			...
+			<Manager pathname=""/>
+			...
+		</Context>
+
+	session的钝化和活化(未关闭或者开启服务器)
+	   配置Tomcat钝化session的参数
+	   把下面文件放置到tomcat\conf\catalina\localhost目录下,文件名为项目名
+	   (如果直接写在tomcat\conf\context.xml中就是对所有项目都生效)
+		<Context>
+			<Manager className="org.apache.catalina.session.PresistentManager" maxIdleSwap="1">
+				<Store className="org.apache.catalina.session.FileStore" directory="mysession" />
+			</Manager>
+		</Context>
+	   maxIdleSwap:单位是分钟,表示session多久没有活动!服务器就钝化它!(因为session一直留着内存,很占内存空间,需要序列化到硬盘,保存数据)
+	   directory:表示session存放在:tomcat\work\Catalina\localhost\listener\mysession目录下(一个session,一个文件。名字就是SESSIONID)
+	   所谓的活化,就是把别序列化的session重新加载到内存！
+	   而这个序列化的规则,我们可以自己定义.客户端是感觉不到session经历了什么变化！
+
+	   注:session里面如果存有自定义类,那么必须实现Serializable标记接口,不然不能完成序列化

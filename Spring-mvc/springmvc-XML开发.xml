@@ -1,0 +1,74 @@
+
+————————————————————
+一,处理器适配器		|
+————————————————————
+
+俩种处理器适配器
+	> 所有的处理器适配器都实现了一个接口:HandlerAdapter
+	> 按照适配器的规则,去执行Handler
+	> 多个适配器可以共存
+
+
+SimpleControllerHandlerAdapter
+	一,第一个适配器
+	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+	org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter
+		> 它实现了HandlerAdapter接口
+		> 要求,编写的Handler,要实现 Controller 接口
+		* 实现这个接口的Hadnler,必须要覆写一个返回值为 modelAndView的方法!
+	
+
+
+HttpRequestHandlerAdapter
+	二,另一个适配器
+	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+	org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter
+		> 它实现的还是HandlerAdapter
+		> 要求编写的Handler,实现HttpRequestHandler接口
+		* 实现这个接口,覆写的方法没有返回值!可以通过response修改定义相应内容!比如json数据!
+
+
+————————————————————
+一,处理器映射器		|
+————————————————————
+XML中的两种处理器映射器配置方式
+	> 所有的映射器都实现了HandlerMapping接口
+	> 通俗理解,就是根据url来找Handler
+	> 多个映射器可以并存
+一,在xml中配置单个url映射
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+	org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping
+		> 如果是这个映射配置的话,那么就一定要在Handler的<bean>中显示写出name属性,也就是url地址!那么前端控制器就会根据url来找相应的的Handler<Bean>去处理
+		* 如果没在Handler<bean>中配置url,那么资源访问不到404!
+		* 经过测试,其实写id,name!都是可以的!只要正确的表达出了地址.
+		* 如果Handler的name属性,正确的表达出了地址.那么这个不配也无所谓
+
+二,在xml中配置多个url映射
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/demo1.action">1</prop><!-- 对id属性为1的Handler进行url映射 -->
+				<prop key="/demo2.action">2</prop><!-- 对id属性为1的Handler进行url映射 -->
+			</props>
+		</property>
+	</bean>
+	org.springframework.web.servlet.handler.SimpleUrlHandlerMapping
+		> 是上面的增强版本,它可以将url和处理器bean的id进行统一配置
+		> 多个映射器可以并存,且都能被访问
+		> 注意,如果<prop>指定的id值不存在,那么会'抛出异常'
+		> 也可以一个id配置多个<prop>,也就是一个bean,有多个映射路径
+		> 这种配置方式,可以不用在Handler<bean>中给出name属性,但是必须给出id属性!
+		* 经过测试,其实写id,name!都是可以的!只要正确的表达出了地址.
+
+		前端控制器会判断URL,能哪个映射器处理,就让哪个映射器处理!
+	
+
+	
+
+
+
+
+
+
+
+	

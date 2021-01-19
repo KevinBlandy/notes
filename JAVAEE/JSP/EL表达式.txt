@@ -1,0 +1,110 @@
+一,EL表达式
+1,EL是JSP内置的表达式语言
+   * jsp2.0开始,不让再使用java脚本,而是使用EL表达式和动态标签来替代JAVA脚本！	
+   * EL替代的是<%=...%>,也就是说EL只能做输出
+	
+2,EL表达式操作(读取)四大域.
+   * ${xxx}//全域查找,如果不存在返回""空字符串。而不是null，这是它的一个特点。
+   * ${pageScope.xxx}// --- ↓指定域查找
+   * ${requestScope.xxx}
+   * ${sessionScope.xxx}
+   * ${applicationScope.xxx}
+ 
+3,javaBean导航
+
+   ${requestScope.Person.address.stree }
+	--其实等同于request.getAttribute("Pserson").getAddress().getStree()
+   获取的是rquest域中person对象的address字段的stree属性
+   需要JAVA类也就是这个Person符合javaBean规范
+
+3,EL可以输出的东西,都在EL11个内置对象中,其中10个都是Map(键值对)就pageContext不是.
+   * 我们已经搞定四个了(pageScope... ...) 看楼上.. ..这里就不玩了
+   * param(网页表单提交)请求参数
+	>  对应参数,它是Map。键是参数名,value是参数值.适用于单值的参数
+	> ${param.uername }
+   * paramValues(网页表达提交--多个值)请求参数
+	> 也对应参数。key是参数名。values是多个参数值。适用于多个参数值。
+	> ${paramValues.hobby[0] }返回的就是参数值的第一个值
+   * header(请求头)
+	> 对应请求头,它是Map。Key表示头名称,value表示单个头值。适用于单值请求头
+	> ${header.referer}
+   !!!  > ${header["User-Agent"]} 这个请求头中间有一个特殊符号-。此时必须要用这种表达式！否则。EL表达式会认为-号是在做减法运算
+   * headerValues(多个值的请求头)
+	> 对应请求头,适用于多个头值请求头
+	> 跟上面差不多
+   * initParam(web.xml中的初始化参数)
+	> ${initParam.参数名 }
+	> 获取web.xml中的全局初始化参数
+   * cookie
+	> 它是一个Map<String,Cookie>,注意。其中Key是cookie的name,value是cookie对象。
+	> ${cookie.username.value }//获取名字叫做username的Cookie的值。
+	>  |得到的是Cookie对象|得到的是它的值
+   * pageContext
+	> 它是pageContext类型
+	> ${pageContext.request } 获取request对象.(reuqest对象不在EL表达式的内置对象内需要通过pageContext获取)
+	${pageContext.reuqest.contextPath }//获取的就是项目名( /项目名)
+	${pageContext.request.contextPath } //以后所有的连接都是这样写,项目名就可以随意更换
+4,EL运算符
+   * 就是JAVA那一套
++,-,*,/,%,==,!=,&,&&,|,||... ...
+
+${"20"+"10"}//等于30
+${"20"+10}//还是等于30
+
+
+超链接的连接,表单中的action。现在起都要换成EL表达式
+<a href="${pageContext.request.contextPath }/xx/a.jsp">连接</a>
+
+<from action="${pageContext.request.getContextPath }/xx/a.jsp" method="psot">
+
+</form>
+
+二,EL函数库(JSTL提供的)
+  * 导入标签库：<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+		<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+		如果使用MyEclipse开发JAVAWEB.那么在把项目发布到Tomcat时。您会发现。MyEclipse会在
+   lib 目录下存放JSTL的jar包。如果你没有使用这个IDE。那么需要自己来导入这个JSTL的jar包:jstl-1.2.jar
+	toUpperCase(String input);(String)把参数转换成大写
+	toLowerCase(String input);(String)把参数转换成小写
+	indexOf(String input, String substring);(int)从大串，输出小串的位置！
+	contains(String input, String substring);(boolean)查看大串中是否包含小串
+	containsIgnoreCase(String input, String substring);(boolean)忽略大小写的，是否包含
+	startsWith(String input, String substring);(boolean)是否以小串为前缀
+	endsWith(String input, String substring);(boolean)是否以小串为后缀
+	substring(String input, int beginIndex, int endIndex);(String)截取子串
+	substringAfter(String input, String substring);(String)获取大串中，小串所在位置后面的字符串
+	substringBefore(String input, String substring);(String)获取大串中，小串所在位置前面的字符串
+	escapeXml(String input);(String)把input中“<”、">"、"&"、"'"、"""，进行转义
+	trim(String input);(String)去除前后空格
+	replace(String input, String substringBefore, String substringAfter);(String)替换
+	split(String input, String delimiters);(String)分割字符串，得到字符串数组
+	length(Object obj);(int)可以获取字符串、数组、各种集合的长度！
+	join(String array[], String separator)(String)联合字符串数组！
+	例:
+	${fn:length(具备长度属性的对象) }//返回的就是该对象的长度
+三,自定义函数库
+   * 写一个JAVA类。可以定义0-N个方法。但,必须是静态的。有返回值的(可以有参数)！
+   * 在WEB-INF目录下创建一个 tld文件(头部信息以及尾部信息可以去抄)
+	<function>
+		<name>method</name><!-- 方法名称 -->
+		<function-class>cm.test.kein.Demo</function-class><!-- 类文件路径 -->
+		<function-signature>java.lang.String method()</function-signature><!-- 返回值是String类型 -->
+	</function>
+   * 在JSP页面中导入标签库.
+	<%@taglib prefix="my" uri="/WEB-INF/tlds/xx.tld"%>
+   * 在JSP页面中使用自定义函数
+	${my:method()}
+---完整的tld文件格式
+<taglib>
+	<description></description>   <!-- 说明 -->
+	<display-name></display-name>   <!-- 可以自由填写 -->
+	<taglib-version>1.0</taglib-version>   <!-- 版本 -->
+	<short-name>fn</short-name>   <!-- 简称 -->
+	<url>java.sun.com...</url>
+	<!-- 下面就是一个EL自定义函数  有一个函数就要写一个部署 -->
+	<function>
+		<name>method</name><!-- 方法名称 -->
+		<function-class>cm.test.kein.Demo</function-class><!-- 类文件路径 -->
+		<function-signature>java.lang.String method()</function-signature><!-- 返回值是String类型 -->
+	</function>
+</taglib>

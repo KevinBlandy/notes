@@ -1,0 +1,147 @@
+过滤器
+过滤器是JAVAWEB三大组键之一
+三大组键
+	Servlet(已学)
+	Listener(已学)
+	Filter    ---下问
+
+他们都需要在xml文件中进行配置(除了Listener的两个感知监听器)
+
+Filter --- 过滤器(通俗理解,山大王)
+	作用:它会在一组(一组,一大堆)资源(jsp,servlet,.css,.html...)的前面执行！它可以让请求达到目标资源,也可以不让请求达到目标资源.
+	能力:有拦截请求的能力
+例:
+	登录成功之后 -- 允许访问,Aservlet,Bservlet,Cservlet
+	如果你没有登录,那么就不能访问这三个Servlet,如果按照之前所学的技术.我们需要在每个Servlet当中来判断用户是否登录！
+	而,而通过过滤器,就可以把所有关于判断的东西放在过滤器里面执行,那么Servlet就不用判断了！
+Filter也是单例的,跟Servlet一个德行
+声明周期,随着服务器的开启就创建,服务器的关闭就销毁！其中有两个生命周期方法！见下面
+
+---------------------------过滤器编写
+1,写一个类,实现Filter接口 -- import javax.servlet.Filter;(很多同名类,千万别导错)
+   实现三个抽象类
+   public void destroy();	
+	在Filter销毁之前执行,一般用来做对非内存资源的释放(Fileter会在服务器关闭时销毁)
+   public void doFilter(ServletRequest arg0, ServletResponse arg1,FilterChain arg2) throws IOException, ServletException 
+	每次过滤时,都会执行.
+   public void init(FilterConfig arg0) throws ServletException 
+	在Filter创建之后,马上执行,用来做初始化操作(Filter会在服务器启动的时候就创建)
+2,在web.xml中进行配置
+   <filter>
+	<filter-name>Filter的名字</filter-name>
+	<filter-class>class文件真实路径</filter-class>
+   </filter>
+   <filter-mapping>
+	<filter-name>Filter名字</filter-name>
+	<url-pattern>需要被过滤的资源文件路径</url-pattern><!-- 一般都是配置[/*] 表示通配任何资源,访问任何资源都会经过这个过滤器,也可以指明要过滤哪个资源的路径-->
+	<servlet-name>TestServlet</servlet-name><!-- 点名要过滤哪一个Servlet,非常有针对性,一般不和上面一个一起使用 ,而且可以指定多个(多写几个标签)-->
+   </filter-mapping>
+
+---------------------------Filter中相关的参数类型
+Filter中相关的参数类型
+init(FilterConfig config)
+	FilterConfig -- 跟ServletConfig很相似,获取当前Filter初始化参数(xml中),name,上下文对象!
+		getInitParameter();//获取初始化参数
+		getFilterName();//获取过滤器名称
+		getServletContext();//获取ServletContext
+doFilter(ServletRequest request, ServletResponse response,FilterChain chain);
+	ServletRequest(略)
+	ServletResponse(略)
+	FilterChain
+		doFilter(ServletRequest, ServletResponse);
+		|--调用这个方法表示放行,相当于调用了目标Servlet的service();方法！当调用完service方法之后,会回到这个方法,继续下面的操作
+		* 这个参数的方法名称和它所在的方法的名称一毛一样！
+
+ destroy();
+	没有参数
+
+---------------------------多过滤器
+多个过滤器时:
+doFilter的FilterChain的doFilter()方法;执行目标资源,或是执行下一个过滤器
+	如果没有下一个过滤器,那么执行的是目标资源,如果有那么就执行下一个过滤器
+多个过滤器的执行顺序:
+	在<filter-mapping></filter-mapping>中配置,它会决定过滤的执行顺序
+	默认的顺序是根据<filter-mapping></filter-mapping>,谁在最上面,谁先执行！
+---------------------------四种拦截方式
+<dispatcher></dispatcher>
+* 拦截请求	REQUEST
+* 拦转发	FORWARD
+* 拦包含	INCLUDE
+* 拦错误	ERROR
+在<filter-mapping>中进行配置
+ <filter-mapping>
+  	<filter-name>TestFilter</filter-name>
+  	<url-pattern>/Aservlet</url-pattern><!-- URL必须在拦截声明上面 -->
+  	<dispatcher>REQUEST</dispatcher><!-- 如果不声明,那么默认拦截的是REQUEST -->
+  	<dispatcher>FORWARD</dispatcher>
+  	<dispatcher>INCLUDE</dispatcher>
+  	<dispatcher>ERROR</dispatcher><!-- 错误表示我们在web.xml中配置的错误页面(详情参阅"JSP指令"笔记) -->
+  </filter-mapping>
+
+---------------------------过滤器的使用场景
+1,几乎是所有的Servlet中都需要写这句话request.setCharacterEncoding("utf-8");那么我们可以在过滤器中完成这个操作
+  * 这种过滤器绝对不会做拦截操作,很单纯的设置编码(超市门口发传单的)
+  * 预处理工作
+2,通过条件判断是否放行！禁IP,等等... ...
+3,在目标资源执行后,做一些后续的特殊处理工作！例如:把目标资源输出的数据进行处理(动态页面静态化)
+   * 回程拦截
+
+---------------------------------------------------------Fileter全项目乱码处理专题
+javax.servlet.http.HttpServletRequestWrapper;(专门为装饰者模式提供)
+	这个类实现了HttpServletRequest接口中的所有方法,我们需要覆写它的getParameter();
+
+import java.io.UnsupportedEncodingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+/**
+ * 装饰reqeust
+ * */
+public class EncodingRequest extends HttpServletRequestWrapper 
+{
+	private HttpServletRequest req;
+	public EncodingRequest(HttpServletRequest request) 
+	{
+		super(request);
+		this.req = request;
+	}
+	public String getParameter(String name) 
+	{
+		String value = req.getParameter(name);
+		// 处理编码问题
+		try
+		{
+			if(value != null)
+			{
+				value = new String(value.getBytes("iso-8859-1"), "utf-8");
+				return value;
+			}
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			throw new RuntimeException(e);
+		}
+		return value;
+	}
+}
+然后在处理字符编码的过滤器的doFilter();方法中进行如下操作
+public void doFilter(ServletRequest request, ServletResponse response,FilterChain chain) throws IOException, ServletException
+{
+	// 处理post请求编码问题
+	request.setCharacterEncoding("utf-8");
+	// 处理get请求编码问题
+	HttpServletRequest req = (HttpServletRequest) request;
+	/*
+	 * 装饰request
+	 * */
+	if(req.getMethod().equals("GET"))
+	{
+		EncodingRequest er = new EncodingRequest(req);
+		chain.doFilter(er, response);
+	}
+	else if(req.getMethod().equals("POST"))
+	{
+		chain.doFilter(request, response);
+	}
+}
+
+在xml 文件中配置url让项目的所有Servlet都必须经过这个过滤器的处理,那么就搞定了request,response乱码的问题

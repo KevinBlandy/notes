@@ -1,0 +1,42 @@
+
+<!-- 主库 -->
+<bean id="masterDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+	<property name="url" value="${jdbc.master.url}"/>
+	<property name="username" value="${jdbc.master.username}"/>
+	<property name="password" value="${jdbc.master.password}"/>
+	<property name="driverClassName" value="${jdbc.master.driver}"/>
+	<property name="initialSize" value="${jdbc.master.pool.initialSize}"/>
+	<property name="maxActive" value="${jdbc.master.pool.maxActive}"/>
+	<property name="maxWait" value="60000"/>
+	<property name="timeBetweenEvictionRunsMillis" value="60000"/>
+	<property name="minEvictableIdleTimeMillis" value="300000"/>
+	<property name="filters" value="stat"/>
+</bean>
+
+<!-- 从库 -->
+<bean id="slaveDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+	<property name="url" value="${jdbc.slave.url}"/>
+	<property name="username" value="${jdbc.slave.username}"/>
+	<property name="password" value="${jdbc.slave.password}"/>
+	<property name="driverClassName" value="${jdbc.slave.driver}"/>
+	<property name="initialSize" value="${jdbc.slave.pool.initialSize}"/>
+	<property name="maxActive" value="${jdbc.slave.pool.maxActive}"/>
+	<property name="maxWait" value="60000"/>
+	<property name="timeBetweenEvictionRunsMillis" value="60000"/>
+	<property name="minEvictableIdleTimeMillis" value="300000"/>
+	<property name="filters" value="stat"/>
+</bean>
+
+
+<bean id="dataSource" class="com.tedi.zhsq.manager.web.datasource.DynamicDataSource">
+	<!-- 设置多个数据源 -->
+	<property name="targetDataSources">
+		<map key-type="java.lang.String">
+			<!-- 这个key需要和'DynamicDataSourceHolder'中的key一致 -->
+			<entry key="master" value-ref="masterDataSource"/>
+			<entry key="slave" value-ref="slaveDataSource"/>
+		</map>
+	</property>
+	<!-- 设置默认的数据源，这里默认写库 -->
+	<property name="defaultTargetDataSource" ref="masterDataSource"/>
+</bean>

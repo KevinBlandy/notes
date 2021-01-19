@@ -1,0 +1,51 @@
+国际化
+   其实国际化就是可以把页面的中文变成英文。
+
+   把语言相关的所有字符串都要写成变量
+
+   
+涉及到的JAVA类库
+ Locale
+    new Locale("zh","CN");
+    Locale.getDefault();
+    Locale.US();
+
+ ResourceBundle
+  应用程序使用这个类来加载资源文件中的其中一个！
+  是通过给这个类的Locale来决定的！
+  如果是中文,那么就加载中文文件。如果是英文,就加载英文文件
+  
+  资源文件名称的格式:基本名称 + Locale部分 + 扩展名
+  所有的资源文件的基本名称要相同,不同之处,就是 Locale部分
+  res_en_US.properties
+  res_zh_CN.proprtties
+例子
+public static void main(String[] args)
+{
+   //手动创建了一个中文的Locale(实际项目中会从请求者那里得到)
+   Locale locale = Locale.CHINA;
+   //获取对象.第一个参数不能乱写。必须是基本名称
+   //第二个就是Locale
+   ResourceBundle rb = ResourceBundle.getBundle("res",locale);
+   //这就是获取资源文件中userName的资源！因为Locale是中文,所以加载出来的东西就是中文.如果Locale是英文,那么加载出来就是的英文
+   System.out.println(rb.getString("userName"));
+}
+
+Http请求头中
+Accept-Language:zn-CH,en-US;q=0.5	
+   第一语言是zn-CH,备用语言是en-US
+
+Locale locale = request.getLocale();//返回的就是zn-CH的Locale对象,是由客户端提供的
+//根据客户端的语言环境来创建加载文件的对象
+ResourceBundle rb = ResourceBundle.getBundle("res",locale);
+//这就是获取资源文件中userName的资源！因为Locale是中文,所以加载出来的东西就是中文.如果Locale是英文,那么加载出来就是的英文
+System.out.println(rb.getString("userName"));//打印出来的就是：用户名
+
+
+获取所有支持的国家地区
+	Locale[] localeList = Locale.getAvailableLocales();
+	// 遍历数组的每个元素，依次获取所支持的国家和语言
+	for (int i = 0; i < localeList.length; i++) {
+	    // 打印出所支持的国家和语言
+	    System.out.println(localeList[i].getDisplayCountry() + "=" + localeList[i].getCountry() + " " + localeList[i].getDisplayLanguage() + "=" + localeList[i].getLanguage());
+	}

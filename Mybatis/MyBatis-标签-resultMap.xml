@@ -1,0 +1,143 @@
+--------------------------------
+resultMap						|
+--------------------------------
+	# 消息结果集的高级处理
+
+--------------------------------
+resultMap-属性						|
+--------------------------------
+	id	
+		# 唯一标识
+
+	type
+		# 最终结果类型
+
+	autoMapping
+		# 如果设置这个属性，MyBatis将会为这个ResultMap开启或者关闭自动映射。
+		# 这个属性会覆盖全局的属性autoMappingBehavior。默认值为：unset。
+
+--------------------------------
+resultMap-子标签				|
+--------------------------------
+	<id/>
+		# ID字段
+		# 属性
+			property	
+				* 映射到列结果的字段或属性。如果匹配的是存在的,和给定名称相同 的 JavaBeans 的属性,那么就会使用。
+				* 否则 MyBatis 将会寻找给定名称 property 的字段。
+				* 这两种情形你可以使用通常点式的复杂属性导航。比如,你 可以这样映射一些东西: "username",
+				* 或者映射到一些复杂的东西: "address.street.number"。
+
+			column	
+				* 从数据库中得到的列名,或者是列名的重命名标签。
+				* 这也是通常和会 传递给 resultSet.getString(columnName)方法参数中相同的字符串。
+
+			javaType	
+				* 一个 Java 类的完全限定名,或一个类型别名(参考上面内建类型别名 的列表) 。
+				* 如果你映射到一个 JavaBean,MyBatis 通常可以断定类型。
+				* 然而,如果你映射到的是 HashMap,那么你应该明确地指定 javaType 来保证所需的行为。
+
+			jdbcType	
+				* 在这个表格之后的所支持的 JDBC 类型列表中的类型。
+				* JDBC 类型是仅 仅需要对插入,更新和删除操作可能为空的列进行处理。
+				* 这是 JDBC jdbcType 的需要,而不是 MyBatis 的。如果你直接使用 JDBC 编程,你需要指定 这个类型-但仅仅对可能为空的值。
+
+			typeHandler
+				* 我们在前面讨论过默认的类型处理器。使用这个属性,你可以覆盖默 认的类型处理器。
+				* 这个属性值是类的完全限定名或者是一个类型处理 器的实现,或者是类型别名。
+
+
+	<result/>
+		# 普通字段
+		# 属性同上
+	
+	<constructor>
+		# 配置构造器
+		# 子标签
+			<idArg column="id" javaType="int"/>
+				# 构造器参数中如果有ID属性,使用 idArg
+			<arg column="username" javaType="String"/>
+			<arg column="age" javaType="_int"/>
+				# 构造参数中的普通属性用 arg
+	
+
+	<association>
+		# 一对一的构造
+		# 属性
+			columnPrefix
+				* DB字段的 前缀
+			resultMap
+				* 结果集映射
+			select
+				* 可以指定SQL语句或者namespace的检索
+
+	<collection>
+		# 一对多的构造
+		# 属性
+			columnPrefix
+				* DB字段的 前缀
+			resultMap
+				* 结果集映射
+			select
+				* 可以指定SQL语句或者namespace的检索
+
+	<discriminator>
+		# 根据指定字段的值来决定使用哪个 resultType / resultMap 中属性进行映射
+		# 属性
+			javaType
+				* Java的类型
+			column		
+				* 字段
+		# 子标签
+			<case value="1" resultType="DraftPost"/>
+				# 属性
+					value		:指定值
+					resultType	:指定 resultType
+					resultMap	:指定 resultMap
+
+	
+
+<resultMap id="detailedBlogResultMap" type="Blog">
+	<constructor>
+		<idArg column="blog_id" javaType="int"/>
+	</constructor>
+
+	<result property="title" column="blog_title"/>
+
+	<association property="author" javaType="Author">
+		<id property="id" column="author_id"/>
+		<result property="username" column="author_username"/>
+		<result property="password" column="author_password"/>
+		<result property="email" column="author_email"/>
+		<result property="bio" column="author_bio"/>
+		<result property="favouriteSection" column="author_favourite_section"/>
+	</association>
+
+	<collection property="posts" ofType="Post">
+		<id property="id" column="post_id"/>
+		<result property="subject" column="post_subject"/>
+		<association property="author" javaType="Author"/>
+
+		<collection property="comments" ofType="Comment">
+			<id property="id" column="comment_id"/>
+		</collection>
+
+		<collection property="tags" ofType="Tag" >
+			<id property="id" column="tag_id"/>
+		</collection>
+		
+		<!--
+			根据指定字段的值来决定使用哪个 resultType 
+			javaType:Java的类型
+			column	:字段
+			case
+				* case语句
+				value		:指定值
+				resultType	:指定 resultType
+		-->
+		<discriminator javaType="int" column="draft">
+			<case value="1" resultType="DraftPost"/>
+		</discriminator>
+	</collection>
+</resultMap>
+

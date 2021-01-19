@@ -1,0 +1,127 @@
+————————————————————————————
+一,Hibernat映射文件配置		|
+————————————————————————————
+	映射基础
+	对JavaBean的要求(* 代表强制要求)
+	* 要求符合javaBean规范,提供无参构造方法,以及get/set方法
+	* 提供标志属性,通常映射为数据库表的主键
+		> OID 为了在系统中找到所需对象,需要为每一个对象分配一个唯一的标志号,在关系型数据库中称之为主键,而在对象术语中,则叫做对象标志(Object identifier-OID)
+	* 为持久化的类的字段声明访问方法,其实就是get/set方法
+	不能用final修饰
+		> 在运行的时候,生成代理,是Hibernate的一个重要的功能,如果持久化类没有实现任何借口,Hinernate会使用CGLIB生成代理,如果使用的final类,则无法生成CGLIB代理
+		> 会影响到懒加载的功能,如果你不需要懒加载,那你加上final没关系
+	重写eqauls()以及hashCode(),主要是为了以后,需要把对象放置到Set集合中
+
+	对象/关系数据库映射文件(XXX.hbm.xml)
+		> Hibernat采用XML格式的文件来制定对象和关系数据之间的映射,在运行时候Hibernate根据这个映射文件来生成各种SQL语句!
+		> 映射文件的后缀为:Class类名.hbm.xml
+		> 一般是一个对象.一个xml配置文件.虽然可以在一个配置文件中写入多个<class>标签
+	* 要正确的表达出全部的信息,即,看到xml就知道表结构
+
+————————————————————————————
+二,Hibernat映射文件配置大概	|
+————————————————————————————
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- 该类所在的包的全路径 auto-import:是否自动导包,在HQL查询语句的时候会关系到,false,那么就必须给出全限定名,为true,就可以在HQL语句中写简单名称-->
+<hibernate-mapping package="com.kevin.domain" auto-import="false">
+	<!-- 
+		name:哪个类,如果根元素没有写出package属性,那么这里的name属性就要给出全限定名
+		table:该类对应的表名,该属性可以省略,默认的表名就是类的简单名称
+		lazy:是否支持懒加载!默认就是true,如果不让其支持的话,修改为false即可
+	-->
+    <class name="User" table="user" lazy="true">
+		<!--  
+			id元素代表主键的映射,普通属性用property,主键用id,记着啊
+			name:就是javaBean中主键的属性
+			type:属性的数据类型,推荐使用hibernate的数据类型
+			column:对应表中的列名
+			length:可以手动的设置字段的长度,不设置就是最大长度
+		-->
+        <id name="id" type="int" column="id" length="10">
+			<!--    
+				generator,是主键的子元素,用于指定主键生成策略,也就是你的主键是怎么来的(数据库生成/程序生成)
+				class 属性值-------------------------------------------------------------------
+				assigned:表示主键是程序指定,如果在插入数据的时候,主键为空!抛出异常,主键与其他主键冲突,抛出异常
+				native  :并非是某种主键生成策略,而是根据底层数据库的情况由框架选择,如果你使用的数据库支持哪个,就使用哪个!
+					> 手动设置不会抛出异常,但是无效!(默认)
+				foreign	:外键,比较复杂的东西,在[(复杂)映射文件详解.xml中有详细笔记]
+				identity:使用数据库自己的主键生成策略(MYSQL-自动增长,),也是适用于int/long/short类型字段
+					> 使用的自动增长策略,不是所有数据库都支持,比如Oracle就不支持
+					> 手动设置不会抛出异常,但是无效(怎么跟native一样)
+				sequence:使用数据库自己的主键生成策略(可以应用在Oracle,不能应用在MySQL)也是int/long/short
+				increment:这个是由Hibernate,在插入数据的时候会先查询出该表中的最大主键值,进行加一后插入给新添加的数据
+					> 但是,这个有线程安全问题,如果多个线程同时查询,那么查询出来的结果都一样,那么插入里面数据就会有问题,
+					> 不推荐使用,在多线程的进行并发访问且,进行修改的时候,就有可能会出现问题.而且只适合于short/int/lang等类型
+				hilo	:使用高低位算法,来进行主键的设置
+					> 下面直接给演示,比较复杂的一个东西
+					> 只要求给一张额外的表,所有的数据库都支持
+				uuid	:这个东西不多说,用得比较多,唯一要注意的就是要把主键的数据类型修改一下,为varchar(32)
+					> 数据库生成的主键全是小写,而且没有横杠
+			-->
+            <generator class="native"/>
+			<!-- 高低位算法的演示,注意,一个id标签中,只能有一个generator子元素存在,这里仅仅是为了做演示 -->
+			<generator class="hilo">
+				<param name="table">hi_value</param>
+				<param name="column">next_value</param>
+				<param name="max_lo">100</param>
+			</generator>
+        </id>
+		<!--
+			普通的属性:就是在数据库中一个列能存储的属性
+			name:对象中的属性名
+				> 这是必须给出的一个属性,就是javaBean的属名
+				> 这个命名,如果使用了SQL的关键字,那么必须给出写出column的属性,且该属性值不能是SQL的关键字
+			type:类型,如果不写,框架会自动检测.
+				> 这个是既是表字段的类型,也是javaBean的类型,有两种写法
+				> 可以写java中的全类名:java.lang.String
+				> 也可以写hibernate定义类型:string
+				> 具体数据类型参阅(Hibernate映射类型笔记)
+			column:对应表中的列名,如果没写,默认的就是name(属性名称)
+			length:只对有长度的字段有意义,例如:varchar,如果不写,默认为255
+				> 当type使用text,等这种大数据文本类型的时候,就建议给出长度!
+				> 当使用二进制数据类型的时候,也要指出长度,例如下面的pic
+			not-null:非空约束,默认为fasle
+		-->
+        <property name="name" type="string" column="name" length="20" not-null="true"/>
+		<property name="age" type="int" column="age" length="2"/>
+		<property name="birthday" type="date" column="birthday"/>			
+		<property name="photo" type="binary" column="pic" length="1048576"/><!--  1MB的二进制数据 -->
+		<property name="remark" type="text" column="remark" length="5000"/>	<!-- 大字段的文字数据 -->
+		<!-- 
+			普通属性的第二种表现形式,用得很少,能看懂就好!建议还是使用上面的方式
+		-->
+		<property name="属性名">
+			<column name="字段名" sql-type="具体数据库类型" length="长度"/>
+		</property>
+    </class>
+</hibernate-mapping>
+————————————————————————————
+三,Hibernat复合主键(了解)	|
+————————————————————————————
+		* 复合主键,这个东西比较复杂.
+		* 首先要求javaBean实现序列化接口:Serizeable(好像写错了.. ...)
+		* 使用<composite>标签来进行配置
+		* 可以配置多个字段,来组合成一条字段的情况
+		<class>
+	   		<composite-id></composite-id>
+			...
+		</class>
+
+————————————————————————————
+四,配置关联关系				|
+————————————————————————————
+	* 这东西比较的复杂,多对多,多对一,一对一,一对多!需要单独讲解
+
+————————————————————————————
+五,预定义SQL				|
+————————————————————————————
+	命名:sql
+	* 在映射配置文件的根标签下配置
+		<query name="findAll">FROM Customer</query>
+		* 配置的是HQL查询语句.在DAO中进行操作的时候可以不用手写查询语句,直接从配置文件获取
+		<sql-query name="findAll">select * from customer</sql-query>
+		* 配置的是SQL查询语句.在DAO中进行曹组的时候可以不用手写,直接从配置文件获取
+	

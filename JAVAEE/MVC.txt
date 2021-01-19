@@ -1,0 +1,15 @@
+MVC设计模式
+	(Model-Vlew-Controller)
+		MVC是软件工程中的一种软件架构模式,把软件系统分为三个基本部分
+	模型(Model)
+	视图(Vlew)
+	控制器(Controller)
+
+--
+JAVA & MVC
+	MVC并不是JAVA独有,几乎所有的B/S结构的项目都在使用它
+	
+M ---- 模型(Model)得自己敲代码
+V ---- 视图(Vlew)其实就是JSP
+C ---- 控制器(controller)其实就是Servlet
+

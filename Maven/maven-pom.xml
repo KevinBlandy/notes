@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!-- 项目坐标 -->
+	<groupId>项目名称</groupI>
+	<artifactId>模块的名称</artifactId>
+	<version>版本号</version>
+	<dependencies>
+		<!--
+			依赖的jar包
+		-->
+		<dependency>
+			<groupId>com.zhiku</groupId>
+			<artifactId>anywhere-web</artifactId>
+			<version>${anywhere.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.zhiku</groupId>
+			<artifactId>anywhere-web</artifactId>
+			<scope>test</scope>
+			<!--依赖排除 
+				就是不要这个依赖中的指定依赖
+			-->
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+</project>

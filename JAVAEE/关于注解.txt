@@ -1,0 +1,141 @@
+1,注解
+	语法:@注解名称
+	作用:替代配置文件(例如xml)
+	     * Servlet3.0中就可以不再使用web.xml文件,而是所有配置都使用注解
+	注解是由框架来读取使用的
+
+2,注解的使用
+	* 定义注解类(框架的工作)
+	* 使用注解(我们的工作)
+	* 读取注解(框架的工作,反射)
+
+3,定义注解类
+	class A{}//定义类
+	interface A{}//定义接口
+	enmu A{}//枚举类
+	@interface A{}//定义注解   
+		天下所有的注解都是Annotation(接口)的子类
+----------------------------------------------
+@MyAnno1
+public class Demo
+{
+	@MyAnno1
+	private static String name;
+	@MyAnno1
+	public Demo(){}
+	@MyAnno1
+	public static void main(String[] args)
+	{
+		
+	}
+	public static void test(@MyAnno1 String name)
+	{
+		@MyAnno1
+		String userName = "test";
+		//这里不能放咯-----@MyAnno1
+		System.out.println("hello");
+	}
+}
+/**
+ * 注解,天下所有的注解都是Annotation的子类
+ * */
+@interface MyAnno1
+{
+	
+}
+----------------------------------------------
+4,使用注解
+   注解的作用目标:
+	* 类(接口,枚举)
+	* 方法
+	* 构造器
+	* 参数
+	* 局部变量
+	* 包(要通过反射来,直接放要挂彩)
+
+
+5,注解的属性
+	* 定义属性
+	   > 格式:类型 属性名();
+	   > 例如:
+	   @interface MyAnno1
+	   {
+		int age();
+		String nage(); 
+	   }
+	* 使用注解时给属性赋值
+	   > 格式:@MyAnno1(age = 100, name = "Kevin")
+	* 注解属性的默认值(在定义注解的时候,可以给注解指定默认值)
+	   > 有默认值的时候再次进行赋值,那么就覆盖默认值
+	   > 例如:
+	   @interface MyAnno1
+	   {
+		int age() default 100;
+		String nage() default "Kevin"; 
+	   } 
+	* 名为value的属性特权
+	   > 使用注解时,如果你的属性名称叫做value,并且你只有一个value属性必须被赋值时候那么可以省略value=,直接进行赋值
+	   > 例如:
+	   @MyAnno1(1000)
+	* 注解属性的类型
+	   > 八大基本数据类型
+	   > String
+	   > Enum
+	   > Class
+	   > 可以是注解类型(注解类型里面类型就是另一个注解)
+	   > 以上类型的一维数组类型(基本数据类型的包装类型也不能用)
+	   定义演示:
+	   @interface MyAnno1
+	   {
+		int a();
+		String b();
+		MyEnum c();
+		Class d();
+		MyAnno2 e();
+		String[] f();
+				//以上类型的一维数组,可以使用,基本数据的包装类不能用,
+				//但数组类型的属性赋值的时候,若数组元素的个数为1时,可以省略大括号
+	   }
+	   赋值演示:
+	   @MyAnno1(
+	   a = 100,
+	   b = "kevin",
+	   c = MyEnum.A,
+	   d = String.class,
+	   e = @MyAnno2(a=10,b="MyAnno2的b属性"),
+	   f = {"1","2"}
+	   )
+
+===========注解的作用目标限定,和注解的保留策略限定
+作用目标的限定
+	让一个注解的作用目标只能在做某个地方(例如:只能在类上,不能在方法上)
+	* 在定义注解的时候,给注解类添加注解-- @Target
+	@Target(value = { ElementType.TYPE, ElementType.METHOD})
+	其中ElementType是一个枚举类,我们通过给Target的value属性赋值来限定这个注解可以作用在哪些地方
+	其实这个value=是可以省略不写的
+	@Target(ElementType.METHOD)//这个就注解就只能作用在方法上
+	例如:
+	@Target(value = { ElementType.METHOD })
+	@interface MyAnno1
+	{
+		int age() default 100;
+		String nage() default "Kevin"; 
+	}
+保留策略
+三种保留策略
+	* 源代码(SOURCE):注解只在源代码中存在,当编译时就被忽略了！这种注解不能被反射
+	* 字节码文件(class)(CLASS):注解在源码中存在,编译的时候会把注解信息放到class文件,但JVM在加载类文件的时候会忽略注解
+	* JVM中(虚拟机)(RUNTIME):注释在源码,字节码中都存在,并且在JVM加载类的时候,会把注释加载到JVM内存中(唯一可以被反射的注解)
+	> 唯一可以被反射的注解,我们以后都得写这个
+
+	限定注解的保留策略
+	在注解类的头部加上@Retention
+	例如:
+	@Retention(RetentionPolicy.RUNTIME)
+	@interface MyAnno1
+	{
+		int age() default 100;
+		String nage() default "Kevin"; 
+	}
+	> RetentionPolicy也是一个枚举类型,通过它的枚举对象来限定注解的保留策略
+	> 我们选择的保留策略也就是这一个了@Retention(RetentionPolicy.RUNTIME)

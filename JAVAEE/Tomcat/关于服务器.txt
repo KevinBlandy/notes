@@ -1,0 +1,13 @@
+服务器
+Tomcat---Apache
+	是当前应用最广泛的JAVAWEB服务器。支持Servlet规范。不支持JAVAEE规范
+JBOSS---Redhat(红帽)
+	支持JAVAEE规范、应用比较广。支持JAVAEE规范的都是，EJB容器！重量级。索性不学。ssh替代EJB！
+GlassFish--Oracle
+	甲骨文开发的JAVAWEB服务器，应用不是很广泛
+Resin--Caucho
+	支持JAVAEE。应用逐渐广泛
+Weblogic--Orcale
+	要钱的！支持JAVAEE。适合大型项目
+Websphere--IBM
+	要钱的！支持JAVAEE。适合大型项目

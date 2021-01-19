@@ -1,0 +1,129 @@
+————————————————————————————
+一,一对一映射基于外键		|
+————————————————————————————
+	这东西没意思,很少使用到.如果真的是一对一的关系.直接一张表搞定!多加一个字段而已!
+
+一对一关系
+	妻子-丈夫
+	人  -身份证
+	员工 - 账号
+--实现一对一的两个必要的条件:一,外键,二,唯一约束
+第一种方式,基外键
+person			idcard
+id   name		id number pid(unique="true")//唯一约束
+1    Kevin		1  10000  1
+2    Rocco		2  10001  2
+3    Litch		3  10003  1×	,有唯一约束,pid,不能重复所以出错
+第二种方式,基于主键
+---------------太复杂,看下面的这个
+person			idcard
+id(PK)	name		id(FK)	number
+	--> 直接让idcard的id字段作为主键,兼外键引用person的id主键这样就保证了idcard的id唯一且不能重复
+---------------------------------------------------------
+<!-- 会员表映射文件 -->
+<hibernate-mapping package="com.kevin.domain">
+    <class name="Person" table="person">
+        <id name="id" type="string" column="pid" length="32">
+            <generator class="assigned"/>
+        </id>
+        <property name="name" type="string" column="name" length="20"/>
+        <!--一对一映射配置,基于外键的一对一映射方法 (会员方,无需外键)
+        	property-ref:
+        		> 对方类,映射本类的属性名!
+        		* 就是本类对象,在对方类(class属性)中的属性名称
+         -->
+         <one-to-one name="idCard" class="IdCard" property-ref="person"/>
+    </class>
+</hibernate-mapping>
+-------------------------------
+<!-- IdCard映射文件 -->
+<hibernate-mapping package="com.kevin.domain">
+    <class name="IdCard" table="idcard">
+        <id name="id" type="string" column="iid" length="32">
+            <generator class="assigned"/>
+        </id>
+        <property name="number" type="string" column="number" length="64"/>
+        <!--采用基于外键的方式,映射一对一 
+       		many-to-one:表示本类的一个属性,引用的其他表
+       		class:这个属性的类型
+       		column:引用的是其他表中的哪个键(主键)
+       		unique:不允许重复
+         -->
+         <many-to-one name="person" class="Person" column="pid" unique="true">
+         	
+         </many-to-one>
+    </class>
+</hibernate-mapping>
+
+总结:
+有外键方:<many-to-one name="" class="" column="" unique="true"/>
+无外键方:<onto-to-one name="" class="" property-ref=""/>
+	> 只有外键方,可以维护关联关系
+----------------------------------
+"在一对一的时候,只有有外键方能维护关系",无外键方是不能维护关系的！
+例如上面的例子,idcard的对象setPerson(null);那么就会把idcard表中的pid设置为null
+但是,person对象,setIdCard(null)是不起作用的!因为,person没有外键
+...
+
+————————————————————————————
+二,一对一映射基于主键		|
+————————————————————————————
+第二种方式,基于主键
+---------------太复杂,看下面的这个
+person			idcard
+id(PK)	name		id(FK)	number
+	--> 直接让idcard的id字段作为主键,兼外键引用person的id主键这样就保证了idcard的id唯一且不能重复
+---------------------------------------------------------
+<!-- IdCard映射文件 -->
+<hibernate-mapping package="com.kevin.domain">
+    <class name="IdCard" table="idcard">
+        <id name="id" type="string" column="iid" length="32">
+        	<!--
+        	 当使用基于主键的一对一映射的时候,有外键方的主键生成策略,一定要是foregin形式
+        	 property:生成主键值时,所根据的对象
+        	 -->
+            <generator class="foreign">
+            	<param name="property">person</param>
+            </generator>
+        </id>
+        <property name="number" type="string" column="number" length="64"/>
+        <!--采用基于主键方法,一对一映射,本方有外键  简直就
+		
+         -->
+         <one-to-one name="person" class="Person" constrained="true"/>
+    </class>
+</hibernate-mapping>
+---------------------------------------------------------------
+<!-- 会员表映射文件 -->
+<hibernate-mapping package="com.kevin.domain">
+    <class name="Person" table="person">
+        <id name="id" type="string" column="pid" length="32">
+            <generator class="assigned"/>
+        </id>
+        <property name="name" type="string" column="name" length="20"/>
+        <!--一对一映射配置,基于主键的方式
+        	采用基于主键的一对一映射,本方无外键
+         -->
+         <one-to-one name="idCard" class="IdCard" />
+    </class>
+</hibernate-mappin>
+总结
+有外键方:<one-to-one.../>
+无外键方:<one-to-one.../>
+	> 双方都不可以维护关系
+-----------------------------------------------------
+解除关联关系:
+	使用基于主键的一对一映射方式中,双方都不可以解除关联关系!
+删除时
+	1,如没有关联性的对方,直接删除
+	2,如果有关联的对象,且可以维护关联关系(有外键方),它就会先删除关联关系,再删除自己
+	3,如果有关联的对象,因为会直接删除自己,(无外键方就会有异常)就会有异常
+
+
+
+
+头部DTD文件
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">

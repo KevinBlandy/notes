@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8">
+<beans>
+	<bean id="demo" className="com.kevin.demo">
+		<property name="name" value="kevin"/>
+		<property name="age" value="21"/>
+		<property name="gender" value="男"/>
+		<property name="mail" value="747692844@qq.com"/>
+	</bean id="test" className="com.kevin.test">
+		<property name="name" value="kevin"/>
+		<property name="name" value="kevin"/>
+		<property name="name" ref="demo"/>	<!-- 引用了demo ref的值只能是某个bean的ID -->
+	<bean>
+	</bean>
+</beans>

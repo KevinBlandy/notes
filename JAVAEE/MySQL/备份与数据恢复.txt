@@ -1,0 +1,24 @@
+备份与恢复
+1,数据库导出SQL脚本
+   > mysqldump -u用户名 -p密码 数据库名>生成的脚本文件路径
+   > 例如:mysql -uroot -proot demo>c:\mysql.sql (与mysql.exe和mysqlid.exe一样,都在bin目录下)
+	--备份数据库内容,并不是备份数据库
+   > 注意,结尾不要打分号,不要登录mysql,直接在CMD下运行
+   > 注意,生成的脚本文件中不包含create database语句
+2,执行SQL脚本
+   第一种方式
+   > mysql -u用户名 -p密码 数据库<脚本文件路径
+   > 例如
+     * 先删除demo数据库,再重新创建demo数据库
+     * mysql -uroot -proot demo<c:\demo.sql
+   > 注意,结尾不要打分号,不要登录mysql直接在CMD下运行
+   第二种方式
+   > 登录mysql
+   > source SQL脚本路径
+   > 例如:
+      * 先删除demo数据库,再重新创建demo数据库
+      * 切花到demo数据库
+      * source c:\demmo.sql
+
+数据库--->sql:备份
+sql--->数据库:恢复

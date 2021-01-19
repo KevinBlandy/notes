@@ -1,0 +1,50 @@
+获取类路径下的资源(文件)。
+类路径对一个WEB项目而言！其实就是
+/WEB-INF/classes
+/WEB-INF/lib/每个jar包
+--------------------------------------------
+Class
+
+ClassLoader
+--------------------------------------------
+1,得到ClassLoader
+	>先得到Class,再通过得到ClassLoader
+2,调用其getResourceAsStream();,得到一个InputStream。
+
+
+ClassLoader c = this.getClass().getClassLoader();
+InputStream in = c.getResourceAsStream("a.txt");
+	|--a.txt文件相对于这个class文件所在的目录
+Class c = this.getClass();
+InputStream in = c.getResourceAsStream("com/kevin/a.txt");
+	|--a.txt文件相对于classes目录
+
+----------------总结
+目录表示形式
+a.txt
+	相对于class文件目录
+/a.txt
+	相对于classes下
+com.kevin.a.txt
+	相对于classes
+
+前面加斜线的问题！如果没加斜线。
+--------------------------
+* web.xml中<url-pattern>路径(Servlet路径)
+	>要么以"*"开头,要么以"/"开头
+* 转发和包含路径
+	>以"/"开头,相对路径项目.例如:http://localhost:8080/项目名/
+	>不是以"/"开头,绝对当前的servlet路径
+*重定向路径(客户端路径)
+	>以"/"开头:相对当前主机,例如:http://localhost:8080/  所以需要自己手动添加项目名
+*页面中超链接和表单路径
+	>与重定向相同,都是客户端路径!需要添加项目名.
+*ServetContext获取资源路径
+	>相对于当前项目目录,即当前index.jsp所在的目录
+*ClassLoader获取资源路径
+	>相对于classes目录
+	>它获取资源的时候不能以"/"开头。
+*Class获取资源路径
+	>以"/"开头相遇classes目录
+	>不以"/"开头相对于当前.class文件所在目录
+

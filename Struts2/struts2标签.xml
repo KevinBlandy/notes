@@ -1,0 +1,66 @@
+————————————————————————————————
+1,struts2标签					|
+————————————————————————————————
+	> 在stuts2的doc目录下
+	> struts2中的标签分为两种
+	1,Generlc Tags
+		> 逻辑标签
+		* 完成功能
+	2,UI Tags
+		> Form Tage	
+			* 表单标签
+		> Nom-form UI Tags
+			* 
+		> Ajax Tags
+			* Ajax
+	
+
+	> 要想使struts2的UI标签生效,必须要配置前端控制器Filter
+	> stuts2,UI都是带有默认的主题(xhtml)的!非常恶心!
+		* 是freemark做的!
+
+	[不让默认的主题生效]
+	<constant name="struts.ui.theme" value="simple"></constant>
+	* 不会添加任何主题修饰
+	三种方式
+	1,全局
+		在struts.xml中配置上面那个常量,整个项目的主题都是由我们自己指定的
+	2,局部
+		在JSP的页面上.表单项上的<s:form>有个属性.theme="simple"
+		* 那么就只是该表单不会是默认的视觉主题
+	3,局部的局部
+		* 在表单中,针对于某个组建去指定它的主题
+		* 在表单所有的组件中,它们都有一个属性.就是:theme,用于指定主题
+
+	
+	[struts中的密码框架]
+		* 默认是不回显
+		* 有个:showPassword属性,才能回显
+
+
+————————————————————————————————
+二,struts2常用标签				|
+————————————————————————————————
+<%@ taglib prefix="s" uri="/struts-tags"%>	
+
+<s:property/>
+	* 它是一个输出标签,有以下属性
+	* value=""
+	* 如果value属性没有声明,那么默认输出栈顶的元素
+	* 如果目标是在对象桟中,那么直接指定属性.
+	* 如果目标是在 Map桟中,那么前面加上#号.
+	
+<s:iterator/>
+	* 它是一个迭代标签,用于迭代集合.有以下属性
+	* value=""
+	* 如果被迭代的目标对象在栈顶,那么一定不能写value属性!
+	* 当前正在迭代的元素,在栈顶
+		
+
+	* 从context域中取出数据(map结构),组成一个checkbok,map的value就是checkbok的value!
+		ActionContext.getContext().getContextMap().put("privilegeMap",Constant.PRIVILEGE_MAP);
+		<s:checkboxlist list="#privilegeMap" name="privilegeIds">	<%--接收一个集合 --%>
+			
+		</s:checkboxlist>
+
+		纳税服务  在线学习  后勤服务  我的空间  行政管理

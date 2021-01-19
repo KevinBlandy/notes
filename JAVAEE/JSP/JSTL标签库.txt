@@ -1,0 +1,201 @@
+1,什么是JSTL
+   *  JSTL是EL表达式的扩展。也就是说JSTL依赖于EL.JSTL是标签语言。
+   JSTL使用起来比较方便，它与JSP动作标签一定.只不过它不是JSP内置标签.需要我们自己导包。
+   以及指定标签库而已！
+   *  如果使用MyEclipse开发JAVAWEB.那么在把项目发布到Tomcat时。您会发现。MyEclipse会在
+   lib 目录下存放JSTL的jar包。如果你没有使用这个IDE。那么需要自己来导入这个JSTL的jar包:jstl-1.2.jar
+
+概述
+   * apache的东西,依赖EL
+   * 使用JSTL需要导入jstl1.2.jar
+
+2,JSTL标签库
+   JSTL一共包含四大标准库
+   * core:核心标签库(重点掌握)
+   * fmt:格式化标签库(学习其中两个)
+	> 日期,数字
+   * sql:数据库标签库,过时不需要学
+   * xml:xml标签库,不需要学习，过时
+
+3,导入标签
+   * jar包
+   * 在JSP页面中:<%@taglib prefix="前缀" uri="路径"%>
+-----------------------------------------------------------------------------------------------------------------------
+
+core  -- 核心标签库(C标签,习惯性用C来做前缀)*******************************************************************
+1,out
+   * <c:out/>:输出字符串
+   > value:可以是字符串常量,也可以是EL表达式
+   > default:当要输出的内容为null时,会输出default指定的值
+   > escapeXaml:默认为true,表示是否转义(javascript攻击)
+	--  <c:out value="${requestScope.code }" escapeXml="false" />
+	    如果request域中的code是个javaScript脚本,那么它就会在打开网页的时候执行
+2,set
+   * <c:set/>:创建域的属性
+   > <c:set var="name" value="value"/>:默认在pageContext域中存储值
+   > <c:set var="nane" value="value" scope="指定域">:往指定域中存储值
+   > var:变量名
+   > value:变量值,可以是EL表达式
+   > scope:域,默认是page.可以选四大域
+   	<c:set var="code" value="余文朋" scope="session" /><br/>
+	<c:out value="${sessionScope.code }" /><br/>
+3,remove
+   * <c:remove/>:删除域变量.
+   > var:"变量名"
+   > scope:如果不给出scope就表示删除所有域中的指定名称的变量。
+4,url
+   * value:指定一个路径,它会在路径前面自动添加项目名(必须以斜杠开头)
+   <> <c:url value="/index.jsp"/>:它会输出/MyWeb/index.jsp
+   * 子元素:<c:param>用来给url后面添加参数
+	   <> <c:url value="/index.jsp">
+		<c:param name="username" value="Kevin"/>
+	      </c:url>
+   <!--结果为:/MyWeb/index.jsp?username=%ED%D433FF-->
+    总结:可以对参数进行url编码(如果是中文)
+   * var:指定变量名,一旦添加了这个属性。那么url就不会再输出到页面。而是把生成的URL保存到指定的域中
+   * scope:它与var一起使用,用来保存url.
+5,if	JAVASE中的简单if语句
+   * test:此属性的表达式必须是boolean值
+   <> <c:set var="a" value="hello"/><!--在page域中创建名为a的变量-->
+
+      <c:if test="${not empty a }"><!--判断a是否为空,没有指定域,就是全域判断-->
+	<c:out value="${a }"/> <!-- 当test表达式为true的时,执行该语句 -->
+      </c:/if>
+    * 对应java中的if语句 
+    > <c:if test="布尔类型">...</c:/if>:当test为true时，执行标签体中的内容
+    --- 这个标签没有else if
+6,choose
+    * choose:它对应JAVA中的if/else if/ .../else
+    <>例如
+	<c:choose>
+	<c:when test="boolean表达式">执行语句</c:when>
+	<c:when test="boolean表达式">执行语句</c:when>
+	<c:when test="boolean表达式">执行语句</c:when>
+	...
+	<c:otherwise>执行语句</c:otherwise>
+	</c:choose>
+    等同于
+    if(...){
+    }else if(){
+    }else if(){
+    }else if(){
+    }...
+    else{.....}
+
+7,forEach
+   * 用来循环遍历数组集合,还可以计数方式进行循环(for循环)
+	   计数方式
+	   <c:forEach var="i" begin="1" end="10">
+		${i}	<!--从0开始,到10结束包含10-->
+	   </c:forEach>
+   熟悉介绍:
+	   * var:循环变量
+	   * begin:设置循环变量从几开始
+	   * end:设置循环变量到几结束
+	   * step:设置步长(等同于java中的i++ step默认为1)
+	   用来输出数组,集合
+   <c:forEach items="${array }" var="value"><!--items表达式中是没有空格的-->
+		${value }
+	   </c:forEach>
+	   ----等同于JAVASE中
+	   for(String str : arrays)
+	   {
+		...
+	   }
+	   * items:指定要遍历的是谁(可以是数组,或者集合)
+	   * var:把集合中的每个元素赋值给var指定的变量
+	   * 
+   循环状态
+		循环状态其实是一个变量,可以使用varStatus来创建循环状态变量
+	   <c:forEach varStatus="vs".../>此时就可以使vs这个变量来获取循环状态了
+	   *count:int类型,当前遍历元素的个数
+	   *index:int类型,当前元素的下标
+	   *first:boolean类型,是否为第一个元素
+	   *last:boolean类型,是否为最后一个元素
+	   *current:当前对象,其实就是var！
+   -------
+
+二,fmt(格式化库)*******************************************************************
+	也是需要taglib导入标签库
+   * 格式化时间
+   <%
+	Date d = new Date();
+	request.setAttribute("d",d);
+   %>
+   <fmt:formatDate value="${requestScope.d }" pattern="yyyy-MM-dd HH:mm:ss"/>
+   * 格式化数字
+   <%
+	double d1 = 3.5;
+	double d2 = 4.4;
+	pageContext.setAttribute("d1",d1);
+	pageContest.setAttribute("d2",d2);
+   %>
+   <fmt:formatNumber value="${d1 }" pattern="0.00"/><!--你写了几位,就非要显示几位，不足以0-补位-->
+   <fmt:formatNumber value="${d2 }" pattern="#.##"/><!--不补位-->
+   * value:指定Date类型的变量
+   * pattern:用来指定输出的模版
+   ------- 这两种种方式格式化数据如果超出位数就会产生四舍五入！
+>
+ ---核心库  
+<c:out>		用于在JSP中显示数据，就像<%= ... >
+<c:set>		用于保存数据
+<c:remove>	用于删除数据
+<c:catch>	用来处理产生错误的异常状况，并且将错误信息储存起来
+<c:if>		与我们在一般程序中用的if一样
+<c:choose>	本身只当做<c:when>和<c:otherwise>的父标签
+<c:when>	<c:choose>的子标签，用来判断条件是否成立
+<c:otherwise>	<c:choose>的子标签，接在<c:when>标签后，当<c:when>标签判断为false时被执行
+<c:import>	检索一个绝对或相对 URL，然后将其内容暴露给页面
+<c:forEach>	基础迭代标签，接受多种集合类型
+<c:forTokens>	根据指定的分隔符来分隔内容并迭代输出
+<c:param>	用来给包含或重定向的页面传递参数
+<c:redirect>	重定向至一个新的URL.
+<c:url>		使用可选的查询参数来创造一个URL
+ ---格式化
+<fmt:formatNumber>	使用指定的格式或精度格式化数字
+<fmt:parseNumber>	解析一个代表着数字，货币或百分比的字符串
+<fmt:formatDate>	使用指定的风格或模式格式化日期和时间
+<fmt:parseDate>		解析一个代表着日期或时间的字符串
+<fmt:bundle>		绑定资源
+<fmt:setLocale>		指定地区
+<fmt:setBundle>		绑定资源
+<fmt:timeZone>		指定时区
+<fmt:setTimeZone>	指定时区
+<fmt:message>		显示资源配置文件信息,国际化
+<fmt:requestEncoding>	设置request的字符编码
+ ---SQL
+<sql:setDataSource>	指定数据源
+<sql:query>		运行SQL查询语句
+<sql:update>		运行SQL更新语句
+<sql:param>		将SQL语句中的参数设为指定值
+<sql:dateParam>		将SQL语句中的日期参数设为指定的java.util.Date 对象值
+<sql:transaction>	在共享数据库连接中提供嵌套的数据库行为元素，将所有语句以一个事务的形式来运行
+ --XML
+<x:out>		与<%= ... >,类似，不过只用于XPath表达式
+<x:parse>	解析 XML 数据
+<x:set>		设置XPath表达式
+<x:if>		判断XPath表达式，若为真，则执行本体中的内容，否则跳过本体
+<x:forEach>	迭代XML文档中的节点
+<x:choose>	<x:when>和<x:otherwise>的父标签
+<x:when>	<x:choose>的子标签，用来进行条件判断
+<x:otherwise>	<x:choose>的子标签，当<x:when>判断为false时被执行
+<x:transform>	将XSL转换应用在XML文档中
+<x:param>	与<x:transform>共同使用，用于设置XSL样式表
+  
+ ---函数库(必须结合EL表达式使用,其实就是EL表达式)
+fn:contains()		测试输入的字符串是否包含指定的子串
+fn:containsIgnoreCase()	测试输入的字符串是否包含指定的子串，大小写不敏感
+fn:endsWith()		测试输入的字符串是否以指定的后缀结尾
+fn:escapeXml()		跳过可以作为XML标记的字符
+fn:indexOf()		返回指定字符串在输入字符串中出现的位置
+fn:join()		将数组中的元素合成一个字符串然后输出
+fn:length()		返回字符串长度
+fn:replace()		将输入字符串中指定的位置替换为指定的字符串然后返回
+fn:split()		将字符串用指定的分隔符分隔然后组成一个子字符串数组并返回
+fn:startsWith()		测试输入字符串是否以指定的前缀开始
+fn:substring()		返回字符串的子集
+fn:substringAfter()	返回字符串在指定子串之后的子集
+fn:substringBefore()	返回字符串在指定子串之前的子集
+fn:toLowerCase()	将字符串中的字符转为小写
+fn:toUpperCase()	将字符串中的字符转为大写
+fn:trim()		移除首位的空白符

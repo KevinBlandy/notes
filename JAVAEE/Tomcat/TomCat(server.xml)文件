@@ -1,0 +1,13 @@
+
+<Connector port="80" protocol="HTTP/1.1">
+	connectionTimeout="20000"
+	redirectPort="8443"/>
+Connector	  代表一个连接器
+
+port 	          代表这个连接器监听的端口
+
+protocol          代表通信协议
+
+connectionTimeout 代表超时时间
+
+redirectPort	   

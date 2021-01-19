@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 整合Spring的时候,会被移除 -->
+	<environments default="development">
+		<environment id="development">
+			<!-- 使用JDBC的事务,由MyBatis控制 -->
+			<transactionManager type="JDBC" />
+			<!-- 使用MyBatis连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost:3307/mybatis" />
+				<property name="username" value="root" />
+				<property name="password" value="root" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<!-- 加载单个映射文件 -->
+		<mapper resource="sqlmap/User.xml"/>
+		<mapper resource="mapper/UserMapper.xml"/>
+	</mappers>
+</configuration>
+
+-----------------------------------------------------
+该配置文件为MyBatis的全局配置文件,需要配置的内容如下(顺序有约束)
+	properties					[属性]
+	settings					[全局配置参数]
+	typeAliases					[别名]
+	typeHandlers				[类型处理器]
+	objectFactory				[对象工厂]
+	plugins						[插件]
+	environments				[环境集合属性对象]
+		environment				[环境子属性对象]
+			transactionManager	[事务管理]
+			dataSource			[数据源]
+	mappers[映射器]
+	
+
+1,引入外部文件配置
+	* 跟Spring引入外部的数据源数据一个德行,主要是不用在SqlMapConfig.xml里面对数据库属性值进行硬编码
+		<properties resource="db.properties"></properties>
+	* resource 指定资源文件的路径,默认是在classpath也就是src目录下!然后在xml中就可以使用 ${key} ,来获取配置文件中的value
+	* 这个标签更叼的是还可以在里面配置属性(而且这里的配置优先级比外面的配置更高,同名属性会优先引用此处的属性)
+		<properties resource="db.properties">
+			<property name="key" value="value"/>
+		</properties>
+	* 还可以添加url加载(引用本地磁盘的一些文件)
+		<properties resource="db.properties" url="">
+		</properties>
+	* 优先级别
+		1,在properties元素体内部定义的属性会首先被读取
+		2,然后读取在properties元素中,resource或者url加载的属性,会覆盖同名属性
+		3,最后读取parameterType传递的属性,它会覆盖已读取的同名属性
+		* select * from user where id=${name},这个name有可能会去properties标签中找... ... 
+
+		因此:通过parameterType传递的属性最有最高优先级,resource或url加载的属性次之,最低优先级是properties元素体内定义的属性
+		建议:不要再properties标签体内添加任何属性,只把属性定义在properties文件中,
+		     在properties文件中定义的属性名,要有一定的特殊性,例如:xxx.xxx.xxx
+
+2,全局的参数配置
+	MyBatis这个框架在运行的时候,有时候需要调整一些运行时的参数
+		* 例如:开启二级缓存,开启延迟加载.反转就是,需要的加不需要的别加.如果加得不对.会影响到系统的运行
+	需要的时候,自己去百度吧,东西多.懒得记载了
+
+3,别名的定义 常用
+	typeAliases(别名)
+	* 在mapper.xml中,定义很多的statement,statement需要parameterType指定输入参数的类型,还需要resultType来指定输出结果的类型
+		如果在指定类型时,输入类型的全路径,不方便进行开发,那么我们就可以定义一些别名.就针对parameterType或者reultType来定义一些别名
+	* MyBatis默认支持很多的别名(基础数据类型)
+		int		--		java.lang.Integer
+		...
+	* POJO(需要我们自定义别名)
+		<typeAliases>
+			<!-- 针对单个别名定义.
+				type:POJO类地址
+				alias:别名
+			-->
+			<typeAlias type="com.kevin.vo.User" alias="user"/>
+			<!-- 批量别名的定义
+			指定一个包名,MyBatis会自动的扫描包中的POJO类,自动的创建别名
+			别名,就是首字母大写或者小写的POJO类名(首字母大小写不敏感)
+			-->
+			<package name=""/>
+		</typeAliases>
+
+4,类型处理器
+	typeHandlers
+	* 在 MyBatis中通过 typeHandlers 完成JDBC数据类型和JAVA类型的转换.
+	  一般情况下,JDBC支持的数据类型,这个处理器都已经够用了,一般不需要我们自定义
+	 
+	
+5,mappers(mapper的配置)
+	* 通过resource一次加载一个映射文件
+		* <mapper resource="mapper/UserMapper.xml"/>
+	* 使用完全限定路径
+		* <mapper url="file:///D:\demo.xml"/>
+	* 通过mapper接口来加载
+		* 指定的其实不是映射文件,而是class
+		* <mapper class="com.kevin.vo.User"/>
+		* 需要class指定的类,遵循mapper开发的规范,且类名和mapper.xml映射文件的名称保持一致,而且在一个目录
+		* 总结:使用mapper代理的方法创建的xml,而且xml跟mapper接口的类名一样.而且在同一个目录.那么这里你就可以写mapper类的全路径了
+	* 批量加载	[推荐使用]
+		* <package name="com.kevin.mapper"/>
+		* 指定mapper接口的包名
+		* MyBatis会自动扫描指定包下的所有Mapper接口进行加载
+		* 而且,也要符合上面的要求:mapper开发规范,类名同xml名称一样,同一个包下!那么就一次性都可以加载
+
+

@@ -1,0 +1,90 @@
+页面静态化
+什么是页面静态化
+	首次访问去数据库获取数据,然后把数据保存到一个html页面中
+	二次访问,就不再去数据库获取了,而是直接显示html
+	前提:很少发生变化,不轻易发生变化
+	优点:减少访问数据库的操作,响应时间快
+
+1,给出一个过滤器,把Servlet请求的资源所做的输出保存到html页面中,重定向到html页面
+2,二次访问,这个html已经准备好了.直接重定向.不做再去访问Servlet
+
+替换response,包装它！我们要装饰它！改变它流的方向
+
+通俗理解：
+	当浏览器请求谋个资源文件的时候,我们先通过过滤器来获取访问参数,再去查看一下。跟参数对应的html静态页面是否还存在！
+	如果存在,那么直接就重定向到这个html页面,用不着放行让它去访问Servlet再去访问数据库,耗费资源！
+	如果客户端的请求发现,对应的文件不存在。那么放行通过！让它去请求Servlet访问数据库！不过！我们要做点手脚！
+	我们让它带过去的response对象,是我们做过手脚的对象！我们把它装饰了！也就是偷偷改写了它的getWiter();
+	让这个方法返回的PrintWriter();对象,指向了我们指定的文件！而不是客户端的浏览器,那么当负责显示数据的jsp页面拿到这个对象以后
+	JSP页面就会朝我们指定的文件输出html文本！此时,过滤器回程！我们再让response重定向到已经生成好了的html页面中,大功告成！
+	以后有人访问这个页面,那么就会访问到我们已经生成的html页面,而不用再去访问数据库！耗费资源了！
+
+javax.servlet.http.HttpServletResponseWrapper;
+	继承这个类创建它的构造够函数以及覆写掉getWiter();
+------------
+package com.kevin.web.filter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
+public class StaticResponse extends HttpServletResponseWrapper 
+{
+	private PrintWriter pw;
+	/**
+	 * path:指向html文件的路径
+	 * @throws UnsupportedEncodingException 
+	 * @throws FileNotFoundException 
+	 * */
+	public StaticResponse(HttpServletResponse response,String path) throws FileNotFoundException, UnsupportedEncodingException 
+	{
+		super(response);
+		//创建一个与html文件绑定在一起的流对象
+		pw = new PrintWriter(new File(path),"utf-8");
+	}
+	public PrintWriter getWiter()
+	{
+		//返回一个与html页面绑定在一起的witer对象,让jsp使用输出
+		return pw;
+	}
+}
+--------------------------过滤器中执行的代码
+【！！！！！有异常,暂时别用,没找到处理方法】
+public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException 
+{
+	HttpServletRequest req = (HttpServletRequest) request;
+	HttpServletResponse res = (HttpServletResponse) response;
+	/**
+	 * 第一次访时,要查找请求对象的html页面是否存在
+	 * 如果存在,重定向到html
+	 * 如果不存在,放行(把Servlet访问数据库后输出给客户端的数据保存成html静态页面),然后重定向到html
+	 * */
+	/**
+	 * 获取category参数
+	 * 	null --> null.html
+	 *  1	 --> 1.html
+	 *  2    --> 2.html
+	 *  3    --> 3.html
+	 *  html页面的保存路径:htmls目录
+	 * */
+	//判断对应的html文件是否存在,以确定是否放行
+	String category = req.getParameter("category");
+	String htmlPage = category+".html";//得到对应的文件名
+	String htmlPath = config.getServletContext().getRealPath("/htmls");//得到目标文件夹
+	File destFile = new File(htmlPath,htmlPage);
+	if(destFile.exists())
+	{
+		//如果文件存在,那么重定向到这个文件
+		res.sendRedirect(req.getContextPath() + "/htmls/" + htmlPage);
+		return;
+	} 
+	/**
+	 * 如果html文件不存在,我们要生成html
+	 * 1,放行,show.jsp会做出很多的输出,我们要让它别输出给客户端,而是输出到指定的文件中
+	 * 1,调包response,让它的getWriter()与一个html文件绑定,那么show.jsp的输出,就输出到了html文件中
+	 */
+	StaticResponse sr = new StaticResponse(res,destFile.getAbsolutePath());
+	chain.doFilter(request, sr);//放行之后就生成了html文件
+	res.sendRedirect(req.getContextPath() + "/htmls/" + htmlPage);//页面已经存在,重定向过去
+}

@@ -1,0 +1,77 @@
+————————————————————
+一,FactoryBean简介  |
+————————————————————
+	> 这东西,这个工厂不是我们自己写的,是Pring给我们提供的
+	> org.springframework.beans.factory.FactoryBean
+	> 它是一个接口:FactoryBean<T>
+	> 它一共有仨方法
+	public Car getObject()throws Exception 
+		|-- 返回Bean本身
+	public Class<?> getObjectType();
+		|--返回Bean的类类型
+	public boolean isSingleton();
+		|--这个Bean是不是单例的
+
+————————————————————
+二,FactoryBean代码  |
+————————————————————
+	> 自己写个类,去实现这个接口
+	> 覆写三个方法
+	> 在xml文件中对这个实现了FactoryBean的类进行配置
+	<bean id="car" class="com.kevin.factory.MyFactory">
+		<constructor-arg value="玛萨拉蒂"/>		<!-- 构造器初始化 -->
+		<property name="brand" value="奥迪"/>	<!-- 属性赋值 -->
+	</bean>
+	* 感觉没有什么好神奇的地方都是一些简单的属性,你要乐意就用构造器传参初始化,不乐意就自己给属性赋值!
+	* 就里面的逻辑代码,要自己去实现,返回什么类!
+	* 神奇的一幕就是,返回的是这个类的getObject();返回的对象
+	Car s1 = ctx.getBean("car",Car.class);
+
+------------------------实现类代码
+package com.kevin.factory;
+import org.springframework.beans.factory.FactoryBean;
+import com.kevin.domain.Car;
+public class MyFactory implements FactoryBean<Car>
+{
+	private String brand;
+	/**
+	 * 返回Bean的对象
+	 * */
+	public MyFactory (String brand)
+	{
+		this.brand = brand;
+	}
+	public String getBrand() 
+	{
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public Car getObject() throws Exception 
+	{
+		return new Car(brand,4800000.00);
+	}
+	public Class<?> getObjectType() 
+	{
+		return Car.class;
+	}
+	public boolean isSingleton()
+	{
+		return true;
+	}
+}
+------------------------主函数代码
+	ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
+	Car s1 = ctx.getBean("car",Car.class);
+	System.out.println(s1);
+	//结果就是Car [name=奥迪, price=4800000.0]
+	//price不用管,是已经定死的,覆写了toString();
+
+
+简单常用的工厂类配置
+
+ <bean class="org.apache.http.impl.client.CloseableHttpClient" factory-bean="httpClientBuilder" factory-method="build"/>
+
+ factory-bean	:指向当前 Bean 的创建工厂类
+ factory-method	:工厂类的创建方法,也就是返回值为当前Bean类型的方法

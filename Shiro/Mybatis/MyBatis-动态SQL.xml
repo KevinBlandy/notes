@@ -1,0 +1,79 @@
+————————————————————————————————————
+1,MyBatis动态SQL					|
+————————————————————————————————————
+	* MyBatis,使用OGNL表达式.可以在xml中使用类似于JSTL的表达式进行逻辑判断
+	* MyBatis的核心就是对SQL语句可以进行灵活的操作!可以通过一些表达式判断,来对SQL进行灵活的拼接组装
+	* 高级搜索的时候,对查询条件进行判断.如果是不为null的字段,才进行查询条件的拼接.懂?
+
+	1,where if
+		<select id="findLike" parameterType="com.kevin.domian.QueryVo" resultType="com.kevin.domian.User">
+			SELECT * FROM user u
+			<where>
+				<if test="user != null">
+					<if test="user.sex != null and user.sex != ''">
+						AND u.sex=#{user.sex} 
+					</if>
+					<if test="user.username != null and user.username != ''">
+						AND u.username LIKE '%${user.username}%' 
+					</if>
+				</if>
+			</where>
+		</select>
+		* where:先判断,QueryVo中的user是否为null,如果是null.那么下面的语句直接忽略
+		* if:在user不为null的情况下,user指定的属性是否为空,不为null的话.就拼接SQL语句
+		* where: 能自动的去掉 WHERE后面的第一个参数的 AND 关键字,所以,下面的判断条件都可以写出WHERE关键字
+	
+	2,foeach 标签
+			* 如果你向SQL中传递了一个List或者是数组,那么,就要用这个foeach标签来进行解析了
+			* 这东西几乎不怎么用.谁没事往DAO层方法传递集合/数组
+			<where>
+				<if test="user.names != null">
+					<!--
+						collection:指定输入对象中的集合属性.
+						item	  :当前遍历的对象/数据
+						open	  :开始遍历时拼接的SQL串
+						close	  :结束遍历的拼接的SQL串
+						separator :遍历的每个成员中间需要拼接的SQL串
+					-->
+					<foreach collection="names" item="name" open="AND (" close=")" separator="or">
+						<!-- 每次遍历需要拼接的串 -->
+						name=#{name}
+					</foreach>
+				</if>
+			</where>
+			* 拼接结果类似:SELECT * FROM user WHERE 1=1 AND(name='第一个成员' or name='第二个成员' or name='第三个成员')
+————————————————————————————————————
+2,MyBatisSQL片段					|
+————————————————————————————————————
+		* 其实就是,可以把进行判断拼接SQL的代码块抽取出来,作为一个SQL片段!
+		* 其他的statement中就可以引用这个SQL片段
+		1,定义SQL片段
+			<!-- SQL片段
+			一般定义SQL片断,都是基于单表进行定义,那么这个SQL片段的重用性才高
+			也就是说,这些个片段中就别包括WHERE
+			id:就不多解释了,唯一的标识
+			 -->
+			<sql id="demo">
+				<if test="user != null">
+					<if test="user.sex != null and user.sex != ''">
+						AND u.sex=#{user.sex} 
+					</if>
+					<if test="user.username != null and user.username != ''">
+							AND u.username LIKE '%${user.username}%' 
+					</if>
+				</if>
+			</sql>
+			* SQL片段中也可以直接包含<where>,整体.不为了提高复用性,不建议
+		2,引用SQL片段
+			<!--
+				直接在where标签中使用include标签,refid指向sql的id就OK
+				* 如果指定的ID不在本mapper文件中,那么需要加上名称空间
+				* 可以引用多个SQL片段
+			-->
+			<select id="findLike" parameterType="com.kevin.domian.QueryVo" resultType="com.kevin.domian.User">
+			SELECT * FROM user u
+				<where>
+					<include refid="demo"/>
+				</where>
+			</select>
+			* 直接在select标签中也可以直接包含一个,带有where标签的SQL片段

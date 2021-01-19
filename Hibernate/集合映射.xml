@@ -1,0 +1,143 @@
+————————————————————————————
+一,集合映射					|
+————————————————————————————
+
+有必要先回顾一下常用集合的姿势
+List	有序,可重复
+	|--ArrayList
+		> 数组结构,查询快,增删慢
+	|--LinkedList
+		> 链表结构,增删快,查询慢
+Set	无序不可重复
+	|--HashSet
+		> 哈希表结构,根据hashCode以及eqauls来判断是否为相同元素
+	|--TreeSet
+		> 二叉树结构,引用形数据需要实现Comparable..接口,实现自定义的大小比较,或者自定义比较器
+Map	无序,不可重复
+	|--HashMap
+		> 哈希表结构,取代了Hashtbale,线程不安全,允许使用null！也是根据hashCode和equals来进行判断是否为相同元素
+	|--TressMap
+		> 二叉树结构,引用形数据需要实现Comparable..接口,实现自定义的大小比较,或者自定义比较器
+数组
+	|--初始化之后,长度不能更改!
+----------------------------------------------------------------
+对于在xml文件中描述Set集合的表结构
+        1,集合表的名称 (集合表就是从表)
+        2,集合表中的外键(集合表外键)
+        3,集合表中的元素列(集合元素)
+	!!!	4,集合表中的元素索引列,
+		> 具备索引条件的集合才具备,例如:ArrayList
+		> 必须是int类型
+在使用集合属性的时候,在类中的声明尽量使用接口,不要使用实现类,因为
+在Hibernate框架中,其实框架都对几大框架的的接口做了实现!在我们使用集合框架的时候
+都会被转型成为Hibernate框架类型的集合框架(是为了框架本身要处理一些事务),如果我们的引用是一个实例,而不是接口
+那么就有可能会转换失败,抛出异常
+
+经过Session的操作后,集合就变成了Hibernate自己的集合实现类!所以在类中,成员声明写接口,别写实现类!
+----------------------------------------------------------------
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.kevin.domain">
+    <class name="User" table="user">
+        <id name="id" type="string" column="id" length="32">
+            <generator class="assigned"/>
+        </id>
+        <property name="name" type="string" column="name" length="20"/>
+        <!--Set集合映射
+        	set:表示该表中的一个Set集合元素,其实也就是对应数据库中的另一张表
+        		> name:javaBean中的Set的属性名,在这里也就是集合属性的名称了
+        		> table:与这个Set集合对应的数据库表名(换句话说就是,这个Set集合的数据是来自哪张表?)
+        		> sort:表示进行排序,当使用这个属性的时候,那么就必须要使用可以进行排序的set来进行处理(HashSet就不行,TreeSet就可以),不然就抛出异常
+        			* 一般不会使用
+        			> unsorted:默认值,
+        			> natural自然排序,表示按照javaBean类的排序来进进行排序,当然javaBean类需要实现那个Comparable接口
+        			> comparatorClass按照比较器来进行排序,这个就需要给出一个实现了ComparabTo的一个比较器对象,不用javaBean实现接口
+        		> order-by:同样表示排序,不过这个不是由程序来完成,而是由数据库来完成的,这就是一个SQL语句.
+        			* 推荐使用的排序手段
+        			> 这个属性,其实是一个SQL语句,它的值就是一个"字段名",也可以在后面加上排序方式,例如 desc(降序)之类的,默认是升序
+        	key:外键
+        		> column:表示是从表的一个外键索引,该外键将自动指向主表的主键,所以我们只用定义名称就好
+        	element:从表的列元素
+        		> type:不想多解释了,从表得有数据吧?有数据就的有类型吧
+        		> column:有了数据,你还得跟人起个名字吧
+        -->
+        <set name="addressSet" table="user_addressSet" order-by="address desc">
+        	<key column="userId"></key>
+        	<element type="string" column="address"></element>
+        </set>
+        <!--list集合映射
+        	list:表示一个List集合元素,也就对应了数据库中的一张表
+        		> name:javaBean中的list属性名
+        		> table:与javaBean中List对应的表名(就是bean中集合的数据是来自哪张表?)
+        	key:外键,不多解释,会自动的跟主表建立关系！我们只需要给出名称即可
+        		> column:外键的名称
+        	list-index:这个东西是索引,是具备了索引的集合才有的特有属性,是list集合(带下标集合的)的必须属性
+        		 > column:名称,是int类型!自增形式,并且会跟外键一起形成联合主键(索引+外键)!
+        	element:从表的一个元素
+        		> type:该元素的数据类型
+        		> column:名称
+         -->
+         <list name="addressList" table="user_addressList">
+         	<key column="userId"/>
+         	<list-index column="idx"/>
+         	<element type="string" column="address"/>
+         </list>
+         <!--数组映射 
+         	数组在Hibernate中用的少,映射跟list一样,不多做演示了
+          -->
+         <array name="">
+         	<key/>
+         	<list-index/>
+         	<element/>
+         </array>
+         <!--Map集合映射 
+         	map:就是javaBean中的一个集合,其实也就是对应了数据中一张表
+         		> name:javaBean中的Map属性名
+         		> table:与javaBean中的Map集合的对应表名称!
+         	key:从表的外键,该外键指向了主表的主键
+         		> userId:我们只需要给出名称即可.会自动的指向主表的主键
+    		map-key:这个就Map集合中的Map的Key属性列,这个列会跟key(外键),形成联合主键(外键key+Mapkey)
+    			> column:给人在数据库起个名字啊
+    			> type:key值的属性
+    		element:这个就是Map集合中的Map的value属性列
+    			> type:就是属性
+    			> column:数据库列名称
+          -->
+         <map name="addressMap" table="user_addressMap">
+          	<key column="userId"/>
+          	<map-key type="string" column="name"/>
+          	<element type="string" column="address"/>
+         </map>
+    </class>
+</hibernate-mapping>
+---------------------------------------------------------------
+在Hibernate中还有一个集合,是javaAPI所不具备的.
+Bag
+	无序,可重复
+这东西吧跟Set集合除了标签名称不一样,其他都一个德行！
+
+<bag name="addressSet" table="user_addressSet">
+        	<key column="userId"></key>
+        	<element type="string" column="address"></element>
+</bag>
+---------------------------------------------------------------
+关于排序的问题
+----使用sort属性进行排序(一般不用这个,除非在数据库中排序用不了的情况下才这么用)
+	因为HashSet是一个无序的容器,如果我们需要获取有序的数据的话,就可以使用TreeSet,等容器
+如果是使用TreeSet那么需要在<set>标签添加一个属性————sort,来指明排序的方式,具体的信息上面有写到
+如果使用了sort那么就不能使用HashSet,也不能使用ArrayList.这种排序方式就是用程序来完成操作的,
+其实数据库在取出来的数据的时候,就可以对数据进行排序了,这项工作,可以交给数据去干！
+<set name="addressSet" table="user_addressSet" sort="natural">
+        <key column="userId"></key>
+        <element type="string" column="address"></element>
+</set>
+----使用数据库进行排序
+	数据库本身的order by子句来进行排序操作,这个是推荐使用的方法
+就是在set的属性里面加上order-by,它的值,就是一个字段的名称,其实也就是下面定义的element其中的一个或者是主键key
+后面还可以加上排序规则,默认是升序,如果加上了desc那么就是一个降序.我们就可以用List或者是LinkedHashSet来接收
+<set name="addressSet" table="user_addressSet" order-by="address desc">
+        <key column="userId"></key>
+        <element type="string" column="address"></element>
+</set>

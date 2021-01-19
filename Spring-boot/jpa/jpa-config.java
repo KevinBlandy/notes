@@ -1,0 +1,6 @@
+----------------
+cofig 
+----------------
+	DataSource
+	LocalContainerEntityManagerFactoryBean
+	PlatformTransactionManager

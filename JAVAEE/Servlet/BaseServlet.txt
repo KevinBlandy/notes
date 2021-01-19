@@ -1,0 +1,118 @@
+BaseServlet
+1,我们希望在一个Servlet中可以有多个请求处理方法！正常情况下,Servlet中只有一个Service!
+2,客户端发送请求时,必须多给出一个参数,表明要调用哪一个方法
+  请求处理方法的签名必须与service相同,即返回值和参数,声明的异常！都必须相同
+3,客户端必须传递名为method的参数！
+
+1,UserServlet
+	|--addUser();
+	|--updateUser();
+	|--deleteUser();
+结构--
+domain:User
+dao:UserDao
+service:UserService
+servlet:Userservlet
+每次请求,WEB容器都会做这些事情
+init(ServletConfig cofig);
+void destory();
+void service(ServletRequest,ServletResponse)throws IOException,ServletException
+{
+	我们希望在这里去调用其他方法，
+	要求:用户发出请求时,需要给出一个参数来来说明调用哪个方法？
+	获取参数,通过参数名称来确定要调用的方法
+}
+
+http://localhost:8080/xxx/Aservlet?m=addUser
+
+不知道你能不能看懂的代码
+package com.kevin;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public abstract class BaseServlet extends HttpServlet
+{
+	public void service(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException
+	{
+		/**
+		 * 用户请求必须提供mehtod参数.
+		 * 获取参数,用来识别用用户请求的方法
+		 * */
+		request.setCharacterEncoding("utf-8");
+		String methodName = request.getParameter("method");
+		/**
+		 * 得到方法名称,通过反射来调用
+		 * 1,得到方法名,通过方法名再得到该类的对象
+		 *   * 需要得到Class,然后调用它的方法进行查询得到method
+		 *   * 我们要查询的是当前类的当前,所以我们需要得到当前类的Class
+		 * */
+		if(methodName == null || methodName.isEmpty())
+		{
+			throw new RuntimeException("未传递参数,无法确定执行的方法");
+		}
+		Class c = this.getClass();//得到当前类的Class对象
+		Method method = null;
+		try 
+		{
+			//根据传递的参数获取本类方法对象
+			method = c.getMethod(methodName, HttpServletRequest.class,HttpServletResponse.class);	
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException("调用执行的方法"+methodName+"不存在");
+		}
+		try 
+		{
+			String result = (String)method.invoke(this,request,response);//本类方法对象,反射用本类对象调用获取的方法
+			/**
+			 * 获取请求处理方法执行后返回的字符串,它表示转发或者重定向的路径
+			 * 帮它完成转发,或者重定向
+			 * 查看返回的字符串中是否包含':'如果没有,就默认是转发。
+			 * 如过':'存在,则分割字符串,得到前缀和后缀
+			 * f--表示转发
+			 * r--表示重定向
+			 * 后缀表示路径  
+			 *    如果用户返回的字符串为null,或者""。那什么也不做
+			 * */
+			if(result == null || result.trim().isEmpty())
+			{
+				return;//如果为空或者""直接结束
+			}
+			if(result.contains(":"))
+			{
+				//使用":"分割字符串,得到前缀和后缀
+				int index = result.indexOf(":");//获取":"在result中的位置
+				String s = result.substring(0,index);//截取":"以前的字符串(前缀)
+				String path = result.substring(index+1);//截取后缀
+				if(s.equalsIgnoreCase("r"))//重定向
+				{
+					//如果前缀是r,重定向
+					response.sendRedirect(request.getContextPath()+path);
+				}
+				else if(s.equalsIgnoreCase("f"))//转发
+				{
+					//如果前缀是f,转发
+					request.getRequestDispatcher(path).forward(request, response);
+				}
+				else
+				{
+					throw new RuntimeException("指定的操作'"+s+"'当前版本不支持");
+				}
+			}
+			else//没有":"默认为转发
+			{
+				request.getRequestDispatcher(result).forward(request, response);
+			}
+			
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("您调用的方法"+methodName+"内部抛出了异常");
+			throw new RuntimeException(e);
+		}
+	}
+}

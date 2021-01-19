@@ -1,0 +1,100 @@
+# 配置类 org.springframework.boot.autoconfigure.web.ServerProperties
+
+server:
+  # 全局配置
+  port: 1024
+  address: 
+  forward-headers-strategy: NONE
+	* 枚举
+		NATIVE
+		FRAMEWORK
+		NONE
+  use-forward-headers: true
+	
+
+  server-header:     
+  max-http-header-size: 
+  connection-timeout:
+  shutdown: IMMEDIATE
+  	* 优雅停机, 枚举值
+		IMMEDIATE	// 立即关闭
+		GRACEFUL // 优雅的关闭服务器（拒绝新的请求，等待任务线程执行完毕）
+	* 等待任务执行完毕的最长时间, 通过: spring.lifecycle.timeout-per-shutdown-phase 配置
+
+  # 异常配置
+  error:
+    path: 
+    include-exception:
+  
+
+  # servlet 配置
+  servlet:
+    context-path: /
+	# SESSION相关的配置
+	session:
+	  # 会话超超时时间，秒
+	  timeout:
+	  # 会话跟踪模式，可以有多个。枚举值:COOKIE URL SSL
+	  tracking-modes: 
+	    - COOKIE
+	  # 在服务器重启的时候，序列化session到磁盘
+	  persistent: true
+	  # 保存session数据的目录
+	  store-dir: 
+	  # 保存session的目录
+	  session-store-directory:
+	    # 目录 File 对象
+	    directory: 
+	  # session cookie的设置
+	  cookie:
+	    name: PHPSESSIONID
+	    domain: 
+	    path: 
+	    comment:
+	    httpOnly:
+	    secure:
+	    maxAge:
+	  
+  # SSL配置
+  ssl:
+    enabled: true
+    key-store: classpath:ssl/localhost.keystore
+    key-store-type: PKCS12
+    key-store-password: 123456
+	# 是否开启客户端的验证,枚举值:NONE 不验证,WANT 需要验证但不是必须的,NEED 必须要验证客户端
+	client-auth: NEED
+	# 数组
+	ciphers:
+	# 数组
+	enabled-protocols:
+	key-alias:
+
+  # HTTP2
+  http2:
+    enabled: true
+  
+      
+  # 压缩配置
+  compression:
+    enabled: true
+    mime-types: 
+      - application/json
+      - application/xml
+      - application/javascript
+      - text/html
+      - text/xml
+      - text/plain
+      - text/css
+      - text/javascript
+    min-response-size: 2048
+  
+  # Tomcat配置
+  tomcat
+  
+  # UnderTow配置
+  undertow
+  
+  # Jetty配置
+  jetty
+
+  

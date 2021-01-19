@@ -1,0 +1,40 @@
+协议：
+	双方通信的格式
+	请求格式(客户端)
+	响应协议(服务端)
+
+http是无状态协议！发一次，断一次！一次就完事儿！
+------------
+带超连接的文本--超文本！
+------------
+http请求头
+Accept	告诉服务器，客户机支持的数据类型
+Accept-Charset	告诉服务器，客户机支持的编码
+Accept-Encoding	告诉服务器，客户机支持的数据压缩格式
+Accept-Language	客户端的语言环境
+Host	告诉服务器，想访问的主机名
+If-Modifile-Since	告诉服务器。资源的缓存时间
+Referer	告诉服务器，是从哪个资源来访问服务器的(该技术用于防盗链)
+User=Agent	告诉服务器，软件环境(操作系统，浏览器等信息)
+Cookie	通过这个头，可以向服务带数据
+Connection	该请求完毕之后，是否要保持连接
+Date	当前日期值
+
+http响应头
+Location	配合302状态码使用。用于告诉客户机，找谁。(请求重定向)
+Server	服务器通过这个头告诉浏览器，服务器的类型
+Content-Encoding	告诉浏览器，数据的压缩格式
+Content-Length	告诉浏览器。回送数据的长度
+Content-Type	告诉浏览器。回送数据的类型(控制浏览器以什么方式打开数据)
+Last-Modifiled	告诉浏览器。当前资源的缓存时间
+Refresh	告诉浏览器，隔多长时间刷新一次
+Content-Disposition	告诉浏览器，以下载方式打开数据
+Transfer-Encoding	告诉浏览器，数据的传送格式
+Set-Cookie
+Etag	缓存相关的头。
+Expires	告诉浏览器。把回送的资源。缓存多少时间		如果值是:-1/0 就表示不缓存
+Cache-Control:no-cache
+Pragma:no-cache
+	以上两个头，也是通知浏览器不要缓存
+Range	实现断点下载。
+

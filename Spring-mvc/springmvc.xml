@@ -1,0 +1,160 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
+<!-- 配置Handler -->
+	<bean id="1" class="com.kevin.controller.ItemsControllerA"/><!-- 实现了Controller接口 -->
+	<bean id="2" class="com.kevin.controller.ItemsControllerB"/><!-- 实现了HttpRequest接口 -->
+<!-- 处理器映射器 -->
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/demo.action">1</prop><!-- 对id属性为1的Handler进行url映射 -->
+				<prop key="/test.action">2</prop><!-- 对id属性为1的Handler进行url映射 -->
+			</props>
+		</property>
+	</bean>
+<!-- 处理器适配器 -->
+	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+	<!-- 视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"/>
+</beans>
+
+---------------------------------------
+注解开发								|
+---------------------------------------
+
+
+    <context:property-placeholder file-encoding="UTF-8" location="classpath*:application-mvc.properties"/>
+
+    <context:component-scan base-package="io.javaweb.community.web" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg index="0" value="UTF-8"/>
+            </bean>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                    	<!--  
+                        <value>text/html;charset=UTF-8</value>-->
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+                <property name="fastJsonConfig">
+                    <bean class="com.alibaba.fastjson.support.config.FastJsonConfig">
+                        <property name="charset" value="UTF-8"/>
+                        <property name="serializerFeatures">
+                            <array>
+                                <!-- 输出null字段
+                                <value>WriteMapNullValue</value> -->
+                                <!-- 输出key使用双引号 -->
+                                <value>QuoteFieldNames</value>
+                                <!-- 空集合输出[] 
+                                <value>WriteNullListAsEmpty</value>-->
+                                <!-- 输出格式化-(仅开发模式)-->
+                                <value>PrettyFormat</value> 
+                            </array>
+                        </property>
+                        <!-- 日期格式 -->
+                        <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="io.javaweb.community.web.converters.DateConverter"/>
+			</set>
+		</property>
+    </bean>
+    
+    <!-- jsonp
+    <bean class="com.alibaba.fastjson.support.spring.FastJsonpResponseBodyAdvice">
+        <constructor-arg>
+            <list>
+                <value>callback</value>
+                <value>jsonp</value>
+            </list>
+        </constructor-arg>
+    </bean> -->
+    
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/"/>				<!-- 默认页 -->
+			<mvc:exclude-mapping path="/index"/>		<!-- 主页 -->
+			<mvc:exclude-mapping path="/login"/>		<!-- 登录页 -->
+			<mvc:exclude-mapping path="/register"/>		<!-- 注册页 -->
+			<mvc:exclude-mapping path="/error"/>		<!-- 异常页 -->
+			<mvc:exclude-mapping path="/verifycode"/>	<!-- 验证码 -->
+			<mvc:exclude-mapping path="/api/**"/>		<!-- api -->
+			<mvc:exclude-mapping path="/static/**"/>	<!-- 静态资源 -->
+			<bean class="io.javaweb.community.web.interceptor.UserSessionInterceptor"/>
+		</mvc:interceptor>    
+	</mvc:interceptors>
+	
+	<!--  
+    <mvc:cors>
+    	<mvc:mapping path="/**" 
+    		allowed-origins="*"
+    		allowed-headers="Origin,x-requested-with,Content-Type,Accept"
+    		exposed-headers="" 
+    		max-age="30"
+    		allowed-methods="GET,POST,DELETE,PUT,OPTIONS" 
+    		allow-credentials="true"/>
+    </mvc:cors>
+    -->
+
+    <!-- file upload-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 500MB -->
+        <property name="maxUploadSize" value="524288000"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!-- 100MB-->
+        <property name="maxInMemorySize" value="104857600"/>
+        <property name="uploadTempDir" value="/WEB-INF/temp"/>
+    </bean>
+
+
+    <mvc:resources mapping="/static/**" location="/static/"/>
+
+    <!--View-->
+    <bean id="beetlConfig" class="org.beetl.ext.spring.BeetlGroupUtilConfiguration" init-method="init">
+    	<property name="functions">
+			<map key-type="java.lang.String" value-type="org.beetl.core.Function">
+				<entry key="author" value-ref="authorValidate"/>
+				<entry key="role" value-ref="roleValidate"/>
+			</map>
+		</property>
+    </bean>
+
+    <bean id="viewResolver" class="org.beetl.ext.spring.BeetlSpringViewResolver">
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="suffix" value=".html"/>
+    </bean>
+    
+    <!-- beetl funcs -->
+    <bean id="authorValidate" class="io.javaweb.community.beetl.funcs.AuthorValidate"/>
+    <bean id="roleValidate" class="io.javaweb.community.beetl.funcs.RoleValidate"/>
+    
+    <bean class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor"></bean>
+</beans>

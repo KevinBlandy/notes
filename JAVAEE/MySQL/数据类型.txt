@@ -1,0 +1,30 @@
+util包下的Date与SQL包下的时间类型之间的转换
+数据库类型与JAVA中类型的对应关系
+
+varchar   -  String
+char      -  String
+date      -  date
+time	  -  Time
+timestamp -  timestamp
+
+
+
+领域对象(domain)中的所有属性,不能出现java.sql包下的东西。
+就不能使用java.sql.date;
+
+时间类型的转换. java.util.date > java.sql.date ,time,timestamp
+		把util的date转换成毫秒值！然后使用毫秒值创建SQL的date！
+		java.sql.date  > time,sql,date,time,timestamp
+		这一步不需要处理,JAVA.SQL.DATE就是JAVA.UTIL.DATE子类！直接赋就好,用不着转换
+
+Timestamp是sql包下的,先把util下的date转换成毫秒值long类型,再用这个毫秒值作为构造参数传递给sql包下的Timestamp创建对象,就可以存入mysql数据库
+Timestamp timestamp = new Timestamp(new Date().getTime());
+-------------------------
+JAVA中的boolean在mysql中用下面的形式提现
+tinyint 
+当它等0的时候为false
+当它等于1的时候为true
+这是MYSQL自备的常量！
+
+
+

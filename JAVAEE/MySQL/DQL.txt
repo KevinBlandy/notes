@@ -1,0 +1,90 @@
+关键字的使用顺序
+select - from - where - group - having - order by
+一,基本查询
+1,字段(列)查询
+select * from 表名;[查询指定表中的所有数据]
+select 字段1,字段2... from 表名;[查询表中的指定数据]
+select distinct * from 表名;[显示去除重复相同的记录]
+2,列运算
+	select 列名操作符数值 form 表名;[对指定列名进行指定的数据操作]
+		--无法转换成整数的字段数据(字符串),都会被当成0来进行计算
+		--任何运算操作null,结果都是null
+	select ifnull(列名,替代值) from 表名;[把表格中指定字段如果是null值,就当作指定替换值显示]
+	select name,sal+ifnull('有null值的字段',0) from emp;
+		--如果把null字段的值换成0。 
+	select sal*0.5,* from emp;
+		--查询出emp表中所有的字段,并且把sal*0.5！
+		--如果对不能进行运算的字段(varchar)进行操作。那么结果都是0
+		--任何东西跟null相运算。结果就是null
+	select concat(name,job) from 表名;[把两个字段的字符串拼接后查询出来]
+		--MySQL中不能用+号来连接字符串。
+	select 字段名1 as 别名1,字段名2 al 别名2 form 表名;[给指定字段名起别名]
+		--as 其实是可以省略的
+3,条件控制
+	模糊查询
+	like 关键字
+	where like '张_';//查询两个字并且以张字开头
+	where like '___';//查询三个字,任意字符开头
+		%	匹配0-N个任意字符
+		_	匹配一个任意字符
+4,排序
+	select name from tb_name order by 字段名 升/降序;(esc升序,默认就是升序);
+	select name from tb_name order by 字段名 升/降序;(desc倒序,默认是升序)
+	select ename from emp order by 第一字段 asc,第二字段 desc,第三字段 asc;
+		如果第一字段值相同，就按照第二字段的升降序处理,如果连第二字段也一样，那么就采取第三字段的处理方法！
+		这就是多列排序
+5,聚合函数
+	纵向查询  --- --- 
+	关键字 count , sum , max, min
+	select count(*) from emp;//表的行数,不算null值钱
+	select count(字段名) from tb_name;//查询这个列的行数。不算null值
+	select count(1) from tb_name;//查询第一列的行数
+		--如果数字大于了列数。那么就按照*的方式处理
+	select sum(字段名) from tb_name;//返回字段的和
+		-- 如果是null值,当作0计算
+		-- 如果是字符串等不能计算的类型也当作0
+	max , min就是求最大和最小
+	综合列子：
+		select count(*) as 人数,sum(sal) 总和, max(sal) 最高,min(sal) 最低,avg(sal) 平均 from emp;
+		结果
+	+------+-----------+-------+------+--------------+
+	| 人数 | 总和      | 最高  | 最低 | 平均         |
+	+------+-----------+-------+------+--------------+
+	|   14 | 290250.00 | 50000 | 8000 | 20732.142857 |
+	+------+-----------+-------+------+--------------+
+6,分组查询
+	使用某个字段(最好具备重复性，不然没意义)来进行分组
+	关键字 group by, having 
+	select job,count(*) from emp group by job;
+
+	group by 后面跟分组列,除了分组列，其他的是聚合函数
+	分组前条件,去除的东西没有参加分组。分组后的条件也就是having后面的东西,只能是聚合函数
+	执行顺序--select from group by having order by
+	7,合并结果集, union
+			unon all 就不取消重复的
+		* select ... union select....
+		* 把两个查询的结果合并成为一个,但是要保证的是两个结果集(跟表无关,主要是看表)的列数,以及他们的结构
+
+方言———— limit
+	MySQL才有这个东西！
+	limit用来限定查询结果的起始行,以及总行数(第一行为0行,数组规则你懂)
+	例如 ：查询起始行为第五行,一共查询3行记录
+	select * from emp limit 5,3;
+
+	当前页减一再乘以每一页记录数 获取上面命令的第一个参数
+
+-------------------------------
+
+拓展:	--into outfile
+	select * into outfile "d:\mysql.txt" from emp;
+	把查询出来的结果保存到指定的目录,不返回到客户端,不能创建文件夹但是能创建文件
+	记住,只能创建新的,不信写入已经存在的文件,默认采用行来区分记录,与制表符来区分字段
+
+	为了满足某一种特殊的需求.会采用不同的分割方式！
+	
+
+	如果是到处二进制文件,可以使用
+	into dumpfile
+
+
+

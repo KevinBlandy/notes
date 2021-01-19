@@ -1,0 +1,64 @@
+3.0的特性
+1,保证MyEclipse10.0或者以上的版本,不然只能自己手动搞
+2,发布到Tomcat7.0或以上版本
+
+
+怎么创建?
+1,创建javaEE6.0项目
+
+概述
+   * 注解代替web.xml文件
+	> 删除web.xml(是不是从来没敢删除过web.xml是不是感觉跟刺激？)
+	> 优缺点:
+		优点就是:比以前简洁
+		缺点就是:这个是在源码上,不能修改,或者不方便修改
+   * 异步处理
+	> 原来,在服务器没有结束响应之前 ,浏览器是看不到响应内容的.只有响应结束的时候才能看到响应结果
+	> 现在,异步处理的作用:在服务器开始响应,浏览器就能看到响应内容,不用等待!
+	> 实现异步的步骤
+	* 得到AsyncContext,它是异步上下文对象 
+	AsyncContext ac = request.startAsync(request,response);
+	* 给上下文一个Runnable对象,启动它(给上下文一个任务,让它完成)
+	ac.start(new Runnable(){
+		public void run()
+		{
+			代码体
+		}
+	});
+   * 对上传的支持
+	> 原来的上传时,对表单的要求:mehtod必须是post,enctype="multipart/form-date",它的默认值是:application/www.... ...
+	> <input type="file" name="必须给" />
+	> Servlet--request.getPatameter();被废掉了
+	> request.getInputStream();//使用它来获取整个表单的数据
+	> 通过commons-fileupload来帮助我们
+		> 创建工厂,DesikFilItemFactor,创建解析器,解析request获得FileItem的List集合
+	--------
+	Servlet3.0提供了对上传的支持
+	* 表单需要的条件还是不变
+	* 在Servlet中不再需要commons-fileuploda组键, 而是使用Servlet3.0提供的上传组键接口
+	Part--表示一个上传的文件
+		delete();//删除临时文件
+		getContentType();//获取上传文件的类型
+		getHeader();//获取头(多部件中表单项中,每个表单项都有自己的头,空行,内容)
+		getInputStream();//获取上传文件的内容
+		getName();//获取表单项的名称(不是文件名称)
+		* 在这个新特性里面并没有获取上面文件名称的方法,这java484傻？
+		* 需要我们自己从ContentType头中截取
+		getSize();//获取上传文件的大小
+		write();//保存到指定路径
+	request.getPart();//就能得到上面的part对象
+	步骤:
+		1,使用request.getPart("字段名");得到Part实例
+		2,通过Part的方法(上面有解释)来进行操作
+
+	默认Servlet,是不支持使用这个上传组键的,需要给Servlet添加一个注解
+	(麻痹的,又是注解,这个还能玩)
+	@MultipartConfig
+	在类上标识了这个注解以后,然后getParameter就能使用了... ...
+	String name = request.getParameter("uerName");
+	Part part = request.getPart("file");
+	
+	
+				
+
+当前市场上主流的Servlet版本,还是2.5一下的,目前在市场上还不是主流.

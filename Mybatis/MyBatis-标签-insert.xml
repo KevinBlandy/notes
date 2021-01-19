@@ -1,0 +1,69 @@
+------------------------
+insert					|
+------------------------
+	# 数据库插入语句
+		<insert/>
+	
+------------------------
+insert-属性				|
+------------------------
+	id	
+		# 命名空间中的唯一标识符，可被用来代表这条语句。
+
+	parameterType	
+		# 将要传入语句的参数的完全限定类名或别名。
+		# 这个属性是可选的，因为 MyBatis 可以通过 TypeHandler 推断出具体传入语句的参数，默认值为 unset。
+
+	parameterMap	
+		# 这是引用外部 parameterMap 的已经被废弃的方法。使用内联参数映射和 parameterType 属性。
+
+	flushCache	
+		# 将其设置为 true，任何时候只要语句被调用，都会导致本地缓存和二级缓存都会被清空，默认值：true（对应插入、更新和删除语句）。
+
+	timeout	
+		# 这个设置是在抛出异常之前，驱动程序等待数据库返回请求结果的秒数。默认值为 unset（依赖驱动）。
+
+	statementType	
+		# STATEMENT，PREPARED 或 CALLABLE 的一个。
+		# 这会让 MyBatis 分别使用 Statement,PreparedStatement ,CallableStatement
+		# 默认值：PREPARED。
+
+	useGeneratedKeys	
+		# （仅对 insert 和 update 有用）这会令 MyBatis 使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键
+		# 比如：像 MySQL 和 SQL Server 这样的关系数据库管理系统的自动递增字段）
+		# 默认值：false。
+
+	keyProperty
+		# （仅对 insert 和 update 有用）唯一标记一个属性
+		# MyBatis 会通过 getGeneratedKeys 的返回值或者通过 insert 语句的 selectKey 子元素设置它的键值，默认：unset。
+		# 如果希望得到多个生成的列，也可以是逗号分隔的属性名称列表。
+
+	keyColumn
+		# （仅对 insert 和 update 有用）通过生成的键值设置表中的列名
+		# 这个设置仅在某些数据库（像 PostgreSQL）是必须的，当主键列不是表中的第一列的时候需要设置。
+		# 如果希望得到多个生成的列，也可以是逗号分隔的属性名称列表。
+
+	databaseId	
+		# 如果配置了 databaseIdProvider，MyBatis 会加载所有的不带 databaseId 或匹配当前 databaseId 的语句；如果带或者不带的语句都有，则不带的会被忽略。
+
+------------------------
+insert-demo				|
+------------------------
+	# 获取自增长主键
+		<insert id="insertAuthor" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+			insert into Author (username,password,email,bio)
+			values (#{username},#{password},#{email},#{bio})
+		</insert>
+		* 系统会把值,反赋给POJO
+		* useGeneratedKeys	表示使用自增长主键
+		* keyColumn			表示哪个列是自增长
+		* keyProperty		表示要把自增长的主键写到对象的哪个属性
+	
+	# 多行插入
+		<insert id="insertAuthor" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+			insert into Author (username, password, email, bio) values
+			<foreach item="item" collection="list" separator=",">
+				(#{item.username}, #{item.password}, #{item.email}, #{item.bio})
+			</foreach>
+		</insert>
+		

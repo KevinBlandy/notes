@@ -1,0 +1,71 @@
+1,解析JSP视图,默认使用jstl标签.classpath下面要有jstl包!
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+
+	* 其中,子标签的两个<property>都可以省略掉
+	* <property>的作用是:
+	prefix代表前缀,suffix代表后缀
+----------------案例
+	资源目录:/WEB-INF/jsp/Items/items.jsp
+	不加<property标签>
+		> 在Handler中,就得这么写
+		> modelAndView.setViewName("/WEB-INF/jsp/Items/items.jsp");
+	加上<property标签>
+	...
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
+	...
+		> 在Handler中,就可以这么写
+		> modelAndView.setViewName("items/itemsList");
+	!!!需要注意的是,如果是用了<property>来添加前缀和后缀!那么程序中的代码,就必须要忽略前缀和后缀,不然就会报错404
+	like this:HTTP Status 404 - /spring/WEB-INF/jsp/WEB-INF/jsp/items/itemsList.jsp.jsp
+		> 你自己写了前缀,xml这哥们儿会帮你再加上一个!你怕么？
+	--------------------
+	其实就是一个url的前缀和后缀!配置了之后,程序中就不用写前缀和后缀了!
+
+1,如果ModelAndView,设置的是物理视图,那么视图解析器可以不用配置.如果是逻辑视图.那么必须通过视图解析器来解析出物理视图
+2,SpringMVC视图解析器是线程安全的,每次都会创建新的.
+		
+=======================================================================
+	SpringMVC如何解析工作流程
+	无论目标方法返回的是 String,ModelAndView,View对象.都会被框架转换成一个ModelAndView对象,再转换为ViewResolver.最后成为真正的物理视图
+		如果处理方法是 void,你又没有提供response来进行转发或者是重定向处理,那么!
+		框架就会默认的使用视图解析器来进行处理:
+		前缀+action的url名+后缀
+
+		@RequestMapping(value="/demo")
+		public void demo(){};
+		HTTP Status 404 - /springmvc/WEB-INF/jsp/demo.jsp
+	
+	流程图解:
+		String ModelAndView View
+					|
+				ModelAndView
+					|
+				ViewResolver
+					|
+				视图对象
+			  JSP/JSTL/PDF
+	View
+		* 视图接口
+===================================================================
+JstlView
+	如果项目中使用了JSTL,那么SpringMVC会自动把视图由InternalResourceView转为JstlView
+	如果使用JSTL的fmt标签,需要在springMVC的配置文件中配置国际化资源文件
+		<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+			<property name="basename" value="i18n"/>
+		</bean>
+		* i18n.properties 文件应该在src目录下
+	如果希望直接响应,通过SpringMVC渲染的页面.
+		<mvc:view-controller path="/demo.jsp" view-name="success"/>
+
+		<mvc:view-controller path="/" view-name="redirect:/admin/index"/>
+			* 重定向到某个页面
+		<mvc:view-controller path="/" view-name="admin/index"/>
+			* 交给视图解析器来进行解析
+
+===================================================================
+	--> 自定义视图解析器
+	

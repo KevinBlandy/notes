@@ -1,0 +1,39 @@
+————————————————————————————————————
+1,MyBatis 多对多映射				|
+————————————————————————————————————
+	* 发个牢骚,还是Hibernate好使.
+	<!-- 用户映射 -->
+	<resultMap type="com.kevin.domain.Customer" id="customer">
+		<id column="cid" property="cid"/>
+		<result column="name" property="name"/>
+		<!-- 用户的订单集合映射 -->
+		<collection property="orders" ofType="com.kevin.domain.Order">
+			<id column="oid" property="oid"/>
+			<result column="cname" property="cname"/>
+			<!-- 订单中的条目映射 -->
+			<collection property="items" ofType="com.kevin.domain.Item">
+				<id column="iid" property="iid"/>
+				<result column="count" property="count"/>
+				<!-- 条目中的商品映射 -->
+				<association property="product" javaType="com.kevin.domain.Product">
+					<id column="pid" property="pid"/>
+					<result column="pname" property="pname"/>
+				</association>
+			</collection>
+		</collection>
+	</resultMap>
+	<select id="getOrder" parameterType="java.lang.Integer" resultMap="demo">
+		查询语句比较长,我就不写了,太恶心.
+	</select>
+
+
+	* 反正就是把你去除了笛卡尔积的查询结果,进行映射.映射成为面向对象的关系结构
+	
+
+
+	多对多查询总结
+		1,当查询结果过于散乱,但是比较简短.量少,那么就可以考虑使用resultType方式把结果集映射到针对的POJO.
+		2,当对查询结果有特殊需求,比较复杂.且关系密切,那么就有必要使用resultMap来进行合理的映射
+	
+
+		

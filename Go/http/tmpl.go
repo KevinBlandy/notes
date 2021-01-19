@@ -1,0 +1,146 @@
+------------------------
+模板引擎
+------------------------
+	# 使用 "html/template"
+	# 参考
+		https://www.cnblogs.com/f-ck-need-u/p/10035768.html
+
+
+------------------------
+加载
+------------------------
+	# 加载函数
+		func New(name string) *Template
+			* 在内存中新建一个模板，指定名称
+
+		func ParseFiles(filenames ...string) (*Template, error)
+			* 解析一组模板，使用文件名作为模板的名字
+		
+		func ParseGlob(pattern string) (*Template, error)
+			* 根据pattern解析所有匹配的模板并保存
+		
+	# 模板的命名，默认使用文件名称(base name)
+		* 如果模板定义了 {{ define "templateName" }} 的话，则使用 templateName
+	
+
+------------------------
+数据渲染
+------------------------
+	# 当前作用于的顶层变量为: .
+		
+		Hello {{ .Name }}
+
+		* 如果字段是对象，可以链式访问 {{ .Struct.StructTwo.Field }}
+		* 如果传递的参数，就是单个数据，并不是复核数据，那么可以直接使用:.
+			tpl.ExecuteTemplate(writer, "index.html", "KevinBlandy")
+			Hello {{ . }}
+		
+		* 反正是用 String() 来访问
+	
+	# with用来重新设置"."的值
+		* 当pipeline不为0值的时候，点"."设置为pipeline运算的值，执行T1的输出
+			{{ with pipeline }} 
+				T1 
+			{{ end }}
+		
+		* 当pipeline为0值时，执行else语句块，否则"."设置为pipeline运算的值，并执行T1。
+			{{ with pipeline }} 
+				T1 
+			{{ else }}
+				T0 
+			{{ end }}
+	
+	# 模板级别作用域的顶层变量是 $
+		* 在某些局部作用域，顶层变量是. 如果此时想访问外部的全局变量，就必须依赖 $
+			{{range .slice}}
+				{{$.ArticleContent}}		// 访问外部的全局变量
+			{{end}}
+	
+
+	# 模板变量，可以在模板中自定义变量，使用 $ 定义与访问
+		{{$root := .}}
+        Hello {{ $root.Name }}
+
+		// 未定义过的变量
+		$var := pipeline
+
+		// 已定义过的变量
+		$var = pipeline
+	
+	# 安全的HTML
+		* 普通的HTML会被转义
+			tpl.ExecuteTemplate(writer, "index.html", "<h1>Vin</h1>")
+			Hello &lt;h1&gt;Vin&lt;/h1&gt;
+		
+		* 使用 template.HTML 可以输出HTML
+			tpl.ExecuteTemplate(writer, "index.html", template.HTML("<h1>Vin</h1>"))
+			Hello <h1>Vin</h1>
+
+	# 空值问题
+		* 渲染不存在的变量，会返回空格字符串
+		* 对不存在的变量进行计算，会异常
+		
+	# 数组
+		* 获取数组索引值使用内置函数 index
+			 遣{{ index .Users 0 }}出战
+			 Users[0]
+	
+		* 多维数组
+			{{ index .Users 0 1 2 }}
+			Users[0][1][2]
+	
+	# Map
+		* 使用 . 导航访问
+			err := tpl.ExecuteTemplate(writer, "index.html", map[string] interface{} {
+				"Foo": map[string] interface{} {
+					"Bar": "Bar",
+				},
+			})
+
+			{{ .Foo.Bar }}
+	
+	# 移除多余的空格，可以在 {{}} 添加 -
+		* 左边添加表示移除左边的空格，右边添加表示移除右边的
+			{{- .Foo.Bar -}}
+	
+	
+	# 注释，使用 /**/
+		{{/* a comment */}}
+				
+
+------------------------
+遍历
+------------------------
+	# 使用Range遍历
+		err := tpl.ExecuteTemplate(writer, "index.html", map[string] interface{} {
+			"Users": []string {"关羽", "张飞", "赵云", "马超", "黄忠"},
+		})
+
+		<ul>
+			{{ range .Users }}
+				<li>{{ . }}</li>
+			{{ end }}
+		</ul>
+
+		* 在range中， . 表示当前迭代的元素
+	
+
+	# Rang赋值遍历
+		{{ range $key, $val :=. }}
+			{{$key}} = {{$val}}
+		{{ end }}
+
+		* 只有一个变量，则是遍历的当前值
+		* 2个变量，第一个为key/index，第二个为当前值
+	
+	# else，判断，如果没有可遍历数据，就会执行
+		{{ range . }}
+			<li>{{ . }}</li>
+		{{ else }}
+			<li> 没有数据 </li>
+		{{ end}}
+	
+
+	
+
+	 

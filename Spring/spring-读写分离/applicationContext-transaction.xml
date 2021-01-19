@@ -1,0 +1,31 @@
+
+<!-- MyBatis -->
+<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<property name="dataSource" ref="dataSource" />
+</bean>
+
+<!-- 事务策略 -->
+<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	<tx:attributes>
+		<tx:method name="query*" read-only="true" />
+		<tx:method name="get*" read-only="true" />
+		<tx:method name="find*" read-only="true" />
+		<tx:method name="load*" read-only="true" />
+		<tx:method name="*" />
+	</tx:attributes>
+</tx:advice>
+
+<!-- 读写分离动态控制数据源,AOP -->
+<bean class="com.tedi.zhsq.manager.web.datasource.DataSourceAspect" id="dataSourceAspect" >
+	<!-- 以下开头的方法,标记为只读.使用slave库 -->
+	<property name="methodNames" value="query,read,load,get,find"/>
+</bean>
+
+<aop:config>
+	<aop:pointcut expression="within(com.tedi.zhsq.common.base.BaseService+)" id="zhsq"/>
+	<aop:advisor advice-ref="txAdvice" pointcut-ref="zhsq" />
+	<!-- 将切面,应用到自定义的读写分离切面处理器上，-9999保证该切面优先级最高执行 -->
+	<aop:aspect ref="dataSourceAspect" order="-9999">
+		<aop:before method="before" pointcut-ref="zhsq" />
+	</aop:aspect>
+</aop:config>

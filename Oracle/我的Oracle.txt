@@ -1,0 +1,23 @@
+oracle基目录
+C:\app\KevinBlandy
+软件位置
+C:\app\KevinBlandy\product\12.1.0\dbhome_1
+数据库文件位置
+C:\app\KevinBlandy\oradata
+数据库版本
+企业版
+数据库字符集
+UTF-8
+全局数据库名
+orcl
+可插入的数据库名
+pdborcl
+口令
+a12551255
+
+创建的账户,登录授权,等
+Kevin
+root
+
+system
+system  系统管理

@@ -1,0 +1,73 @@
+层叠样式表
+	层叠 -- 就层次
+	样式表 -- 有属性值
+***********************************	四种关联(html)方式	***********************************
+1,在每个html标签上都有一个style属性,通过这个属性就可以把css的属性加入标签
+	<h1 style="background-colorL:red;color:green">案例1</h1>
+	属性跟属性值直接用:分隔
+	属性与属性之间用;分隔
+2,写在<head></head>标签之间		【优先级最高】
+	<head>
+		<style type="text/css">
+			....css代码区域 
+		<style type="text/css">
+	</head>
+3,在<head><style type="text/css"></style></head>标签之中引入	[某些浏览器可能不支持]
+	<head>
+		<style type="text/css">
+			@import url(文件路径); 
+		<style type="text/css">
+	</head>
+4,使用头部标签<link>引入外部css文件								[良心推荐]
+	<link rel="stylesheet" type="text/csss" href="文件路径"/>
+
+***********************************	关于选择器	***********************************
+1,关联选择器
+div p{
+	css代码
+}
+	<div><p></p></div>
+2,组合选择器
+把不同的标签,设置成相同的样式
+div,p{
+	css 代码
+}
+<div></div><p></p>
+3,伪类选择器
+伪类:其实根本就不是元素,在css里面,提供了一些定义好了的样式,可以直接使用
+a:link{
+	点击之前
+}
+a:hover{
+	鼠标指向
+}
+a:active{
+	鼠标点击
+}
+a:visited{
+	点击之后
+}
+
+去除a标签下划线
+a{
+	text-decoration:none;
+}
+
+***********************************	盒子模型	****************
+外边距:margin
+内边距:padding
+边框  :border
+
+***********************************	漂浮布局	****************
+CSS布局漂浮属性
+float(漂浮)
+	none:默认值,不漂浮
+	left:文本流向着对象右边
+	right:文本流向着对象左边
+
+***********************************	定位布局	****************
+position
+	static:默认值,遵循html的基础的定位规则
+	absolute:把对象从文档流中拖出,使用left,right,top,bottom等属性对其进行绝对定位
+	relative:对象不可层叠,但将依据left,right,top,bottom等属性在正常文档流中偏移位置
+	> 他使用属性进行定位之后,他原来的位置是不会被其他元素占领,他在文档流中的位置还在

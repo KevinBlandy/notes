@@ -1,0 +1,38 @@
+连接命令
+conn[ect]
+	用法:conn 用户名/密码@网络服务名 [as sysdba/sysoper]
+	>  后面是表名登录的身份,sysdba是最高权限
+	>  登录后,修改登录身份
+disc[connect]
+	> 断开连接
+password[ord]
+	>  该命令用于修改用户的密码,如果想要修改其他用户的密码,需要用sys登录
+show user
+	>  显示当前用户名
+exit
+	>  断开连接,并且退出
+sql和@
+	>   运行sql脚本
+	>   例如:@d:\a.sql 或者 start d:\a.sql
+edit
+	> 编辑sql文件
+	> 例如:edit d:\a.sql  会把sql文件打开给你编辑
+spool
+	> 开始记录屏幕并且创建文件
+	> spool d:\oracle.txt
+spool off
+	> 停止记录,并且输出到指定的文件
+	> spool off;
+
+交互式命名
+&
+	> 可以作为一个变量,让用户的输入来替代它
+	> 例如:select * from demo where id='&';
+
+显示和设置环境变量,可以用来控制输出的各种格式.如果希望永久保存相关设置,去可以修改glogin.sql脚本
+set linesize
+	> 设置显示行的宽带,默认是80字符
+	> set linesize 50;
+page size
+	> 设置每页的显示行数
+	> set pagesize 2;表示一页显示两个

@@ -1,0 +1,102 @@
+需要在web.xml中进行配置
+
+DispatcherServlet类文件的地址是
+> org.springframework.web.servlet.DispatcherServlet.class
+
+----------------------web.xml配置
+	<?xml version="1.0" encoding="UTF-8"?>
+	<web-app version="3.0"
+		xmlns="http://java.sun.com/xml/ns/javaee"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+		<!-- SpringMVC前端控制器 -->
+		<servlet>
+			<servlet-name>SpringMVC</servlet-name>
+			<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+			<!-- SpringMVC配置文件地址(一般加载组键)
+				允许使用通配符:直接加载一波
+				classpath:applicationContext-*.xml
+			-->
+			<init-param>
+				<param-name>contextConfigLocation</param-name>
+				<param-value>classpath:applicationContext.xml</param-value>
+			</init-param>
+			<!-- 跟随服务器启动 -->
+			<load-on-startup>1</load-on-startup>
+		</servlet>
+		<!-- 
+			拦截标准 
+		-->
+		<servlet-mapping>
+			<servlet-name>SpringMVC</servlet-name>
+			<url-pattern>*.action</url-pattern>
+		</servlet-mapping>
+		<!-- SpringMVC全站编码过滤器 -->
+		<filter>
+			<filter-name>encodingFilter</filter-name>
+			<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+			<init-param>
+				<param-name>encoding</param-name>
+				<param-value>UTF-8</param-value>
+			</init-param>
+			<init-param>
+				<param-name>forceEncoding</param-name>
+				<param-value>true</param-value>
+			</init-param>
+		</filter>
+		<!-- 编码过滤器,全站过滤 -->
+		<filter-mapping>
+			<filter-name>encodingFilter</filter-name>
+			<url-pattern>/*</url-pattern>
+			<dispatcher>REQUEST</dispatcher>
+			<dispatcher>FORWARD</dispatcher>
+		</filter-mapping>
+		<!--IOC启动监听,默认加载:classpath:applicationContext.xml 
+			如果配置了名为:contextConfigLocation的 context-param,就会去加载指定的文件
+		-->
+		<listener>
+			<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		</listener>
+		<!-- 告诉监听器,配置文件地址(一般加载全局配置).
+			classpath：只会到你的class路径中查找找文件;
+			classpath*：不仅包含class路径，还包括jar文件中(class路径)进行查找
+			可以使用通配符,一次性加载多个文件
+		-->
+		<context-param>  
+			<param-name>contextConfigLocation</param-name>  
+			<param-value>classpath:spring/spring-mvc.xml</param-value>  
+		</context-param>
+	</web-app>
+	
+注意-- [/*]这种配置不对,使用这种配置,最终要转发到一个JSP页面的时候,仍然会由DispatcherServlet来解析页面,不能根据jsp页面来找到Handler,会报错
+
+-----------------------------
+前端控制器默认加载文件
+	
+	org.springframework.web.servlet.DispatcherServlet.properties
+		如果你没有给前端控制器配置初始化参数,也就是说没有指出你要加载哪个文件?或者说加载的xml文件是空的
+		没有具备映射器,适配器等等...那么它就会去加载默认的文件
+		前端控制器会从这个文件中加载我们所用到的处理器映射器,还有适配器,还有视图解析器等组建
+		
+		正是因为这个默认加载的问题,需要知道几个东西!在properties文件中存在一些"过期"的东西!
+		在使用注解的时候如果不注意,就被"默认"使用了过期的类!(新的类,并没有出现在properties中..所以要注意)
+
+	org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping
+		> 在spring3.1之前,使用这个注解映射器
+	org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter
+		> 在spring3.1之前,使用这个注解适配器
+
+
+	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
+		> 在spring3.1之后,使用这个注解映射器
+	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
+		> 在spring3.1之后,使用这个注解适配器
+
+
+
+处理静态资源:
+	<mvc:resources mapping="/static/**" location="/static/"/>
+    <mvc:resources mapping="/assets/**" location="/assets/"/>
+    <mvc:resources mapping="/upload/**" location="/upload/"/>
+
+

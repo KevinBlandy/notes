@@ -1,0 +1,44 @@
+框架标签
+
+<frameset>
+	- rows: 按照行进行划分
+		> <frameset rows="80%,*">
+		> 表示按行进行划分,分上下两行,第一个行占据页面的80%
+	- cols: 
+		> <frameset cols="80%,*">
+		> 按照列进行划分,同上
+	- frameborder="0":设定边框的框架,取值为0/1。。0表示不要边框,1表示要边框
+	- border="0":设定框架的边框厚度，以像素为单位,只有上面值为1的时候,这个属性才生效
+	- bordercolor="#008000":设定框架的边框颜色。
+	- framespacing="5":表示框架与框架间保留的空白的距离。
+
+<frame>					表示你要显示的页面
+	name:表示你页面的名称
+	src:连接页面的路径
+	src="a.html"  设定此框窗中要显示的网页档案名称，每个框窗一定要对应一个网页档案。
+	name="top"   设定这个框窗的名称，这样才能指定框架来作链接，必须但任意命名。
+	frameborder=0   设定框架的边框，其值只有0和1，0表示不要边框，1表示要边框。
+	framespacing="6"   表示框架与框架间的保留的空白的距离。
+	bordercolor="#0000FF"  设定框架的边框颜色。
+	scrolling="Auto"   设定是否要显示卷轴，YES表示要显示卷轴，NO表示无论如何都不要显示卷轴，AUTO视情况而定(滚动)
+	noresize   设定不让使用者可以改变这个框框的大小，如没有设定此参数，使用者可随意地拉动框架改变其大小。
+	marginhight=5  表示框架高度部分边缘所保留的空间。
+	marginwidth=5   表示框架宽度部分边缘所保留的空间。
+
+使用框架标签的时候,不能写在<body></body>里面.使用框架标签,需要去掉<body>标签
+
+
+例:
+<frameset rows="20%,*" frameborder="1" border="1" bordercolor="red">
+		<frame name="top" src="http://www.baidu.com" scrolling="NO" noresize />
+		<frameset cols="15%,*" frameborder="1" border="1" bordercolor="red">
+			<frame name="left" src="left.html" scrolling="NO" noresize />
+			<frame name="right" src="index.html" scrolling="YES" noresize />
+		</frameset>
+</frameset>
+
+联动操作:
+	<a href="" target="right">页面一</a>
+	target 属性的值就是某个框架页面的name属性
+	当点击这个链接后,返回的页面会出现在哪里？
+	 

@@ -1,0 +1,135 @@
+文字标签(修改文字的样式)
+<font></font>
+	size:文字大小(取值范围1-7,超过7还是7) 
+	color:文字颜色(两种表示方式,英文名,16进制)
+
+标题标签
+<h1></h1>...<h6></h6>
+	自动换行,显示标题
+
+水平线标签
+<hr/>
+	没有结束标签,水平线
+	size:水平线的粗细(取值范围1 - 7,超过7还是7)
+	color:水平线的颜色
+
+特殊字符
+<pre></pre>
+	会把内容原封不动的输出,例如包含html标签代码的东西也会被输出而不会被浏览器解析
+	--转义字符,得查找API自己查去
+
+定义列表
+<dl>
+	<dt></dt>
+	<dd></dd>
+</dl>
+	dt,表示的是一个列表的父层结构(上层)
+	dd,表示的是一个列表的子层结构(下层)
+
+列表标签(有序)
+<ol>
+	<li></li>
+	<li></li>
+</ol>
+	带有序号的列表
+	<ol>标签的属性
+	type="a" --以a,b,c形式作为序号(默认为1，2，3)
+	type="i" --以罗马数字形式
+
+无序列表标签
+<ul>
+	<li></li>
+	<li></li>
+</ul>
+	不带序号的列表
+	<ul>标签的属性
+	type="circle" --以空心圆作为序号
+	type="disc"   --以实心圆作为序号(默认)
+
+图片标签
+<img src="" alt=""/>
+	src:是表示文件的路径,可以是相对路径,或者是绝对路径,也是可以是网络文件的路径
+	alt:表示这个文件在网页中的名字,当图片无法显示的时候会出现这个文字的提示
+	width:设置图片的宽度(像素)
+	hright:设置图片的高度(像素)
+
+超链接标签
+<a href="" >连接</a>
+	href:就是一个连接,点击文字就跳转连接(当其值为"#"号的时候,就是不做任何的跳转)
+	target:_blank -- 在新的窗口打开
+		   _self  -- 在当前页打开(默认)
+
+定位资源
+<a name="top">顶部</a>
+	定位资源
+<a href="#name">回到顶部</a>
+	点击回到资源定位处
+
+表格标签
+<table>
+	<caption></caption>
+	<tr>
+		<th></th>
+		<th></th>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
+	<table>标签的属性
+		align="center"		--设置表格的位置,center是中,left左边,righ右边
+		cellspacing="0"		-- 设置表格之间的间隙为0,就是没有间隙了
+		border="1"			-- 设置边框的粗细为1像素,默认为0
+		bordercolor="red"	-- 设置边框线的颜色	
+		width="10"			--设置宽度(像素)
+		height="10"			--设置高度(像素)
+	<tr><td>标签的属性
+		align="center"		--设置表格中内容的位置,center是中,left左
+		rowspan="3":跨3列,包括自己一共竖着占了3列
+		colspan="3":跨3列,包括自己一共横着占了3列
+	<th>	  -- 自动实现加粗和居中
+	<caption> -- 设置表格的标题
+	# border="1" cellspacing="0" cellpadding="0" border-collapse:collapse;
+表单标签
+<form action="" method="">
+	<input type="text" name="userName"/>		普通的文本框
+	<input type="passWord" name="passWord"/>	密码框
+	<input type="hidden" name="hidden"/>		隐藏提交项
+	<input type="radio" name="gender" checked="checked"/>		单选框,多个单选(name属性必须相同不然没用)checked="checked"表示默认选中 ,可选
+	<input type="checkbox" name="hoobby" checked="checked">		复选框,多个多选	同上
+	<input type="file" name="文件名"/>			文件上传框
+	<select name="birthday">					下拉选择框
+		<option value="1993">1993</option>
+		<option value="1991" selected="selected">1991</option>	selected="selected" -- 表示默认选择,如果不设置那么默认第一行
+	</select>
+	<textarea cols="10" rows="10">				文本域,10行,10列
+	</textarea>
+	<input type="submit" value="提交"/>			提交摁钮,点击提交就会以
+	<input type="image" src=""/>				点击图片的方式进行提交操作
+	<input type="rsset" value="重置 "/>			重置摁钮,直接重置所有的输入
+	<input type="button" value="摁钮"/>			普通摁钮,这个摁钮一般都是和JS一起使用的,来达到点击效果
+</form>
+
+文字处理标签
+<b></b>		
+	加粗
+<u></u>
+	下划线
+<i></i>
+	斜体
+<s></s>
+	删除线
+<pre></pre>
+	原样输出
+<sub></sub>
+	标签内文字显示在左边文字的右下方(下标)
+<sup></sup>
+	标签内文字显示在左边文字的右上方(上标)
+<div></div>
+	这个很牛逼,独占一行
+<p></p>
+	段落标签
+
+
+

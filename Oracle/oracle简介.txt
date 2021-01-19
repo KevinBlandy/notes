@@ -1,0 +1,65 @@
+老板是谁的什么就不介绍了.很牛逼反正
+Oracle 数据库,甲骨文.
+
+
+Oracle安装好了几个服务的介绍
+OracleServiceORCL
+	数据库服务,这个服务会自动的启动和停止数据库
+OracleHOME_NAMETNSListener
+	监听服务,只有在数据库需要被远程访问的时候才开启
+OraclejobschedulerORCL
+	数据库工作日程调度,一般没有安排工作日程就不需要启动
+OrcaleDBConsoleORCL
+	主管Oracle客户端,开启本服务后才能够打开Database control文件
+
+Orcale系统用户
+SCOTT	普通用户
+	-- 默认密码是tiger
+SYSTEM	管理用户--权限也很大,具有sysoper角色,但是没有create database权限
+	-- 默认密码:manager
+SYS	超级管理员--具备最高权限sysdba角色
+	具有,create database权限
+	-- 默认密码:change_on_install
+
+一般来说,对数据库的维护使用 SYSTEM登录就好了
+
+创建用户
+create user 用户名 identified by 密码
+
+物理组件(结构)
+1,数据文件
+	存储数据的文件
+2,重做日志文件
+	含对数据所做的更改记录,这样万一出现故障,可以启用数据恢复,一个数据库至少需要两个重做日志文件
+3,控制文件
+	包含维护和验证数据库完整性的必要信息。
+	例如--控制文件用于识别数据文件和重做日志文件,
+	一个数据库至少需要一个控制文件,记录数据库的物理结构
+
+逻辑组键(结构)
+1,数据库对象
+	表,视图,同义词,索引,过程,序列,触发器...
+2,表空间
+	是数据库中的基本逻辑结构,一系列数据文件的合
+3,段
+	是对象在数据库中占用的空间
+4,区(范围)
+	是数据一次性预留的一个较大的存储空间
+5,块
+	Oracle最基本的存储单位,在建立数据库的时候指定
+
+dbca  数据库设置
+netca 网络设置
+tnsping 数据库
+sqlplus
+sqlplus  / as sysdba 管理员身份登录
+
+Oracle的认证
+分几类
+DBA认证		---	数据库管理员
+		--OCA 初级认证
+		--OCP 专家级认证,要考四门,已经很难了
+		--OCM  大师级别的认证,要命了这个
+--
+JAVA认证	---	JAVA开发认证
+Orcale网络认证	---	就自己搞的认证

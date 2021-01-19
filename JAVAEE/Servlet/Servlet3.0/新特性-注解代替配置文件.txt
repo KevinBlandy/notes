@@ -1,0 +1,32 @@
+注解代替配置文件!
+一,删除web.
+	是不是有点刺激?从来没敢删过这东西
+
+二,创建Servlet
+	不要在web.xml中配置,干掉它
+
+三,注解详解
+1,Servlet的注解
+@WebServlet(urlPatterns={"/AServlet","/AAServlet"},
+		initParams={@WebInitParam(name="p1",value="v1"),
+			@WebInitParam(name="p2",value="v2")},
+					loadOnStartup=1)
+	> 这个注解是加在Servlet类上的
+	> urlPatterns:代表的就是访问路径,也就是web.xml中url-pattern.
+		* 注意,这个注解是个数组类型,也就是说可以配置多个访问路径,而这个正好符合web.xml的规则
+		* 通常只给一个,也就是说可以省略大括号
+	> initParams:代表就是初始化参数
+		* 吃饱了撑的,都写注解上了,为什么不直接写类里?毕竟都是要修改源码的
+	> loadOnStartup:代表的就是服务器启动,就立即加载Servlet实例
+
+2,Filter的注解
+@WebFilter(urlPatterns={"/AServlet","/AAServlet"})
+	>  不多解释了,一看就懂.当然最不可思议的不是他跟Servlet,看下面看下面
+
+3,Listener的注解
+@WebListener
+	> 呵呵,别看了.就这个,都别记.直接复制上去就能行事儿.
+
+四,优缺点
+	1,注解更加的方便开发
+	2,注解的参数不好更改,需要修改源!代!码,不如web.xml修改参数有趣

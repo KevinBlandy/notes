@@ -1,0 +1,34 @@
+————————————————————————
+1,MyBatis-一对多关联查询|
+————————————————————————
+	* 这种东西一看就明白!
+	* collection 就是里面的一个集合.配置好查询结果的对应名称就好
+	<!--
+		extends:这是个新东西,其实就是可以从另一个 resultMap继承属性.
+		如果别人已经对Orders进行了映射处理,那么我们只需要继承它后,我们就不用写相同的代码了,只需添加不同的(配置集合属性)
+	-->
+	<resultMap type="com.kevin.domian.Orders" id="demo" extends="other">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="number" property="number"/>
+		<result column="createtime" property="createtime"/>
+		<!-- 映射集合属性,也就是传说中的一对多
+			collection:就是映射集合属性
+			property:就是返回对象中,的集合属性名称
+			ofType:是集合属性中,集合元素POJO的的类型,注意!跟一对一的javaType不一样
+			otherSelect:传递值到其他select语句,返回集合.延迟加载
+		 -->
+		<collection property="orderdetails" ofType="com.kevin.domian.Orderdetail" select="otherSelect">
+			<id column="id" property="id"/>
+			<result column="orders_id" property="ordersId"/>
+			<result column="items_id" property="itemsId"/>
+			<result column="items_num" property="itemsNum"/>
+		</collection>
+	</resultMap>
+	<select id="getOrder" parameterType="java.lang.Integer" resultMap="demo">
+		SELECT * FROM orders o,orderdetail t ,user u where o.user_id=u.id AND t.orders_id=o.id AND o.id=#{any}
+	</select>
+
+	* MyBatis使用collection对关联查询的多条记录映射到一个List集合的属性中
+	
+	

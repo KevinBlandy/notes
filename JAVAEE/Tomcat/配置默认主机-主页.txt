@@ -1,0 +1,8 @@
+在Server.xml文件中
+	<Engine name="Catalina" defaultHost="localhost">
+	defaultHost  属性值，就是默认的主机名。
+在WEB-INF/web.xml中  -- 
+	 <welcome-file-list>
+	   <welcome-file>index.html</welcome-file>
+	 </welcome-file-list>
+	 index.html就是该主机的默认主页。也就是缺省主页

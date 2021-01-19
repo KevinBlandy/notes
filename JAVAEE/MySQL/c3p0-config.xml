@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+	<default-config> <!-- c3p0默认配置 -->
+		<!-- 四大参数 -->
+		<property name="jdbcUrl">jdbc:mysql://localhost:3306/customers</property><!-- 数据库连接 -->
+		<property name="driverClass">com.mysql.jdbc.Driver</property><!-- 驱动类 -->
+		<property name="user">root</property><!-- 用户名 -->
+		<property name="password">root</property><!-- 密码 -->
+		<!-- 池参数 -->
+		<property name="acquireIncrement">3</property>
+		<property name="initialPoolSize">10</property>
+		<property name="minPoolSize">2</property>
+		<property name="maxPoolSize">10</property>
+	</default-config>
+	<named-config name="MySQL-cofig"><!-- MYSQL配置 -->
+		<!-- 四大参数 -->
+		<property name="jdbcUrl">jdbc:mysql://localhost:3306/demo</property>
+		<property name="driverClass">com.mysql.jdbc.Driver</property>
+		<property name="user">root</property>
+		<property name="password">root</property>
+		<!-- 池参数 -->
+		<property name="acquireIncrement">3</property>
+		<property name="initialPoolSize">10</property>
+		<property name="minPoolSize">2</property>
+		<property name="maxPoolSize">10</property>
+	</named-config>
+</c3p0-config>

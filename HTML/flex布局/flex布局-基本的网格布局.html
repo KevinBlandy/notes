@@ -1,0 +1,42 @@
+
+# 平均分布,在容器里面平均分配空间,但是需要设置项目的自动缩放
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Index</title>
+		<style type="text/css">
+			.Grid {
+				display: flex;
+			}
+			
+			.Grid-cell {
+				/** 
+					等比例放大
+					等比例缩小(默认1)
+					主轴空间大小(默认 auto)
+				**/
+				flex: 1 1 auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="Grid">
+			<div class="Grid-cell">1</div>
+			<div class="Grid-cell">2</div>
+		</div>
+		<div class="Grid">
+			<div class="Grid-cell">1</div>
+			<div class="Grid-cell">2</div>
+			<div class="Grid-cell">3</div>
+		</div>
+		<div class="Grid">
+			<div class="Grid-cell">1</div>
+			<div class="Grid-cell">2</div>
+			<div class="Grid-cell">3</div>
+			<div class="Grid-cell">4</div>
+		</div>
+	</body>
+</html>
+

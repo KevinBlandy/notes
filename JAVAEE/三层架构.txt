@@ -1,0 +1,10 @@
+JAVAWEB-经典三层架构
+	我们常说的三层架构是由JAVAWEB提出的,也就是说。这是JAVAWEB独有的！
+三层
+*表述层(WEB)		 ---- 包含JSP和Servlet等与WEB相关的内容
+*业务层(Business Logic)	 ---- 业务层中不包含JAVAWEB API,它只关心业务逻辑(最复杂的部分)
+*数据层(Data Access)	 ---- 封装了对数据库的访问细节(所有对数据库的操作,不能跳出到DAO之外)
+
+------
+
+

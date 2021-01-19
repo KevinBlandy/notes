@@ -1,0 +1,19 @@
+编码
+1,查看MYSQL数据库编码
+	show variables like 'char%';
+2,编码解释
+	character_set_client:MYSQL使用这种编码来解毒客户端发送过来的数据,例如该编码是UTF8,如果客户端发送过来的数据不是UTF8那么就会出现乱码
+	character_set_results:MYSQL会把数据转换成该编码后,再发送给客户端,例如该编码为UTF8。如过客户端不用UTF8来读,那么就会出现乱码
+3,控制台乱码的问题
+*插入或修改时出现乱码:
+   > 这是因为CMD默认下使用GBK,而character_set_client不是GBK的原因.我们只需让这个两个编码相同即可
+   > 因为修改CMD的编码不方便,所以我们去设置character_set_client为GBK即可
+*查询出的数据乱码
+   >因为character_set_results不是GBK,而CMD默认使用GBK的原因,我们只需要让这两个编码相同即可
+   >因为修改CMD的编码不方便,所以我们去设置character_set_clinet为GBK即可
+*设置变量的语句
+   > set character_set_clinet=gbk;
+   > set character_set_results=gbk;
+   注意:设置变量,只对当前连接有效,当退出窗口后再次登录MYSQL。还需要再次设置变量！为了一劳永逸,可以在my.ini中设置
+   character_set_server=utf8 即可。
+  

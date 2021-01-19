@@ -1,0 +1,11 @@
+UserDao
+1,DAO模式
+	DAO(Data Access Object)模式,就是写一个类,把访问数据库的代码封装起来.DAO在数据库与业务逻辑(Service)之间
+	实体域:即操作对象,例如我们操作的表是user表,那么就需要先写一个User类
+	DAO模式需要先提供一个DAO接口
+	然后再提供一个DAO接口实现类
+	再编写一个DAO工厂,Service通过工厂来获取DAO实现
+2,代码
+	修改项目,把userDao修改为接口.把原来的userDao重新修改类名为userDaoImpl
+	修改Usersevice中对UserDao的实例化:private UserDao userDao = DaoFactory.getUserDao();
+	创建DaoFactry提供getUserDao()方法
