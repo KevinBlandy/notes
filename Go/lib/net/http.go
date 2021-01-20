@@ -221,6 +221,9 @@ type
 	# type Dir string
 		func (d Dir) Open(name string) (File, error)
 
+		* 一个Dir实现了FileSystem，使用本地文件系统限制在一个特定的目录树上。
+		* 空的Dir会被视为"."
+
 	
 	# type File interface {
 			io.Closer
@@ -245,6 +248,9 @@ type
 		}
 
 		func FileServer(root FileSystem) Handler
+			* 返回一个使用 FileSystem 接口 root 提供文件访问服务的 HTTP 处理器。可以方便的实现静态文件服务器
+				http.ListenAndServe(":8080", http.FileServer(http.Dir("/files/path")))
+
 		func NotFoundHandler() Handler
 		func RedirectHandler(url string, code int) Handler
 		func StripPrefix(prefix string, h Handler) Handler
@@ -490,6 +496,7 @@ func
 	func Serve(l net.Listener, handler Handler) error
 	func ServeContent(w ResponseWriter, req *Request, name string, modtime time.Time, ...)
 	func ServeFile(w ResponseWriter, r *Request, name string)
+
 	func ServeTLS(l net.Listener, handler Handler, certFile, keyFile string) error
 	func SetCookie(w ResponseWriter, cookie *Cookie)
 		* 设置Cookie
