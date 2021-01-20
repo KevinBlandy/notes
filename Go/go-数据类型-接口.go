@@ -132,6 +132,25 @@
 				t2 = t1  // I1 does not implement I2 (missing m2 method)go
 			}
 		
+	# 强制验证接口实现
+		* 一个结构体，可以只实现接口中的部分方法
+		* 如果需要结构体实现所有，那么可以使用一个表达式
+			var _ Inter = (*Obj)(nil)
+
+			* 声明 _ 变量（没人用）会把一个 nil 的空指针从 Obj 转成 Inter
+			* 如果Obj没有实现完Inter的接口方法，编译器就会报错
+		
+		* demo
+			type Bar interface {
+				Foo()
+				Bar()
+			}
+			type Foo string
+			func (f *Foo) Foo(){}
+			func (f *Foo) Bar(){}
+			func main() {
+				var _ Bar = (*Foo)(nil)  // 实现了所有方法，不会报错
+			}
 
 				
 	# 查询

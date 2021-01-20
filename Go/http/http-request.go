@@ -46,8 +46,12 @@ request
 		func (r *Request) FormValue(key string) string
 		func (r *Request) MultipartReader() (*multipart.Reader, error)
 		func (r *Request) ParseForm() error
+			* 解析请求的查询参数和POST请求参数，也就是填充r.Form和r.PostForm的值
+			* ParseForm是幂等的
+
 		func (r *Request) ParseMultipartForm(maxMemory int64) error
 			* 如果是multipar请求，需要先调用这个方法，指定内存的最大存储空间，超过这个空间的数据会被IO到临时文件
+			* ParseMultipartForm会自动调用ParseForm
 
 		func (r *Request) PostFormValue(key string) string
 		func (r *Request) ProtoAtLeast(major, minor int) bool

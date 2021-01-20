@@ -98,13 +98,27 @@ type
 			Name string
 			PkgPath string
 			Type      Type      // field type
+				* 类型
 			Tag       StructTag // field tag string
+				* tag，类似于Java中的注解
+			
 			Offset    uintptr   // offset within struct, in bytes
 			Index     []int     // index sequence for Type.FieldByIndex
 			Anonymous bool      // is an embedded field
 		}
+		
+		* 结构体的字段
+
 		func (tag StructTag) Get(key string) string
+			* 获取注解，如果不存在返回 ""
+				v, _ := tag.Lookup(key)
+				return v
+			
 		func (tag StructTag) Lookup(key string) (value string, ok bool)
+			* 获取注解
+	
+	# type StructTag string
+		* 结构体的字段注解
 	
 	# type Type interface {
 			Align() int
@@ -120,13 +134,13 @@ type
 				* 根据方法名称获取方法
 
 			NumMethod() int
-				* 返回该类型方法的个数
+				* 返回该类型public方法的个数
 
 			Name() string
-				* 返回实际类型的名称，会包含包名
+				* 返回实际类型的名称，不含包名
 
 			PkgPath() string
-				* 返回类型的包路径，如果没有返回空字符串
+				* 返回类型的包路径，import 路径，如果没有返回空字符串
 
 			Size() uintptr
 				* 存储该类型需要的空间大小，类似于unsafe.Sizeof
@@ -148,9 +162,10 @@ type
 
 			Comparable() bool
 				* 是否是可比较的
+				* 检查当前类型能不能做比较运算，其实就是看这个类型底层有没有绑定 typeAlg 的 equal 方法
 
 			Bits() int
-				* 以比特为单位返回类型的大小
+				* 以比特为单位返回类型的大小，不是所有类型都能调这个方法，不能调的会 panic
 
 			ChanDir() ChanDir
 				* 返回一个通道类型的方向，如果当前type不是通道，会抛出异常
@@ -162,10 +177,16 @@ type
 				* 返回当前类型的元素类型，如果类型不是Array、Chan、Map、Ptr或Slice，抛出异常
 
 			Field(i int) StructField
+				* 返回 struct 类型的第 i 个字段，不是 struct 会 panic，i 越界也会 panic
+
 			FieldByIndex(index []int) StructField
+				* 跟上边一样，不过是嵌套调用的，比如 [1, 2] 就是说返回当前 struct 的第1个struct 的第2个字段，适用于 struct 本身嵌套的类型
+
 			FieldByName(name string) (StructField, bool)
+				* 按名字找 struct 字段，第二个返回值 ok 表示有没有
+			
 			FieldByNameFunc(match func(string) bool) (StructField, bool)
-				* 返回当前类型结构体中的字段信息
+				* 按函数名找 struct 字段，因为 struct 里也可能有类型是 func 
 				 
 			In(i int) Type
 				* 返回当前类型函数，指定下标参数的类型，如果当前类型不是函数，则抛出异常
@@ -216,6 +237,8 @@ type
 		func (v Value) Bool() bool
 		func (v Value) Bytes() []byte
 		func (v Value) Call(in []Value) []Value
+			* 前提 v 是一个 func，然后调用 v，并传入 in 参数，第一个参数是 in[0]，第二个是 in[1]，以此类推
+
 		func (v Value) CallSlice(in []Value) []Value
 		func (v Value) CanAddr() bool
 		func (v Value) CanInterface() bool
@@ -225,26 +248,47 @@ type
 		func (v Value) Complex() complex128
 		func (v Value) Convert(t Type) Value
 		func (v Value) Elem() Value
+			* 返回 v 的接口值或者指针
+		
 		func (v Value) Field(i int) Value
+			* 前提 v 是一个 struct，返回第 i 个字段，这个主要用于遍历
+
 		func (v Value) FieldByIndex(index []int) Value
 		func (v Value) FieldByName(name string) Value
+			*  前提 v 是一个 struct，根据字段名直接定位返回
+		
 		func (v Value) FieldByNameFunc(match func(string) bool) Value
 		func (v Value) Float() float64
 		func (v Value) Index(i int) Value
+			* 前提 v 是 Array, Slice, String 之一，返回第 i 个元素，主要也是用于遍历，注意不能越界
+
 		func (v Value) Int() int64
 		func (v Value) Interface() (i interface{})
+			* 转换为接口类型
+
 		func (v Value) InterfaceData() [2]uintptr
 		func (v Value) IsNil() bool
+			* 判断 v 是不是 nil，只有 chan, func, interface, map, pointer, slice 可以用，其他类型会 panic
+
 		func (v Value) IsValid() bool
+			*  判断 v 是否合法，如果返回 false，那么除了 String() 以外的其他方法调用都会 panic，事前检查是必要的
+
 		func (v Value) IsZero() bool
 		func (v Value) Kind() Kind
 		func (v Value) Len() int
 		func (v Value) MapIndex(key Value) Value
+			* 前提 v 是个 map，返回对应 value
+
 		func (v Value) MapKeys() []Value
+			* 前提 v 是个 map，返回所有 key 组成的一个 slice
+			
+
 		func (v Value) MapRange() *MapIter
 		func (v Value) Method(i int) Value
 		func (v Value) MethodByName(name string) Value
 		func (v Value) NumField() int
+			*  前提 v 是个 struct，返回字段个数
+
 		func (v Value) NumMethod() int
 		func (v Value) OverflowComplex(x complex128) bool
 		func (v Value) OverflowFloat(x float64) bool
@@ -254,6 +298,8 @@ type
 		func (v Value) Recv() (x Value, ok bool)
 		func (v Value) Send(x Value)
 		func (v Value) Set(x Value)
+			* 赋值
+		
 		func (v Value) SetBool(x bool)
 		func (v Value) SetBytes(x []byte)
 		func (v Value) SetCap(n int)
@@ -271,6 +317,7 @@ type
 		func (v Value) TryRecv() (x Value, ok bool)
 		func (v Value) TrySend(x Value) bool
 		func (v Value) Type() Type
+			* 类型
 		func (v Value) Uint() uint64
 		func (v Value) UnsafeAddr() uintptr
 	
@@ -286,4 +333,6 @@ func
 ---------------------
 	func Copy(dst, src Value) int
 	func DeepEqual(x, y interface{}) bool
+		* 深比较2个数据
+
 	func Swapper(slice interface{}) func(i, j int)
