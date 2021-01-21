@@ -75,7 +75,7 @@ XMLHttpRequest				|
 			* 该属性可以监听一个上传事件:progress
 				if(xhr.upload){
 					//监听上传属性的上传事件,每次上传事件都会执行 progressHandlingFunction
-					xhr.addEventListener('progress',progressHandlingFunction, false);
+					xhr.upload.addEventListener('progress',progressHandlingFunction, false);
 					//xhr.upload.onprogress = function(){}			也可以
 				}
 			* Event属性

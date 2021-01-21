@@ -20,15 +20,6 @@ import (
 	"time"
 )
 
-// 配置
-var (
-	user              string // 登录账户
-	password          string // 登录密码
-	githubAccessToken string // Github的访问Token
-	githubAccount     string // Github账户
-	githubRepository  string // 存储图片的仓库
-)
-
 var (
 	authorizationHeader string // 身份认证
 )
@@ -37,6 +28,11 @@ const (
 	// 最大内存 1Mb
 	maxMemory int64 = 1024 << 10
 )
+
+// 默认的HTTP客户端
+var httpClient = http.Client{
+	Timeout: time.Second * 10,
+}
 
 // 登录验证
 func BasicAuthHandler(handler http.Handler) http.HandlerFunc {
@@ -56,11 +52,6 @@ func AuthorizationHeader(user, password string) string {
 	return "Basic " + base64.StdEncoding.EncodeToString([]byte(user+":"+password))
 }
 
-// 默认的HTTP客户端
-var httpClient = http.Client{
-	Timeout: time.Second * 5,
-}
-
 // 用日期打散路径
 func FilePath(suffix string) string {
 	builder := strings.Builder{}
@@ -78,6 +69,7 @@ func Suffix(filename string) (string, error) {
 		return "", errors.New("不是合法的文件")
 	}
 	suffix := filename[index+1:]
+	// TODO 文件类型校验
 	return suffix, nil
 }
 
@@ -89,31 +81,29 @@ func ErrorResponse(writer http.ResponseWriter, message string, code int) {
 	return
 }
 
-func main() {
+var (
+	host = flag.String("host", "", "监听host，不指定则监听所有")
+	port = flag.Int("port", 8081, "使用的端口")
+	user = flag.String("user", "admin", "访问账户")
+	password = flag.String("password", "admin", "访问密码")
+	githubAccessToken = flag.String("token", "", "Github接口访问的Token")
+	githubAccount = flag.String("account", "KevinBlandy", "Github账户")
+	githubRepository = flag.String("repository", "image-bucket", "Github存储图片的仓库")
+)
 
-	// 解析命令参数
-	var host = *flag.String("host", "", "监听host，不指定则监听所有")
-	var port = *flag.Int("port", 8081, "使用的端口")
-	user = *flag.String("user", "admin", "访问账户")
-	password = *flag.String("password", "admin", "访问密码")
-	githubAccessToken = *flag.String("token", "", "Github接口访问的Token")
-	githubAccount = *flag.String("account", "", "Github账户")
-	githubRepository = *flag.String("repository", "", "Github存储图片的仓库")
+func main() {
 
 	flag.Parse()
 
 	log.Printf("host=%s, port=%d, user=%s, password=%s, githubAccessToken=%s, githubAccount=%s, githubRepository=%s\n",
-		host, port, user, password, githubAccessToken, githubAccount, githubRepository)
+		*host, *port, *user, *password, *githubAccessToken, *githubAccount, *githubRepository)
 
-	if githubAccessToken == "" || githubAccount == "" || githubRepository == "" {
+	if *githubAccessToken == "" || *githubAccount == "" || *githubRepository == "" {
 		log.Println("Github配置信息不能不能为空")
 		os.Exit(1)
 	}
 
-	authorizationHeader = AuthorizationHeader(user, password)
-
-	log.Printf("host=%s, port=%d, user=%s, password=%s, githubAccessToken=%s, githubAccount=%s, githubRepository=%s\n",
-		host, port, user, password, githubAccessToken, githubAccount, githubRepository)
+	authorizationHeader = AuthorizationHeader(*user, *password)
 
 	router := http.NewServeMux()
 
@@ -138,15 +128,20 @@ func main() {
 
 				filename := file.Filename
 				size := file.Size
-				log.Printf("文件:filename=%s, size=%d\n", filename, size)
+				log.Printf("┏ 文件:filename=%s, size=%d\n", filename, size)
 
-				// TODO 文件类型判断
+				// 获取文件后缀
+				suffix, err := Suffix(filename)
+				if err != nil {
+					ErrorResponse(writer, err.Error(), http.StatusBadRequest)
+					return
+				}
 
-				suffix, _ := Suffix(filename)
 				// 打开文件
 				f, _ := file.Open()
 				// 读取文件
 				data, _ := ioutil.ReadAll(f)
+				_ = f.Close()
 
 				// 请求体
 				requestBody, _ := json.Marshal(map[string]string{
@@ -157,15 +152,15 @@ func main() {
 				// 资源存储路径
 				filePath := FilePath(suffix)
 
-				log.Printf("上传路径:%s\n", filePath)
+				log.Printf("┃ 上传路径:%s\n", filePath)
 
 				// 构建URL
-				requestUrl, _ := url.Parse(fmt.Sprintf("https://api.github.com/repos/%s/%s/contents/%s", githubAccount, githubRepository, filePath))
-				log.Printf("请求URL:%s\n", requestUrl)
+				requestUrl, _ := url.Parse(fmt.Sprintf("https://api.github.com/repos/%s/%s/contents/%s", *githubAccount, *githubRepository, filePath))
+				log.Printf("┃ 请求URL:%s\n", requestUrl)
 				request, _ := http.NewRequest(http.MethodPut, requestUrl.String(), bytes.NewReader(requestBody))
 				request.Header.Set("Accept", "application/json")
 				request.Header.Set("Content-Type", "application/json")
-				request.Header.Set("Authorization", "token "+githubAccessToken)
+				request.Header.Set("Authorization", "token " + *githubAccessToken)
 				response, err := httpClient.Do(request)
 				if err != nil {
 					ErrorResponse(writer, fmt.Sprintf("Github请求异常:%s\n", err.Error()), http.StatusInternalServerError)
@@ -174,7 +169,7 @@ func main() {
 				responseBody, _ := ioutil.ReadAll(response.Body)
 				_ = response.Body.Close()
 
-				log.Printf("github上传响应:code=%d, body=%s\n", response.StatusCode, responseBody)
+				log.Printf("┗ Github上传响应:code=%d, body=%s\n", response.StatusCode, responseBody)
 
 				if response.StatusCode != http.StatusCreated {
 					ErrorResponse(writer, fmt.Sprintf("Github响应状态码:code=%d, body=%s\n", response.StatusCode, responseBody), response.StatusCode)
@@ -182,7 +177,7 @@ func main() {
 				}
 
 				// 构建访问URL
-				images = append(images, fmt.Sprintf("https://cdn.jsdelivr.net/gh/%s/%s/%s", githubAccount, githubRepository, filePath))
+				images = append(images, fmt.Sprintf("https://cdn.jsdelivr.net/gh/%s/%s/%s", *githubAccount, *githubRepository, filePath))
 			}
 		}
 
@@ -192,7 +187,7 @@ func main() {
 		_, _ = writer.Write(jsonVal)
 	})))
 	server := http.Server{
-		Addr:    fmt.Sprintf("%s:%d", host, port),
+		Addr:    fmt.Sprintf("%s:%d", *host, *port),
 		Handler: router,
 	}
 	go func() {
@@ -227,7 +222,7 @@ func main() {
     </head>
     <body>
         <form id="form">
-            <input name="file" type="file" multiple="multiple" accept="image/*" "/>
+            <input name="file" type="file" multiple="multiple" accept="image/*"/>
         </form>
     </body>
     <script>
@@ -241,15 +236,16 @@ func main() {
                 const formData = new FormData(document.querySelector('#form'))
                 const xhr = new XMLHttpRequest()
                 xhr.open("POST", "/upload")
-                xhr.addEventListener('progress', e => {
-                    const percent  = ((e.loaded / e.total) * 100).toFixed(2);
-                    console.log(`上传进度 ${percent}`);
-                }, false);
+                if (xhr.upload){
+                    xhr.upload.onprogress = e => {
+                        const percent  = ((e.loaded / e.total) * 100).toFixed(2);
+                        console.log(`上传进度 ${percent}`);
+                    }
+                }
                 xhr.onload = e => {
                     document.querySelector('#form').reset()
                     if (xhr.status == 201){
                         const images = JSON.parse(xhr.responseText)
-                        // TODO 遍历图片信息
                         images.forEach(i => console.log(i))
                     } else {
                         const errorMessage = xhr.responseText
