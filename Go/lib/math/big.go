@@ -1,6 +1,11 @@
 ---------------------------
 big
 ---------------------------
+	# 实现了任意精度算术(超大数)支持以下数字类型:
+		Float
+		Int
+		Rat
+
 
 ---------------------------
 变量
@@ -54,6 +59,7 @@ type
 		func (z *Float) Quo(x, y *Float) *Float
 		func (x *Float) Rat(z *Rat) (*Rat, Accuracy)
 		func (z *Float) Scan(s fmt.ScanState, ch rune) error
+
 		func (z *Float) Set(x *Float) *Float
 		func (z *Float) SetFloat64(x float64) *Float
 		func (z *Float) SetInf(signbit bool) *Float
@@ -65,6 +71,8 @@ type
 		func (z *Float) SetRat(x *Rat) *Float
 		func (z *Float) SetString(s string) (*Float, bool)
 		func (z *Float) SetUint64(x uint64) *Float
+			* 设置值
+
 		func (x *Float) Sign() int
 		func (x *Float) Signbit() bool
 		func (z *Float) Sqrt(x *Float) *Float
@@ -137,6 +145,8 @@ type
 	
 	# type Rat struct
 		func NewRat(a, b int64) *Rat
+			* 使用分子a和分母b创建一个Rat
+
 		func (z *Rat) Abs(x *Rat) *Rat
 		func (z *Rat) Add(x, y *Rat) *Rat
 		func (x *Rat) Cmp(y *Rat) int

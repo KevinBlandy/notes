@@ -31,6 +31,10 @@ type
 	func Base(path string) string
 		* 返回路径的最后一个元素。在提取元素前会去掉末尾的斜杠。
 		* 如果路径是 ""，会返回 "."；如果路径是只有一个斜杆构成的，会返回 "/"。
+			"C:\go-project"			-> go-project
+			"C:\go-project\"		-> go-project
+			"C:\go-project\a.jpg"	-> a.jpg
+			""						-> .
 
 	func Clean(path string) string
 	func Dir(path string) string
