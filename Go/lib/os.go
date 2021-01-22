@@ -86,7 +86,13 @@ type
 		func (f *File) ReadAt(b []byte, off int64) (n int, err error)
 		func (f *File) ReadFrom(r io.Reader) (n int64, err error)
 		func (f *File) Readdir(n int) ([]FileInfo, error)
+			* 返回目录下的文件信息列表，n指定最多返回文件个数
+			* 如果n <= 0，Readdir返回目录中的所有FileInfo
+
 		func (f *File) Readdirnames(n int) (names []string, err error)
+			* 返回目录下的文件名称，n指定最多返回文件个数
+			* 如果n <= 0，Readdir返回目录中的所有FileInfo
+
 		func (f *File) Seek(offset int64, whence int) (ret int64, err error)
 		func (f *File) SetDeadline(t time.Time) error
 		func (f *File) SetReadDeadline(t time.Time) error
@@ -100,7 +106,7 @@ type
 		func (f *File) WriteString(s string) (n int, err error)
 	
 	# type FileInfo interface {
-			Name() string       // base name of the file
+			Name() string       // 返回文件名称，不带路径
 			Size() int64        // length in bytes for regular files; system-dependent for others
 			Mode() FileMode     // 文件的权限信息
 			ModTime() time.Time // modification time
