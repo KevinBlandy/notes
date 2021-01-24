@@ -16,7 +16,17 @@ var
 			* 连接一个关闭
 		
 		var ErrNoRows = errors.New("sql: no rows in result set")
-			* 空结果
+			* 空结果异常
+				var name string
+				err = db.QueryRow("select name from users where id = ?", 1).Scan(&name)
+				if err != nil {
+					if err == sql.ErrNoRows {
+						// 没检索到任何数据
+					} else {
+						log.Fatal(err)
+					}
+				}
+				fmt.Println(name)
 		
 		var ErrTxDone = errors.New("sql: transaction has already been committed or rolled back")
 			* 异常已经回滚或者提交
@@ -90,9 +100,11 @@ type
 		func (db *DB) Exec(query string, args ...interface{}) (Result, error)
 		func (db *DB) ExecContext(ctx context.Context, query string, args ...interface{}) (Result, error)
 			* 执行操作，一般是修改删除插入操作，SQL获取到执行结果
+			* 如果执行了检索操作，不会异常，result的2个值都是0
 
 		func (db *DB) Ping() error
-			* 发送ping
+			* 发送ping，检测连接是否OK
+			* Open()方法，并不会创建连接，连接是延迟加载的，可以通过这个方法来判断连接是否正常
 
 		func (db *DB) PingContext(ctx context.Context) error
 			* 获取数据库链接
@@ -108,6 +120,7 @@ type
 		func (db *DB) QueryRow(query string, args ...interface{}) *Row
 		func (db *DB) QueryRowContext(ctx context.Context, query string, args ...interface{}) *Row
 			* 执行查询，获取单行多列结果集
+			* 如果结果集有多行，则会只取第一行，不会异常
 
 		func (db *DB) SetConnMaxIdleTime(d time.Duration)
 			* 连接最大空闲时间
@@ -211,22 +224,30 @@ type
 
 	# type Result interface {
 			LastInsertId() (int64, error)
-				* 自增ID
+				* 自增ID，和异常信息
 
 			RowsAffected() (int64, error)
-				* 受影响的行数
+				* 受影响的行数，和异常信息
 		}
 		* SQL的修改执行结果
 	
 	# type Row struct {
 		}
+
+		* 单行多列数据
+
 		func (r *Row) Err() error
+			* 异常信息
+
 		func (r *Row) Scan(dest ...interface{}) error
 	
 	# type Rows struct {
 		}
+
+		* 多行多列数据
+
 		func (rs *Rows) Close() error
-			* 关闭Rows
+			* 关闭Rows，这个操作要记的执行
 			* Rows会保留数据库连接，直到sql.Rows关闭
 				_, err := db.Query("DELETE FROM users") // 这种操作，会导致连接不会被释放
 
@@ -244,6 +265,9 @@ type
 		}
 	# type Stmt struct {
 		}
+	
+		* 预编译SSQL
+
 		func (s *Stmt) Close() error
 		func (s *Stmt) Exec(args ...interface{}) (Result, error)
 		func (s *Stmt) ExecContext(ctx context.Context, args ...interface{}) (Result, error)
@@ -269,7 +293,7 @@ type
 
 		func (tx *Tx) Prepare(query string) (*Stmt, error)
 		func (tx *Tx) PrepareContext(ctx context.Context, query string) (*Stmt, error)
-			* 执行预编译
+			* 执行预编译，返回*Stmt
 
 		func (tx *Tx) Query(query string, args ...interface{}) (*Rows, error)
 		func (tx *Tx) QueryContext(ctx context.Context, query string, args ...interface{}) (*Rows, error)

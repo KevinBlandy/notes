@@ -1,9 +1,23 @@
 ---------------------
 sql
 ---------------------
-	# 加载驱动
-		_ "github.com/go-sql-driver/mysql"
+	# 参考
+		https://github.com/golang/go/wiki/SQLInterface
+		https://www.jianshu.com/p/5e7477649423
 	
+	# 驱动
+		* 所有数据库对应的驱动列表
+			https://github.com/golang/go/wiki/SQLDrivers
+		
+		* 驱动的加载
+			_ "github.com/go-sql-driver/mysql"
+	
+	
+	# 大致API流程
+		DB 执行SQL
+		DB 获取*Stmt	->	*Stmt填充参数	-> *Stmt执行SQL
+		DB 获取*Tx		->	*Tx执行SQ;
+		DB 获取*Tx		->	*Tx获取*Stmt	->	*Stmt填充参数 -> *Stmt执行SQL
 
 
 	# 占位符
@@ -14,3 +28,121 @@ sql
 			WHERE col = $1		VALUES($1, $2, $3)
 		Oracle
 			WHERE col = :col	VALUES(:val1, :val2, :val3)
+		
+	
+	# DB的对象的创建
+		const (
+			host string = "localhost:3306"	// 主机
+			port int = 3306					// 端口
+			db string = "demo"				// 数据库
+			username string = "root"		// 用户名
+			password string = "root"		// 密码
+		)
+		func main() {
+			db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", username, password, host, port, db))
+			if err != nil {
+				log.Panic(err)
+			}
+			fmt.Println(db)
+		}
+		
+		* 创建成功并不代表可用，底层连接是延迟创建的，只有在第一次使用的时候才会创建
+		* 可以使用 Ping() 来检查，连接是否正常，如果它返回 err 则表示有问题
+	
+	# 通过Driver来判断异常类型
+			if driverErr, ok := err.(*mysql.MySQLError); ok { // 确定是MYSQL的异常
+				if driverErr.Number == 1045 {
+					// 通过异常状态码来判断
+					var _ string = driverErr.Message // 异常的消息提示
+				}
+			}
+					
+	# Demo
+		package main
+		import (
+			"database/sql"
+			"fmt"
+			_ "github.com/go-sql-driver/mysql"
+			"log"
+		)
+		const (
+			host string = "localhost"	// 主机
+			port int = 3306					// 端口
+			db string = "demo"				// 数据库
+			username string = "root"		// 用户名
+			password string = "root"		// 密码
+		)
+
+		func main() {
+			db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", username, password, host, port, db))
+			if err != nil {
+				log.Panic(err)
+			}
+
+			// 执行SQL获取到结果集
+			result, err := db.Query("SELECT * FROM `user` LIMIT ?, ?;", 0, 9)
+			if err != nil {
+				log.Fatal(err)		// 执行异常
+			}
+			defer func() {	// 关闭，释放资源
+				if err := result.Close(); err != nil {
+					log.Println(err)
+				}
+			}()
+
+			var id int
+			var name string
+			var date string
+
+			// 遍历每一行
+			for result.Next() {
+				err := result.Scan(&id, &name, &date)
+				if err != nil {
+					log.Fatal(err) // 封装异常
+				}
+				log.Println(id, name, date)
+			}
+
+			if err := result.Err(); err != nil {
+				log.Fatal(err)	// 迭代过程中的错误
+			}
+		}
+
+
+---------------------
+sql结果集的封装
+---------------------
+	# Scan 方法，参数应该是指针
+		* 参数数量必须与Rows中的列数相同
+		* 数据类型
+			*string
+			*[]byte
+			*int, *int8, *int16, *int32, *int64
+			*uint, *uint8, *uint16, *uint32, *uint64
+			*bool
+			*float32, *float64
+			*interface{}
+			*RawBytes
+			*Rows (cursor value)
+			任何实现了 sql.Scanner 的类型
+	
+	# Null值的处理
+		* 使用预定义的几个类型来表示Null值
+			NullBool
+			NullFloat64
+			NullInt32
+			NullInt64
+			NullString
+			NullTime
+
+		* Demo
+			for rows.Next() {
+				var s sql.NullString
+				err := rows.Scan(&s)
+				// check err
+				if s.Valid {
+					// 非null
+				} else {
+					// null值
+				}
+			}
