@@ -1,8 +1,12 @@
+package sex.poppy.utils;
 
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * 62进制编码
+ * 
  * @author Administrator
  *
  */
@@ -19,15 +23,6 @@ public class Base62Codec {
 
 	// 字符正则，最大6位长度
 	private static final Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9]{1,6}$");
-
-	public static void main(String[] args) {
-		for (long i = 0; i < 1000000; i += 10000) {
-			String val = encode(i);
-			System.out.println(val + ":" + decode(val));
-		}
-		System.out.println(decode("zzzzzz"));
-	}
-
 
 	/**
 	 * 数字转换为62进制，如果小于0或者大于最大值，返回null
@@ -54,9 +49,9 @@ public class Base62Codec {
 	 * @param str
 	 * @return
 	 */
-	public static long decode(String str) {
-		if(!PATTERN.matcher(str).matches()) {
-			return -1;
+	public static Long decode(String str) {
+		if (!PATTERN.matcher(str).matches()) {
+			return null;
 		}
 		long value = 0;
 		char[] chars = str.toCharArray();
@@ -65,6 +60,28 @@ public class Base62Codec {
 		}
 		return value;
 	}
+	
+	/**
+	 * 编码为62进制字符串，如果结果小于6个字符串长度，则在前面添加0
+	 * @param val
+	 * @return
+	 */
+	public static String encodePad0(long val) {
+		String retVal = encode(val);
+		return retVal == null ? null : StringUtils.leftPad(retVal, 6, "0");
+		
+	}
+	
+	/**
+	 * 解码62进制字符串，会先把前面填充的0移除
+	 * @param str
+	 * @return
+	 */
+	public static Long decodePad0(String str) {
+		str = str.replace("^0*", "");  // 移除开头的所有0
+		return decode(str);
+	}
+
 
 	private static int indexOf(char ch) {
 		int low = 0;
@@ -81,5 +98,12 @@ public class Base62Codec {
 			}
 		}
 		return -(low + 1);
+	}
+	
+	public static void main(String[] args) {
+		for (long i = 0; i < 10000000; i ++) {
+			String val = encodePad0(i);
+			System.out.println(val + ":" + decodePad0(val));
+		}
 	}
 }

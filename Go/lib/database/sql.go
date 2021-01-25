@@ -121,6 +121,7 @@ type
 		func (db *DB) QueryRowContext(ctx context.Context, query string, args ...interface{}) *Row
 			* 执行查询，获取单行多列结果集
 			* 如果结果集有多行，则会只取第一行，不会异常
+			* 它的返回只有一个结果，没有异常参数，如果查询出现了异常，那么会推迟到Scan()
 
 		func (db *DB) SetConnMaxIdleTime(d time.Duration)
 			* 连接最大空闲时间
@@ -129,7 +130,7 @@ type
 		func (db *DB) SetMaxIdleConns(n int)
 			* 最大空闲连接数量
 		func (db *DB) SetMaxOpenConns(n int)
-			* 最大连接数据
+			* 数据库打开的最大连接数
 		func (db *DB) Stats() DBStats
 	
 	# type DBStats struct {
@@ -221,6 +222,7 @@ type
 	
 	# type RawBytes []byte
 		* 最原始的字节数据
+		* 如果不知道数据列的字段类型，那么可以使用RawBytes，返回原始的字节数据
 
 	# type Result interface {
 			LastInsertId() (int64, error)
@@ -238,8 +240,8 @@ type
 
 		func (r *Row) Err() error
 			* 异常信息
-
 		func (r *Row) Scan(dest ...interface{}) error
+			* 如果结果集不存在，没有数据，那么会返回异常: ErrNoRows
 	
 	# type Rows struct {
 		}
@@ -250,11 +252,15 @@ type
 			* 关闭Rows，这个操作要记的执行
 			* Rows会保留数据库连接，直到sql.Rows关闭
 				_, err := db.Query("DELETE FROM users") // 这种操作，会导致连接不会被释放
+			* 这个方法可以被多次调用，无所谓
 
 		func (rs *Rows) ColumnTypes() ([]*ColumnType, error)
 		func (rs *Rows) Columns() ([]string, error)
 		func (rs *Rows) Err() error
 		func (rs *Rows) Next() bool
+			* 在没有数据后，执行rows.Next() 会遇到 EOF 异常，此时会自动调用 rows.Close() 关闭资源
+			* 通俗理解就是，通过next正常遍历完毕数据后，会自动释放链接资源
+
 		func (rs *Rows) NextResultSet() bool
 		func (rs *Rows) Scan(dest ...interface{}) error
 

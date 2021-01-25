@@ -18,6 +18,8 @@ Go
 		《玩儿转GO》		https://github.com/hantmac/Mastering_Go_ZH_CN
 							https://wskdsgcf.gitbook.io/mastering-go-zh-cn/
 
+		《Go 语言设计与实现》https://draveness.me/golang/
+
 	
 	# 博客参考
 		鸟窝	https://colobu.com/categories/Go/
