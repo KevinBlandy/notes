@@ -104,9 +104,7 @@ type
 func
 -----------------
 	func LookPath(file string) (string, error)
-		* 用于检查程序是否存在
-
-
+		* 尝试从path中国解析出执行文件的绝对路径
 
 
 -----------------
