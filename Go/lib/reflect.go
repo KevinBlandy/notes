@@ -228,6 +228,8 @@ type
 		func MakeMapWithSize(typ Type, n int) Value
 		func MakeSlice(typ Type, len, cap int) Value
 		func New(typ Type) Value
+			* 根据type创建实例，反射创建
+
 		func NewAt(typ Type, p unsafe.Pointer) Value
 		func Select(cases []SelectCase) (chosen int, recv Value, recvOK bool)
 		func ValueOf(i interface{}) Value

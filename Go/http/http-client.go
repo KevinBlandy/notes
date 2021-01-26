@@ -44,3 +44,13 @@ http客户端
 			func (t *Transport) CloseIdleConnections()
 			func (t *Transport) RegisterProtocol(scheme string, rt RoundTripper)
 			func (t *Transport) RoundTrip(req *Request) (*Response, error)
+	
+
+	# 忽略SSL证书校验
+		client := http.Client{
+			Transport: &http.Transport{
+				TLSClientConfig: &tls.Config{
+					InsecureSkipVerify: true,
+				},
+			},
+		}

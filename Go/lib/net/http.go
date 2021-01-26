@@ -169,6 +169,8 @@ type
 -----------------
 	# type Client struct {
 			Transport RoundTripper
+				* 连接控制
+			
 			CheckRedirect func(req *Request, via []*Request) error
 			Jar CookieJar
 			Timeout time.Duration
@@ -425,6 +427,8 @@ type
 			Dial func(network, addr string) (net.Conn, error)
 			DialTLSContext func(ctx context.Context, network, addr string) (net.Conn, error)
 			TLSClientConfig *tls.Config
+				* 客户端的TLS配置
+
 			TLSHandshakeTimeout time.Duration
 			DisableKeepAlives bool
 			DisableCompression bool
