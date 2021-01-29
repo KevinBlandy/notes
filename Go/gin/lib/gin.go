@@ -131,6 +131,8 @@ type
 
 
 		func (c *Context) GetRawData() ([]byte, error)
+			* 获取body
+
 		func (c *Context) GetString(key string) (s string)
 		func (c *Context) GetStringMap(key string) (sm map[string]interface{})
 		func (c *Context) GetStringMapString(key string) (sms map[string]string)
@@ -184,7 +186,7 @@ type
 			* 调用HandlerFunc链表下一个处理器，并且执行
 
 		func (c *Context) Param(key string) string
-			* 获取路由参数，也即是URI参数
+			* 获取路由参数，也即是URI参数， :可选参数, *必选参数
 				/user/:name				=> c.Param("name")		
 				/user/:name/*action		=> c.Param("action")
 
