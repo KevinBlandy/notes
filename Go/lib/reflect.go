@@ -250,7 +250,11 @@ type
 		func (v Value) Complex() complex128
 		func (v Value) Convert(t Type) Value
 		func (v Value) Elem() Value
-			* 返回 v 的接口值或者指针
+			* 返回指针指向的对象
+				i := 1
+				v := reflect.ValueOf(&i)
+				v.Elem().SetInt(10)
+				fmt.Println(i)
 		
 		func (v Value) Field(i int) Value
 			* 前提 v 是一个 struct，返回第 i 个字段，这个主要用于遍历

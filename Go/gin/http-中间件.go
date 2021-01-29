@@ -28,7 +28,7 @@ req 中间件
 
 		func Recovery() HandlerFunc
 		func RecoveryWithWriter(out io.Writer) HandlerFunc
-			* 处理panic异常
+			* 处理panic异常， out 是指定异常信息的输出地，会包含请求dump等信息，默认是 stdout
 			* 如果是 broken connection，则忽略，反之则响应客户端500
 
 		func WrapF(f http.HandlerFunc) HandlerFunc

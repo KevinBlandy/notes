@@ -113,7 +113,20 @@
 	# 字符串的比较，可以使用 >,<,==
 		* 比较的本质上是挨着比较每一个字节，直到比较出结果
 	
+	
+	# 不分配新内存，字符串和数组的转换(gin源码)
+		// 字符串转换为字节数组，不分配新的内存
+		func StringToBytes(s string) (b []byte) {
+			sh := *(*reflect.StringHeader)(unsafe.Pointer(&s))
+			bh := (*reflect.SliceHeader)(unsafe.Pointer(&b))
+			bh.Data, bh.Len, bh.Cap = sh.Data, sh.Len, sh.Len
+			return b
+		}
 
+		// 字节数组转换为字符串，不分配新的内存
+		func BytesToString(b []byte) string {
+			return *(*string)(unsafe.Pointer(&b))
+		}
 
 ----------------------
 相关类

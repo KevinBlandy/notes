@@ -62,6 +62,11 @@ type
 		func (c *Context) AbortWithError(code int, err error) *Error
 		func (c *Context) AbortWithStatus(code int)
 		func (c *Context) AbortWithStatusJSON(code int, jsonObj interface{})
+			* 终止后面的handler调用，不会终止程序
+			* 本质上就是修改了了context中的index值
+				const abortIndex int8 = math.MaxInt8 / 2
+
+
 		func (c *Context) AsciiJSON(code int, obj interface{})
 			* 响应json数据，会把非ascii字符转义
 
@@ -79,6 +84,9 @@ type
 			* 
 
 		func (c *Context) ClientIP() string
+			* 获取客户端的IP地址
+			* 会尝试读取代理头 X-Forwarded-For, X-Real-Ip, X-Appengine-Remote-Addr
+
 		func (c *Context) ContentType() string
 		func (c *Context) Cookie(name string) (string, error)
 		func (c *Context) Copy() *Context
@@ -142,9 +150,14 @@ type
 		func (c *Context) HandlerNames() []string
 			* 返回执行链的方法名称，如果是匿名方法，则是fun数字结尾， xxx.func1...xxx.funcn
 
-		func (c *Context) Header(key, value string)
+		func (c *Context) Header(key, value string)	
+			* 设置Header，如果 value是空字符串，则会删除Header
+
 		func (c *Context) IndentedJSON(code int, obj interface{})
 		func (c *Context) IsAborted() bool
+			* 判断是否被中断了
+				return c.index >= abortIndex
+
 		func (c *Context) IsWebsocket() bool
 			* 判断当前请求是否是websocket
 			* 本质上是通过判断Header实现的
@@ -195,6 +208,8 @@ type
 			* 重定向，指定状态码和路径，可以是相对，也可以是绝对
 
 		func (c *Context) Render(code int, r render.Render)
+			* 自定义Render渲染
+
 		func (c *Context) SSEvent(name string, message interface{})
 		func (c *Context) SaveUploadedFile(file *multipart.FileHeader, dst string) error
 			* 把文件存储到指定的路径
@@ -214,7 +229,8 @@ type
 		func (c *Context) ShouldBindBodyWith(obj interface{}, bb binding.BindingBody) (err error)
 			* 尝试把请求体绑定到obj，bb指定body的类型，返回err表示是否成功
 			* 这个牛逼之处在于一个Body可以进行多次绑定
-			* 会在绑定之前将 body 存储到上下文中， 这会对性能造成轻微影响，如果调用一次就能完成绑定的话，那就不要用这个方法。
+			* 会在绑定之前将 body 存储到Context上下文中， 这会对性能造成轻微影响，如果调用一次就能完成绑定的话，那就不要用这个方法。
+			* Context中的key是: BodyBytesKey          = "_gin-gonic/gin/bodybyteskey"
 
 
 		func (c *Context) ShouldBindHeader(obj interface{}) error
@@ -229,6 +245,9 @@ type
 
 		func (c *Context) Status(code int)
 		func (c *Context) Stream(step func(w io.Writer) bool) bool
+			* 获取客户端的输出流，可以自己通过writer往客户端输出数据，step返回后，会自动的flush
+			* 返回的bool表示，是否客户端主动断开了链接
+
 		func (c *Context) String(code int, format string, values ...interface{})
 		func (c *Context) Value(key interface{}) interface{}
 		func (c *Context) XML(code int, obj interface{})
@@ -238,11 +257,24 @@ type
 			RouterGroup
 				* 实现了 RouterGroup
 			RedirectTrailingSlash bool
+				* 尝试自动补全最后的/，并且重定向
+				* 例如，请求了/foo/，但只有/foo的路径存在，客户端被重定向到/foo，GET请求的http状态码为301。其他请求方法，则是307。
+
 			RedirectFixedPath bool
+				* RedirectTrailingSlash与这个选项无关。
+
 			HandleMethodNotAllowed bool
+				* 是否开起请求方法校验，如果方法不匹配会返回 405
+				* 如果不开起，在方法不匹配的情况下，只返回 404 
+
 			ForwardedByClientIP    bool
+				
 			AppEngine bool
+				* 如果启用，它将插入一些以'X-AppEngine...'开头的header，以便更好地与PaaS集成。
+
 			UseRawPath bool
+				* 如果启用, 将会使用 url.RawPath 来查询参数
+
 			UnescapePathValues bool
 			MaxMultipartMemory int64
 				* multipart请求的时候，占用的最大内存，默认是 32 MiB
@@ -279,6 +311,10 @@ type
 
 		func (engine *Engine) NoMethod(handlers ...HandlerFunc)
 		func (engine *Engine) NoRoute(handlers ...HandlerFunc)
+			* 添加处理404/405的handler
+			* 默认了俩处理器，响应text异常信息
+				
+
 		func (engine *Engine) Routes() (routes RoutesInfo)
 		func (engine *Engine) Run(addr ...string) (err error)
 		func (engine *Engine) RunFd(fd int) (err error)
@@ -355,8 +391,10 @@ type
 		func LoggerWithWriter(out io.Writer, notlogged ...string) HandlerFunc
 		func Recovery() HandlerFunc
 		func RecoveryWithWriter(out io.Writer) HandlerFunc
+
 		func WrapF(f http.HandlerFunc) HandlerFunc
 		func WrapH(h http.Handler) HandlerFunc
+			* 把标准库的hanlder转换为gin的handlerFunc
 	
 	# type HandlersChain []HandlerFunc
 
@@ -444,11 +482,17 @@ type
 			http.Flusher
 			http.CloseNotifier
 			Status() int
+				* 返回状态码
 			Size() int
+				* 返回已经响应客户端的body大小
 			WriteString(string) (int, error)
+				* 写入字符串到客户端
 			Written() bool
+				* 如果客户端已经响应了数据，则返回 true
 			WriteHeaderNow()
+				* 强制响应状态码和header
 			Pusher() http.Pusher
+				* 尝试获取http2的pusher
 		}
 
 		* 响应客户端
