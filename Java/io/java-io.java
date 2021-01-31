@@ -219,6 +219,8 @@ OutputStreamWriter			|
 ----------------------------
 	PipedInputStream	
 	PipedOutputStream
+	PipedReader
+	PipedWriter
 
 	* 结合线程使用,输入输出直接进行连接,不建议使用单线程,因为读取流先开启,那么流中一旦没有数据,读取流的阻塞式方法就会一直处于等待状态-死锁
 
