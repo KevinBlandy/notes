@@ -10,10 +10,18 @@ Queue								|
 			|-AbstractQueue
 				|-PriorityQueue
 				|-DelayQueue
+					* 使用优先级队列实现的无界阻塞队列
+
 				|-SynchronousQueue
 				|-PriorityBlockingQueue
+					* 支持优先级排序的无界阻塞队列
+
 				|-LinkedTransferQueue
+					* 由链表结构组成的无界阻塞队列
+				
 				|-LinkedBlockingDeque
+					* 由链表结构组成的双向阻塞队列
+				
 				|-ArrayBlockingQueue
 					* 才用数组结构实现
 					* 入队出队采用一把锁,导致入队出队相互阻塞,效率低下
