@@ -34,19 +34,28 @@ ThreadPoolExecutor			|
 	# 实例方法
 		void allowCoreThreadTimeOut(boolean value)
 		boolean allowsCoreThreadTimeOut()
+			* 是否允许核心的线程也会被超时回收
+
 		int getCorePoolSize()
 		boolean awaitTermination(long timeout, TimeUnit unit)
-
 		
 		int getActiveCount()
+			* 返回活跃线程数量
+
 		long getCompletedTaskCount()
+			* 线程池中已经完成的任务数量，小于或者等于getTaskCount()
+
 		long getKeepAliveTime(TimeUnit unit)
 		int getLargestPoolSize()
 		int getMaximumPoolSize()
 		int getPoolSize()
+			* 线程池线程的数量，如果线程池不销毁的话，线程池里面的线程不会自动销毁，这个数据只增不减
+
 		BlockingQueue<Runnable> getQueue()
 		RejectedExecutionHandler getRejectedExecutionHandler()
 		long getTaskCount()
+			* 线程池需要执行任务的数量
+
 		ThreadFactory getThreadFactory()
 		boolean isTerminated()
 			* 如果队列中的所有任务都处理完毕后返回 true
@@ -81,6 +90,13 @@ ThreadPoolExecutor			|
 		<T> T invokeAny(Collection<? extends Callable<T>> tasks)
 		<T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,long timeout, TimeUnit unit)
 		<T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+
+		protected void afterExecute(Runnable r, Throwable t) { }
+		protected void beforeExecute(Thread t, Runnable r) { }
+		protected void terminated() { }
+			* 在任务执行前、执行后和线程池关闭前执行一些代码来进行监控。
+			* 这个是 protected 的方法，需要自己继承后复写
+
 	
 	# 内部类
 		* 他们都是 ThreadPoolExecutor 的实现类,负责处理线程池无法执行新任务时的情况

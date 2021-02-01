@@ -27,8 +27,11 @@ Atomic						|
 
 		AtomicMarkableReference
 			* 原子更新带有标记位的引用类型
+		
+		AtomicReferenceFieldUpdater
+			* 原子更新引用类型里的字段
 
-	# 对象的属性修改类型
+	# 对象的属性/字段修改类型
 
 		AtomicIntegerFieldUpdater
 			* 原子更新整型字段的更新器

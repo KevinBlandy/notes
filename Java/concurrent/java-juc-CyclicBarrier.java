@@ -36,7 +36,7 @@ CyclicBarrier			|
 		boolean isBroken()
 	
 		void reset()
-			* 重置
+			* 重置以后，可以重复使用
 	
 
 ------------------------
