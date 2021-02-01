@@ -9,6 +9,7 @@ ChannelFutureListener			|
 		CLOSE_ON_FAILURE
 			* 如果抛出了异常,关闭连接
 		FIRE_EXCEPTION_ON_FAILURE
+			* 异常的时候，就往pipeline中发送异常信息 fireExceptionCaught
 
 --------------------------------
 方法							|
