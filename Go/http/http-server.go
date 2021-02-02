@@ -117,6 +117,15 @@ server
 			Secure   bool
 			HttpOnly bool
 			SameSite SameSite
+				* 同域策略
+					type SameSite int
+					const (
+						SameSiteDefaultMode SameSite = iota + 1
+						SameSiteLaxMode
+						SameSiteStrictMode
+						SameSiteNoneMode
+					)
+			
 			Raw      string
 			Unparsed []string // Raw text of unparsed attribute-value pairs
 		}
@@ -131,16 +140,12 @@ server
 			* 实现必须是安全的，可以被多个goroutine同时使用
 			* 系统提供的实现
 				cookiejar.Jar
+		
+		* 往客户端写入cookie，通过 http.SetCookie 完成
+			func SetCookie(w ResponseWriter, cookie *Cookie)
+			// w.Header().Add("Set-Cookie", v)
 
 		
-		* Cookie的SameSite策略
-			type SameSite int
-			const (
-				SameSiteDefaultMode SameSite = iota + 1
-				SameSiteLaxMode
-				SameSiteStrictMode
-				SameSiteNoneMode
-			)
 	
 	# Demo
 		package main

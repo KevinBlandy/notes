@@ -42,6 +42,9 @@ type
 			* 如果遍历到结尾，返回 io.EOF 异常
 
 		func (r *Reader) NextRawPart() (*Part, error)
+			* 跟 NextPart 一样，
+			* 只是它没有特别的方式来处理： "Content-Transfer-Encoding: quoted-printable" (可打印字符引用编码)
+
 		func (r *Reader) ReadForm(maxMemory int64) (*Form, error)
 	
 	# type Writer struct {

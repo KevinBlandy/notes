@@ -43,6 +43,8 @@ type
 
 	func EvalSymlinks(path string) (string, error)
 	func Ext(path string) string
+		* 获取后缀名称
+	
 	func FromSlash(path string) string
 	func Glob(pattern string) (matches []string, err error)
 	func HasPrefix(p, prefix string) bool

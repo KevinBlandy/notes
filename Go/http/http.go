@@ -141,3 +141,16 @@ http Multipart 请求
 	fmt.Println(string(data))
 
 	* 如果请求体不是很大的话，可以考虑使用 bytes.Buffer 作为底层的reader/writer
+
+
+---------------------------
+http 自己解析 Multipart 
+---------------------------
+	reader := multipart.NewReader(in, "bu")	// in ，就是请求体，bu 就是分隔数据
+	for part, err := reader.NextPart(); err != io.EOF {
+		headers := part.Header		// 请求头
+		count, err := part.Read(make([]byte, 1024)) 	// 读取数据
+		fileName := part.FileName()	// 文件名字
+		formName := part.FormName()	// 表单名称
+		err := part.Close()		// 关闭资源
+	}

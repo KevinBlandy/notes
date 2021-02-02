@@ -21,6 +21,7 @@ request
 				* form表单
 			MultipartForm *multipart.Form
 				* 多部件表单体，必须先调用ParseMultipartForm后，这个字段才不会为nil
+
 			Trailer Header
 				* 客户端请求头
 			RemoteAddr string
@@ -41,10 +42,23 @@ request
 		func (r *Request) Clone(ctx context.Context) *Request
 		func (r *Request) Context() context.Context
 		func (r *Request) Cookie(name string) (*Cookie, error)
+			* 获取cookie，如果不存在，返回异常 http.ErrNoCookie
+		
 		func (r *Request) Cookies() []*Cookie
 		func (r *Request) FormFile(key string) (multipart.File, *multipart.FileHeader, error)
 		func (r *Request) FormValue(key string) string
 		func (r *Request) MultipartReader() (*multipart.Reader, error)
+			* 获取multipart/form-data 或 multipart/mixed 请求体
+			* 如果不是，则返回异常	http.ErrNotMultipart
+				reader,_ := request.MultipartReader()
+				for part, err := reader.NextPart(); err != io.EOF {
+					headers := part.Header		// 请求头
+					count, err := part.Read(make([]byte, 1024)) 	// 读取数据
+					fileName := part.FileName()	// 文件名字
+					formName := part.FormName()	// 表单名称
+					err := part.Close()		// 关闭资源
+				}
+		
 		func (r *Request) ParseForm() error
 			* 解析请求的查询参数和POST请求参数，也就是填充r.Form和r.PostForm的值
 			* ParseForm是幂等的
