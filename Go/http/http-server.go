@@ -65,7 +65,11 @@ server
 		func (mux *ServeMux) ServeHTTP(w ResponseWriter, r *Request)
 			* 根据Handller返回的处理器，执行处理
 
-	
+		
+		* 路径的映射规则
+			* 如果被绑定的URL非/结尾，那么它只会与完全相同的URL匹配
+			* 如果被绑定的URL以/结尾，那么即使请求的URL只有前缀部分与被绑定URL相同，ServeMux也会认定这两个URL是匹配的。
+		
 	# Http处理器接口
 		type Handler interface {
 			ServeHTTP(ResponseWriter, *Request)

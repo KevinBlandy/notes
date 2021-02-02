@@ -256,6 +256,11 @@ type
 		func NotFoundHandler() Handler
 		func RedirectHandler(url string, code int) Handler
 		func StripPrefix(prefix string, h Handler) Handler
+			* 它通过从请求的URL的Path中删除给定的前缀并调用处理程序h来服务HTTP请求。
+			* StripPrefix通过回复HTTP 404 not found错误来处理一个不是以前缀开始的路径请求。
+				http.Handle("/tmpfiles/", http.StripPrefix("/tmpfiles/", http.FileServer(http.Dir("/tmp"))))
+				// 服务器收到 /tmpfiles/ 开头的请求，然后会移除URL中的 /tmpfiles/，然后去 /tmp 目录找文件
+
 		func TimeoutHandler(h Handler, dt time.Duration, msg string) Handler
 	
 	# type HandlerFunc func(ResponseWriter, *Request)
