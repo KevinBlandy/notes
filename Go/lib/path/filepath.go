@@ -37,6 +37,10 @@ type
 			""						-> .
 
 	func Clean(path string) string
+		* 可以用于把网络路径改成本地的文件路径
+			filepath.Clean("/dd/dd.jpg") // \dd\dd.jpg
+		* 空字符串，返回 "."
+
 	func Dir(path string) string
 		* 返回路径中除去最后一个路径元素的部分，即该路径最后一个元素所在的目录
 
@@ -52,7 +56,7 @@ type
 		* 返回路径是否是一个绝对路径
 	
 	func Join(elem ...string) string
-		* 拼接路径
+		* 拼接路径，如果路径中已经包含了一些多余的分隔符，会被去除
 
 	func Match(pattern, name string) (matched bool, err error)
 	func Rel(basepath, targpath string) (string, error)

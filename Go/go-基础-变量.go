@@ -153,6 +153,12 @@
 			// 异常，右边不是编译期能算出来的数据，是要运行时才能算出来的
 			const val = os.Getenv("JAVA_HOME") // onst initializer os.Getenv("JAVA_HOME") is not a constant
 		
+		* Go的常量const，只支持数字，字符串和布尔，及他们类型的表达式
+		* 因为const是属于编译时期的常量，即在编译时期就可以完全确定取值的常量。
+		* 切片，数组，正则表达式等等需要在运行时分配空间和执行若干运算才能赋值的变量则不能用作常量
+			const folders  = []string {}  // const initializer []string literal is not a constant
+
+		
 	# iota 常量计数器，只能在常量表达式中使用
 		* 在const关键字出现的时候会初始值为0，const中每增加一行（必须是新增一行）常量声明 ，iota 会进行 +1 递增
 			const (
