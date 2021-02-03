@@ -206,6 +206,24 @@
 
 		* 可以用来实现枚举
 		* 可以使用匿名变量忽略0值的 iota 常量项
+		* 通过位运算，来实现关系
+			type EventType int
+			const (
+				sing EventType = 1 << iota
+				dancing
+				rap
+				basketball
+			)
+			func main() {
+				like := basketball | dancing | rap | sing
+				log.Printf("%08b\n", like)		//  00001111
+				if like & sing != 0 {
+					log.Println("喜欢唱")
+				}
+				if like & rap != 0 {
+					log.Println("喜欢rap")
+				}
+			}
 
 
 
