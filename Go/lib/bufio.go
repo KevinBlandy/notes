@@ -40,6 +40,7 @@ type
 		
 		func NewReader(rd io.Reader) *Reader
 		func NewReaderSize(rd io.Reader, size int) *Reader
+			* Ä¬ÈÏµÄsizeÊÇ: defaultBufSize = 4096
 
 		func (b *Reader) Buffered() int
 		func (b *Reader) Discard(n int) (discarded int, err error)

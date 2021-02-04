@@ -42,6 +42,16 @@ FFmpeg
 	
 		ffprobe.exe
 			* 用于查看文件格式的应用程序
+		
+	
+	# 模块组成
+		AVFormat
+		AVCodec
+		AVFilter
+		AVDevice
+		AVUtil
+		swresample
+		swscale
 
 ---------------------------
 FFmpeg - 音视频处理流程
