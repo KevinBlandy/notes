@@ -73,9 +73,6 @@ type
 		func (c *Conn) Close() error
 			* 正常关闭
 
-		func (c *Conn) CloseHandler() func(code int, text string) error
-			
-
 		func (c *Conn) EnableWriteCompression(enable bool)
 			* 是否开启响应压缩
 		
@@ -93,6 +90,16 @@ type
 
 		func (c *Conn) RemoteAddr() net.Addr
 		func (c *Conn) SetCloseHandler(h func(code int, text string) error)
+			* 设置，关闭处理器，当对方连接关闭后。这个方法会执行
+			* 如果 h 是nil的话，那么会使用默认的
+				func(code int, text string) error {
+					message := FormatCloseMessage(code, "")
+					c.WriteControl(CloseMessage, message, time.Now().Add(writeWait))
+					return nil
+				}
+
+		func (c *Conn) CloseHandler() func(code int, text string) error
+			
 		func (c *Conn) SetCompressionLevel(level int) error
 
 		func (c *Conn) SetPingHandler(h func(appData string) error)
@@ -101,6 +108,9 @@ type
 		
 		func (c *Conn) SetReadDeadline(t time.Time) error
 		func (c *Conn) SetReadLimit(limit int64)
+			* 设置最大读取消息大小，如果超过这个大小，会返回 ErrReadLimit
+			* 并且关闭客户端的连接
+
 		func (c *Conn) SetWriteDeadline(t time.Time) error
 		func (c *Conn) Subprotocol() string
 		func (c *Conn) UnderlyingConn() net.Conn
