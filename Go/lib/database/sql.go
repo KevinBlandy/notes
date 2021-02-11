@@ -95,6 +95,8 @@ type
 			* 关闭数据源
 
 		func (db *DB) Conn(ctx context.Context) (*Conn, error)
+			* 获取一个数据库的连接
+
 		func (db *DB) Driver() driver.Driver
 
 		func (db *DB) Exec(query string, args ...interface{}) (Result, error)
@@ -257,6 +259,10 @@ type
 		func (rs *Rows) ColumnTypes() ([]*ColumnType, error)
 		func (rs *Rows) Columns() ([]string, error)
 		func (rs *Rows) Err() error
+			* 返回异常信息，可能在跌到过程中产生了异常，导致迭代提前终止
+			* 可以在迭代完成后，尝试获取到这个异常信息进行处理
+			* 如果提前终止了迭代，那么可能没有关闭资源，那么需要自己Close()
+
 		func (rs *Rows) Next() bool
 			* 在没有数据后，执行rows.Next() 会遇到 EOF 异常，此时会自动调用 rows.Close() 关闭资源
 			* 通俗理解就是，通过next正常遍历完毕数据后，会自动释放链接资源

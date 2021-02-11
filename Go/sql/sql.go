@@ -19,6 +19,8 @@ sql
 		DB 获取*Tx		->	*Tx执行SQ;
 		DB 获取*Tx		->	*Tx获取*Stmt	->	*Stmt填充参数 -> *Stmt执行SQL
 
+		DB 获取*Conn	->	*Conn可以当做一个DB对象使用，执行上面的流程
+
 
 	# 占位符
 		* 不同语言的占位符不同
@@ -56,7 +58,50 @@ sql
 					var _ string = driverErr.Message // 异常的消息提示
 				}
 			}
-					
+	
+	# 事务处理
+		func Service (db *sql.DB) () {
+			// 开始事务，指定隔离级别和只读属性
+			tx, err := db.BeginTx(context.Background(), &sql.TxOptions{
+				Isolation: sql.LevelRepeatableRead,
+				ReadOnly: true,
+			})
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// TODO 执行业务
+			stmt, err := tx.Prepare("SELECT * FROM `user` WHERE `id`= ?;")
+
+			// 最后关闭stmt，之前Golang1.4关闭*sql.Tx将与之关联的连接返还到池中
+			// 如果它先于 Rollback 之前执行的话，在并发环境下可能有问题（stmt关闭后，换给了连接池，其他协程获取了连接，然后此时执行了回滚）
+			defer stmt.Close()
+
+			// 始终回滚，如果已经提交了，回滚不受任何影响
+			defer tx.Rollback()
+
+			if err != nil {
+				log.Fatal(err)
+			}
+			rows, err := stmt.Query(1)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// 释放资源
+			defer rows.Close()
+
+			for rows.Next() {
+				// 遍历数据
+				rows.Scan()
+			}
+
+			// 最后提交事务
+			if err := tx.Commit(); err != nil {
+				log.Fatalf("rollback error: %s\n", err.Error())
+			}
+		}	
+	
 	# Demo
 		package main
 		import (
@@ -104,7 +149,7 @@ sql
 			}
 
 			if err := result.Err(); err != nil {
-				log.Fatal(err)	// 迭代过程中的错误
+				log.Fatal(err)	// 迭代过程中的错误，可能迭代过程被中断了
 			}
 		}
 

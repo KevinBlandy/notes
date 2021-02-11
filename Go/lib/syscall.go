@@ -78,3 +78,41 @@ type
 func
 -----------------
 
+
+
+
+--------------------------
+监听系统进程消息
+--------------------------
+	package main
+
+	import (
+		"log"
+		"os"
+		"os/signal"
+		"syscall"
+	)
+
+	func main(){
+		// TODO 启动其他服务，
+		signalHandler()
+	}
+
+	func signalHandler(){
+		var ch = make(chan os.Signal)
+		signal.Notify(ch, syscall.SIGHUP, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGILL, syscall.SIGTRAP,
+			syscall.SIGABRT, syscall.SIGBUS, syscall.SIGFPE, syscall.SIGKILL,
+			syscall.SIGSEGV, syscall.SIGPIPE, syscall.SIGALRM, syscall.SIGTERM)
+		for {
+			sig := <- ch
+			// 处理各种信号
+			log.Printf("app get a signal %s\n", sig.String())
+			switch sig {
+				case syscall.SIGABRT, syscall.SIGINT: {
+					return
+				}
+				default: {
+				}
+			}
+		}
+	}

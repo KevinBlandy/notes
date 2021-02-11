@@ -42,8 +42,12 @@ type
 	# type Pool struct {
 			New func() interface{} // contains filtered or unexported fields
 		}
+
+		* 对象池，用来保存和复用临时对象，以减少内存分配，降低CG压力。
+
 		func (p *Pool) Get() interface{}
 		func (p *Pool) Put(x interface{})
+
 	
 	# type RWMutex struct {}
 		func (rw *RWMutex) Lock()
