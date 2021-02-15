@@ -221,6 +221,10 @@ http://blog.csdn.net/xyang81/article/details/51759200
 		mysql5.7默认安装了密码安全检查插件(validate_password),默认密码检查策略要求密码必须包含:大小写字母,数字和特殊符号,并且长度不能少于8位
 		否则会提示ERROR 1819 (HY000):Your password does not satisfy the current policy requirements
 
+	# 在mysql8版本中更改用户密码需要加入with mysql_native_password
+		alter user 'root'@'localhost' identified with mysql_native_password by 'new pass';
+
+
 6,授权用户在远程登录
 	GRANT ALL PRIVILEGES ON *.* TO 'KevinBlandy'@'%' IDENTIFIED BY 'pass' WITH GRANT OPTION; 
 	
