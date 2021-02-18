@@ -445,6 +445,7 @@ type
 			ExpectContinueTimeout time.Duration
 			TLSNextProto map[string]func(authority string, c *tls.Conn) RoundTripper
 			ProxyConnectHeader Header
+			GetProxyConnectHeader func(ctx context.Context, proxyURL *url.URL, target string) (Header, error) // Go 1.16
 			MaxResponseHeaderBytes int64
 			WriteBufferSize int
 			ReadBufferSize int
@@ -511,3 +512,6 @@ func
 		* 设置Cookie
 	func StatusText(code int) string
 		* 根据http状态码返回描述
+	
+	func FS(fsys fs.FS) FileSystem
+		* 转换 fs.FS 为 http.FileSystem

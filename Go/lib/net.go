@@ -22,6 +22,10 @@ net
 	)
 	
 	var DefaultResolver = &Resolver{}
+	
+	var ErrClosed = errClosed
+		* 网络连接上的I/O调用返回的错误，该连接已经被关闭，或者在I/O完成之前被另一个goroutine关闭
+		* 这可能被包装在另一个错误中，通常应该使用 errors.Is(err, net.ErrClosed)来测试。
 
 	var (
 		ErrWriteToConnected = errors.New("use of WriteTo with pre-connected connection")

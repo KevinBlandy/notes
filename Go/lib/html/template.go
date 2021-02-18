@@ -81,6 +81,8 @@ type
 		
 		func ParseGlob(pattern string) (*Template, error)
 			* 根据pattern解析所有匹配的模板并保存
+		
+		func ParseFS(fs fs.FS, patterns ...string) (*Template, error)
 
 
 		func (t *Template) AddParseTree(name string, tree *parse.Tree) (*Template, error)

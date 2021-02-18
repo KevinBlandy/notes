@@ -27,5 +27,6 @@ mysql8
 	
 	# обть
 		https://dev.mysql.com/downloads/mysql/
+		https://dev.mysql.com/downloads/repo/yum/
 
 	

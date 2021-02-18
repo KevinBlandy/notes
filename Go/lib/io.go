@@ -6,6 +6,9 @@ io
 --------------------------
 变量
 --------------------------
+	* /dev/null
+		var Discard Writer = discard{}
+	
 	* 移动的相对位置
 		const (
 			SeekStart   = 0 // seek relative to the origin of the file
@@ -60,6 +63,15 @@ type
 	
 	# type ReadCloser interface {
 			Reader
+			Closer
+		}
+		func NopCloser(r Reader) ReadCloser
+
+		* 把Reader包装成一个ReadClose，对Close()的进行空实现
+	
+	# type ReadSeekCloser interface {
+			Reader
+			Seeker
 			Closer
 		}
 	
@@ -168,7 +180,10 @@ type
 	func ReadFull(r Reader, buf []byte) (n int, err error)
 		* 从r读取数据存储到buf
 		* 在文件r字节数小于buf字节数的时候会返回错误
+	
+	func ReadAll(r Reader) ([]byte, error)
+		* 读取所有数据
 
 	func WriteString(w Writer, s string) (n int, err error)
 		* 把字符串写入writer，内部做了判断优化，如果实现了 StringWriter则会转换后再执行，避免内存copy
-		
+	

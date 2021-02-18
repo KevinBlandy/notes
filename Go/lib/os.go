@@ -61,6 +61,8 @@ os
 	
 	* 黑洞
 		const DevNull = "/dev/null"
+	
+	var ErrProcessDone = errors.New("os: process already finished")
 
 
 ---------------
@@ -204,6 +206,8 @@ type
 		func (p *Process) Release() error
 		func (p *Process) Signal(sig Signal) error
 			* 给进程发送信号
+			* 如果进程已经结束，返回 ErrProcessDone 
+
 		func (p *Process) Wait() (*ProcessState, error)
 	
 	# type ProcessState struct
@@ -321,6 +325,18 @@ type
 		* 如果设置0，就会清空
 
 
+	func ReadDir(name string) ([]DirEntry, error)
+	func ReadFile(name string) ([]byte, error)
+		* 读取文件
+	
+	func MkdirTemp(dir, pattern string) (string, error)
+	func CreateTemp(dir, pattern string) (*File, error)
+		* 创建临时目录/文件，需要自己删除
+		* 如果 dir 是空字符串，那么会默认的在系统的临时目录去创建
+		* os包下
+	
+	func WriteFile(name string, data []byte, perm FileMode) error
+		* 快速的写入数据到文件中
 
 	func Unsetenv(key string) error
 	func UserCacheDir() (string, error)

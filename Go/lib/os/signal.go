@@ -22,6 +22,8 @@ func
 	func Reset(sig ...os.Signal)
 	func Stop(c chan<- os.Signal)
 
+	func NotifyContext(parent context.Context, signals ...os.Signal) (ctx context.Context, stop context.CancelFunc)
+
 
 ------------------------
 Demo

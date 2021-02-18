@@ -93,3 +93,9 @@ type
 	func Walk(root string, walkFn WalkFunc) error
 		* 遍历目录树，如果walkFn返回 SkipDir ，则跳出当前目录，继续遍历
 		* 大目录Walk的效率会很低，不会关联快捷方式
+	
+	func WalkDir(root string, fn fs.WalkDirFunc) error
+		* 类似于 Walk，但通常效率更高。
+		* 传递给的函数WalkDir接收 fs.DirEntry 而不是 fs.FileInfo
+	
+

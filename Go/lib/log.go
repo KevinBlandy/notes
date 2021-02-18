@@ -24,6 +24,9 @@ type
 		func New(out io.Writer, prefix string, flag int) *Logger
 			* 创建新的日志记录器
 			* 指定输出流，前缀，标识
+		
+		func Default() *Logger
+			* 返回默认的loggger，也就是 var std = New(os.Stderr, "", LstdFlags)
 
 		func (l *Logger) Fatal(v ...interface{})
 		func (l *Logger) Fatalf(format string, v ...interface{})
