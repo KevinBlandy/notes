@@ -27,6 +27,8 @@ type
 
 		func (l *List) Back() *Element
 		func (l *List) Front() *Element
+			* 返回尾/头结点
+
 		func (l *List) Init() *List
 			*  清空一个现有的链表或者初始化一个新的链表。
 
@@ -37,6 +39,8 @@ type
 			* 在指定的节点前，插入数据
 
 		func (l *List) Len() int
+			* 返回长度
+
 		func (l *List) MoveAfter(e, mark *Element)
 		func (l *List) MoveBefore(e, mark *Element)
 		func (l *List) MoveToBack(e *Element)

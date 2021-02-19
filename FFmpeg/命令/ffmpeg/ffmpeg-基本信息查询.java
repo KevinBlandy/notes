@@ -62,8 +62,8 @@
 	-formats
 		* 显示可用的格式
 		File formats:
-		 D. = Demuxing supported
-		 .E = Muxing supported
+		 D. = Demuxing supported		// 解封装格式
+		 .E = Muxing supported			// 封装格式
 		 --
 	
 	-protocols
@@ -71,6 +71,14 @@
 	
 	-filters
 		* 显示可用的过滤器
+		Filters:
+		  T.. = Timeline support
+		  .S. = Slice threading
+		  ..C = Command support
+		  A = Audio input/output
+		  V = Video input/output
+		  N = Dynamic number and/or type of input/output
+		  | = Source or sink filter
 	
 	-pix_fmts
 		* 显示可用的像素格式
