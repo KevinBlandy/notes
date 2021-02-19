@@ -68,6 +68,15 @@ os
 ---------------
 type
 ---------------
+	# type DirEntry = fs.DirEntry
+		
+		* 目录下的文件信息
+
+		func ReadDir(name string) ([]DirEntry, error)
+			* 读取一个目录下的所有文件/文件夹信息
+			* 如果name不是目录，则返回异常信息
+				readdir ...: The system cannot find the path specified.
+	
 	# type File struct 
 		func Create(name string) (*File, error)
 		func NewFile(fd uintptr, name string) *File
@@ -325,7 +334,6 @@ type
 		* 如果设置0，就会清空
 
 
-	func ReadDir(name string) ([]DirEntry, error)
 	func ReadFile(name string) ([]byte, error)
 		* 读取文件
 	
@@ -343,3 +351,30 @@ type
 	func UserConfigDir() (string, error)
 	func UserHomeDir() (string, error)
 
+------------------------
+Demo
+------------------------
+	# 递归统计指定目录下所有文件的大小
+		func TreeSize(name string) (int64, error) {
+			var total int64 = 0
+			dirEntry, err := os.ReadDir(name)
+			if err != nil {
+				return 0, err
+			}
+			for _, entry := range dirEntry {
+				if entry.IsDir() {
+					retVal, err := TreeSize(filepath.Join(name, entry.Name()))
+					if err != nil {
+						return 0, err
+					}
+					total += retVal
+				} else {
+					fileInfo, err := entry.Info()
+					if err != nil {
+						return 0, err
+					}
+					total += fileInfo.Size()
+				}
+			}
+			return total, nil
+		}
