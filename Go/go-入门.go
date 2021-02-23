@@ -94,7 +94,6 @@ Go Todo
 	# 模板引擎/text/html(https://colobu.com/2019/11/05/Golang-Templates-Cheatsheet/)
 	# 正则
 	# SQL(http://go-database-sql.org/)
-	# 压缩打包
 	# XML/HTML解析
 	# Redis
 	# 反射

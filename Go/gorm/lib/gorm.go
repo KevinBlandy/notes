@@ -129,10 +129,11 @@ type
 
 		func (db *DB) CreateInBatches(value interface{}, batchSize int) (tx *DB)
 		func (db *DB) DB() (*sql.DB, error)
+			* 获取到原始的DB
+
 		func (db *DB) Debug() (tx *DB)
 		func (db *DB) Delete(value interface{}, conds ...interface{}) (tx *DB)
 			* 删除记录
-
 
 		func (db *DB) Distinct(args ...interface{}) (tx *DB)
 		func (db *DB) Exec(sql string, values ...interface{}) (tx *DB)
@@ -142,7 +143,6 @@ type
 			* 读取唯一的一条记录，conds可以是主键ID，可以是条件和填充值
 				db.First(p, 5)					// 根据ID查找
 				db.First(p, "Code = ?", "1")	// 根据Code条件查找，可以是列名称，或者是字段名称
-
 
 		func (db *DB) FirstOrCreate(dest interface{}, conds ...interface{}) (tx *DB)
 		func (db *DB) FirstOrInit(dest interface{}, conds ...interface{}) (tx *DB)
@@ -180,6 +180,8 @@ type
 		func (db *DB) Set(key string, value interface{}) *DB
 		func (db *DB) SetupJoinTable(model interface{}, field string, joinTable interface{}) error
 		func (db *DB) Table(name string, args ...interface{}) (tx *DB)
+			* 绑定一张表，接下来对这张表进行操作
+
 		func (db *DB) Take(dest interface{}, conds ...interface{}) (tx *DB)
 		func (db *DB) Transaction(fc func(tx *DB) error, opts ...*sql.TxOptions) (err error)
 		func (db *DB) Unscoped() (tx *DB)

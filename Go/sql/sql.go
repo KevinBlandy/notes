@@ -34,7 +34,7 @@ sql
 	
 	# DB的对象的创建
 		const (
-			host string = "localhost:3306"	// 主机
+			host string = "localhost"	// 主机
 			port int = 3306					// 端口
 			db string = "demo"				// 数据库
 			username string = "root"		// 用户名

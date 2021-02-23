@@ -93,6 +93,8 @@ type
 		func (f *File) Close() error
 		func (f *File) Fd() uintptr
 		func (f *File) Name() string
+			* 返回文件的绝对路径
+
 		func (f *File) Read(b []byte) (n int, err error)
 		func (f *File) ReadAt(b []byte, off int64) (n int, err error)
 		func (f *File) ReadFrom(r io.Reader) (n int64, err error)
