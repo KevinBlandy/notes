@@ -138,7 +138,7 @@ model
 	size					指定列大小，例如：size:256
 	primaryKey				指定列为主键
 	unique					指定列为唯一
-	default					指定列的默认值
+	default					指定列的默认值，插入记录到数据库时，默认值 会被用于 填充值为 零值 的字段
 	precision				指定列的精度
 	scale					指定列大小
 	not null				指定列为 NOT NULL

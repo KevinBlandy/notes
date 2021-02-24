@@ -43,6 +43,9 @@ type
 		func (association *Association) Count() (count int64)
 		func (association *Association) Delete(values ...interface{}) error
 		func (association *Association) Find(out interface{}, conds ...interface{}) error
+			* 返回一条或者多条结果集，如果没有数据不会返回异常
+			* 如果有多条数据，但是 out 不是切片，那么仅仅返回1条
+
 		func (association *Association) Replace(values ...interface{}) error
 
 	# type ColumnType interface {
