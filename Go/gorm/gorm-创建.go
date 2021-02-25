@@ -92,6 +92,8 @@ grom的创建
 				* 启用全局 update/delete
 			
 			QueryFields bool
+				* 如果该值为true，检索的时候，把结构体中要检索的字段都列出来，而不是粗暴的SELECT * 
+
 			CreateBatchSize int
 			ClauseBuilders map[string]clause.ClauseBuilder
 			ConnPool ConnPool
@@ -135,6 +137,7 @@ grom的创建
 					NamingStrategy: schema.NamingStrategy{
 						SingularTable: true,		// 表名称单数
 					},
+					QueryFields: true,
 				})
 			if err != nil {
 				log.Fatal(err)
