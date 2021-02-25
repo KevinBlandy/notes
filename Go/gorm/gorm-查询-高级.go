@@ -87,6 +87,15 @@
 		})
 		// SELECT * FROM `user` WHERE id > 1 OR nick_name = 'Vin'
 	
+	# 支持使用结构体的字段名称作为命名参数
+		var user = &model.User{}
+		db.Model(&model.User{}).Where("id = @Id AND version = @V", &struct{
+			Id int		// 字段名称Id
+			V int		// 字段名称V
+		}{1, 2}).First(user)
+
+		// SELECT * FROM `user` WHERE id = 1 AND version = 2 ORDER BY `user`.`id` LIMIT 1
+	
 
 -----------------------
 FirstOrInit

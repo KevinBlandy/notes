@@ -90,6 +90,7 @@ grom的创建
 
 			AllowGlobalUpdate bool
 				* 启用全局 update/delete
+				* 默认不允许，如果更新/删除没有任何条件的话，会返回异常: ErrMissingWhereClause
 			
 			QueryFields bool
 				* 如果该值为true，检索的时候，把结构体中要检索的字段都列出来，而不是粗暴的SELECT * 

@@ -67,7 +67,27 @@ type
 		func WithValue(parent Context, key, val interface{}) Context
 			* 包装一个带key/value的context
 			* 子孙节点中可以加入新的值，注意若存在Key相同，则会被覆盖。
+			* 覆盖，仅仅只会影响子孙节点
+				// 一级ctx，添加了3个key1，2，3
+				ctx1 := context.WithValue(context.Background(), "key1", "val1")
+				ctx1 = context.WithValue(ctx1, "key2", "val2")
 
+				// 二级ctx，进行覆盖了key1，新增了一个key4
+				ctx2 := context.WithValue(ctx1, "key1", "new val1")
+				ctx2 = context.WithValue(ctx2, "key4", "val4")
+
+				// 一级ctx访问到的是没被覆盖的属性
+				log.Println(ctx1.Value("key1"))	// val1
+
+				// 二级ctx访问到的是被覆盖的属性
+				log.Println(ctx2.Value("key1"))	// new val1
+
+				// 二级ctx可以访问到一级ctx属性
+				log.Println(ctx2.Value("key2"))	// val2
+
+				// 一级ctx不能访问到二级ctx属性
+				log.Println(ctx1.Value("key4"))	// <nil>
+		
 -------------------------
 func
 -------------------------
