@@ -138,7 +138,8 @@ grom的创建
 					NamingStrategy: schema.NamingStrategy{
 						SingularTable: true,		// 表名称单数
 					},
-					QueryFields: true,
+					QueryFields: false,				// 检索时列出所有列
+					PrepareStmt: true,				// 缓存预编译SQL
 				})
 			if err != nil {
 				log.Fatal(err)
