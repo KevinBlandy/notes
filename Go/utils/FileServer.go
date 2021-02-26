@@ -87,9 +87,9 @@ var errNoOverlap = errors.New("invalid range: failed to overlap")
 
 const sniffLen = 512
 
-func serveContent(w http.ResponseWriter, r *http.Request, name string, modtime time.Time, sizeFunc func() (int64, error), content io.ReadSeeker) {
-	setLastModified(w, modtime)
-	done, rangeReq := checkPreconditions(w, r, modtime)
+func serveContent(w http.ResponseWriter, r *http.Request, name string, modTime time.Time, sizeFunc func() (int64, error), content io.ReadSeeker) {
+	setLastModified(w, modTime)
+	done, rangeReq := checkPreconditions(w, r, modTime)
 	if done {
 		return
 	}
