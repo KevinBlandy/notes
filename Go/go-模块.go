@@ -117,6 +117,8 @@ require (
 replace
 	* 用于替换依赖的包，相当于重写
 	* 在一些没法下载的情况下，可以替换成可以访问到的网络
+		golang.org/x/text v0.3.0 => github.com/golang/text v0.3.0
 
 require
 	* 依赖和版本设置
+	* 后面的 indirect 表示间接引用

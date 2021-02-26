@@ -274,6 +274,8 @@ type
 		* 获取环境变量，每一个字符元素都是: name=value 这种格式
 
 	func Executable() (string, error)
+		* 返回可执行文件的路径
+
 	func Exit(code int)
 	func Expand(s string, mapping func(string) string) string
 	func ExpandEnv(s string) string

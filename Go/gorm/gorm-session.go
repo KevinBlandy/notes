@@ -2,7 +2,7 @@
 session
 --------------------
 	# 会话的概念
-		* Session/WithContext/Debug 方法都会新建一个会话
+		* Session/WithContext/Debug 方法都会新建一个会话（从数据源获取一个新的链接？）
 		* db单独链式调用，会新建一个会话
 
 

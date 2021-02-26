@@ -87,8 +87,20 @@ Go 工具
 		* 进入目录，执行build
 
 --------------------------
-Go Todo
+布局
 ---------------------------
+	# 布局说明
+		https://github.com/golang-standards/project-layout/blob/master/README_zh-CN.md
+	
+	# Go目录
+		project
+			|-cmd
+	
+	# 服务端应用程序的目录
+		
+--------------------------
+Go Todo
+--------------------------
 	# 邮件
 	# RSA
 	# 模板引擎/text/html(https://colobu.com/2019/11/05/Golang-Templates-Cheatsheet/)
