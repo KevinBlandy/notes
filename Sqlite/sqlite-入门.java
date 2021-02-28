@@ -18,6 +18,7 @@ sqlite-window安装		|
 		sqlite3.exe
 		sqldiff.exe
 		sqlite3.dll
+		sqlite3.def
 
 	# 可以考虑添加目录到环境变量
 
