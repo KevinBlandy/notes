@@ -76,3 +76,58 @@ type
 方法
 --------------------------------
 
+
+		
+--------------------------------
+demo
+--------------------------------
+	# 使用 Writer 输出多部件表单体
+		// 管道流（如果body小的话，可以直接用buffer）
+		r, w := io.Pipe()
+		defer r.Close()
+
+		// 创建 multipart，指定writer
+		formWriter := multipart.NewWriter(w)
+
+		go func() {
+
+			defer w.Close()
+
+			var writer io.Writer
+
+			// 快速构建普通表单项，key/value都是字符串
+			formWriter.WriteField("lang", "PHP是宇宙最好的语言")
+
+			// 构建普通的表单项，通过Writer写入数据
+			writer, _ = formWriter.CreateFormField("lang")
+			writer.Write([]byte("Java是世界上最好的语言"))
+
+			// 构建文件表单项，指定表单名称，以及文件名称，通过Writer写入数据，默认的ContentType 是 application/octet-stream
+			writer, _ = formWriter.CreateFormFile("file", "app.json")
+			jsonVal, _ := json.Marshal(map[string] string {"name": "KevinBlandy"})
+			writer.Write(jsonVal)
+
+			// 自定义part表单项，可以添加自定义的header
+			header := textproto.MIMEHeader{}
+			header.Set("Content-Disposition", `form-data; name="file"; filename="app1.json"`)		// 自定表单字段名称，文件名称，这是必须的
+			header.Set("Content-Type", `application/octet-stream`)									// 指定ContentType，这是必须的
+			writer, _ = formWriter.CreatePart(header)
+			writer.Write([]byte("foo"))
+
+			// 完成写入，需要调用close方法
+			formWriter.Close()
+		}()
+
+		// 创建http客户端
+		client := http.Client{}
+		// 创建request请求，指定body reader
+		req, _ := http.NewRequest(http.MethodPost, "http://127.0.0.1/upload", r)
+		req.Header.Set("Content-Type", formWriter.FormDataContentType()) // 需要正确的设置ContentType
+
+		// 执行请求获取响应
+		resp, _ := client.Do(req)
+		defer resp.Body.Close()
+
+		// 获取响应
+		data, _ := ioutil.ReadAll(resp.Body)
+		fmt.Println(string(data))

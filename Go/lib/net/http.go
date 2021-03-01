@@ -421,10 +421,14 @@ type
 		func (srv *Server) ListenAndServe() error
 		func (srv *Server) ListenAndServeTLS(certFile, keyFile string) error
 		func (srv *Server) RegisterOnShutdown(f func())
+			* 添加关闭时的钩子方法到Server
+				onShutdown []func()
+			
 		func (srv *Server) Serve(l net.Listener) error
 		func (srv *Server) ServeTLS(l net.Listener, certFile, keyFile string) error
 		func (srv *Server) SetKeepAlivesEnabled(v bool)
 		func (srv *Server) Shutdown(ctx context.Context) error
+			* 关闭服务器
 	
 	# type Transport struct {
 			Proxy func(*Request) (*url.URL, error)

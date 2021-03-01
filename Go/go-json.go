@@ -55,7 +55,7 @@ json 序列化
 		* 要被序列化
 			json:"-,"
 		
-		* 把字符串解析为数字
+		* 把字符串解码/编码为数字
 			type TestObject struct {
 				Field1 int    `json:",string"`  // 对应的json =>  {"Field1": "100"}
 			}
@@ -81,8 +81,21 @@ json 通用的对象
 		* 数组
 			[]interface{}
 		
-	
-
+	# 解析未知json
+		val := `["name", "Vin"]`
+		var body interface{}
+		err := json.Unmarshal([]byte(val), &body)
+		if err != nil {
+			log.Println(err)
+		}
+		if obj, ok := body.(map[string]interface{}); ok {
+			// json 对象
+			log.Println(obj)
+		}
+		if arr, ok := body.([]interface{}); ok {
+			// json数组
+			log.Println(arr)
+		}
 
 
 ------------------------
