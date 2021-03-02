@@ -28,9 +28,15 @@ hls 参数
 ------------------------------
 	hls_init_time [duration]
 	hls_time [duration]
+		* 设置段长度，单位秒，默认为2
+
 	hls_list_size [size]
+		* 设置播放列表中字段最大数。如果为0，则包含所有分段。默认为5
+	
 	hls_delete_threshold [size]
 	hls_ts_options [options_list]
+		* 设置输出格式选项，使用-分割的key=value 参数对，如果包括特殊字符需要被转义处理
+
 	hls_wrap [wrap]
 	hls_start_number_source
 		generic 

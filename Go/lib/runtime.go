@@ -15,6 +15,58 @@
 -----------------
 自定义类型
 -----------------
+	# type BlockProfileRecord struct {
+			Count  int64
+			Cycles int64
+			StackRecord
+		}
+
+	# type Error interface {
+			error
+			RuntimeError()
+		}
+	
+	# type Frame struct {
+			PC uintptr
+			Func *Func			// 执行方法
+			Function string		// 模块.方法
+			File string			// 所在文件
+			Line int			// 所在行号
+			Entry uintptr		
+		}
+
+		* 栈帧信息
+	
+	# type Frames struct {
+		}
+
+		* 程序调用栈信息
+
+		func CallersFrames(callers []uintptr) *Frames
+		func (ci *Frames) Next() (frame Frame, more bool)
+	
+	# type Func struct {
+		}
+
+		* 执行函数
+
+		func FuncForPC(pc uintptr) *Func
+			* 根据pc返回fanc信息
+
+		func (f *Func) Entry() uintptr
+		func (f *Func) FileLine(pc uintptr) (file string, line int)
+		func (f *Func) Name() string
+			* 返回函数的名称
+
+	# type MemProfileRecord struct {
+			AllocBytes, FreeBytes     int64       // number of bytes allocated, freed
+			AllocObjects, FreeObjects int64       // number of objects allocated, freed
+			Stack0                    [32]uintptr // stack trace for this record; ends at first 0 entry
+		}
+		func (r *MemProfileRecord) InUseBytes() int64
+		func (r *MemProfileRecord) InUseObjects() int64
+		func (r *MemProfileRecord) Stack() []uintptr
+
 	# type MemStats struct {
 			Alloc uint64
 			TotalAlloc uint64
@@ -54,30 +106,19 @@
 			}
 		}
 	
+	# type StackRecord struct {
+			Stack0 [32]uintptr // stack trace for this record; ends at first 0 entry
+		}
+		func (r *StackRecord) Stack() []uintptr
 	
-	# type Error interface {
-			error
-			RuntimeError()
+	# type TypeAssertionError struct {
 		}
+		func (e *TypeAssertionError) Error() string
+		func (*TypeAssertionError) RuntimeError()
+		
 
-		* 运行时异常
-
-	# type Func struct {
-		}
-		func FuncForPC(pc uintptr) *Func
-			* 根据pc返回fanc信息
-
-		func (f *Func) Entry() uintptr
-		func (f *Func) FileLine(pc uintptr) (file string, line int)
-		func (f *Func) Name() string
-			* 返回函数的名称
 	
-	# type Frames struct {
-		}
-		* 程序调用栈信息
 
-		func CallersFrames(callers []uintptr) *Frames
-		func (ci *Frames) Next() (frame Frame, more bool)
 
 -----------------
 方法
@@ -87,6 +128,7 @@
 	func CPUProfile() []byte
 	func Caller(skip int) (pc uintptr, file string, line int, ok bool)
 		* 返回指定的调用栈的指针，文件名称，行号，是否获取成功
+		* 0表示当前方法，1表示上级调用
 
 	func Callers(skip int, pc []uintptr) int
 		* 返回调用栈的程序计数器, 放到一个uintptr中
