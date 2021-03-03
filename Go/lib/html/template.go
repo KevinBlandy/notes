@@ -74,20 +74,24 @@ type
 
 
 		func New(name string) *Template
-			* 通过名称创建一个模板
+			* 创建一个空的、无解析数据的模板，指定名称
 
 		func ParseFiles(filenames ...string) (*Template, error)
-			* 解析一组模板，使用文件名作为模板的名字
+			* 直接解析一个或多个文件的内容，并返回第一个文件名的basename作为Template的名称
 		
 		func ParseGlob(pattern string) (*Template, error)
-			* 根据pattern解析所有匹配的模板并保存
+			* 根据pattern解析所有匹配的模板，并返回第一个文件名的basename作为Template的名称
 		
 		func ParseFS(fs fs.FS, patterns ...string) (*Template, error)
 
 
 		func (t *Template) AddParseTree(name string, tree *parse.Tree) (*Template, error)
 		func (t *Template) Clone() (*Template, error)
+			* 克隆一个完全一样的模板，包括common结构也会完全克隆。
+
 		func (t *Template) DefinedTemplates() string
+			* 返回该模板的定义
+
 		func (t *Template) Delims(left, right string) *Template
 			* 修改默认的标识符，默认是 {{  }}
 
@@ -101,17 +105,23 @@ type
 			* 设置全局函数
 		
 		func (t *Template) Lookup(name string) *Template
+			* 根据名称在模板组中找寻模板，如果不存在返回nil
+
 		func (t *Template) Name() string
 		func (t *Template) New(name string) *Template
+			* 创建一个新的名为name的模板对象，并将此对象加入到this模板组中。返回
+
 		func (t *Template) Option(opt ...string) *Template
 		func (t *Template) Parse(text string) (*Template, error)
-			* 解析指定的文本
+			* 解析指定的文本作为模板，关联到当前模板
 		
 		func (t *Template) ParseFiles(filenames ...string) (*Template, error)
 			* 解析指定的文件
 		
 		func (t *Template) ParseGlob(pattern string) (*Template, error)
 		func (t *Template) Templates() []*Template
+			* 返回模板组的所有模板
+
 
 
 

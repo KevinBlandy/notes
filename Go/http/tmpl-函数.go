@@ -32,7 +32,7 @@
 		{{ call .say "陆伯言" }}
 	
 
-	# 注册全局函数，任意地方都可以调用，声明即调用
+	# 注册全局函数，任意地方都可以调用，声明即调用，参数写在后面，多个的话使用逗号分隔
 		testTemplate, err = template.New("hello.gohtml").Funcs(template.FuncMap{
 		"hasPermission": func(user User, feature string) bool {
 		  if user.ID == 1 && feature == "feature-a" {

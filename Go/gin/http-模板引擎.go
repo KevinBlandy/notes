@@ -9,7 +9,7 @@
 			* 设置全局的模板引擎加载前缀
 			* 指定目录下的所有文件
 				router.LoadHTMLGlob("templates/*")
-			* 指定目录下的所有目录的所有文件
+			* 指定目录下的所有目录的所有文件（不行）
 				router.LoadHTMLGlob("templates/**/*")
 	
 	# 重新设置模板引擎分隔符
@@ -23,3 +23,8 @@
 	
 	# 响应模板引擎
 		func (c *Context) HTML(code int, name string, obj interface{})
+
+------------------
+多模板引擎渲染
+------------------
+	

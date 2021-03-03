@@ -12,6 +12,20 @@
 	# 加载函数
 		func New(name string) *Template
 			* 在内存中新建一个模板，指定名称
+				// 模板字符串定义了2个模板，分别指定了名称，如果文本中没有模板的定义，则整个字符串都是一个模板，使用name命名
+				tpxText := `
+					{{ define "bar" }} 
+						Im Bar 
+					{{ end }} 
+
+					{{ define "foo" }} 
+						Im Foo 
+					{{ end }}
+				`
+				tpl := template.Must(template.New("foo").Parse(tpxText))
+				fmt.Println(tpl.Name())		// foo
+				tpl.Execute(os.Stdout, nil) // Im Foo
+			
 
 		func ParseFiles(filenames ...string) (*Template, error)
 			* 解析一组模板，使用文件名作为模板的名字
@@ -143,4 +157,53 @@
 
 	
 
-	 
+------------------------------------------------
+一个类似于spring视图的模板引擎加载方法
+------------------------------------------------
+	# loadTemplates
+		func loadTemplates(templatesDir string) *template.Template {
+
+			templates := template.New("templates")
+
+			// 必须先添加方法，模板引擎中如果使用到了方法，不存在会异常
+			templates.Funcs(map[string] interface{} {
+			})
+
+			// 遍历模板引擎目录，把所有文件都当做模板，以目录的相对路径作为模板名称
+			filepath.WalkDir(templatesDir, func(path string, d fs.DirEntry, err error) error {
+				if !d.IsDir() {
+					absPath, err := filepath.Rel(templatesDir, path)
+					if err != nil {
+						return err
+					}
+					func (){
+						file, err := os.Open(path)
+						if err != nil {
+							panic(fmt.Errorf("Open file err: %s\n", err.Error()))
+						}
+						defer file.Close()
+
+						context, err := io.ReadAll(file)
+						if err != nil {
+							panic(fmt.Errorf("Read file err: %s\n", err.Error()))
+						}
+						// 把文件分隔符，统一替换为 “/”
+						templates.New(strings.ReplaceAll(absPath, string(os.PathSeparator), "/")).Parse(string(context))
+					}()
+				}
+				return nil
+			})
+
+			return templates
+		}
+	
+	# 在Gin中使用
+		router := gin.New()
+
+		// 设置自定义的模板引擎
+		router.SetHTMLTemplate(loadTemplates("html"))
+
+		// 模板引擎的名称，就是“相对于模板引擎目录的路径”
+		router.GET("/", func(context *gin.Context) {
+			context.HTML(200, "common/foo/bar/bar.html", nil)
+		})
