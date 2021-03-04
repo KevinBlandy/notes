@@ -12,6 +12,16 @@ multipart
 --------------------------------
 type
 --------------------------------
+	# type File interface {
+			io.Reader
+			io.ReaderAt
+			io.Seeker
+			io.Closer
+		}
+
+		* 多部件请求体的文件对象
+		* 它可以是内存中，也可以是磁盘上，如果是磁盘上，则底层则是: *os.File
+
 	# type FileHeader struct {
 			Filename string
 			Header   textproto.MIMEHeader
