@@ -78,7 +78,7 @@ public class Base62Codec {
 	 * @return
 	 */
 	public static Long decodePad0(String str) {
-		str = str.replace("^0*", "");  // 移除开头的所有0
+		str = str.replace("^0*", "");  // TODO BUG，如果是 "000000"，会被替换为 ""
 		return decode(str);
 	}
 
