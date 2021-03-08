@@ -58,4 +58,31 @@ type
 ---------------------
 func
 ---------------------
-	
+
+
+
+---------------------
+demo
+---------------------
+	# 队列的使用
+		queue := list.New()
+
+		// 添加元素到尾部
+		queue.PushBack("1")
+		queue.PushBack("2")
+		queue.PushBack("3")
+
+		for queue.Len() > 0{
+
+			// 获取头部节点
+			var element = queue.Front()
+			fmt.Println(element.Value)
+
+			// 移除头部节点
+			queue.Remove(element)
+		}
+
+		// 输出 ---------------
+		1
+		2
+		3
