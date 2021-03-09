@@ -24,11 +24,19 @@ type
 ------------------
 	# type Command struct {
 			Use string
+				* 命令
 			Aliases []string
+				* 别名
 			SuggestFor []string
 			Short string
+				* 短的说明
+
 			Long string
+				* 长的说明
+
 			Example string
+				* 使用例子
+
 			ValidArgs []string
 			ValidArgsFunction func(cmd *Command, args []string, toComplete string) ([]string, ShellCompDirective)
 			Args PositionalArgs
@@ -42,6 +50,9 @@ type
 			PreRun func(cmd *Command, args []string)
 			PreRunE func(cmd *Command, args []string) error
 			Run func(cmd *Command, args []string)
+				* 执行命令的方法
+				* 参数就是命令(cmd)，以及除了命令选项以外的其他所有参数(args)
+
 			RunE func(cmd *Command, args []string) error
 			PostRun func(cmd *Command, args []string)
 			PostRunE func(cmd *Command, args []string) error
@@ -74,6 +85,10 @@ type
 		func (c *Command) Flag(name string) (flag *flag.Flag)
 		func (c *Command) FlagErrorFunc() (f func(*Command, error) error)
 		func (c *Command) Flags() *flag.FlagSet
+			* 返回 flag设置，这个flag是github.com/spf13/pflag中的flag
+			* 用于添加/读取选项值
+			* 本地选项，只能在这个命令中使用
+
 		func (c *Command) GenBashCompletion(w io.Writer) error
 		func (c *Command) GenBashCompletionFile(filename string) error
 		func (c *Command) GenFishCompletion(w io.Writer, includeDesc bool) error
@@ -123,6 +138,8 @@ type
 		func (c *Command) MarkZshCompPositionalArgumentFile(argPosition int, patterns ...string) error
 		func (c *Command) MarkZshCompPositionalArgumentWords(argPosition int, words ...string) error
 		func (c *Command) Name() string
+			* 返回命令的名称
+
 		func (c *Command) NameAndAliases() string
 		func (c *Command) NamePadding() int
 		func (c *Command) NonInheritedFlags() *flag.FlagSet
@@ -131,6 +148,8 @@ type
 		func (c *Command) Parent() *Command
 		func (c *Command) ParseFlags(args []string) error
 		func (c *Command) PersistentFlags() *flag.FlagSet
+			* 返回永久flag设置，定义它的命令和其子命令都可以使用
+
 		func (c *Command) Print(i ...interface{})
 		func (c *Command) PrintErr(i ...interface{})
 		func (c *Command) PrintErrf(format string, i ...interface{})
@@ -149,6 +168,8 @@ type
 		func (c *Command) SetGlobalNormalizationFunc(n func(f *flag.FlagSet, name string) flag.NormalizedName)
 		func (c *Command) SetHelpCommand(cmd *Command)
 		func (c *Command) SetHelpFunc(f func(*Command, []string))
+			* 设置用于输出帮助信息的方法
+
 		func (c *Command) SetHelpTemplate(s string)
 		func (c *Command) SetIn(newIn io.Reader)
 		func (c *Command) SetOut(newOut io.Writer)

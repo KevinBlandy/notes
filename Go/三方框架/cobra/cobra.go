@@ -7,7 +7,7 @@ cobra
 		https://pkg.go.dev/github.com/spf13/cobra
 	
 	# 核心的概念
-		* 命令(Command)：	就是需要执行的操作
+		* 命令(Command)：	就是需要执行的操作，命名可以是有子父级关系
 		* 参数(Arg)：		命令的参数，即要操作的对象
 		* 选项(Flag)：		命令选项可以调整命令的行为
 	
@@ -36,3 +36,4 @@ cobra
 			}
 	
 	
+	# 说明
