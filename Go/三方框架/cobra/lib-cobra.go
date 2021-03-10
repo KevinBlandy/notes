@@ -24,7 +24,8 @@ type
 ------------------
 	# type Command struct {
 			Use string
-				* 命令
+				* 命令和参数定义
+				* 例如： "clone [url]"
 			Aliases []string
 				* 别名
 			SuggestFor []string
@@ -45,19 +46,31 @@ type
 			Deprecated string
 			Annotations map[string]string
 			Version string
+
 			PersistentPreRun func(cmd *Command, args []string)
 			PersistentPreRunE func(cmd *Command, args []string) error
+				* 在当前命令执行之前执行
+				* 最先执行，并且任何子命令执行它都会执行
+
 			PreRun func(cmd *Command, args []string)
 			PreRunE func(cmd *Command, args []string) error
+				* 在命令之前执行，也就是在 PersistentPreRun 之后执行
+
 			Run func(cmd *Command, args []string)
+			RunE func(cmd *Command, args []string) error
 				* 执行命令的方法
 				* 参数就是命令(cmd)，以及除了命令选项以外的其他所有参数(args)
 
-			RunE func(cmd *Command, args []string) error
 			PostRun func(cmd *Command, args []string)
 			PostRunE func(cmd *Command, args []string) error
+				* 在执行命令之后执行，也就是在Run后，PersistentPostRun前执行
+
 			PersistentPostRun func(cmd *Command, args []string)
 			PersistentPostRunE func(cmd *Command, args []string) error
+				* 在执行命令之后执行
+				* 最后执行，并且任何子命令执行后它都会执行
+				
+
 			FParseErrWhitelist FParseErrWhitelist
 			TraverseChildren bool
 			Hidden bool
@@ -132,6 +145,9 @@ type
 		func (c *Command) MarkFlagDirname(name string) error
 		func (c *Command) MarkFlagFilename(name string, extensions ...string) error
 		func (c *Command) MarkFlagRequired(name string) error
+			* 默认情况下的选项都是可选的，因为有个默认值
+			* 如果需要指定某个选项必选，那么可以用这个方法指定
+
 		func (c *Command) MarkPersistentFlagDirname(name string) error
 		func (c *Command) MarkPersistentFlagFilename(name string, extensions ...string) error
 		func (c *Command) MarkPersistentFlagRequired(name string) error
@@ -166,16 +182,22 @@ type
 		func (c *Command) SetErr(newErr io.Writer)
 		func (c *Command) SetFlagErrorFunc(f func(*Command, error) error)
 		func (c *Command) SetGlobalNormalizationFunc(n func(f *flag.FlagSet, name string) flag.NormalizedName)
+
 		func (c *Command) SetHelpCommand(cmd *Command)
 		func (c *Command) SetHelpFunc(f func(*Command, []string))
-			* 设置用于输出帮助信息的方法
-
 		func (c *Command) SetHelpTemplate(s string)
+			* 设置用于输出帮助信息的方法
+			* 执行 -h/--help 时的输出
+		
 		func (c *Command) SetIn(newIn io.Reader)
 		func (c *Command) SetOut(newOut io.Writer)
 		func (c *Command) SetOutput(output io.Writer)
+
 		func (c *Command) SetUsageFunc(f func(*Command) error)
 		func (c *Command) SetUsageTemplate(s string)
+			* 设置提示信息
+			* 提示信息和帮助信息很相似，只不过它是在你输入了非法的参数、选项或命令时才出现
+
 		func (c *Command) SetVersionTemplate(s string)
 		func (c *Command) SuggestionsFor(typedName string) []string
 		func (c *Command) Traverse(args []string) (*Command, []string, error)
@@ -192,11 +214,17 @@ type
 	# type FParseErrWhitelist flag.ParseErrorsWhitelist
 
 	# type PositionalArgs func(cmd *Command, args []string) error
+
 		func ExactArgs(n int) PositionalArgs
+			* 必须有 N 个位置参数，否则报错
 		func ExactValidArgs(n int) PositionalArgs
+			* 必须有 N 个位置参数，且都在命令的 ValidArgs 字段中，否则报错
 		func MaximumNArgs(n int) PositionalArgs
+			* 如果位置参数超过 N 个将报错
 		func MinimumNArgs(n int) PositionalArgs
+			* 至少要有 N 个位置参数，否则报错
 		func RangeArgs(min int, max int) PositionalArgs
+			* 如果位置参数的个数不在区间 min 和 max 之中，报错
 
 	# type ShellCompDirective int
 
@@ -206,6 +234,8 @@ func
 	func AddTemplateFunc(name string, tmplFunc interface{})
 	func AddTemplateFuncs(tmplFuncs template.FuncMap)
 	func ArbitraryArgs(cmd *Command, args []string) error
+		* 该命令会接受任何位置参数
+	
 	func CheckErr(msg interface{})
 	func CompDebug(msg string, printToStdErr bool)
 	func CompDebugln(msg string, printToStdErr bool)
@@ -218,6 +248,17 @@ func
 	func MarkFlagFilename(flags *pflag.FlagSet, name string, extensions ...string) error
 	func MarkFlagRequired(flags *pflag.FlagSet, name string) error
 	func NoArgs(cmd *Command, args []string) error
+		* 如果存在任何位置参数，该命令将报错
+
 	func OnInitialize(y ...func())
+		* 每当执行或者调用命令的时候，它都会先执行 init 函数中的所有函数，然后再执行 execute 方法。
+		* 该初始化可用于加载配置文件或用于构造函数等等
+
+		* 当 rootCmd 的执行方法 RUN: func 运行的时候，rootCmd 根命令就会首先运行 initConfig 函数
+		* 当所有的初始化函数执行完成后，才会执行 rootCmd 的 RUN: func 执行函数
+
+
 	func OnlyValidArgs(cmd *Command, args []string) error
+		* 如果有任何位置参数不在命令的 ValidArgs 字段中，该命令将报错
+
 	func WriteStringAndCheck(b io.StringWriter, s string)
