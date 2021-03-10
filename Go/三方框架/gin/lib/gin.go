@@ -51,7 +51,8 @@ type
 			Keys map[string]interface{}
 				* 请求参数keys
 			Errors errorMsgs	// type errorMsgs []*Error
-				* 异常消息		
+				* 异常消息，这是一个切片
+
 			Accepted []string	
 				* 客户端accept头
 		}
@@ -65,6 +66,8 @@ type
 			* 终止后面的handler调用，不会终止程序
 			* 本质上就是修改了了context中的index值
 				const abortIndex int8 = math.MaxInt8 / 2
+			* WithError 会把异常添加到Context的Errors异常切片中
+
 
 
 		func (c *Context) AsciiJSON(code int, obj interface{})
@@ -104,15 +107,27 @@ type
 		
 		func (c *Context) Done() <-chan struct{}
 		func (c *Context) Err() error
+
 		func (c *Context) Error(err error) *Error
+			* 把一个ee添加到 Erros
+			* 如果err不不是 gin.Error，则会包装为Error
+
 		func (c *Context) File(filepath string)
+			*  文件以高效的方式将指定的文件写入体流中
+				http.ServeFile(c.Writer, c.Request, filepath)
+
 		func (c *Context) FileAttachment(filepath, filename string)
+			* 给客户端响应一个文件下载流
+			* filepath指定文件的路径，filenam指定文件的名称
+
 		func (c *Context) FileFromFS(filepath string, fs http.FileSystem)
 		func (c *Context) FormFile(name string) (*multipart.FileHeader, error)
 			* 获取单个的上传文件
 		
 		func (c *Context) FullPath() string
 		func (c *Context) Get(key string) (value interface{}, exists bool)
+			* 获取ctx中存储的数据
+
 		func (c *Context) GetBool(key string) (b bool)
 		func (c *Context) GetDuration(key string) (d time.Duration)
 		func (c *Context) GetFloat64(key string) (f64 float64)
@@ -139,6 +154,7 @@ type
 		func (c *Context) GetStringMapStringSlice(key string) (smss map[string][]string)
 		func (c *Context) GetStringSlice(key string) (ss []string)
 		func (c *Context) GetTime(key string) (t time.Time)
+
 		func (c *Context) HTML(code int, name string, obj interface{})
 			* 渲染html，指定状态码，模版引擎文件相对路径，填充对象
 				c.HTML(http.StatusOK, "index.tmpl", gin.H{
@@ -180,8 +196,11 @@ type
 			* 返回是否成功
 
 		func (c *Context) MustGet(key string) interface{}
+			*  调用 Get() 获取参数值，如果不存在，panic
+
 		func (c *Context) Negotiate(code int, config Negotiate)
 		func (c *Context) NegotiateFormat(offered ...string) string
+
 		func (c *Context) Next()
 			* 调用HandlerFunc链表下一个处理器，并且执行
 
@@ -252,6 +271,8 @@ type
 
 		func (c *Context) String(code int, format string, values ...interface{})
 		func (c *Context) Value(key interface{}) interface{}
+			* 从ctx中获取值，如果不存在，返回nil
+
 		func (c *Context) XML(code int, obj interface{})
 		func (c *Context) YAML(code int, obj interface{})
 	
@@ -460,14 +481,17 @@ type
 		* 日志记录器
 
 	# type Negotiate struct {
-			Offered  []string
-			HTMLName string
-			HTMLData interface{}
-			JSONData interface{}
-			XMLData  interface{}
-			YAMLData interface{}
-			Data     interface{}
+			Offered  []string		// 支持的ContenType列表
+			HTMLName string			// HTML模板名称
+			HTMLData interface{}	// HTMLL数据
+			JSONData interface{}	// JSON数据
+			XMLData  interface{}	// XML数据
+			YAMLData interface{}	// YAML数据
+			Data     interface{}	// 普通数据
 		}
+		
+		* 与客户端的ContentType协商
+
 
 	# type Param struct {
 			Key   string
