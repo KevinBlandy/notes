@@ -119,3 +119,72 @@ jwt - springboot
 				|-SignatureVerificationException
 				|-TokenExpiredException
 
+
+---------------------
+jwt - RSA
+---------------------
+	# RSA
+		* 私钥只能用来签名JWT，不能用来校验它。
+		* 第二个密钥叫做公钥(public key)，是应用服务器使用来校验JWT。
+		* 公钥可以用来校验JWT，但不能用来给JWT签名。
+		* 公钥一般不需要严密保管，因为即便黑客拿到了，也无法使用它来伪造签名。
+
+		* 场景就是，可以把公钥分发给别人，别人可以用来校验Token是否由系统的私钥签发
+
+
+	# Demo
+		import java.security.KeyPair;
+		import java.security.KeyPairGenerator;
+		import java.security.NoSuchAlgorithmException;
+		import java.security.interfaces.RSAPrivateKey;
+		import java.security.interfaces.RSAPublicKey;
+		import java.util.Date;
+		import java.util.HashMap;
+		import java.util.Map;
+
+		import com.auth0.jwt.JWT;
+		import com.auth0.jwt.algorithms.Algorithm;
+		import com.auth0.jwt.interfaces.DecodedJWT;
+
+		public class JWTMain {
+			public static void main(String[] args) throws Exception {
+				
+				// 创建私钥和公钥
+				KeyPair keyPair = initKey();
+				RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
+				RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
+
+				// 使用公钥/私钥创建 Algorithm
+				Algorithm algorithm = Algorithm.RSA512(rsaPublicKey, rsaPrivateKey);
+				
+				Map<String, Object> jwtHeader = new HashMap<>();
+				jwtHeader.put("alg", "RS512");  // 指定RSA512
+				jwtHeader.put("typ", "JWT");
+
+				// 生成Token
+				String token = JWT.create().withHeader(jwtHeader)
+						.withClaim("id", 1000L)
+						.withIssuer("springboot中文社区") // 签发人
+						.withNotBefore(new Date()) // 生效时间
+						.withIssuedAt(new Date()) // 签发时间
+						.withJWTId("123456") // 编号
+						.sign(algorithm);
+				
+				System.out.println(token);
+				
+				// 校验Token
+				DecodedJWT decodedJWT = JWT.require(algorithm)
+						.build().verify(token);
+				
+				System.out.println(decodedJWT);
+				
+			}
+
+			// 初始化公钥和密钥
+			public static KeyPair initKey() throws NoSuchAlgorithmException {
+				KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA"); // RSA 加密
+				keyPairGenerator.initialize(2048); // RSA秘钥长度
+				KeyPair keyPair = keyPairGenerator.generateKeyPair();
+				return keyPair;
+			}
+		}

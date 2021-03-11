@@ -10,8 +10,9 @@ type
 
 	# type FieldError interface {
 			Tag() string
-				* 注解
+				* 所有注解
 			ActualTag() string
+				* 验证失败的注解
 			Namespace() string
 			StructNamespace() string
 			Field() string
@@ -24,6 +25,8 @@ type
 			Param() string
 			Kind() reflect.Kind
 			Type() reflect.Type
+				* 返回字段的Type
+
 			Translate(ut ut.Translator) string
 			Error() string
 		}
@@ -54,8 +57,11 @@ type
 		* 校验中的字段信息
 
 	# type FilterFunc func(ns []byte) bool
+
 	# type Func func(fl FieldLevel) bool
 	# type FuncCtx func(ctx context.Context, fl FieldLevel) bool
+		* 自定义Tag验证的验证方法
+
 	# type InvalidValidationError struct {
 			Type reflect.Type
 		}
@@ -96,6 +102,17 @@ type
 			* fn指定参数，types指定结构体（创建一个实例）
 
 		func (v *Validate) RegisterTagNameFunc(fn TagNameFunc)
+			* 对于结构体中的字段，校验失败的时候，会在异常信息中添加字段名称
+			* 可以通过这个方法，来修改字段名称
+			* 例如：使用为结构的JSON表示而指定的名称，而不是普通的Go字段名。
+				validate.RegisterTagNameFunc(func(fld reflect.StructField) string {
+					name := strings.SplitN(fld.Tag.Get("json"), ",", 2)[0]
+					if name == "-" {
+						return ""
+					}
+					return name
+				})
+
 		func (v *Validate) RegisterTranslation(tag string, trans ut.Translator, registerFn RegisterTranslationsFunc, ...) (err error)
 
 		func (v *Validate) RegisterValidation(tag string, fn Func, callValidationEvenIfNull ...bool) error

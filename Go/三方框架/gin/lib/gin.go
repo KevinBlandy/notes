@@ -63,7 +63,7 @@ type
 		func (c *Context) AbortWithError(code int, err error) *Error
 		func (c *Context) AbortWithStatus(code int)
 		func (c *Context) AbortWithStatusJSON(code int, jsonObj interface{})
-			* 终止后面的handler调用，不会终止程序
+			* 响应客户端，并且终止后续的Handler链调用
 			* 本质上就是修改了了context中的index值
 				const abortIndex int8 = math.MaxInt8 / 2
 			* WithError 会把异常添加到Context的Errors异常切片中
@@ -334,7 +334,7 @@ type
 
 		func (engine *Engine) NoMethod(handlers ...HandlerFunc)
 		func (engine *Engine) NoRoute(handlers ...HandlerFunc)
-			* 添加处理404/405的handler
+			* 添加处理405/404的handler到各自的处理器链
 			* 默认了俩处理器，响应text异常信息
 				
 
