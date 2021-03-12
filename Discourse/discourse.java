@@ -10,6 +10,7 @@ discourse			 |
 	
 	# ряж╙╣ду╬
 		https://springboot.io/
+		https://twittercommunity.com/
 		https://forum.realm.io/
 		https://forum.vuejs.org/
 		https://discuss.python.org/
