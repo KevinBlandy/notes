@@ -492,6 +492,9 @@ func
 		* 与io.LimitReader相反，MaxBytesReader的结果是一个ReadCloser，对于超出限制的Read返回一个非EOF错误，并在调用其Close方法时关闭底层reader
 		* 可以防止客户端意外或恶意发送大请求，浪费服务器资源。
 
+		* 在异常发生后，如果w实现了 `requestTooLarge` 方法，会执行调用
+
+
 	func NotFound(w ResponseWriter, r *Request)
 		* 404 handler
 

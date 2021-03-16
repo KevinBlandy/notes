@@ -12,6 +12,9 @@ rand
 	# type Rand struct {
 		}
 		func New(src Source) *Rand
+			* 初始化随机数生成器
+				r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
 		func (r *Rand) ExpFloat64() float64
 		func (r *Rand) Float32() float32
 		func (r *Rand) Float64() float64
@@ -62,8 +65,17 @@ rand
 	func Read(p []byte) (n int, err error)
 	func Seed(seed int64)
 		* 设定随机数种子
+			rand.Seed(time.Now().UnixNano())
 
 	func Shuffle(n int, swap func(i, j int))
 	func Uint32() uint32
 	func Uint64() uint64
 
+
+
+----------------------
+Demo
+----------------------
+	# 生成 0 - 9 随机数
+		var random = rand.New(rand.NewSource(time.Now().UnixNano()))
+		fmt.Println(random.Intn(10))

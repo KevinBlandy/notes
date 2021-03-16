@@ -3,10 +3,10 @@ redigo
 -----------------------------
 	# Doc
 		https://pkg.go.dev/github.com/gomodule/redigo/redis
-	
+		https://github.com/gomodule/redigo
 
 	# package
-		 github.com/garyburd/redigo/redis
+		 github.com/gomodule/redigo/redis
 
 -----------------------------
 var
@@ -75,6 +75,7 @@ type
 		func Dial(network, address string, options ...DialOption) (Conn, error)
 		func DialContext(ctx context.Context, network, address string, options ...DialOption) (Conn, error)
 			* 创建链接，通过options设置N个参数
+				c, err := redis.Dial("tcp", ":6379")
 
 		func DialTimeout(network, address string, ...) (Conn, error)
 		func DialURL(rawurl string, options ...DialOption) (Conn, error)
