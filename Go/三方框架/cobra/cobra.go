@@ -6,6 +6,9 @@ cobra
 		https://github.com/spf13/cobra
 		https://pkg.go.dev/github.com/spf13/cobra
 	
+	# 参考学习
+		https://juejin.cn/post/6924541628031959047
+	
 	
 	# 最佳实践
 		* 项目结构
