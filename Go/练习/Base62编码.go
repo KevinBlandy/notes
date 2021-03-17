@@ -101,9 +101,11 @@ func Base64DecodePad0(str string) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	str = reg.ReplaceAllString(str, "")
-	if str == "" {
-		str = "0"
+	if str != "" {
+		str = reg.ReplaceAllString(str, "")
+		if str == "" {
+			str = "0"	// ±ÜÃâ ¡°000000¡± Çé¿ö
+		}
 	}
 	return Base64Decode(str)
 }
