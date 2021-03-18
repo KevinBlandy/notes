@@ -24,10 +24,18 @@ type
 ------------------
 	# type Command struct {
 			Use string
-				* 命令和参数定义
-				* 例如： "clone [url]"
+				* 命令的使用方法，推荐的语法如下
+					[ ]表示一个可选的参数。没有用括号括起来的参数是必须的。
+					... 表示可以为前面的参数指定多个值。
+					| 表示相互排斥的信息。您可以使用分隔符左边的参数或使用
+					 { } 当其中一个参数为必填参数时，会对一组相互排斥的参数进行分隔。如果参数是
+
+				* 例如：
+					add [-F file | -D dir]... [-f format] profile
+				
 			Aliases []string
-				* 别名
+				* 别名数组，可以用来代替Use中的第一个词。
+
 			SuggestFor []string
 			Short string
 				* 短的说明
@@ -58,7 +66,7 @@ type
 
 			Run func(cmd *Command, args []string)
 			RunE func(cmd *Command, args []string) error
-				* 执行命令的方法
+				* 执行命令的方法，
 				* 参数就是命令(cmd)，以及除了命令选项以外的其他所有参数(args)
 
 			PostRun func(cmd *Command, args []string)

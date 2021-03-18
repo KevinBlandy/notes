@@ -67,7 +67,7 @@ public class EmailService {
     public void sendHTMLMail(String to,String title,String content) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setFrom(new InternetAddress(MimeUtility.encodeText(sender) + "<" + this.username + ">"));
+		helper.setFrom(this.username, sender);
         helper.setTo(to);
         helper.setSubject(title);
         helper.setText(content, true);
@@ -114,7 +114,7 @@ public class EmailTest {
 		
 		// 通过Helper 设置邮件消息内容
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
-		helper.setFrom(new InternetAddress(MimeUtility.encodeText("赵信") + "<10086@qq.com>"));
+		helper.setFrom("赵信", "10086@qq.com");
 		helper.setTo("10010@qq.com");
 		helper.setSubject("你好啊");
 		helper.setText("<h3>我是 Judy</h3>", true);

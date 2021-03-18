@@ -51,7 +51,7 @@ cobra
 
 			* PersistentPreRun 方法和 PersistentPostRun 方法会伴随任何子命令的执行
 
-	# 参数(Arg)：		命令的参数，即要操作的对象
+	# 参数(Arg)：		用于验证命令的参数，即要操作的对象
 		* 默认的验证方法
 			NoArgs
 				* 如果存在任何位置参数，该命令将报错
@@ -69,6 +69,17 @@ cobra
 				* 必须有 N 个位置参数，且都在命令的 ValidArgs 字段中，否则报错
 			RangeArgs(min, max)
 				* 如果位置参数的个数不在区间 min 和 max 之中，报错
+		
+		* demo
+			var cmd = &cobra.Command{
+				Use:   "hello",
+				Short: "hello",
+				Args:  cobra.MinimumNArgs(2),
+				Run: func(cmd *cobra.Command, args []string) {
+					fmt.Println("Hello, World!")
+				},
+			}
+
 		
 		
 	# 选项(Flag)：		命令选项可以调整命令的行为
