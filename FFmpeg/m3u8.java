@@ -4,6 +4,7 @@ m3u8
 	# ²Î¿¼
 		http://www.ffmpeg.org/ffmpeg-formats.html#hls
 		http://www.ffmpeg.org/ffmpeg-formats.html#segment
+		http://tools.ietf.org/id/draft-pantos-http-live-streaming
 	
 
 	start_number

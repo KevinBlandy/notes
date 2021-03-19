@@ -43,7 +43,7 @@ os
 			O_CREATE int = syscall.O_CREAT  // 如果文件不存在则先创建
 			O_EXCL   int = syscall.O_EXCL   // 和O_CREATE一起使用，文件必须不能存在
 			O_SYNC   int = syscall.O_SYNC   // 以同步I/O的方式打开
-			O_TRUNC  int = syscall.O_TRUNC  // 文件打开时裁剪文件
+			O_TRUNC  int = syscall.O_TRUNC  // 文件打开时裁剪文件（长度被截为0，属性不变）
 		)
 	
 	* 文件移动的相对位置

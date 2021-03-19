@@ -6,6 +6,7 @@ exec
 var
 -----------------
 	var ErrNotFound = errors.New("executable file not found in $PATH")
+		* 可执行文件没有找到
 
 -----------------
 type
@@ -93,6 +94,7 @@ type
 				* 这个收集可能只会存储一部分，省略大部分信息
 		}
 		
+		* 执行异常后，会返回这个异常对象
 		* 继承了ProcessState，可以获取到进程的状态信息
 
 		func (e *ExitError) Error() string
