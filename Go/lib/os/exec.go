@@ -59,6 +59,11 @@ type
 		
 		func (c *Cmd) Run() error
 			* 启动指定的命令并等待其完成
+			* 本质上是调用了start
+				if err := c.Start(); err != nil {
+					return err
+				}
+				return c.Wait()
 
 		func (c *Cmd) Start() error
 			* 不会等待进程执行完毕，这个方法会立即返回
