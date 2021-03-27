@@ -4,11 +4,14 @@ Vertx
 	# 官方地址
 		https://vertx.io/
 		https://github.com/eclipse-vertx/vert.x
-
+		https://vertx-china.github.io/
+		https://how-to.vertx.io/
 	
 	# 学习参考
 		https://segmentfault.com/a/1190000021036621
 		http://vertxchina.github.io/vertx-translation-chinese/
+
+		https://www.bilibili.com/video/BV1Ep4y1Y7Do
 	
 	# Maven
 		<dependency>

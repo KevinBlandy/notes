@@ -1,21 +1,32 @@
 ----------------------------------
 Process								|
 ----------------------------------
-	# Process,应该是代表系统进程
-		void prop.destroy();
-			* 杀死进程。(只能弄死它启动的程序)
+	# Process 表示系统进程的接口
 
-		InputStream prop.getInputStream();
-			* 可以获取到cmd的一个输入流,执行了cmd命名后可以读取到cmd显示出来的内容
+		public abstract OutputStream getOutputStream();
+			* 返回输出流
+		
+		public abstract InputStream getInputStream();
+			* 返回输入流
+		
+		public abstract InputStream getErrorStream();
+			* 返回异常输出流
+		
+		public abstract int waitFor() throws InterruptedException;
+			* 等待，直到进程结束，返回进程的结束状态
+		
+		public boolean waitFor(long timeout, TimeUnit unit)
+			* 等待线程结束，设置超时时间
+		
+		public abstract int exitValue();
+			* 获取进程结束的状态
+		
+		public abstract void destroy();
+			* 杀死进程
+		
+		public Process destroyForcibly()
+			* 杀死进程，强制
 
-		InputStream getErrorStream() 
-			*  获取子进程的错误流。
-			
-		InputStream getInputStream()  
-			* 获取写入流
+		public boolean isAlive()
+			* 进程是否存活
 
-		int exitValue();
-			* 此 Process 对象表示的子进程的出口值。根据惯例，值 0 表示正常终止。 
-
-		int waitFor();
-			* 当期线程会一直阻塞,直到 Process 对象表示的进程已经终
