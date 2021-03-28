@@ -149,29 +149,52 @@ server
 	
 	# Demo
 		package main
-			import (
-				"fmt"
-				"net/http"
-			)
-			func main() {
-				// 创建路由
-				serverMux := http.NewServeMux()
-				serverMux.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-					defer request.Body.Close()
-					writer.WriteHeader(http.StatusOK)
-					writer.Write([]byte("Hello World"))
-					writer.Header().Set("Content-Type", "text/plan")
-				})
+		import (
+			"context"
+			"log"
+			"net/http"
+			"os"
+			"os/signal"
+			"time"
+		)
 
-				// 创建服务器
-				server := http.Server{
-					Addr: ":8080",
-					Handler: serverMux,
+		func main(){
+			router := http.NewServeMux()
+			server := http.Server {
+				Addr: ":80",
+				Handler: router,
+			}
+
+			router.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+				writer.Header().Set("Content-Type", "text/plan; charset=utf-8")
+				writer.WriteHeader(http.StatusOK)
+				writer.Write([]byte("Hello World!"))
+			})
+
+			go func() {
+				if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+					log.Fatalln(err)
 				}
+			}()
 
-				// 启动服务
-				err := server.ListenAndServe()
-				if err != nil {
-					fmt.Println(err)
+			notify := make(chan  os.Signal)
+			signal.Notify(notify, os.Kill, os.Interrupt)
+			for {
+				sig := <- notify
+				switch sig {
+					case os.Kill, os.Interrupt: {
+						go func(){
+							ctx, cancel := context.WithTimeout(context.Background(), time.Second * 5)
+							defer cancel()
+							if err := server.Shutdown(ctx); err != nil {
+								log.Fatalln(err)
+							}
+						}()
+						return
+					}
+					default: {
+
+					}
 				}
 			}
+		}
