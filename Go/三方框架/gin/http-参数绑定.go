@@ -110,4 +110,31 @@
 	# Gin使用 go-playground/validator.v8 进行验证
 		https://github.com/go-playground/validator
 		https://pkg.go.dev/gopkg.in/go-playground/validator.v8
-	
+
+
+
+-----------------------
+一些demo
+-----------------------
+	import (
+		"github.com/gin-gonic/gin"
+		"log"
+		"net/http"
+		"streamer/validate"
+	)
+
+	type LoginRequest struct {
+		Account string `json:"account" form:"account" binding:"required,gte=6,lte=50"`
+		Password string `json:"password" form:"password" binding:"required,gte=6,lte=50"`
+	}
+
+	func Login (c *gin.Context) {
+		var body = new(LoginRequest)
+		if err := c.ShouldBind(body); err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"msg": "bad body"})
+			return
+		}
+		log.Println(validate.Validator.Struct(body))
+
+		c.JSON(http.StatusOK, gin.H{"msg": "ok"})
+	}
