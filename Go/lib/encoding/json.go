@@ -223,4 +223,53 @@ demo
 			*/
 		}
 	
+	
+	# 自定义 Date 格式化
+		* 自定义一个 time.Time 类型，实现json的序列化和反序列化接口
+			import (
+				"fmt"
+				"time"
+			)
+
+			type LocalDateTime time.Time
+
+			var Format = "2006-01-02 15:04:05"
+			var FormatStr = fmt.Sprintf(`"%s"`, Format)
+
+			// 序列化为json
+			func (j *LocalDateTime) MarshalJSON () ([]byte, error){
+				return []byte(time.Time(*j).Format(FormatStr)), nil
+			}
+			// 反序列化为对象
+			func (j *LocalDateTime) UnmarshalJSON (bytes []byte) error {
+				val, err := time.Parse(FormatStr, string(bytes))
+				if err != nil {
+					return err
+				}
+				*j = LocalDateTime(val)
+				return nil
+			}
+
+			func (j *LocalDateTime) String () string {
+				return time.Time(*j).Format(Format)
+			}
 		
+		* 使用
+			type Foo struct {
+				Id int
+				Date *model.LocalDateTime
+			}
+			now := model.LocalDateTime(time.Now())
+			val, _ := json.MarshalIndent(&Foo{Id: 1, Date: &now}, "", " ")
+			fmt.Println(string(val))
+
+			var foo = new(Foo)
+			_ = json.Unmarshal(val, foo)
+			fmt.Println(foo)
+
+			// out
+			{
+			 "Id": 1,
+			 "Date": "2021-03-31 10:44:14"
+			}
+			&{1 2021-03-31 10:44:14}
