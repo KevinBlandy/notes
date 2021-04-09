@@ -114,7 +114,7 @@ public class EmailTest {
 		
 		// 通过Helper 设置邮件消息内容
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
-		helper.setFrom("赵信", "10086@qq.com");
+		helper.setFrom("10086@qq.com", "赵信");
 		helper.setTo("10010@qq.com");
 		helper.setSubject("你好啊");
 		helper.setText("<h3>我是 Judy</h3>", true);

@@ -11,6 +11,12 @@ Event						|
 			void publishEvent(Object event);
 		}
 
+		* 也可以在需要使用事件发布的组件中，实现： ApplicationEventPublisherAware 接口
+		* 会自动的注入：ApplicationEventPublisher
+			public interface ApplicationEventPublisherAware extends Aware {
+				void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher);
+			}
+
 	# 抽象的事件接口
 		* JDK提供的事件对象
 			public class EventObject implements java.io.Serializable {
