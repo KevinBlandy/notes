@@ -25,16 +25,26 @@ type
 			Type() FileMode
 			Info() (FileInfo, error)
 		}
+		
+		* 目录下面的项
+
 	# type FS interface {
 			Open(name string) (File, error)
 		}
+		
+		* 文件系统接口
+
 		func Sub(fsys FS, dir string) (FS, error)
+	
 	
 	# type File interface {
 			Stat() (FileInfo, error)
 			Read([]byte) (int, error)
 			Close() error
 		}
+		
+		* 文件接口
+			
 	# type FileInfo interface {
 			Name() string       // base name of the file
 			Size() int64        // length in bytes for regular files; system-dependent for others
@@ -43,6 +53,9 @@ type
 			IsDir() bool        // abbreviation for Mode().IsDir()
 			Sys() interface{}   // underlying data source (can return nil)
 		}
+		
+		* 文件系统接口
+
 		func Stat(fsys FS, name string) (FileInfo, error)
 	
 	# type FileMode uint32
@@ -79,6 +92,8 @@ type
 			FS
 			Glob(pattern string) ([]string, error)
 		}
+
+		* 支持根据pattern检索的FS
 	
 	# type PathError struct {
 			Op   string

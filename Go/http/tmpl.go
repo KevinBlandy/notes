@@ -196,6 +196,48 @@
 
 			return templates
 		}
+
+		
+		// 用这个
+		func loadTemplates(templatesDir string) *template.Template {
+
+			templates := template.New("templates")
+
+			// 必须先添加方法，模板引擎中如果使用到了方法，不存在会异常
+			templates.Funcs(map[string] interface{} {})
+
+			// 遍历模板引擎目录，把所有文件都当做模板，以目录的相对路径作为模板名称
+			err := filepath.WalkDir(templatesDir, func(path string, d fs.DirEntry, err error) error {
+				if !d.IsDir() {
+					absPath, err := filepath.Rel(templatesDir, path)
+					if err != nil {
+						return err
+					}
+					// 读取每一个文件到内存，使用相对路径作为“模板名称”
+					err = func () error {
+						file, err := os.Open(path)
+						if err != nil {
+							return err
+						}
+						defer file.Close()
+						context, err := io.ReadAll(file)
+						if err != nil {
+							return err
+						}
+						// 把文件分隔符，统一替换为 “/”
+						templates.New(strings.ReplaceAll(absPath, string(os.PathSeparator), "/")).Parse(string(context))
+						return nil
+					}()
+					return err
+				}
+				return nil
+			})
+			if err != nil {
+				log.Fatalf("加载HTML模板引擎异常: %s\n", err.Error())
+			}
+			return templates
+		}
+
 	
 	# 在Gin中使用
 		router := gin.New()
