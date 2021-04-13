@@ -6,6 +6,8 @@ Vertx
 		https://github.com/eclipse-vertx/vert.x
 		https://vertx-china.github.io/
 		https://how-to.vertx.io/
+
+		https://vertx.io/docs/apidocs/
 	
 	# 学习参考
 		https://segmentfault.com/a/1190000021036621
@@ -36,3 +38,8 @@ Vertx
 
 		* 起码JDK8
 	
+
+-----------------------------
+启动
+-----------------------------
+	io.vertx.core.Launcher run [verticle]

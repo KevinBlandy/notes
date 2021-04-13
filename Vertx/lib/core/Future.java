@@ -1,7 +1,7 @@
 ----------------------
 Future
 ----------------------
-	# interface Future<T> extends io.vertx.core.AsyncResult<T> 
+	# 异步任务接口： interface Future<T> extends io.vertx.core.AsyncResult<T> 
 
 
 

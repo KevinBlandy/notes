@@ -59,7 +59,7 @@ Tomcat-搭建HTTPS服务器		|
 		* 修改server.xml,其中有段已经注释掉的
 			  <Connector
 				port="8443" 
-				protocol="org.apache.coyote.http11.Http11Protocol"
+				protocol="org.apache.coyote.http11.Http11NioProtocol"
 				maxThreads="150" 
 				SSLEnabled="true" 
 				scheme="https" 
