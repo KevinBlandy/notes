@@ -27,9 +27,15 @@ AsyncFile
 	AsyncFile read(Buffer buffer, int offset, long position, int length, Handler<AsyncResult<Buffer>> handler);
 	Future<Buffer> read(Buffer buffer, int offset, long position, int length);
 		* 随机读
+			buffer ：读取数据的 Buffer
+			offset ：读取数据将被放到 Buffer 中的偏移量
+			position ：从文件中读取数据的位置
+			length ：要读取的数据的字节数
+			handler ：结果处理器
 
 	Future<Void> flush();
 	AsyncFile flush(Handler<AsyncResult<Void>> handler);
+		* 异步的数据刷入到磁盘
 
 	AsyncFile setReadPos(long readPos);
 		* 读位置
@@ -42,6 +48,7 @@ AsyncFile
 		* 写位置
 		
 	AsyncFile setReadBufferSize(int readBufferSize);
+		* 设置读取大小
 
 	default Pipe<T> pipe()
 	default Future<Void> pipeTo(WriteStream<T> dst)

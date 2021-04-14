@@ -2,6 +2,9 @@
 文件系统
 --------------------
 	# 每个Vert.x 实例有一个文件系统对象，通过 fileSystem 方法获取它。
+		Vertx vertx = Vertx.vertx(new VertxOptions().setFileSystemOptions(new FileSystemOptions())); // 设置FileSystem配置
+		FileSystem fileSystem = vertx.fileSystem();		// 获取FileSystem对象
+
 	# 每个操作都提供了阻塞和非阻塞版本，其中非阻塞版本接受一个处理器（Handler）， 当操作完成或发生错误时调用该处理器。
 
 	# 阻塞版本的方法名为 xxxBlocking，它要么返回结果，要么直接抛出异常
