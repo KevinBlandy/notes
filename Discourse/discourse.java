@@ -10,6 +10,7 @@ discourse			 |
 	
 	# ряж╙╣ду╬
 		https://springboot.io/
+		https://users.rust-lang.org/
 		https://twittercommunity.com/
 		https://discuss.rubyonrails.org/
 		https://forum.realm.io/

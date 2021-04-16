@@ -96,8 +96,11 @@ springboot配置	https				  |
 --------------------------------------
 springboot配置	http2				  |
 --------------------------------------
-	# 必须先配置https
-	# 而且目前好像只有 undertow 支持
+	#  http2有2种实现方式
+		1. TLS 之上的 h2	(需要SSL)
+		2. TCP 之上的 h2c   (不需要SSL，好像浏览器不怎么支持)
+		
+	# 而且目前好像只有 undertow 支持（h2）
 
 		server:
 		  port: 443
