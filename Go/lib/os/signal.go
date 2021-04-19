@@ -23,6 +23,7 @@ func
 	func Stop(c chan<- os.Signal)
 
 	func NotifyContext(parent context.Context, signals ...os.Signal) (ctx context.Context, stop context.CancelFunc)
+		* 在收到信号的时候，会自动触发 ctx 的 Done 
 
 
 ------------------------
@@ -62,3 +63,28 @@ Demo
 			}
 		}
 
+	
+	# 使用NotifyContext自动cancel
+		func Work (ctx context.Context){
+			for {
+				select {
+					case <- ctx.Done(): {
+						fmt.Println("服务退出...")
+						return
+					}
+					default: {
+						time.Sleep(time.Second * 1)
+						fmt.Println("运行中...")
+					}
+				}
+			}
+		}
+		func main(){
+			ctx, cancel := signal.NotifyContext(context.Background(), os.Kill, os.Interrupt)
+			defer func() {
+				cancel()
+				fmt.Println("cancel 执行")
+			}()
+			Work(ctx)
+			fmt.Println("bye")
+		}

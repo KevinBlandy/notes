@@ -148,4 +148,29 @@ demo
 			}
 		}
 	
-	# 
+	# 监听退出
+		func Work (ctx context.Context){
+			for {
+				select {
+					case <- ctx.Done(): {
+						fmt.Println("服务退出...")
+						return
+					}
+					default: {
+						time.Sleep(time.Second * 1)
+						fmt.Println("运行中...")
+					}
+				}
+			}
+		}
+		func main(){
+			ctx, cancel := context.WithCancel(context.Background())
+			notify := make(chan os.Signal)
+			signal.Notify(notify, os.Kill, os.Interrupt)
+			go func() {
+				<- notify
+				cancel()
+			}()
+			Work(ctx)
+			fmt.Println("bye")
+		}
