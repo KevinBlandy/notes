@@ -82,6 +82,8 @@ HttpServerResponse
 	boolean ended();
 	boolean closed();
 	boolean headWritten();
+		* 是否已经响应客户端header
+
 	HttpServerResponse headersEndHandler(@Nullable Handler<Void> handler);
 	HttpServerResponse bodyEndHandler(@Nullable Handler<Void> handler);
 	long bytesWritten();

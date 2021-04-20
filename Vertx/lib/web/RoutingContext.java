@@ -51,7 +51,9 @@ RoutingContext
 		* 获取到上传的文件
 
 	@Nullable Session session();
+
 	boolean isSessionAccessed();
+		* session是否被访问过
 	
 
 	@Nullable User user();

@@ -4,6 +4,7 @@ https://github.com/TechEmpower/FrameworkBenchmarks
 
 # 大佬博客，很多Go的文章
 https://draveness.me/
+https://jingwei.link/
 
 # SQL性能记录？？
 https://github.com/p6spy/p6spy

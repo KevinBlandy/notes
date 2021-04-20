@@ -5,8 +5,11 @@ Router
 
 
 	static Router router(Vertx vertx)
+		* 创建Router实例
 
 	Route route();
+		* 创建一个路由，默认它会处理所有请求
+
 	Route route(HttpMethod method, String path);
 	Route route(String path);
 	Route routeWithRegex(HttpMethod method, String regex);

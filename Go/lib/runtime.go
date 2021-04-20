@@ -158,6 +158,8 @@
 
 	func NumCgoCall() int64
 	func NumGoroutine() int
+		* 获取正在运行的协程数量
+
 	func ReadMemStats(m *MemStats)
 	func ReadTrace() []byte
 	func SetBlockProfileRate(rate int)

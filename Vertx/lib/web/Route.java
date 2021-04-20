@@ -49,6 +49,9 @@ Route
 
 	Route failureHandler(Handler<RoutingContext> failureHandler);
 		* 当前路由的异常处理，可以通过 failureHandler.failure() 获取到异常信息
+		* 可以多次调用添加多个
+		* 它的执行顺序，会从最顶端的route的failureHandler挨个执行
+		* 如果在failureHandler中执行了next()还会往下继续执行其他route的failureHandler()
 
 	Route remove();
 		* 移除路由

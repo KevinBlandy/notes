@@ -33,6 +33,8 @@ static
 	static StaticHandler create(String root)
 	StaticHandler setAllowRootFileSystemAccess(boolean allowRootFileSystemAccess)
 	StaticHandler setWebRoot(String webRoot)
+		* 设置资源目录
+
 	StaticHandler setFilesReadOnly(boolean readOnly)
 		* 如果设置为true，则缓存在内存中的文件最后修改时间，永远不会更新，永远不会去磁盘检查
 		* 默认为true
