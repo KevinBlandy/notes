@@ -18,6 +18,9 @@ static
 	boolean DEFAULT_CACHING_ENABLED = !WebEnvironment.development();
 	boolean DEFAULT_DIRECTORY_LISTING = false;
 	String DEFAULT_DIRECTORY_TEMPLATE = "META-INF/vertx/web/vertx-web-directory.html";
+		* 默认渲染文件列表的模板引擎
+		* 默认在 vertx-web 模块下
+
 	boolean DEFAULT_INCLUDE_HIDDEN = true;
 	long DEFAULT_CACHE_ENTRY_TIMEOUT = 30000; // 30 seconds
 	String DEFAULT_INDEX_PAGE = "/index.html";

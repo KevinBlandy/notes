@@ -68,10 +68,15 @@ RoutingContext
 		* 谁的q值高，返回谁
 
 	ParsedHeaderValues parsedHeaders();
+
 	int addHeadersEndHandler(Handler<Void> handler);
 	boolean removeHeadersEndHandler(int handlerID);
+		* 在响应头被响应之前调用，在这里还可以继续添加额外的header
+
 	int addBodyEndHandler(Handler<Void> handler);
 	boolean removeBodyEndHandler(int handlerID);
+		* 在body被响应后执行，它可能不会被执行，不要用来做清理任务，例如：连接被重置
+
 	int addEndHandler(Handler<AsyncResult<Void>> handler);
 	default Future<Void> addEndHandler()
 	boolean removeEndHandler(int handlerID);
