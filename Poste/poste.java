@@ -16,7 +16,7 @@ pop			CNAME	mail.springcloud.io
 imap		CNAME	mail.springcloud.io
 
 @			MX		mail.springcloud.io
-@			TXT		"v=spf1 mx ~all"
+@			TXT		"v=spf1 mx -all"
 
 s20191223631._domainkey TXT "DKIM key
 	* 该记录需要填写，通过控制台生成的key
@@ -35,6 +35,7 @@ docker run \
 -p 110:110 \
 -p 143:143 \
 -p 443:443 \
+-p 465:465 \
 -p 587:587 \
 -p 993:993 \
 -p 995:995 \

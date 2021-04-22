@@ -183,7 +183,7 @@ server
 				sig := <- notify
 				switch sig {
 					case os.Kill, os.Interrupt: {
-						go func(){
+						func(){
 							ctx, cancel := context.WithTimeout(context.Background(), time.Second * 5)
 							defer cancel()
 							if err := server.Shutdown(ctx); err != nil {
