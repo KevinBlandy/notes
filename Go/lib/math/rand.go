@@ -79,3 +79,6 @@ Demo
 	# 生成 0 - 9 随机数
 		var random = rand.New(rand.NewSource(time.Now().UnixNano()))
 		fmt.Println(random.Intn(10))
+	
+	# 系统启动的时候，一般就设置全局的随机种子
+		rand.Seed(time.Now().UTC().UnixNano())
