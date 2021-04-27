@@ -280,6 +280,10 @@ type
 ---------------
 常用操作
 ---------------
+	# 获取Unix时间戳，毫秒 = 纳秒 / 毫秒
+		var now = time.Now()
+		fmt.Println(now.UnixNano() / int64(time.Millisecond))
+
 	# 获取指定日期当天的开始时间和结束时间
 		func DayStartAndEnd(day time.Time) (start, end time.Time){
 			dayStart := time.Date(day.Year(), day.Month(), day.Day(), 0, 0, 0, 0, day.Location())
@@ -303,3 +307,34 @@ type
 		}
 
 
+	# 简单的定时任务执行
+		func Schedule (run func(), duration time.Duration) *time.Ticker {
+			var ticker = time.NewTicker(duration)
+			go func() {
+				for range ticker.C {
+					func(){
+						defer func() {
+							if err := recover(); err != nil {
+								log.Printf("task err：%s\n", err)
+							}
+						}()
+						run()
+					}()
+				}
+			}()
+			return ticker
+		}
+
+		func main(){
+			fmt.Printf("开始输出，1秒一次\n")
+
+			t := Schedule(func() {
+				fmt.Printf("Hello World c=%d\n", runtime.NumGoroutine())
+			}, time.Second)
+
+			time.Sleep(time.Second * 5) // 让任务执行5次
+
+			t.Stop()				// 停止任务
+
+			time.Sleep(time.Second)		// 等待停止操作执行完毕
+		}

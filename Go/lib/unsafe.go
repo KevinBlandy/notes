@@ -15,6 +15,11 @@ type
 		* 类似于C中的 void* 类型指针
 		* 可以相互比较，可以和nil进行比较
 
+		* 任何类型的指针都可以被转化为Pointer
+		* Pointer可以被转化为任何类型的指针
+		* uintptr可以被转化为Pointer
+		* Pointer可以被转化为uintptr
+
 
 -----------------
 method
