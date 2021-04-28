@@ -33,6 +33,7 @@ type ResponseBody struct {
 	Data interface{}	`json:"data,omitempty"`
 	Message string		`json:"message,omitempty"`
 }
+
 var (
 	BodyOk = SuccessBody(nil)
 )
@@ -81,7 +82,7 @@ func NewServiceError (cause error, status Status, message string) *ServiceError 
 		Message: message,
 		Cause: cause,
 		HttpStatus: status.HttpStatus,
-		ResponseBody: ResponseBody {
+		ResponseBody: &ResponseBody {
 			Success: false,
 			Code:    status.Code,
 			Message: message,
@@ -147,16 +148,19 @@ func ErrorResponse (ctx *gin.Context, err error) {
 			// 其他异常，仅仅日志输出异常信息
 			log.Printf("系统异常：%s\n", err.Error())
 
-			var HttpStatus = http.StatusInternalServerError
+			var httpStatus = http.StatusInternalServerError
 
 			// 详细的异常信息判断
 			if os.IsNotExist(err) {			// 文件未找到
-				HttpStatus = http.StatusNotFound
+				httpStatus = http.StatusNotFound
 			} else if os.IsPermission(err) {		// 权限不足
-				HttpStatus = http.StatusForbidden
+				httpStatus = http.StatusForbidden
+			} else if err.Error() == "http: request body too large" {		// 消息体过大
+				httpStatus = http.StatusRequestEntityTooLarge
 			}
 
-			ctx.Status(HttpStatus)
+			ctx.Status(httpStatus)
 		}
 	}
 }
+

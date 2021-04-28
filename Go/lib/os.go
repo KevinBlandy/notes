@@ -290,6 +290,8 @@ type
 
 	func Getpagesize() int
 	func Getpid() int
+		* 获取当前进程ID
+
 	func Getppid() int
 	func Getuid() int
 		* 获取当前用户的UID
