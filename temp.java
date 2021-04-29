@@ -15,3 +15,6 @@ http h2c  hc
 # spring-cloud-新的远程调用组件？
 spring-cloud-square
 https://spring.io/blog/2021/04/13/introducing-spring-cloud-square
+
+# Go图形验证码库
+https://github.com/mojocn/base64Captcha

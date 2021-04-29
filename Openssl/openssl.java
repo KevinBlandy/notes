@@ -6,6 +6,10 @@ openssl					 |
 	
 	# ≤Œøº
 		http://www.cnblogs.com/f-ck-need-u/p/7048359.html#blogopenssl
+	
+	# œ¬‘ÿµÿ÷∑
+		http://slproweb.com/products/Win32OpenSSL.html
+
 
 
 -------------------------

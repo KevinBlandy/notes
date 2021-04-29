@@ -134,7 +134,10 @@ model
 所有标签
 ---------------	
 	column					指定 db 列名
-	type					列数据类型，推荐使用兼容性好的通用类型，例如：所有数据库都支持 bool、int、uint、float、string、time、bytes 并且可以和其他标签一起使用，例如：not null、size, autoIncrement… 像 varbinary(8) 这样指定数据库数据类型也是支持的。在使用指定数据库数据类型时，它需要是完整的数据库数据类型，如：MEDIUMINT UNSIGNED not NULL AUTO_INSTREMENT
+	type					列数据类型，推荐使用兼容性好的通用类型，
+		* 例如：所有数据库都支持 bool、int、uint、float、string、time、bytes 
+		* 并且可以和其他标签一起使用，例如：not null、size, autoIncrement… 像 varbinary(8) 这样指定数据库数据类型也是支持的。
+		* 在使用指定数据库数据类型时，它需要是完整的数据库数据类型，如：MEDIUMINT UNSIGNED not NULL AUTO_INSTREMENT
 	size					指定列大小，例如：size:256
 	primaryKey				指定列为主键
 	unique					指定列为唯一
@@ -187,3 +190,13 @@ model
 		UserId	uint	`gorm:"primaryKey; type:int(11) unsigned not null comment '用户ID'"`
 		RoleId	uint	`gorm:"primaryKey; type:int(11) unsigned not null comment '角色ID'; index:role_id"`
 	}
+
+	# 一个比较兼容各个数据库的设计，需要自己把数据库的 date_time 修改为 timestamp
+		type User struct {
+			Id int				`gorm:"primaryKey; autoIncrement; size:32; comment:ID" json:"id"`
+			Name string			`gorm:"size:50; not null; unique; comment:昵称" json:"name"`
+			Content string		`gorm:"type:text" json:"content"`
+			CreateAt time.Time	`gorm:"comment:创建时间; not null" json:"createAt"`
+			UpdateAt *time.Time	`gorm:"comment:修改时间" json:"updateAt"`
+			DeleteAt *time.Time	`gorm:"comment:删除时间" json:"deleteAt"`
+		}

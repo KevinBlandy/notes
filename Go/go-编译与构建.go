@@ -30,6 +30,7 @@ Go app 的目录结构
 	# 跨平台编译(交叉编译)
 		SET CGO_ENABLED=0
 			* 禁用CGO
+			* 交叉编译不支持 CGO 所以要禁用
 
 		SET GOOS=linux
 			* 目标操作系统
