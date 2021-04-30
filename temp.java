@@ -5,6 +5,7 @@ https://github.com/TechEmpower/FrameworkBenchmarks
 # 大佬博客，很多Go的文章
 https://draveness.me/
 https://jingwei.link/
+https://eddycjy.com/
 
 # SQL性能记录？？
 https://github.com/p6spy/p6spy
@@ -18,3 +19,4 @@ https://spring.io/blog/2021/04/13/introducing-spring-cloud-square
 
 # Go图形验证码库
 https://github.com/mojocn/base64Captcha
+
