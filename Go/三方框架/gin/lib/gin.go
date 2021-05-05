@@ -125,6 +125,11 @@ type
 			* 获取单个的上传文件
 		
 		func (c *Context) FullPath() string
+			* 获取完整的Router路径，它不是请求路径，而是映射路径
+				router.GET("/user/:id", func(c *gin.Context) {
+					c.FullPath() == "/user/:id" // true
+				})
+
 		func (c *Context) Get(key string) (value interface{}, exists bool)
 			* 获取ctx中存储的数据
 

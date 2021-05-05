@@ -37,7 +37,11 @@ ThreadPoolExecutor			|
 			* 是否允许核心的线程也会被超时回收
 
 		int getCorePoolSize()
-		boolean awaitTermination(long timeout, TimeUnit unit)
+			* 获取核心线程数量
+
+		boolean awaitTermination(long timeout, TimeUnit unit)throws InterruptedException;
+			* 阻塞，停止所有的任务，参数用于设置超时时间
+			* 返回的bool值，是否在指定时间内全部停止完
 		
 		int getActiveCount()
 			* 返回活跃线程数量

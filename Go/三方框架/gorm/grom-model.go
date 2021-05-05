@@ -191,12 +191,17 @@ model
 		RoleId	uint	`gorm:"primaryKey; type:int(11) unsigned not null comment '角色ID'; index:role_id"`
 	}
 
-	# 一个比较兼容各个数据库的设计，需要自己把数据库的 date_time 修改为 timestamp
-		type User struct {
-			Id int				`gorm:"primaryKey; autoIncrement; size:32; comment:ID" json:"id"`
-			Name string			`gorm:"size:50; not null; unique; comment:昵称" json:"name"`
-			Content string		`gorm:"type:text" json:"content"`
-			CreateAt time.Time	`gorm:"comment:创建时间; not null" json:"createAt"`
-			UpdateAt *time.Time	`gorm:"comment:修改时间" json:"updateAt"`
-			DeleteAt *time.Time	`gorm:"comment:删除时间" json:"deleteAt"`
+	# 通用的设计
+		type Menu struct {
+			Id int				`gorm:"type:int(32) unsigned auto_increment; primaryKey; comment:ID" json:"id"`
+			ParentId int		`gorm:"type:int(32) unsigned; not null; size:32; comment:父级菜单ID"'"`
+			Type MenuType		`gorm:"not null; size:10; comment:菜单类型"`
+			Icon string			`gorm:"size:50; comment:小图标"`
+			Title	string		`gorm:"not null; size:20; uniqueIndex:title; comment:标题"`
+			Mapping	string		`gorm:"not null; size:30; uniqueIndex:mapping_method; comment:请求路径"`
+			Method string		`gorm:"not null; size:10; uniqueIndex:mapping_method; comment:请求方法"`
+			Enabled bool		`gorm:"type:tinyint(1) unsigned; not null; comment:是否开启"`
+			Comment string		`gorm:"size:200; comment:备注"`
+			CreateAt *time.Time	`gorm:"type:timestamp not null default current_timestamp; comment:创建时间"`
+			UpdateAt *time.Time	`gorm:"type:timestamp null default null; comment:修改时间"`
 		}
