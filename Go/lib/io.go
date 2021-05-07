@@ -108,7 +108,7 @@ type
 	# type ReaderAt interface {
 			ReadAt(p []byte, off int64) (n int, err error)
 		}
-	
+
 	# type ReaderFrom interface {
 			ReadFrom(r Reader) (n int64, err error)
 		}
@@ -120,7 +120,11 @@ type
 			UnreadRune() error
 		}
 	# type SectionReader struct
+
 		func NewSectionReader(r ReaderAt, off int64, n int64) *SectionReader
+		
+		* Çø¼ä¶ÁÐ´
+
 		func (s *SectionReader) Read(p []byte) (n int, err error)
 		func (s *SectionReader) ReadAt(p []byte, off int64) (n int, err error)
 		func (s *SectionReader) Seek(offset int64, whence int) (int64, error)
