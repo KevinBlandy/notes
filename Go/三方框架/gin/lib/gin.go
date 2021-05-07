@@ -285,25 +285,29 @@ type
 			RouterGroup
 				* 实现了 RouterGroup
 			RedirectTrailingSlash bool
-				* 尝试自动补全最后的/，并且重定向
+				* 是否自动重定向
 				* 例如，请求了/foo/，但只有/foo的路径存在，客户端被重定向到/foo，GET请求的http状态码为301。其他请求方法，则是307。
 
 			RedirectFixedPath bool
-				* RedirectTrailingSlash与这个选项无关。
+				* 是否尝试修复当前请求路径，也就是在开启的情况下，gin 会尽可能的帮你找到一个相似的路由规则并在内部重定向过去
+				* 主要是对当前的请求路径进行格式清除（删除多余的斜杠）和不区分大小写的路由查找等。
 
 			HandleMethodNotAllowed bool
 				* 是否开起请求方法校验，如果方法不匹配会返回 405
 				* 如果不开起，在方法不匹配的情况下，只返回 404 
 
 			ForwardedByClientIP    bool
+				* 如果开启，则尽可能的返回真实的客户端 IP，先从 X-Forwarded-For 取值，如果没有再从 X-Real-Ip
 				
 			AppEngine bool
 				* 如果启用，它将插入一些以'X-AppEngine...'开头的header，以便更好地与PaaS集成。
 
 			UseRawPath bool
-				* 如果启用, 将会使用 url.RawPath 来查询参数
+				* 如果启用, 将会使用 url.RawPath 来查询参数，不开启则还是按 url.Path 去获取
 
 			UnescapePathValues bool
+				* 是否对路径值进行转义处理
+
 			MaxMultipartMemory int64
 				* multipart请求的时候，占用的最大内存，默认是 32 MiB
 			

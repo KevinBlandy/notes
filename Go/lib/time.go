@@ -234,6 +234,7 @@ type
 	func Parse(layout, value string) (Time, error)	
 	func ParseInLocation(layout, value string, loc *Location) (Time, error) 
 		* 解析指定的时间为本地时间 & 指定时区的时间
+		* Parse() 方法会尝试在入参的参数中中分析并读取时区信息，但是如果入参的参数没有指定时区信息的话，那么就会默认使用 UTC 时间
 
 	func ParseDuration(s string) (Duration, error) 
 		* 解析Duration，例如："300ms", "-1.5h", "2h45m"

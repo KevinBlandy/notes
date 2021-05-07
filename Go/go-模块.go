@@ -70,6 +70,18 @@
 		go mod tidy
 			* 下载更新依赖
 			* 会自动清理掉不需要的依赖项，同时可以将依赖项更新到当前版本
+	
+	# 缓存
+		* 模块拉取的结果缓存在 $GOPATH/pkg/mod 和 $GOPATH/pkg/sumdb 目录下，而在 mod 目录下会以 github.com/foo/bar 的格式进行存放，如下：
+			mod
+			├── cache
+			├── github.com
+			├── golang.org
+			├── google.golang.org
+			├── gopkg.in
+			...
+		* 清理缓存的命令
+			go clean -modcach
 
 ---------------------------
 命令
@@ -114,6 +126,9 @@ require (
 )
 
 
+exclude example.com/banana v1.2.4
+
+
 replace
 	* 用于替换依赖的包，相当于重写
 	* 在一些没法下载的情况下，可以替换成可以访问到的网络
@@ -122,3 +137,6 @@ replace
 require
 	* 依赖和版本设置
 	* 后面的 indirect 表示间接引用
+
+exclude
+	* 用于从使用中排除一个特定的模块版本。

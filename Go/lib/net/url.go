@@ -31,8 +31,8 @@ type
 			Opaque      string    // encoded opaque data
 			User        *Userinfo // username and password information
 			Host        string    // host or host:port
-			Path        string    // path (relative paths may omit leading slash)
-			RawPath     string    // encoded path hint (see EscapedPath method)
+			Path        string    // 相对路径，（相对路径可以省略前面的斜线）
+			RawPath     string    // 编码的路径提示（见 EscapedPath 方法）。
 			ForceQuery  bool      // append a query ('?') even if RawQuery is empty
 			RawQuery    string    // encoded query values, without '?'
 			Fragment    string    // fragment for references, without '#'

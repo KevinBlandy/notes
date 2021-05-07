@@ -5,6 +5,8 @@ Go
 		https://golang.org/
 		https://github.com/golang/go
 		https://golang.org/doc/
+		https://golang.google.cn/doc/
+		https://blog.golang.org/
 
 		https://docs.microsoft.com/zh-cn/learn/paths/go-first-steps/
 

@@ -110,6 +110,19 @@
 	# Gin使用 go-playground/validator.v8 进行验证
 		https://github.com/go-playground/validator
 		https://pkg.go.dev/gopkg.in/go-playground/validator.v8
+	
+	# 替换为自己的验证框架
+		// binding/binding.go
+		type StructValidator interface {		// 需要实现的接口
+			ValidateStruct(interface{}) error
+			Engine() interface{}
+		}
+
+		func setupValidator() error {
+			// 将你所自定义的 validator 写入
+			binding.Validator = global.Validator
+			return nil
+		}
 
 
 
@@ -126,6 +139,7 @@
 	type LoginRequest struct {
 		Account string `json:"account" form:"account" binding:"required,gte=6,lte=50"`
 		Password string `json:"password" form:"password" binding:"required,gte=6,lte=50"`
+		State uint8 `form:"state,default=1" binding:"oneof=0 1"`
 	}
 
 	func Login (c *gin.Context) {

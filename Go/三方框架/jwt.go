@@ -13,7 +13,7 @@ var
 		ValidationErrorUnverifiable                        // Token could not be verified because of signing problems
 		ValidationErrorSignatureInvalid                    // Signature validation failed
 
-		// Standard Claim validation errors
+		// Standard Claim validation errors （预定义的各种校验异常）
 		ValidationErrorAudience      // AUD validation failed
 		ValidationErrorExpired       // EXP validation failed
 		ValidationErrorIssuedAt      // IAT validation failed
@@ -21,6 +21,8 @@ var
 		ValidationErrorNotValidYet   // NBF validation failed
 		ValidationErrorId            // JTI validation failed
 		ValidationErrorClaimsInvalid // Generic claims validation error
+
+
 	)
 
 	const UnsafeAllowNoneSignatureType unsafeNoneMagicConstant = "none signing method allowed"
@@ -241,7 +243,8 @@ HMAC-SHA 签发验证
 			return nil, err
 		}
 		if claims, ok := token.Claims.(*jwt.StandardClaims); ok && token.Valid {
-			// 返回StandardClaims，需要自己去判断是否在有效期内等等信息
+			// 返回StandardClaims
+			// Token.Valid 验证基于时间的声明，例如：过期时间（ExpiresAt）、签发者（Issuer）、生效时间（Not Before），需要注意的是，如果没有任何声明在令牌中，仍然会被认为是有效的。
 			return claims, nil
 		}
 		// 非法Token
