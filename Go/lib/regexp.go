@@ -13,8 +13,15 @@ type
 
 		func Compile(expr string) (*Regexp, error)
 		func CompilePOSIX(expr string) (*Regexp, error)
+			* CompilePOSIX 和 Compile 的不同点在于 POSIX 必须使用 POSIX 语法，它使用最左最长方式搜索
+			* 而 Compile 是采用的则只采用最左方式搜索 
+			
+			* 例如 [a-z]{2,4} 这样一个正则表达式，应用于 "aa09aaa88aaaa" 这个文本串时，CompilePOSIX 返回了 aaaa，而 Compile 的返回的是 aa
+
+
 		func MustCompile(str string) *Regexp
 		func MustCompilePOSIX(str string) *Regexp
+			* 同上，如果正则编译不过，则会异常
 
 		func (re *Regexp) Copy() *Regexp
 		func (re *Regexp) Expand(dst []byte, template []byte, src []byte, match []int) []byte
@@ -52,6 +59,8 @@ type
 		func (re *Regexp) ReplaceAllLiteralString(src, repl string) string
 		func (re *Regexp) ReplaceAllString(src, repl string) string
 		func (re *Regexp) ReplaceAllStringFunc(src string, repl func(string) string) string
+			* 把src中符合this规则的字符串。都以func计算结果进行替换
+
 		func (re *Regexp) Split(s string, n int) []string
 		func (re *Regexp) String() string
 		func (re *Regexp) SubexpIndex(name string) int

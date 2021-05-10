@@ -148,15 +148,6 @@ req 中间件
 		// Log 记录请求响应日志等等信息
 		func Log (ctx *gin.Context ){
 
-			// 读取请求体
-			var body, err = io.ReadAll(ctx.Request.Body)
-			if err != nil {
-				log.Printf("BODY读取异常：%s\n", err.Error())
-			}
-
-			// 重新设置请求体
-			ctx.Request.Body = io.NopCloser(bytes.NewReader(body))
-
 			// 记录响应日志
 			var logWriter = &LogWriter {
 				ResponseWriter: ctx.Writer,
@@ -164,18 +155,40 @@ req 中间件
 			}
 			ctx.Writer = logWriter
 
-			// 开始和结束时间
-			var startTime = time.Now().Unix()
-			ctx.Next()
-			var endTime = time.Now().Unix()
+			// 对于当前请求，生成唯一ID
+			var requestedId = uuid.New().String()
+			ctx.Writer.Header().Set(constant.HttpHeaders.RequestId, requestedId)
+
+			// 读取请求体
+			var body, err = io.ReadAll(ctx.Request.Body)
+			if err != nil {
+				response.ErrorResponse(ctx, err)  // 读取BOdy异常，直接给客户端响应异常信息
+				ctx.Abort()  					  // 阻断执行链
+			} else {
+				// 重新设置请求体
+				ctx.Request.Body = io.NopCloser(bytes.NewReader(body))
+			}
+
+			// 消耗时间，默认为-1，表示没有进入到业务执行步骤
+			var executionTime int64 = -1
+			if !ctx.IsAborted() {
+				var startTime = time.Now().Unix()
+				ctx.Next()
+				var endTime = time.Now().Unix()
+				executionTime = endTime - startTime
+			}
 
 			var method = ctx.Request.Method					// 请求方法
 			var fullPath = ctx.FullPath()					// 映射路径
 			var requestURI = ctx.Request.URL.RequestURI()	// 完整的URL，包括查询参数
+			// TODO 请求Header
+			// TODO 响应Header
 			var status = ctx.Writer.Status()				// 响应状态码
+			var requestBody = string(body)					// 请求体
 			var responseBody = logWriter.Buffer.String()	// 字符串响应体，如果响应的不是字符串，则需要按需解码
 
-			log.Printf("method=%s, path=%s, uri=%s, startTime=%d, endTime=%d, reqBody=%s, respBody=%s, status=%d\n",
-				method, fullPath, requestURI, startTime, endTime, string(body), responseBody, status,
+			// 输出日志
+			log.Printf("id=%s, method=%s, path=%s, uri=%s, time=%d, reqBody=%s, respBody=%s, status=%d\n",
+				requestedId, method, fullPath, requestURI, executionTime, requestBody, responseBody, status,
 			)
 		}
