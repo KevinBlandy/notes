@@ -114,15 +114,13 @@
 	# 替换为自己的验证框架
 		// binding/binding.go
 		type StructValidator interface {		// 需要实现的接口
-			ValidateStruct(interface{}) error
-			Engine() interface{}
+			ValidateStruct(interface{}) error	// 实现校验逻辑，如果校验失败则返回异常
+			Engine() interface{}				// 返回底层验证容器，也就是实现了StructValidator的类
 		}
 
-		func setupValidator() error {
-			// 将你所自定义的 validator 写入
-			binding.Validator = global.Validator
-			return nil
-		}
+		// 将你所自定义的 validator 写入
+		binding.Validator = global.Validator
+		return nil
 
 
 

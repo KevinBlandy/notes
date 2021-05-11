@@ -60,6 +60,8 @@ type
 		func WithFields(fields Fields) *Entry
 		func WithTime(t time.Time) *Entry
 		func (entry *Entry) Bytes() ([]byte, error)
+			* 获取格式化后的日志信息
+
 		func (entry *Entry) Debug(args ...interface{})
 		func (entry *Entry) Debugf(format string, args ...interface{})
 		func (entry *Entry) Debugln(args ...interface{})
@@ -157,12 +159,12 @@ type
 		* 回调钩子接口
 
 	# type JSONFormatter struct {
-			TimestampFormat string
-			DisableTimestamp bool
-			DisableHTMLEscape bool
-			DataKey string
-			FieldMap FieldMap
-			CallerPrettyfier func(*runtime.Frame) (function string, file string)
+			TimestampFormat string		// 日期格式化
+			DisableTimestamp bool		// 是否禁用时间戳
+			DisableHTMLEscape bool		// 是否禁用HTML编码
+			DataKey string				// 输出日期的KEY
+			FieldMap FieldMap			// 输出字段的Map
+			CallerPrettyfier func(*runtime.Frame) (function string, file string) // 对输出栈信息的优化
 			PrettyPrint bool
 		}
 		
@@ -239,6 +241,8 @@ type
 			* 设置格式化实现
 
 		func (logger *Logger) SetLevel(level Level)
+			* 设置日志级别
+
 		func (logger *Logger) SetNoLock()
 			* 默认的logger在并发写的时候是被mutex保护的，比如当同时调用hook和写log时mutex就会被请求
 			* 有另外一种情况，文件是以appending mode打开的， 此时的并发操作就是安全的，可以用logger.SetNoLock()来关闭它。
