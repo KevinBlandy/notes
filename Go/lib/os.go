@@ -291,6 +291,20 @@ type
 	func Getpagesize() int
 	func Getpid() int
 		* 获取当前进程ID
+		* 获取进程PID写入到文件
+			var pid = os.Getpid()
+			if config.App.PidFile != "" {
+				// 写入PID文件
+				if err := os.WriteFile(config.App.PidFile, []byte(fmt.Sprintf("%d", pid)), 0x775); err != nil {
+					log.Printf("写入PID文件异常：%s\n", err.Error()) // 忽略异常
+				} else {
+					defer func() {
+						if err := os.Remove(config.App.PidFile); err != nil {
+							log.Printf("删除PID文件异常：%s\n", err.Error())
+						}
+					}()
+				}
+			}
 
 	func Getppid() int
 	func Getuid() int

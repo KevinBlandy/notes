@@ -11,11 +11,15 @@ type
 	# type FieldError interface {
 			Tag() string
 				* 所有注解
+
 			ActualTag() string
-				* 验证失败的注解
+				* 验证失败的Tag
+
 			Namespace() string
 			StructNamespace() string
 			Field() string
+				* 验证的字段
+
 			StructField() string
 				* 字段在结构体中的名字
 
@@ -76,7 +80,7 @@ type
 			ExtractType(field reflect.Value) (value reflect.Value, kind reflect.Kind, nullable bool)
 
 			ReportError(field interface{}, fieldName, structFieldName string, tag, param string)
-				* 报告异常?
+				* 报告异常
 			
 			ReportValidationErrors(relativeNamespace, relativeActualNamespace string, errs ValidationErrors)
 		}
@@ -149,7 +153,12 @@ type
 		
 		* 校验失败后的异常结果集
 		* 一般验证失败后，都会转换为这个异常
-		
+			errs := err.(validator.ValidationErrors)
+				for _, e := range errs {
+				log.Println(e.Field())		// 字段名称
+				log.Println(e.ActualTag()) 	// 触发校验失败的验证标签
+			}
+			
 		func (ve ValidationErrors) Error() string
 		func (ve ValidationErrors) Translate(ut ut.Translator) ValidationErrorsTranslations
 
