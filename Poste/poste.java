@@ -66,10 +66,10 @@ docker run \
 
 	# 页面
 		* 总管理后台
-			https://mail.undefined.design/admin/ 
+			https://mail.springcloud.io/admin/ 
 		
 		* 邮件管理后台
-			https://mail.undefined.design/webmail
+			https://mail.springcloud.io/webmail
 			
 	
 	# 开启邮件加密
@@ -86,3 +86,46 @@ docker run \
 		
 		* 日志目录
 			data/logs
+
+-----------------------------
+Go发送
+-----------------------------
+	import (
+		"gopkg.in/gomail.v2"
+	)
+
+
+	func main() {
+		// 创建邮件消息，设置编码
+		message := gomail.NewMessage(gomail.SetCharset("utf-8"))
+
+		message.SetAddressHeader("From", "noreply@springcloud.io", "SpringBoot中文社区") // 发件人以及发件人名称
+		message.SetHeader("To", "747692844@qq.com")                                  // 收件人，可以有多个
+		message.SetHeader("Subject", "欢迎注册!")                                        // 标题
+		message.SetBody("text/html", "<h1>Hello World</h1>")                         // 邮件内容
+
+		// 创建邮箱链接信息，指定主机端口，账户名，密码
+		conn := gomail.NewDialer("smtp.springcloud.io", 465, "noreply@springcloud.io", "123456")
+
+		// 创建连接，并且发送邮件
+		if err := conn.DialAndSend(message); err != nil {
+			panic(err)
+		}
+	}
+
+
+
+-----------------------------
+discourse配置
+-----------------------------
+env
+  DISCOURSE_SMTP_ADDRESS: smtp.springcloud.io
+  DISCOURSE_SMTP_PORT: 587
+  DISCOURSE_SMTP_USER_NAME: noreply@springcloud.io
+  DISCOURSE_SMTP_PASSWORD: "123456"
+  DISCOURSE_SMTP_ENABLE_START_TLS: true           # (optional, default true)
+  DISCOURSE_SMTP_AUTHENTICATION: login
+  DISCOURSE_SMTP_OPENSSL_VERIFY_MODE: none
+
+run:
+  - exec: rails r "SiteSetting.notification_email='noreply@springcloud.io'"
