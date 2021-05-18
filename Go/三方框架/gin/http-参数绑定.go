@@ -2,6 +2,31 @@
 绑定
 -----------------------
 	# Gin目前支持JSON、XML、YAML和标准表单值的绑定
+		* 绑定查询参数
+			BindQuery
+		
+		* 绑定URI参数
+			BindUri
+		
+		* 绑定请求体
+			Bind
+		
+		* 绑定Header
+			BindHeader
+	
+	# 注解
+		form
+			* 绑定查询参数，或者请求表单
+		uri
+			* 绑定URI
+
+		time_format
+			* 请求参数格式化为time.time
+
+		time_utc
+			* 指定时区
+				Birthday time.Time `form:"birthday" time_format:"2006-01-02" time_utc:"1"`
+			
 
 	# 绑定接口的定义
 		type Binding interface {

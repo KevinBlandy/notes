@@ -146,6 +146,7 @@ type
 		func (c *Context) GetQueryArray(key string) ([]string, bool)
 		func (c *Context) GetQueryMap(key string) (map[string]string, bool)
 			* 获取map形式的query数据
+			* 对查询字符串的规格有特殊要求
 				/post?ids[a]=1234&ids[b]=hello
 				ids := c.QueryMap("ids") => {"a":"1234", "b": "hello"}
 
@@ -218,6 +219,7 @@ type
 		func (c *Context) PostFormArray(key string) []string
 		func (c *Context) PostFormMap(key string) map[string]string
 			* 从请求表单中获取map格式的数据
+			* 对请求体的字符串有特殊要求
 				names[first]=thinkerou&names[second]=tianou
 				names := c.PostFormMap("names") => {"first": "thinkerou", "second": "tianou"}
 		

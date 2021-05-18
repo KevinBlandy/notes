@@ -332,8 +332,14 @@ type
 		func (r *Request) FormFile(key string) (multipart.File, *multipart.FileHeader, error)
 		func (r *Request) FormValue(key string) string
 		func (r *Request) MultipartReader() (*multipart.Reader, error)
+			* 返回mulripart的reader，可以自己进行迭代获取每一个Part项
+			* 如果迭代到最后，返回 io.EOF 异常
+			* 它不能和ParseMultipartForm一起使用
+
 		func (r *Request) ParseForm() error
 		func (r *Request) ParseMultipartForm(maxMemory int64) error
+			* 解析multipart请求，设置内存缓存大小，超过这个阈值，就会把数据IO到临时文件
+
 		func (r *Request) PostFormValue(key string) string
 		func (r *Request) ProtoAtLeast(major, minor int) bool
 		func (r *Request) Referer() string
