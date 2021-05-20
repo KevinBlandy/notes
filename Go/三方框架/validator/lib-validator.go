@@ -132,10 +132,15 @@ type
 
 		func (v *Validate) StructExcept(s interface{}, fields ...string) error
 		func (v *Validate) StructExceptCtx(ctx context.Context, s interface{}, fields ...string) (err error)
+			* 校验struct中的选项，不过除了fields里所给的字段
+
 		func (v *Validate) StructFiltered(s interface{}, fn FilterFunc) error
 		func (v *Validate) StructFilteredCtx(ctx context.Context, s interface{}, fn FilterFunc) (err error)
+			*  接收一个struct和一个函数，这个函数的返回值为bool，决定是否跳过该选项
+
 		func (v *Validate) StructPartial(s interface{}, fields ...string) error
 		func (v *Validate) StructPartialCtx(ctx context.Context, s interface{}, fields ...string) (err error)
+			* 接收一个struct和fields，仅校验在fields里的值
 
 		func (v *Validate) Var(field interface{}, tag string) error
 		func (v *Validate) VarCtx(ctx context.Context, field interface{}, tag string) (err error)

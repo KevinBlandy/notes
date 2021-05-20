@@ -36,6 +36,10 @@ type
 方法
 ----------------------
 	func Errorf(format string, a ...interface{}) error
+		* 创建一个异常信息，可以对异常信息进行封装，使用： %w
+			err1 := errors.New("error1")
+			err3 := fmt.Errorf("catch err [%w]", err1)
+			
 
 	func Fprint(w io.Writer, a ...interface{}) (n int, err error)
 	func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error)

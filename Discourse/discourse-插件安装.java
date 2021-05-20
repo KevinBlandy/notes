@@ -27,6 +27,7 @@
 --------------------------------
 	# 官方的插件统计
 		https://meta.discourse.org/c/plugin
+		https://meta.discourse.org/tag/official
 	
 	# 提问/解决插件
 		https://github.com/discourse/discourse-solved.git
@@ -54,6 +55,12 @@
 	
 	# 数学表达式支持插件
 		https://github.com/discourse/discourse-math
+	
+	# 用户的“专家”标识插件
+		https://github.com/discourse/discourse-category-experts
+	
+	# 允许用户在界面上切换主题
+		https://github.com/discourse/discourse-hamburger-theme-selector
 
 --------------------------------
 一些组件						|

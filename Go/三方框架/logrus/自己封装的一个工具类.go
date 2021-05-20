@@ -1,5 +1,6 @@
 package log
 
+
 // 所有的日志记录器，所有级别日志都往 appLogWriter 输出日志
 // 所有日志记录器的“异常”级别日志，都会往不同的专门日志通道输出
 
@@ -12,6 +13,7 @@ import (
 	"time"
 )
 
+
 func init (){
 	log.Default().SetFlags(log.Ldate | log.Ltime | log.Llongfile)
 }
@@ -22,18 +24,24 @@ const loggerName = "logger"
 // Loggers 所有日志记录器
 var Loggers = map[string] *logrus.Entry {}
 
-
 var (
 	// Default 默认的全局记录器
 	Default *logrus.Entry
 
 	// Sql SQL日志记录器
 	Sql *logrus.Entry
+
+	// Access 访问日志
+	Access *logrus.Entry
 )
 
 var (
 	// appLogWriter 运行日志输出，所有级别的日志都会往这里面输出
 	appLogWriter io.Writer
+
+	// accessLogWriter 访问日志专用输出
+	accessLogWriter io.Writer
+
 	// warnLogWriter 警告日志专用输出
 	warnLogWriter io.Writer
 	// errorLogWriter 异常日志专用输出
@@ -42,34 +50,57 @@ var (
 	fatalLogWriter io.Writer
 	// panicLogWriter 崩溃日志专用输出
 	panicLogWriter io.Writer
+
 )
 
+
+// fileLogOptions 创建文件日志的配置
+func fileLogOptions (linkName string, maxAge time.Duration, rotationCount uint, rotationSize int64, rotationTime time.Duration, handlerFunc rotatelogs.HandlerFunc) []rotatelogs.Option {
+	return []rotatelogs.Option{rotatelogs.ForceNewFile(), // 强制创建新文件
+		rotatelogs.WithClock(rotatelogs.Local),         // 获取时间函数
+		rotatelogs.WithLocation(time.Local),            // 时区
+		rotatelogs.WithLinkName(linkName),				// 链接文件
+		rotatelogs.WithMaxAge(maxAge),                  // 文件保存时间
+		rotatelogs.WithRotationCount(rotationCount),    // 历史文件数量
+		rotatelogs.WithRotationSize(rotationSize), 		// 文件体积，超过后会被切割
+		rotatelogs.WithRotationTime(rotationTime),    	// 单个文件最多时间，超过这个时间会被切割
+		rotatelogs.WithHandler(handlerFunc),			// 监听器
+	}
+}
+
+func intiWriter (){
+	appLogWriter	=	newFileLogWriter("logs/app.%Y%m%d%H%M", 	fileLogOptions("log/app.log", -1, 10, 1024 * 1024 * 100, time.Hour * 24, nil)...)
+	appLogWriter = io.MultiWriter(accessLogWriter, os.Stdout)
+
+	accessLogWriter	=	newFileLogWriter("logs/access.%Y%m%d%H%M", 	fileLogOptions("logs/access.log", -1, 10, 1024 * 1024 * 100, time.Hour * 24, nil)...)
+
+	// 异常日志
+	warnLogWriter	=	newFileLogWriter("logs/warn.%Y%m%d%H%M", 	fileLogOptions("logs/warn.log", -1, 10, 1024 * 1024 * 100, time.Hour * 24, nil)...)
+	errorLogWriter	=	newFileLogWriter("logs/error.%Y%m%d%H%M", 	fileLogOptions("logs/error.log", -1, 10, 1024 * 1024 * 100, time.Hour * 24, nil)...)
+	fatalLogWriter	=	newFileLogWriter("logs/fatal.%Y%m%d%H%M", 	fileLogOptions("logs/fatal.log", -1, 10, 1024 * 1024 * 100, time.Hour * 24, nil)...)
+	panicLogWriter	=	newFileLogWriter("logs/panic.%Y%m%d%H%M", 	fileLogOptions("logs/panic.log", -1, 10, 1024 * 1024 * 100, time.Hour * 24, nil)...)
+
+}
 
 
 // Init 初始化日志系统
 func Init (){
 	// 初始化日志输出目的地
-	appLogWriter =   io.MultiWriter(newFileLogWriter("logs/app.%Y%m%d%H%M", 	"logs/app.log"), os.Stdout)
-	warnLogWriter =  newFileLogWriter("logs/warn.%Y%m%d%H%M", 	"logs/warn.log")
-	errorLogWriter = newFileLogWriter("logs/error.%Y%m%d%H%M", 	"logs/error.log")
-	fatalLogWriter = newFileLogWriter("logs/fatal.%Y%m%d%H%M", 	"logs/fatal.log")
-	panicLogWriter = newFileLogWriter("logs/panic.%Y%m%d%H%M", 	"logs/panic.log")
+	intiWriter()
 
-	// 默认日志
-	Default = newLogger(func() *logrus.Entry {
-		return logrus.NewEntry(logrus.New()).WithField(loggerName, "default")
-	}, logrus.DebugLevel)
+	// 默认日志，输出到app
+	Default = newLogger(appLogWriter, "default", logrus.DebugLevel, errHook)
 
-	//SQL日志记录器
-	Sql = newLogger(func() *logrus.Entry {
-		return logrus.NewEntry(logrus.New()).WithField(loggerName, "sql")
-	}, logrus.DebugLevel)
+	//SQL日志记录器，输出到app
+	Sql = newLogger(appLogWriter, "sql", logrus.DebugLevel, errHook)
 
-	// TODO 可以针对不同的日志记录器，设置不同的输出目的地
+	// 访问日志，输出到app和accessLog
+	Access = newLogger(io.MultiWriter(accessLogWriter, appLogWriter), "access", logrus.DebugLevel, errHook)
 
 	// 添加到集合
 	Loggers[(Default.Data[loggerName]).(string)] = Default
 	Loggers[(Sql.Data[loggerName]).(string)] = Sql
+	Loggers[(Access.Data[loggerName]).(string)] = Access
 }
 
 // errorLogHook 监听“warn”，“error”，“fatal”，“panic”日志，
@@ -105,36 +136,28 @@ func (h errorLogHook) Fire(entry *logrus.Entry) error {
 }
 var errHook = &errorLogHook{levels: []logrus.Level {logrus.WarnLevel, logrus.ErrorLevel, logrus.FatalLevel, logrus.PanicLevel}}
 
+
 // newLogger 创建新的日志记录器
-func newLogger (creator func() *logrus.Entry, level logrus.Level) *logrus.Entry {
-	var logger = creator()
+func newLogger(out io.Writer, name string, level logrus.Level, hooks... logrus.Hook) *logrus.Entry {
+	logger := logrus.NewEntry(logrus.New()).WithField(loggerName, name)
 	logger.Logger.SetFormatter(&logrus.JSONFormatter{
 		TimestampFormat:   "2006-01-02 15:04:05",
 		DisableHTMLEscape: true,
 	})
 	logger.Logger.SetReportCaller(true)
 	logger.Logger.SetLevel(level)
-	logger.Logger.SetOutput(appLogWriter) // 所有Logger都往 appLogWriter 输出
-	logger.Logger.Hooks.Add(errHook)
+	logger.Logger.SetOutput(out)
+	for _, hook := range hooks {
+		logger.Logger.Hooks.Add(hook) // 记录异常日志
+	}
 	return logger
 }
 
 // newFileLogWriter 创建新的日志输出文件
-func newFileLogWriter(logFile, linkFile string) *rotatelogs.RotateLogs {
+func newFileLogWriter(logFile string, options... rotatelogs.Option) *rotatelogs.RotateLogs {
 	var logWriter, err = rotatelogs.New(
 		logFile,														// 日志文件名称格式化
-		rotatelogs.ForceNewFile(),										// 强制创建新文件
-		rotatelogs.WithClock(rotatelogs.Local),							// 获取时间函数
-		rotatelogs.WithLocation(time.Local),							// 时区
-		rotatelogs.WithLinkName(linkFile),								// 最新的日志文件软连接
-		rotatelogs.WithMaxAge(-1),										// 文件无限期保存
-		rotatelogs.WithRotationCount(10),								// 除了当前输出文件，历史文件最多保存10个
-		rotatelogs.WithRotationSize(1024 * 1024 * 100),					// 单个文件最多100MB，就会切割
-		rotatelogs.WithRotationTime(time.Hour * 24),					// 单个文件最多24个小时，就会切割
-		//rotatelogs.WithHandler(rotatelogs.HandlerFunc(func(event rotatelogs.Event) {
-		//	if rotatelogs.FileRotatedEventType == event.Type() {
-		//	}
-		//})),
+		options...
 	)
 	if err != nil {
 		log.Fatalf("创建日志Writer异常: %s\n", err.Error())
