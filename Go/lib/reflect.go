@@ -122,90 +122,103 @@ type
 	
 	# type Type interface {
 			Align() int
-				* 返回创建改类型时，需要分配的内存大小
+				* 返回当从内存中申请一个该类型值时，会对齐的字节数
 
 			FieldAlign() int
-				* 该类型在结构中作为字段使用时，返回它的对齐方式
-				
+				* 返回当该类型作为结构体的字段时，会对齐的字节数
+
 			Method(int) Method
-				* 获取这个类型的第n个方法，如果不存在抛出异常
+				* 返回该类型方法集中的第i个方法，i不在[0, NumMethod())范围内时，将导致panic
+				* 对非接口类型T或*T，返回值的Type字段和Func字段描述方法的未绑定函数状态
+				* 对接口类型，返回值的Type字段描述方法的签名，Func字段为nil
 
 			MethodByName(string) (Method, bool)
-				* 根据方法名称获取方法
+				* 根据方法名返回该类型方法集中的方法，使用一个布尔值说明是否发现该方法
+				* 对非接口类型T或*T，返回值的Type字段和Func字段描述方法的未绑定函数状态
+				* 对接口类型，返回值的Type字段描述方法的签名，Func字段为nil
 
 			NumMethod() int
-				* 返回该类型public方法的个数
+				* 返回该类型的方法集中方法的数目
+				* 匿名字段的方法会被计算；主体类型的方法会屏蔽匿名字段的同名方法；
+				* 匿名字段导致的歧义方法会滤除
 
 			Name() string
-				* 返回实际类型的名称，不含包名
+				* 返回该类型在自身包内的类型名，如果是未命名类型会返回""
 
 			PkgPath() string
-				* 返回类型的包路径，import 路径，如果没有返回空字符串
+				* PkgPath返回类型的包路径，即明确指定包的import路径，如"encoding/base64"
+				* 如果类型为内建类型(string, error)或未命名类型(*T, struct{}, []int)，会返回""
 
 			Size() uintptr
-				* 存储该类型需要的空间大小，类似于unsafe.Sizeof
+				* 返回要保存一个该类型的值需要多少字节；类似unsafe.Sizeof
 
 			String() string
-				* 以字符串形式返回
+				* 返回类型的字符串表示。该字符串可能会使用短包名（如用base64代替"encoding/base64"）
+				* 也不保证每个类型的字符串表示不同。如果要比较两个类型是否相等，请直接用Type类型比较。
 
 			Kind() Kind
-				* 返回类型Kind枚举
+				*  Kind返回该接口的具体分类
 
 			Implements(u Type) bool
-				* 是否实现了指定的类型u
-
+				* 如果该类型实现了u代表的接口，会返回真
+			
 			AssignableTo(u Type) bool
-				* 当前类型是否可以赋值给u
-
+				* 如果该类型的值可以直接赋值给u代表的类型，返回真
+			
 			ConvertibleTo(u Type) bool
-				* 是否可以转换为指定的类型u
-
+				* 如该类型的值可以转换为u代表的类型，返回真
+			
 			Comparable() bool
-				* 是否是可比较的
-				* 检查当前类型能不能做比较运算，其实就是看这个类型底层有没有绑定 typeAlg 的 equal 方法
+				* 当前类型是否可以和当前类型进行 == 比较
 
 			Bits() int
-				* 以比特为单位返回类型的大小，不是所有类型都能调这个方法，不能调的会 panic
-
+				* 返回该类型的字位数。如果该类型的Kind不是Int、Uint、Float或Complex，会panic
+			
 			ChanDir() ChanDir
-				* 返回一个通道类型的方向，如果当前type不是通道，会抛出异常
-
+				* 返回一个channel类型的方向，如非通道类型将会panic
+			
 			IsVariadic() bool
-				* 返回当前类型的函数，最后一个参数是不是可变长参数。如果当前类型不是函数，则抛出异常
-
+				* 如果函数类型的最后一个输入参数是"..."形式的参数，IsVariadic返回真
+				* 如非函数类型将panic
+			
 			Elem() Type
-				* 返回当前类型的元素类型，如果类型不是Array、Chan、Map、Ptr或Slice，抛出异常
-
+				* 返回该类型的元素类型，如果该类型的Kind不是Array、Chan、Map、Ptr或Slice，会panic
+			
 			Field(i int) StructField
-				* 返回 struct 类型的第 i 个字段，不是 struct 会 panic，i 越界也会 panic
+				* 返回struct类型的第i个字段的类型，如非结构体或者i不在[0, NumField())内将会panic
 
-			FieldByIndex(index []int) StructField
-				* 跟上边一样，不过是嵌套调用的，比如 [1, 2] 就是说返回当前 struct 的第1个struct 的第2个字段，适用于 struct 本身嵌套的类型
+			FieldByIndex(index []int) StructField	
+				* 返回索引序列指定的嵌套字段的类型，
+				* 等价于用索引中每个值链式调用本方法，如非结构体将会panic
+				* 在结构体A中找index[0]属性，再从这个属性中找index[1]属性...
 
 			FieldByName(name string) (StructField, bool)
-				* 按名字找 struct 字段，第二个返回值 ok 表示有没有
+				* 返回该类型名为name的字段（会查找匿名字段及其子字段），
+				* 布尔值说明是否找到，如非结构体将panic
 			
 			FieldByNameFunc(match func(string) bool) (StructField, bool)
-				* 按函数名找 struct 字段，因为 struct 里也可能有类型是 func 
-				 
+				* 返回该类型第一个字段名满足函数match的字段，布尔值说明是否找到，如非结构体将会panic
+
 			In(i int) Type
-				* 返回当前类型函数，指定下标参数的类型，如果当前类型不是函数，则抛出异常
-
+				* 返回func类型的第i个参数的类型，如非函数或者i不在[0, NumIn())内将会panic
+			
 			Key() Type
-				* 返回当前元素类型的Key类型，如果当前元素类型不是Map，则抛出异常
-				
+				* 返回map类型的键的类型。如非映射类型将panic
+			
 			Len() int
-				* 返回当前类型的长度，如果当前类型并不是数组，则异常
-
+				* 回array类型的长度，如非数组类型将panic
+			
 			NumField() int
-				* 返回当前类型的字段数量，如果类型不是struct，则异常
+				* 返回struct类型的字段数（匿名字段算作一个字段），如非结构体类型将panic
 
 			NumIn() int
-			NumOut() int
-				* 返回当前函数类型的形参/返回参数，数量，如果类型不是方法，则异常
+				* 返回func类型的参数个数，如果不是函数，将会panic
 
+			NumOut() int
+				* 返回func类型的返回值个数，如果不是函数，将会panic
+			
 			Out(i int) Type
-				* 返回当前函数类型，返回值类型的第i个类型，如果类型不是方法，异常
+				* 返回func类型的第i个返回值的类型，如非函数或者i不在[0, NumOut())内将会panic
 		}
 		
 
