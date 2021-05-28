@@ -24,10 +24,11 @@ discourse			 |
 		https://discourse.julialang.org/
 		https://forum.serverless.com/
 		https://forum.dorisdb.com/
-
+		https://discourse.gohugo.io/
 		https://discourse.mailinabox.email/
 		http://www.react-china.org/
 		https://bbs.hankcs.com/
+		https://asktug.com/
 		
 	
 	# Docker°²×°

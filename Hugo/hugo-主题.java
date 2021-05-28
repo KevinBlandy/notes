@@ -1,0 +1,15 @@
+-----------------------------
+主题
+-----------------------------
+	# 主题列表
+		https://themes.gohugo.io/
+	
+	# 主题安装
+		* 语法
+			git submodule add [repository] themes/[name]
+
+			repository	主题所在的仓库
+			name		主题在thems目录下的名称
+
+		* Demo
+			git submodule add https://github.com/wlh320/hugo-theme-hulga.git themes/hulga
