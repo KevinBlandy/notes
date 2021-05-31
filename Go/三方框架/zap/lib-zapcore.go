@@ -35,16 +35,21 @@ type
 		func (e *CallerEncoder) UnmarshalText(text []byte) error
 	
 	# type CheckWriteAction uint8
+	
+		* 一些日志写入事件发生后触发的行为定义
+		
 		const (
-			// WriteThenNoop indicates that nothing special needs to be done. It's the
-			// default behavior.
 			WriteThenNoop CheckWriteAction = iota
-			// WriteThenGoexit runs runtime.Goexit after Write.
+				* 什么也不做，默认的
+
 			WriteThenGoexit
-			// WriteThenPanic causes a panic after Write.
+				* WriteThenGoexit在Write之后运行runtime.Goexit
+			
 			WriteThenPanic
-			// WriteThenFatal causes a fatal os.Exit after Write.
+				* WriteThenPanic导致Write之后的Panic
+
 			WriteThenFatal
+				* WriteThenFatal会在Write之后引起致命的os.Exit。
 		)
 	
 	# type CheckedEntry struct {
@@ -116,12 +121,10 @@ type
 			* 格式化日志为JSON
 	
 	# type EncoderConfig struct {
-			// Set the keys used for each log entry. If any key is empty, that portion
-			// of the entry is omitted.
 			MessageKey    string `json:"messageKey" yaml:"messageKey"`
-				* 消息得KEY
+				* 日志中信息的键名，默认为msg
 			LevelKey      string `json:"levelKey" yaml:"levelKey"`
-				* 日志级别得KEY
+				* 日志中级别的键名，默认为level；
 			TimeKey       string `json:"timeKey" yaml:"timeKey"`
 				* 时间得KEY
 			NameKey       string `json:"nameKey" yaml:"nameKey"`
@@ -138,7 +141,7 @@ type
 			// example, some users may want all time.Times serialized as floating-point
 			// seconds since epoch, while others may prefer ISO8601 strings.
 			EncodeLevel    LevelEncoder    `json:"levelEncoder" yaml:"levelEncoder"`
-				* 日志级别的格式化设置
+				* 日志中级别的格式，默认为小写，如debug/info。
 
 			EncodeTime     TimeEncoder     `json:"timeEncoder" yaml:"timeEncoder"`
 				* 时间格式化设置
@@ -165,6 +168,8 @@ type
 			Caller     EntryCaller
 			Stack      string
 		}
+
+		* 一条日志信息
 	
 	# type EntryCaller struct {
 			Defined  bool
@@ -173,6 +178,9 @@ type
 			Line     int
 			Function string
 		}
+		
+		* 日志的调用信息
+
 		func NewEntryCaller(pc uintptr, file string, line int, ok bool) EntryCaller
 		func (ec EntryCaller) FullPath() string
 		func (ec EntryCaller) String() string
