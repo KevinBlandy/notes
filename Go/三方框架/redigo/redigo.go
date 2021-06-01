@@ -134,6 +134,10 @@ type
 	# type Pool struct {
 			Dial func() (Conn, error)
 				* 创建连接的方法
+			
+			DialContext func(ctx context.Context) (Conn, error)
+				* 创建连接的方法，参数多了context
+
 			TestOnBorrow func(c Conn, t time.Time) error
 				* 在链接使用之前，检查状态，t 是链接返回的时间
 				* 如果函数返回错误，则连接将被删除

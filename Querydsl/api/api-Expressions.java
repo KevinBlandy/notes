@@ -48,4 +48,11 @@ xxxTemplate
 			BooleanTemplate booleanTemplate(Template template, List<?> args)
 	
 
-		
+--------------------------
+动态的获取查询对象的列
+--------------------------
+	QPlay play = QPlay.play;
+	// 根据查询对象，获取它的namePath
+	StringPath column = Expressions.stringPath(play, "name");
+	query.from(play);
+	query.where(column.eq("New play") );

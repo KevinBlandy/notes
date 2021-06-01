@@ -88,13 +88,21 @@ zap
 			"go.uber.org/zap"
 			"go.uber.org/zap/zapcore"
 			"os"
+			"strings"
 			"time"
 		)
 
 
 		func main() {
+
 			// 消息编码器配置
 			encodeConfig := zap.NewProductionEncoderConfig()
+			encodeConfig.MessageKey = "message"
+			encodeConfig.TimeKey = "time"
+			encodeConfig.EncodeLevel = func(level zapcore.Level, encoder zapcore.PrimitiveArrayEncoder) {
+				encoder.AppendString(strings.ToUpper(level.String()))
+			}
+			encodeConfig.CallerKey = "file"
 			// 时间格式化
 			encodeConfig.EncodeTime = func(time time.Time, encoder zapcore.PrimitiveArrayEncoder) {
 				encoder.AppendString(time.Format("2006-01-02 15:04:05"))
@@ -102,7 +110,9 @@ zap
 
 			// 消息编码器
 			jsonEncode := zapcore.NewJSONEncoder(encodeConfig)
-			jsonEncode.AddString("foo", "bar") // 添加全局的KEY/VALUE
+
+			jsonEncode.OpenNamespace("foo")
+			jsonEncode.AddString("subFoo", "SubFoo")
 
 			// 日志输出目的地
 			writer := zapcore.NewMultiWriteSyncer(zapcore.AddSync(os.Stdout))
@@ -116,18 +126,17 @@ zap
 			// 日志记录器的一些选项
 			options := []zap.Option {
 				zap.AddCaller(),		// 日志中添加调用信息
+				zap.AddStacktrace(zapcore.ErrorLevel),  // 异常级别以上，添加调用栈信息
 				zap.Hooks(func(entry zapcore.Entry) error {  // 添加钩子函数
-					if entry.Level == zapcore.DebugLevel {
-						fmt.Println("Debug级别")
-					}
+					fmt.Println(entry.Stack)
 					return nil
 				}),
 			}
 
-			// 创建日志记录器
-			logger := zap.New(core, options...)
-			defer logger.Sync() // 最终记得同步一下
+			// 创建日志记录器, 设置名称
+			logger := zap.New(core, options...).Named("root")
 
-			logger.Fatal("Hello")
+			defer logger.Sync() // 最终刷出缓冲的日志
+
+			logger.Error("Hello")
 		}
-	

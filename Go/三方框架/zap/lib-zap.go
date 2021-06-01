@@ -221,7 +221,8 @@ struct
 		func (log *Logger) Fatal(msg string, fields ...Field)
 		func (log *Logger) Info(msg string, fields ...Field)
 		func (log *Logger) Named(s string) *Logger
-			* 给日志记录器设置名称，多次调用的话会把名称使用.分割
+			* copy当前日志记录器的所有信息生成新的，并且给设置一个名称
+			* 如果已经有名称的话，则添加.分割
 
 		func (log *Logger) Panic(msg string, fields ...Field)
 		func (log *Logger) Sugar() *SugaredLogger

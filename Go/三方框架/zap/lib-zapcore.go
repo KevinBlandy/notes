@@ -336,6 +336,7 @@ type
 		func (m *MapObjectEncoder) AddUint8(k string, v uint8)
 		func (m *MapObjectEncoder) AddUintptr(k string, v uintptr)
 		func (m *MapObjectEncoder) OpenNamespace(k string)
+			* 打开nameSpace，接下来添加的属性，都会在这个NameSpace中
 	
 	# type NameEncoder func(string, PrimitiveArrayEncoder)
 		func (e *NameEncoder) UnmarshalText(text []byte) error
