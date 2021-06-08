@@ -275,6 +275,17 @@ type
 	# type Scanner interface {
 			Scan(src interface{}) error
 		}
+		
+		* 把数据库值写入到Go的接口
+		* src的值可能是
+			int64
+			float64
+			bool
+			[]byte
+			string
+			time.Time
+			nil - for NULL values
+
 	# type Stmt struct {
 		}
 	

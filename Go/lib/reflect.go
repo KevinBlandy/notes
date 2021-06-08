@@ -51,6 +51,8 @@ type
 			UnsafePointer
 		)
 
+		* 类别，类别是指这个数据是什么类型的数据
+
 		func (k Kind) String() string
 	
 	# type MapIter struct {}
@@ -220,6 +222,11 @@ type
 			Out(i int) Type
 				* 返回func类型的第i个返回值的类型，如非函数或者i不在[0, NumOut())内将会panic
 		}
+		
+		* 类型，类型指的是，“数据”是某种“类别”下的某种“类型”
+			type User struct {
+				// struct 类别下的 User类型
+			}
 		
 
 		func ArrayOf(count int, elem Type) Type

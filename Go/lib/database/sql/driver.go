@@ -18,7 +18,20 @@ var
 ----------------
 type
 ----------------
+	# type Value interface{}
+		* value表示数据库的值，类型可以是:
+			int64
+			float64
+			bool
+			[]byte
+			string
+			time.Time
 
+	# type Valuer interface {
+			// Value returns a driver Value.
+			// Value must not panic.
+			Value() (Value, error)
+		}
 ----------------
 func
 ----------------
