@@ -13,3 +13,9 @@
 
 		* Demo
 			git submodule add https://github.com/wlh320/hugo-theme-hulga.git themes/hulga
+	
+
+	# 一些不错的主题
+		https://github.com/zzossig/hugo-theme-zzo
+
+		

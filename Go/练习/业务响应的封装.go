@@ -1,163 +1,136 @@
+
 import (
-	"encoding/json"
-	"github.com/gin-gonic/gin"
-	"log"
+	"fmt"
 	"net/http"
-	"os"
 )
 
-
-// Code 业务状态
+// Code 业务状态码
 type Code struct {
-	HttpStatus int			// HttpStatus http状态码
-	Code string				// Code 业务状态码
-	Message string			// Message 默认提示消息
+	Code string
+	HttpStatus int
+	Message string
 }
 
-// 预定义业务状态
-var(
-	//CodeOk 成功
-	CodeOk = &Code{HttpStatus: http.StatusOK, Code: "ok", Message: "Ok"}
+// SetMessage 复制当前Code，设置新的消息，一般用于自定义消息内容
+func (c Code) SetMessage (message string) *Code {
+	return &Code{
+		Code:       c.Code,
+		HttpStatus: c.HttpStatus,
+		Message:    message,
+	}
+}
+
+func (c Code) String () string {
+	return c.Code
+}
+
+// MarshalJSON 序列化为字符串
+func (c Code) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`"%s"`, c.Code)), nil
+}
+
+func (c *Code) UnmarshalJSON(data []byte) error {
+	// Response 一般不需要序列化
+	//if len(data) == 0 {
+	//	return nil
+	//}
+	//val := string(data)
+	//switch{
+	//	case strings.EqualFold(val, "ok"): *c = *CodeOk
+	//}
+	return nil
+}
+
+
+// 预定义系统中的业务状态码
+var (
+	// CodeOk 正常
+	CodeOk = &Code{Code: "OK", HttpStatus: http.StatusOK, Message: "ok"}
+
 	//CodeBadRequest 通用的客户端异常
-	CodeBadRequest = &Code{HttpStatus: http.StatusBadRequest, Code: "BadRequest", Message: "非法请求"}
+	CodeBadRequest = &Code{Code: "BadRequest",HttpStatus: http.StatusBadRequest, Message: "非法请求"}
+
+	// CodeNotFound 资源未找到
+	CodeNotFound = &Code{Code: "NotFound",HttpStatus: http.StatusNotFound, Message: "请求资源不存在"}
+
+	// CodeUnauthorized 资源未找到
+	CodeUnauthorized = &Code{Code: "Unauthorized",HttpStatus: http.StatusUnauthorized, Message: "未授权"}
+
+	// CodeForbidden 资源未找到
+	CodeForbidden = &Code{Code: "Forbidden",HttpStatus: http.StatusForbidden, Message: "无权操作"}
+
+	// CodeRequestEntityTooLarge 请求体大小超出限制
+	CodeRequestEntityTooLarge = &Code{Code: "RequestEntityTooLarge",HttpStatus: http.StatusRequestEntityTooLarge, Message: "请求体大小超出限制"}
+
 	// CodeServiceUnavailable 服务不可用
-	CodeServiceUnavailable = &Code{HttpStatus: http.StatusServiceUnavailable, Code: "ServiceUnavailable", Message: "服务不可用"}
+	CodeServiceUnavailable = &Code{Code: "ServiceUnavailable", HttpStatus: http.StatusServiceUnavailable, Message: "服务不可用"}
+
 	// CodeServerError 服务器异常
-	CodeServerError = &Code{HttpStatus: http.StatusInternalServerError, Code: "ServerError", Message: "服务器异常"}
+	CodeServerError = &Code{Code: "ServerError",HttpStatus: http.StatusInternalServerError,  Message: "服务器异常"}
 )
 
-
-// Body 响应json格式
-type Body struct {
+// Response 响应客户端的通用JSON
+type Response struct {
 	Success bool		`json:"success"`
-	Code string			`json:"code"`
 	Data interface{}	`json:"data"`
+	Code *Code			`json:"code"`
 	Message string		`json:"message"`
 }
 
-// Success 获取成功响应体
-func Success (data interface{}) *Body {
-	return &Body{
+var (
+	// EmptyOkResponse 空响应
+	EmptyOkResponse = OkResponse(nil)
+)
+
+// OkResponse 成功响应
+func OkResponse (data interface{}) *Response {
+	return &Response{
 		Success: true,
-		Code:    CodeOk.Code,
+		Code:    CodeOk,
 		Data:    data,
 		Message: CodeOk.Message,
 	}
 }
-// Fail 获取异常响应体
-func Fail (code *Code) *Body {
-	return &Body{
+// FailResponse 异常响应
+func FailResponse (code *Code) *Response {
+	return &Response{
 		Success: false,
-		Code:    code.Code,
+		Code:    code,
 		Data:    nil,
 		Message: code.Message,
 	}
 }
-// Fail1 获取异常响应体，自定义提示消息
-func Fail1 (code *Code, message string) *Body {
-	code.Message = message
-	return Fail(code)
-}
+
+
+// ------------------- 异常
 
 // ServiceError 业务异常
 type ServiceError struct {
 	Message string			// 异常消息
 	Cause error				// 捕获的异常信息
 	HttpStatus int			// http状态码
-	Body interface{}	// 响应客户端的数据
+	Response interface{}		// 响应客户端的数据
 }
 func (s ServiceError) Error () string {
 	return s.Message
 }
 
+// SetCause 设置Catch的异常
+func (s ServiceError) SetCause(err error) *ServiceError {
+	s.Cause = err
+	return &s
+}
+
 // NewServiceError 创建新的业务异常，指定原始异常，状态码，消息
-func NewServiceError (cause error, code *Code, message string) *ServiceError {
-	if message == "" {
-		message = code.Message  // 默认使用状态码的默认提示消息
-	}
+func NewServiceError (code *Code) *ServiceError {
 	return &ServiceError{
-		Message: message,
-		Cause: cause,
+		Message: code.Message,
+		Cause: nil,
 		HttpStatus: code.HttpStatus,
-		Body: &Body{
+		Response: &Response{
 			Success: false,
-			Code:    code.Code,
-			Message: message,
+			Code:    code,
+			Message: code.Message,
 		},
 	}
 }
-// NewServiceError1 创建新的业务异常，指定状态码
-func NewServiceError1(code *Code) *ServiceError {
-	return NewServiceError(nil, code, "")
-}
-// NewServiceError2 创建先的业务异常，指定状态码，自定义异常信息
-func NewServiceError2(code *Code, message string) *ServiceError {
-	return NewServiceError(nil, code, message)
-}
-// NewServiceError3 创建新的业务异常，指定原始异常，状态码
-func NewServiceError3(cause error, code *Code) *ServiceError {
-	return NewServiceError(cause, code, "")
-}
-
-// FailResponse 响应业务异常信息，err 不能为空
-func failResponse (ctx *gin.Context, err *ServiceError){
-	log.Printf("业务异常：%s\n", err.Error())
-	if err.Cause != nil {
-		log.Printf("捕获异常：%s\n", err.Cause.Error())
-	}
-
-	var statusCode = err.HttpStatus
-	var responseBody []byte
-
-	if err.Body != nil {
-		if jsonBytes, err := json.Marshal(err.Body); err != nil {
-			log.Printf("JSON编码异常：%s\n", err.Error())
-			statusCode = http.StatusInternalServerError
-		} else {
-			responseBody = jsonBytes
-		}
-	}
-
-	ctx.Status(statusCode)
-	// 响应Body
-	if responseBody != nil {
-		ctx.Header("Content-Type", "application/json; charset=utf-8")
-		if _ ,err := ctx.Writer.Write(responseBody); err != nil {
-			log.Printf("响应JSON信息异常：%s\n", err.Error())
-		}
-	}
-}
-
-// ErrorResponse 响应未知异常，err如果为空，则不会做任何处理
-func ErrorResponse (ctx *gin.Context, err error) {
-	if err == nil {
-		return
-	}
-	switch rawError := err.(type) {
-		case ServiceError, *ServiceError:{
-			if err, ok := rawError.(*ServiceError) ; ok {
-				failResponse(ctx, err)
-			}  else if err, ok := rawError.(ServiceError) ; ok {
-				failResponse(ctx, &err)
-			}
-		}
-		default: {
-			// 其他异常，仅仅日志输出异常信息
-			log.Printf("异常：%s\n", err.Error())
-
-			var httpStatus = http.StatusInternalServerError
-
-			// 详细的异常信息判断
-			if os.IsNotExist(err) {			// 文件未找到
-				httpStatus = http.StatusNotFound
-			} else if os.IsPermission(err) {		// 权限不足
-				httpStatus = http.StatusForbidden
-			} else if err.Error() == "http: request body too large" {		// 消息体过大
-				httpStatus = http.StatusRequestEntityTooLarge
-			}
-
-			ctx.Status(httpStatus)
-		}
-	}
-}
-
