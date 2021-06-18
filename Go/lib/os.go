@@ -80,6 +80,7 @@ type
 	# type File struct 
 		func Create(name string) (*File, error)
 		func NewFile(fd uintptr, name string) *File
+			* 创建新的文件描述符？指定名称
 
 		func Open(name string) (*File, error)
 			* 打开文件，只读

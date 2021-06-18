@@ -166,7 +166,7 @@ server
 			}
 
 			router.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-				writer.Header().Set("Content-Type", "text/plan; charset=utf-8")
+				writer.Header().Set("Content-Type", "text/plain; charset=utf-8")
 				writer.WriteHeader(http.StatusOK)
 				writer.Write([]byte("Hello World!"))
 			})

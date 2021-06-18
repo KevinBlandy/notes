@@ -8,6 +8,7 @@ hugo
 		https://themes.gohugo.io/
 
 		https://www.gohugo.org/
+		https://olowolo.com/post/hugo-quick-start/
 
 ------------------------
 目录结构
