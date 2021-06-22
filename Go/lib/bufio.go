@@ -49,6 +49,11 @@ type
 		func (b *Reader) ReadByte() (byte, error)
 		func (b *Reader) ReadBytes(delim byte) ([]byte, error)
 		func (b *Reader) ReadLine() (line []byte, isPrefix bool, err error)
+			* 这是一个比较低级的Api，大多数调用者应该使用
+				ReadBytes('\n')
+				ReadString('\n')
+			* 来代替或使用Scanner
+
 		func (b *Reader) ReadRune() (r rune, size int, err error)
 		func (b *Reader) ReadSlice(delim byte) (line []byte, err error)
 		func (b *Reader) ReadString(delim byte) (string, error)

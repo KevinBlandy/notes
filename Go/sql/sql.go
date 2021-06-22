@@ -119,7 +119,7 @@ sql
 		)
 
 		func main() {
-			db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", username, password, host, port, db))
+			db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", "root", "root", "localhost", 3306, "demo"))
 			if err != nil {
 				log.Panic(err)
 			}

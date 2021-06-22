@@ -82,7 +82,7 @@ type
 
 		func Open(driverName, dataSourceName string) (*DB, error)
 			* 返回DB，自己检索驱动，驱动需要先被加载进内存
-				db, err := sql.Open("mysql", "user:password@/dbname")
+				db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", "root", "root", "localhost", 3306, "demo"))
 
 		func OpenDB(c driver.Connector) *DB
 			* 根据驱动返回DB
@@ -343,4 +343,116 @@ func
 -----------------
 demo
 -----------------
-	
+	# 自定义Go数据类型和SQL类型的转换
+		* 主要是实现2个接口
+			type Scanner interface {
+				Scan(src interface{}) error
+			}
+				
+				* 把数据库值写入到Go的接口
+				* src的值可能是
+					int64
+					float64
+					bool
+					[]byte
+					string
+					time.Time
+					nil - for NULL values
+
+
+			type Valuer interface {
+				// Value returns a driver Value.
+				// Value must not panic.
+				Value() (Value, error)
+			}
+			type Value interface{}
+				* value表示数据库的值，类型可以是:
+					int64
+					float64
+					bool
+					[]byte
+					string
+					time.Time
+		
+		* 实现
+			import (
+				"database/sql"
+				"database/sql/driver"
+				"encoding/json"
+				"fmt"
+				_ "github.com/go-sql-driver/mysql"
+				"log"
+			)
+
+			/*
+			CREATE TABLE `demo` (
+			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+			  `user` json DEFAULT NULL COMMENT 'JSON',
+			  PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+			*/
+
+			type User struct {
+				Id int
+				Name string
+			}
+			func (u *User) Scan (src interface{}) error {
+				switch src.(type) {
+					case string: {
+						return json.Unmarshal([]byte(src.(string)), u)
+					}
+					case []byte: {
+						return json.Unmarshal(src.([]byte), u)
+					}
+				}
+				return nil
+			}
+
+			func (u User) Value() (driver.Value, error){
+				data, err := json.Marshal(u)
+				if err != nil {
+					return nil, err
+				}
+				return string(data), nil
+			}
+
+			func main(){
+				db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", "root", "root", "localhost", 3306, "demo"))
+				if err != nil {
+					log.Fatalln(err.Error())
+				}
+				if err := db.Ping(); err != nil {
+					log.Fatalln(err.Error())
+				}
+
+				result, err := db.Exec("INSERT INTO `demo`(`id`, `user`) VALUES(?, ?)", nil,&User{
+					Id:   888,
+					Name: "Cat",
+				})
+				if err != nil {
+					log.Fatalln(err.Error())
+				}
+
+				rowsAffected, err := result.RowsAffected()
+				if err != nil {
+					log.Fatalln(err.Error())
+				}
+				log.Printf("RowsAffected=%d\n", rowsAffected)
+
+				lastInsertId, err := result.LastInsertId()
+				if err != nil {
+					log.Fatalln(err.Error())
+				}
+				log.Printf("LastInsertId=%d\n", lastInsertId)
+
+				row := db.QueryRow("SELECT `id`, `user` FROM `demo` WHERE `id` = ?", lastInsertId)
+
+				var id int
+				var user User
+
+				if err := row.Scan(&id, &user); err != nil {
+					log.Fatalln(err.Error())
+				}
+
+				log.Printf("id=%d, user=%v\n", id, user)
+			}
