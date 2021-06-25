@@ -24,7 +24,7 @@ Maven 插件
 					<protoSourceRoot>${project.basedir}/proto</protoSourceRoot>
 					<!-- 生成类的文件夹 -->
 					<outputDirectory>${project.build.sourceDirectory}</outputDirectory>
-					<!-- 是否每次编译前都清空生成文件夹 -->
+					<!-- 是否每次编译前都清空生成文件夹，注意会从 outputDirectory 根目录开始删除 -->
 					<clearOutputDirectory>false</clearOutputDirectory>
 					<!-- 临时文件夹 -->
 					<temporaryProtoFileDirectory>${project.build.directory}/protoc-dependencies</temporaryProtoFileDirectory>

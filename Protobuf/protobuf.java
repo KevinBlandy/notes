@@ -27,7 +27,21 @@
 			repeated int32 samples = 4 [packed=true];
 		
 		* proto3已经默认使用了, 不需要手动声明
-		
+		* 也是optional字段一样，另外加了一个count计数变量，用于标明这个字段有多少个，这样发送方发送的时候，同时发送了count计数变量和这个字段的起始地址，接收方在接受到数据之后，按照count来解析对应的数据即可。
+	
+	optional
+		* 可选的
+		* 就是protobuf处理的时候另外加了一个bool的变量，用来标记这个optional字段是否有值，发送方在发送的时候，如果这个字段有值，那么就给bool变量标记为true，否则就标记为false，
+		* 接收方在收到这个字段的同时，也会收到发送方同时发送的bool变量，拿着bool变量就知道这个字段是否有值了，这就是option的意思
+
+		* 这也就是他们说的所谓平滑升级，无非就是个兼容的意思。
+
+	
+	required
+		* 必选字段
+		* proto3不让用了已经
+	
+
 
 
 # 字段编号
@@ -136,6 +150,13 @@
 # 包
 	* 可以在.proto 文件中选择使用 package 说明符 避免 ProtoBuf 消息类型之间的名称冲突(命名空间)
 		package foo.bar;
+		message Open { ... }
+
+		message Foo {
+		  ...
+		  foo.bar.Open open = 1;
+		  ...
+		}
 	
 	* 在 Java 里面, 除非在 .proto 文件中显示声明了 option java_package ,否则这个包名会被 Java 直接采用
 

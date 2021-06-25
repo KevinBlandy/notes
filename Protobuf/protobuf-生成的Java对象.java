@@ -5,6 +5,14 @@ Java代码生成
 		* .proto文件中定义的类, 以内部类的形式存在
 		* 这个文件包含一个单一的outer class定义,包含一些内嵌类和静态字段
 
+		* 如果 proto文件的名称和里面定义的message名称一样，则生成的java文件为 OuterXxxx
+			user.proto				-> 生成的类 UserOuterClass
+				|-message User
+
+
+			
+
+
 
 	# 生成的类
 		* 实现 Message 接口, 并且被标识为 final
