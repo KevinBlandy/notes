@@ -17,5 +17,6 @@
 
 	# 一些不错的主题
 		https://github.com/zzossig/hugo-theme-zzo
+		https://github.com/CaiJimmy/hugo-theme-stack
 
 		

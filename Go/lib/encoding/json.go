@@ -59,6 +59,9 @@ struct
 		func (e *MarshalerError) Unwrap() error
 	
 	# type Number string
+		
+		* JSON类型的数字，可以转换为Go中的各个类型
+			
 		func (n Number) Float64() (float64, error)
 		func (n Number) Int64() (int64, error)
 		func (n Number) String() string
@@ -84,6 +87,8 @@ struct
 			// 	},
 			// 	"body": "Hello Gophers!"
 			// }
+		
+		* 说白了，知道是个JSON但是不知道JSON的类型，结构，就可以用这个
 	
 	# type SyntaxError struct {
 			Offset int64 // error occurred after reading Offset bytes
