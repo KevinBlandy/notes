@@ -36,6 +36,7 @@ rabbitmq
 		
 	Exchanges(core)
 		* 交换机
+		* 数存储在队列中，交换器的使用并不真正耗费服务器的性
 		
 	Connection
 		* 就是一个TCP连接,生产者和消费者都通过TCP连接到RabbitMQ服务器

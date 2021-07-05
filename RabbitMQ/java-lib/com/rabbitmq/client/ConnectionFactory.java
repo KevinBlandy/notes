@@ -37,17 +37,31 @@ this
 
 	public String getHost()
 	public void setHost(String host)
+		* 主机地址
+
 	public int getPort()
 	public void setPort(int port)
+		* 端口
+
 	public String getUsername()
 	public void setUsername(String username)
+		* 用户名
+
 	public String getPassword()
 	public void setPassword(String password)
+		* 密码
+
 	public void setCredentialsProvider(CredentialsProvider credentialsProvider)
+
 	public String getVirtualHost()
 	public void setVirtualHost(String virtualHost)
+		* 虚拟主机
+
 	public void setUri(URI uri)
 	public void setUri(String uriString)
+		* URI形式链接	
+			amqp://username:password@ip:port/virtualHost
+
 	public int getRequestedChannelMax()
 	public void setRequestedChannelMax(int requestedChannelMax)
 	public int getRequestedFrameMax()

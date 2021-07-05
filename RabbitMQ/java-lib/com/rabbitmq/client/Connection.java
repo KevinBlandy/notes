@@ -31,8 +31,14 @@ this
 	public abstract boolean removeBlockedListener(BlockedListener arg0)
 	public abstract void clearBlockedListeners()
 	public abstract int getHeartbeat()
+
 	public abstract Channel createChannel()
-	public abstract Channel createChannel(int arg0)
+	public abstract Channel createChannel(int channelNumber)
+		* 创建一个Channel
+
+		channelNumber
+			
+
 	public abstract int getFrameMax()
 	public Optional openChannel(int arg0)
 	public Optional openChannel()
