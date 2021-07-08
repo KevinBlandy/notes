@@ -52,11 +52,7 @@ rabbitmq
 		* 通俗理解就是，通过一个TCP连接可以往N个channel发送数据
 	
 
-	Bindings 
-		* 绑定
-
-	
 	Virtual Host
 		* 多租户，类似于namespace一样，一个Server可以划分出多个Virtual Host
-		* 可以让不同的用户维护自己的exchange/queue
+		* 可以让不同的用户维护自己的exchange/queue，每个租户相互隔离
 	

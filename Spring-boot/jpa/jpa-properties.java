@@ -32,6 +32,10 @@
 	spring.jpa.properties.*
 		* JPA实现, 定义的配置
 		* Hibernate的可配置项, 都在: org.hibernate.cfg.AvailableSettings
+		* 常用的一些
+			spring.jpa.properties.hibernate.globally_quoted_identifiers=false
+				* 设置是否自动对表名/字段添加转义字符: `table`
+			
 
 	spring.jpa.mapping-resources=
 
@@ -47,4 +51,5 @@
 	spring.jpa.hibernate.naming.implicit-strategy=
 	spring.jpa.hibernate.naming.physical-strategy=
 	spring.jpa.hibernate.use-new-id-generator-mappings=
+
 

@@ -34,6 +34,7 @@
 	
 	# Java 9缺省情况下只能访问导出包的public类, 方法和字段
 		* 即使使用反射访问非 public 成员并设置setAccessible(true), 也不能成功访问这些成员
+	
 
 ------------------------------
 模块制定
@@ -107,6 +108,9 @@
 		* 跟maven一样, 仅仅需要编译的时候依赖, 程序中并不会使用
 		* 使用 static 关键字修饰
 			requires static java.logging;
+	
+	# java.base 模块会自动导入
+		requires java.base; // 可不写，任何模块都会自动引入java.base
 
 		
 ------------------------------

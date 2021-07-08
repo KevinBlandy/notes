@@ -73,7 +73,7 @@
 					--restart=always
 				* 枚举值
 					always
-						只要容器被关闭就会立即重启,不论任何原因导致的关闭
+						只要容器被关闭就会立即重启,不论任何原因导致的关闭(可以用来设置自启动)
 					on-failure
 						只有容器的退出代码非0时才会重启(非正常关闭,则重启)
 						它还接收一个最大重启次数: --restart=on-failure:5
@@ -212,14 +212,16 @@
 				* 在交互模式下进行
 			
 			* 不需要进入到容器内部, 直接在宿主机上执行
+		
+		* 进入容器内部
+			docker exec -it [id] /bin/bash  
 
 	
 	# 快速的进入到容器内部
 		docker attach [id]
 			id
 				* 容器id或者name
-		
-
+	
 	
 	# 查看容器的详细信息(返回json信息)
 		docker inspect [id]
