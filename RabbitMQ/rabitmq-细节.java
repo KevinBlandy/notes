@@ -95,7 +95,7 @@
 	# 设置死信队列
 		* 在创建队列的时候通过参数设置
 			Map<String, Object> properties = new HashMap<>();
-			properties.put("x-dead-letter-exchange", "my-queue-dead"); // 指定队列的死信队列
+			properties.put("x-dead-letter-exchange", "my-queue-dead-exchange"); // 指定队列的死信交换机
 			channel.queueDeclare("myqueue", false, false, false, properties);
 		
 			* 也可以为这个 DLX 指定路由键，如果没有特殊指定，则使用原队列的路由键
@@ -105,9 +105,9 @@
 	
 	
 	# 可以用这个实现一个延迟队列
-		1. 设置队列的TTL时间(可以按照需求细分为多个TTL队列:5秒,10秒,1分钟,1小时,1天)
+		1. 新增队列, 设置TTL时间(可以按照需求细分为多个TTL队列:5秒,10秒,1分钟,1小时,1天), 这个队列不设置消费者
 		2. 设置队列的死信队列 DLX
-		3. 监听消费死信队列即可
+		3. 监听消费死信交换机队列即可
 	
 
 ------------------------
