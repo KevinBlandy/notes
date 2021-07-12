@@ -22,6 +22,19 @@ feign
 			<artifactId>spring-cloud-starter-loadbalancer</artifactId>
 			<version>3.0.3</version>
 		</dependency>
+		 <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+		</dependency>
+
+		
+		* 多出来的几个依赖都建议用
+		* 一般都要添加这个负载均衡的依赖
+		* 负载均衡又需要缓存服务在本地，所以推荐使用caffeine
 
 	
 	# 启用注解
@@ -67,7 +80,7 @@ feign
 				* 服务降级工厂类，需要实现接口: FallbackFactory<T>
 
 			String path() default "";
-				* 为当前类种的所有请求都添加统一的前缀
+				* 绝对路径URL
 
 			boolean primary() default true;
 				* 和断路器一起使用的时候，IOC会存在多个当前接口的实现，使用 @Autowired 注入的时候就会导致不知道注入哪个，从而导致异常
