@@ -1,13 +1,13 @@
 --------------------------
 Filter
 --------------------------
-	# 接口定义: GatewayFilter
-
-		public interface GatewayFilter extends ShortcutConfigurable {
-			String NAME_KEY = "name";
-			String VALUE_KEY = "value";
-			Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain);
-		}
+	# 通过为所有路由都添加过滤器
+		spring:
+		  cloud:
+			gateway:
+			  default-filters:
+			    - AddResponseHeader=X-Response-Default-Red, Default-Blue
+			    - PrefixPath=/httpbin
 
 
 ---------------------
@@ -32,11 +32,5 @@ GlobalFilter
 		RouteToRequestUrlFilter		基于路由配置更新URL
 		WebsocketRoutingFilter		Websocket请求转发到下游
 	
-	# 通过为所有路由都添加过滤器
-		spring:
-		  cloud:
-			gateway:
-			  default-filters:
-			    - AddResponseHeader=X-Response-Default-Red, Default-Blue
-			    - PrefixPath=/httpbin
+
 		
