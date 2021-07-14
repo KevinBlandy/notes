@@ -56,6 +56,8 @@ this
 			@Nullable Context initialContext)
 	public final void subscribe(Subscriber<? super T> actual) 
 	public abstract void subscribe(CoreSubscriber<? super T> actual)
+		
+		* 和订阅者创建关系，开始订阅
 
 	
 	public final Flux<T> doFinally(Consumer<SignalType> onFinally)

@@ -39,6 +39,8 @@ this
 	Mono<MultiValueMap<String, Part>> getMultipartData();
 		* 获取Multipart数据
 		* 只有Content-Type为multipart/form-data的时候这个方法才会返回一个非空的Map
+		* 可以使用 @RequestBody Flux<Part> 来封装
+			
 
 	LocaleContext getLocaleContext();
 

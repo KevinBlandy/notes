@@ -116,3 +116,23 @@ WebSocket-WebSocket		|
 2000–2999	-						由 WebSocket 拓展保留使用。
 3000–3999	-						可以由库或框架使用。 不应由应用使用。 可以在 IANA 注册, 先到先得。
 4000–4999	-						可以由应用使用。
+
+
+
+------------------------
+WebSocket-WebSocket
+------------------------
+let websocket = new WebSocket("ws://localhost:8000/channel/demo");
+websocket.onclose = e => {
+   console.log(`连接关闭: code=${event.code}, reason=${event.reason}, wasClean=${event.wasClean}`)
+}
+websocket.onmessage = e => {
+    console.log(`收到消息:${e.data}`);
+}
+websocket.onerror = e => {
+    console.log(`连接异常`)
+    console.error(e)
+}
+websocket.onopen = e => {
+    console.log(`连接打开: ${e}`);
+}

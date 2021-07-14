@@ -18,7 +18,10 @@ websockets 配置
 			* 添加拦截器
 		
 		WebSocketHandlerRegistration setAllowedOrigins(String... origins);
-			* 设置允许的域
+			* 设置允许的域，必须是明确的域，不能是通配符
+		
+		WebSocketHandlerRegistration setAllowedOriginPatterns(String... originPatterns);
+			* 设置允许的域，可以是通配符
 
 		SockJsServiceRegistration withSockJS();
 			* 支持 socketJs
@@ -51,10 +54,31 @@ websockets HandshakeHandler
 	# HandshakeHandler 握手处理器
 		HandshakeHandler
 			|-AbstractHandshakeHandler
-			|-WebSocketHandlerDecorator
+				|-DefaultHandshakeHandler
+			|-WebSocketTransportHandler
+				* 基于WebSocket的TransportHandler。使用SockJsWebSocketHandler和WebSocketServerSockJsSession来添加SockJS处理。
+				* 还实现了HandshakeHandler以支持SockJS URL "/websocket"的原始WebSocket通信。
+
+	# AbstractHandshakeHandler的几个核心方法
+		protected void handleInvalidUpgradeHeader(ServerHttpRequest request, ServerHttpResponse response) throws IOException
+			* 可以处理，“直接在浏览器GET”请求端点导致的异常
+
+		protected void handleInvalidConnectHeader(ServerHttpRequest request, ServerHttpResponse response) throws IOException
+			* 客户端的非法链接处理
+
+		protected boolean isWebSocketVersionSupported(WebSocketHttpHeaders httpHeaders)
+		protected String[] getSupportedVersions()
+		protected void handleWebSocketVersionNotSupported(ServerHttpRequest request, ServerHttpResponse response)
+		protected boolean isValidOrigin(ServerHttpRequest request)
+		protected String selectProtocol(List<String> requestedProtocols, WebSocketHandler webSocketHandler) 
+		protected final List<String> determineHandlerSupportedProtocols(WebSocketHandler handler)
+		protected List<WebSocketExtension> filterRequestedExtensions(ServerHttpRequest request, List<WebSocketExtension> requestedExtensions, List<WebSocketExtension> supportedExtensions) 
+		protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) 
+
+	
 
 	# 抽象方法
 		boolean doHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws HandshakeFailureException;
 			* 返回握手是否成功
 
-
+	

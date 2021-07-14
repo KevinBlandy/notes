@@ -26,6 +26,11 @@ static
 	public static <T> Mono<T> fromRunnable(Runnable runnable)
 	public static <T> Mono<T> fromSupplier(Supplier<? extends T> supplier) 
 
+	public static <T> Flux<T> generate(Consumer<SynchronousSink<T>> generator)
+	public static <T, S> Flux<T> generate(Callable<S> stateSupplier, BiFunction<S, SynchronousSink<T>, S> generator)
+	public static <T, S> Flux<T> generate(Callable<S> stateSupplier, BiFunction<S, SynchronousSink<T>, S> generator, Consumer<? super S> stateConsumer)
+		* 使用生成器构建流
+
 	
 	public static <T> Mono<T> error(Throwable error)
 	public static <T> Mono<T> error(Supplier<? extends Throwable> errorSupplier)

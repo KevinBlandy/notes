@@ -53,6 +53,12 @@ GatewayFilter
 			List<String> shortcutFieldOrder()
 			String shortcutFieldPrefix()
 				* 简化配置
+	
+	# 网关命名
+		* 类名称使用 GatewayFilterFactory 结尾。例如: SomethingGatewayFilterFactory
+		* 如果符合规范命名，那么不需要复写 name() 方法，则该过滤器名称就是前缀: Something
+
+		* 如果类命名不规范，则通过复写 name() 方法来定义过滤器名称
 		
 
 --------------------------
@@ -75,10 +81,16 @@ Demo
 			@Override
 			public GatewayFilter apply(DemoFilter.Config config) {
 				return (exchange, chain) -> {
+
+					// 前置执行
 					ServerHttpRequest request = exchange.getRequest().mutate().headers(httpHeaders -> {
 						httpHeaders.set(config.getHeaderName(), config.getHeaderValue());
 					}).build();
+
 					return chain.filter(exchange.mutate().request(request).build());
+					//  return chain.filter(exchange.mutate().request(request).build()).then(Mono.fromRunnable(() -> {
+					   // 后置执行
+					// }));
 				};
 			}
 
