@@ -2,7 +2,12 @@
 springboot-cache	|
 --------------------
 	# 参考
+		
+		https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.caching
+
 		https://blog.csdn.net/u012373815/article/details/54564076
+	
+
 
 	# 依赖
 		<dependency>
@@ -53,9 +58,10 @@ springboot-cache	|
 		# 属性
 			@AliasFor("cacheNames")
 			String[] value() default {};
-
 			@AliasFor("value")
 			String[] cacheNames() default {};
+				* 缓存的“区”概念，在Redis中就是key前缀
+				* 可以配置多个，也就是会在多个区域中生成缓存信息
 
 			String key() default "";
 				* 默认key生成规则
@@ -70,11 +76,20 @@ springboot-cache	|
 
 					@Cacheable(cacheNames="books", key="#map['bookid'].toString()")
 					public Book findBook(Map<String, Object> map)
+				
+				* 如果需要手动指定字符串，那么使用单引号
+					@Cacheable(value = "user", key = "'name'") // 使用 name 作为key，而不是spel表达式
 
 			String keyGenerator() default "";
+				* 指定KEY生成器的实现
+
 			String cacheManager() default "";
+				* 指定缓存管理器
+
 			String cacheResolver() default "";
 			String condition() default "";
+				* 条件
+
 			String unless() default "";
 				* 如果方法返回null,也会被认为是一种返回值,null也会被缓存,有些时候这不是我们希望的
 				* 通过该属性来控制,禁止缓存null,如果结果为null,那么就不缓存
@@ -126,6 +141,15 @@ springboot-cache	|
 			Cacheable[] cacheable() default {};
 			CachePut[] put() default {};
 			CacheEvict[] evict() default {};
+	
+	@CacheConfig
+		# 缓存配置，在类级别上配置，当前类种的缓存方法使用同一个配置
+		# 属性
+			String[] cacheNames() default {};
+			String keyGenerator() default "";
+			String cacheManager() default "";
+			String cacheResolver() default "";
+
 	
 	# 使用自定义注解
 		* Spring允许我们在配置可缓存的方法时使用自定义的注解
@@ -194,6 +218,34 @@ Ehcache3			|
 -----------------------------
 CachingConfigurerSupport	 |
 -----------------------------
+	# 配置接口
+		public class CachingConfigurerSupport implements CachingConfigurer {
+			@Override
+			@Nullable
+			public CacheManager cacheManager() {
+				return null;
+			}
+
+			@Override
+			@Nullable
+			public CacheResolver cacheResolver() {
+				return null;
+			}
+
+			@Override
+			@Nullable
+			public KeyGenerator keyGenerator() {
+				return null;
+			}
+
+			@Override
+			@Nullable
+			public CacheErrorHandler errorHandler() {
+				return null;
+			}
+
+		}
+
 	# 自定义缓存中的一些配置
 		* 继承:CachingConfigurerSupport,覆写方法
 
@@ -223,4 +275,78 @@ CachingConfigurerSupport	 |
 					return generator;
 				}
 			}
+
 	
+--------------------
+缓存的定制配置
+--------------------
+	# 使用什么类型的缓存，就去添加什么类型的 CacheConfiguration
+		* 例如：Redis，就添加一个类: RedisCacheConfiguration
+		* 这种配置类对于IOC来说，都是“互斥”，如果我们不提供，那么系统使用默认的，如果我们提供，则使用我们的
+	
+	# RedisCacheConfiguration
+		public static RedisCacheConfiguration defaultCacheConfig()
+			* 使用默认配置，创建一个配置
+
+		public static RedisCacheConfiguration defaultCacheConfig(@Nullable ClassLoader classLoader)
+
+		public RedisCacheConfiguration entryTtl(Duration ttl)
+		public RedisCacheConfiguration prefixCacheNameWith(String prefix)
+		public RedisCacheConfiguration computePrefixWith(CacheKeyPrefix cacheKeyPrefix) 
+		public RedisCacheConfiguration disableCachingNullValues()
+		public RedisCacheConfiguration disableKeyPrefix()
+		public RedisCacheConfiguration withConversionService(ConversionService conversionService)
+
+		public RedisCacheConfiguration serializeKeysWith(SerializationPair<String> keySerializationPair)
+		public RedisCacheConfiguration serializeValuesWith(SerializationPair<?> valueSerializationPair)
+			* 设置KEY和Value的序列化器
+
+		public String getKeyPrefixFor(String cacheName)
+		public boolean usePrefix()
+		public boolean getAllowCacheNullValues()
+		public SerializationPair<String> getKeySerializationPair()
+		public SerializationPair<Object> getValueSerializationPair()
+		public Duration getTtl()
+		public ConversionService getConversionService()
+		public void addCacheKeyConverter(Converter<?, String> cacheKeyConverter)
+		public void configureKeyConverters(Consumer<ConverterRegistry> registryConsumer)
+		public static void registerDefaultConverters(ConverterRegistry registry) 
+	
+	# 序列化为JSON
+		import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
+		import org.springframework.boot.autoconfigure.cache.CacheProperties;
+		import org.springframework.context.annotation.Bean;
+		import org.springframework.context.annotation.Configuration;
+		import org.springframework.data.redis.cache.RedisCacheConfiguration;
+		import org.springframework.data.redis.serializer.RedisSerializationContext;
+
+
+		@Configuration
+		public class CustomRedisCacheConfiguration {
+
+			@Bean
+			public RedisCacheConfiguration redisCacheConfiguration(CacheProperties cacheProperties){
+
+				RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig();
+
+				// 先载入配置文件中的配置信息
+				CacheProperties.Redis redisProperties = cacheProperties.getRedis();
+				if (redisProperties.getTimeToLive() != null) {
+					redisCacheConfiguration = redisCacheConfiguration.entryTtl(redisProperties.getTimeToLive());
+				}
+				if (redisProperties.getKeyPrefix() != null) {
+					redisCacheConfiguration = redisCacheConfiguration.prefixCacheNameWith(redisProperties.getKeyPrefix());
+				}
+				if (!redisProperties.isCacheNullValues()) {
+					redisCacheConfiguration = redisCacheConfiguration.disableCachingNullValues();
+				}
+				if (!redisProperties.isUseKeyPrefix()) {
+					redisCacheConfiguration = redisCacheConfiguration.disableKeyPrefix();
+				}
+
+				// 再最后设置Value的序列化方式
+				redisCacheConfiguration = redisCacheConfiguration.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericFastJsonRedisSerializer()));
+
+				return redisCacheConfiguration;
+			}
+		}

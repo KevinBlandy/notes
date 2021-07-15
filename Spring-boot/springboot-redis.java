@@ -246,6 +246,8 @@ Redis - 自定义Template序列化		|
 Redis-Redisson						|
 ------------------------------------
 	# 使用Redsson作为客户端
+		https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter#spring-boot-starter
+
 	# Maven
 		<dependency>
 			 <groupId>org.redisson</groupId>
@@ -269,3 +271,38 @@ Redis-Redisson						|
 		#path to redisson.yaml or redisson.json
 		spring.redis.redisson.config=classpath:redisson.yaml
 
+	# 修改缓存对象的序列化方式	
+		import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
+		import org.springframework.context.annotation.Bean;
+		import org.springframework.context.annotation.Configuration;
+		import org.springframework.data.redis.cache.RedisCacheConfiguration;
+		import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+		import org.springframework.data.redis.serializer.RedisSerializationContext;
+		import org.springframework.data.redis.serializer.RedisSerializer;
+		import org.springframework.data.redis.serializer.SerializationException;
+
+		@Configuration
+		public class CustomRedisCacheConfiguration {
+			@Bean
+			public RedisCacheConfiguration redisCacheConfiguration(){
+				return RedisCacheConfiguration.defaultCacheConfig()
+						 // 自定义序列化方式
+						.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new RedisSerializer<Object>() {
+							// 序列化为 JSON
+							@Override
+							public byte[] serialize(Object o) throws SerializationException {
+								return new byte[0];
+							}
+							// 反序列化为对象
+							@Override
+							public Object deserialize(byte[] bytes) throws SerializationException {
+								return null;
+							}
+						}))
+						// 使用Jackson来序列化反序列化缓存对象
+						.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+						// 使用Fastjson来序列号反序列化缓存对象
+						.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericFastJsonRedisSerializer()))
+						;
+			}
+		}
