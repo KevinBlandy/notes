@@ -4,6 +4,12 @@ RequestSize
 	# 限制请求的大小，单位是byte，超过设定值返回413 Payload Too Large
 	
 	
+	# 工厂类
+		RequestSizeGatewayFilterFactory
+
+		* 配置属性
+			private DataSize maxSize = DataSize.ofBytes(5000000L);
+
 	# 配置
 		spring:
 		  cloud:

@@ -8,7 +8,9 @@ Filter
 			  default-filters:
 			    - AddResponseHeader=X-Response-Default-Red, Default-Blue
 			    - PrefixPath=/httpbin
-
+	
+	# Filter的配置，也是支持简单/完整配置的
+		
 
 ---------------------
 GlobalFilter

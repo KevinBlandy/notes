@@ -63,12 +63,37 @@ spring:
     expose-request-attributes: true
 	# 暴露session域中的属性
     expose-session-attributes: true
-	expose-spring-macro-helpers: true
+	# 暴露官方的宏
+    expose-spring-macro-helpers: true
     check-template-location: true
     template-loader-path:
       - classpath:/templates/
     settings:
       datetime_format: yyyy-MM-dd HH:mm:ss
+	
+	# Demo
+		* 模板文件
+			|-src/main/resources
+				|-templates
+					|-index
+						|-index.ftl
+
+		* 返回
+			import org.springframework.stereotype.Controller;
+			import org.springframework.web.bind.annotation.GetMapping;
+			import org.springframework.web.bind.annotation.RequestMapping;
+			import org.springframework.web.servlet.ModelAndView;
+
+			@Controller
+			@RequestMapping
+			public class IndexController {
+
+				@GetMapping(value = {"/index", "/"})
+				public ModelAndView index (){
+					return new ModelAndView("index/index");
+				}
+			}
+
 	
 ----------------------------------
 配置							  |

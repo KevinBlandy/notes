@@ -3,13 +3,16 @@ Path
 ---------------
 	# 根据URI来匹配路由，用的最多的一个了
 
-	# 配置项
-		patterns
-			* 是一个数组，配置一个或者多个URI
+	# 实现类
+		PathRoutePredicateFactory
 
-		matchTrailingSlash: true
-			* 是否匹配尾部斜线(/)
-			* matchTrailingSlash设置为false，则 /red/1/ 请求不会匹配请求路径 /red/{segment} 
+		* 配置类属性
+			patterns
+				* 是一个数组，配置一个或者多个URI
+
+			matchTrailingSlash: true
+				* 是否匹配尾部斜线(/)
+				* matchTrailingSlash设置为false，则 /red/1/ 请求不会匹配请求路径 /red/{segment} 
 
 	
 	# 配置

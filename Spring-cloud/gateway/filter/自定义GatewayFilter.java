@@ -30,8 +30,18 @@ GatewayFilter
 				GATHER_LIST_TAIL_FLAG
 			
 		List<String> shortcutFieldOrder()
+			* 简化配置中，属性赋值的顺序
+			* 简化配置中，使用逗号分隔各个属性，那么这个List中对应的“属性名称”就会挨个被赋值
+
+			* 拿RewritePathGatewayFilterFactory举例，它的 shortcutFieldOrder 返回属性赋值的顺序
+				return Arrays.asList("regexp", "replacement");
+			
+			* 在配置中: - RewritePath=/api/user/?(?<segment>.*), /$\{segment}
+				/api/user/?(?<segment>.*)	就会赋值给第0个属性
+				/$\{segment}				就会赋值给第1个属性
+
 		String shortcutFieldPrefix()
-			* 简化配置
+			* 简化配置的前缀
 
 		
 	# 步骤
@@ -42,17 +52,6 @@ GatewayFilter
 	# 配置类
 		* 预定义的Filter配置类都是内部类存在的
 	
-	# 简化配置
-		* 配置方法
-			ShortcutType shortcutType()
-				* 枚举
-					DEFAULT
-					GATHER_LIST
-					GATHER_LIST_TAIL_FLAG
-				
-			List<String> shortcutFieldOrder()
-			String shortcutFieldPrefix()
-				* 简化配置
 	
 	# 网关命名
 		* 类名称使用 GatewayFilterFactory 结尾。例如: SomethingGatewayFilterFactory
@@ -94,7 +93,7 @@ Demo
 				};
 			}
 
-			// Filter名字
+			// Filter名字，如果命名规范的情况下，可以省略不写
 			@Override
 			public String name() {
 				return "Demo";
