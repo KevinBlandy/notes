@@ -17,17 +17,22 @@ CompletableFuture<T>			|
 	
 	# 静态工厂函数
 		CompletableFuture<Void> allOf(CompletableFuture<?>... cfs)
-			* 所有任务中，必须所有任务都执行完毕才会返回
+			* 所有任务中，必须所有任务都执行完毕才会返回，不能获取到返回值
 
 		CompletableFuture<Object> anyOf(CompletableFuture<?>... cfs)
-			* 所有任务中，只要有一个任务完成返回，那么就会返回
+			* 所有任务中，只要有一个任务完成返回，那么就会返回，可以获取到返回值
 
 		<U> CompletableFuture<U> completedFuture(U value)
 			* 返回一个已经是完成状态的 CompletableFuture
 		
-		<U> CompletionStage<U> completedStage(U value)
 		<U> CompletableFuture<U> failedFuture(Throwable ex)
+			* 返回一个异常状态的CompletableFuture
+		
+		<U> CompletionStage<U> completedStage(U value)
+			* 返回一个已经是完成状态的 CompletionStage
+
 		<U> CompletionStage<U> failedStage(Throwable ex)
+			* 返回一个异常状态的CompletionStage
 
 		
 		CompletableFuture<Void> runAsync(Runnable runnable)
@@ -44,81 +49,126 @@ CompletableFuture<T>			|
 		Executor delayedExecutor(long delay, TimeUnit unit)
 	
 	# 实例方法
-		CompletableFuture<Void> acceptEither(CompletionStage<? extends T> other, Consumer<? super T> action)
-		CompletableFuture<Void> acceptEitherAsync(CompletionStage<? extends T> other, Consumer<? super T> action)
-		CompletableFuture<Void> acceptEitherAsync(CompletionStage<? extends T> other, Consumer<? super T> action,Executor executor)
-		CompletableFuture<Void> runAfterEither(CompletionStage<?> other,Runnable action)
-		<U> CompletableFuture<U> applyToEither(CompletionStage<? extends T> other, Function<? super T, U> fn)
-		<U> CompletableFuture<U> applyToEitherAsync(CompletionStage<? extends T> other, Function<? super T, U> fn)
-		<U> CompletableFuture<U> applyToEitherAsync(CompletionStage<? extends T> other, Function<? super T, U> fn,Executor executor)
-
 		boolean cancel(boolean mayInterruptIfRunning)
-		boolean (T value)
+		boolean complete(T value)
+
 		boolean completeExceptionally(Throwable ex)
+
 		CompletableFuture<T> exceptionally(Function<Throwable, ? extends T> fn)
-		T get()
+			* 异常时的补救方法，fn 会把异常信息传入，并且要求一个返回值，作为异常时的结果
+		
+		T join()
+			* 阻塞当前线程，直到任务结束返回结果
+
+		T get() throws InterruptedException, ExecutionException
 		T get(long timeout, TimeUnit unit)
+			* 获取结果，可以设置超时间，
+
 		T getNow(T valueIfAbsent)
+			* 获取结果，如果结果还没计算完成，则返回 T
+
+
 		int getNumberOfDependents()
-		<U> CompletableFuture<U> handle(BiFunction<? super T, Throwable, ? extends U> fn) 
-		<U> CompletableFuture<U> handleAsync(BiFunction<? super T, Throwable, ? extends U> fn)
-		<U> CompletableFuture<U> handleAsync(BiFunction<? super T, Throwable, ? extends U> fn, Executor executor)
+
 
 		boolean isCancelled()
 		boolean isCompletedExceptionally()
 
 		boolean isDone()
-		T join()
+		
+
 		void obtrudeException(Throwable ex)
+			* 中断任务，设置异常
+
 		void obtrudeValue(T value)
+
+		// 任务桥接 -------------------------------
+		<U> CompletableFuture<U> thenCompose(Function<? super T, ? extends CompletionStage<U>> fn)
+		<U> CompletableFuture<U> thenComposeAsync(Function<? super T, ? extends CompletionStage<U>> fn) 
+		<U> CompletableFuture<U> thenComposeAsync(Function<? super T, ? extends CompletionStage<U>> fn,Executor executor)
+			* 当前任务执行完毕后，会把结果传递给 fn 方法，并且要求这个fn方法返回一个新的 CompletableFuture
+				CompletableFuture future = CompletableFuture.completedFuture(10).thenCompose(result -> {
+					// 当前任务的结果
+					System.out.println("当前任务的结果：" + result);  // 当前任务的结果：10
+					// 返回新的 CompletableFuture
+					return CompletableFuture.supplyAsync(() -> result * result);
+				});
+				System.out.println("最终结果是：" + future.get());		// 最终结果是：100
+
+	
+
+		// 任务竞行 -------------------------------
+		CompletableFuture<Void> acceptEither(CompletionStage<? extends T> other, Consumer<? super T> action)
+		CompletableFuture<Void> acceptEitherAsync(CompletionStage<? extends T> other, Consumer<? super T> action)
+		CompletableFuture<Void> acceptEitherAsync(CompletionStage<? extends T> other, Consumer<? super T> action,Executor executor)
+			* 当前任务，和other谁先完成，就执行fn，fn可以获取到最先完成任务的结果，不需要返回新的结果
+
+		<U> CompletableFuture<U> applyToEither(CompletionStage<? extends T> other, Function<? super T, U> fn)
+		<U> CompletableFuture<U> applyToEitherAsync(CompletionStage<? extends T> other, Function<? super T, U> fn)
+		<U> CompletableFuture<U> applyToEitherAsync(CompletionStage<? extends T> other, Function<? super T, U> fn, Executor executor)
+			* 当前任务，和other谁先完成，就执行fn，fn可以获取到最先完成任务的结果，需要返回新的结果
+		
+		CompletableFuture<Void> runAfterEither(CompletionStage<?> other, Runnable action)
+		CompletableFuture<Void> runAfterEitherAsync(CompletionStage<?> other,Runnable action)
+		CompletableFuture<Void> runAfterEitherAsync(CompletionStage<?> other,Runnable action, Executor executor)
+			* 当前任务，和other谁先完成，就执行fn，fn不能获取到最先完成任务的结果，不需要返回新的结果
+			
+
+		// 任务组合 -------------------------------
+		<U,V> CompletableFuture<V> thenCombine(CompletionStage<? extends U> other,BiFunction<? super T,? super U,? extends V> fn)
+		<U,V> CompletableFuture<V> thenCombineAsync(CompletionStage<? extends U> other,BiFunction<? super T,? super U,? extends V> fn)
+		<U,V> CompletableFuture<V> thenCombineAsync(CompletionStage<? extends U> other,BiFunction<? super T,? super U,? extends V> fn, Executor executor)
+			* 在当前任务以及 other 都完成以后，会执行 fn，fn的参数就是分别是当前任务，other任务的结果，需要返回新的结果
+
+		<U> CompletableFuture<Void> thenAcceptBoth(CompletionStage<? extends U> other,BiConsumer<? super T, ? super U> action)
+		<U> CompletableFuture<Void> thenAcceptBothAsync(CompletionStage<? extends U> other,BiConsumer<? super T, ? super U> action)
+		<U> CompletableFuture<Void> thenAcceptBothAsync(CompletionStage<? extends U> other,BiConsumer<? super T, ? super U> action, Executor executor)
+			* 在当前任务以及 other 都完成以后，会执行 fn，fn的参数就是分别是当前任务，other任务的结果，不需要返回新的结果
 
 		CompletableFuture<Void> runAfterBoth(CompletionStage<?> other,Runnable action)
 		CompletableFuture<Void> runAfterBothAsync(CompletionStage<?> other,Runnable action)
 		CompletableFuture<Void> runAfterBothAsync(CompletionStage<?> other, Runnable action,Executor executor)
-		CompletableFuture<Void> runAfterEither(CompletionStage<?> other, Runnable action)
-		CompletableFuture<Void> runAfterEitherAsync(CompletionStage<?> other,Runnable action)
-		CompletableFuture<Void> runAfterEitherAsync(CompletionStage<?> other,Runnable action, Executor executor)
-		
-		<U> CompletableFuture<Void> thenAcceptBoth(CompletionStage<? extends U> other,BiConsumer<? super T, ? super U> action)
-		<U> CompletableFuture<Void> thenAcceptBothAsync(CompletionStage<? extends U> other,BiConsumer<? super T, ? super U> action)
-		<U> CompletableFuture<Void> thenAcceptBothAsync(CompletionStage<? extends U> other,BiConsumer<? super T, ? super U> action, Executor executor)
+			* 在当前任务以及 other 都完成以后，就会执行 action。不能获取到结果，不能需要返回新的结果。
 
+
+		// 任务串行 ---------------------------------
 		<U> CompletableFuture<U> thenApply(Function<? super T,? extends U> fn)
 		<U> CompletableFuture<U> thenApplyAsync(Function<? super T,? extends U> fn)
 		<U> CompletableFuture<U> thenApplyAsync(Function<? super T,? extends U> fn, Executor executor)
-
-		<U,V> CompletableFuture<V> thenCombine(CompletionStage<? extends U> other,BiFunction<? super T,? super U,? extends V> fn)
-		<U,V> CompletableFuture<V> thenCombineAsync(CompletionStage<? extends U> other,BiFunction<? super T,? super U,? extends V> fn)
-		<U,V> CompletableFuture<V> thenCombineAsync(CompletionStage<? extends U> other,BiFunction<? super T,? super U,? extends V> fn, Executor executor)
-
-		<U> CompletableFuture<U> thenCompose(Function<? super T, ? extends CompletionStage<U>> fn)
-		<U> CompletableFuture<U> thenComposeAsync(Function<? super T, ? extends CompletionStage<U>> fn) 
-		<U> CompletableFuture<U> thenComposeAsync(Function<? super T, ? extends CompletionStage<U>> fn,Executor executor)
+			* 在任务执行完毕后，给定新的任务，这个新的任务：能获取结果，需要有返回值
 
 		CompletableFuture<Void> thenRun(Runnable action)
 		CompletableFuture<Void> thenRunAsync(Runnable action)
 		CompletableFuture<Void> thenRunAsync(Runnable action,Executor executor)
+			* 在任务执行完毕后，给定新的任务，这个新的任务：不能获取结果，不需要有返回值
 
 		CompletableFuture<Void> thenAccept(Consumer<? super T> action)
 		CompletableFuture<Void> thenAcceptAsync(Consumer<? super T> action)
 		CompletableFuture<Void> thenAcceptAsync(Consumer<? super T> action,Executor executor)
+			* 在任务执行完毕后，给定新的任务，这个新的任务：能获取结果，不需要有返回值
 
-		<U> CompletableFuture<U> thenApply(Function<? super T,? extends U> fn)
-		<U> CompletableFuture<U> thenApplyAsync(Function<? super T,? extends U> fn)
-		<U> CompletableFuture<U> thenApplyAsync(Function<? super T,? extends U> fn, Executor executor)
-
-
-		CompletableFuture<T> toCompletableFuture()
-
+		
+		// 执行完成监听 ---------------------------------
 		CompletableFuture<T> whenComplete(BiConsumer<? super T, ? super Throwable> action)
 		CompletableFuture<T> whenCompleteAsync(BiConsumer<? super T, ? super Throwable> action)
 		CompletableFuture<T> whenCompleteAsync(BiConsumer<? super T, ? super Throwable> action, Executor executor)
+			* 任务执行完毕的回调方法，回调会给2个参数：结果，异常
+			* 需要自己通过异常是否为null来判断执行是否成功
 		
+		<U> CompletableFuture<U> handle(BiFunction<? super T, Throwable, ? extends U> fn) 
+		<U> CompletableFuture<U> handleAsync(BiFunction<? super T, Throwable, ? extends U> fn)
+		<U> CompletableFuture<U> handleAsync(BiFunction<? super T, Throwable, ? extends U> fn, Executor executor)
+			* 对结果进行处理，fn 会给2个参数：结果，异常
+			* 而且还需要自己返回一个结果，也就是说可以通过这个方法对计算的结果进行修改
 		
+
+		CompletableFuture<T> toCompletableFuture()
 		CompletableFuture<T> completeOnTimeout(T value, long timeout, TimeUnit unit)
 		CompletableFuture<T> orTimeout(long timeout, TimeUnit unit)
+		
 		CompletableFuture<T> completeAsync(Supplier<? extends T> supplier)
 		CompletableFuture<T> completeAsync(Supplier<? extends T> supplier, Executor executor)
+
 		CompletionStage<T> minimalCompletionStage()
 		CompletableFuture<T> copy()
 		Executor defaultExecutor()

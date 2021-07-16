@@ -224,8 +224,42 @@
 					log.Println("喜欢rap")
 				}
 			}
+		
 
-
+		* 实现一个数据大小
+			type ByteSize float64
+			const (
+				_           = iota // 通过赋予空白标识符来忽略第一个值
+				KB ByteSize = 1 << (10 * iota)
+				MB
+				GB
+				TB
+				PB
+				EB
+				ZB
+				YB
+			)
+			func (b ByteSize) String() string {
+				switch {
+				case b >= YB:
+					return fmt.Sprintf("%.2fYB", b/YB)
+				case b >= ZB:
+					return fmt.Sprintf("%.2fZB", b/ZB)
+				case b >= EB:
+					return fmt.Sprintf("%.2fEB", b/EB)
+				case b >= PB:
+					return fmt.Sprintf("%.2fPB", b/PB)
+				case b >= TB:
+					return fmt.Sprintf("%.2fTB", b/TB)
+				case b >= GB:
+					return fmt.Sprintf("%.2fGB", b/GB)
+				case b >= MB:
+					return fmt.Sprintf("%.2fMB", b/MB)
+				case b >= KB:
+					return fmt.Sprintf("%.2fKB", b/KB)
+				}
+				return fmt.Sprintf("%.2fB", b)
+			}
 
 	# 作用域与初始化时间
 		* 函数内部声明的变量，是局部变量，只能在函数内部访问，函数执行的时候才初始化

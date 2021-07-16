@@ -75,6 +75,8 @@ POST					 |
 		// 完整的消息体
 		MultiValueMap<String, HttpEntity<?>> multipartBody = multipartBodyBuilder.build();
 
-		ResponseEntity<JSONObject> responseEntity = restTemplate.postForEntity("http://localhost:8081/user.do", multipartBody, JSONObject.class);
+		HttpEntity<MultiValueMap<String, HttpEntity<?>>> httpEntity = new HttpEntity<>(multipartBody, headers);
+
+		ResponseEntity<JSONObject> responseEntity = restTemplate.postForEntity("http://localhost:8081/user.do", httpEntity, JSONObject.class);
 
 		System.out.println(responseEntity);
