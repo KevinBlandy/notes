@@ -40,38 +40,110 @@ Spring-boot websocket整1	|
 		* @OnError 要添加参数:Throwable ,不然启动异常
 	
 	# Demo
-		@Component
+		import java.io.IOException;
+		import java.util.concurrent.ConcurrentHashMap;
+		import java.util.concurrent.ConcurrentMap;
+
+		import javax.websocket.CloseReason;
+		import javax.websocket.CloseReason.CloseCode;
+		import javax.websocket.CloseReason.CloseCodes;
+		import javax.websocket.EndpointConfig;
+		import javax.websocket.OnClose;
+		import javax.websocket.OnError;
+		import javax.websocket.OnMessage;
+		import javax.websocket.OnOpen;
+		import javax.websocket.Session;
+		import javax.websocket.server.PathParam;
+		import javax.websocket.server.ServerEndpoint;
+
+		import org.slf4j.Logger;
+		import org.slf4j.LoggerFactory;
+
+		/**
+		 * 
+		 * 
+		 * @author KevinBlandy
+		 *
+		 */
 		@ServerEndpoint(value = "/channel/test")
-		public class TestEndpoint {
+		public class TestEndpoint { 
 
 			private static final Logger LOGGER = LoggerFactory.getLogger(TestEndpoint.class);
+			
+			// 重复登录的 CloseReason
+			public static final CloseReason REPEAT_CONNECTION = new CloseReason(new CloseCode() {
+				@Override
+				public int getCode() {
+					return 4000;  // 4000–4999 可以自由使用
+				}
+			}, "重复登录");
+			
+			public static final ConcurrentMap<Long, Session> SESSIONS = new ConcurrentHashMap<>(); 
 
 			private Session session;
+			
+			private Long userId;
 
-			@OnMessage(maxMessageSize = 10)
-			public void onMessage(byte[] message){
-				//skip
+			@OnMessage(maxMessageSize = -1)
+			public void onMessage(String message, boolean isFinal){
+				
+				LOGGER.info("收到客户端消息:{}", message);
+				
+				this.session.getAsyncRemote().sendText("我收到了:" + message);
+				
 			}
 
 			@OnOpen
-			public void onOpen(Session session, EndpointConfig endpointConfig){
-				LOGGER.info("新的连接,id={}",session.getId());
-				session.setMaxIdleTimeout(0);
-				this.session = session;
+			public void onOpen(Session session, @PathParam("path") String path, EndpointConfig endpointConfig){
+				
+				// TODO 从Session解析到用户ID
+				Long userId = 1L;
+				
+				Session finalSession = SESSIONS.compute(userId, (key, existsChannel) -> {
+					if (existsChannel != null) {
+						// 已经存在，则替换为最新的，并且关闭原Channel
+						try {
+							// close 会触发 onClose 事件，这个CloseReason很重要
+							existsChannel.close(REPEAT_CONNECTION);
+						} catch (IOException e) {
+						}
+					}
+					return session;
+				});
+				
+				
+				this.session = finalSession;
+				this.userId = userId;
+				
+				// 不超时
+				this.session.setMaxIdleTimeout(0);
 			}
 
 			@OnClose
 			public void onClose(CloseReason closeReason){
+				
 				LOGGER.info("连接断开,id={} reason={}",this.session.getId(),closeReason);
+				
+				LOGGER.info("hash: {} = {}", closeReason.hashCode(), REPEAT_CONNECTION.hashCode());
+				
+				if (REPEAT_CONNECTION.getCloseCode().getCode() == closeReason.getCloseCode().getCode()) {
+					/**
+					 * 如果是重复登录的情况下，不要执行remove，因为在 @OnOpen 已经执行了Remove
+					 * 这里重复执行，可能会把新添加的合法连接给Remove掉
+					 */
+					return;
+				}
+				
+				Session session = SESSIONS.remove(this.userId);
+				
+				LOGGER.info("移除会话:{}", session.getId());
 			}
 
 			@OnError
 			public void onError(Throwable throwable) throws IOException {
 				LOGGER.info("连接异常,id={},throwable={}",this.session.getId(),throwable);
-				this.session.close();
-				throwable.printStackTrace();
+				this.session.close(new CloseReason(CloseCodes.UNEXPECTED_CONDITION, throwable.getMessage()));
 			}
-
 		}
 	
 	# 可以手动的注册端点, 不使用 Spring 扫描

@@ -30,6 +30,10 @@ WebMvcConfigurer			|
 					// resources/static/index.html
 					registry.addViewController("/").setViewName("/index.html");
 				}
+			
+			* 如果是添加了 static-path-pattern 配置的话，需要在添加前缀
+					// spring.mvc.static-path-pattern=/static/**
+					registry.addViewController("/favicon.ico").setViewName("/static/favicon.ico");
 
 		default void configureViewResolvers(ViewResolverRegistry registry) {}
 
