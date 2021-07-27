@@ -3,6 +3,7 @@ spring-websocket
 ----------------------------
 	# ÎÄµµ
 		https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#websocket
+		https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#websocket
 	
 	# Maven
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->

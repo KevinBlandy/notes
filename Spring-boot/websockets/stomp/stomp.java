@@ -50,20 +50,41 @@ stomp
 	
 
 ------------------------
-stomp 命令
+Augmented BNF
 ------------------------
-	CONNECT
-		* 创建链接
-			CONNECT
-			accept-version:1.2
-			host:stomp.github.org
 
-			^@
-		* 响应
-			CONNECTED
-			version:1.2
+LF                  = <US-ASCII new line (line feed) (octet 10)>
+OCTET               = <any 8-bit sequence of data>
+NULL                = <octet 0>
 
-			^@
+frame-stream        = 1*frame
 
+frame               = command LF
+                      *( header LF )
+                      LF
+                      *OCTET
+                      NULL
+                      *( LF )
 
+command             = client-command | server-command
 
+client-command      = "SEND"
+                      | "SUBSCRIBE"
+                      | "UNSUBSCRIBE"
+                      | "BEGIN"
+                      | "COMMIT"
+                      | "ABORT"
+                      | "ACK"
+                      | "NACK"
+                      | "DISCONNECT"
+                      | "CONNECT"
+                      | "STOMP"
+
+server-command      = "CONNECTED"
+                      | "MESSAGE"
+                      | "RECEIPT"
+                      | "ERROR"
+
+header              = header-name ":" header-value
+header-name         = 1*<any OCTET except LF or ":">
+header-value        = *<any OCTET except LF or ":">
