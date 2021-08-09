@@ -2,7 +2,7 @@
 spring-security				|
 ----------------------------
 	# Á´½Ó
-		https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/
+		https://docs.spring.io/spring-security/site/docs/current/reference/html5/
 		https://github.com/spring-projects/spring-security
 	
 
@@ -22,4 +22,5 @@ spring-security				|
 		spring-security-cas
 		spring-security-openid
 		spring-security-test
+	
 	

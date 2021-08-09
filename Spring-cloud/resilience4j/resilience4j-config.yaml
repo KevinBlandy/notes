@@ -1,0 +1,24 @@
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        ringBufferSizeInClosedState: 5 # 熔断器关闭时的缓冲区大小
+        ringBufferSizeInHalfOpenState: 2 # 熔断器半开时的缓冲区大小
+        waitDurationInOpenState: 10000 # 熔断器从打开到半开需要的时间
+        failureRateThreshold: 60 # 熔断器打开的失败阈值
+        eventConsumerBufferSize: 10 # 事件缓冲区大小
+        registerHealthIndicator: true # 健康监测
+        automaticTransitionFromOpenToHalfOpenEnabled: false # 是否自动从打开到半开，不需要触发
+        recordFailurePredicate:    com.example.resilience4j.exceptions.RecordFailurePredicate # 谓词设置异常是否为失败
+        recordExceptions: # 记录的异常
+          - com.example.resilience4j.exceptions.BusinessBException
+          - com.example.resilience4j.exceptions.BusinessAException
+        ignoreExceptions: # 忽略的异常
+          - com.example.resilience4j.exceptions.BusinessAException
+    instances:
+      backendA:
+        baseConfig: default
+        waitDurationInOpenState: 5000
+        failureRateThreshold: 20
+      backendB:
+        baseConfig: default

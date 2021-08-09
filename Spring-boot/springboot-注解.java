@@ -14,6 +14,11 @@ Spring-Boot 注解			|
 	@Configuration (spring)
 		# 被@Configuration注解标识的类，通常作为一个配置类，这就类似于一个xml文件，表示在该类中将配置Bean元数据，
 		# 其作用类似于Spring里面application-context.xml的配置文件，而 @Bean 标签，则类似于该xml文件中，声明的一个bean实例。 
+
+		boolean proxyBeanMethods() default true;
+			* 默认为true,表示cglib会为 @Configuration 生成一个代理类
+			* @Configuration 成代理后，在内部调用它的一些标识 @Bean 的方法，就会尝试从IOC中去获取实例，而不是每次都执行这个 @Bean 方法
+
 	
 	@SpringBootApplication
 		# 部分属性

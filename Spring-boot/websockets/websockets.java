@@ -112,7 +112,7 @@ spring-websocket
 			}
 
 			@Bean
-			public ServletServerContainerFactoryBean createWebSocketContainer() {
+			public ServletServerContainerFactoryBean serverContainerFactoryBean() {
 				ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
 				container.setMaxTextMessageBufferSize(8192);
 				container.setMaxBinaryMessageBufferSize(8192);

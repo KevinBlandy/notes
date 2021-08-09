@@ -37,7 +37,9 @@ websockets HandshakeInterceptor
 	# 抽象方法
 		boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception;
 			* 在握手处理之前执行，beforeHandshake 返回 false, 会终止握手
-			* 这个request/response 可以转换为 HttpServletRequest/HttpServletResponse
+			* request/response 可以转换为 
+				ServletServerHttpRequest request = (ServletServerHttpRequest) serverHttpRequest;
+				ServletServerHttpResponse response = (ServletServerHttpResponse) serverHttpResponse;
 
 		void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, @Nullable Exception exception);
 	
@@ -61,7 +63,9 @@ websockets HandshakeHandler
 				* 还实现了HandshakeHandler以支持SockJS URL "/websocket"的原始WebSocket通信。
 		
 		
-		* request/response 可以转换为 HttpServletRequest/HttpServletResponse
+		* request/response 可以转换为 
+				ServletServerHttpRequest request = (ServletServerHttpRequest) serverHttpRequest;
+				ServletServerHttpResponse response = (ServletServerHttpResponse) serverHttpResponse;
 
 	# AbstractHandshakeHandler的几个核心方法
 		protected void handleInvalidUpgradeHeader(ServerHttpRequest request, ServerHttpResponse response) throws IOException

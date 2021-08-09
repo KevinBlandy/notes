@@ -18,7 +18,9 @@ Spring-boot WEB项目				|
 		
 		WebMvcAutoConfiguration 和 WebMvcProperties
 			* 配置spring mvc
-
+	
+	# Web的配置类
+		WebProperties
 
 --------------------------------
 Spring-boot 拦截器				|
@@ -153,6 +155,10 @@ Spring-boot 静态资源			|
 				local.image.folder=d:/pic/
 				spring.web.resources.static-locations[0]=classpath:/static/
 				spring.web.resources.static-locations[1]=file:${local.image.folder}
+	
+	# 配置类
+		ResourceProperties(过期了)
+		WebProperties.Resources
 
 --------------------------------
 Spring-boot 视图映射			|

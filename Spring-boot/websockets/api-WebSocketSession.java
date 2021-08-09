@@ -30,6 +30,8 @@ WebSocketSession
 		HttpHeaders getHandshakeHeaders();
 
 		Map<String, Object> getAttributes();
+			* 一个连接级别的Map存储，可以存储很多东西
+			* 可以在握手的时候把数据存储在这里
 
 		@Nullable
 		Principal getPrincipal();
@@ -59,3 +61,7 @@ WebSocketSession
 		void close() throws IOException;
 
 		void close(CloseStatus status) throws IOException;
+	
+
+	# 转换Session为原始的WebSocketSession
+		javax.websocket.Session webSocketSession = ((StandardWebSocketSession) session).getNativeSession();

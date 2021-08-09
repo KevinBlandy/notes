@@ -177,7 +177,7 @@ server
 				}
 			}()
 
-			notify := make(chan  os.Signal)
+			notify := make(chan  os.Signal, 1)
 			signal.Notify(notify, os.Kill, os.Interrupt)
 			for {
 				sig := <- notify

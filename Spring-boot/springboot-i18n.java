@@ -48,9 +48,12 @@ i18n 国际化			 |
 
 	# yaml配置
 		spring:
+		  # 国际化的配置信息
 		  messages:
 			# 指定资源文件夹以及文件的前缀
 			basename: i18n/message
+			fallback-to-system-locale: false
+		
 		  # 使用freemarker模版引擎
 		  freemarker:
 			enabled: true
@@ -78,6 +81,10 @@ i18n 国际化			 |
 	# 使用请求参数切换环境
 		?_lang=zh_CN
 		?_lang=en_US
+	
+
+	# 详细的配置类
+		MessageSourceProperties
 
 	
 ---------------------
