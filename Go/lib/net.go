@@ -141,6 +141,9 @@ type
 		func (ip IP) To16() IP
 		func (ip IP) To4() IP
 		func (ip *IP) UnmarshalText(text []byte) error
+		func (ip IP) IsPrivate() bool 
+			* 是否是局域网IP
+			* 判断一个地址是否为RFC 1918规定的私有IPv4地址或RFC 4193规定的本地IPv6地址。
 	
 	# type IPAddr struct {
 			IP   IP

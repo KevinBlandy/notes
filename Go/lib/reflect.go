@@ -68,6 +68,8 @@ type
 			Func  Value // func with receiver as first argument
 			Index int   // index for Type.Method
 		}
+
+		func (m Method) IsExported() bool
 	
 	# type SelectCase struct {
 			Dir  SelectDir // direction of case
@@ -118,6 +120,9 @@ type
 			
 		func (tag StructTag) Lookup(key string) (value string, ok bool)
 			* 获取注解
+		
+		func (f StructField) IsExported() bool
+			* 是否是导出的字段
 	
 	# type StructTag string
 		* 结构体的字段注解
@@ -514,3 +519,5 @@ func
 		* DeepEqual函数可以正确处理循环的类型。函数类型只有都会nil时才相等；空切片不等于nil切片；还会考虑array、slice的长度、map键值对数。
 
 	func Swapper(slice interface{}) func(i, j int)
+	func VisibleFields(t Type) []StructField
+		* 返回一个结构类型中的所有可见字段，包括匿名结构成员中的字段。

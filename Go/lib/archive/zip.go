@@ -25,6 +25,7 @@ type
 		}
 		func (f *File) DataOffset() (offset int64, err error)
 		func (f *File) Open() (io.ReadCloser, error)
+		func (f *File) OpenRaw() (io.Reader, error)
 	
 	# type FileHeader struct {
 			Name string
@@ -77,6 +78,8 @@ type
 		func (w *Writer) RegisterCompressor(method uint16, comp Compressor)
 		func (w *Writer) SetComment(comment string) error
 		func (w *Writer) SetOffset(n int64)
+		func (w *Writer) CreateRaw(fh *FileHeader) (io.Writer, error)
+		func (w *Writer) Copy(f *File) error
 
 
 	

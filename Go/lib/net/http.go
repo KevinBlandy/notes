@@ -412,10 +412,14 @@ type
 			Addr string
 			Handler Handler // handler to invoke, http.DefaultServeMux if nil
 			TLSConfig *tls.Config
+
 			ReadTimeout time.Duration
 			ReadHeaderTimeout time.Duration
 			WriteTimeout time.Duration
 			IdleTimeout time.Duration
+				* 读/读header/写/空闲的超时时间
+				* 设置为复数表示不超时
+
 			MaxHeaderBytes int
 			TLSNextProto map[string]func(*Server, *tls.Conn, Handler)
 			ConnState func(net.Conn, ConnState)

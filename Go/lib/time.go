@@ -188,6 +188,18 @@ type
 
 		func (t Time) AddDate(years int, months int, days int) Time 
 			* 添加时间，年月日
+		
+		func (t Time) GoString() string
+			* 当使用fmt 包中的%#v 格式指定符打印时，将返回一个更有用的时间值。
+		
+		func (t Time) IsDST() bool
+			* 当前时间是否是夏令时
+		
+		func (t Time) UnixMilli() int64
+			* 返回时间戳毫秒（不用自己写了）
+		
+		func (t Time) UnixMicro() int64
+			* 返回时间戳微秒
 
 	# type ParseError struct{
 			Layout     string
@@ -276,7 +288,12 @@ type
 			}
 		* 本质上上NewTicker，返回chan，防止内存泄漏
 			return NewTicker(d).C
+	
+	func UnixMilli(msec int64) Time
+		* 根据时间戳毫秒，解析为本地时间
 
+	func UnixMicro(usec int64) Time 
+		* 根据时间戳微秒，解析为本地时间
 
 ---------------
 常用操作

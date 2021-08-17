@@ -77,6 +77,7 @@ type
 		func (v Values) Encode() string
 		func (v Values) Get(key string) string
 		func (v Values) Set(key, value string)
+		func (v Values) Has(key string) bool
 
 --------------------
 fanc

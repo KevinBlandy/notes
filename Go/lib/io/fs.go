@@ -134,3 +134,5 @@ func
 	func ReadFile(fsys FS, name string) ([]byte, error)
 	func ValidPath(name string) bool
 	func WalkDir(fsys FS, root string, fn WalkDirFunc) error
+	func FileInfoToDirEntry(info FileInfo) DirEntry
+		* 将一个FileInfo 转换为DirEntry

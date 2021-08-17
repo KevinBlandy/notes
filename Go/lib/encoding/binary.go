@@ -46,6 +46,8 @@ type
 
 	func Size(v interface{}) int
 	func Uvarint(buf []byte) (uint64, int)
+		* 将在10 bytes 之后停止读取，以避免计算的浪费。如果需要超过10 bytes ，返回的字节数是-11 。
+
 	func Varint(buf []byte) (int64, int)
 		* 从buf中解码出一个int64，并返回该值和读取的字节数n（>0）
 		* 如果发生错误，该值为0，且字节数n<=0，其含义如下

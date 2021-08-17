@@ -6,6 +6,10 @@ mongodb						  |
 		https://www.mongodb.com/zh
 		https://docs.mongodb.com/
 		https://github.com/mongodb/mongo
+
+		https://mongoing.com/
+		https://www.mongodb.org.cn/
+
 	
 	# 相关的教程
 		https://mongoing.com/docs4.2
@@ -98,3 +102,5 @@ mongodb	- 征途
 	# 索引
 	# Java API
 	# 备份和恢复
+
+

@@ -98,4 +98,4 @@ strconv
 	func Unquote(s string) (string, error) 
 	func IsPrint(r rune) bool
 	func IsGraphic(r rune) bool 
-
+	func QuotedPrefix(s string) (string, error)

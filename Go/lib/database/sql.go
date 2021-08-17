@@ -216,7 +216,22 @@ type
 		}
 		func (n *NullTime) Scan(value interface{}) error
 		func (n NullTime) Value() (driver.Value, error)
+
+	# type NullInt16 struct {
+			Int16 int16
+			Valid bool // Valid is true if Int16 is not NULL
+		}
+		func (n *NullInt16) Scan(value interface{}) error 
+		func (n NullInt16) Value() (driver.Value, error)
 	
+	# type NullByte struct {
+			Byte  byte
+			Valid bool // Valid is true if Byte is not NULL
+		}
+		func (n *NullByte) Scan(value interface{}) error
+		func (n NullByte) Value() (driver.Value, error)
+
+
 	# type Out struct {
 			Dest interface{}
 			In bool // contains filtered or unexported fields

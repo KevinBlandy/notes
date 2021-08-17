@@ -9,6 +9,8 @@ type
 	# type Value struct {}
 		func (v *Value) Load() (x interface{})
 		func (v *Value) Store(x interface{})
+		func (v *Value) Swap(new interface{}) (old interface{})
+		func (v *Value) CompareAndSwap(old, new interface{}) (swapped bool)
 
 ----------------------
 ·½·¨

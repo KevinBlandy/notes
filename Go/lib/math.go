@@ -29,6 +29,9 @@ math
 		SmallestNonzeroFloat64 = 4.940656458412465441765687928682213723651e-324 // 1 / 2**(1023 - 1 + 52)
 	)
 	const (
+		MaxInt    = 1<<(intSize-1) - 1
+		MinInt    = -1 << (intSize - 1)
+
 		MaxInt8   = 1<<7 - 1
 		MinInt8   = -1 << 7
 		MaxInt16  = 1<<15 - 1
@@ -37,6 +40,7 @@ math
 		MinInt32  = -1 << 31
 		MaxInt64  = 1<<63 - 1
 		MinInt64  = -1 << 63
+		MaxUint   = 1<<intSize - 1
 		MaxUint8  = 1<<8 - 1
 		MaxUint16 = 1<<16 - 1
 		MaxUint32 = 1<<32 - 1
