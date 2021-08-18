@@ -85,4 +85,18 @@ JsonParser
 		static JsonElement parseReader(Reader reader)
 		static JsonElement parseReader(JsonReader reader)
 	
+----------------------------
+JsonStreamParser
+----------------------------
+	# 流式解析
+		public final class JsonStreamParser implements Iterator<JsonElement> 
+	
+	# 实例方法
+		public JsonStreamParser(String json) 
+		public JsonStreamParser(Reader reader)
+
+		public JsonElement next() throws JsonParseException
+		public boolean hasNext()
+		public void remove()
+
 		

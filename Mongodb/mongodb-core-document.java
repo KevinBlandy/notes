@@ -7,6 +7,23 @@ document
 		
 		* 插入当前日期使用: new Date();
 		* 如果字段为 null,  不应该声明
+	
+	# 类型
+		String				字符串。存储数据常用的数据类型。在 MongoDB 中，UTF-8 编码的字符串才是合法的。
+		Integer				整型数值。用于存储数值。根据你所采用的服务器，可分为 32 位或 64 位。
+		Boolean				布尔值。用于存储布尔值（真/假）。
+		Double				双精度浮点值。用于存储浮点值。
+		Min/Max keys		将一个值与 BSON（二进制的 JSON）元素的最低值和最高值相对比。
+		Array				用于将数组或列表或多个值存储为一个键。
+		Timestamp			时间戳。记录文档修改或添加的具体时间。
+		Object				用于内嵌文档。
+		Null				用于创建空值。
+		Symbol				符号。该数据类型基本上等同于字符串类型，但不同的是，它一般用于采用特殊符号类型的语言。
+		Date				日期时间。用 UNIX 时间格式来存储当前日期或时间。你可以指定自己的日期时间：创建 Date 对象，传入年月日信息。
+		Object ID			对象 ID。用于创建文档的 ID。
+		Binary Data			二进制数据。用于存储二进制数据。
+		Code				代码类型。用于在文档中存储 JavaScript 代码。
+		Regular expression	正则表达式类型。用于存储正则表达式。
 
 
 -------------------------
@@ -17,13 +34,12 @@ document - id
 	
 
 
-
 -------------------------
 document - 基本命令
 -------------------------
 	db.[collection].insert([document], [config]);
 		* 往指定的collection插入一个或者多个(参数用数组)document
-		* 如果 collection 不存在, 会创建
+		* 如果 collection 不存在, 会创建一个不限长度的collection
 
 		* 执行成功后返回插入成功的文档数量
 			WriteResult({"nInserted": 1});
@@ -37,6 +53,18 @@ document - 基本命令
 					* 如果为 false, 如果插入文档异常, 跳过不会返回, 继续处理后面的文档
 			}
 			
+		* 使用 insertOne 和 insertMany 更加合适单条/多条的场景，目前 insert 已经废弃了
+		* insertOne 返回
+			{
+			  acknowledged: true,
+			  insertedId: ObjectId("611ce8adba30db4fe68820ed")
+			}
+		* insertMany 返回
+			{
+			  acknowledged: true,
+			  insertedIds: { '0': ObjectId("611ce8c5ba30db4fe68820ee") }
+			}
+					
 	db.[collection].remove([condition], [config]);
 		* 根据条件移除数据
 		* 如果没有条件, 则移除所有数据
@@ -73,16 +101,24 @@ document - 更新
 				arrayFilters: [<filder-document>],
 				hint: <document|string>
 			}
+			
+		* update 已经废弃，建议使用 updateOne, updateMany
+			db.user.updateMany({"_id": ObjectId("611ce81eba30db4fe68820ec")}, {"$set": {"foo": "bar"}})
 	
 	db.[collection].save([document], [config]);
-		* 覆盖修改, 通过传入的文档来替换已有文档
+		* 在新增的时候，可以 insert 一样，支持单个和批量
+		* 覆盖修改, 通过传入的文档来替换已有文档，全量替换
 		* config 选项
 			{
 				writeConcern: <document>
 					* 可选，抛出异常的级别。 
 			}
-		
+			
+		* 目前save已经废弃，修改的话，执行updateOne, updateMany, replaceOne
 	
+	db.[collection].replaceOne([condition], [document], [config])
+		* 根据condition全量替换为document
+		
 	
 	# 更新相关的指令
 		$set

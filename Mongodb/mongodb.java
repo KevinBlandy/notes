@@ -7,6 +7,8 @@ mongodb						  |
 		https://docs.mongodb.com/
 		https://github.com/mongodb/mongo
 
+		https://docs.mongodb.com/manual/reference/method/
+
 		https://mongoing.com/
 		https://www.mongodb.org.cn/
 

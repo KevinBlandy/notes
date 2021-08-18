@@ -19,6 +19,8 @@ Gson
 		<T> TypeAdapter<T> getAdapter(TypeToken<T> type)
 		<T> TypeAdapter<T> getAdapter(Class<T> type)
 		<T> TypeAdapter<T> getDelegateAdapter(TypeAdapterFactory skipPast, TypeToken<T> type)
+			
+
 		boolean htmlSafe()
 		GsonBuilder newBuilder()
 		JsonReader newJsonReader(Reader reader)
@@ -94,12 +96,18 @@ GsonBuilder
 			* 在前面多了4个字符: )]}'
 
 		registerTypeAdapter(Type type, Object typeAdapter)
-			* 为指定的类型, 定制序列化/反序列化策略
-			* typeAdapter需要 实现 JsonSerializer 或 JsonDeserializer 接口
+			* 为指定的类型, 定制序列化/反序列化/对象的创建策略
+			* typeAdapter只能是如下类
 				JsonSerializer
 					public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context);
 				JsonDeserializer
 					public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+				TypeAdapter
+					public abstract void write(JsonWriter out, T value) throws IOException;
+					public abstract T read(JsonReader in) throws IOException;
+				InstanceCreator
+					public T createInstance(Type type);
+					
 
 		registerTypeHierarchyAdapter(Class<?> baseType, Object typeAdapter)
 			* 同上, 但是这个方法注册的 baseType 类型, 对其子类也生效

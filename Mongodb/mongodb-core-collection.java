@@ -1,7 +1,8 @@
 ------------------------------
 collection
 ------------------------------
-
+	# 集合的操作Api
+		https://docs.mongodb.com/manual/reference/method/js-collection/
 
 ------------------------------
 collection - 命令
@@ -47,25 +48,26 @@ collection - 命令
 	db.[collection].stats()
 		* 查看集合状态
 			{
-			  ns: 'demo.user',		// 集合名称
-			  size: 0,				// 文档大小
-			  count: 0,				// 文档数量
-			  storageSize: 4096,	// 存储空间
-			  freeStorageSize: 0,
+			  ns: 'demo.user',			// 集合名称
+			  size: 141,				// 文档占用空间大小
+			  count: 3,					// 文档数量
+			  avgObjSize: 47,			// 平均文档大小
+			  storageSize: 36864,		// 存储空间，预先创建的文件大小，快写满了就扩容
+			  freeStorageSize: 16384,
 			  capped: false,
 			  nindexes: 1,
 			  indexBuilds: [],
-			  totalIndexSize: 4096,
-			  totalSize: 8192,
-			  indexSizes: { _id_: 4096 },
+			  totalIndexSize: 36864,
+			  totalSize: 73728,
+			  indexSizes: { _id_: 36864 },
 			  scaleFactor: 1,
 			  ok: 1,
 			  '$clusterTime': {
-				clusterTime: Timestamp({ t: 1629122112, i: 1 }),
+				clusterTime: Timestamp({ t: 1629284670, i: 12 }),
 				signature: {
-				  hash: Binary(Buffer.from("883238bce8eea92ce3c406e304cc245e33309d50", "hex"), 0),
+				  hash: Binary(Buffer.from("bb3a5c1a16e2e2fa0353bcdcd743854473257c4f", "hex"), 0),
 				  keyId: Long("6944398072461918210")
 				}
 			  },
-			  operationTime: Timestamp({ t: 1629122112, i: 1 })
+			  operationTime: Timestamp({ t: 1629284670, i: 12 })
 			}

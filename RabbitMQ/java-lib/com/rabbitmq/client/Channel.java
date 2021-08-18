@@ -341,7 +341,7 @@ this
 		
 
 	public abstract SelectOk confirmSelect()
-		* 开启消息确认模式
+		* 开启发布者消息确认模式
 
 	public abstract void queueDeleteNoWait(String arg0, boolean arg1, boolean arg2)
 	public abstract CompletableFuture asyncCompletableRpc(Method arg0)
