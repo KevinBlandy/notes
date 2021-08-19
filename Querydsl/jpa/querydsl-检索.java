@@ -169,9 +169,10 @@
 --------------------
 常量
 --------------------
-	//TODO
+	StringExpression stringExpression = Expressions.asString("默认");
 
-	SELECT 'CONST MNAME' AS `name` ...
+	query.select(stringExpression.as("name")); // SELECT `默认` AS `name`
+
 
 ----------------------------------------
 CASE 表达式, IF 语句, IFNULL 语句
