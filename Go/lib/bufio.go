@@ -159,3 +159,37 @@ Demo
 				}
 			}
 		}
+	
+	
+	# 读取标准输入流的输入
+		package main
+
+		import (
+			"bufio"
+			"fmt"
+			"io"
+			"os"
+			"strings"
+		)
+
+		func main() {
+			scanner := bufio.NewScanner(os.Stdin)
+			scanner.Split(bufio.ScanLines)
+			for scanner.Scan() {
+				err := scanner.Err()
+				if err != nil {
+					if err == io.EOF {
+						break
+					} else {
+						panic(err)
+					}
+				}
+
+				line := scanner.Text()
+				if strings.EqualFold(line, "bye") {
+					break
+				}
+				fmt.Println(line)
+			}
+		}
+

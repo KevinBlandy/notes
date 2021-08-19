@@ -34,6 +34,7 @@ document - 查询相关
 		db.[collection].find().sort([row])
 			* 通过 sort 指定排序的字段以及策略
 				db.users.find().sort({name: -1}) // 根据name字段，逆序排序
+				db.users.find().sort({name: -1, age: 1}) // 根据name字段，逆序排序，age字段升序排序
 			
 			* 排序策略。-1: 逆序，1:升序
 			* 如果它和 skip() 一起使用, 是先排序, 再分页
@@ -47,6 +48,8 @@ document - 查询相关
 		
 		* 仅仅查询对象的某些属性
 			db.user.find({}, {name: 1, _id: 0}) // 仅仅查询name属性，连id都不要
+		
+		* 除了id以外，其他字段不能做“排他”
 	
 
 -------------------------
@@ -64,6 +67,7 @@ document - 条件语句
 		大于或等于			{<key>:{$gte:<value>}}	db.col.find({"likes":{$gte: 50}}).pretty()		where likes >= 50
 		不等于				{<key>:{$ne:<value>}}	db.col.find({"likes":{$ne: 50}}).pretty()		where likes != 50
 		包含				{<key>:{$in:[<value>]}}	db.col.find({"likes":{$in: [10]}}).pretty()		where likes IN (10)
+		不包含				{<key>:{$nin:[<value>]}}	db.col.find({"likes":{$nin: [10]}}).pretty()		where likes NOT IN (10)
 	
 	# 正则查询
 		* 正则, 通过js的 /reg/ 正则来匹配数据
@@ -99,6 +103,10 @@ document - 条件语句
 		* 根据指定key的类型去匹配数据
 			db.users.find({name: {$type: 'string'}});  // 仅仅匹配name属性是字符串的记录
 			db.users.find({name: {$type: 2}});		// 同上
+	
+	# $exists 操作符
+		db.users.find({name: {$exists: true}});		// name 字段存在，则满足
+		db.users.find({name: {$exists: false}});	// name 字段不存在，则满足
 
 	
 	# AND条件关系
