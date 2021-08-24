@@ -110,6 +110,7 @@ package io.springcloud.web.filter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Enumeration;
 
 import javax.servlet.FilterChain;
@@ -162,6 +163,7 @@ public class AccessLogFilter extends ExcludeStaticPathFilter {
 	public void init() throws ServletException {
 		super.init();
 		logGson = new GsonBuilder()
+				.serializeNulls()					// null 参数也序列化
 				.disableHtmlEscaping()				// 不编码HTML
 				.setPrettyPrinting()				// 格式化
 				.create();
@@ -182,7 +184,13 @@ public class AccessLogFilter extends ExcludeStaticPathFilter {
 		ContentCachingResponseWrapper response = new ContentCachingResponseWrapper(res);
 		
 		try {
+			Instant start = Instant.now();
+			
 			super.doFilter(request, response, chain);
+			
+			Instant end = Instant.now();
+			
+			response.addHeader(io.springcloud.constant.HttpHeaders.X_RESPONSE_TIME, (end.toEpochMilli() - start.toEpochMilli()) + "ms");
 		} catch (Exception e) {
 			LOGGER.error("access error: {}", e.getMessage());
 			throw e;
@@ -215,7 +223,7 @@ public class AccessLogFilter extends ExcludeStaticPathFilter {
 		while (nameEnumeration.hasMoreElements()) {
 			String name = nameEnumeration.nextElement();
 			Enumeration<String> valueEnumeration = req.getHeaders(name);
-			JsonArray headers = new JsonArray();
+			JsonArray headers = new JsonArray(1);
 			while (valueEnumeration.hasMoreElements()) {
 				headers.add(valueEnumeration.nextElement());
 			}
@@ -232,7 +240,7 @@ public class AccessLogFilter extends ExcludeStaticPathFilter {
 		// response header
 		JsonObject resonseHeader = new JsonObject();
 		for (String headerName : resp.getHeaderNames()) {
-			JsonArray jsonArray = new JsonArray();
+			JsonArray jsonArray = new JsonArray(1);
 			resp.getHeaders(headerName).stream().forEach(jsonArray::add);
 			resonseHeader.add(headerName, jsonArray);
 		}
