@@ -63,8 +63,9 @@ public interface CrudRepository<T, ID> extends Repository<T, ID> {
 		* 执行这些删除的时候,会先根据ID检索记录 (deleteAll 会先检索所有记录)
 		* 如果记录不存在(如果执行的是:deleteById,会直接抛出异常 EmptyResultDataAccessException ),会先插入,再删除
 		* 如果记录已经存在,直接删除, 删除操作都是根据ID来删除
-
 	
+	void deleteAllById(Iterable<? extends ID> ids);
+
 }
 ----------------------
 JpaRepository		  |
@@ -83,8 +84,6 @@ JpaRepository		  |
 			* 保存并且立即刷新
 		
 		
-		
-		
 		List<T> findAll();
 		List<T> findAll(Sort sort);
 		Iterable<T> findAll(Sort sort);
@@ -93,8 +92,6 @@ JpaRepository		  |
 		<S extends T> List<S> findAll(Example<S> example, Sort sort);
 		<S extends T> Page<S> findAll(Example<S> example, Pageable pageable);
 
-
-		
 		
 		<S extends T> long count(Example<S> example);
 		<S extends T> boolean exists(Example<S> example);
@@ -104,5 +101,11 @@ JpaRepository		  |
 			* 批量删除, 不会先执行查询,
 			* deleteAllInBatch 直接执行: DELETE FROM `table`;
 			* deleteInBatch 如果有多个参数, 通过or条件删除: DELETE FRROM `table` WHERE `id` = ? OR `id` = ? OR `id` = ?;
+		
+
+		<S extends T> List<S> saveAllAndFlush(Iterable<S> entities);
+		void deleteAllInBatch(Iterable<T> entities);
+		void deleteAllByIdInBatch(Iterable<ID> ids);
+		T getById(ID id);
 			
 	}

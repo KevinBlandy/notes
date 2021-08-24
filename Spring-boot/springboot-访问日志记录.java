@@ -1,3 +1,9 @@
+
+----------
+Filter1 
+----------
+
+
 package com.demo.web.filter;
 
 import java.io.IOException;
@@ -93,5 +99,151 @@ public class AccessLogFilter extends HttpFilter {
 		
 		// 这一步很重要，把缓存的响应内容，输出到客户端
 		cachingResponseWrapper.copyBodyToResponse();
+	}
+}
+
+
+----------
+Filter2
+----------
+package io.springcloud.web.filter;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Enumeration;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.util.ContentCachingResponseWrapper;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+
+/**
+ * 
+ * 访问日志记录
+ * 
+ * @author KevinBlandy
+ *
+ */
+@WebFilter(urlPatterns = "/**")
+@Component
+@Order(-7000)
+public class AccessLogFilter extends ExcludeStaticPathFilter {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2067392425765043106L;
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(AccessLogFilter.class);
+	
+	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+	
+	// 请求日志的专用 GSON 格式化
+	private Gson logGson;
+	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		logGson = new GsonBuilder()
+				.disableHtmlEscaping()				// 不编码HTML
+				.setPrettyPrinting()				// 格式化
+				.create();
+	}
+
+	@Override
+	protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+		
+		
+		// 忽略 MuiltiPart 请求
+		String contentType = req.getHeader(HttpHeaders.CONTENT_TYPE);
+		if (StringUtils.hasLength(contentType) && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+			super.doFilter(req, res, chain);
+			return;
+		}
+		
+		ContentCachingRequestWrapper request = new ContentCachingRequestWrapper(req);
+		ContentCachingResponseWrapper response = new ContentCachingResponseWrapper(res);
+		
+		try {
+			super.doFilter(request, response, chain);
+		} catch (Exception e) {
+			LOGGER.error("access error: {}", e.getMessage());
+			throw e;
+		}
+
+		String requestId = req.getHeader(io.springcloud.constant.HttpHeaders.X_REQUEST_ID);
+		
+		// 解析请求日志
+		String accessLog = logGson.toJson(this.accessLog(request, response));
+		
+		LOGGER.debug("access log: {}{}{}", requestId, LINE_SEPARATOR, accessLog);
+		
+		response.copyBodyToResponse();  // 把缓存的数据响应给客户端
+	}
+	
+	private JsonObject accessLog (ContentCachingRequestWrapper req, ContentCachingResponseWrapper resp) {
+		
+		JsonObject accessLog = new JsonObject();
+		
+		// request method
+		accessLog.addProperty("method", req.getMethod());
+		// request url
+		accessLog.addProperty("requestUrl", req.getRequestURL().toString());
+		// query parmas
+		accessLog.addProperty("queryParam", req.getQueryString());
+		
+		// request header
+		Enumeration<String> nameEnumeration = req.getHeaderNames();
+		JsonObject requestHeader = new JsonObject();
+		while (nameEnumeration.hasMoreElements()) {
+			String name = nameEnumeration.nextElement();
+			Enumeration<String> valueEnumeration = req.getHeaders(name);
+			JsonArray headers = new JsonArray();
+			while (valueEnumeration.hasMoreElements()) {
+				headers.add(valueEnumeration.nextElement());
+			}
+			requestHeader.add(name, headers);
+		}
+		accessLog.add("requestHeader", requestHeader);
+		
+		// requestBody
+		/**
+		 * TODO 在Undertow环境下，如果是请求体超出限制(server.undertow.max-http-post-size)，而抛出异常：RequestTooBigException。那么RequestBody读取不到，为空字符串
+		 */
+		accessLog.addProperty("requestBody", new String(req.getContentAsByteArray(), StandardCharsets.UTF_8));
+		
+		// response header
+		JsonObject resonseHeader = new JsonObject();
+		for (String headerName : resp.getHeaderNames()) {
+			JsonArray jsonArray = new JsonArray();
+			resp.getHeaders(headerName).stream().forEach(jsonArray::add);
+			resonseHeader.add(headerName, jsonArray);
+		}
+		accessLog.add("responseHeader", resonseHeader);
+		
+		// response status
+		accessLog.addProperty("responseStatus", resp.getStatus());
+		
+		// response body
+		accessLog.addProperty("responseBody", new String(resp.getContentAsByteArray(), StandardCharsets.UTF_8));
+		
+		return accessLog;
 	}
 }

@@ -13,6 +13,7 @@ Jooq
 
 	# ≤Œøº—ßœ∞
 		https://amao12580.github.io/post/2016/04/JOOQ-from-entry-to-improve/
+		https://jooq.diamondfsd.com/learn/section-1-how-to-start.html
 
 	# Maven “¿¿µ
 		<dependency>

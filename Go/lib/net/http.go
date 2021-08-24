@@ -162,7 +162,11 @@ http
 	
 	# 空的Body
 		var NoBody = noBody{}
+	
+	# 默认的HTTP时间格式化
+		const TimeFormat = "Mon, 02 Jan 2006 15:04:05 GMT"
 
+		* time.RFC1123 定义的，ParseTime 用来解析的
 		
 -----------------
 type
