@@ -310,11 +310,28 @@ Service抽象
 		
 		@Transactional(rollbackFor = Throwable.class)
 		public <R> R apply(Function<JPAQueryFactory, R> function) {
-			return function.apply(this.jpaQueryFactory);
+			return function.apply(this.newQuery());
 		}
 		
 		@Transactional(readOnly = true, rollbackFor = Throwable.class)
 		public <R> R applyReadOnly(Function<JPAQueryFactory, R> function) {
-			return function.apply(this.jpaQueryFactory);
+			return function.apply(this.newQuery());
+		}
+		
+		/**
+		 * 创建新的JPAQueryFactory
+		 * @return
+		 */
+		protected JPAQueryFactory newQuery() {
+			return new JPAQueryFactory(this.entityManager);
+		}
+		
+		/**
+		 * 获取Repository，需要转换为实际的实现类
+		 * @return
+		 */
+		@SuppressWarnings({ "unchecked", "hiding" })
+		protected <T> T repository() {
+			return (T) this.baseRepository;
 		}
 	}

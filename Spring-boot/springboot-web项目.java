@@ -79,6 +79,19 @@ Spring-boot 拦截器				|
 			public abstract boolean preHandle(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod) throws Exception;
 
 
+
+
+			/**
+			 * 获取当前Mapping
+			 * @param request
+			 * @return
+			 */
+			protected String currentMapping (HttpServletRequest request) {
+				// PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE 这个属性可以获取到最终的URL，/user/{id}
+				return (String) request.getAttribute(
+						HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);  // /user/{id}
+			}
+
 			/**
 			 * 获取到mapping
 			 * @param handlerMethod

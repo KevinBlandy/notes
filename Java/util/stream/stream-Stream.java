@@ -39,11 +39,17 @@ Stream
 		Optional<T> min(Comparator<? super T> comparator);
 		Optional<T> max(Comparator<? super T> comparator);
 		long count();
+
 		boolean anyMatch(Predicate<? super T> predicate);
 		boolean allMatch(Predicate<? super T> predicate);
 		boolean noneMatch(Predicate<? super T> predicate);
+			* 任意匹配/所有匹配/没有匹配
+
 		Optional<T> findFirst();
-		Optional<T> findAny();
+			* 获取第一个
+
+		Optional<T> findAny();	
+			* 获取任意一个
 
 	
 	# 默认方法

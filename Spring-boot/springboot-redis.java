@@ -247,6 +247,7 @@ Redis-Redisson						|
 ------------------------------------
 	# 使用Redsson作为客户端
 		https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter#spring-boot-starter
+		https://github.com/redisson/redisson/blob/master/redisson-spring-boot-starter/README.md
 
 	# Maven
 		<dependency>
