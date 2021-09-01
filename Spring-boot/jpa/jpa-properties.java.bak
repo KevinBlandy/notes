@@ -19,8 +19,6 @@
 
 	spring.jpa.database-platform=
 		* 指定数据库的类型, Dialect 的实现类, 例如: org.hibernate.dialect.MySQL57Dialect
-		* 可选的一些
-			org.hibernate.dialect.MySQL8Dialect
 
 	spring.jpa.generate-ddl=false
 		* 是否在启动时初始化schema, 默认为false

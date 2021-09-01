@@ -14,6 +14,26 @@ email							|
 # email	config					
 #-------------------------------------
 
+spring:
+  mail:
+    host: smtp.exmail.qq.com
+    username: no-reply@javaweb.io
+    password: 123456789
+    sender: Javaweb开发者社区
+    port: 465
+    default-encoding: UTF-8
+    protocol: smtps
+    properties:
+      mail:
+        smtp:
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
   mail:
     host:
     username:
