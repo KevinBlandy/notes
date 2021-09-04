@@ -244,7 +244,57 @@ public class WebUtils {
 		}
 		return ip;
     }
-    
+
+	/**
+	 * 获取客户端的真实IP地址（Copy Druid的写法）
+	 * https://github.com/alibaba/druid/blob/master/src/main/java/com/alibaba/druid/util/DruidWebUtils.java
+	 * @param request
+	 * @return
+	 */
+	public static String getRemoteAddress(HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip != null && !isValidAddress(ip)) {
+			ip = null;
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+			if (ip != null && !isValidAddress(ip)) {
+				ip = null;
+			}
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+			if (ip != null && !isValidAddress(ip)) {
+				ip = null;
+			}
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+			if (ip != null && !isValidAddress(ip)) {
+				ip = null;
+			}
+		}
+		return ip;
+	}
+
+	private static boolean isValidAddress(String ip) {
+		if (ip == null) {
+			return false;
+		}
+		for (int i = 0; i < ip.length(); ++i) {
+			char ch = ip.charAt(i);
+			if (ch >= '0' && ch <= '9') {
+			} else if (ch >= 'A' && ch <= 'F') {
+			} else if (ch >= 'a' && ch <= 'f') {
+			} else if (ch == '.' || ch == ':') {
+				//
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+
     /**
      * 验证码校验
      * @param validateCode			校验码
