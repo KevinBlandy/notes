@@ -106,7 +106,7 @@ public class AccessLogFilter extends HttpFilter {
 ----------
 Filter2
 ----------
-package io.springcloud.web.filter;
+package com.xsh.common.web.filter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -115,24 +115,19 @@ import java.util.Enumeration;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 
 /**
@@ -142,10 +137,7 @@ import com.google.gson.JsonObject;
  * @author KevinBlandy
  *
  */
-@WebFilter(urlPatterns = "/**")
-@Component
-@Order(-7000)
-public class AccessLogFilter extends ExcludeStaticPathFilter {
+public abstract class AccessLogFilter extends HttpFilter {
 	
 	/**
 	 * 
@@ -154,35 +146,30 @@ public class AccessLogFilter extends ExcludeStaticPathFilter {
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger(AccessLogFilter.class);
 	
-	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-	
-	// 请求日志的专用 GSON 格式化
-	private Gson logGson;
-	
-	@Override
-	public void init() throws ServletException {
-		super.init();
-		logGson = new GsonBuilder()
-				.serializeNulls()					// null 参数也序列化
-				.disableHtmlEscaping()				// 不编码HTML
-				.setPrettyPrinting()				// 格式化
-				.create();
-	}
-
 	@Override
 	protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-		
-		
-		// 忽略 MuiltiPart 请求
+
+		HttpServletRequest request = null;
+		HttpServletResponse response = null;
+
+		// Multipart 请求，不包装Request
 		String contentType = req.getHeader(HttpHeaders.CONTENT_TYPE);
 		if (StringUtils.hasLength(contentType) && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
-			super.doFilter(req, res, chain);
-			return;
+			request = req;
+		} else {
+			request = new ContentCachingRequestWrapper(req);
 		}
+
+		// 忽略文件下载，图片验证码，根据路径包含字符串判断
+		// TODO 判断方式待优化
+		String requestUir = req.getRequestURI();
 		
-		ContentCachingRequestWrapper request = new ContentCachingRequestWrapper(req);
-		ContentCachingResponseWrapper response = new ContentCachingResponseWrapper(res);
-		
+		if (requestUir.contains("down") || requestUir.contains("captcha") || requestUir.contains("favicon.ico")) {
+			response = res;
+		} else {
+			response = new ContentCachingResponseWrapper(res);
+		}
+
 		try {
 			Instant start = Instant.now();
 			
@@ -190,31 +177,40 @@ public class AccessLogFilter extends ExcludeStaticPathFilter {
 			
 			Instant end = Instant.now();
 			
-			response.addHeader(io.springcloud.constant.HttpHeaders.X_RESPONSE_TIME, (end.toEpochMilli() - start.toEpochMilli()) + "ms");
+			response.setIntHeader(com.xsh.common.constant.HttpHeaders.X_RESPONSE_TIME, (int) (end.toEpochMilli() - start.toEpochMilli()));
+			
 		} catch (Exception e) {
 			LOGGER.error("access error: {}", e.getMessage());
 			throw e;
 		}
 
-		String requestId = req.getHeader(io.springcloud.constant.HttpHeaders.X_REQUEST_ID);
-		
-		// 解析请求日志
-		String accessLog = logGson.toJson(this.accessLog(request, response));
-		
-		LOGGER.debug("access log: {}{}{}", requestId, LINE_SEPARATOR, accessLog);
-		
-		response.copyBodyToResponse();  // 把缓存的数据响应给客户端
+		this.onLog(request, response, this.accessLog(request, response));
+
+		if (response instanceof ContentCachingResponseWrapper){
+			((ContentCachingResponseWrapper) response).copyBodyToResponse();  // 把缓存的数据响应给客户端
+		}
 	}
-	
-	private JsonObject accessLog (ContentCachingRequestWrapper req, ContentCachingResponseWrapper resp) {
-		
+
+
+	/**
+	 * 访问日志解析
+	 * @param req
+	 * @param resp
+	 * @return
+	 */
+	private JsonObject accessLog (HttpServletRequest req, HttpServletResponse resp) {
+
 		JsonObject accessLog = new JsonObject();
-		
+
+		// 请求ID
+		accessLog.addProperty("requestId", req.getHeader(com.xsh.common.constant.HttpHeaders.X_REQUEST_ID));
+		// client address
+		accessLog.addProperty("remoteAddress", req.getRemoteAddr());
 		// request method
 		accessLog.addProperty("method", req.getMethod());
 		// request url
 		accessLog.addProperty("requestUrl", req.getRequestURL().toString());
-		// query parmas
+		// query params
 		accessLog.addProperty("queryParam", req.getQueryString());
 		
 		// request header
@@ -235,23 +231,41 @@ public class AccessLogFilter extends ExcludeStaticPathFilter {
 		/**
 		 * TODO 在Undertow环境下，如果是请求体超出限制(server.undertow.max-http-post-size)，而抛出异常：RequestTooBigException。那么RequestBody读取不到，为空字符串
 		 */
-		accessLog.addProperty("requestBody", new String(req.getContentAsByteArray(), StandardCharsets.UTF_8));
+		String requestBody = null;
+
+		if (req instanceof ContentCachingRequestWrapper){
+			requestBody = new String(((ContentCachingRequestWrapper)req).getContentAsByteArray(), StandardCharsets.UTF_8);
+		}
+
+		accessLog.addProperty("requestBody", requestBody);
 		
 		// response header
-		JsonObject resonseHeader = new JsonObject();
+		JsonObject responseHeader = new JsonObject();
 		for (String headerName : resp.getHeaderNames()) {
 			JsonArray jsonArray = new JsonArray(1);
-			resp.getHeaders(headerName).stream().forEach(jsonArray::add);
-			resonseHeader.add(headerName, jsonArray);
+			resp.getHeaders(headerName).forEach(jsonArray::add);
+			responseHeader.add(headerName, jsonArray);
 		}
-		accessLog.add("responseHeader", resonseHeader);
 		
 		// response status
 		accessLog.addProperty("responseStatus", resp.getStatus());
 		
+		// response header
+		accessLog.add("responseHeader", responseHeader);
+
+		String responseBody = null;
+
+		if (resp instanceof  ContentCachingResponseWrapper){
+			responseBody = new String(((ContentCachingResponseWrapper)resp).getContentAsByteArray(), StandardCharsets.UTF_8);
+		}
+		
 		// response body
-		accessLog.addProperty("responseBody", new String(resp.getContentAsByteArray(), StandardCharsets.UTF_8));
+		accessLog.addProperty("responseBody", responseBody);
 		
 		return accessLog;
 	}
+
+	protected abstract void onLog (HttpServletRequest request, HttpServletResponse response, JsonObject accessLog);
 }
+
+
