@@ -15,6 +15,9 @@ Jooq
 		https://amao12580.github.io/post/2016/04/JOOQ-from-entry-to-improve/
 		https://jooq.diamondfsd.com/learn/section-1-how-to-start.html
 
+		https://www.bilibili.com/video/BV18Q4y1K73V
+		https://segmentfault.com/blog/xujian
+
 	# Maven 依赖
 		<dependency>
 			<groupId>org.jooq</groupId>
@@ -78,3 +81,50 @@ Jooq 自动生成
 	
 	# maven自动生成插件（建议）
 		jooq-plugin.xml
+		
+		* 生成命令:
+			mvn jooq-codegen:generate
+	
+	
+	# 生成的目录结构
+		generated
+			|-tables
+				|-daos
+				|-interfaces
+				|-pojos
+				|-records
+			|-DefaultCatalog
+			|-Indexes
+			|-Jooq
+			|-Keys
+			|-Tables
+		
+		* daos
+			* 
+
+		* interfaces
+			* 抽象了pojo(数据库字段)的 getter/setter 方法
+		
+		* pojos 
+			* 针对数据表生成的对象
+
+		* records
+			* 数据表的每一行记录
+
+
+
+----------------------------
+核心的一些库
+----------------------------
+	org.jooq.DSLContext
+		* 核心的库，它负责完成CRUD等等操作
+
+	org.jooq.Result
+		* 结果集封装，实现了 List 接口
+	
+	org.jooq.Record
+		* 结果集中的每一行纪录，相同预定义了最长22个长度的行: Record22
+	
+	org.jooq.TableField
+		* 每一条记录的，每一个字段
+	

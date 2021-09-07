@@ -2,6 +2,7 @@
 ExpressionUtils
 --------------------
 	# 关系表达式的工具类
+		public final class ExpressionUtils
 
 	# 静态方法
 		<T> Operation<T> operation(Class<? extends T> type, Operator operator, Expression<?>... args) 

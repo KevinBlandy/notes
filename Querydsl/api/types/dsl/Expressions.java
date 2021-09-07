@@ -2,6 +2,7 @@
 Expressions
 --------------------------
 	# 用于访问实体路径
+		public final class Expressions 
 
 	# 静态变量
 		public static final NumberExpression<Integer> ONE = numberTemplate(Integer.class, "1");

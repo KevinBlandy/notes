@@ -1,3 +1,26 @@
+---------------
+指定配置文件
+---------------
+		<plugin>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq-codegen-maven</artifactId>
+			<version>3.15.2</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>generate</goal>
+					</goals>
+				</execution>
+			</executions>
+			<configuration>
+				<configurationFile>src/main/resources/jooq/jooq.xml</configurationFile>
+			</configuration>
+		</plugin>
+
+
+---------------
+配置文件
+---------------
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.13.0.xsd">
 	<!-- jdbc的配置 -->

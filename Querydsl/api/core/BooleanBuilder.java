@@ -2,8 +2,7 @@
 BooleanBuilder
 ---------------------
 	# boolean 条件的构造器
-		Expression
-			|-BooleanBuilder
+		public final class BooleanBuilder implements Predicate, Cloneable
 
 	
 	# 构造方法

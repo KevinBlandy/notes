@@ -4,6 +4,7 @@
 <plugin>
 	<groupId>org.jooq</groupId>
 	<artifactId>jooq-codegen-maven</artifactId>
+	<version>3.15.2</version>
 	<executions>
 		<execution>
 			<goals>
@@ -90,3 +91,5 @@
 		</generator>
 	</configuration>
 </plugin>
+
+
