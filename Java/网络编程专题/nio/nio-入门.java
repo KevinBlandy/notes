@@ -49,3 +49,52 @@ SelectionKey 事件常量		|
 	SelectionKey.OP_WRITE;
 		* 写就绪事件,表示已经可以向输出流写数据了
 	
+----------------------------
+Server
+----------------------------
+import java.net.InetSocketAddress;
+import java.net.StandardSocketOptions;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.Iterator;
+
+public class Main {
+	
+	public static void main(String[] args) throws Exception {
+		
+		// selector
+		Selector selector = Selector.open();
+		
+		// server
+		ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+		serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
+		serverSocketChannel.configureBlocking(false);
+		serverSocketChannel.bind(new InetSocketAddress("0.0.0.0", 1024));
+	
+		serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+		
+		while (selector.select() > 0) {
+			Iterator<SelectionKey> selectionKeyIterator = selector.selectedKeys().iterator();;
+			while (selectionKeyIterator.hasNext()) {
+				SelectionKey selectionKey =  selectionKeyIterator.next();
+				if (selectionKey.isAcceptable()) {
+					// new connection
+					SocketChannel socketChannel = ((ServerSocketChannel)selectionKey.channel()).accept();
+					socketChannel.configureBlocking(false);
+					socketChannel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+					
+				} else if (selectionKey.isReadable()) {
+					
+				} else if (selectionKey.isWritable()) {
+					
+				} else if (selectionKey.isConnectable()) {
+				} else {
+					
+				}
+				selectionKeyIterator.remove();
+			}
+		}
+	}
+}

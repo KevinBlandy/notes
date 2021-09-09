@@ -2,6 +2,7 @@
 AsynchronousFileChannel				|
 -----------------------------------
 	# 文件异步读写通道
+		public abstract class AsynchronousFileChannel implements AsynchronousChannel
 	# 构造
 		* 通过静态方法
 		AsynchronousFileChannel open(Path file,Set<? extends OpenOption> options,ExecutorService executor, FileAttribute<?>... attrs);

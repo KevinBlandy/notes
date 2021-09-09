@@ -8,6 +8,10 @@
 		Record1<Integer> result =dslContext.select(DSL.count(admin.ID)).from(admin).fetchOne();  // select count(`jooq`.`admin`.`id`) from `jooq`.`admin`
         System.out.println(result);
 	
+		int count = dslContext.selectCount().from(ADMIN).fetchOneInto(Integer.class);  //  select count(*) from `jooq`.`admin`
+		System.out.println(count);
+
+		dslContext.select(count(one())).from(ADMIN).fetchOne(); // SELECT count(1) FROM `springcloud.io`.`admin`
 
 	# exists 查询
 		 Boolean exists =  dslContext
@@ -16,6 +20,10 @@
                     .fetchOneInto(Boolean.class);
 			
 			// select (exists (select 1 as `one` from `jooq`.`admin` where (`jooq`.`admin`.`id` = 1 and `jooq`.`admin`.`account` = '123456'))) as `exists`
+		
+		boolean exists = dslContext.fetchExists(ADMIN, ADMIN.ACCOUNT.eq("123456"));
+		//  select 1 as `one` from dual where exists (select 1 as `one` from `springcloud.io`.`admin` where `springcloud.io`.`admin`.`account` = '123456')
+		System.out.println(exists); 
 
 -----------------------
 子查询
@@ -140,10 +148,20 @@
 -----------------------
 	# 条件核心对象
 		Condition
+	
+	# where 的参数可以为null，表示没有条件
+		List<Admin> admin = dslContext.select(field("*")).from(ADMIN).where((Condition) null).offset(1).limit(10).fetchInto(Admin.class); 
 
 -----------------------
 分页
 -----------------------
+	# 俩方法
+		offset()
+		limit()
+		
+
+		List<Admin> admin = dslContext.select(field("*")).from(ADMIN).limit(1, 10).fetchInto(Admin.class); //  select * from `jooq`.`admin` limit 10 offset 1
+		List<Admin> admin = dslContext.select(field("*")).from(ADMIN).offset(1).limit(10).fetchInto(Admin.class); //  select * from `jooq`.`admin` limit 10 offset 1
 	
 
 -----------------------
@@ -152,3 +170,89 @@
 	# 核心对象
 		SortField<T>
 	
+	# NULL 值处理
+		ADMIN.CREATE_AT.desc().nullsLast()
+		ADMIN.CREATE_AT.desc().nullsFirst()
+
+-----------------------
+类型转换
+-----------------------
+	# 结果类型转换
+		dsl.select(count(MYTABLE.ID).cast(SQLDataType.DOUBLE).divide(7.0))
+		   .from(MYTABLE)
+		   .fetch();
+
+
+
+-----------------------
+读写锁
+-----------------------
+	# 主要是 SelectForUpdateStep 接口提供了核心的加锁方法
+		forUpdate();			// for update
+		forNoKeyUpdate();
+		forShare();				// for share (for share 是MYSQL8的)
+		forKeyShare();
+
+		https://github.com/jOOQ/jOOQ/issues/12410
+
+	# for update
+		List<Admin> admins = dslContext.selectOne().from(ADMIN).where(ADMIN.ID.eq(UInteger.valueOf(1))).forUpdate().fetchInto(Admin.class);
+		// select 1 as `one` from `springcloud.io`.`admin` where `springcloud.io`.`admin`.`id` = 1 for update
+
+	# lock in share mode
+		boolean exists = dslContext.select(
+					field(
+						exists(
+							selectOne().from(ADMIN).where(ADMIN.ID.eq(UInteger.valueOf(1))).forShare()
+						)
+					).as("exists"))
+				.fetchOneInto(boolean.class);
+		
+		// select (exists (select 1 as `one` from `springcloud.io`.`admin` where `springcloud.io`.`admin`.`id` = 1 for share)) as `exists` from dual
+	
+		System.out.println(exists);
+
+-----------------------
+JSON
+-----------------------
+
+
+-----------------------
+常量
+-----------------------
+	# 常量查询
+		dslContext.select(val("Kevin").as("name"), inline("boy").as("gender")).fetch();
+		// select 'Kevin' as `name`, 'boy' as `gender` from dual
+
+
+-----------------------
+case
+-----------------------
+	# 结果集中的case
+		Field<String> foo = case_(ADMIN.ID)
+			.when(UInteger.valueOf(1), "壹")
+			.when(UInteger.valueOf(2), "贰")
+			.else_("不知道")
+		.as("tmp");
+		
+		Result<Record> result = dslContext.select(ADMIN.asterisk(), foo).from(ADMIN).orderBy(ADMIN.CREATE_AT.desc().nullsLast()).fetch();
+
+	# 排序中的case
+		create.select()
+		  .from(BOOK)
+		  .orderBy(case_(BOOK.TITLE)
+				   .when("1984", 0)
+				   .when("Animal Farm", 1)
+				   .else_(2).asc())
+		  .fetch();
+	
+		
+		* 排序还支持map，可以省略多个 when
+			create.select()
+			  .from(BOOK)
+			  .orderBy(BOOK.TITLE.sort(new HashMap<String, Integer>() {{
+				  put("1984", 1);
+				  put("Animal Farm", 13);
+				  put("The jOOQ book", 10);
+			  }}))
+			  .fetch();

@@ -81,7 +81,31 @@ Insert
 		* 这是for插入了5次？
 		* 这种方式不会把自增ID反写入到 Record 对象中
 	
-
+	# 更新或者插入
+		AuthorRecord author = create.fetchOne(AUTHOR, AUTHOR.ID.eq(1));
+		if (author == null) {
+			author = create.newRecord(AUTHOR);
+			author.setId(1);
+			author.setFirstName("Dan");
+			author.setLastName("Brown");
+		}
+		// 如果记录已经存在则执行修改，如果不存在则执行插入
+		// 如果记录已经存在，读取出来后，没有进行过修改，那么不会执行更新操作。
+		author.store();
+	
+	# 默认值，defaultValue 可以设置指定列的默认值
+		create.insertInto(
+				AUTHOR, AUTHOR.ID, AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME, ...)
+			  .values(
+				defaultValue(AUTHOR.ID), 
+				defaultValue(AUTHOR.FIRST_NAME), 
+				defaultValue(AUTHOR.LAST_NAME), ...)
+			  .execute();
+	
+	# INSERT .. SELECT
+		create.insertInto(AUTHOR_ARCHIVE)
+			  .select(selectFrom(AUTHOR).where(AUTHOR.DECEASED.isTrue()))
+			  .execute();
 
 -------------------------
 自增ID获取
@@ -117,6 +141,15 @@ Insert
 			// 获取到每一条记录的自增ID，反写到 record 中
 			retVal.stream().forEach(record -> System.out.println(record.getId()));
 	
+	# 多行自生成数据
+		Result<?> result =
+			create.insertInto(AUTHOR, AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME)
+				  .values("Johann Wolfgang", "von Goethe")
+				  .values("Friedrich", "Schiller")
+				  // 自动生成的字段
+				  .returningResult(AUTHOR.ID, AUTHOR.CREATION_DATE)
+				  .fetch();
+			
 
 -------------------------
 唯一冲突处理
@@ -133,7 +166,7 @@ Insert
 		}
 
 	
-	# ON DUPLICATE KEY IGNORE
+	# ON DUPLICATE KEY IGNORE 冲突忽略
 		@Nullable AdminRecord retVal = dslContext.insertInto(Tables.ADMIN, Tables.ADMIN.ACCOUNT, Tables.ADMIN.CREATE_AT, Tables.ADMIN.ENABLED, Tables.ADMIN.NICKAME, Tables.ADMIN.PASSWORD)
 				.values("foo", LocalDateTime.now(), UByte.valueOf(1), "foo", "123456")
 				// .onConflictDoNothing()
@@ -145,7 +178,7 @@ Insert
 			System.out.println(retVal.getId());
 		}
 	
-	# ON DUPLICATE KEY UPDATE
+	# ON DUPLICATE KEY UPDATE 冲突修改
 		dslContext.insertInto(S1_USER)
 			.set(S1_USER.ID, 1)
 			.set(S1_USER.USERNAME, "duplicateKey-insert")

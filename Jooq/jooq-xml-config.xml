@@ -22,51 +22,45 @@
 配置文件
 ---------------
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.13.0.xsd">
-	<!-- jdbc的配置 -->
+<!-- xmlns 可能会根据版本变化而变化 -->
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.15.0.xsd">
 	<jdbc>
 		<driver>com.mysql.cj.jdbc.Driver</driver>
-		<url>jdbc:mysql://localhost:3306/jooq?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2b8&amp;allowMultiQueries=true</url>
+		<url>jdbc:mysql://localhost:3306/springcloud.io?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2b8&amp;allowMultiQueries=true</url>
 		<user>root</user>
 		<password>root</password>
+		<autoCommit>true</autoCommit>
 	</jdbc>
+	
 
 	<generator>
-		<!-- 
-			指定生成器，默认：org.jooq.codegen.JavaGenerator
-		 -->
 		<name>org.jooq.codegen.JavaGenerator</name>
-
 		<database>
-			<!-- 指定数据库类型 -->
 			<name>org.jooq.meta.mysql.MySQLDatabase</name>
-			<!-- 数据库名称/用户 -->
-			<inputSchema>jooq</inputSchema>
-			<!-- 包含的表 -->
 			<includes>.*</includes>
-			<!-- 排除的表 -->
-			<excludes></excludes>
+			<!-- 要生成的表 -->
+			<inputSchema>springcloud.io</inputSchema>
+			<forcedTypes>
+				<!-- BOOLEAN 字段规则 -->
+				<forcedType>
+					<name>BOOLEAN</name>
+					<includeTypes>
+						(?i:(TINY|SMALL|MEDIUM|BIG)?INT(UNSIGNED)?\(1\))
+					</includeTypes>
+				</forcedType>
+			</forcedTypes>
 		</database>
-		
 		<generate>
-            <!--生成dao-->
-            <daos>true</daos>
-			<!-- 生成pojo -->
-            <pojos>true</pojos>
-            <!--把数据库时间类型映射到java 8时间类型-->
-            <javaTimeTypes>true</javaTimeTypes>
-			<!-- 抽象出接口 -->
-            <interfaces>true</interfaces>
-            <!--是否生成spring注释，比如@Repository-->
-            <springAnnotations>true</springAnnotations>
-        </generate>
-		
+			<daos>true</daos>
+			<pojos>true</pojos>
+			<javaTimeTypes>true</javaTimeTypes>
+			<interfaces>true</interfaces>
+			<springAnnotations>true</springAnnotations>
+		</generate>
 		<target>
-			<!-- 生成类的包 -->
-			<packageName>io.springboot.jooq.generated</packageName>
-
-			<!-- 生成的目标目录 -->
+			<packageName>io.springcloud.jooq.generated</packageName>
 			<directory>src/main/java</directory>
 		</target>
 	</generator>
 </configuration>
+

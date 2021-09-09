@@ -49,3 +49,14 @@ Update
 		* sql
 			update `jooq`.`admin` set `jooq`.`admin`.`id` = ?, `jooq`.`admin`.`account` = ?, `jooq`.`admin`.`create_at` = ?, `jooq`.`admin`.`enabled` = ?, `jooq`.`admin`.`password` = ? where `jooq`.`admin`.`id` = ?
 		* 根据主键值进行更新，如果主键值为null，那么条件也就是null
+	
+
+	# 更新子查询
+		dslContext.update(AUTHOR)
+			  .set(AUTHOR.FIRST_NAME,
+				 select(PERSON.FIRST_NAME)
+					.from(PERSON)
+					.where(PERSON.ID.eq(AUTHOR.ID))
+			  )
+			  .where(AUTHOR.ID.eq(3))
+			  .execute();

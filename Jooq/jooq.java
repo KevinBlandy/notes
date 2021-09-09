@@ -11,12 +11,22 @@ Jooq
 		https://github.com/jOOQ/jOOQ
 		https://www.jooq.org/doc/current/manual-single-page/
 
+		https://www.jooq.org/javadoc/latest/org.jooq/module-summary.html
+		
+
 	# 参考学习
 		https://amao12580.github.io/post/2016/04/JOOQ-from-entry-to-improve/
 		https://jooq.diamondfsd.com/learn/section-1-how-to-start.html
 
 		https://www.bilibili.com/video/BV18Q4y1K73V
 		https://segmentfault.com/blog/xujian
+	
+	# 工具
+		https://github.com/sevendark/IDEACodeTools
+			* 可以把SQL转换为JOOQ的代码语法
+		
+		https://www.jooq.org/translate/
+			* 在线SQL翻译
 
 	# Maven 依赖
 		<dependency>

@@ -73,6 +73,8 @@ BigDecimal-实例方法		|
 			roundingMode				指定舍入模式(可以是int或者枚举)
 			mc							通过指定的 MathContext 处理精度和舍入
 	
+	BigDecimal remainder(BigDecimal divisor, MathContext mc)
+	BigDecimal remainder(BigDecimal divisor) 
 	BigDecimal[] divideAndRemainder(BigDecimal divisor) 
 		* 返回的数组包含两个BigDecimal, 分别是商和余数, 其中商总是整数, 余数不会大于除数
 		* 可以利用这个方法判断两个BigDecimal是否是整数倍数
@@ -120,6 +122,15 @@ BigDecimal-实例方法		|
 		* 有必要时使用工程计数法
 		* 工程记数法是一种工程计算中经常使用的记录数字的方法, 与科学技术法类似. 但要求10的幂必须是3的倍数
  
+	BigInteger unscaledValue()
+	BigDecimal ulp()
+	int signum()
+	int precision()
+	BigDecimal plus(MathContext mc)
+	BigDecimal plus()
+	BigDecimal negate(MathContext mc)
+	BigDecimal negate()
+
 
 -------------------
 要点

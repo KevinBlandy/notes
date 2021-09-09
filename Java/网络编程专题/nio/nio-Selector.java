@@ -43,6 +43,8 @@ Selector-api			|
 
 	SelectorProvider provider()
 	int select()
+	int select(Consumer<SelectionKey> action, long timeout)
+	int select(Consumer<SelectionKey> action) throws IOException
 	int select(long timeout)
 		* select() 方法才用阻塞的工作方式,返回相关事件已经发生的 SelectionKey 对象数目
 		* 如果一个都没有,则会进入阻塞,直到出现以下情况之一,才用 select() 方法中返回
@@ -53,6 +55,7 @@ Selector-api			|
 			  如果调用了是没有超时参数的select(),该方法的线程就会进入阻塞状态,永远不会因为超时而中断
 
 	Set<SelectionKey> selectedKeys()
+	int selectNow(Consumer<SelectionKey> action) throws IOException
 	int selectNow()
 		* 返回相关事件已经发送的  SelectionKey 对象数目
 		* 该方法采用非阻塞的工作方式,返回当前相关事件已经发生的 SelectionKey 对象数目
