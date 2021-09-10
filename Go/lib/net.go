@@ -353,6 +353,9 @@ type
 			Port int
 			Zone string // IPv6 scoped addressing zone
 		}
+
+		* UDP Addrµÿ÷∑
+
 		func ResolveUDPAddr(network, address string) (*UDPAddr, error)
 		func (a *UDPAddr) Network() string
 		func (a *UDPAddr) String() string

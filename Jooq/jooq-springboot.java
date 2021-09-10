@@ -24,11 +24,22 @@ springboot
 	
 	
 	# 自定义配置，可以实现配置接口 DefaultConfigurationCustomizer 
-		@FunctionalInterface
-		public interface DefaultConfigurationCustomizer {
-			void customize(DefaultConfiguration configuration);
+		import org.jooq.conf.RenderKeywordCase;
+		import org.jooq.impl.DefaultConfiguration;
+		import org.springframework.boot.autoconfigure.jooq.DefaultConfigurationCustomizer;
+		import org.springframework.context.annotation.Configuration;
 
+		@Configuration(value = "customJooqConfiguration")
+		public class JooqConfiguration implements DefaultConfigurationCustomizer {
+
+			@Override
+			public void customize(DefaultConfiguration configuration) {
+				configuration.settings()
+					.withRenderKeywordCase(RenderKeywordCase.UPPER) // 关键字大写
+					; 
+			}
 		}
+
 
 				
 	# 其他可以配置的接口

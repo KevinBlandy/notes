@@ -173,6 +173,11 @@
 	# NULL 值处理
 		ADMIN.CREATE_AT.desc().nullsLast()
 		ADMIN.CREATE_AT.desc().nullsFirst()
+	
+	# 校对方式的指定
+		create.selectFrom(BOOK)
+		  .orderBy(BOOK.TITLE.collate("utf8_bin"))
+		  .fetch();
 
 -----------------------
 类型转换
@@ -211,10 +216,6 @@
 		// select (exists (select 1 as `one` from `springcloud.io`.`admin` where `springcloud.io`.`admin`.`id` = 1 for share)) as `exists` from dual
 	
 		System.out.println(exists);
-
------------------------
-JSON
------------------------
 
 
 -----------------------
