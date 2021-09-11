@@ -108,18 +108,32 @@ DSL
 		* 默认情况下， 将日期时间值截断为某个org.jooq.DatePart或DatePart.DAY的精度。
 		* MYSQL好像不支持
 
-	public static Field<OffsetTime> currentOffsetTime()
-	public static Field<OffsetDateTime> currentOffsetDateTime()
-	public static Field<Instant> currentInstant()
-
-	public static Field<Integer> dateDiff(Date endDate, Date startDate)
-	public static Field<Integer> dateDiff(DatePart part, Date startDate, Date endDate)
-
-	public static Field<Date> dateAdd(Date date, Number interval) 
-	public static Field<Date> dateAdd(Date date, Number interval, DatePart datePart)
 	
-	public static Field<Date> dateSub(Field<Date> date, Field<? extends Number> interval)
-	public static Field<Date> dateSub(Date date, Number interval, DatePart datePart)
+	// 条件相关
+	public static Condition noCondition()
+		* 无条件
 	
-	public static Field<Timestamp> timestampAdd(Timestamp timestamp, Number interval)
-	public static Field<Timestamp> timestampAdd(Field<Timestamp> timestamp, Field<? extends Number> interval)
+	public static True trueCondition()
+		* 返回一个 true 的condition
+	
+	public static False falseCondition()
+		* 返回一个false condition
+	
+	 public static Condition and(Condition left, Condition right)
+	 	* and 关系
+	
+	public static Condition condition(Record record)
+		* 把一行记录封装为condition
+	
+	public static Condition condition(Map<Field<?>, ?> map)
+		* 把一行记录封装为condition
+	
+	public static Condition condition(Field<Boolean> field)
+	public static Condition condition(Boolean value) 
+		* 使用Boolean构建一个条件
+	
+	public static Condition condition(SQL sql)
+	public static Condition condition(String sql)
+	public static Condition condition(String sql, QueryPart... parts) 
+	public static Condition condition(String sql, Object... bindings)
+		* 使用SQL构建条件

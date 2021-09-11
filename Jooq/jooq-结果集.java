@@ -73,4 +73,49 @@
 				.forEach(i -> {
 					System.out.println("adminId=" + i.getId() + ", roleId=" + i.getRoleId());
 				});
+		
+		* 官方一个比较好理解的Demo
+			// 连接查询2个表
+			Record record = create.select()
+								  .from(BOOK)
+								  .join(AUTHOR).on(BOOK.AUTHOR_ID.eq(AUTHOR.ID))
+								  .where(BOOK.ID.eq(1))
+								  .fetchOne();
+
+			// 分别抽取不同的字段到不同的表记录对象
+			BookRecord book = record.into(BOOK);
+			AuthorRecord author = record.into(AUTHOR);
+
+			System.out.println("Title       : " + book.getTitle());
+			System.out.println("Published in: " + book.getPublishedIn());
+			System.out.println("Author      : " + author.getFirstName() + " " + author.getLastName();
+
+--------------------------------------
+延迟
+--------------------------------------
+	# 延迟抓取
+		// Obtain a Cursor reference:
+		try (Cursor<BookRecord> cursor = create.selectFrom(BOOK).fetchSize(1).fetchLazy()) {
+
+			// Cursor has similar methods as Iterator<R>
+			while (cursor.hasNext()) {
+				BookRecord book = cursor.fetchOne();
+				
+				Util.doThingsWithBook(book);
+			}
+		}
+
+--------------------------------------
+格式化为其他数据类型
+--------------------------------------
+	# JSON
+		String result = dslContext.selectFrom(ADMIN).fetch().formatJSON();
+	
+	# CSV
+		String result = dslContext.selectFrom(ADMIN).fetch().formatCSV();
+	
+	# TEXT
+	# XML
+	# HTML
+
 	

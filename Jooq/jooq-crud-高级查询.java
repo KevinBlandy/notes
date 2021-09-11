@@ -148,9 +148,28 @@
 -----------------------
 	# 条件核心对象
 		Condition
+
+	# 常用的一些表达式
+		* 无条件，可以代替 where 1 = 1
+			public static Condition noCondition()
 	
-	# where 的参数可以为null，表示没有条件
-		List<Admin> admin = dslContext.select(field("*")).from(ADMIN).where((Condition) null).offset(1).limit(10).fetchInto(Admin.class); 
+		* where 的参数可以为null，表示没有条件
+			List<Admin> admin = dslContext.select(field("*")).from(ADMIN).where((Condition) null).offset(1).limit(10).fetchInto(Admin.class); 
+	
+	
+	# Record 可以作为条件，默认关系是 and 
+		AdminRecord adminRecord = new AdminRecord();
+		
+		adminRecord.setId(UInteger.valueOf(1));
+		adminRecord.setAccount("123456");
+		
+		// SELECT `springcloud.io`.`admin`.`balance` FROM `springcloud.io`.`admin` WHERE (`springcloud.io`.`admin`.`id` = 1 AND `springcloud.io`.`admin`.`account` = '123456')
+		this.dslContext.select(ADMIN.BALANCE).from(ADMIN)
+			.where(condition(adminRecord))
+			.fetch()
+			;
+	
+	# Map也可以作为条件
 
 -----------------------
 分页
@@ -186,8 +205,20 @@
 		dsl.select(count(MYTABLE.ID).cast(SQLDataType.DOUBLE).divide(7.0))
 		   .from(MYTABLE)
 		   .fetch();
+	
+	# 使用 convert 接口转换
+		enum Language { de, en, fr, it, pt; }
+		Converter<String, Language> converter = new EnumConverter<>(String.class, Language.class);
 
-
+		Result<Record2<Integer, Language>> result =
+				create.select(LANGUAGE.ID, LANGUAGE.CD.convert(converter))
+			  .from(LANGUAGE)
+			  .fetch();
+	
+		Result<Record2<Integer, Language>> result =
+			create.select(LANGUAGE.ID, LANGUAGE.CD.convert(Language.class, Language::valueOf, Language::name))
+				  .from(LANGUAGE)
+				  .fetch();
 
 -----------------------
 读写锁
@@ -227,7 +258,7 @@
 
 
 -----------------------
-case
+case/when
 -----------------------
 	# 结果集中的case
 		Field<String> foo = case_(ADMIN.ID)
@@ -257,3 +288,29 @@ case
 				  put("The jOOQ book", 10);
 			  }}))
 			  .fetch();
+	
+
+	# 结果集中的when
+		create.select(
+		  // Searched case
+		  when(AUTHOR.FIRST_NAME.eq("Paulo"), "brazilian")
+		  .when(AUTHOR.FIRST_NAME.eq("George"), "english")
+		  .otherwise("unknown");
+
+		  // Simple case
+		  choose(AUTHOR.FIRST_NAME)
+		  .when("Paulo", "brazilian")
+		  .when("George", "english")
+		  .otherwise("unknown"))
+		.from(AUTHOR)
+		.fetch();
+
+
+-----------------------
+复用PreparedStatement
+-----------------------
+	// 创建一个查询，该查询被配置为保持其底层PreparedStatement的开放。
+	try (ResultQuery<Record> query = create.selectOne().keepStatement(true)) {
+		Result<Record> result1 = query.fetch(); // 延迟创建一个新的 PreparedStatement
+		Result<Record> result2 = query.fetch(); // 复用上一步上传的  PreparedStatement
+	}

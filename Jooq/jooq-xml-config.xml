@@ -60,6 +60,7 @@
 		<target>
 			<packageName>io.springcloud.jooq.generated</packageName>
 			<directory>src/main/java</directory>
+			<clean>true</clean>
 		</target>
 	</generator>
 </configuration>

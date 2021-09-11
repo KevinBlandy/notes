@@ -46,4 +46,7 @@ Settings
 			* 占位符参数如果是 named，这个方法可以设置前缀
 		
 
+		public Settings withRenderFormatted(Boolean value) 
+			* 是否格式化输出SQL
+
 				

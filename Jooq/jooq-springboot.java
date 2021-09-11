@@ -36,6 +36,7 @@ springboot
 			public void customize(DefaultConfiguration configuration) {
 				configuration.settings()
 					.withRenderKeywordCase(RenderKeywordCase.UPPER) // 关键字大写
+					.withRenderFormatted(true)						// 格式化输出的SQL
 					; 
 			}
 		}
