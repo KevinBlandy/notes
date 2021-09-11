@@ -86,6 +86,7 @@ querydsl			|
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.boot.test.context.SpringBootTest;
 	import org.springframework.test.context.junit4.SpringRunner;
+	import javax.persistence.PersistenceContext;
 
 	import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -97,7 +98,7 @@ querydsl			|
 	public class JpaApplicationTest {
 
 		// ×¢Èë entityManager
-		@Autowired
+		@PersistenceContext
 		private EntityManager entityManager;
 
 		@Test

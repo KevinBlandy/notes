@@ -27,14 +27,15 @@ Service抽象
 
 	
 	// 抽象一个 AbstractService 基础实现类
-	package io.springcloud.service;
-
 	import java.util.List;
 	import java.util.Optional;
 	import java.util.function.Function;
 
-	import javax.annotation.Resource;
+	import javax.persistence.EntityManager;
+	import javax.persistence.PersistenceContext;
 
+	import com.xsh.common.repository.BaseRepository;
+	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.data.domain.Example;
 	import org.springframework.data.domain.Page;
 	import org.springframework.data.domain.Pageable;
@@ -46,16 +47,18 @@ Service抽象
 	import com.querydsl.core.types.Predicate;
 	import com.querydsl.jpa.impl.JPAQueryFactory;
 
-	import io.springcloud.repository.BaseRepository;
 
 
 	public abstract  class AbstractService<T, ID>  implements BaseService <T, ID>{
 		
-		@Resource
+		@Autowired
 		protected BaseRepository<T,ID> baseRepository;
 		
-		@Resource
-		protected JPAQueryFactory jpaQueryFactory;
+	//	@Resource
+	//	protected JPAQueryFactory jpaQueryFactory;
+		
+		@PersistenceContext  // EntityManager 线程不是安全的
+		protected EntityManager entityManager;
 		
 		@Override
 		@Transactional(readOnly = true, rollbackFor = Throwable.class)
@@ -279,9 +282,6 @@ Service抽象
 		public boolean exists(Predicate predicate) {
 			return this.baseRepository.exists(predicate);
 		}
-		
-
-		// new 
 
 		@Override
 		public <S extends T> List<S> saveAllAndFlush(Iterable<S> entities) {
