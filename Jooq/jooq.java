@@ -134,6 +134,8 @@ Jooq 自动生成
 	
 	org.jooq.Record
 		* 结果集中的每一行纪录，相同预定义了最长22个长度的行: Record22
+		* 每一张表，都有对应的 XxxRecord 实现
+		* 这个对象可以和POjo互相转换
 	
 	org.jooq.TableField
 		* 每一条记录的，每一个字段

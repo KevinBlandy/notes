@@ -122,12 +122,15 @@
 ---------------------------
 对结果集进行group
 ---------------------------
+	# 官方案例
+		https://github.com/querydsl/querydsl/blob/master/querydsl-collections/src/test/java/com/querydsl/collections/GroupByTest.java
+	
 	# 在内存中进行分组，也就是关联检索结果集封装
 		jpaQueryFactory.select().from().innerJoin().on().transform();
 		jpaQueryFactory.select().from().innerJoin().on().fetchAll()transform();
 	
 	
-	# 结果集的聚合
+	# 结果集的聚合Demo
 		import static com.querydsl.core.group.GroupBy.*;
 		Map<Integer, List<Comment>> results = query.from(post, comment)
 			.where(comment.post.id.eq(post.id))
@@ -180,3 +183,14 @@
 		<V> ResultTransformer<CloseableIterator<V>> iterate(FactoryExpression<V> expression)
 		<V> ResultTransformer<List<V>> list(FactoryExpression<V> expression)
 
+	
+	# 分组的结果集接口	Group
+		Object[] toArray();
+		<T, R> R getGroup(GroupExpression<T, R> coldef);
+		<T> T getOne(Expression<T> expr);
+		<T> Set<T> getSet(Expression<T> expr);
+		<T> SortedSet<T> getSortedSet(Expression<T> expr);
+		<T> List<T> getList(Expression<T> expr);
+		<K, V> Map<K, V> getMap(Expression<K> key, Expression<V> value);
+		<K, V> SortedMap<K, V> getSortedMap(Expression<K> key, Expression<V> value);
+	

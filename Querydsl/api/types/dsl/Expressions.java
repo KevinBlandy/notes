@@ -20,8 +20,10 @@ Expressions
 		public static final BooleanExpression FALSE = booleanTemplate("false");
 	
 	# 静态方法
-		<T> SimplePath<T> path(Class<? extends T> type, String variable) 
-		<T> SimplePath<T> path(Class<? extends T> type, Path<?> parent, String property)
+		public static <T> SimplePath<T> path(Class<? extends T> type, String variable) 
+		public static <T> SimplePath<T> path(Class<? extends T> type, Path<?> parent, String property)
+
+		public static <T> Expression<T> constant(T value)
 		
 
 
@@ -53,7 +55,7 @@ xxxTemplate
 动态的获取查询对象的列
 --------------------------
 	QPlay play = QPlay.play;
-	// 根据查询对象，获取它的namePath
+	// 根据查询对象，指定数据类型，获取它的namePath
 	StringPath column = Expressions.stringPath(play, "name");
 	query.from(play);
 	query.where(column.eq("New play") );
