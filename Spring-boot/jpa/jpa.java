@@ -12,6 +12,10 @@ jpa					 |
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+		</dependency>
 	
 	# 使用
 		1,自定义接口继承:JpaRepository 和 JpaSpecificationExecutor

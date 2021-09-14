@@ -169,6 +169,8 @@
 --------------------
 常量
 --------------------
+	// TODO 有问题
+
 	StringExpression stringExpression = Expressions.asString("默认");
 
 	query.select(stringExpression.as("name")); // SELECT `默认` AS `name`
@@ -177,46 +179,56 @@
 ----------------------------------------
 CASE 表达式, IF 语句, IFNULL 语句
 ----------------------------------------
-	QVideo qVideo = QVideo.video;
-	
-	// nullif 语句，如果参数和值一样，就返回null，
-	// NULLIF(Expression1,Expression2):给定两个参数Expression1和Expression2，如果两个参数相等，则返回NULL；否则就返回第一个参数。
-	SimpleExpression<Integer> c2 = qVideo.playCount.nullif(22);
-	
-	// is null 语句，如果结果是NULL，返回1, 如果结果不是NULL，返回 0
-	// 还有一个 isNotNull(); 刚好相反
-	BooleanExpression c4 = qVideo.poster.isNull();
-	
-	// CASE 语句
+	# CaseBuilder
+		QCustomer customer = QCustomer.customer;
+			Expression<String> cases = new CaseBuilder()
+			.when(customer.annualSpending.gt(10000)).then("Premier")
+			.when(customer.annualSpending.gt(5000)).then("Gold")
+			.when(customer.annualSpending.gt(2000)).then("Silver")
+			.otherwise("Bronze");
+		// The cases expression can now be used in a projection or condition
 
-	// 如果 playCount 是-1，则返回0，否则返回 999
-	NumberExpression<Integer> c1 = qVideo.playCount.when(-1).then(0).otherwise(999);
-	// 如果 title 是 字符串“null”，“none”，返回 0，否则返回 1
-	BooleanExpression c3 = qVideo.title.lower().when("null").then(false).when("none").then(false).otherwise(true);
-	// 如果 coin 是1，返回为null,否则返回coin值
-	Expression<Object> c5 = qVideo.coin.when(0).thenNull().otherwise(qVideo.coin);
-	
-	this.jpaQueryFactory
-		.select(c1, c2, c3, c4, c5)
-		.from(qVideo)
-		.fetch();
-	
-	// SQL
-	SELECT
-		CASE 
-			WHEN video0_.play_count =? THEN ? 
-			ELSE 999 
-		END AS col_0_0_,
-		nullif( video0_.play_count, ? ) AS col_1_0_,
-		CASE
-			WHEN lower( video0_.title ) =? THEN ? 
-			WHEN lower( video0_.title ) =? THEN? 
-			ELSE 1 
-		END AS col_2_0_,
-			video0_.poster IS NULL AS col_3_0_,
-		CASE
-			WHEN video0_.coin =? THEN NULL 
-			ELSE 'video.coin' 
-		END AS col_4_0_ 
-	FROM
-		video video0_
+	# Demo
+		QVideo qVideo = QVideo.video;
+		
+		// nullif 语句，如果参数和值一样，就返回null，
+		// NULLIF(Expression1,Expression2):给定两个参数Expression1和Expression2，如果两个参数相等，则返回NULL；否则就返回第一个参数。
+		SimpleExpression<Integer> c2 = qVideo.playCount.nullif(22);
+		
+		// is null 语句，如果结果是NULL，返回1, 如果结果不是NULL，返回 0
+		// 还有一个 isNotNull(); 刚好相反
+		BooleanExpression c4 = qVideo.poster.isNull();
+		
+		// CASE 语句
+
+		// 如果 playCount 是-1，则返回0，否则返回 999
+		NumberExpression<Integer> c1 = qVideo.playCount.when(-1).then(0).otherwise(999);
+		// 如果 title 是 字符串“null”，“none”，返回 0，否则返回 1
+		BooleanExpression c3 = qVideo.title.lower().when("null").then(false).when("none").then(false).otherwise(true);
+		// 如果 coin 是1，返回为null,否则返回coin值
+		Expression<Object> c5 = qVideo.coin.when(0).thenNull().otherwise(qVideo.coin);
+		
+		this.jpaQueryFactory
+			.select(c1, c2, c3, c4, c5)
+			.from(qVideo)
+			.fetch();
+		
+		// SQL
+		SELECT
+			CASE 
+				WHEN video0_.play_count =? THEN ? 
+				ELSE 999 
+			END AS col_0_0_,
+			nullif( video0_.play_count, ? ) AS col_1_0_,
+			CASE
+				WHEN lower( video0_.title ) =? THEN ? 
+				WHEN lower( video0_.title ) =? THEN? 
+				ELSE 1 
+			END AS col_2_0_,
+				video0_.poster IS NULL AS col_3_0_,
+			CASE
+				WHEN video0_.coin =? THEN NULL 
+				ELSE 'video.coin' 
+			END AS col_4_0_ 
+		FROM
+			video video0_

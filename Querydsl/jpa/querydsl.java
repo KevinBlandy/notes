@@ -14,6 +14,10 @@ querydsl			|
 		    <version>4.2.1</version>
 		    <scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+		</dependency>
 		<plugin>
 			<groupId>com.mysema.maven</groupId>
 			<artifactId>apt-maven-plugin</artifactId>
@@ -66,9 +70,27 @@ querydsl			|
 		
 		* 继承: EntityPathBase<T>
 		* 具备一个单例的常量属性, 就是Entity类名称首字母小写, 也可以自己根据构造函数创建
-
-			
+	
+	# 生成类配置注解 @Config
+		boolean entityAccessors() default false;boolean entityAccessors() default false;
+		boolean listAccessors() default false;
+		boolean mapAccessors() default false;
+		boolean createDefaultVariable() default true;
+		String defaultVariableName() default "";
 		
+			
+	# 自定义字段类型
+		@Entity
+		public class MyEntity {
+			@QueryType(PropertyType.SIMPLE)
+			public String stringAsSimple;
+
+			@QueryType(PropertyType.COMPARABLE)
+			public String stringAsComparable;
+
+			@QueryType(PropertyType.NONE)
+			public String stringNotInQuerydsl;
+		}
 	
 -------------------
 测试			   |

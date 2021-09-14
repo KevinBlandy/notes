@@ -55,10 +55,12 @@ Querydsl				|
 		public class JPAQueryFactoryConfiguration {
 
 			@Bean
-			public JPAQueryFactory jPAQueryFactory (@Autowired EntityManager entityManager) {
+			public JPAQueryFactory jPAQueryFactory (@PersistenceContext EntityManager entityManager) {
 				return new JPAQueryFactory(entityManager);
 			}
 		}
+
+		* EntityManager 有线程安全问题，不能这样用
 	
 	# Repository 实现接口: QuerydslPredicateExecutor
 		* 通过该接口, 给 Repository 扩展queryDsl的检索api

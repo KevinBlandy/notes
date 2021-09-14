@@ -55,3 +55,24 @@
 	spring.jpa.hibernate.use-new-id-generator-mappings=
 
 
+
+----------------------------
+≥£”√
+----------------------------
+
+# application.yaml
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+
+# dev
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      "hibernate.format_sql": true
+    hibernate:
+      ddl-auto: update
