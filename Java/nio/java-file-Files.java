@@ -81,6 +81,10 @@ Files-静态方法				|
 	List<String>	readAllLines(Path path,Charset charset);
 						* 把指定的文本文件,以指定的字符集一行一行的读取到List<String>中
 	
+	String readString(Path path) throws IOException
+	String readString(Path path, Charset cs) throws IOException
+		* 读取为字符串
+	
 	//=======================写入
 	Path			write(Path path,byte[] bute,OpenOption penOption...);
 						* 把字节写入到 path
@@ -89,6 +93,9 @@ Files-静态方法				|
 	Path			write(Path path, Iterable<? extends CharSequence> lines,OpenOption penOption...);
 						* 同上,写入的是 lines 子类中的数据
 						* 例如:List<String> 中的数据
+	
+	Path writeString(Path path, CharSequence csq, OpenOption... options) throws IOException
+	Path writeString(Path path, CharSequence csq, Charset cs, OpenOption... options) throws IOException
 	
 	//=======================删除
 	void			delete(Path path);

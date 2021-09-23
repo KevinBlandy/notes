@@ -14,6 +14,16 @@ Path					|
 		3,Paths 静态方法
 			Path path = Paths.get("F:/test/jdk7", "test.txt"); 
 				* 第二个参数是可变长参数,标识层级目录
+		
+------------------------
+静态方法
+------------------------
+	public static Path of(String first, String... more)
+		* 获取Path
+			 return FileSystems.getDefault().getPath(first, more);
+	
+	public static Path of(URI uri)
+
 
 ------------------------
 Path-实例方法			|

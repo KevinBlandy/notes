@@ -50,6 +50,10 @@ RCVBUF_ALLOCATOR				 |
 	WRITE_BUFFER_HIGH_WATER_MARK
 	WRITE_BUFFER_LOW_WATER_MARK
 	WRITE_BUFFER_WATER_MARK
+		* 设置写buffer高低水位
+			serverBootstrap.option(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(1024 * 1024, 8 * 1024 * 1024));
+			// 高低水位配合isWritable使用
+
 	ALLOW_HALF_CLOSURE
 
 	AUTO_READ

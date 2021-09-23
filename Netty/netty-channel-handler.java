@@ -190,18 +190,28 @@ ChannelPromise 机制			 |
 -----------------------------
 	void handlerAdded(ChannelHandlerContext ctx) throws Exception;
 	void handlerRemoved(ChannelHandlerContext ctx) throws Exception;
+		* 添加到pipeline
+
 	void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception;
+		* 异常
 
 	void channelRegistered(ChannelHandlerContext ctx) throws Exception;
 	void channelUnregistered(ChannelHandlerContext ctx) throws Exception;
+		* 注册/取消注册到EventLoop
 
 	void channelActive(ChannelHandlerContext ctx) throws Exception;
 	void channelInactive(ChannelHandlerContext ctx) throws Exception;
+		* 连接激活/关闭
 
 	void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception;
+		* 数据可读
+
 	void channelReadComplete(ChannelHandlerContext ctx) throws Exception;
+		* 数据读取完毕
+
 	void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception;
 	void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception;
+		* 写队列状态发生了变化
 
 -----------------------------
 异常的传播与最佳实践		 |
@@ -218,7 +228,74 @@ ChannelPromise 机制			 |
 
 
 -----------------------------
-Handler统计					 |
+Handler统计			
 -----------------------------
 	ResolveAddressHandler 
 	SslClientHelloHandler 
+
+-----------------------------
+Handler 写队列
+-----------------------------
+	# ChannelOutboundBuffer
+		* Netty为了提高网络的吞吐量，在业务层与socket之间增加了一个ChannelOutboundBuffer
+		* ChannelOutboundBuffer内部是一个链表结构
+		* 在调用channel.write的时候，所有写出的数据其实并没有写到socket，而是先写到ChannelOutboundBuffer。
+		* 当调用channel.flush的时候才真正的向socket写出。
+		* 因为这中间有一个buffer，就存在速率匹配了，而且这个buffer还是无界的（链表），也就是你如果没有控制channel.write的速度，会有大量的数据在这个buffer里堆积
+		* 如果又碰到socket写不出数据的时候（isActive此时判断无效）或者写得慢的情况。很有可能的结果就是资源耗尽。
+		* 而且如果ChannelOutboundBuffer存放的是，DirectByteBuffer，这会让问题更加难排查。
+
+	
+	# 高低水位的设置
+		serverBootstrap.option(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(1024 * 1024, 8 * 1024 * 1024));
+
+		* 也可以通过conifg设置的方法设置
+	
+	# 解决 ChannelOutboundBuffer 溢出的步骤有2个
+	
+	# 1, 启用autoRead机制
+		* 当channel不可写时，关闭autoRead
+			public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+				if (!ctx.channel().isWritable()) {
+					Channel channel = ctx.channel();
+					ChannelInfo channelInfo = ChannelManager.CHANNEL_CHANNELINFO.get(channel);
+					String clientId = "";
+					if (channelInfo != null) {
+						clientId = channelInfo.getClientId();
+					}
+
+					LOGGER.info("channel is unwritable, turn off autoread, clientId:{}", clientId);
+					channel.config().setAutoRead(false);
+				}
+			}
+		
+		* 当数据可写时开启autoRead
+			@Override
+			public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception
+			{
+				Channel channel = ctx.channel();
+				ChannelInfo channelInfo = ChannelManager.CHANNEL_CHANNELINFO.get(channel);
+				String clientId = "";
+				if (channelInfo != null) {
+					clientId = channelInfo.getClientId();
+				}
+				if (channel.isWritable()) {
+					LOGGER.info("channel is writable again, turn on autoread, clientId:{}", clientId);
+					channel.config().setAutoRead(true);
+				}
+			}
+	
+	# 2, 写数据，增加channel.isWritable()的判断
+		private void writeBackMessage(ChannelHandlerContext ctx, MqttMessage message) {
+			Channel channel = ctx.channel();
+			//增加channel.isWritable()的判断
+			if (channel.isActive() && channel.isWritable()) {
+				ChannelFuture cf = channel.writeAndFlush(message);
+				if (cf.isDone() && cf.cause() != null) {
+					LOGGER.error("channelWrite error!", cf.cause());
+					ctx.close();
+				}
+			}
+		}
+
+		* isWritable可以来控制 ChannelOutboundBuffer ，不让其无限制膨胀。其机制就是利用设置好的channel高低水位来进行判断。

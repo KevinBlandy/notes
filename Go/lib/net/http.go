@@ -383,7 +383,13 @@ type
 			Header() Header
 			Write([]byte) (int, error)
 			WriteHeader(statusCode int)
-		}
+				* 写入 http 状态码
+				* 这个方法，应该在其他header写入后执行
+					jsonRet, _ := json.MarshalIndent(request.Header, "", "	")
+					writer.Header().Set("Server", "Golang")
+					writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+					writer.WriteHeader(http.StatusOK)  // 在其他Header被写入后执行
+					writer.Write(jsonRet) // 写入响应体
 	
 	# type RoundTripper interface {
 			RoundTrip(*Request) (*Response, error)
@@ -550,6 +556,8 @@ func
 		* 设置Cookie
 	func StatusText(code int) string
 		* 根据http状态码返回描述
+		* 有时候蛮有用
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	
 	func FS(fsys fs.FS) FileSystem
 		* 转换 fs.FS 为 http.FileSystem
