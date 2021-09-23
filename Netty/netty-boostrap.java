@@ -247,3 +247,98 @@ public class SocketServer {
 		});
 	}
 }
+
+
+// go 客户端
+
+package main
+
+import (
+	"bufio"
+	"encoding/binary"
+	"io"
+	"log"
+	"math/rand"
+	"net"
+	"os"
+	"time"
+)
+
+// 182.92.103.206
+
+func init(){
+	log.Default().SetOutput(os.Stdout)
+	log.Default().SetFlags(log.Ldate | log.Ltime | log.Llongfile)
+	rand.Seed(time.Now().UTC().UnixNano())
+}
+
+const Content =
+`
+你以为的是你以为
+`
+
+
+func main() {
+	addr, err := net.ResolveTCPAddr("tcp4", "127.0.0.1:1024")
+	if err != nil {
+		log.Fatalf("TCP地址解析异常: err=%s\n", err.Error())
+	}
+
+	conn, err := net.DialTCP("tcp4", nil, addr)
+	if err != nil {
+		log.Fatalf("创建TCP链接异常: err=%s\n", err.Error())
+	}
+
+	go func() {
+		for {
+			// 读取header
+			sizeBuffer := make([]byte, 4)
+			_, err := io.ReadFull(conn, sizeBuffer)
+			if err != nil {
+				if err == io.EOF {
+					log.Println("链接已经断开")
+				} else {
+					log.Fatalf("读取异常: err=%s\n", err.Error())
+				}
+				break
+			}
+
+			// 读取body
+			size := binary.BigEndian.Uint32(sizeBuffer)
+			dataBuffer := make([]byte, size, size)
+			_, err = io.ReadFull(conn, dataBuffer)
+			if err != nil {
+				if err == io.EOF {
+					log.Println("链接已经断开")
+				} else {
+					log.Fatalf("读取异常: err=%s\n", err.Error())
+				}
+				break
+			}
+
+			log.Printf("收到服务器消息: %s\n", string(dataBuffer))
+		}
+	}()
+
+
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Split(bufio.ScanLines)
+	for scanner.Scan(){
+		if err := scanner.Err(); err != nil {
+			if err != io.EOF {
+				log.Fatalf("scanner扫描异常: err=%s\n", err.Error())
+			}
+			break
+		}
+
+		data := scanner.Text()
+
+		// 写入header
+		sizeBuffer := make([]byte, 4, 4)
+		binary.BigEndian.PutUint32(sizeBuffer, uint32(len(data)))
+		conn.Write(sizeBuffer) 
+
+		// 写入body
+		conn.Write([]byte(data))
+	}
+}
