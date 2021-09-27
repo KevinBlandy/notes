@@ -55,6 +55,21 @@ Stream
 	# 默认方法
 		Stream<T> takeWhile(Predicate<? super T> predicate)
 		Stream<T> dropWhile(Predicate<? super T> predicate)
+		List<T> toList()
+			* 直接转换为List
+				(List<T>) Collections.unmodifiableList(new ArrayList<>(Arrays.asList(this.toArray())));
+
+		<R> Stream<R> mapMulti(BiConsumer<? super T, ? super Consumer<R>> mapper) 
+		IntStream mapMultiToInt(BiConsumer<? super T, ? super IntConsumer> mapper)
+		LongStream mapMultiToLong(BiConsumer<? super T, ? super LongConsumer> mapper)
+		DoubleStream mapMultiToDouble(BiConsumer<? super T, ? super DoubleConsumer> mapper)
+			* 类似于Map，但是这个可以在consumer里面，通过mapper发送N个元素到stream
+					List<String> numbers = List.of("1", "2", "3", "4", "5");
+					numbers.stream().mapMulti((val, mapper) -> {
+						mapper.accept(val);			// 发送元素
+						mapper.accept("|");			// 发送元素
+					})
+					.forEach(System.out::print); // 1|2|3|4|5|
 	
 	# 静态方法
 		static<T> Builder<T> builder()

@@ -1,11 +1,11 @@
 ----------------------------
- ÀÖ¹ÛËø²¢·¢¿ØÖÆ				|
+ ä¹è§‚é”å¹¶å‘æ§åˆ¶				|
 ----------------------------
-	# ÎÄµµ
+	# æ–‡æ¡£
 		https://www.elastic.co/guide/en/elasticsearch/reference/current/optimistic-concurrency-control.html
 
 
-	# ¼ìË÷µÄ½á¹ûÖĞ»á´æÔÚÁ½¸öÔªÊı¾İ
+	# æ£€ç´¢çš„ç»“æœä¸­ä¼šå­˜åœ¨ä¸¤ä¸ªå…ƒæ•°æ®
 		{
 		  ...
 		  "_seq_no" : 28,
@@ -13,7 +13,7 @@
 		}
 	
 		
-	# CAS¸üĞÂ
+	# CASæ›´æ–°
 		PUT /<index>/_doc/<id>?if_seq_no=<_seq_no>&if_primary_term=<_primary_term>
 		
 		POST /<index>/_doc/<id>?if_seq_no=<_seq_no>&if_primary_term=<_primary_term>
@@ -21,7 +21,7 @@
 		POST /<index>/_update/<id>?if_seq_no=<_seq_no>&if_primary_term=<_primary_term>
 
 
-		* Í¨¹ı²éÑ¯²ÎÊı: if_seq_no ºÍ if_primary_term À´¿ØÖÆ°æ±¾ºÅ,Èç¹û¸üĞÂÊ§°Ü, Å×³öÒì³£
+		* é€šè¿‡æŸ¥è¯¢å‚æ•°: if_seq_no å’Œ if_primary_term æ¥æ§åˆ¶ç‰ˆæœ¬å·,å¦‚æœæ›´æ–°å¤±è´¥, æŠ›å‡ºå¼‚å¸¸
 			{
 			  "error": {
 				"root_cause": [
@@ -42,43 +42,44 @@
 			  "status": 409
 			}
 		
-		* Èç¹ûÊÇ²¿·Ö¸üĞÂ, ÄÇÃ´Ö»ÓĞÔÚ¸üĞÂ³É¹¦(¸üĞÂµÄÄÚÈİÓĞĞŞ¸Ä)µÄÊ±ºò²Å»áÈ¥ÅĞ¶Ï°æ±¾ºÅ
+		* å¦‚æœæ˜¯éƒ¨åˆ†æ›´æ–°, é‚£ä¹ˆåªæœ‰åœ¨æ›´æ–°æˆåŠŸ(æ›´æ–°çš„å†…å®¹æœ‰ä¿®æ”¹)çš„æ—¶å€™æ‰ä¼šå»åˆ¤æ–­ç‰ˆæœ¬å·
 
 ----------------------------
-°æ±¾¿ØÖÆ					|
+ç‰ˆæœ¬æ§åˆ¶					|
 ----------------------------
-	# Ã¿¸ödoc¶¼ÓĞÒ»¸ö version ×Ö¶Î
+	# æ–°ç‰ˆæœ¬å·²ç»ä¸èƒ½ç”¨äº†
+	# æ¯ä¸ªdocéƒ½æœ‰ä¸€ä¸ª version å­—æ®µ
 		{
 		  "_version" : 20,
 		}
 
-		 * Ä¬ÈÏ´Ó1¿ªÊ¼, ²¢ÔÚÃ¿´Î¸üĞÂÊ±µİÔö, °üÀ¨É¾³ı
+		 * é»˜è®¤ä»1å¼€å§‹, å¹¶åœ¨æ¯æ¬¡æ›´æ–°æ—¶é€’å¢, åŒ…æ‹¬åˆ é™¤
 		 
-	# Ö´ĞĞĞŞ¸ÄÊ±, Ê¹ÓÃ°æ±¾ºÅ
+	# æ‰§è¡Œä¿®æ”¹æ—¶, ä½¿ç”¨ç‰ˆæœ¬å·
 		PUT /<index>/_doc/<id>?version=<_version>&version_type=<version_type>
 		{
 			"message" : "elasticsearch now has versioning support, double cool!"
 		}
 
-		* CAS¸üĞÂ,Èç¹ûÊ¹ÓÃdocÄÚ²¿µÄ°æ±¾ºÅÔò, Ê¹ÓÃ if_seq_no ºÍ if_primary_term 
-		* CAS¸üĞÂ,Èç¹ûÊ¹ÓÃÍâ²¿µÄ°æ±¾ºÅ, ÔòÊ¹ÓÃ version
+		* CASæ›´æ–°,å¦‚æœä½¿ç”¨docå†…éƒ¨çš„ç‰ˆæœ¬å·åˆ™, ä½¿ç”¨ if_seq_no å’Œ if_primary_term 
+		* CASæ›´æ–°,å¦‚æœä½¿ç”¨å¤–éƒ¨çš„ç‰ˆæœ¬å·, åˆ™ä½¿ç”¨ version
 	
-	# version_type ,Ã¶¾ÙÖµ
+	# version_type ,æšä¸¾å€¼
 		internal
-			* ½öÔÚ¸ø¶¨°æ±¾Óë´æ´¢ÎÄµµµÄ°æ±¾ÏàÍ¬Ê±²Å¶ÔÎÄµµ±àÖÆË÷Òı
-			* ÒÑ¾­²»Ö§³ÖÁË: internal versioning can not be used for optimistic concurrency control. Please use `if_seq_no` and `if_primary_term` instead
+			* ä»…åœ¨ç»™å®šç‰ˆæœ¬ä¸å­˜å‚¨æ–‡æ¡£çš„ç‰ˆæœ¬ç›¸åŒæ—¶æ‰å¯¹æ–‡æ¡£ç¼–åˆ¶ç´¢å¼•
+			* å·²ç»ä¸æ”¯æŒäº†: internal versioning can not be used for optimistic concurrency control. Please use `if_seq_no` and `if_primary_term` instead
 
 		external / external_gt
 		external_gte
 
-	# ¿ÉÒÔ°Ñ°æ±¾ºÅ½»¸øÍâ²¿³ÌĞò¿ØÖÆ, external version
-		* esÌá¹©ÁËÒ»¸öfeature,¿ÉÒÔ²»Ê¹ÓÃÄÚÈİ²¿µÄ_version°æ±¾ºÅÀ´½øĞĞ²¢·¢¿ØÖÆ
-		* ¿ÉÒÔ»ùÓÚ×Ô¼ºÎ¬»¤µÄ'version°æ±¾ºÅ'À´½øĞĞ²¢·¢¿ØÖÆ
-		* Ê¹ÓÃ³¡¾°
-			ÔÚmysqlÖĞÒ²´æÔÚÒ»·İÊı¾İ,Ó¦ÓÃÏµÍ³±¾Éí¾ÍÎ¬»¤ÁËÒ»¸ö°æ±¾ºÅ,´ËÊ±Ê¹ÓÃÀÖ¹ÛËø¿ØÖÆµÄÊ±ºò,²»ÏëÊ¹ÓÃesµÄversion,¶øÊÇÏëÊ¹ÓÃÓ¦ÓÃÏµÍ³ÖĞµÄversion
+	# å¯ä»¥æŠŠç‰ˆæœ¬å·äº¤ç»™å¤–éƒ¨ç¨‹åºæ§åˆ¶, external version
+		* esæä¾›äº†ä¸€ä¸ªfeature,å¯ä»¥ä¸ä½¿ç”¨å†…å®¹éƒ¨çš„_versionç‰ˆæœ¬å·æ¥è¿›è¡Œå¹¶å‘æ§åˆ¶
+		* å¯ä»¥åŸºäºè‡ªå·±ç»´æŠ¤çš„'versionç‰ˆæœ¬å·'æ¥è¿›è¡Œå¹¶å‘æ§åˆ¶
+		* ä½¿ç”¨åœºæ™¯
+			åœ¨mysqlä¸­ä¹Ÿå­˜åœ¨ä¸€ä»½æ•°æ®,åº”ç”¨ç³»ç»Ÿæœ¬èº«å°±ç»´æŠ¤äº†ä¸€ä¸ªç‰ˆæœ¬å·,æ­¤æ—¶ä½¿ç”¨ä¹è§‚é”æ§åˆ¶çš„æ—¶å€™,ä¸æƒ³ä½¿ç”¨esçš„version,è€Œæ˜¯æƒ³ä½¿ç”¨åº”ç”¨ç³»ç»Ÿä¸­çš„version
 		
-		* version¿ØÖÆÓï·¨
+		* versionæ§åˆ¶è¯­æ³•
 			?version=<_version>&version_type=external
 
-		* µ± version_type=external µÄÊ±ºò,version²ÎÊı±ØĞëÒª´óÓÚµ±Ç°µÄ_version²ÅÄÜ¸üĞÂ³É¹¦
-		* ÔÚĞŞ¸Ä³É¹¦ºó,²¢ÇÒ»á°ÑdocumentµÄ_versionĞŞ¸ÄÎªversion²ÎÊıµÄÖµ
+		* å½“ version_type=external çš„æ—¶å€™,versionå‚æ•°å¿…é¡»è¦å¤§äºå½“å‰çš„_versionæ‰èƒ½æ›´æ–°æˆåŠŸ
+		* åœ¨ä¿®æ”¹æˆåŠŸå,å¹¶ä¸”ä¼šæŠŠdocumentçš„_versionä¿®æ”¹ä¸ºversionå‚æ•°çš„å€¼

@@ -65,7 +65,7 @@ document - 更新		|
 				}
 			}
 
-		* 可以仅仅提交更新需要更新的字段
+		* 可以仅仅提交更新需要更新的字段，文档不存在返回异常，字段不存在会创建
 		* 如果本次提交未修改数据的话,那么result字段值为:'noop',并且没有:'_seq_no'和'_primary_term'字段,
 			- noop更新
 		
@@ -73,13 +73,33 @@ document - 更新		|
 		* 可以理解为非强制更新
 		* partial update(部分更新)
 	
-	# 也支持使用脚本语言更新
+	# upsert更新
+		* 如果更新记录不存在，则执行插入
+		
+		POST /users/_update/5
+		{
+		  "doc": {
+			"name": "foo"			// 更新字段
+		  },
+		  "upsert": {				// 插入字段
+			"name": "foo",
+			"remark": "Upsert"
+		  }
+		}
+
+--------------------
+document - 脚本语言更新
+--------------------
+	# 支持使用Groovy脚本语言更新
+		ctx._source
+			* 引用源文档
+
+	# 自增
 		POST /<index>/_update/<id>
 		{
 		  "script" : "ctx._source.age += 5"
 		}
 
-		* 具体看脚本
 	
 	
 --------------------
@@ -95,14 +115,10 @@ document - 更新		|
 		  }
 		}
 		* 把index中的所有field的值都修改为value
-	
-	# 此更新通过查询API也支持不分功能查询参数
-		refresh
-		wait_for_completion
-		wait_for_active_shards
-		timeout
-		scroll
-	
+
+--------------------
+更新请求支持的参数
+--------------------
 	# 更新操作, 支持的查询功能参数
 		retry_on_conflict
 			* 在更新的get和indexing阶段之间, 另一个进程可能已经更新了同一文档

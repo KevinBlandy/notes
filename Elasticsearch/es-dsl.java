@@ -11,11 +11,11 @@ DSL							  |
 ------------------------------
 DSL	query					  |
 ------------------------------
-	# match_all
+	match_all
 		* 匹配所有
 			{"query": { "match_all": {} }}
 	
-	# match
+	match
 		* 全文检索
 			{
 			  "query": { "match": { "<field>": <keyworlds> } }
@@ -28,7 +28,7 @@ DSL	query					  |
 		* 会把检索的内容进行分词, 然后去倒排索引中检索, 只要是索引可以匹配到任何一个词, 就可以算作结果
 		* 通俗理解就是, 关键字被拆分后, 任何一个文档匹配到了任何关键字, 都ok, 多个关键字与文档的关系是 or
 
-	# match_phrase
+	match_phrase
 		* 跟全文检索差不多, 也是会对关键字进行分词
 		* 但是必须要求doc中的关键字, 符合检索条件中的所有, 才会算作结果, 多个关键字与文档的关系是 and
 			{
@@ -50,7 +50,7 @@ DSL	query					  |
 
 		
 
-	# multi_match
+	multi_match
 		* 跟 match 差不多, 可以把检索的关键字, 用于多个指定的字段
 			{
 				"query": {
@@ -63,9 +63,9 @@ DSL	query					  |
 		
 		* 只要是任何字段成功匹配, 都算作返回记录
 	
-	# match_phrase_prefix
+	match_phrase_prefix
 
-	# range
+	range
 		* 区间值匹配, 指定的字段大于, 等于, 小于, 大于等于, 小于等于 指定的值
 			{
 				"query":{
@@ -85,7 +85,7 @@ DSL	query					  |
 			ge
 			ne
 	
-	# term
+	term
 		* 精准匹配, 不对关键字进行分词器分析, 文档中指定字段必须包含整个搜索的词汇
 			{
 				"query": {
@@ -100,7 +100,7 @@ DSL	query					  |
 		* 关键字没分词, doc也没分词, 内容一样, 就可以匹配
 			
 	
-	# terms
+	terms
 		* 跟term一样, 但是允许指定的字段, 匹配多个值
 			{
 				"query":{
@@ -110,7 +110,7 @@ DSL	query					  |
 				}
 			}
 	
-	# exists
+	exists
 		* 指定的field必须存在, 并且不能为 null, 就符合条件
 			{
 				"query":{

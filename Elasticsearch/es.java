@@ -1,7 +1,7 @@
 -----------------------------
 Elasticsearch			 	 |
 -----------------------------
-	# ¹ÙÍø
+	# å®˜ç½‘
 		https://www.elastic.co
 		https://www.elastic.co/cn/
 		https://www.elastic.co/guide/en/elasticsearch/reference/index.html
@@ -9,7 +9,7 @@ Elasticsearch			 	 |
 	# Github
 		https://github.com/elastic/elasticsearch
 	
-	# ²Î¿¼
+	# å‚è€ƒ
 		https://blog.csdn.net/laoyang360/article/details/79293493
 		https://github.com/laoyang360/deep_elasticsearch
 		http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html
@@ -21,7 +21,7 @@ Elasticsearch			 	 |
 	
 
 -----------------------------
-Elasticsearch-Ä¿Â¼½á¹¹		 |
+Elasticsearch-ç›®å½•ç»“æž„		 |
 -----------------------------
 	bin
 		|-elasticsearch
@@ -41,34 +41,34 @@ Elasticsearch-Ä¿Â¼½á¹¹		 |
 	plugins
 
 ------------------------------
-Linux°²×°Æô¶¯					|
+Linuxå®‰è£…å¯åŠ¨					|
 ------------------------------
-	# ÏÂÔØÖ¸¶¨µÄ°æ±¾
+	# ä¸‹è½½æŒ‡å®šçš„ç‰ˆæœ¬
 		https://www.elastic.co/cn/downloads/elasticsearch
 	
-	# ½âÑ¹µ½Ä¿Â¼
+	# è§£åŽ‹åˆ°ç›®å½•
 
-	# ´´½¨ÔËÐÐÓÃ»§, Ö´ÐÐÄ¿Â¼ÊÚÈ¨
-		* ES²»ÔÊÐíÖ±½ÓÊ¹ÓÃrootÕË»§½øÐÐÆô¶¯, »á¸ø³öÒì³£:can not run elasticsearch as root
+	# åˆ›å»ºè¿è¡Œç”¨æˆ·, æ‰§è¡Œç›®å½•æŽˆæƒ
+		* ESä¸å…è®¸ç›´æŽ¥ä½¿ç”¨rootè´¦æˆ·è¿›è¡Œå¯åŠ¨, ä¼šç»™å‡ºå¼‚å¸¸:can not run elasticsearch as root
 
 		useradd -r elasticsearch
 
 		chown elasticsearch:elasticsearch [path] -R
 
-		* Èç¹ûÖ¸¶¨ÁËÆäËûµÄÖ¾Êý¾ÝÄ¿Â¼, Ò²ÐèÒª½øÐÐÊÚÈ¨
+		* å¦‚æžœæŒ‡å®šäº†å…¶ä»–çš„å¿—æ•°æ®ç›®å½•, ä¹Ÿéœ€è¦è¿›è¡ŒæŽˆæƒ
 
 	
-	# Æô¶¯½Å±¾
+	# å¯åŠ¨è„šæœ¬
 		/bin/elasticsearch
 			-d
-				* ÔÚºóÌ¨Ö´ÐÐ
+				* åœ¨åŽå°æ‰§è¡Œ
 			-E
-				* ÉèÖÃÅäÖÃ²ÎÊý, ¸²¸Ç elasticsearch.yml
+				* è®¾ç½®é…ç½®å‚æ•°, è¦†ç›– elasticsearch.yml
 					-E path.data=node1_data
-				* ¿ÉÒÔ³öÏÖ¶à¸ö
+				* å¯ä»¥å‡ºçŽ°å¤šä¸ª
 		
 	
-	# ·ÃÎÊ:http://127.0.0.1:9200/
+	# è®¿é—®:http://127.0.0.1:9200/
 		{
 			"name": "KEVINBLANDY",
 			"cluster_name": "elaticsearch",
@@ -88,52 +88,52 @@ Linux°²×°Æô¶¯					|
 		}
 
 -----------------------------
-Elasticsearch-ºËÐÄ¸ÅÄî		 |
+Elasticsearch-æ ¸å¿ƒæ¦‚å¿µ		 |
 -----------------------------
 	Near Realtime(NRT)
-		# ½üÊµÊ±,Á½¸öÒâË¼,´ÓÐ´ÈëÊý¾Ýµ½¿ÉÒÔËÑË÷´óÔ¼»áÓÐ1sµÄÑÓ³Ù,»ùÓÚes½øÐÐËÑË÷ºÍ·ÖÎö¿ÉÒÔ´ïµ½Ãë¼¶
+		# è¿‘å®žæ—¶,ä¸¤ä¸ªæ„æ€,ä»Žå†™å…¥æ•°æ®åˆ°å¯ä»¥æœç´¢å¤§çº¦ä¼šæœ‰1sçš„å»¶è¿Ÿ,åŸºäºŽesè¿›è¡Œæœç´¢å’Œåˆ†æžå¯ä»¥è¾¾åˆ°ç§’çº§
 	
 	Cluster
-		# ½Úµã,¼¯ÈºÖÐµÄÒ»¸ö½Úµã,½Úµã»áÓÐÒ»¸öÃû³Æ,Ä¬ÈÏÊÇËæ»ú·ÖÅäµÄ
-		# ½ÚµãÃû³ÆºÜÖØÒª,½ÚµãÄ¬ÈÏ»áÈ¥¼ÓÈëÒ»¸öÃûÎª:elaticsearch µÄ¼¯Èº
-		# Èç¹ûÆô¶¯Ò»¶Ñ½Úµã,ÄÇÃ´ËüÃÇ»á×Ô¶¯×é³ÉÒ»¸öes¼¯Èº,µ±È»,Ò»¸ö½ÚµãÒ²¿ÉÒÔ×é³ÉÒ»¸öes¼¯Èº
+		# èŠ‚ç‚¹,é›†ç¾¤ä¸­çš„ä¸€ä¸ªèŠ‚ç‚¹,èŠ‚ç‚¹ä¼šæœ‰ä¸€ä¸ªåç§°,é»˜è®¤æ˜¯éšæœºåˆ†é…çš„
+		# èŠ‚ç‚¹åç§°å¾ˆé‡è¦,èŠ‚ç‚¹é»˜è®¤ä¼šåŽ»åŠ å…¥ä¸€ä¸ªåä¸º:elaticsearch çš„é›†ç¾¤
+		# å¦‚æžœå¯åŠ¨ä¸€å †èŠ‚ç‚¹,é‚£ä¹ˆå®ƒä»¬ä¼šè‡ªåŠ¨ç»„æˆä¸€ä¸ªesé›†ç¾¤,å½“ç„¶,ä¸€ä¸ªèŠ‚ç‚¹ä¹Ÿå¯ä»¥ç»„æˆä¸€ä¸ªesé›†ç¾¤
 	
 	Index
-		# Ë÷Òý,°üº¬Ò»¶ÑÓÐÏàËÆ½á¹¹µÄÎÄµµÊý¾Ý,±ÈÈç¿ÉÒÔÓÐÒ»¸ö¿Í»§Ë÷Òý,ÉÌÆ··ÖÀàË÷Òý,¶©µ¥Ë÷Òý,Ë÷ÒýÊÇÓÐÒ»¸öÃû³ÆµÄ
+		# ç´¢å¼•,åŒ…å«ä¸€å †æœ‰ç›¸ä¼¼ç»“æž„çš„æ–‡æ¡£æ•°æ®,æ¯”å¦‚å¯ä»¥æœ‰ä¸€ä¸ªå®¢æˆ·ç´¢å¼•,å•†å“åˆ†ç±»ç´¢å¼•,è®¢å•ç´¢å¼•,ç´¢å¼•æ˜¯æœ‰ä¸€ä¸ªåç§°çš„
 	
 	Type
-		# ÀàÐÍ,Ã¿¸öË÷ÒýÀï¶¼¿ÉÒÔÓÐÒ»¸ö»òÕß¶à¸ötype,typeÊÇindexÖÐµÄÁíÒ»¸öÂß¼­·ÖÀà
-		# Ò»¸ötypeÏÂµÄdocument¶¼ÓÐÏàÍ¬µÄfield,±ÈÈç²©¿ÍÏµÍ³,ÓÐÒ»¸öË÷Òý,¿ÉÒÔ¶¨ÒåÓÃ»§Êý¾Ýtype,²©¿ÍÊý¾Ýtype,ÆÀÂÛÊý¾Ýtype
-		# ÔÚ7ÀïÃæÒÑ¾­±»³Áµ×µÄÉ¾³ýÁË
+		# ç±»åž‹,æ¯ä¸ªç´¢å¼•é‡Œéƒ½å¯ä»¥æœ‰ä¸€ä¸ªæˆ–è€…å¤šä¸ªtype,typeæ˜¯indexä¸­çš„å¦ä¸€ä¸ªé€»è¾‘åˆ†ç±»
+		# ä¸€ä¸ªtypeä¸‹çš„documentéƒ½æœ‰ç›¸åŒçš„field,æ¯”å¦‚åšå®¢ç³»ç»Ÿ,æœ‰ä¸€ä¸ªç´¢å¼•,å¯ä»¥å®šä¹‰ç”¨æˆ·æ•°æ®type,åšå®¢æ•°æ®type,è¯„è®ºæ•°æ®type
+		# åœ¨7é‡Œé¢å·²ç»è¢«æ²‰åº•çš„åˆ é™¤äº†
 	
 	Documen
-		# ÎÄµµ,esÖÖµÄ×îÐ¡Êý¾Ýµ¥Ôª,Ò»¸ödocument¿ÉÒÔÊÇÒ»Ìõ¿Í»§Êý¾Ý,Ò»ÌõÉÌÆ··ÖÀàÊý¾Ý
-		# Í¨³£Ê¹ÓÃJSONÊý¾Ý½á¹¹±íÊ¾,Ã¿¸öindexÏÂµÄtypeÖÐ,¶¼¿ÉÒÔ´æ´¢¶à¸ödocument
+		# æ–‡æ¡£,esç§çš„æœ€å°æ•°æ®å•å…ƒ,ä¸€ä¸ªdocumentå¯ä»¥æ˜¯ä¸€æ¡å®¢æˆ·æ•°æ®,ä¸€æ¡å•†å“åˆ†ç±»æ•°æ®
+		# é€šå¸¸ä½¿ç”¨JSONæ•°æ®ç»“æž„è¡¨ç¤º,æ¯ä¸ªindexä¸‹çš„typeä¸­,éƒ½å¯ä»¥å­˜å‚¨å¤šä¸ªdocument
 	
 	Shard
-		# µ¥Ì¨»úÆ÷ÎÞ·¨´æ´¢´óÁ¿Êý¾Ý,es¿ÉÒÔ°ÉÒ»¸öË÷ÒýÊý¾Ý·ÖÎª¶à¸öshard,·Ö²¼Ê½ÔÚ¶àÌ¨·þÎñÆ÷ÉÏ´æ´¢
-		# ÓÐÁËShard¾Í¿ÉÒÔºáÏòÀ©Õ¹,´æ´¢¸ü¶àÊý¾Ý,ÈÃËÑË÷ºÍ·ÖÎöµÈ²Ù×÷·Ö²¼µ½¶àÌ¨·þÎñÆ÷ÉÏÈ¥Ö´ÐÐ,ÌáÉýÍÌÍÂÁ¿ºÍÐÔÄÜ
-		# Ã¿¸öshard¶¼ÊÇÒ»¸ölucene index
+		# å•å°æœºå™¨æ— æ³•å­˜å‚¨å¤§é‡æ•°æ®,eså¯ä»¥å§ä¸€ä¸ªç´¢å¼•æ•°æ®åˆ†ä¸ºå¤šä¸ªshard,åˆ†å¸ƒå¼åœ¨å¤šå°æœåŠ¡å™¨ä¸Šå­˜å‚¨
+		# æœ‰äº†Shardå°±å¯ä»¥æ¨ªå‘æ‰©å±•,å­˜å‚¨æ›´å¤šæ•°æ®,è®©æœç´¢å’Œåˆ†æžç­‰æ“ä½œåˆ†å¸ƒåˆ°å¤šå°æœåŠ¡å™¨ä¸ŠåŽ»æ‰§è¡Œ,æå‡åžåé‡å’Œæ€§èƒ½
+		# æ¯ä¸ªshardéƒ½æ˜¯ä¸€ä¸ªlucene index
 	
 	Replica
-		# ÈÎºÎÒ»¸ö·þÎñÆ÷¶¼ÓÐ¿ÉÄÜ»áå´»ú,´ËÊ±shard¾Í»á¶ªÊ§,Òò´Ë¿ÉÒÔÎªÃ¿¸öshard´´½¨n¸öreplica¸±±¾
-		# replia¿ÉÒÔÔÚshard¹ÊÕÏÊ±,Ìá¹©·þÎñ,±£Ö¤shardµÄ²»¶ªÊ§,¶à¸öreplica»¹¿ÉÒÔÌáÉýËÑË÷²Ù×÷µÄÍÌÍÂÁ¿ºÍÐÔÄÜ
-		# Shard   -> primary shard(½¨Á¢Ë÷ÒýÊ±Ò»´ÎÉèÖÃ,²»ÄÜÐÞ¸Ä,Ä¬ÈÏ5¸ö)
-		# Replica -> replica shard(ËæÊ±ÐÞ¸ÄÊýÁ¿,Ä¬ÈÏ1¸ö)
-		# Ä¬ÈÏÃ¿¸öË÷ÒýÓÐ10¸öshard,5¸öprimary shard,5¸öreplica shard
-		# ×îÐ¡µÄ¸ß¿ÉÓÃpeizhi,ÊÇÁ½Ì¨·þÎñÆ÷
+		# ä»»ä½•ä¸€ä¸ªæœåŠ¡å™¨éƒ½æœ‰å¯èƒ½ä¼šå®•æœº,æ­¤æ—¶shardå°±ä¼šä¸¢å¤±,å› æ­¤å¯ä»¥ä¸ºæ¯ä¸ªshardåˆ›å»ºnä¸ªreplicaå‰¯æœ¬
+		# repliaå¯ä»¥åœ¨shardæ•…éšœæ—¶,æä¾›æœåŠ¡,ä¿è¯shardçš„ä¸ä¸¢å¤±,å¤šä¸ªreplicaè¿˜å¯ä»¥æå‡æœç´¢æ“ä½œçš„åžåé‡å’Œæ€§èƒ½
+		# Shard   -> primary shard(å»ºç«‹ç´¢å¼•æ—¶ä¸€æ¬¡è®¾ç½®,ä¸èƒ½ä¿®æ”¹,é»˜è®¤5ä¸ª)
+		# Replica -> replica shard(éšæ—¶ä¿®æ”¹æ•°é‡,é»˜è®¤1ä¸ª)
+		# é»˜è®¤æ¯ä¸ªç´¢å¼•æœ‰10ä¸ªshard,5ä¸ªprimary shard,5ä¸ªreplica shard
+		# æœ€å°çš„é«˜å¯ç”¨peizhi,æ˜¯ä¸¤å°æœåŠ¡å™¨
 	
 
-	# ´«Í³¹ØÏµÐÍÊý¾Ý¿âµÄ¶Ô±È
+	# ä¼ ç»Ÿå…³ç³»åž‹æ•°æ®åº“çš„å¯¹æ¯”
 		Relational DB ->	Databases	-> Tables	-> Rows			-> Columns
 		Elasticsearch ->	Indices		-> Types	-> Documents	-> Fields
 
 
 
 -----------------------------
-Elasticsearch-Õ÷Í¾			 |
+Elasticsearch-å¾é€”			 |
 -----------------------------
-µ¹ÅÅË÷Òý
-´ò·Ö»úÖÆ
-È«ÎÄ¼ìË÷Ô­Àí
-·Ö´ÊÔ­Àí
+å€’æŽ’ç´¢å¼•
+æ‰“åˆ†æœºåˆ¶
+å…¨æ–‡æ£€ç´¢åŽŸç†
+åˆ†è¯åŽŸç†

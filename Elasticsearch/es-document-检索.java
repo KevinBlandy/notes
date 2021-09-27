@@ -10,6 +10,33 @@
 	
 		* 通过 * 来匹配多个index
 			GET /<prefix>*,*<sufix>/_search
+
+--------------------
+document - 检索		|
+--------------------
+	# 基本的根据id检索
+		GET /<index>/_doc/<id>
+
+		{
+		  "_index" : "customer",
+		  "_type" : "_doc",
+		  "_id" : "1",
+		  "_version" : 4,
+		  "_seq_no" : 3,
+		  "_primary_term" : 1,
+		  "found" : true,		
+			  * 是否找到了数据，如果文档不存在，返回 false
+		  "_source" : {
+			...
+		  }
+		}
+	
+	# 根据id判断是否存在, 使用 HEAD 请求
+		HEAD /<index>/_doc/<id>
+
+		存在:200 - OK
+		不在:404 - Not Found
+
 	
 -------------------
 基本的根据条件检索 |
@@ -35,6 +62,7 @@
 		  "hits" : {
 			"total" : {
 			  "value" : 13,
+				  	* 命中的总数量
 			  "relation" : "eq"
 			},
 			"max_score" : 1.0,
@@ -66,7 +94,7 @@ query参数		   |
 
 		q=<field>:<value>
 			* 全文检索, 只要是指定字段中有关键字的都OK, :q=name:KevinBlandy
-			* 有多个匹配value值, 使用逗号分隔
+			* 有多个匹配value值, 使用逗号分隔, 关系是or, 只要命中其中一个就算
 		
 		q=<field>:<+/-><value>
 			* + 表示必须包含, - 表示必须不包含: q=-author.name:Litch 
@@ -106,7 +134,8 @@ query参数		   |
 		//TODO
 	
 	# timeout 超时参数
-		* 默认无超时
+		* 默认无超时，指定参数后，只能收集到超时前收集到的结果
+		* 添加这个参数后，如果检索时间超过了参数值，那么结果中的 timeout 就会是 true 
 	
 	# df
 	# analyzer

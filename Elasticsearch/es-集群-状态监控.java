@@ -1,7 +1,7 @@
 ----------------------------
-¼¯Èº×´Ì¬					|
+é›†ç¾¤çŠ¶æ€					|
 ----------------------------
-	# ÇëÇó
+	# è¯·æ±‚
 		GET /_cat/health?
 	
 		epoch      timestamp cluster      status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
@@ -10,16 +10,16 @@
 		epoch
 		timestamp
 		cluster
-			* ¼¯ÈºÃû³Æ
+			* é›†ç¾¤åç§°
 
 		status
-			* ±íÊ¾¼¯ÈºµÄ×´Ì¬, Ê¹ÓÃÓ¢ÎÄµÄÑÕÉ«´Ê¶ù±íÊ¾
-				Green	:Ò»ÇĞ¶¼ºÜºÃ
-				Yellow	:ËùÓĞÊı¾İ¶¼¿ÉÓÃ,µ«ÉĞÎ´·ÖÅäÒ»Ğ©¸±±¾
-				Red		:Ä³Ğ©Êı¾İÓÉÓÚÄ³ÖÖÔ­Òò²»¿ÉÓÃ
+			* è¡¨ç¤ºé›†ç¾¤çš„çŠ¶æ€, ä½¿ç”¨è‹±æ–‡çš„é¢œè‰²è¯å„¿è¡¨ç¤º
+				Green	:ä¸€åˆ‡éƒ½å¾ˆå¥½
+				Yellow	:æ‰€æœ‰æ•°æ®éƒ½å¯ç”¨,ä½†å°šæœªåˆ†é…ä¸€äº›å‰¯æœ¬
+				Red		:æŸäº›æ•°æ®ç”±äºæŸç§åŸå› ä¸å¯ç”¨
 		
 		node.total
-			* ¼¯ÈºÖĞµÄ½ÚµãÊıÁ¿
+			* é›†ç¾¤ä¸­çš„èŠ‚ç‚¹æ•°é‡
 		
 		node.data
 		shards 
@@ -32,9 +32,9 @@
 		active_shards_percent
 
 ----------------------------
-²é¿´¼¯ÈºÖĞµÄ½ÚµãĞÅÏ¢		|
+æŸ¥çœ‹é›†ç¾¤ä¸­çš„èŠ‚ç‚¹ä¿¡æ¯		|
 ----------------------------
-	# ÇëÇó
+	# è¯·æ±‚
 		GET /_cat/nodes?v
 
 		ip        heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name
