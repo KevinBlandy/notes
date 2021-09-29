@@ -58,3 +58,7 @@
 	* 云服务器安全组开放ssr端口的udp协议
 	* 防火墙开放ssr端口的udp协议
 
+
+# SSR安卓客户端
+	https://github.com/shadowsocksrr/shadowsocksr-android/releases
+
