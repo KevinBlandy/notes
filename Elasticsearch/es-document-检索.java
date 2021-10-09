@@ -66,12 +66,14 @@ document - 检索		|
 			  "relation" : "eq"
 			},
 			"max_score" : 1.0,
+					* 搜索结果中最佳得分
 			"hits" : [
 			  {
 				"_index" : "customer",
 				"_type" : "_doc",
 				"_id" : "TsVMQGsBor31qRgUxQmS",
 				"_score" : 1.0,
+						* 结果的相关性得分
 				"_source" : {
 				  "name" : "KevinBlandy"
 				}
@@ -94,7 +96,7 @@ query参数		   |
 
 		q=<field>:<value>
 			* 全文检索, 只要是指定字段中有关键字的都OK, :q=name:KevinBlandy
-			* 有多个匹配value值, 使用逗号分隔, 关系是or, 只要命中其中一个就算
+			* 有多个匹配value值,(先分词) 关系是or, 只要命中其中一个就算
 		
 		q=<field>:<+/-><value>
 			* + 表示必须包含, - 表示必须不包含: q=-author.name:Litch 
