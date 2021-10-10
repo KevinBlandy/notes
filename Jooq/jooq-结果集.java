@@ -38,6 +38,12 @@
 --------------------------------------
 常用的结果集封装
 --------------------------------------
+	# fetch 系列方法，支持 map() 操作，可以把 Record 结果转换为自己封装的对象
+		.where(condition)
+		.fetch(r -> {
+			return r.into(ADMIN);
+		})
+
 	# Result 使用 into() 传递 Pojo的class可以把整列转行为对象
 		dslContext.selectFrom(Tables.ADMIN).where(Tables.ADMIN.ID.eq(UInteger.valueOf(1))).fetch().into(Admin.class);
 	
