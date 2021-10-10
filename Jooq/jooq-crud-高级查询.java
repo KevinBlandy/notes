@@ -314,3 +314,16 @@ case/when
 		Result<Record> result1 = query.fetch(); // 延迟创建一个新的 PreparedStatement
 		Result<Record> result2 = query.fetch(); // 复用上一步上传的  PreparedStatement
 	}
+
+-----------------------
+通用查询
+-----------------------
+	# 不需要表对象，列对象，构建一个检索
+
+		using(configuration)
+			.select(
+				 field(name("FIRST_NAME"), SQLDataType.VARCHAR),
+				 field(name("LAST_NAME"), SQLDataType.VARCHAR)
+			)
+			.from(table(name("ACTOR")))
+			.fetch();

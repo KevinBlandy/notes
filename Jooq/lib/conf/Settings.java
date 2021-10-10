@@ -44,9 +44,25 @@ Settings
 		
 		public Settings withRenderNamedParamPrefix(String value)
 			* 占位符参数如果是 named，这个方法可以设置前缀
-		
 
 		public Settings withRenderFormatted(Boolean value) 
 			* 是否格式化输出SQL
+		
+		public Settings withRenderQuotedNames(RenderQuotedNames value)
+			* 设置字段单引号输出策略
+				ALWAYS
+				EXPLICIT_DEFAULT_QUOTED
+				EXPLICIT_DEFAULT_UNQUOTED
+				NEVER
 
+		public Settings withRenderNameCase(RenderNameCase value)
+			* 字段名称大小写策略
+				AS_IS,
+				LOWER,
+				LOWER_IF_UNQUOTED,
+				UPPER,
+				UPPER_IF_UNQUOTED;
+		
+
+			
 				

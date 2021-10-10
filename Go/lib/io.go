@@ -184,6 +184,8 @@ type
 	func ReadFull(r Reader, buf []byte) (n int, err error)
 		* 从r读取数据存储到buf
 		* 在文件r字节数小于buf字节数的时候会返回错误
+		* 实现
+			return ReadAtLeast(r, buf, len(buf))
 	
 	func ReadAll(r Reader) ([]byte, error)
 		* 读取所有数据
