@@ -66,6 +66,8 @@ type
 		}
 		func Dial(network, address string) (Conn, error)
 		func DialTimeout(network, address string, timeout time.Duration) (Conn, error)
+			* 创建一个连接，设置链接超时
+
 		func FileConn(f *os.File) (c Conn, err error)
 	
 	# type DNSConfigError struct {
@@ -167,6 +169,8 @@ type
 		func (c *IPConn) ReadMsgIP(b, oob []byte) (n, oobn, flags int, addr *IPAddr, err error)
 		func (c *IPConn) RemoteAddr() Addr
 		func (c *IPConn) SetDeadline(t time.Time) error
+			* 设置发送接受数据超时
+
 		func (c *IPConn) SetReadBuffer(bytes int) error
 		func (c *IPConn) SetReadDeadline(t time.Time) error
 		func (c *IPConn) SetWriteBuffer(bytes int) error
@@ -268,6 +272,7 @@ type
 			Close() error
 			LocalAddr() Addr
 			SetDeadline(t time.Time) error
+				* 设置发送接受数据超时
 			SetReadDeadline(t time.Time) error
 			SetWriteDeadline(t time.Time) error
 		}
@@ -325,6 +330,8 @@ type
 		func (c *TCPConn) ReadFrom(r io.Reader) (int64, error)
 		func (c *TCPConn) RemoteAddr() Addr
 		func (c *TCPConn) SetDeadline(t time.Time) error
+			* 设置发送接受数据超时
+
 		func (c *TCPConn) SetKeepAlive(keepalive bool) error
 		func (c *TCPConn) SetKeepAlivePeriod(d time.Duration) error
 		func (c *TCPConn) SetLinger(sec int) error

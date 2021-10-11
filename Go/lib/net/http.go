@@ -178,6 +178,7 @@ type
 			CheckRedirect func(req *Request, via []*Request) error
 			Jar CookieJar
 			Timeout time.Duration
+				* 超时设置，这个时间包含了: 连接时间、任何重定向，和读取响应体
 		}
 		func (c *Client) CloseIdleConnections()
 		func (c *Client) Do(req *Request) (*Response, error)
