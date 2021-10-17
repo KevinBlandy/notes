@@ -85,6 +85,8 @@ tcp - 服务端
 
 		func (l *TCPListener) AcceptTCP() (*TCPConn, error)
 			* 开始阻塞监听，返回TCPConn
+			* 如果 ServerClose 那么，这个方法会立即返回 error
+				accept tcp [::]:1024: use of closed network connection
 
 		func (l *TCPListener) Addr() Addr
 		func (l *TCPListener) Close() error

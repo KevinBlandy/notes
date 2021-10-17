@@ -23,7 +23,8 @@ func
 	func Stop(c chan<- os.Signal)
 
 	func NotifyContext(parent context.Context, signals ...os.Signal) (ctx context.Context, stop context.CancelFunc)
-		* 在收到信号的时候，会自动触发 ctx 的 Done 
+		* 这个方法返回一个 ctx
+		* 在parent执行了 cancel(), 或者是在收到 sinals 任意信号的时候，会自动执行返回 ctx 的 cancel
 
 
 ------------------------
