@@ -217,7 +217,8 @@ type
 		func (p *Process) Kill() error
 		func (p *Process) Release() error
 		func (p *Process) Signal(sig Signal) error
-			* 给进程发送信号
+			* 给进程发送信号，好像Windows不支持，会异常
+				not supported by windows
 			* 如果进程已经结束，返回 ErrProcessDone 
 
 		func (p *Process) Wait() (*ProcessState, error)
