@@ -23,3 +23,30 @@ Lombok
 		@AllArgsConstructor
 		@Data
 		@Slf4j
+	
+
+--------------------------------------------------
+Lombok 和 MapStruct同时使用
+--------------------------------------------------
+	# 可能会导致运行异常: 找不到符合
+	# 解决办法：手动配置plugin
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<configuration>
+				<parameters>true</parameters>
+				<annotationProcessorPaths>
+					<path>
+						<groupId>org.mapstruct</groupId>
+						<artifactId>mapstruct-processor</artifactId>
+						<version>${mapstruct.version}</version>
+					</path>
+					<path>
+						<groupId>org.projectlombok</groupId>
+						<artifactId>lombok</artifactId>
+						<version>${lombok.version}</version>
+					</path>
+				</annotationProcessorPaths>
+			</configuration>
+		</plugin>
+	

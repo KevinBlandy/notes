@@ -122,7 +122,7 @@
 远程仓库						 |
 ---------------------------------
 创建SSH私钥
-	ssh-keygen -t rsa -C "747692844@qq.com"
+	ssh-keygen -t rsa -C "kevinblandy.cn@gmail.com"
 		* 会在 ~/.ssh 目录中生成两个文件
 			id_rsa				私钥,不能泄露出去
 			id_rsa.pub			id_rsa.pub是公钥,可以放心地告诉任何人
