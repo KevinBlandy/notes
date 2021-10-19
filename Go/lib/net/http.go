@@ -562,3 +562,5 @@ func
 	
 	func FS(fsys fs.FS) FileSystem
 		* 转换 fs.FS 为 http.FileSystem
+	
+	func AllowQuerySemicolons(h Handler) Handler
