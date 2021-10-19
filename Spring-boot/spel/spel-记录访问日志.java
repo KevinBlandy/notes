@@ -39,14 +39,17 @@ public class OperationLogAop {
 	public void actionLog (JoinPoint joinPoint) throws Throwable {
 		
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+
+
 		
 		// 参数
 		Object[] args = joinPoint.getArgs();
 		
 		// 参数名称
 		String[] parameterNames = signature.getParameterNames();
-		
-		Method targetMethod = joinPoint.getTarget().getClass().getDeclaredMethod(signature.getName(), signature.getParameterTypes());		
+
+		// 目标方法
+		Method targetMethod = signature.getMethod();
 		
 		OperationLog operationLog = targetMethod.getAnnotation(OperationLog.class);
 		
