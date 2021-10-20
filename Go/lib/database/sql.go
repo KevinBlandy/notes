@@ -126,13 +126,13 @@ type
 			* 它的返回只有一个结果，没有异常参数，如果查询出现了异常，那么会推迟到Scan()
 
 		func (db *DB) SetConnMaxIdleTime(d time.Duration)
-			* 连接最大空闲时间
+			* 连接最大空闲时间空闲超过这个时间的连接，在下次被重复使用前会被延迟关闭。<= 0 表示不超时
 		func (db *DB) SetConnMaxLifetime(d time.Duration)
-			* 连接最大存活时间
+			* 连接最长存活时间，重复使用超过了这个时间的连接，在下次被重复使用前会被延迟关闭。 <= 0 表示不超时
 		func (db *DB) SetMaxIdleConns(n int)
-			* 最大空闲连接数量
+			* 最大空闲连接数量,默认的最大空闲连接数是2。
 		func (db *DB) SetMaxOpenConns(n int)
-			* 数据库打开的最大连接数
+			* 数据库打开的最大连接数,默认是0，表示无限制。
 		func (db *DB) Stats() DBStats
 	
 	# type DBStats struct {
