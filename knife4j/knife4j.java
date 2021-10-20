@@ -8,6 +8,7 @@ knife4j
 		https://doc.xiaominfo.com/
 	
 	# Maven
+		<!-- https://mvnrepository.com/artifact/com.github.xiaoymin/knife4j-spring-boot-starter -->
 		<dependency>
 			<groupId>com.github.xiaoymin</groupId>
 			<artifactId>knife4j-spring-boot-starter</artifactId>

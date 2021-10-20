@@ -26,8 +26,8 @@ SpringFox
 		@EnableOpenApi
 
 	# ∑√Œ µÿ÷∑
-		http://host/context-path/swagger-ui/
-		http://host/context-path/swagger-ui/index.html
+		http://localhost/context-path/swagger-ui/
+		http://localhost/context-path/swagger-ui/index.html
 	
 
 		
