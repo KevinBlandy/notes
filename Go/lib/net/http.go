@@ -450,6 +450,8 @@ type
 		func (srv *Server) SetKeepAlivesEnabled(v bool)
 		func (srv *Server) Shutdown(ctx context.Context) error
 			* 关闭服务器
+			* 当Shutdown被调用时，Serve、ListenAndServe和ListenAndServeTLS立即返回ErrServerClosed。
+			* 请确保程序不退出，而是等待Shutdown的返回
 	
 	# type Transport struct {
 			Proxy func(*Request) (*url.URL, error)

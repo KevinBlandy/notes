@@ -1,5 +1,8 @@
+package io.springcloud.utils;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -51,5 +54,39 @@ public class IOUtils {
 		buffer.get(ret, 0, readCount);
 
 		return ret;
+	}
+	
+	/**
+	 * 最多 Copy maxBytes个字节
+	 * @param in
+	 * @param out
+	 * @param maxBytes
+	 * @return
+	 * @throws IOException
+	 */
+	public static long copyN(InputStream in, OutputStream out, long maxBytes) throws IOException {
+		if (maxBytes < 0L) {
+			throw new IllegalArgumentException();
+		}
+		
+		final long finalBytes = maxBytes;
+		
+		int bufferSize = 8096; // 8Kb
+		
+		while (maxBytes > 0) {
+			
+			byte[] buffer = new byte[(int) Math.min(bufferSize, maxBytes)];
+			
+			int readBytes = in.read(buffer);
+			
+			if (readBytes == -1) {
+				break;
+			}
+			
+			out.write(buffer);
+			
+			maxBytes -= readBytes;
+		}
+		return finalBytes - maxBytes;
 	}
 }
