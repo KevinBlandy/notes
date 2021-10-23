@@ -208,6 +208,7 @@ this
 			* 如果设置 false 则无论如何这个交换器都要被删除
 
 	public abstract GetResponse basicGet(String queue, boolean autoAck)
+		* 手动从 queue 消费消息，如果设置了 autoAck那么就会自动确认
 
 	public abstract void basicAck(long deliveryTag, boolean multiple)
 		* 消息确认
@@ -338,6 +339,9 @@ this
 		
 	public abstract RecoverOk basicRecover(boolean requeue)
 	public abstract RecoverOk basicRecover()
+		* 请求MQ重新发送还未被确认的消息
+		* requeue 为 true，则未被确认的消息会被重新加入到队列中，这条消息可能会被其他的消费者消费，默认为 true
+		* requeue如果为false，则消息则还是会被分配给之前的消费者
 		
 
 	public abstract SelectOk confirmSelect()
