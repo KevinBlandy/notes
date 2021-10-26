@@ -301,3 +301,7 @@ Spring-boot 注册WEB三大组件		|
 			# 在 SpringBootApplication 上使用@ServletComponentScan 
 			# Servlet、Filter、Listener 可以直接通过 @WebServlet、@WebFilter、@WebListener 注解自动注册，无需其他代码。
 	
+	# 通过注解的： "excludes" 来取设置过滤器的不包含路径
+		@WebFilter(filterName = "accessLogFilter", description = "访问日志记录", initParams = {
+			@WebInitParam(name = "excludes", value = "/favicon.ico,/static/*,/public/*,/classpath:,/actuator/*,/doc.html,/swagger-ui.html,/webjars/*,/swagger-resources/*,/resources/*", description = "排除路径")
+		})

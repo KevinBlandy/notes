@@ -67,7 +67,7 @@ document - 更新		|
 
 		* 可以仅仅提交更新需要更新的字段，文档不存在返回异常，字段不存在会创建
 		* 如果本次提交未修改数据的话,那么result字段值为:'noop',并且没有:'_seq_no'和'_primary_term'字段,
-			- noop更新
+			- 也成为noop更新
 		
 		* 只有在数据有修改的时候,version +1
 		* 可以理解为非强制更新
@@ -93,15 +93,24 @@ document - 脚本语言更新
 	# 支持使用Groovy脚本语言更新
 		ctx._source
 			* 引用源文档
+	
+	# 参数
+		POST /<index>/_update/<id>
+		{
+			"script" : "ctx._source.age += price_diff",  // 读取变量 price_diff 
+			"params": {					// 定义变量
+				"price_diff": 10
+			}
+		}
 
 	# 自增
 		POST /<index>/_update/<id>
 		{
 		  "script" : "ctx._source.age += 5"
 		}
+	
 
-	
-	
+
 --------------------
 使用查询API更新		|
 --------------------

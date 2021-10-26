@@ -16,12 +16,12 @@ DSL	query					  |
 			{"query": { "match_all": {} }}
 	
 	match
-		* 全文检索
+		* 根据字段检索
 			{
 			  "query": { "match": { "<field>": <keyworlds> } }
 			}
 
-		* 如果允许匹配多个字段, 那么 keyworlds 可以有多个, 使用空格分隔
+		* 如果允许匹配多个字段, 那么 keywords 可以有多个, 使用空格分隔
 			{
 			  "query":{"match": {"name":"Litch Rocck"}} //name = "Litch" or name = "Rocck"
 			}
@@ -29,7 +29,7 @@ DSL	query					  |
 		* 通俗理解就是, 关键字被拆分后, 任何一个文档匹配到了任何关键字, 都ok, 多个关键字与文档的关系是 or
 
 	match_phrase
-		* 跟全文检索差不多, 也是会对关键字进行分词
+		* 跟match差不多, 也是会对关键字进行分词
 		* 但是必须要求doc中的关键字, 符合检索条件中的所有, 才会算作结果, 多个关键字与文档的关系是 and
 			{
 			  "query":{"match_phrase": {"name":"Litch Rocck"}}  // 检索name同时包含了 Litch Rocck 的记录
@@ -232,13 +232,13 @@ DSL	filter					  |
 	
 
 ------------------------------
-DSL	分页					  |
+DSL	分页
 ------------------------------
 	# 使用 from & size		
 		{"from":0,	"size":10}
 
 ------------------------------
-DSL	排序					  |
+DSL	排序
 ------------------------------
 	# 使用 sort
 		"sort": [{ "<field>": { "order": "<desc/asc>" } }]
@@ -247,7 +247,7 @@ DSL	排序					  |
 	# 默认的排序规则是根据元数据中的:_score 来进行排序的(相关度越高的越在前面)
 
 ------------------------------
-DSL	限制结果字段			  |
+DSL	限制结果字段
 ------------------------------
 	# 使用 _source
 		"_source": ["<field1>", "<field2>"]

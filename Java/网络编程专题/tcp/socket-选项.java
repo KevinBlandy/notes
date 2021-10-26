@@ -59,6 +59,8 @@ socket选项-详解				|
 		* 这种设置缓冲区大小的原则,也同样适用于Socket的SO_SNDBUF选项
 		* 如果底层不支持SO_RCVBUF/SO_SNDBUF选项,那么会抛出异常
 
+		* ServerSocket 可以设置这个选项，它其实是为 accpet 接收到的客户端连接设置了接收缓冲区的大小
+
 	TCP_NODELAY
 		* 默认值为 false,表示采用用Negale算法
 		* socket api

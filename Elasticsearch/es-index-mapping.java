@@ -121,36 +121,132 @@ type 数据类型			|
 
 
 ------------------------
-analyzer 指定分词器		|
+数组
 ------------------------
-	# 默认: standard
+	# 所有的核心类型，都支持数组
+
 
 ------------------------
-settings				|
+analyzer 
 ------------------------
+	# 指定分词器，默认: standard
 
 ------------------------
-_source					|
+store 
 ------------------------
+	# 存储指定的字段
 
 ------------------------
-_all					|
+include_in_all
 ------------------------
+	# 是否要包含这个字段到 _all 中
+
 
 ------------------------
-dynamic					|
+settings
 ------------------------
+
+-----------------------
+预定义字段
+-----------------------
+	# 预定义字段是 _ 开头
+
+	_all
+	_source
+	_uid
+	_id
+	_type
+	_index
+	_timestamp
+	_size
+	_routing
+	_parent
+
+
 
 ------------------------
 mapping	字段属性		|
 ------------------------
-	{
-	  "<index>" : {
-		"mappings" : {
-		  "properties" : {
-			"<field>" : {
+	# Doc
+		{
+		  "id": 1,
+		  "name": "KevinBlandy",
+		  "hobby": ["唱", "跳", "rap"],
+		  "lang": [{
+			"name": "Java",
+			"site": "https://java.com"
+		  }, {
+			"name": "Golang",
+			"site": "https://golang.io"
+		  }],
+		  "blog": {
+			"host": "https://springboot.io",
+			"name": "SpringBoot中文社区"
+		  }
+		}
+	
+	# Mapping
+		{
+		  "users" : {
+			"mappings" : {
 			  "properties" : {
-				"<field>" : {
+				"blog" : {
+				  "properties" : {
+					"host" : {
+					  "type" : "text",
+					  "fields" : {
+						"keyword" : {
+						  "type" : "keyword",
+						  "ignore_above" : 256
+						}
+					  }
+					},
+					"name" : {
+					  "type" : "text",
+					  "fields" : {
+						"keyword" : {
+						  "type" : "keyword",
+						  "ignore_above" : 256
+						}
+					  }
+					}
+				  }
+				},
+				"hobby" : {
+				  "type" : "text",
+				  "fields" : {
+					"keyword" : {
+					  "type" : "keyword",
+					  "ignore_above" : 256
+					}
+				  }
+				},
+				"id" : {
+				  "type" : "long"
+				},
+				"lang" : {
+				  "properties" : {
+					"name" : {
+					  "type" : "text",
+					  "fields" : {
+						"keyword" : {
+						  "type" : "keyword",
+						  "ignore_above" : 256
+						}
+					  }
+					},
+					"site" : {
+					  "type" : "text",
+					  "fields" : {
+						"keyword" : {
+						  "type" : "keyword",
+						  "ignore_above" : 256
+						}
+					  }
+					}
+				  }
+				},
+				"name" : {
 				  "type" : "text",
 				  "fields" : {
 					"keyword" : {
@@ -160,23 +256,6 @@ mapping	字段属性		|
 				  }
 				}
 			  }
-			},
-			"<field>" : {
-			  "type" : "text",
-			  "fields" : {
-				"keyword" : {
-				  "type" : "keyword",
-				  "ignore_above" : 256
-				}
-			  }
-			},
-			"<field>" : {
-			  "type" : "date"
-			},
-			"<field>" : {
-			  "type" : "long"
 			}
 		  }
 		}
-	  }
-	}

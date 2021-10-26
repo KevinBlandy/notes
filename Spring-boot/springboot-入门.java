@@ -18,19 +18,31 @@ Spring-Boot 入门			|
 		http://412887952-qq-com.iteye.com/blog/2344171
 		http://i.youku.com/i/UMjM3MTgwNzI4/videos?spm=a2hzp.8244740.0.0&qq-pf-to=pcqq.group
 	
-	# 父级与WEB依赖 & 插件
+	# 父级与WEB依赖 & 插件 - 常用
 			<parent>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-parent</artifactId>
-				<version>2.4.1</version>
+				<version>2.5.6</version>
 			</parent>
 
 			<properties>
 				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-				<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-				<java.version>1.8</java.version>
-
+				<project.reporting.outputEncoding>UTF-8
+				</project.reporting.outputEncoding>
+				<encoding>UTF-8</encoding>
+				<java.version>17</java.version>
+				<maven.compiler.source>17</maven.compiler.source>
+				<maven.compiler.target>17</maven.compiler.target>
+				
 				<skipTests>true</skipTests>
+				
+				<apt-maven-plugin.version>1.1.3</apt-maven-plugin.version>
+				<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+				<guava.version>31.0.1-jre</guava.version>
+				<knife4j-spring-boot-starter.version>3.0.3</knife4j-spring-boot-starter.version>
+				<springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
+				<java-jwt.version>3.18.2</java-jwt.version>
+				<redisson-spring-boot-starter.version>3.16.3</redisson-spring-boot-starter.version>
 			</properties>
 
 			<dependencies>
@@ -59,6 +71,102 @@ Spring-Boot 入门			|
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-undertow</artifactId>
 				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-data-jpa</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-validation</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-websocket</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-data-redis</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>io.lettuce</groupId>
+					<artifactId>lettuce-core</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-pool2</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>com.auth0</groupId>
+					<artifactId>java-jwt</artifactId>
+					<version>${java-jwt.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.redisson</groupId>
+					<artifactId>redisson-spring-boot-starter</artifactId>
+					<version>${redisson-spring-boot-starter.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.projectlombok</groupId>
+					<artifactId>lombok</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>com.querydsl</groupId>
+					<artifactId>querydsl-jpa</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>com.querydsl</groupId>
+					<artifactId>querydsl-apt</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.mapstruct</groupId>
+					<artifactId>mapstruct</artifactId>
+					<version>${org.mapstruct.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-freemarker</artifactId>
+				</dependency> 
+					<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-mail</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>com.zaxxer</groupId>
+					<artifactId>HikariCP</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>com.google.code.gson</groupId>
+					<artifactId>gson</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+					<version>${guava.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>com.github.xiaoymin</groupId>
+					<artifactId>knife4j-spring-boot-starter</artifactId>
+					<version>${knife4j-spring-boot-starter.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-actuator</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>io.springfox</groupId>
+					<artifactId>springfox-boot-starter</artifactId>
+					<version>${springfox-boot-starter.version}</version>
+				</dependency>
 			</dependencies>
 
 			<build>
@@ -69,6 +177,43 @@ Spring-Boot 入门			|
 						<configuration>
 							<executable>true</executable>
 							<includeSystemScope>true</includeSystemScope>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>com.mysema.maven</groupId>
+						<artifactId>apt-maven-plugin</artifactId>
+						<version>${apt-maven-plugin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>process</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>target/generated-sources/java</outputDirectory>
+									<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<parameters>true</parameters>
+							<source>${maven.compiler.source}</source>
+							<target>${maven.compiler.target}</target>
+							<annotationProcessorPaths>
+								<path>
+									<groupId>org.mapstruct</groupId>
+									<artifactId>mapstruct-processor</artifactId>
+									<version>${org.mapstruct.version}</version>
+								</path>
+								<path>
+									<groupId>org.projectlombok</groupId>
+									<artifactId>lombok</artifactId>
+									<version>${lombok.version}</version>
+								</path>
+							</annotationProcessorPaths>
 						</configuration>
 					</plugin>
 				</plugins>

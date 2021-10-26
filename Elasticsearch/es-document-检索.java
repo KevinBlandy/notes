@@ -48,7 +48,7 @@ document - 检索		|
 		  "took" : 2,
 				* 执行搜索的时间（以毫秒为单位）
 		  "timed_out" : false,
-				* 搜索是否超时
+				* 搜索是否超时，如果是超时的话，那么可能只返回了部分结果
 		  "_shards" : {
 			"total" : 1,
 				* 搜索了多少个分片
@@ -67,6 +67,7 @@ document - 检索		|
 			},
 			"max_score" : 1.0,
 					* 搜索结果中最佳得分
+					* 默认是
 			"hits" : [
 			  {
 				"_index" : "customer",
