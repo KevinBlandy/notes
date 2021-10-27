@@ -12,6 +12,8 @@
 	# ChannelPromise
 		* 继承自 ChannelFuture ,Promise
 		* 可以由开发者去控制是否成功,还是失败
+		* 常用
+			DefaultPromise<String> promise = new DefaultPromise<String>(GlobalEventExecutor.INSTANCE);
 
 --------------------------------
 ChannelFuture					|
