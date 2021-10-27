@@ -27,7 +27,20 @@ DSL	query					  |
 			}
 		* 会把检索的内容进行分词, 然后去倒排索引中检索, 只要是索引可以匹配到任何一个词, 就可以算作结果
 		* 通俗理解就是, 关键字被拆分后, 任何一个文档匹配到了任何关键字, 都ok, 多个关键字与文档的关系是 or
-
+		
+		* 修改多个关键字的关系规则为 and
+		  "query": {
+			"match": {
+			  "name": {
+				"query": "KevinBlandy dd",  // name 字段必须要包含 KevinBlandy dd 2个词条
+				"operator": "and"
+			  }
+			}
+		  }
+	
+	phrase
+		* 可以指定关键字之间的间隔
+	
 	match_phrase
 		* 跟match差不多, 也是会对关键字进行分词
 		* 但是必须要求doc中的关键字, 符合检索条件中的所有, 才会算作结果, 多个关键字与文档的关系是 and
@@ -64,6 +77,8 @@ DSL	query					  |
 		* 只要是任何字段成功匹配, 都算作返回记录
 	
 	match_phrase_prefix
+		* 搜索一组关键字，并且以最后一个关键字开头的前缀进行匹配
+
 
 	range
 		* 区间值匹配, 指定的字段大于, 等于, 小于, 大于等于, 小于等于 指定的值
@@ -84,6 +99,8 @@ DSL	query					  |
 			le
 			ge
 			ne
+		* 多个逻辑关系之间的关系是 and
+		* range 一般在过滤器中使用比较好
 	
 	term
 		* 精准匹配, 不对关键字进行分词器分析, 文档中指定字段必须包含整个搜索的词汇
@@ -121,14 +138,26 @@ DSL	query					  |
 			}
 	
 	query_string
-		* 其实就是指定了URL中的参数参数
 		* 通过在body中设置查询参数来完成检索
 		  "query": {
 			"query_string": {
-			  "query": "KevinBlandy"
+			  "default_field": "name",   // 仅仅检索指定字段，不指定则检索 _all
+			  "query": "KevinBlandy"  
 			}
 		  }
-	
+		 
+		* 支持强大的表达式
+			"query": "name:KevinBlandy AND -hobby:哭"		// WHERE name = "KevinBlandy" AND hobby != "哭"
+			"query": "tags:search OR lucence AND create_at:[1993-10-01 2001-01-01]" // WHERE tags IN ("seratc", "lucence") AND create_at BETWEEN 1993-10-01 2001-01-01
+ 	
+	simpl_query_string
+
+	wildcard
+
+	missing
+		* 查询null值, 缺省字段
+
+
 ------------------------------
 DSL	bool					  |
 ------------------------------
@@ -193,6 +222,7 @@ DSL	bool					  |
 	
 	# minimum_should_match
 		* 最低匹配数量
+		* 如果指定了 must 语句，该值默认为: 0, 如果没有指定则默认值为 1
 
 	# bool也可以嵌套, 类似于SQL中的子查询
 
@@ -209,6 +239,14 @@ DSL	filter					  |
 
 		* filter 不需要计算相关度分数, 不需要按照相关度进行排序, 同时还会cache最常使用
 		* query 需要计算相关度分数, 还要进行排序, 不能cache结果
+	
+	# filter 使用位集合(BitSet)来过滤数据，性能很高
+		* 一个关键字，对于所有文档，会有一个 BitSet 如果这个文档存在这个关键字，那么值就是1，反之为0
+			doc1 doc2 doc3
+			1    0    0
+
+	# filter/query 混合使用
+		* 先通过 filter 过滤掉大量数据，那么对于 query来说，需要计算得分的文档少了，性能更高
 
 	# range 计算区间值
 		{
