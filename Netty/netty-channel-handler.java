@@ -255,6 +255,8 @@ Handler 写队列
 	
 	# 1, 启用autoRead机制
 		* 当channel不可写时，关闭autoRead
+		* autoRead关闭后，不再处理客户端发送的消息，在recv buf满了后，客户端也没法发送数据
+
 			public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 				if (!ctx.channel().isWritable()) {
 					Channel channel = ctx.channel();

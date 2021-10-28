@@ -204,14 +204,14 @@ Spring-Boot »Î√≈			|
 							<target>${maven.compiler.target}</target>
 							<annotationProcessorPaths>
 								<path>
-									<groupId>org.mapstruct</groupId>
-									<artifactId>mapstruct-processor</artifactId>
-									<version>${org.mapstruct.version}</version>
-								</path>
-								<path>
 									<groupId>org.projectlombok</groupId>
 									<artifactId>lombok</artifactId>
 									<version>${lombok.version}</version>
+								</path>
+								<path>
+									<groupId>org.mapstruct</groupId>
+									<artifactId>mapstruct-processor</artifactId>
+									<version>${org.mapstruct.version}</version>
 								</path>
 							</annotationProcessorPaths>
 						</configuration>

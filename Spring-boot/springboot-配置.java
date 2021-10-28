@@ -208,7 +208,7 @@ Spring-Boot 外部配置		|
 			System.setProperty(ConfigFileApplicationListener.CONFIG_ADDITIONAL_LOCATION_PROPERTY, configLocation);
 
 
-			System.setProperty("spring.config.additional-location", "file:${user.home}/config/,file:${user.home}/config-dev/");
+			System.setProperty("spring.config.additional-location", "optional:file:${user.home}/config/,optional:file:${user.home}/config-dev/");
 
 		
 		* 支持使用 spel 表达式
