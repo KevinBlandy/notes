@@ -2,8 +2,10 @@
 # 常用的配置
 #------------------------
 
-# 响应压缩
+
 server:
+  port: 80
+  max-http-header-size: 10KB # header 最大体积
   compression:
     enabled: true
     mime-types: 
@@ -21,18 +23,18 @@ server:
   shutdown: GRACEFUL
   undertow:
     direct-buffers: true
+    max-http-post-size: 5MB	# 业务 body 最大体积
   servlet:
     encoding:
       enabled: true
       charset: UTF-8
 
-# logback日志
 logging:
-   config: classpath:logback-spring.xml
+  config: classpath:logback-spring.xml
 
 spring:
   application:
-    name: Javaweb开发者社区
+    name: "Demo Application"
   lifecycle:
     timeout-per-shutdown-phase: 30  
   profiles:
@@ -40,30 +42,24 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 100MB
-      max-request-size: 1000MB
-      location: D:\\temp
-      file-size-threshold: 10MB
+      max-file-size: 5MB
+      max-request-size: 10MB
+      location: ${java.io.tmpdir}
+      file-size-threshold: 10KB
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
       date: yyyy-MM-dd
     throw-exception-if-no-handler-found: true
     static-path-pattern: /static/**
-	converters:
+    converters:
       preferred-json-mapper: gson
 
   web:
     resources:
       static-locations:
         - classpath:/static/
-        - classpath:/META-INF/resources/
-        - classpath:/resources/
-        - classpath:/public/
 
-  cache:
-    type: JCACHE
- 
   freemarker:
     enabled: true
     cache: true
@@ -76,75 +72,36 @@ spring:
     expose-spring-macro-helpers: true
     check-template-location: true
     template-loader-path:
-      - classpath:/templates/views/
-      - classpath:/templates/inclues/
-      - classpath:/templates/macros/
+      - classpath:/templates/
     settings:
       datetime_format: yyyy-MM-dd HH:mm:ss
-  
-  data:
-    jpa:
-      repositories:
-        enabled: true
-        bootstrap-mode: default
-   
+
+  gson:
+    pretty-printing: false
+
   jpa:
-    database-platform: org.hibernate.dialect.MySQL57Dialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     open-in-view: false
-    show-sql: false
-    properties:
-      hibernate.format_sql: false
     hibernate:
       ddl-auto: none
-      
-      
-mybatis:
-  config-location: classpath:mybatis/mybatis-config.xml
-  mapper-locations:
-    - classpath:mapper/**/*-mapper.xml
-    - classpath:mapper/**/*-mapper-ext.xml
 
 #------------------------
 # 不同环境配置
 #------------------------
 
 
-server:
-  port: 443
-  servlet:
-    context-path: /
-  ssl:
-    enabled: true
-    key-store: classpath:ssl/localhost.keystore
-    key-store-type: PKCS12
-    key-store-password: 123456
-  http2:
-    enabled: true
-    
-
 spring:
-  main:
-    lazy-initialization: false
-  
   pid:
-    file: D:\\zebra-manager.pid
+    file: ${java.io.tmpdir}\demo.pid
     fail-on-write-error: true
 
-  gson:
-    pretty-printing: true
-
-  servlet:
-    multipart:
-      location: D:\\temp
-  
   datasource:
+    type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/javaweb?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&serverTimezone=GMT%2b8
+    url: jdbc:mysql://127.0.0.1:3306/demo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
     username: root
     password: root
-    initialSize: 2
-    filters: stat
-    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=2000
+
   redis:
     database: 0
     host: localhost
@@ -153,18 +110,37 @@ spring:
     timeout: 2000
     lettuce:
       pool:
-        max-active: 8
-        max-wait: -1
-        max-idle: 8
-        min-idle: 0
+        max-active: 50
+        max-wait: 5s
+        max-idle: 20
+        min-idle: 8
+
+  mail:
+    host: smtp.exmail.qq.com
+    username: no-reply@springboot.io
+    password: 123456
+    port: 465
+    default-encoding: UTF-8
+    protocol: smtps
+    properties:
+      "mail.smtp.connectiontimeout": 5000
+      "mail.smtp.timeout": 3000
+      "mail.smtp.writetimeout": 5000
+      "mail.smtp.auth": true
+      "mail.smtp.starttls.enable": true
+      "mail.smtp.starttls.required": true
 
   freemarker:
     cache: false
 
+  gson:
+    pretty-printing: false
+
   jpa:
     show-sql: true
     properties:
-      hibernate.format_sql: true
+      "hibernate.format_sql": true
     hibernate:
       ddl-auto: update
+
 
