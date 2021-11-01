@@ -128,6 +128,8 @@ type
 		func IPv4(a, b, c, d byte) IP
 		func LookupIP(host string) ([]IP, error)
 		func ParseIP(s string) IP
+			* 如果IP地址非法，则返回 nill
+
 		func (ip IP) DefaultMask() IPMask
 		func (ip IP) Equal(x IP) bool
 		func (ip IP) IsGlobalUnicast() bool

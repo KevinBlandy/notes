@@ -45,16 +45,29 @@ type
 
 	# type PrivateKey struct {
 			PublicKey            // public part.
+				* 公钥
+
 			D         *big.Int   // private exponent
 			Primes    []*big.Int // prime factors of N, has >= 2 elements.
 			Precomputed PrecomputedValues
 		}
+
+		* RSA私钥，继承了公钥
+
 		func GenerateKey(random io.Reader, bits int) (*PrivateKey, error)
+			* 生成随机RSA密钥，指定密钥长度
+				rsa.GenerateKey(rand.Reader, 256)
+			* 源码
+				return GenerateMultiPrimeKey(random, 2, bits)
+
 		func GenerateMultiPrimeKey(random io.Reader, nprimes int, bits int) (*PrivateKey, error)
+			* 生成RSA密钥
+				
 		func (priv *PrivateKey) Decrypt(rand io.Reader, ciphertext []byte, opts crypto.DecrypterOpts) (plaintext []byte, err error)
 		func (priv *PrivateKey) Equal(x crypto.PrivateKey) bool
 		func (priv *PrivateKey) Precompute()
 		func (priv *PrivateKey) Public() crypto.PublicKey
+			* 返回公钥
 		func (priv *PrivateKey) Sign(rand io.Reader, digest []byte, opts crypto.SignerOpts) ([]byte, error)
 		func (priv *PrivateKey) Validate() error
 	
@@ -62,17 +75,26 @@ type
 			N *big.Int // modulus
 			E int      // public exponent
 		}
+
+		* RSA公钥
+
 		func (pub *PublicKey) Equal(x crypto.PublicKey) bool
 		func (pub *PublicKey) Size() int
 
 ----------------------
 func
 ----------------------
-	func DecryptOAEP(hash hash.Hash, random io.Reader, priv *PrivateKey, ciphertext []byte, ...) ([]byte, error)
-	func DecryptPKCS1v15(rand io.Reader, priv *PrivateKey, ciphertext []byte) ([]byte, error)
-	func DecryptPKCS1v15SessionKey(rand io.Reader, priv *PrivateKey, ciphertext []byte, key []byte) error
 	func EncryptOAEP(hash hash.Hash, random io.Reader, pub *PublicKey, msg []byte, label []byte) ([]byte, error)
+	func DecryptOAEP(hash hash.Hash, random io.Reader, priv *PrivateKey, ciphertext []byte, ...) ([]byte, error)
+
 	func EncryptPKCS1v15(rand io.Reader, pub *PublicKey, msg []byte) ([]byte, error)
+		* RSA 公钥加密
+	
+	func DecryptPKCS1v15(rand io.Reader, priv *PrivateKey, ciphertext []byte) ([]byte, error)
+		* RSA私钥解密
+
+	func DecryptPKCS1v15SessionKey(rand io.Reader, priv *PrivateKey, ciphertext []byte, key []byte) error
+
 	func SignPKCS1v15(rand io.Reader, priv *PrivateKey, hash crypto.Hash, hashed []byte) ([]byte, error)
 	func SignPSS(rand io.Reader, priv *PrivateKey, hash crypto.Hash, digest []byte, ...) ([]byte, error)
 	func VerifyPKCS1v15(pub *PublicKey, hash crypto.Hash, hashed []byte, sig []byte) error

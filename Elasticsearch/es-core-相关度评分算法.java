@@ -6,12 +6,14 @@
 	
 	# ES使用的算法(TF/IDF)
 		term frequency
+			
 		inverse document frequency
-	
 
 	# term frequency
+		* 词频
 		* 在doc中出现, 搜索关键字次数越多, 就越相关
 
 	# inverse document frequency
+		* 逆文档频率
 		* 在doc中出现, 搜索关键字次数越多, 就越不相关
 	

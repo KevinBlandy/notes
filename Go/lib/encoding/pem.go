@@ -64,3 +64,23 @@ Demo
 
 			fmt.Printf("Got a %T, with remaining data: %q", pub, rest)
 		}
+	
+	# 编码
+		privateKey, err := rsa.GenerateKey(rand.Reader, 512)
+		if err != nil {
+			log.Fatalf("rsa.GenerateKey Error: err=%s\n", err.Error())
+		}
+
+		publicKey := &privateKey.PublicKey
+
+		// 编码私钥
+		pem.Encode(os.Stdout, &pem.Block {
+			Type:    "RSA Private Key",
+			Bytes:   x509.MarshalPKCS1PrivateKey(privateKey),
+		})
+
+		// 编码公钥
+		pem.Encode(os.Stdout, &pem.Block {
+			Type:    "RSA Public Key",
+			Bytes:   x509.MarshalPKCS1PublicKey(publicKey),
+		})
