@@ -12,7 +12,7 @@
 
 全局的设置(设置全局,添加 --global 参数)
 	git config --global user.name "KevinBlandy"
-	git config --global user.email "747692844@qq.com"
+	git config --global user.email "kevinblandy.cn@gmail.com"
 		* 表示机器上所有的Git仓库都会使用这个配置,当然也可以对某个仓库指定不同的用户名和Email地址
 		
 	git config --global color.ui true

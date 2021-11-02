@@ -80,7 +80,21 @@ appender
 			</encoder>
 		</appender>
 
-	
+	# AsyncAppender
+		* 异步日志组件，本身不提供日志IO操作
+		<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+			<!-- 
+				丢弃日志的阈值，超过这个阈值
+				则会丢弃 TRACT、DEBUG、INFO 级别的日志
+				默认为: 0 ，不丢弃任何日志
+			-->
+			<discardingThreshold>0</discardingThreshold>
+			<!-- 队列长度。默认值为 256 -->
+			<queueSize>256</queueSize>
+			<!-- 指定Appender -->
+			<appender-ref ref="FILE"/>
+		</appender>
+		
 --------------------------------
 自定义 appender
 --------------------------------
