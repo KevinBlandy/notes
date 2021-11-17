@@ -22,4 +22,5 @@ https://github.com/mojocn/base64Captcha
 
 ## 有空研究
 Quartz
-Hibernate多租户
+Hibernate多租户 -> CurrentTenantIdentifierResolver
+数据权限控制
