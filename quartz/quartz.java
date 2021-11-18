@@ -8,6 +8,10 @@ Quartz-入门							|
 	
 	# 网址
 		http://www.quartz-scheduler.org
+		
+		https://www.iocoder.cn/Spring-Boot/Job/?yudao
+		https://www.jianshu.com/p/7663f0ed486a
+		https://blog.csdn.net/Evankaka/article/details/45540885
 
 
 	# Maven依赖
@@ -28,23 +32,24 @@ Quartz-入门							|
 			* 核心调度器
 
 		Job
-			* 任务
+			* 一个任务对象
 
 		JobDetail
-			* 任务描述
+			* 任务描述，包含了Job，以及 JobDataMap 等等信息，它有唯一ID属性
+			* 可以通过 JobBuilder 构建 JobDetail 实例
+			* 一个JobDetail可以有多个调度器
 
 		Trigger
-			* 触发器
-			SimpleTrigger
-			CronTrigger
-			CalendarIntervalTrigger
-			DailyTimeIntervalTrigger
+			* 触发器，可以关联 Job 以及 ，以及 JobDataMap 等等信息，它有唯一ID属性
+			* 常用的一些实现
+				SimpleTrigger
+				CronTrigger
+				CalendarIntervalTrigger
+				DailyTimeIntervalTrigger
 		
-		JobBuilder
-			* 用于定义/构建JobDetail实例
-		
-		TriggerBuilder
-			* 用于定义/构建Trigger实例
+			* 可以通过 TriggerBuilder 构建Trigger实例
+			* Trigger需要设置调度规则，不同的调度规则通过不同的Builder创建
+			* 不同的调度规则，决定了Trigger的实现不同
 			
 		* 关系图
 
@@ -52,10 +57,13 @@ Quartz-入门							|
 								↑(注册)
 				 -------------------------------
 				| ---------------				|
-				||Job + JobDetail|		Trigger	|
+				||JobDetail |Job |		Trigger	|
 				| ---------------				|
 				 -------------------------------
-
+		
+		JobExecutionContext
+			* 任务执行的上下文
+		
 -----------------------------------
 Quartz-	Trigger 触发器详解			|
 -----------------------------------

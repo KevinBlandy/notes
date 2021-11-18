@@ -7,9 +7,9 @@ JobExecutionContext
 		public Scheduler getScheduler();
 		public Calendar getCalendar();
 		public boolean isRecovering();
+			* 是否是恢复执行
 			* 如果一个job是可恢复的, 并且在其执行的时候, scheduler发生硬关闭(hard shutdown), 比如运行的进程崩溃了，或者关机了)
-			* 则当scheduler重新启动的时候, 该job会被重新执行
-			* 此时, 该job的 JobExecutionContext.isRecovering() 返回true
+			* 则当scheduler重新启动的时候, 该job会被重新执行此时, 该job的 JobExecutionContext.isRecovering() 返回true
 
 
 		public TriggerKey getRecoveringTriggerKey() throws IllegalStateException;

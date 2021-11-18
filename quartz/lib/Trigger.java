@@ -212,7 +212,7 @@ TriggerBuilder				|
 			* 如果没设置 group, 默认为: DEFAULT
 
 		TriggerBuilder<T> withPriority(int triggerPriority)
-			* 优先级, 本质上就是设置了线程的优先级
+			* 优先级，本质上就是设置了线程的优先级，
 			* 如果没有为trigger设置优先级，trigger使用默认优先级，值为5
 			* priority属性的值可以是任意整数，正数、负数都可以
 			* 注意：只有同时触发的trigger之间才会比较优先级。

@@ -15,6 +15,7 @@ Scheduler
 
 		String getSchedulerName() throws SchedulerException;
 		String getSchedulerInstanceId() throws SchedulerException;
+
 		SchedulerContext getContext() throws SchedulerException;
 			* 获取上下文对象（实现了Map）, 就是一个Map结构, String 为Key
 		
@@ -42,6 +43,7 @@ Scheduler
 		SchedulerMetaData getMetaData() throws SchedulerException;
 
 		List<JobExecutionContext> getCurrentlyExecutingJobs() throws SchedulerException;
+			* 获取正在执行的任务列表
 
 		void setJobFactory(JobFactory factory) throws SchedulerException;
 			* 设置 Job 实例的创建工厂类
@@ -50,10 +52,11 @@ Scheduler
 			* 返回监听器管理器
 		
 		Date scheduleJob(JobDetail jobDetail, Trigger trigger) throws SchedulerException;
-			* 添加任务，并且开始执行
+			* 添加任务，并且开始执行，指定了trigger的job
+			* trigger本身，此时不需要指定job
 
 		Date scheduleJob(Trigger trigger) throws SchedulerException;
-			* 调度已经存储的作业，必须要在 trigger 中指定job的ID
+			* 调度已经存储的作业，必须要在 trigger 中指定job
 
 		void scheduleJobs(Map<JobDetail, Set<? extends Trigger>> triggersAndJobs, boolean replace) throws SchedulerException;
 		void scheduleJob(JobDetail jobDetail, Set<? extends Trigger> triggersForJob, boolean replace) throws SchedulerException;
@@ -83,17 +86,27 @@ Scheduler
 
 		void triggerJob(JobKey jobKey) throws SchedulerException;
 		void triggerJob(JobKey jobKey, JobDataMap data) throws SchedulerException;
+			* 手动触发指定的Job
+
 		void pauseJob(JobKey jobKey) throws SchedulerException;
 		void pauseJobs(GroupMatcher<JobKey> matcher) throws SchedulerException;
+			* 暂停指定的Job
+
 		void pauseTrigger(TriggerKey triggerKey) throws SchedulerException;
 		void pauseTriggers(GroupMatcher<TriggerKey> matcher) throws SchedulerException;
+			* 暂停指定的Trigger
+
 		void resumeJob(JobKey jobKey) throws SchedulerException;
 		void resumeJobs(GroupMatcher<JobKey> matcher) throws SchedulerException;
+			* 恢复指定的Job
+
 		void resumeTrigger(TriggerKey triggerKey) throws SchedulerException;
 		void resumeTriggers(GroupMatcher<TriggerKey> matcher) throws SchedulerException;
+			* 恢复指定的Trigger
 
 		void pauseAll() throws SchedulerException;
 		void resumeAll() throws SchedulerException;
+			* 暂停/恢复所有
 
 		List<String> getJobGroupNames() throws SchedulerException;
 			* 获取所有Job的Group名称
@@ -111,9 +124,16 @@ Scheduler
 			* 根据Mapcher获取到Trigger
 
 		Set<String> getPausedTriggerGroups() throws SchedulerException;
+
 		JobDetail getJobDetail(JobKey jobKey) throws SchedulerException;
+			* 获取JobDetail
+
 		Trigger getTrigger(TriggerKey triggerKey) throws SchedulerException;
+			* 获取Trigger
+
 		TriggerState getTriggerState(TriggerKey triggerKey) throws SchedulerException;
+			* 获取Trigger状态，枚举
+
 		void resetTriggerFromErrorState(TriggerKey triggerKey) throws SchedulerException;
 
 		void addCalendar(String calName, Calendar calendar, boolean replace, boolean updateTriggers) throws SchedulerException;

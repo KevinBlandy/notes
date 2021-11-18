@@ -6,6 +6,7 @@ SimpleScheduleBuilder
 	
 	# static
 		public static SimpleScheduleBuilder simpleSchedule()
+
 		public static SimpleScheduleBuilder repeatMinutelyForever()
 		public static SimpleScheduleBuilder repeatMinutelyForever(int minutes) 
 

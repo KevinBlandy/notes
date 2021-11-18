@@ -56,10 +56,10 @@ JobListener
 			protected Logger getLog() {
 				return log;
 			}
-
+			
 			public void jobToBeExecuted(JobExecutionContext context) {
 			}
-
+			
 			public void jobExecutionVetoed(JobExecutionContext context) {
 			}
 
@@ -187,3 +187,27 @@ SchedulerListener
 			public void schedulingDataCleared() {
 			}
 		}
+
+--------------------------
+Matcher
+--------------------------
+	# 匹配器接口: public interface Matcher<T extends Key<?>> extends Serializable 
+		    boolean isMatch(T key);
+			public int hashCode();
+			public boolean equals(Object obj);
+
+	# Matcher 具备很多子类, 可以用于各种条件
+		AndMatcher				and 关系
+		EverythingMatcher		所有
+		KeyMatcher				根据key匹配
+		NotMatcher				not 匹配
+		OrMatcher				or 匹配
+		StringMatcher			
+			|-GroupMatcher		根据group匹配
+			|-NameMatcher		根据name匹配
+	
+	# 一些Demo
+		scheduler.getListenerManager().addJobListener(myJobListener, jobKeyEquals(jobKey("myJobName", "myJobGroup")));
+		scheduler.getListenerManager().addJobListener(myJobListener, jobGroupEquals("myJobGroup"));
+		scheduler.getListenerManager().addJobListener(myJobListener, or(jobGroupEquals("myJobGroup"), jobGroupEquals("yourGroup")));
+		scheduler.getListenerManager().addJobListener(myJobListener, allJobs());

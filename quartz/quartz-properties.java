@@ -2,14 +2,21 @@
 -------------------
 quartz.properties	|
 -------------------
+	# 参考
+		http://www.quartz-scheduler.org/documentation/quartz-2.3.0/configuration/
+	
 	# 放在classpath下
 
-	# 配置项的属性名称以常量形式定义在StdSchedulerFactory类中
+	# 配置项的属性名称以常量形式定义在 StdSchedulerFactory 类中
 		public static final String PROPERTIES_FILE = "org.quartz.properties";
 		public static final String PROP_SCHED_INSTANCE_NAME = "org.quartz.scheduler.instanceName";
 		public static final String PROP_SCHED_INSTANCE_ID = "org.quartz.scheduler.instanceId";
 		public static final String PROP_SCHED_INSTANCE_ID_GENERATOR_PREFIX = "org.quartz.scheduler.instanceIdGenerator";
 		...
+	
+	# 可以通过表达式引用其他的属性值:$@other.property.name
+		foo=$@org.quartz.scheduler.instanceName
+
 	
 -------------------
 配置项				|

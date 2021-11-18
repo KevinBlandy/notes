@@ -6,18 +6,25 @@ Job
 		void execute(JobExecutionContext context) throws JobExecutionException;
 	
 		
-	# 需要实现类提供一个无参构造器
 
-	# 无状态的Job
-		* 每次执行, 都会创建新的 Job 对象以及 JobDataMap 对象执行
-		* 不要存储设置实例属性
+
+--------------------------------
+JobFactory						|
+--------------------------------
+	# 创建 Job 实例的工厂类接口
+	# 默认使用的工厂实现
+		* 仅仅只是调用了 newInstance() 方法
+		* 然后从尝试调用实例的JobDataMap中的key的setter方法
+
+	# 工厂接口方法
+		Job newJob(TriggerFiredBundle bundle, Scheduler scheduler) throws SchedulerException;
 	
-	# 有状态的Job
-		* 在 Job 的实现接口上添加注解: @PersistJobDataAfterExecution
-		* 每次执行, 都会创建新的Job对象, 但是不会创建新的 JobDataMap
-		* 那么可以通过 JobDataMap 存储一些状态 
-		
-	# Job实现的属性自动注入
-		* 使用默认的JobFactory: 'org.quartz.simpl.PropertySettingJobFactory' 
-		* 会在Job对象创建完毕后, 调用其setter方法, 注入在 JobDataMap 中的属性到实例
-		
+	# 可以从 TriggerFiredBundle 对象获取到一些方法
+		private JobDetail job;
+		private OperableTrigger trigger;
+		private Calendar cal;
+		private boolean jobIsRecovering;
+		private Date fireTime;
+		private Date scheduledFireTime;
+		private Date prevFireTime;
+		private Date nextFireTime;
