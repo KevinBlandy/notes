@@ -151,6 +151,7 @@ server
 		package main
 		import (
 			"context"
+			"io"
 			"log"
 			"net/http"
 			"os"
@@ -158,17 +159,24 @@ server
 			"time"
 		)
 
+		func init(){
+			log.Default().SetOutput(os.Stdout)
+			log.Default().SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+		}
+
 		func main(){
 			router := http.NewServeMux()
+
 			server := http.Server {
 				Addr: ":80",
 				Handler: router,
 			}
 
 			router.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+				defer request.Body.Close()
 				writer.Header().Set("Content-Type", "text/plain; charset=utf-8")
 				writer.WriteHeader(http.StatusOK)
-				writer.Write([]byte("Hello World!"))
+				io.WriteString(writer, "Hello World")
 			})
 
 			go func() {
@@ -177,24 +185,19 @@ server
 				}
 			}()
 
-			notify := make(chan  os.Signal, 1)
-			signal.Notify(notify, os.Kill, os.Interrupt)
-			for {
-				sig := <- notify
-				switch sig {
-					case os.Kill, os.Interrupt: {
-						func(){
-							ctx, cancel := context.WithTimeout(context.Background(), time.Second * 5)
-							defer cancel()
-							if err := server.Shutdown(ctx); err != nil {
-								log.Fatalln(err)
-							}
-						}()
-						return
-					}
-					default: {
+			ctx, cancel := signal.NotifyContext(context.Background(), os.Kill, os.Interrupt)
+			defer cancel()
 
-					}
+			select {
+				case <- ctx.Done(): {
+					func(){
+						ctx, cancel := context.WithTimeout(context.Background(), time.Second * 5)
+						defer cancel()
+						if err := server.Shutdown(ctx); err != nil {
+							log.Fatalln(err)
+						}
+					}()
+					return
 				}
 			}
 		}
