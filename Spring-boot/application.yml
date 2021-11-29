@@ -35,6 +35,8 @@ logging:
 spring:
   application:
     name: "Demo Application"
+  main:
+    allow-circular-references: true # 是否允许循环引用
   lifecycle:
     timeout-per-shutdown-phase: 30  
   profiles:
@@ -55,10 +57,9 @@ spring:
     converters:
       preferred-json-mapper: gson
 
-  web:
-    resources:
-      static-locations:
-        - classpath:/static/
+  resources:
+    static-locations:
+      - classpath:/static/
 
   freemarker:
     enabled: true

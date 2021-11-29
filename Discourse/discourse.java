@@ -10,6 +10,7 @@ discourse			 |
 	
 	# ряж╙╣ду╬
 		https://springboot.io/
+		https://discuss.kubernetes.io/
 		https://discuss.kotlinlang.org/
 		https://github.community/
 		https://users.rust-lang.org/

@@ -27,6 +27,7 @@ Service抽象
 
 	
 	// 抽象一个 AbstractService 基础实现类
+	
 	import java.util.List;
 	import java.util.Optional;
 	import java.util.function.Function;
@@ -34,30 +35,28 @@ Service抽象
 	import javax.persistence.EntityManager;
 	import javax.persistence.PersistenceContext;
 
-	import com.xsh.common.repository.BaseRepository;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.data.domain.Example;
 	import org.springframework.data.domain.Page;
 	import org.springframework.data.domain.Pageable;
 	import org.springframework.data.domain.Sort;
 	import org.springframework.data.jpa.domain.Specification;
+	import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 	import org.springframework.transaction.annotation.Transactional;
 
 	import com.querydsl.core.types.OrderSpecifier;
 	import com.querydsl.core.types.Predicate;
 	import com.querydsl.jpa.impl.JPAQueryFactory;
 
+	import io.springboot.paste.repository.BaseRepository;
 
 
-	public abstract  class AbstractService<T, ID>  implements BaseService <T, ID>{
+	public  class AbstractService<T, ID>  implements BaseService <T, ID>{
 		
 		@Autowired
 		protected BaseRepository<T,ID> baseRepository;
 		
-	//	@Resource
-	//	protected JPAQueryFactory jpaQueryFactory;
-		
-		@PersistenceContext  // EntityManager 线程不是安全的
+		@PersistenceContext
 		protected EntityManager entityManager;
 		
 		@Override
@@ -307,6 +306,18 @@ Service抽象
 		public void deleteAllById(Iterable<? extends ID> ids) {
 			this.baseRepository.deleteAllById(ids);
 		}
+		
+		@Override
+		public <S extends T, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
+			return this.baseRepository.findBy(example, queryFunction);
+		}
+
+		@Override
+		public <S extends T, R> R findBy(Predicate predicate, Function<FetchableFluentQuery<S>, R> queryFunction) {
+			return this.baseRepository.findBy(predicate, queryFunction);
+		}
+		
+		// -----
 		
 		@Transactional(rollbackFor = Throwable.class)
 		public <R> R apply(Function<JPAQueryFactory, R> function) {

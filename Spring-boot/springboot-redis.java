@@ -57,6 +57,13 @@ Redis-整合单机版					|
 	
 	# 非阻塞的客户端
 		ReactiveRedisTemplate
+	
+	# 池化
+		* 当应用依赖中包含 commons-pool2.jar 会自动配置 redis 链接池 （Jedis Lettuce 都支持）
+		* 如果需要关闭池化可以配置
+
+		spring.redis.jedis.pool.enabled=false 
+		spring.redis.lettuce.pool.enabled=false 
 		
 			
 ------------------------------------
