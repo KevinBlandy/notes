@@ -3,7 +3,7 @@ rand
 ----------------------
 
 ----------------------
-±äÁ¿
+å˜é‡
 ----------------------
 
 ----------------------
@@ -12,7 +12,7 @@ rand
 	# type Rand struct {
 		}
 		func New(src Source) *Rand
-			* ³õÊ¼»¯Ëæ»úÊıÉú³ÉÆ÷
+			* åˆå§‹åŒ–éšæœºæ•°ç”Ÿæˆå™¨
 				r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 		func (r *Rand) ExpFloat64() float64
@@ -49,7 +49,7 @@ rand
 		func (z *Zipf) Uint64() uint64
 
 ----------------------
-·½·¨
+æ–¹æ³•
 ----------------------
 	func ExpFloat64() float64
 	func Float32() float32
@@ -64,7 +64,7 @@ rand
 	func Perm(n int) []int
 	func Read(p []byte) (n int, err error)
 	func Seed(seed int64)
-		* Éè¶¨Ëæ»úÊıÖÖ×Ó
+		* è®¾å®šéšæœºæ•°ç§å­
 			rand.Seed(time.Now().UnixNano())
 
 	func Shuffle(n int, swap func(i, j int))
@@ -76,9 +76,9 @@ rand
 ----------------------
 Demo
 ----------------------
-	# Éú³É 0 - 9 Ëæ»úÊı
+	# ç”Ÿæˆ 0 - 9 éšæœºæ•°
 		var random = rand.New(rand.NewSource(time.Now().UnixNano()))
 		fmt.Println(random.Intn(10))
 	
-	# ÏµÍ³Æô¶¯µÄÊ±ºò£¬Ò»°ã¾ÍÉèÖÃÈ«¾ÖµÄËæ»úÖÖ×Ó
+	# ç³»ç»Ÿå¯åŠ¨çš„æ—¶å€™ï¼Œä¸€èˆ¬å°±è®¾ç½®å…¨å±€çš„éšæœºç§å­
 		rand.Seed(time.Now().UTC().UnixNano())

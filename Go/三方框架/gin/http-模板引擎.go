@@ -1,30 +1,30 @@
 ------------------
-Ä£°åÒıÇæ
+æ¨¡æ¿å¼•æ“
 ------------------
-	# ¼ÓÔØÂ·¾¶
+	# åŠ è½½è·¯å¾„
 		func (engine *Engine) LoadHTMLFiles(files ...string)
-			* ¼ÓÔØÖ¸¶¨µÄÄ£°åÒıÇæ£¬¼ÓÔØºó²ÅÄÜÔÚcontextÊ¹ÓÃ
+			* åŠ è½½æŒ‡å®šçš„æ¨¡æ¿å¼•æ“ï¼ŒåŠ è½½åæ‰èƒ½åœ¨contextä½¿ç”¨
 
 		func (engine *Engine) LoadHTMLGlob(pattern string)
-			* ÉèÖÃÈ«¾ÖµÄÄ£°åÒıÇæ¼ÓÔØÇ°×º
-			* Ö¸¶¨Ä¿Â¼ÏÂµÄËùÓĞÎÄ¼ş
+			* è®¾ç½®å…¨å±€çš„æ¨¡æ¿å¼•æ“åŠ è½½å‰ç¼€
+			* æŒ‡å®šç›®å½•ä¸‹çš„æ‰€æœ‰æ–‡ä»¶
 				router.LoadHTMLGlob("templates/*")
-			* Ö¸¶¨Ä¿Â¼ÏÂµÄËùÓĞÄ¿Â¼µÄËùÓĞÎÄ¼ş£¨²»ĞĞ£©
+			* æŒ‡å®šç›®å½•ä¸‹çš„æ‰€æœ‰ç›®å½•çš„æ‰€æœ‰æ–‡ä»¶ï¼ˆä¸è¡Œï¼‰
 				router.LoadHTMLGlob("templates/**/*")
 	
-	# ÖØĞÂÉèÖÃÄ£°åÒıÇæ·Ö¸ô·û
+	# é‡æ–°è®¾ç½®æ¨¡æ¿å¼•æ“åˆ†éš”ç¬¦
 		func (engine *Engine) Delims(left, right string) *Engine
 	
-	# ×Ô¶¨Òåº¯Êı
+	# è‡ªå®šä¹‰å‡½æ•°
 		func (engine *Engine) SetFuncMap(funcMap template.FuncMap)
 	
-	# Ê¹ÓÃ×Ô¼º¶¨ÒåµÄÄ£°å¼ÓÔØÆ÷
+	# ä½¿ç”¨è‡ªå·±å®šä¹‰çš„æ¨¡æ¿åŠ è½½å™¨
 		func (engine *Engine) SetHTMLTemplate(templ *template.Template)
 	
-	# ÏìÓ¦Ä£°åÒıÇæ
+	# å“åº”æ¨¡æ¿å¼•æ“
 		func (c *Context) HTML(code int, name string, obj interface{})
 
 ------------------
-¶àÄ£°åÒıÇæäÖÈ¾
+å¤šæ¨¡æ¿å¼•æ“æ¸²æŸ“
 ------------------
 	

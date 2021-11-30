@@ -1,34 +1,34 @@
 ---------------------
 yaml
 ---------------------
-	# Ô´Âë
+	# æºç 
 		https://github.com/go-yaml/yaml
 
 		gopkg.in/yaml.v2
 		gopkg.in/yaml.v3
 	
-	# ×¢½âµÄÖ§³Ö
-		* ÊôĞÔ°ó¶¨
+	# æ³¨è§£çš„æ”¯æŒ
+		* å±æ€§ç»‘å®š
 			type StructA struct {
 				A string `yaml:"a"`		
 			}
 		
-		* ºöÂÔÁãÖµ:omitempty
-			* °Ñ¶ÔÏó½âÎöÎªyamlµÄÊ±ºò£¬Èç¹ûÊÇÁãÖµÔòºöÂÔ
+		* å¿½ç•¥é›¶å€¼:omitempty
+			* æŠŠå¯¹è±¡è§£æä¸ºyamlçš„æ—¶å€™ï¼Œå¦‚æœæ˜¯é›¶å€¼åˆ™å¿½ç•¥
 		
-		* ½á¹¹ÌåÇ¶Èë:inline
+		* ç»“æ„ä½“åµŒå…¥:inline
 			type StructA struct {
 				A string `yaml:"a"`
 			}
 
 			type StructB struct {
-				StructA `yaml:",inline"`			// Ç¶ÈëÁË StructA£¬ÔÚÕâÀïµÈÓÚÉùÃ÷ÁË: A string `yaml:"a"`
+				StructA `yaml:",inline"`			// åµŒå…¥äº† StructAï¼Œåœ¨è¿™é‡Œç­‰äºå£°æ˜äº†: A string `yaml:"a"`
 				B       string `yaml:"b"`
 			}
 
-			* inline Ö»ÄÜÓÃÔÚMap»òÕßstruct½á¹¹ÌåÉÏ
+			* inline åªèƒ½ç”¨åœ¨Mapæˆ–è€…structç»“æ„ä½“ä¸Š
 		
-		* ½âÎöÊı×é:flow
+		* è§£ææ•°ç»„:flow
 
 
 ---------------------
@@ -112,7 +112,7 @@ func
 ---------------------
 	func Marshal(in interface{}) (out []byte, err error)
 	func Unmarshal(in []byte, out interface{}) (err error)
-		* ĞòÁĞ»¯£¬·´ĞòÁĞ»¯
+		* åºåˆ—åŒ–ï¼Œååºåˆ—åŒ–
 	
 
 
@@ -120,7 +120,7 @@ func
 ---------------------
 demo
 ---------------------
-	# ½âÎöÅäÖÃÎÄ¼şÎÄ¼şÍ¨¹ıµÄMap½á¹¹
+	# è§£æé…ç½®æ–‡ä»¶æ–‡ä»¶é€šè¿‡çš„Mapç»“æ„
 		package main
 		import (
 			"gopkg.in/yaml.v2"
@@ -133,22 +133,22 @@ demo
 			folder, _ := os.Getwd()
 			file, err := os.Open(filepath.Join(folder, "config", "application.yaml"))
 			if err != nil {
-				log.Fatalf("ÅäÖÃÎÄ¼ş¶ÁÈ¡Òì³£:%s\n", err.Error())
+				log.Fatalf("é…ç½®æ–‡ä»¶è¯»å–å¼‚å¸¸:%s\n", err.Error())
 			}
 
-			// ´æ´¢ÅäÖÃĞÅÏ¢£¬Ê¹ÓÃ Map<Object, Object>
+			// å­˜å‚¨é…ç½®ä¿¡æ¯ï¼Œä½¿ç”¨ Map<Object, Object>
 			config := make(map[interface{}] interface{})
 			err = yaml.NewDecoder(file).Decode(config)
 			file.Close()
 
 			if err != nil {
-				log.Fatalf("ÅäÖÃÎÄ¼ş½âÎöÒì³£:%s\n", err.Error())
+				log.Fatalf("é…ç½®æ–‡ä»¶è§£æå¼‚å¸¸:%s\n", err.Error())
 			}
 			log.Println(config)
 		}
 	
-	# Í¨¹ıÄäÃû¶ÔÏó¶¨ÒåÅäÖÃ½á¹¹
-		* ÅäÖÃ
+	# é€šè¿‡åŒ¿åå¯¹è±¡å®šä¹‰é…ç½®ç»“æ„
+		* é…ç½®
 			server:
 			  port: 80
 			  host: "0.0.0.0"
@@ -174,13 +174,13 @@ demo
 			static-locations:
 			  - "/static"
 			  - "/resource"
-		* ¶ÔÏó
+		* å¯¹è±¡
 			type Config struct {
-				// ·şÎñÆ÷ÅäÖÃ
+				// æœåŠ¡å™¨é…ç½®
 				Server struct {
 					Port int `yaml:"port"`
 					Host string `yaml:"host"`
-					ReadTimeOut time.Duration `yaml:"read-time-out"`			// Ä¬ÈÏµ¥Î»ÊÇÄÉÃë£º5000000000
+					ReadTimeOut time.Duration `yaml:"read-time-out"`			// é»˜è®¤å•ä½æ˜¯çº³ç§’ï¼š5000000000
 					Compression struct{
 						Enabled bool `yaml:"enabled"`
 						MinResponseSize int `yaml:"min-response-size"`
@@ -188,17 +188,17 @@ demo
 					} `yaml:"compression"`
 				} `yaml:"server"`
 
-				// ÓÃ»§ÕË»§ÅäÖÃ
+				// ç”¨æˆ·è´¦æˆ·é…ç½®
 				Users []*struct{
 					Account string `yaml:"account"`
 					Password string `yaml:"password"`
 				} `yaml:"users"`
 
-				// ¾²Ì¬×ÊÔ´·ÃÎÊÂ·¾¶ÅäÖÃ
+				// é™æ€èµ„æºè®¿é—®è·¯å¾„é…ç½®
 				StaticLocations []string `yaml:"static-locations"`
 			}
 		
-		* ½âÎö
+		* è§£æ
 			data, err := os.ReadFile("./app.yml")
 			if err != nil {
 				log.Println(err)
@@ -212,7 +212,7 @@ demo
 			jsonStr, _ := json.MarshalIndent(config, "", " ")
 			log.Println(string(jsonStr))
 		
-		* Êä³öµÄjson
+		* è¾“å‡ºçš„json
 			{
 			 "Server": {
 			  "Port": 80,

@@ -1,28 +1,28 @@
 --------------------------------------
 SpringBoot Initializr
 --------------------------------------
-	# µØÖ·
+	# åœ°å€
 		https://start.spring.io/
 		https://github.com/spring-io/start.spring.io
 	
-	# ×Ô¼º°²×°
-		1. cloen´úÂë£ºgit clone https://github.com/spring-io/start.spring.io
-		2. ´ò°ü±àÒë£ºcd start.spring.io £¬Ö´ĞĞ./mvnw clean package -Dmaven.test.skip=true
-		3. target ÎÄ¼şÏÂÁ½¸öjar ÓÃ*-exec.jar ¿ÉÒÔÖ±½Ójava -jar -Dserver.port=8080 target\start-site-exec.jar ÔËĞĞ
+	# è‡ªå·±å®‰è£…
+		1. cloenä»£ç ï¼šgit clone https://github.com/spring-io/start.spring.io
+		2. æ‰“åŒ…ç¼–è¯‘ï¼šcd start.spring.io ï¼Œæ‰§è¡Œ./mvnw clean package -Dmaven.test.skip=true
+		3. target æ–‡ä»¶ä¸‹ä¸¤ä¸ªjar ç”¨*-exec.jar å¯ä»¥ç›´æ¥java -jar -Dserver.port=8080 target\start-site-exec.jar è¿è¡Œ
 
-		* ĞèÒª°²×°nodejsºÍnode-gyp
-			* °²×°nodejs
+		* éœ€è¦å®‰è£…nodejså’Œnode-gyp
+			* å®‰è£…nodejs
 				yum -y install nodejs
 
 				npm install -g n
 			
-			* Éı¼¶µ½Ö¸¶¨µÄ×îĞÂ°æ±¾(node°æ±¾¹ıµÍ¿ÉÄÜ»á¹¹½¨Ê§°Ü)
+			* å‡çº§åˆ°æŒ‡å®šçš„æœ€æ–°ç‰ˆæœ¬(nodeç‰ˆæœ¬è¿‡ä½å¯èƒ½ä¼šæ„å»ºå¤±è´¥)
 				n 16.13.0 stable
 				n 14.18.1 stable
 
 			
-			* °²×°ÕâÍæÒâ¶ù
+			* å®‰è£…è¿™ç©æ„å„¿
 				npm install -g node-gyp
 			
-			* ÄãÂèµÄ¿ÉÄÜ»¹Òªpython3µÄ»·¾³
+			* ä½ å¦ˆçš„å¯èƒ½è¿˜è¦python3çš„ç¯å¢ƒ
 				

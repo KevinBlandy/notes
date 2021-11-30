@@ -2,7 +2,7 @@
 package dataunit
 
 
-// CopyÁËspring¿ò¼ÜµÄ org.springframework.util.unit.DataSize ÊµÏÖ
+// Copyäº†springæ¡†æ¶çš„ org.springframework.util.unit.DataSize å®ç°
 
 import (
 	"errors"
@@ -20,7 +20,7 @@ const (
 	BytesPerTb = BytesPerGb * 1024
 )
 
-// DataUnit Êı¾İµ¥Î»
+// DataUnit æ•°æ®å•ä½
 type DataUnit struct {
 	suffix string
 	size *DataSize
@@ -33,7 +33,7 @@ var (
 	TERABYTES = &DataUnit{suffix: "TB", size:   OfTerabytes(1)}
 )
 
-// FromSuffix ¸ù¾İSuffix»ñÈ¡µ½ DataUnit
+// FromSuffix æ ¹æ®Suffixè·å–åˆ° DataUnit
 func FromSuffix (suffix string) *DataUnit {
 	switch suffix {
 	case BYTES.suffix:
@@ -50,7 +50,7 @@ func FromSuffix (suffix string) *DataUnit {
 	return nil
 }
 
-// DataSize Êı¾İ´óĞ¡
+// DataSize æ•°æ®å¤§å°
 type DataSize struct {
 	bytes int64
 }
@@ -59,28 +59,28 @@ func (d DataSize) String () string {
 	return fmt.Sprintf("%dB", d.bytes)
 }
 
-// IsNegative ÊÇ·ñÊÇ¸ºÖµ
+// IsNegative æ˜¯å¦æ˜¯è´Ÿå€¼
 func (d DataSize) IsNegative() bool {
 	return d.bytes < 0
 }
-// ToByte ×ª»»Îª×Ö½Ú
+// ToByte è½¬æ¢ä¸ºå­—èŠ‚
 func (d DataSize) ToByte() int64 {
 	return d.bytes
 }
-// ToKilobytes ×ª»»ÎªKb
+// ToKilobytes è½¬æ¢ä¸ºKb
 func (d DataSize) ToKilobytes() int64 {
 	return d.bytes / BytesPerKb
 }
-// ToMegabytes ×ª»»ÎªMb
+// ToMegabytes è½¬æ¢ä¸ºMb
 func (d DataSize) ToMegabytes() int64 {
 	return d.bytes / BytesPerMb
 }
 
-// ToGigabytes ×ª»»ÎªGB
+// ToGigabytes è½¬æ¢ä¸ºGB
 func (d DataSize) ToGigabytes() int64 {
 	return d.bytes / BytesPerGb
 }
-// ToTerabytes ×ª»»ÎªTB
+// ToTerabytes è½¬æ¢ä¸ºTB
 func (d DataSize) ToTerabytes() int64 {
 	return d.bytes / BytesPerTb
 }
@@ -110,12 +110,12 @@ func OfTerabytes(terabytes int64) *DataSize {
 	return &DataSize{bytes: terabytes * BytesPerTb}
 }
 
-// Of ½âÎö
+// Of è§£æ
 func Of (amount int64, unit *DataUnit) *DataSize {
 	return &DataSize{bytes: amount * unit.size.ToByte()}
 }
 
-// Parse ½âÎö×Ö·û´®ÎªÊı¾İµ¥Î»
+// Parse è§£æå­—ç¬¦ä¸²ä¸ºæ•°æ®å•ä½
 func Parse (text string) (*DataSize, error) {
 	pattern := regexp.MustCompile(pattern)
 	if !pattern.MatchString(text) {

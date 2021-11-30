@@ -16,31 +16,31 @@ var Loggers = make(map[string] *zap.Logger)
 
 // loggers
 var (
-	// App appÈ«¾ÖÈÕÖ¾¼ÇÂ¼Æ÷
+	// App appå…¨å±€æ—¥å¿—è®°å½•å™¨
 	App *zap.Logger
 )
 
 // writers
 var (
-	// AppLogWriter AppÈ«¾ÖÈÕÖ¾Êä³ö
+	// AppLogWriter Appå…¨å±€æ—¥å¿—è¾“å‡º
 	AppLogWriter = NewLogFileWriter(filepath.Join("log", "app.log"), 100, 0, 10, true, true)
 
-	// ErrorLogWriter Òì³£ÈÕÖ¾Êä³ö
+	// ErrorLogWriter å¼‚å¸¸æ—¥å¿—è¾“å‡º
 	ErrorLogWriter = NewLogFileWriter(filepath.Join("log", "error", "error.log"), 100, 0, 10, true, true)
 )
 
 
 
-// Close ÊÍ·ÅËùÓĞ×ÊÔ´
+// Close é‡Šæ”¾æ‰€æœ‰èµ„æº
 func Close () {
 	for name, logger := range Loggers {
 		if err := logger.Sync(); err != nil {
-			fmt.Fprintf(os.Stderr, "loggerÍ¬²½Òì³£, logger=%s, err=%s\n", name, err.Error())
+			fmt.Fprintf(os.Stderr, "loggeråŒæ­¥å¼‚å¸¸, logger=%s, err=%s\n", name, err.Error())
 		}
 	}
 	var CloseLogger = func(logger *lumberjack.Logger) (){
 		if err := logger.Close(); err != nil {
-			fmt.Fprintf(os.Stderr, "ÈÕÖ¾ÎÄ¼ş¹Ø±ÕÒì³£, logger=%s, err=%s\n", logger.Filename, err.Error())
+			fmt.Fprintf(os.Stderr, "æ—¥å¿—æ–‡ä»¶å…³é—­å¼‚å¸¸, logger=%s, err=%s\n", logger.Filename, err.Error())
 		}
 	}
 	CloseLogger(AppLogWriter)
@@ -48,7 +48,7 @@ func Close () {
 }
 
 
-// ErrorEvent Òì³£ÈÕÖ¾Ê±¼ä´¦Àí
+// ErrorEvent å¼‚å¸¸æ—¥å¿—æ—¶é—´å¤„ç†
 func ErrorEvent (entry zapcore.Entry) error {
 	if entry.Level < zapcore.ErrorLevel {
 		return nil
@@ -58,33 +58,33 @@ func ErrorEvent (entry zapcore.Entry) error {
 
 	switch entry.Level {
 		case zapcore.ErrorLevel, zapcore.PanicLevel, zapcore.DPanicLevel, zapcore.FatalLevel: writer = ErrorLogWriter
-		// TODO ¿ÉÒÔÈÃ²»Í¬¼¶±ğµÄÈÕÖ¾£¬Êä³öµ½²»Í¬µÄÎÄ¼ş
+		// TODO å¯ä»¥è®©ä¸åŒçº§åˆ«çš„æ—¥å¿—ï¼Œè¾“å‡ºåˆ°ä¸åŒçš„æ–‡ä»¶
 		default: return nil
 	}
 
-	// ±àÂëÎªJSON
+	// ç¼–ç ä¸ºJSON
 	jsonData, err := json.Marshal(entry)
 	if err != nil {
 		return err
 	}
 
 	buffer := bytes.NewBuffer(jsonData)
-	buffer.WriteString("\n")  // Ğ´Èë»»ĞĞ·û
+	buffer.WriteString("\n")  // å†™å…¥æ¢è¡Œç¬¦
 
-	// Êä³öµ½ÈÕÖ¾ÎÄ¼ş
+	// è¾“å‡ºåˆ°æ—¥å¿—æ–‡ä»¶
 	if _, err := buffer.WriteTo(writer); err != nil {
 		return err
 	}
 
 	go func() {
-		// TODO ·¢ËÍÓÊ¼ş
+		// TODO å‘é€é‚®ä»¶
 		// var content = buffer.String()
 	}()
 
 	return nil
 }
 
-// NewLogFileWriter ´´½¨ĞÂµÄÈÕÖ¾Êä³öÎÄ¼ş
+// NewLogFileWriter åˆ›å»ºæ–°çš„æ—¥å¿—è¾“å‡ºæ–‡ä»¶
 func NewLogFileWriter(file string, maxSize, maxAge, maxBackups int, localTime, compress bool) *lumberjack.Logger {
 	return &lumberjack.Logger {
 		Filename:   file,
@@ -96,9 +96,9 @@ func NewLogFileWriter(file string, maxSize, maxAge, maxBackups int, localTime, c
 	}
 }
 
-// NewLogger ´´½¨ĞÂµÄlogger
+// NewLogger åˆ›å»ºæ–°çš„logger
 func NewLogger (name string, level zap.AtomicLevel, writer zapcore.WriteSyncer) *zap.Logger {
-	// ÏûÏ¢±àÂëÆ÷ÅäÖÃ
+	// æ¶ˆæ¯ç¼–ç å™¨é…ç½®
 	encodeConfig := zap.NewProductionEncoderConfig()
 	encodeConfig.MessageKey = "message"
 	encodeConfig.TimeKey = "time"
@@ -106,29 +106,29 @@ func NewLogger (name string, level zap.AtomicLevel, writer zapcore.WriteSyncer) 
 		encoder.AppendString(strings.ToUpper(level.String()))
 	}
 	encodeConfig.CallerKey = "file"
-	// Ê±¼ä¸ñÊ½»¯
+	// æ—¶é—´æ ¼å¼åŒ–
 	encodeConfig.EncodeTime = func(time time.Time, encoder zapcore.PrimitiveArrayEncoder) {
 		encoder.AppendString(time.Format("2006-01-02 15:04:05"))
 	}
 
-	// ´´½¨ºËĞÄÅäÖÃ
+	// åˆ›å»ºæ ¸å¿ƒé…ç½®
 	core := zapcore.NewCore(zapcore.NewJSONEncoder(encodeConfig), writer, level)
 
-	// ÈÕÖ¾¼ÇÂ¼Æ÷µÄÒ»Ğ©Ñ¡Ïî
+	// æ—¥å¿—è®°å½•å™¨çš„ä¸€äº›é€‰é¡¹
 	options := []zap.Option {
-		zap.AddCaller(),						// ÈÕÖ¾ÖĞÌí¼Óµ÷ÓÃĞÅÏ¢
-		zap.AddStacktrace(zapcore.ErrorLevel),  // Òì³£¼¶±ğÒÔÉÏ£¬Ìí¼Óµ÷ÓÃÕ»ĞÅÏ¢
+		zap.AddCaller(),						// æ—¥å¿—ä¸­æ·»åŠ è°ƒç”¨ä¿¡æ¯
+		zap.AddStacktrace(zapcore.ErrorLevel),  // å¼‚å¸¸çº§åˆ«ä»¥ä¸Šï¼Œæ·»åŠ è°ƒç”¨æ ˆä¿¡æ¯
 		zap.Hooks(ErrorEvent),
 	}
 
-	// ´´½¨ÈÕÖ¾¼ÇÂ¼Æ÷, ÉèÖÃÃû³Æ
+	// åˆ›å»ºæ—¥å¿—è®°å½•å™¨, è®¾ç½®åç§°
 	return zap.New(core, options...).Named(name)
 }
 
 
 func Init (){
 	var appLogFile = zapcore.Lock(zapcore.AddSync(AppLogWriter))
-	// AppÈÕÖ¾£¬Êä³öµ½±ê×¼Êä³öºÍÎÄ¼ş
+	// Appæ—¥å¿—ï¼Œè¾“å‡ºåˆ°æ ‡å‡†è¾“å‡ºå’Œæ–‡ä»¶
 	App = NewLogger("app", zap.NewAtomicLevelAt(zapcore.DebugLevel), zapcore.NewMultiWriteSyncer(zapcore.AddSync(os.Stdout), appLogFile))
 
 	Loggers["app"] = App

@@ -1,11 +1,11 @@
 #------------------------
-# ³£ÓÃµÄÅäÖÃ
+# å¸¸ç”¨çš„é…ç½®
 #------------------------
 
 
 server:
   port: 80
-  max-http-header-size: 10KB # header ×î´óÌå»ı
+  max-http-header-size: 10KB # header æœ€å¤§ä½“ç§¯
   compression:
     enabled: true
     mime-types: 
@@ -23,7 +23,7 @@ server:
   shutdown: GRACEFUL
   undertow:
     direct-buffers: true
-    max-http-post-size: 5MB	# ÒµÎñ body ×î´óÌå»ı
+    max-http-post-size: 5MB	# ä¸šåŠ¡ body æœ€å¤§ä½“ç§¯
   servlet:
     encoding:
       enabled: true
@@ -36,7 +36,7 @@ spring:
   application:
     name: "Demo Application"
   main:
-    allow-circular-references: true # ÊÇ·ñÔÊĞíÑ­»·ÒıÓÃ
+    allow-circular-references: true # æ˜¯å¦å…è®¸å¾ªç¯å¼•ç”¨
   lifecycle:
     timeout-per-shutdown-phase: 30  
   profiles:
@@ -87,7 +87,7 @@ spring:
       ddl-auto: none
 
 #------------------------
-# ²»Í¬»·¾³ÅäÖÃ
+# ä¸åŒç¯å¢ƒé…ç½®
 #------------------------
 
 

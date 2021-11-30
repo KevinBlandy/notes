@@ -1,5 +1,5 @@
 ---------------------------
-ÅäÖÃ
+é…ç½®
 ---------------------------
 server:
   port: 80
@@ -44,7 +44,7 @@ redis:
     wait: true
 
 ---------------------------
-ÅäÖÃ¼ÓÔØ
+é…ç½®åŠ è½½
 ---------------------------
 package config
 
@@ -61,7 +61,7 @@ const (
 	DefaultConfigFile = "./app.yaml"
 )
 
-// CompressionConfig ÏìÓ¦Ñ¹ËõÅäÖÃ
+// CompressionConfig å“åº”å‹ç¼©é…ç½®
 type CompressionConfig struct {
 	Enabled bool 		`yaml:"enabled"`
 	//Deprecated
@@ -70,20 +70,20 @@ type CompressionConfig struct {
 	MineTypes []string 	`yaml:"mime-types"`
 }
 
-// SslConfig ÅäÖÃ
+// SslConfig é…ç½®
 type SslConfig struct {
 	Enabled bool 	`yaml:"enabled"`
 	CertFile string	`yaml:"cert-file"`
 	KeyFile string	`yaml:"key-file"`
 }
 
-// HttpConfig httpÅäÖÃ
+// HttpConfig httpé…ç½®
 type HttpConfig struct {
 	MaxMultipartMemory int64		`yaml:"max-multipart-memory"`
 	MaxRequestBody int64			`yaml:"max-request-body"`
 }
 
-// ServerConfig ·şÎñÆ÷ÅäÖÃ
+// ServerConfig æœåŠ¡å™¨é…ç½®
 type ServerConfig struct {
 	Port int						`yaml:"port"`
 	Host string						`yaml:"host"`
@@ -97,7 +97,7 @@ type ServerConfig struct {
 	Http *HttpConfig				`yaml:"http"`
 }
 
-// DataSourceConfig Êı¾İÔ´ÅäÖÃ
+// DataSourceConfig æ•°æ®æºé…ç½®
 type DataSourceConfig struct {
 	Type string `yaml:"type"`
 	Url string	`yaml:"url"`
@@ -109,7 +109,7 @@ type DataSourceConfig struct {
 	}	`yaml:"pool"`
 }
 
-// RedisConfig RedisÅäÖÃ
+// RedisConfig Redisé…ç½®
 type RedisConfig struct {
 	Url string			`yaml:"url"`
 	Password string		`yaml:"password"`
@@ -127,7 +127,7 @@ type RedisConfig struct {
 
 }
 
-// AppConfig Ó¦ÓÃÅäÖÃ
+// AppConfig åº”ç”¨é…ç½®
 type AppConfig struct {
 	Server *ServerConfig 			`yaml:"server"`
 	Datasource *DataSourceConfig	`yaml:"datasource"`
@@ -135,31 +135,31 @@ type AppConfig struct {
 }
 func (a AppConfig) String () string {
 	if data, err := yaml.Marshal(a); err != nil {
-		return fmt.Sprintf("Yaml±àÂëÒì³££º%s", err.Error())
+		return fmt.Sprintf("Yamlç¼–ç å¼‚å¸¸ï¼š%s", err.Error())
 	} else {
 		return string(data)
 	}
 }
 
-// App È«¾ÖÎ¨Ò»ÅäÖÃ
+// App å…¨å±€å”¯ä¸€é…ç½®
 var App = new(AppConfig)
 
 func Init (){
 
-	var configFilePath = flag.String("config", DefaultConfigFile, "ÅäÖÃÎÄ¼şÂ·¾¶")
+	var configFilePath = flag.String("config", DefaultConfigFile, "é…ç½®æ–‡ä»¶è·¯å¾„")
 	flag.Parse()
 
-	log.Printf("¼ÓÔØÅäÖÃÎÄ¼ş£º%s\n", *configFilePath)
+	log.Printf("åŠ è½½é…ç½®æ–‡ä»¶ï¼š%s\n", *configFilePath)
 
 	if configFile, err := os.ReadFile(*configFilePath); err != nil {
-		log.Fatalf("¶ÁÈ¡ÅäÖÃÎÄ¼şÄÚÈİÒì³££º%s\n", err.Error())
+		log.Fatalf("è¯»å–é…ç½®æ–‡ä»¶å†…å®¹å¼‚å¸¸ï¼š%s\n", err.Error())
 	} else {
 		if err := yaml.Unmarshal(configFile, App); err != nil {
-			log.Fatalf("¼ÓÔØÅäÖÃĞÅÏ¢Òì³££º%s\n", err.Error())
+			log.Fatalf("åŠ è½½é…ç½®ä¿¡æ¯å¼‚å¸¸ï¼š%s\n", err.Error())
 		}
 	}
 
-	log.Printf("ÅäÖÃĞÅÏ¢£º\n %s \n", App)
+	log.Printf("é…ç½®ä¿¡æ¯ï¼š\n %s \n", App)
 }
 ---------------------------
 DB & Redis
@@ -198,23 +198,23 @@ func Init() error {
 		dialect = sqlite.Open(dbConfig.Url)
 	}
 	if dialect == nil {
-		return fmt.Errorf("Î´ÖªµÄÊı¾İÔ´ÀàĞÍ£º%s\n", dbConfig.Type)
+		return fmt.Errorf("æœªçŸ¥çš„æ•°æ®æºç±»å‹ï¼š%s\n", dbConfig.Type)
 	}
 
 	gormDB, err := gorm.Open(dialect,
 		&gorm.Config{
 			NamingStrategy: schema.NamingStrategy {
-				SingularTable: true,		// ±íÃû³Æµ¥Êı
+				SingularTable: true,		// è¡¨åç§°å•æ•°
 			},
-			Logger: Logger,					// ÈÕÖ¾¼ÇÂ¼
-			QueryFields: false,				// ¼ìË÷Ê±ÁĞ³öËùÓĞÁĞ
-			PrepareStmt: true,				// »º´æÔ¤±àÒëSQL
+			Logger: Logger,					// æ—¥å¿—è®°å½•
+			QueryFields: false,				// æ£€ç´¢æ—¶åˆ—å‡ºæ‰€æœ‰åˆ—
+			PrepareStmt: true,				// ç¼“å­˜é¢„ç¼–è¯‘SQL
 		})
 	if err != nil {
 		return err
 	}
 
-	// Êı¾İÔ´ÉèÖÃ
+	// æ•°æ®æºè®¾ç½®
 	rawDB, err := gormDB.DB()
 	if err != nil {
 		return err
@@ -291,7 +291,7 @@ func Init (){
 
 func Shutdown() error {
 	if Pool == nil {
-		return errors.New("poolÎ´³õÊ¼»¯")
+		return errors.New("poolæœªåˆå§‹åŒ–")
 	}
 	return Pool.Close()
 }

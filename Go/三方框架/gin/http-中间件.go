@@ -1,86 +1,86 @@
 ----------------------
-req ÖĞ¼ä¼ş
+req ä¸­é—´ä»¶
 ----------------------
-	# ÀàËÆÓÚÀ¹½ØÆ÷£¬±¾ÖÊÉÏÒ²ÊÇÒ»¸ö´¦Àí·½·¨
+	# ç±»ä¼¼äºæ‹¦æˆªå™¨ï¼Œæœ¬è´¨ä¸Šä¹Ÿæ˜¯ä¸€ä¸ªå¤„ç†æ–¹æ³•
 		type HandlerFunc func(*Context)
 	
-	# Ô¤¶¨ÒåµÄÖĞ¼ä¼ş
+	# é¢„å®šä¹‰çš„ä¸­é—´ä»¶
 		func BasicAuth(accounts Accounts) HandlerFunc
 		func BasicAuthForRealm(accounts Accounts, realm string) HandlerFunc
-			* authÈÏÖ¤£¬Èç¹ûÈÏÖ¤³É¹¦»á°ÑÓÃ»§ĞÅÏ¢·ÅÔÚctxÖĞ£¬Èç¹û realm Îª""£¬ÔòÄ¬ÈÏÊ¹ÓÃ "Authorization Required"¡£
-			* keyÊÇ const AuthUserKey = "user"
+			* authè®¤è¯ï¼Œå¦‚æœè®¤è¯æˆåŠŸä¼šæŠŠç”¨æˆ·ä¿¡æ¯æ”¾åœ¨ctxä¸­ï¼Œå¦‚æœ realm ä¸º""ï¼Œåˆ™é»˜è®¤ä½¿ç”¨ "Authorization Required"ã€‚
+			* keyæ˜¯ const AuthUserKey = "user"
 			
 		func Bind(val interface{}) HandlerFunc
-			* °ÑÊı¾İ°ó¶¨µ½val£¬Èç¹û°ó¶¨³É¹¦£¬¾Í»á°ÑvalÉèÖÃµ½contextÖĞ
-			* Ä¬ÈÏµÄKeyÊÇ	const BindKey = "_gin-gonic/gin/bindkey"
+			* æŠŠæ•°æ®ç»‘å®šåˆ°valï¼Œå¦‚æœç»‘å®šæˆåŠŸï¼Œå°±ä¼šæŠŠvalè®¾ç½®åˆ°contextä¸­
+			* é»˜è®¤çš„Keyæ˜¯	const BindKey = "_gin-gonic/gin/bindkey"
 
 		func ErrorLogger() HandlerFunc
-			* ÈÎÒâÒì³£´¦ÀíÆ÷£¬»á°ÑÒì³£½âÎöÎªJSONÏìÓ¦¸ø¿Í»§¶Ë
+			* ä»»æ„å¼‚å¸¸å¤„ç†å™¨ï¼Œä¼šæŠŠå¼‚å¸¸è§£æä¸ºJSONå“åº”ç»™å®¢æˆ·ç«¯
 				return ErrorLoggerT(ErrorTypeAny)
 		func ErrorLoggerT(typ ErrorType) HandlerFunc
-			* ½ö½ö´¦ÀíÖ¸¶¨Òì³£
+			* ä»…ä»…å¤„ç†æŒ‡å®šå¼‚å¸¸
 
 		func Logger() HandlerFunc
 		func LoggerWithConfig(conf LoggerConfig) HandlerFunc
 		func LoggerWithFormatter(f LogFormatter) HandlerFunc
 		func LoggerWithWriter(out io.Writer, notlogged ...string) HandlerFunc
-			* »ñÈ¡ÈÕÖ¾ĞÅÏ¢
+			* è·å–æ—¥å¿—ä¿¡æ¯
 
 		func Recovery() HandlerFunc
 		func RecoveryWithWriter(out io.Writer) HandlerFunc
-			* ´¦ÀípanicÒì³££¬ out ÊÇÖ¸¶¨Òì³£ĞÅÏ¢µÄÊä³öµØ£¬»á°üº¬ÇëÇódumpµÈĞÅÏ¢£¬Ä¬ÈÏÊÇ stdout
-			* Èç¹ûÊÇ broken connection£¬ÔòºöÂÔ£¬·´Ö®ÔòÏìÓ¦¿Í»§¶Ë500
+			* å¤„ç†panicå¼‚å¸¸ï¼Œ out æ˜¯æŒ‡å®šå¼‚å¸¸ä¿¡æ¯çš„è¾“å‡ºåœ°ï¼Œä¼šåŒ…å«è¯·æ±‚dumpç­‰ä¿¡æ¯ï¼Œé»˜è®¤æ˜¯ stdout
+			* å¦‚æœæ˜¯ broken connectionï¼Œåˆ™å¿½ç•¥ï¼Œåä¹‹åˆ™å“åº”å®¢æˆ·ç«¯500
 
 		func WrapF(f http.HandlerFunc) HandlerFunc
-			* °Ñhttp.HandlerFunc °ü×°³É HandlerFunc
+			* æŠŠhttp.HandlerFunc åŒ…è£…æˆ HandlerFunc
 				return func(c *Context) {
 					f(c.Writer, c.Request)
 				}
 
 		func WrapH(h http.Handler) HandlerFunc
-			* °ü×°³É HandlerFunc
+			* åŒ…è£…æˆ HandlerFunc
 				return func(c *Context) {
 					h.ServeHTTP(c.Writer, c.Request)
 				}
 	
-	# Ìí¼ÓÖĞ¼ä¼şÒÔ¼°Ö´ĞĞÁ÷³Ì
+	# æ·»åŠ ä¸­é—´ä»¶ä»¥åŠæ‰§è¡Œæµç¨‹
 		engine := gin.New()
 		
-		// Ìí¼ÓÈ«¾ÖµÄ
+		// æ·»åŠ å…¨å±€çš„
 		engine.Use(func(context *gin.Context) {
-			fmt.Println("µÚÒ»¸ö¿ªÊ¼....")
-			// Ö´ĞĞÏÂÒ»¸ö
+			fmt.Println("ç¬¬ä¸€ä¸ªå¼€å§‹....")
+			// æ‰§è¡Œä¸‹ä¸€ä¸ª
 			context.Next()
-			fmt.Println("µÚÒ»¸ö½áÊø....")
+			fmt.Println("ç¬¬ä¸€ä¸ªç»“æŸ....")
 		})
 		engine.Use(func(context *gin.Context) {
-			fmt.Println("µÚ¶ş¸ö¿ªÊ¼....")
-			// Ö´ĞĞÏÂÒ»¸ö
+			fmt.Println("ç¬¬äºŒä¸ªå¼€å§‹....")
+			// æ‰§è¡Œä¸‹ä¸€ä¸ª
 			context.Next()
-			fmt.Println("µÚ¶ş¸ö½áÊø....")
+			fmt.Println("ç¬¬äºŒä¸ªç»“æŸ....")
 		})
 		engine.GET("/", func(context *gin.Context) {
 			context.Writer.Write([]byte("Hello"))
 		})
 
 		
-		// ÎªÖ¸¶¨µÄURIÌí¼Ó
+		// ä¸ºæŒ‡å®šçš„URIæ·»åŠ 
 		engine.GET("/", func(context *gin.Context) {
-			// µÚÒ»¸öÖĞ¼ä¼ş
+			// ç¬¬ä¸€ä¸ªä¸­é—´ä»¶
 			context.Next()
 		}, func(context *gin.Context) {
-			// µÚ¶ş¸öÖĞ¼ä¼ş
+			// ç¬¬äºŒä¸ªä¸­é—´ä»¶
 			context.Next()
 		}, func(context *gin.Context) {
-			// µÚÈı¸öÖĞ¼ä¼ş TODO
+			// ç¬¬ä¸‰ä¸ªä¸­é—´ä»¶ TODO
 		})
 
-		// ÎªÖ¸¶¨µÄGroupÌí¼Ó
+		// ä¸ºæŒ‡å®šçš„Groupæ·»åŠ 
 		g := engine.Group("/user", func(context *gin.Context) {
-			fmt.Println("µÚÒ»¸ö")
+			fmt.Println("ç¬¬ä¸€ä¸ª")
 			context.Next()
 		}, func(context *gin.Context) {
-			fmt.Println("µÚ¶ş¸ö")
+			fmt.Println("ç¬¬äºŒä¸ª")
 			context.Next()
 		})
 
@@ -90,17 +90,17 @@ req ÖĞ¼ä¼ş
 
 
 
-		* Êä³öÈÕÖ¾
-			µÚÒ»¸ö¿ªÊ¼....
-			µÚ¶ş¸ö¿ªÊ¼....
-			µÚ¶ş¸ö½áÊø....
-			µÚÒ»¸ö½áÊø....
+		* è¾“å‡ºæ—¥å¿—
+			ç¬¬ä¸€ä¸ªå¼€å§‹....
+			ç¬¬äºŒä¸ªå¼€å§‹....
+			ç¬¬äºŒä¸ªç»“æŸ....
+			ç¬¬ä¸€ä¸ªç»“æŸ....
 
 
 ----------------------
-³£ÓÃµÄÒ»Ğ©ÖĞ¼ä¼ş
+å¸¸ç”¨çš„ä¸€äº›ä¸­é—´ä»¶
 ----------------------
-	# ×î´óÏûÏ¢ÌåÏŞÖÆ
+	# æœ€å¤§æ¶ˆæ¯ä½“é™åˆ¶
 		func MaxBody (size int64) func(ctx *gin.Context){
 			return func(ctx *gin.Context) {
 				ctx.Request.Body = http.MaxBytesReader(ctx.Writer, ctx.Request.Body , size)
@@ -108,12 +108,12 @@ req ÖĞ¼ä¼ş
 			}
 		}
 		
-		* ¶ÔÇëÇóÌå½øĞĞ¶ÁÈ¡µÄÊ±ºò£¬´óĞ¡³¬¹ıÕâ¸öÏŞÖÆ£¬¾Í»á·µ»ØÒì³££º
+		* å¯¹è¯·æ±‚ä½“è¿›è¡Œè¯»å–çš„æ—¶å€™ï¼Œå¤§å°è¶…è¿‡è¿™ä¸ªé™åˆ¶ï¼Œå°±ä¼šè¿”å›å¼‚å¸¸ï¼š
 			errors.New("http: request body too large")
-		* Èç¹ûctx.WriterÊµÏÖÁË requestTooLarge() ·½·¨µÄ»°£¬»¹»áÖ´ĞĞ requestTooLarge() µ÷ÓÃ
+		* å¦‚æœctx.Writerå®ç°äº† requestTooLarge() æ–¹æ³•çš„è¯ï¼Œè¿˜ä¼šæ‰§è¡Œ requestTooLarge() è°ƒç”¨
 
 
-	# µ÷ÓÃÁ´³¬Ê±¿ØÖÆ
+	# è°ƒç”¨é“¾è¶…æ—¶æ§åˆ¶
 		func TimeOut (timeout time.Duration) func(*gin.Context) {
 			return func(c *gin.Context) {
 				ctx, cancel := context.WithTimeout(c.Request.Context(), timeout)
@@ -125,15 +125,15 @@ req ÖĞ¼ä¼ş
 			}
 		}
 
-		* Ëü²¢²»»áÏŞÖÆµ±Ç°ÇëÇóµÄÊ±¼ä£¬½ö½öÊÇ´´½¨ÁËÒ»¸ö³¬Ê±ctx°ó¶¨µ½Request
-		* ÒµÎñcontrollerÖĞ£¬¿ÉÒÔ»ñÈ¡µ½Õâ¸öctxÈ¥Ö´ĞĞÆäËûµÄ·şÎñµ÷ÓÃ£¨·şÎñµ÷ÓÃ£ºA => B => C£©
+		* å®ƒå¹¶ä¸ä¼šé™åˆ¶å½“å‰è¯·æ±‚çš„æ—¶é—´ï¼Œä»…ä»…æ˜¯åˆ›å»ºäº†ä¸€ä¸ªè¶…æ—¶ctxç»‘å®šåˆ°Request
+		* ä¸šåŠ¡controllerä¸­ï¼Œå¯ä»¥è·å–åˆ°è¿™ä¸ªctxå»æ‰§è¡Œå…¶ä»–çš„æœåŠ¡è°ƒç”¨ï¼ˆæœåŠ¡è°ƒç”¨ï¼šA => B => Cï¼‰
 			_, err := ctxhttp.Get(c.Request.Context(), http.DefaultClient, "https://www.google.com/")
 			if err != nil {
 				log.Fatalf("ctxhttp.Get err: %v", err)
 			}
 
 	
-	# ¶ÁÈ¡ÏìÓ¦/ÇëÇóBODYÖĞ¼ä¼ş
+	# è¯»å–å“åº”/è¯·æ±‚BODYä¸­é—´ä»¶
 		type LogWriter struct {
 			gin.ResponseWriter
 			Buffer *bytes.Buffer
@@ -145,31 +145,31 @@ req ÖĞ¼ä¼ş
 			return l.ResponseWriter.Write(data)
 		}
 
-		// Log ¼ÇÂ¼ÇëÇóÏìÓ¦ÈÕÖ¾µÈµÈĞÅÏ¢
+		// Log è®°å½•è¯·æ±‚å“åº”æ—¥å¿—ç­‰ç­‰ä¿¡æ¯
 		func Log (ctx *gin.Context ){
 
-			// ¼ÇÂ¼ÏìÓ¦ÈÕÖ¾
+			// è®°å½•å“åº”æ—¥å¿—
 			var logWriter = &LogWriter {
 				ResponseWriter: ctx.Writer,
 				Buffer:    &bytes.Buffer{},
 			}
 			ctx.Writer = logWriter
 
-			// ¶ÔÓÚµ±Ç°ÇëÇó£¬Éú³ÉÎ¨Ò»ID
+			// å¯¹äºå½“å‰è¯·æ±‚ï¼Œç”Ÿæˆå”¯ä¸€ID
 			var requestedId = uuid.New().String()
 			ctx.Writer.Header().Set(constant.HttpHeaders.RequestId, requestedId)
 
-			// ¶ÁÈ¡ÇëÇóÌå
+			// è¯»å–è¯·æ±‚ä½“
 			var body, err = io.ReadAll(ctx.Request.Body)
 			if err != nil {
-				response.ErrorResponse(ctx, err)  // ¶ÁÈ¡BOdyÒì³££¬Ö±½Ó¸ø¿Í»§¶ËÏìÓ¦Òì³£ĞÅÏ¢
-				ctx.Abort()  					  // ×è¶ÏÖ´ĞĞÁ´
+				response.ErrorResponse(ctx, err)  // è¯»å–BOdyå¼‚å¸¸ï¼Œç›´æ¥ç»™å®¢æˆ·ç«¯å“åº”å¼‚å¸¸ä¿¡æ¯
+				ctx.Abort()  					  // é˜»æ–­æ‰§è¡Œé“¾
 			} else {
-				// ÖØĞÂÉèÖÃÇëÇóÌå
+				// é‡æ–°è®¾ç½®è¯·æ±‚ä½“
 				ctx.Request.Body = io.NopCloser(bytes.NewReader(body))
 			}
 
-			// ÏûºÄÊ±¼ä£¬Ä¬ÈÏÎª-1£¬±íÊ¾Ã»ÓĞ½øÈëµ½ÒµÎñÖ´ĞĞ²½Öè
+			// æ¶ˆè€—æ—¶é—´ï¼Œé»˜è®¤ä¸º-1ï¼Œè¡¨ç¤ºæ²¡æœ‰è¿›å…¥åˆ°ä¸šåŠ¡æ‰§è¡Œæ­¥éª¤
 			var executionTime int64 = -1
 			if !ctx.IsAborted() {
 				var startTime = time.Now().Unix()
@@ -178,22 +178,22 @@ req ÖĞ¼ä¼ş
 				executionTime = endTime - startTime
 			}
 
-			var method = ctx.Request.Method					// ÇëÇó·½·¨
-			var fullPath = ctx.FullPath()					// Ó³ÉäÂ·¾¶
-			var requestURI = ctx.Request.URL.RequestURI()	// ÍêÕûµÄURL£¬°üÀ¨²éÑ¯²ÎÊı
-			// TODO ÇëÇóHeader
-			// TODO ÏìÓ¦Header
-			var status = ctx.Writer.Status()				// ÏìÓ¦×´Ì¬Âë
-			var requestBody = string(body)					// ÇëÇóÌå
-			var responseBody = logWriter.Buffer.String()	// ×Ö·û´®ÏìÓ¦Ìå£¬Èç¹ûÏìÓ¦µÄ²»ÊÇ×Ö·û´®£¬ÔòĞèÒª°´Ğè½âÂë
+			var method = ctx.Request.Method					// è¯·æ±‚æ–¹æ³•
+			var fullPath = ctx.FullPath()					// æ˜ å°„è·¯å¾„
+			var requestURI = ctx.Request.URL.RequestURI()	// å®Œæ•´çš„URLï¼ŒåŒ…æ‹¬æŸ¥è¯¢å‚æ•°
+			// TODO è¯·æ±‚Header
+			// TODO å“åº”Header
+			var status = ctx.Writer.Status()				// å“åº”çŠ¶æ€ç 
+			var requestBody = string(body)					// è¯·æ±‚ä½“
+			var responseBody = logWriter.Buffer.String()	// å­—ç¬¦ä¸²å“åº”ä½“ï¼Œå¦‚æœå“åº”çš„ä¸æ˜¯å­—ç¬¦ä¸²ï¼Œåˆ™éœ€è¦æŒ‰éœ€è§£ç 
 
-			// Êä³öÈÕÖ¾
+			// è¾“å‡ºæ—¥å¿—
 			log.Printf("id=%s, method=%s, path=%s, uri=%s, time=%d, reqBody=%s, respBody=%s, status=%d\n",
 				requestedId, method, fullPath, requestURI, executionTime, requestBody, responseBody, status,
 			)
 		}
 	
-	# ¿çÓòÉèÖÃÖĞ¼ä¼ş
+	# è·¨åŸŸè®¾ç½®ä¸­é—´ä»¶
 		func Cors (context *gin.Context ){
 			origin := context.GetHeader("Origin")
 			if origin != "" {

@@ -1,7 +1,7 @@
 -----------------
 gin
 -----------------
-	# µÿ÷∑
+	# Âú∞ÂùÄ
 		https://gin-gonic.com/zh-cn/
 		https://github.com/gin-gonic/gin
 		https://gin-gonic.com/zh-cn/docs/

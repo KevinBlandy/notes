@@ -1,7 +1,7 @@
 -----------------------
 gzip
 -----------------------
-	# Ìí¼ÓGzipÖĞ¼ä¼ş
+	# æ·»åŠ Gzipä¸­é—´ä»¶
 		import (
 			"github.com/gin-contrib/gzip"
 			"github.com/gin-gonic/gin"
@@ -9,7 +9,7 @@ gzip
 
 		engine := gin.New()
 
-		// Ìí¼ÓgzipÖĞ¼ä¼ş
+		// æ·»åŠ gzipä¸­é—´ä»¶
 		engine.Use(gzip.Gzip(gzip.DefaultCompression))
 	
 
@@ -35,28 +35,28 @@ type
 --------------------------
 	# type ExcludedExtensions map[string]bool
 		
-		* Ö¸¶¨ÒªÑ¹ËõÇëÇóµÄºó×º
+		* æŒ‡å®šè¦å‹ç¼©è¯·æ±‚çš„åç¼€
 
 		func NewExcludedExtensions(extensions []string) ExcludedExtensions
 		func (e ExcludedExtensions) Contains(target string) bool
 	
 	# type ExcludedPaths []string
 		
-		* Ö¸¶¨ÒªÑ¹ËõÇëÇóµÄÂ·¾¶
+		* æŒ‡å®šè¦å‹ç¼©è¯·æ±‚çš„è·¯å¾„
 		
 		func NewExcludedPaths(paths []string) ExcludedPaths
 		func (e ExcludedPaths) Contains(requestURI string) bool
 	
 	# type ExcludedPathesRegexs []*regexp.Regexp
 		
-		* Ö¸¶¨ÒªÑ¹ËõÇëÇóµÄÂ·¾¶ÕıÔò
+		* æŒ‡å®šè¦å‹ç¼©è¯·æ±‚çš„è·¯å¾„æ­£åˆ™
 
 		func NewExcludedPathesRegexs(regexs []string) ExcludedPathesRegexs 
 		func (e ExcludedPathesRegexs) Contains(requestURI string) bool
 
 	# type Option func(*Options)
 		
-		* Ñ¹ËõÅäÖÃÏî·½·¨
+		* å‹ç¼©é…ç½®é¡¹æ–¹æ³•
 		
 		func WithDecompressFn(decompressFn func(c *gin.Context)) Option
 		func WithExcludedExtensions(args []string) Option
@@ -70,7 +70,7 @@ type
 			DecompressFn         func(c *gin.Context)
 		}
 
-		* Ñ¹ËõÅäÖÃÏî
+		* å‹ç¼©é…ç½®é¡¹
 
 --------------------------
 func

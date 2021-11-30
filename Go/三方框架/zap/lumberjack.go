@@ -1,7 +1,7 @@
 --------------------
 lumberjack
 --------------------
-	# ÈÕÖ¾ÇĞ¸î¿ò¼Ü
+	# æ—¥å¿—åˆ‡å‰²æ¡†æ¶
 		https://github.com/natefinch/lumberjack
 		https://pkg.go.dev/gopkg.in/natefinch/lumberjack.v2
 	
@@ -13,34 +13,34 @@ type
 
 	type Logger struct {
 		Filename string `json:"filename" yaml:"filename"`
-			* ÈÕÖ¾Êä³öÎÄ¼ş
-			* Èç¹ûÎª¿Õ£¬Ôò»áÔÚÁÙÊ±ÎÄ¼şÂ·¾¶Ê¹ÓÃ: <processname>-lumberjack.log Êä³ö
-			* ±¸·İµÄÈÕÖ¾Ò²»áÔÚÍ¬Ò»¸öÄ¿Â¼ÖĞ±£´æ
+			* æ—¥å¿—è¾“å‡ºæ–‡ä»¶
+			* å¦‚æœä¸ºç©ºï¼Œåˆ™ä¼šåœ¨ä¸´æ—¶æ–‡ä»¶è·¯å¾„ä½¿ç”¨: <processname>-lumberjack.log è¾“å‡º
+			* å¤‡ä»½çš„æ—¥å¿—ä¹Ÿä¼šåœ¨åŒä¸€ä¸ªç›®å½•ä¸­ä¿å­˜
 
 		MaxSize int `json:"maxsize" yaml:"maxsize"`
-			* µ¥¸öÈÕÖ¾ÎÄ¼şµÄ×î´óÌå»ı£¬³¬¹ıÕâ¸öÌå»ı¾Í»á±»ÇĞ¸î£¬µ¥Î»ÊÇMb
-			* Ä¬ÈÏÊÇ 100Mb
+			* å•ä¸ªæ—¥å¿—æ–‡ä»¶çš„æœ€å¤§ä½“ç§¯ï¼Œè¶…è¿‡è¿™ä¸ªä½“ç§¯å°±ä¼šè¢«åˆ‡å‰²ï¼Œå•ä½æ˜¯Mb
+			* é»˜è®¤æ˜¯ 100Mb
 
 		MaxAge int `json:"maxage" yaml:"maxage"`
-			* ÈÕÖ¾±£ÁôµÄ×î´óÌìÊı(Ö»±£Áô×î½ü¶àÉÙÌìµÄÈÕÖ¾)
-			* Ä¬ÈÏ²»»áÉ¾³ı¾ÉÎÄ¼ş
+			* æ—¥å¿—ä¿ç•™çš„æœ€å¤§å¤©æ•°(åªä¿ç•™æœ€è¿‘å¤šå°‘å¤©çš„æ—¥å¿—)
+			* é»˜è®¤ä¸ä¼šåˆ é™¤æ—§æ–‡ä»¶
 
 		MaxBackups int `json:"maxbackups" yaml:"maxbackups"`
-			* ×î´ó±£ÁôµÄ±¸·İÎÄ¼şÊıÁ¿
-			* Èç¹ûÉèÖÃÁËMaxAge£¬Ôò³¬¹ıMaxAge¶¼»á±»É¾³ı£¬¶øÎŞÊÓMaxBackups
+			* æœ€å¤§ä¿ç•™çš„å¤‡ä»½æ–‡ä»¶æ•°é‡
+			* å¦‚æœè®¾ç½®äº†MaxAgeï¼Œåˆ™è¶…è¿‡MaxAgeéƒ½ä¼šè¢«åˆ é™¤ï¼Œè€Œæ— è§†MaxBackups
 
 		LocalTime bool `json:"localtime" yaml:"localtime"`
-			* ÊÇ·ñÊ¹ÓÃ±¾µØÊ±¼ä£¬Ä¬ÈÏÊ¹ÓÃUTCÊ±¼ä
+			* æ˜¯å¦ä½¿ç”¨æœ¬åœ°æ—¶é—´ï¼Œé»˜è®¤ä½¿ç”¨UTCæ—¶é—´
 
 		Compress bool `json:"compress" yaml:"compress"`
-			* ÊÇ·ñÒªÑ¹ËõÎÄ¼ş£¬Ä¬ÈÏ²»Ñ¹Ëõ
+			* æ˜¯å¦è¦å‹ç¼©æ–‡ä»¶ï¼Œé»˜è®¤ä¸å‹ç¼©
 	}
 
 	func (l *Logger) Close() error
-		* ¹Ø±Õ×ÊÔ´ 
+		* å…³é—­èµ„æº 
 
 	func (l *Logger) Rotate() error
-		* ÂíÉÏÇĞ¸îÎÄ¼şÊä³ö
+		* é©¬ä¸Šåˆ‡å‰²æ–‡ä»¶è¾“å‡º
 		
 	func (l *Logger) Write(p []byte) (n int, err error)
-		* Ğ´ÈëÈÕÖ¾ĞÅÏ¢
+		* å†™å…¥æ—¥å¿—ä¿¡æ¯

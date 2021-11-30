@@ -7,14 +7,14 @@ var
 ------------------------
 	const EnvGinMode = "GIN_MODE"
 	const (
-		DebugMode = "debug"			// debugÄ£Ê½
-		ReleaseMode = "release"		// ÕıÊ½
-		TestMode = "test"			// ²âÊÔ
+		DebugMode = "debug"			// debugæ¨¡å¼
+		ReleaseMode = "release"		// æ­£å¼
+		TestMode = "test"			// æµ‹è¯•
 	)
 
 	var DefaultWriter io.Writer = os.Stdout
 	var DefaultErrorWriter io.Writer = os.Stderr
-		* Ä¬ÈÏµÄÈÕÖ¾Êä³öÄ¿µÄµØ
+		* é»˜è®¤çš„æ—¥å¿—è¾“å‡ºç›®çš„åœ°
 
 
 	const (
@@ -30,7 +30,7 @@ var
 	)
 
 	var DebugPrintRouteFunc func(httpMethod, absolutePath, handlerName string, nuHandlers int)
-		* DebugÈÕÖ¾µÄÊä³ö¸ñÊ½»¯Ä¬ÈÏ·½·¨£¬Ä¬ÈÏ
+		* Debugæ—¥å¿—çš„è¾“å‡ºæ ¼å¼åŒ–é»˜è®¤æ–¹æ³•ï¼Œé»˜è®¤
 			debugPrint("%-6s %-25s --> %s (%d handlers)\n", httpMethod, absolutePath, handlerName, nuHandlers)
 	
 
@@ -39,7 +39,7 @@ var
 type
 ------------------------
 	# type Accounts map[string]string
-		* authÈÏÖ¤µÄÕË»§ÃÜÂë
+		* authè®¤è¯çš„è´¦æˆ·å¯†ç 
 	
 	# type Context struct {
 			Request *http.Request	
@@ -47,34 +47,34 @@ type
 			Writer  ResponseWriter
 				* response
 			Params Params
-				* ÇëÇó²ÎÊı¼üÖµ¶Ô
+				* è¯·æ±‚å‚æ•°é”®å€¼å¯¹
 			Keys map[string]interface{}
-				* ÇëÇó²ÎÊıkeys
+				* è¯·æ±‚å‚æ•°keys
 			Errors errorMsgs	// type errorMsgs []*Error
-				* Òì³£ÏûÏ¢£¬ÕâÊÇÒ»¸öÇĞÆ¬
+				* å¼‚å¸¸æ¶ˆæ¯ï¼Œè¿™æ˜¯ä¸€ä¸ªåˆ‡ç‰‡
 
 			Accepted []string	
-				* ¿Í»§¶ËacceptÍ·
+				* å®¢æˆ·ç«¯acceptå¤´
 		}
 		
-		* ÇëÇóÌåÉÏÏÂÎÄ
+		* è¯·æ±‚ä½“ä¸Šä¸‹æ–‡
 
 		func (c *Context) Abort()
 		func (c *Context) AbortWithError(code int, err error) *Error
 		func (c *Context) AbortWithStatus(code int)
 		func (c *Context) AbortWithStatusJSON(code int, jsonObj interface{})
-			* ÏìÓ¦¿Í»§¶Ë£¬²¢ÇÒÖÕÖ¹ºóĞøµÄHandlerÁ´µ÷ÓÃ
-			* ±¾ÖÊÉÏ¾ÍÊÇĞŞ¸ÄÁËÁËcontextÖĞµÄindexÖµ
+			* å“åº”å®¢æˆ·ç«¯ï¼Œå¹¶ä¸”ç»ˆæ­¢åç»­çš„Handleré“¾è°ƒç”¨
+			* æœ¬è´¨ä¸Šå°±æ˜¯ä¿®æ”¹äº†äº†contextä¸­çš„indexå€¼
 				const abortIndex int8 = math.MaxInt8 / 2
-			* WithError »á°ÑÒì³£Ìí¼Óµ½ContextµÄErrorsÒì³£ÇĞÆ¬ÖĞ
+			* WithError ä¼šæŠŠå¼‚å¸¸æ·»åŠ åˆ°Contextçš„Errorså¼‚å¸¸åˆ‡ç‰‡ä¸­
 
 
 
 		func (c *Context) AsciiJSON(code int, obj interface{})
-			* ÏìÓ¦jsonÊı¾İ£¬»á°Ñ·Çascii×Ö·û×ªÒå
+			* å“åº”jsonæ•°æ®ï¼Œä¼šæŠŠéasciiå­—ç¬¦è½¬ä¹‰
 
 		func (c *Context) Bind(obj interface{}) error
-			* °ó¶¨ÇëÇó²ÎÊıµ½obj£¬»á¸ù¾İContentType½âÎöÊı¾İ
+			* ç»‘å®šè¯·æ±‚å‚æ•°åˆ°objï¼Œä¼šæ ¹æ®ContentTypeè§£ææ•°æ®
 
 
 		func (c *Context) BindHeader(obj interface{}) error
@@ -87,51 +87,51 @@ type
 			* 
 
 		func (c *Context) ClientIP() string
-			* »ñÈ¡¿Í»§¶ËµÄIPµØÖ·
-			* »á³¢ÊÔ¶ÁÈ¡´úÀíÍ· X-Forwarded-For, X-Real-Ip, X-Appengine-Remote-Addr
+			* è·å–å®¢æˆ·ç«¯çš„IPåœ°å€
+			* ä¼šå°è¯•è¯»å–ä»£ç†å¤´ X-Forwarded-For, X-Real-Ip, X-Appengine-Remote-Addr
 
 		func (c *Context) ContentType() string
 		func (c *Context) Cookie(name string) (string, error)
 		func (c *Context) Copy() *Context
-			* ctx×ÊÔ´£¬»áÔÚÇëÇó½áÊøºó¾ÍÊÍ·Åµô£¬Èç¹ûĞèÒªÔÚÒ»Ğ©Òì²½ÈÎÎñÖĞ´¦ÀíÇëÇó
-			* ÄÇÃ´¿ÉÒÔ¸´ÖÆÒ»¸öcontext¹ıÈ¥
+			* ctxèµ„æºï¼Œä¼šåœ¨è¯·æ±‚ç»“æŸåå°±é‡Šæ”¾æ‰ï¼Œå¦‚æœéœ€è¦åœ¨ä¸€äº›å¼‚æ­¥ä»»åŠ¡ä¸­å¤„ç†è¯·æ±‚
+			* é‚£ä¹ˆå¯ä»¥å¤åˆ¶ä¸€ä¸ªcontextè¿‡å»
 
 		func (c *Context) Data(code int, contentType string, data []byte)
 		func (c *Context) DataFromReader(code int, contentLength int64, contentType string, reader io.Reader, ...)
-			* ´ÓÖ¸¶¨µÄReader¶ÁÈ¡Êı¾İÏìÓ¦¸ø¿Í»§¶Ë
+			* ä»æŒ‡å®šçš„Readerè¯»å–æ•°æ®å“åº”ç»™å®¢æˆ·ç«¯
 		
 		func (c *Context) Deadline() (deadline time.Time, ok bool)
 		func (c *Context) DefaultPostForm(key, defaultValue string) string
 		func (c *Context) DefaultQuery(key, defaultValue string) string
-			* »ñÈ¡²éÑ¯²ÎÊı£¬Èç¹û²»´æÔÚ£¬·µ»ØÄ¬ÈÏÖµ
+			* è·å–æŸ¥è¯¢å‚æ•°ï¼Œå¦‚æœä¸å­˜åœ¨ï¼Œè¿”å›é»˜è®¤å€¼
 		
 		func (c *Context) Done() <-chan struct{}
 		func (c *Context) Err() error
 
 		func (c *Context) Error(err error) *Error
-			* °ÑÒ»¸öeeÌí¼Óµ½ Erros
-			* Èç¹ûerr²»²»ÊÇ gin.Error£¬Ôò»á°ü×°ÎªError
+			* æŠŠä¸€ä¸ªeeæ·»åŠ åˆ° Erros
+			* å¦‚æœerrä¸ä¸æ˜¯ gin.Errorï¼Œåˆ™ä¼šåŒ…è£…ä¸ºError
 
 		func (c *Context) File(filepath string)
-			*  ÎÄ¼şÒÔ¸ßĞ§µÄ·½Ê½½«Ö¸¶¨µÄÎÄ¼şĞ´ÈëÌåÁ÷ÖĞ
+			*  æ–‡ä»¶ä»¥é«˜æ•ˆçš„æ–¹å¼å°†æŒ‡å®šçš„æ–‡ä»¶å†™å…¥ä½“æµä¸­
 				http.ServeFile(c.Writer, c.Request, filepath)
 
 		func (c *Context) FileAttachment(filepath, filename string)
-			* ¸ø¿Í»§¶ËÏìÓ¦Ò»¸öÎÄ¼şÏÂÔØÁ÷
-			* filepathÖ¸¶¨ÎÄ¼şµÄÂ·¾¶£¬filenamÖ¸¶¨ÎÄ¼şµÄÃû³Æ
+			* ç»™å®¢æˆ·ç«¯å“åº”ä¸€ä¸ªæ–‡ä»¶ä¸‹è½½æµ
+			* filepathæŒ‡å®šæ–‡ä»¶çš„è·¯å¾„ï¼ŒfilenamæŒ‡å®šæ–‡ä»¶çš„åç§°
 
 		func (c *Context) FileFromFS(filepath string, fs http.FileSystem)
 		func (c *Context) FormFile(name string) (*multipart.FileHeader, error)
-			* »ñÈ¡µ¥¸öµÄÉÏ´«ÎÄ¼ş
+			* è·å–å•ä¸ªçš„ä¸Šä¼ æ–‡ä»¶
 		
 		func (c *Context) FullPath() string
-			* »ñÈ¡ÍêÕûµÄRouterÂ·¾¶£¬Ëü²»ÊÇÇëÇóÂ·¾¶£¬¶øÊÇÓ³ÉäÂ·¾¶
+			* è·å–å®Œæ•´çš„Routerè·¯å¾„ï¼Œå®ƒä¸æ˜¯è¯·æ±‚è·¯å¾„ï¼Œè€Œæ˜¯æ˜ å°„è·¯å¾„
 				router.GET("/user/:id", func(c *gin.Context) {
 					c.FullPath() == "/user/:id" // true
 				})
 
 		func (c *Context) Get(key string) (value interface{}, exists bool)
-			* »ñÈ¡ctxÖĞ´æ´¢µÄÊı¾İ
+			* è·å–ctxä¸­å­˜å‚¨çš„æ•°æ®
 
 		func (c *Context) GetBool(key string) (b bool)
 		func (c *Context) GetDuration(key string) (d time.Duration)
@@ -145,14 +145,14 @@ type
 		func (c *Context) GetQuery(key string) (string, bool)
 		func (c *Context) GetQueryArray(key string) ([]string, bool)
 		func (c *Context) GetQueryMap(key string) (map[string]string, bool)
-			* »ñÈ¡mapĞÎÊ½µÄqueryÊı¾İ
-			* ¶Ô²éÑ¯×Ö·û´®µÄ¹æ¸ñÓĞÌØÊâÒªÇó
+			* è·å–mapå½¢å¼çš„queryæ•°æ®
+			* å¯¹æŸ¥è¯¢å­—ç¬¦ä¸²çš„è§„æ ¼æœ‰ç‰¹æ®Šè¦æ±‚
 				/post?ids[a]=1234&ids[b]=hello
 				ids := c.QueryMap("ids") => {"a":"1234", "b": "hello"}
 
 
 		func (c *Context) GetRawData() ([]byte, error)
-			* »ñÈ¡body
+			* è·å–body
 
 		func (c *Context) GetString(key string) (s string)
 		func (c *Context) GetStringMap(key string) (sm map[string]interface{})
@@ -162,109 +162,109 @@ type
 		func (c *Context) GetTime(key string) (t time.Time)
 
 		func (c *Context) HTML(code int, name string, obj interface{})
-			* äÖÈ¾html£¬Ö¸¶¨×´Ì¬Âë£¬Ä£°æÒıÇæÎÄ¼şÏà¶ÔÂ·¾¶£¬Ìî³ä¶ÔÏó
+			* æ¸²æŸ“htmlï¼ŒæŒ‡å®šçŠ¶æ€ç ï¼Œæ¨¡ç‰ˆå¼•æ“æ–‡ä»¶ç›¸å¯¹è·¯å¾„ï¼Œå¡«å……å¯¹è±¡
 				c.HTML(http.StatusOK, "index.tmpl", gin.H{
 					"title": "Main website",
 				})
 
 		func (c *Context) Handler() HandlerFunc
-			* ·µ»Øµ±Ç°Handler
+			* è¿”å›å½“å‰Handler
 		func (c *Context) HandlerName() string
-			* ·µ»Øµ±Ç°HandlerµÄÃû×Ö
+			* è¿”å›å½“å‰Handlerçš„åå­—
 		func (c *Context) HandlerNames() []string
-			* ·µ»ØÖ´ĞĞÁ´µÄ·½·¨Ãû³Æ£¬Èç¹ûÊÇÄäÃû·½·¨£¬ÔòÊÇfunÊı×Ö½áÎ²£¬ xxx.func1...xxx.funcn
+			* è¿”å›æ‰§è¡Œé“¾çš„æ–¹æ³•åç§°ï¼Œå¦‚æœæ˜¯åŒ¿åæ–¹æ³•ï¼Œåˆ™æ˜¯funæ•°å­—ç»“å°¾ï¼Œ xxx.func1...xxx.funcn
 
 		func (c *Context) Header(key, value string)	
-			* ÉèÖÃHeader£¬Èç¹û valueÊÇ¿Õ×Ö·û´®£¬Ôò»áÉ¾³ıHeader
+			* è®¾ç½®Headerï¼Œå¦‚æœ valueæ˜¯ç©ºå­—ç¬¦ä¸²ï¼Œåˆ™ä¼šåˆ é™¤Header
 
 		func (c *Context) IndentedJSON(code int, obj interface{})
 		func (c *Context) IsAborted() bool
-			* ÅĞ¶ÏÊÇ·ñ±»ÖĞ¶ÏÁË
+			* åˆ¤æ–­æ˜¯å¦è¢«ä¸­æ–­äº†
 				return c.index >= abortIndex
 
 		func (c *Context) IsWebsocket() bool
-			* ÅĞ¶Ïµ±Ç°ÇëÇóÊÇ·ñÊÇwebsocket
-			* ±¾ÖÊÉÏÊÇÍ¨¹ıÅĞ¶ÏHeaderÊµÏÖµÄ
+			* åˆ¤æ–­å½“å‰è¯·æ±‚æ˜¯å¦æ˜¯websocket
+			* æœ¬è´¨ä¸Šæ˜¯é€šè¿‡åˆ¤æ–­Headerå®ç°çš„
 				Connection upgrade
 				Upgrade websocket
 			
 		func (c *Context) JSON(code int, obj interface{})
 		func (c *Context) JSONP(code int, obj interface{})
-			* ÏìÓ¦json»òÕßjsonpÊı¾İ£¬»á¶Ôhtml×Ö·û½øĞĞunicode±àÂë
-			* »Øµ÷º¯ÊıÃû³ÆµÄ²ÎÊıÊÇcallback
+			* å“åº”jsonæˆ–è€…jsonpæ•°æ®ï¼Œä¼šå¯¹htmlå­—ç¬¦è¿›è¡Œunicodeç¼–ç 
+			* å›è°ƒå‡½æ•°åç§°çš„å‚æ•°æ˜¯callback
 				 /JSONP?callback=x  => x({\"foo\":\"bar\"})
 
 		func (c *Context) MultipartForm() (*multipart.Form, error)
-			* ·µ»Ømultipart.FormÇëÇóÌå
+			* è¿”å›multipart.Formè¯·æ±‚ä½“
 
 		func (c *Context) MustBindWith(obj interface{}, b binding.Binding) error
-			* Ê¹ÓÃÖ¸¶¨µÄ°ó¶¨½Ó¿Úb£¬°ÑÊı¾İ°ó¶¨µ½obj
-			* ·µ»ØÊÇ·ñ³É¹¦
+			* ä½¿ç”¨æŒ‡å®šçš„ç»‘å®šæ¥å£bï¼ŒæŠŠæ•°æ®ç»‘å®šåˆ°obj
+			* è¿”å›æ˜¯å¦æˆåŠŸ
 
 		func (c *Context) MustGet(key string) interface{}
-			*  µ÷ÓÃ Get() »ñÈ¡²ÎÊıÖµ£¬Èç¹û²»´æÔÚ£¬panic
+			*  è°ƒç”¨ Get() è·å–å‚æ•°å€¼ï¼Œå¦‚æœä¸å­˜åœ¨ï¼Œpanic
 
 		func (c *Context) Negotiate(code int, config Negotiate)
 		func (c *Context) NegotiateFormat(offered ...string) string
 
 		func (c *Context) Next()
-			* µ÷ÓÃHandlerFuncÁ´±íÏÂÒ»¸ö´¦ÀíÆ÷£¬²¢ÇÒÖ´ĞĞ
+			* è°ƒç”¨HandlerFuncé“¾è¡¨ä¸‹ä¸€ä¸ªå¤„ç†å™¨ï¼Œå¹¶ä¸”æ‰§è¡Œ
 
 		func (c *Context) Param(key string) string
-			* »ñÈ¡Â·ÓÉ²ÎÊı£¬Ò²¼´ÊÇURI²ÎÊı£¬ :¿ÉÑ¡²ÎÊı, *±ØÑ¡²ÎÊı
+			* è·å–è·¯ç”±å‚æ•°ï¼Œä¹Ÿå³æ˜¯URIå‚æ•°ï¼Œ :å¯é€‰å‚æ•°, *å¿…é€‰å‚æ•°
 				/user/:name				=> c.Param("name")		
 				/user/:name/*action		=> c.Param("action")
 
 		func (c *Context) PostForm(key string) string
 		func (c *Context) PostFormArray(key string) []string
 		func (c *Context) PostFormMap(key string) map[string]string
-			* ´ÓÇëÇó±íµ¥ÖĞ»ñÈ¡map¸ñÊ½µÄÊı¾İ
-			* ¶ÔÇëÇóÌåµÄ×Ö·û´®ÓĞÌØÊâÒªÇó
+			* ä»è¯·æ±‚è¡¨å•ä¸­è·å–mapæ ¼å¼çš„æ•°æ®
+			* å¯¹è¯·æ±‚ä½“çš„å­—ç¬¦ä¸²æœ‰ç‰¹æ®Šè¦æ±‚
 				names[first]=thinkerou&names[second]=tianou
 				names := c.PostFormMap("names") => {"first": "thinkerou", "second": "tianou"}
 		
 		func (c *Context) ProtoBuf(code int, obj interface{})
 		func (c *Context) PureJSON(code int, obj interface{})
-			* ²»¶Ôjson½øĞĞÈÎºÎ±àÂë£¬×î´¿´âµÄjson 
+			* ä¸å¯¹jsonè¿›è¡Œä»»ä½•ç¼–ç ï¼Œæœ€çº¯ç²¹çš„json 
 
 		func (c *Context) Query(key string) string
 		func (c *Context) QueryArray(key string) []string
 		func (c *Context) QueryMap(key string) map[string]string
-			* »ñÈ¡²éÑ¯²ÎÊı
+			* è·å–æŸ¥è¯¢å‚æ•°
 
 		func (c *Context) Redirect(code int, location string)
-			* ÖØ¶¨Ïò£¬Ö¸¶¨×´Ì¬ÂëºÍÂ·¾¶£¬¿ÉÒÔÊÇÏà¶Ô£¬Ò²¿ÉÒÔÊÇ¾ø¶Ô
+			* é‡å®šå‘ï¼ŒæŒ‡å®šçŠ¶æ€ç å’Œè·¯å¾„ï¼Œå¯ä»¥æ˜¯ç›¸å¯¹ï¼Œä¹Ÿå¯ä»¥æ˜¯ç»å¯¹
 
 		func (c *Context) Render(code int, r render.Render)
-			* ×Ô¶¨ÒåRenderäÖÈ¾
+			* è‡ªå®šä¹‰Renderæ¸²æŸ“
 
 		func (c *Context) SSEvent(name string, message interface{})
 		func (c *Context) SaveUploadedFile(file *multipart.FileHeader, dst string) error
-			* °ÑÎÄ¼ş´æ´¢µ½Ö¸¶¨µÄÂ·¾¶
+			* æŠŠæ–‡ä»¶å­˜å‚¨åˆ°æŒ‡å®šçš„è·¯å¾„
 		
 		func (c *Context) SecureJSON(code int, obj interface{})
-			* ·ÀÖ¹ json ½Ù³Ö¡£Èç¹û¸ø¶¨µÄ½á¹¹ÊÇÊı×éÖµ£¬ÔòÄ¬ÈÏÔ¤ÖÃ "while(1)," µ½ÏìÓ¦Ìå¡£
+			* é˜²æ­¢ json åŠ«æŒã€‚å¦‚æœç»™å®šçš„ç»“æ„æ˜¯æ•°ç»„å€¼ï¼Œåˆ™é»˜è®¤é¢„ç½® "while(1)," åˆ°å“åº”ä½“ã€‚
 
 		func (c *Context) Set(key string, value interface{})
-			* ÉèÖÃÊı¾İµ½context
+			* è®¾ç½®æ•°æ®åˆ°context
 
 		func (c *Context) SetAccepted(formats ...string)
 		func (c *Context) SetCookie(name, value string, maxAge int, path, domain string, secure, httpOnly bool)
 		func (c *Context) SetSameSite(samesite http.SameSite)
 		func (c *Context) ShouldBind(obj interface{}) error
-			* ×Ô¶¯°ó¶¨²ÎÊıµ½obj£¬×¢Òâ£¬Õâ¸öÖ»ÄÜµ÷ÓÃÒ»´Î£¬body¶ÁÍê¾ÍÃ»ÁË
+			* è‡ªåŠ¨ç»‘å®šå‚æ•°åˆ°objï¼Œæ³¨æ„ï¼Œè¿™ä¸ªåªèƒ½è°ƒç”¨ä¸€æ¬¡ï¼Œbodyè¯»å®Œå°±æ²¡äº†
 
 		func (c *Context) ShouldBindBodyWith(obj interface{}, bb binding.BindingBody) (err error)
-			* ³¢ÊÔ°ÑÇëÇóÌå°ó¶¨µ½obj£¬bbÖ¸¶¨bodyµÄÀàĞÍ£¬·µ»Øerr±íÊ¾ÊÇ·ñ³É¹¦
-			* Õâ¸öÅ£±ÆÖ®´¦ÔÚÓÚÒ»¸öBody¿ÉÒÔ½øĞĞ¶à´Î°ó¶¨
-			* »áÔÚ°ó¶¨Ö®Ç°½« body ´æ´¢µ½ContextÉÏÏÂÎÄÖĞ£¬ Õâ»á¶ÔĞÔÄÜÔì³ÉÇáÎ¢Ó°Ïì£¬Èç¹ûµ÷ÓÃÒ»´Î¾ÍÄÜÍê³É°ó¶¨µÄ»°£¬ÄÇ¾Í²»ÒªÓÃÕâ¸ö·½·¨¡£
-			* ContextÖĞµÄkeyÊÇ: BodyBytesKey          = "_gin-gonic/gin/bodybyteskey"
+			* å°è¯•æŠŠè¯·æ±‚ä½“ç»‘å®šåˆ°objï¼ŒbbæŒ‡å®šbodyçš„ç±»å‹ï¼Œè¿”å›errè¡¨ç¤ºæ˜¯å¦æˆåŠŸ
+			* è¿™ä¸ªç‰›é€¼ä¹‹å¤„åœ¨äºä¸€ä¸ªBodyå¯ä»¥è¿›è¡Œå¤šæ¬¡ç»‘å®š
+			* ä¼šåœ¨ç»‘å®šä¹‹å‰å°† body å­˜å‚¨åˆ°Contextä¸Šä¸‹æ–‡ä¸­ï¼Œ è¿™ä¼šå¯¹æ€§èƒ½é€ æˆè½»å¾®å½±å“ï¼Œå¦‚æœè°ƒç”¨ä¸€æ¬¡å°±èƒ½å®Œæˆç»‘å®šçš„è¯ï¼Œé‚£å°±ä¸è¦ç”¨è¿™ä¸ªæ–¹æ³•ã€‚
+			* Contextä¸­çš„keyæ˜¯: BodyBytesKey          = "_gin-gonic/gin/bodybyteskey"
 
 
 		func (c *Context) ShouldBindHeader(obj interface{}) error
 		func (c *Context) ShouldBindJSON(obj interface{}) error
 		func (c *Context) ShouldBindQuery(obj interface{}) error
-			* ½ö½ö°Ñ°ó¶¨²éÑ¯²ÎÊıµ½obj
+			* ä»…ä»…æŠŠç»‘å®šæŸ¥è¯¢å‚æ•°åˆ°obj
 		
 		func (c *Context) ShouldBindUri(obj interface{}) error
 		func (c *Context) ShouldBindWith(obj interface{}, b binding.Binding) error
@@ -273,80 +273,80 @@ type
 
 		func (c *Context) Status(code int)
 		func (c *Context) Stream(step func(w io.Writer) bool) bool
-			* »ñÈ¡¿Í»§¶ËµÄÊä³öÁ÷£¬¿ÉÒÔ×Ô¼ºÍ¨¹ıwriterÍù¿Í»§¶ËÊä³öÊı¾İ£¬step·µ»Øºó£¬»á×Ô¶¯µÄflush
-			* ·µ»ØµÄbool±íÊ¾£¬ÊÇ·ñ¿Í»§¶ËÖ÷¶¯¶Ï¿ªÁËÁ´½Ó
+			* è·å–å®¢æˆ·ç«¯çš„è¾“å‡ºæµï¼Œå¯ä»¥è‡ªå·±é€šè¿‡writerå¾€å®¢æˆ·ç«¯è¾“å‡ºæ•°æ®ï¼Œstepè¿”å›åï¼Œä¼šè‡ªåŠ¨çš„flush
+			* è¿”å›çš„boolè¡¨ç¤ºï¼Œæ˜¯å¦å®¢æˆ·ç«¯ä¸»åŠ¨æ–­å¼€äº†é“¾æ¥
 
 		func (c *Context) String(code int, format string, values ...interface{})
 		func (c *Context) Value(key interface{}) interface{}
-			* ´ÓctxÖĞ»ñÈ¡Öµ£¬Èç¹û²»´æÔÚ£¬·µ»Ønil
+			* ä»ctxä¸­è·å–å€¼ï¼Œå¦‚æœä¸å­˜åœ¨ï¼Œè¿”å›nil
 
 		func (c *Context) XML(code int, obj interface{})
 		func (c *Context) YAML(code int, obj interface{})
 	
 	# type Engine struct {
 			RouterGroup
-				* ÊµÏÖÁË RouterGroup
+				* å®ç°äº† RouterGroup
 			RedirectTrailingSlash bool
-				* ÊÇ·ñ×Ô¶¯ÖØ¶¨Ïò
-				* ÀıÈç£¬ÇëÇóÁË/foo/£¬µ«Ö»ÓĞ/fooµÄÂ·¾¶´æÔÚ£¬¿Í»§¶Ë±»ÖØ¶¨Ïòµ½/foo£¬GETÇëÇóµÄhttp×´Ì¬ÂëÎª301¡£ÆäËûÇëÇó·½·¨£¬ÔòÊÇ307¡£
+				* æ˜¯å¦è‡ªåŠ¨é‡å®šå‘
+				* ä¾‹å¦‚ï¼Œè¯·æ±‚äº†/foo/ï¼Œä½†åªæœ‰/fooçš„è·¯å¾„å­˜åœ¨ï¼Œå®¢æˆ·ç«¯è¢«é‡å®šå‘åˆ°/fooï¼ŒGETè¯·æ±‚çš„httpçŠ¶æ€ç ä¸º301ã€‚å…¶ä»–è¯·æ±‚æ–¹æ³•ï¼Œåˆ™æ˜¯307ã€‚
 
 			RedirectFixedPath bool
-				* ÊÇ·ñ³¢ÊÔĞŞ¸´µ±Ç°ÇëÇóÂ·¾¶£¬Ò²¾ÍÊÇÔÚ¿ªÆôµÄÇé¿öÏÂ£¬gin »á¾¡¿ÉÄÜµÄ°ïÄãÕÒµ½Ò»¸öÏàËÆµÄÂ·ÓÉ¹æÔò²¢ÔÚÄÚ²¿ÖØ¶¨Ïò¹ıÈ¥
-				* Ö÷ÒªÊÇ¶Ôµ±Ç°µÄÇëÇóÂ·¾¶½øĞĞ¸ñÊ½Çå³ı£¨É¾³ı¶àÓàµÄĞ±¸Ü£©ºÍ²»Çø·Ö´óĞ¡Ğ´µÄÂ·ÓÉ²éÕÒµÈ¡£
+				* æ˜¯å¦å°è¯•ä¿®å¤å½“å‰è¯·æ±‚è·¯å¾„ï¼Œä¹Ÿå°±æ˜¯åœ¨å¼€å¯çš„æƒ…å†µä¸‹ï¼Œgin ä¼šå°½å¯èƒ½çš„å¸®ä½ æ‰¾åˆ°ä¸€ä¸ªç›¸ä¼¼çš„è·¯ç”±è§„åˆ™å¹¶åœ¨å†…éƒ¨é‡å®šå‘è¿‡å»
+				* ä¸»è¦æ˜¯å¯¹å½“å‰çš„è¯·æ±‚è·¯å¾„è¿›è¡Œæ ¼å¼æ¸…é™¤ï¼ˆåˆ é™¤å¤šä½™çš„æ–œæ ï¼‰å’Œä¸åŒºåˆ†å¤§å°å†™çš„è·¯ç”±æŸ¥æ‰¾ç­‰ã€‚
 
 			HandleMethodNotAllowed bool
-				* ÊÇ·ñ¿ªÆğÇëÇó·½·¨Ğ£Ñé£¬Èç¹û·½·¨²»Æ¥Åä»á·µ»Ø 405
-				* Èç¹û²»¿ªÆğ£¬ÔÚ·½·¨²»Æ¥ÅäµÄÇé¿öÏÂ£¬Ö»·µ»Ø 404 
+				* æ˜¯å¦å¼€èµ·è¯·æ±‚æ–¹æ³•æ ¡éªŒï¼Œå¦‚æœæ–¹æ³•ä¸åŒ¹é…ä¼šè¿”å› 405
+				* å¦‚æœä¸å¼€èµ·ï¼Œåœ¨æ–¹æ³•ä¸åŒ¹é…çš„æƒ…å†µä¸‹ï¼Œåªè¿”å› 404 
 
 			ForwardedByClientIP    bool
-				* Èç¹û¿ªÆô£¬Ôò¾¡¿ÉÄÜµÄ·µ»ØÕæÊµµÄ¿Í»§¶Ë IP£¬ÏÈ´Ó X-Forwarded-For È¡Öµ£¬Èç¹ûÃ»ÓĞÔÙ´Ó X-Real-Ip
+				* å¦‚æœå¼€å¯ï¼Œåˆ™å°½å¯èƒ½çš„è¿”å›çœŸå®çš„å®¢æˆ·ç«¯ IPï¼Œå…ˆä» X-Forwarded-For å–å€¼ï¼Œå¦‚æœæ²¡æœ‰å†ä» X-Real-Ip
 				
 			AppEngine bool
-				* Èç¹ûÆôÓÃ£¬Ëü½«²åÈëÒ»Ğ©ÒÔ'X-AppEngine...'¿ªÍ·µÄheader£¬ÒÔ±ã¸üºÃµØÓëPaaS¼¯³É¡£
+				* å¦‚æœå¯ç”¨ï¼Œå®ƒå°†æ’å…¥ä¸€äº›ä»¥'X-AppEngine...'å¼€å¤´çš„headerï¼Œä»¥ä¾¿æ›´å¥½åœ°ä¸PaaSé›†æˆã€‚
 
 			UseRawPath bool
-				* Èç¹ûÆôÓÃ, ½«»áÊ¹ÓÃ url.RawPath À´²éÑ¯²ÎÊı£¬²»¿ªÆôÔò»¹ÊÇ°´ url.Path È¥»ñÈ¡
+				* å¦‚æœå¯ç”¨, å°†ä¼šä½¿ç”¨ url.RawPath æ¥æŸ¥è¯¢å‚æ•°ï¼Œä¸å¼€å¯åˆ™è¿˜æ˜¯æŒ‰ url.Path å»è·å–
 
 			UnescapePathValues bool
-				* ÊÇ·ñ¶ÔÂ·¾¶Öµ½øĞĞ×ªÒå´¦Àí
+				* æ˜¯å¦å¯¹è·¯å¾„å€¼è¿›è¡Œè½¬ä¹‰å¤„ç†
 
 			MaxMultipartMemory int64
-				* multipartÇëÇóµÄÊ±ºò£¬Õ¼ÓÃµÄ×î´óÄÚ´æ£¬Ä¬ÈÏÊÇ 32 MiB
+				* multipartè¯·æ±‚çš„æ—¶å€™ï¼Œå ç”¨çš„æœ€å¤§å†…å­˜ï¼Œé»˜è®¤æ˜¯ 32 MiB
 			
 			RemoveExtraSlash bool
 			HTMLRender render.HTMLRender
 			FuncMap    template.FuncMap
 		}
 		func Default() *Engine
-			* Ê¹ÓÃÄ¬ÈÏµÄ
+			* ä½¿ç”¨é»˜è®¤çš„
 		
 		func New() *Engine
-			* ´´½¨ĞÂµÄÒıÇæ
+			* åˆ›å»ºæ–°çš„å¼•æ“
 
 		func (engine *Engine) Delims(left, right string) *Engine
-			* Ê¹ÓÃ×Ô¶¨ÒåµÄÄ£°åÒıÇæ·Ö¸ô·û
+			* ä½¿ç”¨è‡ªå®šä¹‰çš„æ¨¡æ¿å¼•æ“åˆ†éš”ç¬¦
 
 		func (engine *Engine) HandleContext(c *Context)
-			* ÓÃÓÚÖØ¶¨ÏòÂ·ÓÉ
+			* ç”¨äºé‡å®šå‘è·¯ç”±
 				r.GET("/test", func(c *gin.Context) {
-					c.Request.URL.Path = "/test2"		// ÖØĞÂÉèÖÃµ±Ç°µÄURI
-					r.HandleContext(c)					// Ö´ĞĞÖØ¶¨ÏòÂ·ÓÉ
+					c.Request.URL.Path = "/test2"		// é‡æ–°è®¾ç½®å½“å‰çš„URI
+					r.HandleContext(c)					// æ‰§è¡Œé‡å®šå‘è·¯ç”±
 				})
 
 		func (engine *Engine) LoadHTMLFiles(files ...string)
-			* ¼ÓÔØÖ¸¶¨µÄÄ£°åÒıÇæ£¬¼ÓÔØºó²ÅÄÜÔÚcontextÊ¹ÓÃ
+			* åŠ è½½æŒ‡å®šçš„æ¨¡æ¿å¼•æ“ï¼ŒåŠ è½½åæ‰èƒ½åœ¨contextä½¿ç”¨
 
 		func (engine *Engine) LoadHTMLGlob(pattern string)
-			* ÉèÖÃÈ«¾ÖµÄÄ£°åÒıÇæ¼ÓÔØÇ°×º
-			* Ö¸¶¨Ä¿Â¼ÏÂµÄËùÓĞÎÄ¼ş
+			* è®¾ç½®å…¨å±€çš„æ¨¡æ¿å¼•æ“åŠ è½½å‰ç¼€
+			* æŒ‡å®šç›®å½•ä¸‹çš„æ‰€æœ‰æ–‡ä»¶
 				router.LoadHTMLGlob("templates/*")
-			* Ö¸¶¨Ä¿Â¼ÏÂµÄËùÓĞÄ¿Â¼µÄËùÓĞÎÄ¼ş
+			* æŒ‡å®šç›®å½•ä¸‹çš„æ‰€æœ‰ç›®å½•çš„æ‰€æœ‰æ–‡ä»¶
 				router.LoadHTMLGlob("templates/**/*")
 
 		func (engine *Engine) NoMethod(handlers ...HandlerFunc)
 		func (engine *Engine) NoRoute(handlers ...HandlerFunc)
-			* Ìí¼Ó´¦Àí405/404µÄhandlerµ½¸÷×ÔµÄ´¦ÀíÆ÷Á´
-			* Ä¬ÈÏÁËÁ©´¦ÀíÆ÷£¬ÏìÓ¦textÒì³£ĞÅÏ¢
+			* æ·»åŠ å¤„ç†405/404çš„handleråˆ°å„è‡ªçš„å¤„ç†å™¨é“¾
+			* é»˜è®¤äº†ä¿©å¤„ç†å™¨ï¼Œå“åº”textå¼‚å¸¸ä¿¡æ¯
 				
 
 		func (engine *Engine) Routes() (routes RoutesInfo)
@@ -358,17 +358,17 @@ type
 		func (engine *Engine) SecureJsonPrefix(prefix string) *Engine
 		func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request)
 		func (engine *Engine) SetFuncMap(funcMap template.FuncMap)
-			* ×Ô¶¨ÒåÄ£°åÒıÇæ·½·¨
+			* è‡ªå®šä¹‰æ¨¡æ¿å¼•æ“æ–¹æ³•
 
 		func (engine *Engine) SetHTMLTemplate(templ *template.Template)
-			* Ê¹ÓÃ×Ô¼º¶¨ÒåµÄÄ£°å¼ÓÔØÆ÷
+			* ä½¿ç”¨è‡ªå·±å®šä¹‰çš„æ¨¡æ¿åŠ è½½å™¨
 
 		func (engine *Engine) Use(middleware ...HandlerFunc) IRoutes
-			* Ìí¼ÓÒ»¸ö»òÕß¶à¸ö
+			* æ·»åŠ ä¸€ä¸ªæˆ–è€…å¤šä¸ª
 	
 	# type errorMsgs []*Error
 		
-		* Òì³£ĞÅÏ¢¼¯ºÏ£¬ÊÇ¸öË½ÓĞtype£¬Ìá¹©ÁË¹«¹²µÄ·½·¨
+		* å¼‚å¸¸ä¿¡æ¯é›†åˆï¼Œæ˜¯ä¸ªç§æœ‰typeï¼Œæä¾›äº†å…¬å…±çš„æ–¹æ³•
 		
 		func (a errorMsgs) ByType(typ ErrorType) errorMsgs
 		func (a errorMsgs) Last() *Error 
@@ -384,7 +384,7 @@ type
 			Meta interface{}
 		}
 		
-		* Òì³£ĞÅÏ¢
+		* å¼‚å¸¸ä¿¡æ¯
 
 		func (msg Error) Error() string
 		func (msg *Error) IsType(flags ErrorType) bool
@@ -395,24 +395,24 @@ type
 	
 	# type ErrorType uint64
 		const (
-			ErrorTypeBind ErrorType = 1 << 63			// Context.Bind()Ê§°Ü
-			ErrorTypeRender ErrorType = 1 << 62			// Context.Render() Ê§°Ü
-			ErrorTypePrivate ErrorType = 1 << 0			// Ë½ÓĞ´íÎó?
-			ErrorTypePublic ErrorType = 1 << 1			// ¹«¹²´íÎó?
-			ErrorTypeAny ErrorType = 1<<64 - 1			// ±íÊ¾ÈÎºÎÆäËû´íÎó
-			ErrorTypeNu = 2								// ±íÊ¾ÈÎºÎÆäËû´íÎó
+			ErrorTypeBind ErrorType = 1 << 63			// Context.Bind()å¤±è´¥
+			ErrorTypeRender ErrorType = 1 << 62			// Context.Render() å¤±è´¥
+			ErrorTypePrivate ErrorType = 1 << 0			// ç§æœ‰é”™è¯¯?
+			ErrorTypePublic ErrorType = 1 << 1			// å…¬å…±é”™è¯¯?
+			ErrorTypeAny ErrorType = 1<<64 - 1			// è¡¨ç¤ºä»»ä½•å…¶ä»–é”™è¯¯
+			ErrorTypeNu = 2								// è¡¨ç¤ºä»»ä½•å…¶ä»–é”™è¯¯
 		)
 
-		* Òì³£µÄÀàĞÍ
+		* å¼‚å¸¸çš„ç±»å‹
 
 	# type H map[string]interface{}
 		func (h H) MarshalXML(e *xml.Encoder, start xml.StartElement) error
 
-		* ¿ì½İµÄÊı¾İ¶ÔÏó£¬ÓÉmap¹¹³É£¬keyÊÇ×Ö·û´®£¬valueÊÇÈÎÒâ¶ÔÏó
+		* å¿«æ·çš„æ•°æ®å¯¹è±¡ï¼Œç”±mapæ„æˆï¼Œkeyæ˜¯å­—ç¬¦ä¸²ï¼Œvalueæ˜¯ä»»æ„å¯¹è±¡
 	
 	# type HandlerFunc func(*Context)
 
-		* Ö´ĞĞÆ÷
+		* æ‰§è¡Œå™¨
 
 		func BasicAuth(accounts Accounts) HandlerFunc
 		func BasicAuthForRealm(accounts Accounts, realm string) HandlerFunc
@@ -428,11 +428,11 @@ type
 
 		func WrapF(f http.HandlerFunc) HandlerFunc
 		func WrapH(h http.Handler) HandlerFunc
-			* °Ñ±ê×¼¿âµÄhanlder×ª»»ÎªginµÄhandlerFunc
+			* æŠŠæ ‡å‡†åº“çš„hanlderè½¬æ¢ä¸ºginçš„handlerFunc
 	
 	# type HandlersChain []HandlerFunc
 
-		* Ö´ĞĞÆ÷´¦ÀíÁ´
+		* æ‰§è¡Œå™¨å¤„ç†é“¾
 		func (c HandlersChain) Last() HandlerFunc
 	
 	# type IRouter interface {
@@ -454,11 +454,11 @@ type
 			Static(string, string) IRoutes
 			StaticFS(string, http.FileSystem) IRoutes
 		}
-		* µ¥¸öÂ·ÓÉ£¬¸úÂ·ÓÉ×é²î²»¶à
+		* å•ä¸ªè·¯ç”±ï¼Œè·Ÿè·¯ç”±ç»„å·®ä¸å¤š
 
 
 	# type LogFormatter func(params LogFormatterParams) string
-		* ÈÕÖ¾¸ñÊ½»¯·½·¨
+		* æ—¥å¿—æ ¼å¼åŒ–æ–¹æ³•
 
 	# type LogFormatterParams struct {
 			Request *http.Request
@@ -473,7 +473,7 @@ type
 			Keys map[string]interface{} // contains filtered or unexported fields
 		}
 		
-		* ÈÕÖ¾µÄ¸ñÊ½»¯²ÎÊı
+		* æ—¥å¿—çš„æ ¼å¼åŒ–å‚æ•°
 
 		func (p *LogFormatterParams) IsOutputColor() bool
 		func (p *LogFormatterParams) MethodColor() string
@@ -482,26 +482,26 @@ type
 
 	# type LoggerConfig struct {
 			Formatter LogFormatter
-				* ¸ñÊ½»¯´¦ÀíÆ÷
+				* æ ¼å¼åŒ–å¤„ç†å™¨
 			Output io.Writer
-				* Êä³öÄ¿µÄµØ
+				* è¾“å‡ºç›®çš„åœ°
 			SkipPaths []string
-				* ÒªÌø¹ıµÄÂ·¾¶
+				* è¦è·³è¿‡çš„è·¯å¾„
 		}
 
-		* ÈÕÖ¾¼ÇÂ¼Æ÷
+		* æ—¥å¿—è®°å½•å™¨
 
 	# type Negotiate struct {
-			Offered  []string		// Ö§³ÖµÄContenTypeÁĞ±í
-			HTMLName string			// HTMLÄ£°åÃû³Æ
-			HTMLData interface{}	// HTMLLÊı¾İ
-			JSONData interface{}	// JSONÊı¾İ
-			XMLData  interface{}	// XMLÊı¾İ
-			YAMLData interface{}	// YAMLÊı¾İ
-			Data     interface{}	// ÆÕÍ¨Êı¾İ
+			Offered  []string		// æ”¯æŒçš„ContenTypeåˆ—è¡¨
+			HTMLName string			// HTMLæ¨¡æ¿åç§°
+			HTMLData interface{}	// HTMLLæ•°æ®
+			JSONData interface{}	// JSONæ•°æ®
+			XMLData  interface{}	// XMLæ•°æ®
+			YAMLData interface{}	// YAMLæ•°æ®
+			Data     interface{}	// æ™®é€šæ•°æ®
 		}
 		
-		* Óë¿Í»§¶ËµÄContentTypeĞ­ÉÌ
+		* ä¸å®¢æˆ·ç«¯çš„ContentTypeåå•†
 
 
 	# type Param struct {
@@ -519,20 +519,20 @@ type
 			http.Flusher
 			http.CloseNotifier
 			Status() int
-				* ·µ»Ø×´Ì¬Âë
+				* è¿”å›çŠ¶æ€ç 
 			Size() int
-				* ·µ»ØÒÑ¾­ÏìÓ¦¿Í»§¶ËµÄbody´óĞ¡
+				* è¿”å›å·²ç»å“åº”å®¢æˆ·ç«¯çš„bodyå¤§å°
 			WriteString(string) (int, error)
-				* Ğ´Èë×Ö·û´®µ½¿Í»§¶Ë
+				* å†™å…¥å­—ç¬¦ä¸²åˆ°å®¢æˆ·ç«¯
 			Written() bool
-				* Èç¹û¿Í»§¶ËÒÑ¾­ÏìÓ¦ÁËÊı¾İ£¬Ôò·µ»Ø true
+				* å¦‚æœå®¢æˆ·ç«¯å·²ç»å“åº”äº†æ•°æ®ï¼Œåˆ™è¿”å› true
 			WriteHeaderNow()
-				* Ç¿ÖÆÏìÓ¦×´Ì¬ÂëºÍheader
+				* å¼ºåˆ¶å“åº”çŠ¶æ€ç å’Œheader
 			Pusher() http.Pusher
-				* ³¢ÊÔ»ñÈ¡http2µÄpusher
+				* å°è¯•è·å–http2çš„pusher
 		}
 
-		* ÏìÓ¦¿Í»§¶Ë
+		* å“åº”å®¢æˆ·ç«¯
 	
 	# type RouteInfo struct {
 			Method      string
@@ -545,16 +545,16 @@ type
 	
 	# type RouterGroup struct {
 			Handlers HandlersChain
-				* handlerÖ´ĞĞÁ´
+				* handleræ‰§è¡Œé“¾
 		}
 		
-		* Â·ÓÉ×é
+		* è·¯ç”±ç»„
 		
 		func (group *RouterGroup) BasePath() string
-			* »ñÈ¡µ±Ç°Â·ÓÉ×éµÄbasepath
+			* è·å–å½“å‰è·¯ç”±ç»„çš„basepath
 
 		func (group *RouterGroup) Group(relativePath string, handlers ...HandlerFunc) *RouterGroup
-			* ¸ù¾İµ±Ç°Â·ÓÉ×é£¬´´½¨·µ»ØÒ»¸öÂ·ÓÉ×é
+			* æ ¹æ®å½“å‰è·¯ç”±ç»„ï¼Œåˆ›å»ºè¿”å›ä¸€ä¸ªè·¯ç”±ç»„
 
 		func (group *RouterGroup) HEAD(relativePath string, handlers ...HandlerFunc) IRoutes
 		
@@ -566,24 +566,24 @@ type
 		func (group *RouterGroup) PUT(relativePath string, handlers ...HandlerFunc) IRoutes
 		func (group *RouterGroup) DELETE(relativePath string, handlers ...HandlerFunc) IRoutes
 		func (group *RouterGroup) GET(relativePath string, handlers ...HandlerFunc) IRoutes
-			* ¸÷ÖÖhttp·½·¨µÄ´¦Àí
+			* å„ç§httpæ–¹æ³•çš„å¤„ç†
 
 		func (group *RouterGroup) Static(relativePath, root string) IRoutes
-			* Ö¸¶¨Ä¿Â¼£¬Ó³Éä¾²Ì¬ÎÄ¼ş
+			* æŒ‡å®šç›®å½•ï¼Œæ˜ å°„é™æ€æ–‡ä»¶
 				router.Static("/static", "/var/www")
 				router.Static("/assets", "./assets")
 			
 		func (group *RouterGroup) StaticFS(relativePath string, fs http.FileSystem) IRoutes
-			* Ö¸¶¨fsÓ³Éä¾²Ì¬ÎÄ¼ş
+			* æŒ‡å®šfsæ˜ å°„é™æ€æ–‡ä»¶
 				router.StaticFS("/static", gin.Dir("C:\\", true))
 				router.StaticFS("/more_static", http.Dir("my_file_system"))
 
 		func (group *RouterGroup) StaticFile(relativePath, filepath string) IRoutes
-			* Ö¸¶¨¾²Ì¬ÎÄ¼şµÄÓ³Éä
+			* æŒ‡å®šé™æ€æ–‡ä»¶çš„æ˜ å°„
 				router.StaticFile("/favicon.ico", "./resources/favicon.ico")
 
 		func (group *RouterGroup) Use(middleware ...HandlerFunc) IRoutes
-			* Ìí¼ÓÈ«¾ÖµÄÖĞ¼ä¼ş
+			* æ·»åŠ å…¨å±€çš„ä¸­é—´ä»¶
 	
 	
 		
@@ -593,20 +593,20 @@ func
 ------------------------
 	func CreateTestContext(w http.ResponseWriter) (c *Context, r *Engine)
 	func Dir(root string, listDirectory bool) http.FileSystem
-		* ·µ»Ø http.FileSystem£¬listDirectory Ö¸¶¨ÊÇ·ñÒªÁĞ³öÄ¿Â¼
+		* è¿”å› http.FileSystemï¼ŒlistDirectory æŒ‡å®šæ˜¯å¦è¦åˆ—å‡ºç›®å½•
 	
 	func DisableBindValidation()
 	func DisableConsoleColor()
-		* ½ûÓÃ¿ØÖÆÌ¨ÑÕÉ«£¬½«ÈÕÖ¾Ğ´ÈëÎÄ¼şÊ±²»ĞèÒª¿ØÖÆÌ¨ÑÕÉ«¡£
+		* ç¦ç”¨æ§åˆ¶å°é¢œè‰²ï¼Œå°†æ—¥å¿—å†™å…¥æ–‡ä»¶æ—¶ä¸éœ€è¦æ§åˆ¶å°é¢œè‰²ã€‚
 
 	func EnableJsonDecoderDisallowUnknownFields()
 	func EnableJsonDecoderUseNumber()
 	func ForceConsoleColor()
-		* Ç¿ÖÆÔÚ¿ØÖÆÌ¨Êä³ö´øÑÕÉ«µÄÈÕÖ¾
+		* å¼ºåˆ¶åœ¨æ§åˆ¶å°è¾“å‡ºå¸¦é¢œè‰²çš„æ—¥å¿—
 
 	func IsDebugging() bool
-		 * ÊÇ·ñÊÇDEBUGÄ£Ê½
+		 * æ˜¯å¦æ˜¯DEBUGæ¨¡å¼
 
 	func Mode() string
 	func SetMode(value string)
-		* ¶ÁÈ¡ÉèÖÃÔËĞĞÄ£Ê½
+		* è¯»å–è®¾ç½®è¿è¡Œæ¨¡å¼

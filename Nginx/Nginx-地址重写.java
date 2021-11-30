@@ -1,90 +1,90 @@
 --------------------
-Nginx-��ַ��д		|
+Nginx-地址重写		|
 --------------------
-	# Rewriter��Ҫ�Ĺ��ܾ���ʵ��URL��д,Nginx��Rewriter�������(Perl)�����������ʽ���﷨���й����ƥ��.�����ҪNginx��Rewriter����,�ڱ���Nginx֮ǰ,��Ҫ��װPCRE��
-	# URL,ͳһ��Դ��λ��
-	# URI,ͨ����Դ��ʶ��
-	# rewriter ���Գ��ֵĵط�
+	# Rewriter主要的功能就是实现URL重写,Nginx的Rewriter规则才用(Perl)兼容正则表达式的语法进行规则的匹配.如果需要Nginx的Rewriter功能,在编译Nginx之前,需要安装PCRE库
+	# URL,统一资源定位符
+	# URI,通用资源标识符
+	# rewriter 可以出现的地方
 		* location 
 		* server
-	# ��������
-		if(����){}
-		set $����
+	# 常用命令
+		if(条件){}
+		set $变量
 		return 500
-		beak ���� rewrite
-		rewrite ��д
+		beak 跳出 rewrite
+		rewrite 重写
 
 --------------------
-Nginx-Rewriter�﷨	|
+Nginx-Rewriter语法	|
 --------------------
-	# ������
-		* ������������ "=" ���� "!=" �����
+	# 变量名
+		* 变量名可以用 "=" 或者 "!=" 运算符
 	~
-		��ʾ���ִ�Сд��ĸƥ��
+		表示区分大小写字母匹配
 	!~
-		��¥���෴
+		跟楼上相反
 	~*
-		��ʾ�����ִ�Сд��ĸƥ��
+		表示不区分大小写字母匹配
 	!~*
-		��¥���෴
+		跟楼上相反
 	-f	!-f
-		�ļ��Ƿ����
+		文集是否存在
 	-d	!-d
-		Ŀ¼�Ƿ����
+		目录是否存在
 	-e	!-e
-		�ж��ļ�����Ŀ¼,�Ƿ����
+		判断文件或者目录,是否存在
 	-x	!-x
-		�ж��ļ��Ƿ��ִ��
+		判断文件是否可执行
 	
-	# ֧�� $1 - $9 λ�û�����
+	# 支持 $1 - $9 位置化参数
 
 		
 --------------------
-Nginx-Returnָ��	|
+Nginx-Return指令	|
 --------------------
-	# ʾ��:�����".sh",".bash"��β,�򷵻�״̬��403
+	# 示例:如果以".sh",".bash"结尾,则返回状态码403
 
 	location ~.*\.(sh|bash)?${
 		return 403;
 	}
 
 --------------------
-Nginx-set,rewriteָ��|
+Nginx-set,rewrite指令|
 --------------------
 	set $var '1';
-	rewriteָ������һ������Ϊflag���,֧�ֵ�flag�����Ҫ�����¼���
+	rewrite指令的最后一个参数为flag标记,支持的flag标记主要有以下几种
 
-	last	:�൱��Apache��[L]���,��ʾ���rewrite
-	break	:��������ƥ����ɺ�,��ֹƥ��,����ƥ�����Ĺ���
-	redirect:����302�ض���,�������ַ����ʾ��ת���URL��ַ
-	permanent:��������301�ض���,�������ַ����ʾ��ת���URL��ַ
+	last	:相当于Apache的[L]标记,表示完成rewrite
+	break	:本条规则匹配完成后,终止匹配,不再匹配后面的规则
+	redirect:返回302重定向,浏览器地址会显示跳转后的URL地址
+	permanent:返回永久301重定向,浏览器地址会显示跳转后的URL地址
 
-	last��break����ʵ��URI��д,�������ַ��URL����
-	redirect��permanent����ʵ��URL��ת,������ĵ�ַ����ʾ��ת���URL��ַ
+	last和break用来实现URI重写,浏览器地址的URL不变
+	redirect和permanent用来实现URL跳转,浏览器的地址会显示跳转后的URL地址
 
-	# һ���� location ��,��ֱ����server��ǩ�б�д rewrite����,�Ƽ�ʹ��last���
-	  �ڷ�location��,��ʹ��break���
+	# 一般在 location 中,或直接在server标签中编写 rewrite规则,推荐使用last标记
+	  在非location中,则使用break标记
 	
-	# URL rewriter �ͷ������ͬʱ����
+	# URL rewriter 和反向代理同时进行
 
-	# nginx rewriteָ��ִ��˳��
-		1.ִ��server���rewriteָ��(����Ŀ�ָ����server�ؼ��ֺ�{}��Χ����������xx������)
-		2.ִ��locationƥ��
-		3.ִ��ѡ����location�е�rewriteָ��
-			�������ĳ��URI����д��������ѭ��ִ��1-3��ֱ���ҵ���ʵ���ڵ��ļ�
+	# nginx rewrite指令执行顺序：
+		1.执行server块的rewrite指令(这里的块指的是server关键字后{}包围的区域，其它xx块类似)
+		2.执行location匹配
+		3.执行选定的location中的rewrite指令
+			如果其中某步URI被重写，则重新循环执行1-3，直到找到真实存在的文件
 
-			���ѭ������10�Σ��򷵻�500 Internal Server Error����
+			如果循环超过10次，则返回500 Internal Server Error错误
 
-		breakָ��
-		�﷨��break;
-		Ĭ��ֵ����
-		������server,location,if
+		break指令
+		语法：break;
+		默认值：无
+		作用域：server,location,if
 
-		ִֹͣ�е�ǰ���������ĺ���rewriteָ�
+		停止执行当前虚拟主机的后续rewrite指令集
 --------------------
-Nginx-ifָ��		|
+Nginx-if指令		|
 --------------------
-	# �����û else ��,ֻ�� if
+	# 这个是没 else 的,只有 if
 
 	if ($http_user_agent ~ MSIE)
 	{

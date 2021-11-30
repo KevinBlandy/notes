@@ -1,7 +1,7 @@
 ------------------
 cors
 ------------------
-	# ¿â
+	# åº“
 		github.com/gin-contrib/cors
 	
 	# type
@@ -28,13 +28,13 @@ cors
 
 	# func
 		func DefaultConfig() Config 
-			* ·µ»ØÄ¬ÈÏµÄconfig
+			* è¿”å›é»˜è®¤çš„config
 
 		func Default() gin.HandlerFunc 
-			* ·µ»ØÄ¬ÈÏµÄhandler
+			* è¿”å›é»˜è®¤çš„handler
 		
 		func New(config Config) gin.HandlerFunc 
-			* ¸ù¾İÅäÖÃ·µ»Øhandler
+			* æ ¹æ®é…ç½®è¿”å›handler
 
 	# Demo
 		router.Use(cors.New(cors.Config{
@@ -50,7 +50,7 @@ cors
 	
 
 ------------------------
-»¹ÊÇ×Ô¼ºµÄºÃÊ¹
+è¿˜æ˜¯è‡ªå·±çš„å¥½ä½¿
 ------------------------
 import (
 	"github.com/gin-gonic/gin"

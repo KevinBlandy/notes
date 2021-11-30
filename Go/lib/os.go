@@ -2,14 +2,14 @@
 os
 ---------------
 ---------------
-±äÁ¿
+å˜é‡
 ---------------
-	* ³ÌĞòÆô¶¯²ÎÊı£¬µÚÒ»¸ö²ÎÊıÓÀÔ¶ÊÇµ±Ç°Ö´ĞĞÎÄ¼şµÄ¾ø¶ÔÂ·¾¶
+	* ç¨‹åºå¯åŠ¨å‚æ•°ï¼Œç¬¬ä¸€ä¸ªå‚æ•°æ°¸è¿œæ˜¯å½“å‰æ‰§è¡Œæ–‡ä»¶çš„ç»å¯¹è·¯å¾„
 		var Args []string
 	
 		[C:\Users\KevinBlandy\AppData\Local\Temp\___go_build_main_go.exe]
 
-	* ±ê×¼µÄÊäÈë/Êä³ö/Òì³£Á÷
+	* æ ‡å‡†çš„è¾“å…¥/è¾“å‡º/å¼‚å¸¸æµ
 		var (
 			Stdin  = NewFile(uintptr(syscall.Stdin), "/dev/stdin")
 			Stdout = NewFile(uintptr(syscall.Stdout), "/dev/stdout")
@@ -17,7 +17,7 @@ os
 		)
 
 	
-	* ÎÄ¼ş¿ÉÄÜ·¢ÉúµÄÒì³£
+	* æ–‡ä»¶å¯èƒ½å‘ç”Ÿçš„å¼‚å¸¸
 		var (
 			// ErrInvalid indicates an invalid argument.
 			// Methods on File will return this error when the receiver is nil.
@@ -32,34 +32,34 @@ os
 		)
 
 	
-	* ÎÄ¼şµÄ´ò¿ª·½Ê½
+	* æ–‡ä»¶çš„æ‰“å¼€æ–¹å¼
 		const (
 			// Exactly one of O_RDONLY, O_WRONLY, or O_RDWR must be specified.
-			O_RDONLY int = syscall.O_RDONLY // Ö»¶Á
-			O_WRONLY int = syscall.O_WRONLY // Ö»Ğ´
-			O_RDWR   int = syscall.O_RDWR   //¶ÁĞ´
+			O_RDONLY int = syscall.O_RDONLY // åªè¯»
+			O_WRONLY int = syscall.O_WRONLY // åªå†™
+			O_RDWR   int = syscall.O_RDWR   //è¯»å†™
 			// The remaining values may be or'ed in to control behavior.
-			O_APPEND int = syscall.O_APPEND //ÍùÎÄ¼şÖĞÌí¼Ó
-			O_CREATE int = syscall.O_CREAT  // Èç¹ûÎÄ¼ş²»´æÔÚÔòÏÈ´´½¨
-			O_EXCL   int = syscall.O_EXCL   // ºÍO_CREATEÒ»ÆğÊ¹ÓÃ£¬ÎÄ¼ş±ØĞë²»ÄÜ´æÔÚ
-			O_SYNC   int = syscall.O_SYNC   // ÒÔÍ¬²½I/OµÄ·½Ê½´ò¿ª
-			O_TRUNC  int = syscall.O_TRUNC  // ÎÄ¼ş´ò¿ªÊ±²Ã¼ôÎÄ¼ş£¨³¤¶È±»½ØÎª0£¬ÊôĞÔ²»±ä£©
+			O_APPEND int = syscall.O_APPEND //å¾€æ–‡ä»¶ä¸­æ·»åŠ 
+			O_CREATE int = syscall.O_CREAT  // å¦‚æœæ–‡ä»¶ä¸å­˜åœ¨åˆ™å…ˆåˆ›å»º
+			O_EXCL   int = syscall.O_EXCL   // å’ŒO_CREATEä¸€èµ·ä½¿ç”¨ï¼Œæ–‡ä»¶å¿…é¡»ä¸èƒ½å­˜åœ¨
+			O_SYNC   int = syscall.O_SYNC   // ä»¥åŒæ­¥I/Oçš„æ–¹å¼æ‰“å¼€
+			O_TRUNC  int = syscall.O_TRUNC  // æ–‡ä»¶æ‰“å¼€æ—¶è£å‰ªæ–‡ä»¶ï¼ˆé•¿åº¦è¢«æˆªä¸º0ï¼Œå±æ€§ä¸å˜ï¼‰
 		)
 	
-	* ÎÄ¼şÒÆ¶¯µÄÏà¶ÔÎ»ÖÃ
+	* æ–‡ä»¶ç§»åŠ¨çš„ç›¸å¯¹ä½ç½®
 		const (
 			SEEK_SET int = 0 // seek relative to the origin of the file
 			SEEK_CUR int = 1 // seek relative to the current offset
 			SEEK_END int = 2 // seek relative to the end
 		)
 	
-	* ÎÄ¼şºÍÂ·¾¶·Ö¸ô·û
+	* æ–‡ä»¶å’Œè·¯å¾„åˆ†éš”ç¬¦
 		const (
 			PathSeparator     = '/' // OS-specific path separator
 			PathListSeparator = ':' // OS-specific path list separator
 		)
 	
-	* ºÚ¶´
+	* é»‘æ´
 		const DevNull = "/dev/null"
 	
 	var ErrProcessDone = errors.New("os: process already finished")
@@ -70,23 +70,23 @@ type
 ---------------
 	# type DirEntry = fs.DirEntry
 		
-		* Ä¿Â¼ÏÂµÄÎÄ¼şĞÅÏ¢
+		* ç›®å½•ä¸‹çš„æ–‡ä»¶ä¿¡æ¯
 
 		func ReadDir(name string) ([]DirEntry, error)
-			* ¶ÁÈ¡Ò»¸öÄ¿Â¼ÏÂµÄËùÓĞÎÄ¼ş/ÎÄ¼ş¼ĞĞÅÏ¢
-			* Èç¹ûname²»ÊÇÄ¿Â¼£¬Ôò·µ»ØÒì³£ĞÅÏ¢
+			* è¯»å–ä¸€ä¸ªç›®å½•ä¸‹çš„æ‰€æœ‰æ–‡ä»¶/æ–‡ä»¶å¤¹ä¿¡æ¯
+			* å¦‚æœnameä¸æ˜¯ç›®å½•ï¼Œåˆ™è¿”å›å¼‚å¸¸ä¿¡æ¯
 				readdir ...: The system cannot find the path specified.
 	
 	# type File struct 
 		func Create(name string) (*File, error)
 		func NewFile(fd uintptr, name string) *File
-			* ´´½¨ĞÂµÄÎÄ¼şÃèÊö·û£¿Ö¸¶¨Ãû³Æ
+			* åˆ›å»ºæ–°çš„æ–‡ä»¶æè¿°ç¬¦ï¼ŸæŒ‡å®šåç§°
 
 		func Open(name string) (*File, error)
-			* ´ò¿ªÎÄ¼ş£¬Ö»¶Á
+			* æ‰“å¼€æ–‡ä»¶ï¼Œåªè¯»
 
 		func OpenFile(name string, flag int, perm FileMode) (*File, error)
-			* ´ò¿ªÎÄ¼şÖ¸¶¨ÊôĞÔÒÔ¼°´´½¨Ê±µÄÈ¨ÏŞĞÅÏ¢
+			* æ‰“å¼€æ–‡ä»¶æŒ‡å®šå±æ€§ä»¥åŠåˆ›å»ºæ—¶çš„æƒé™ä¿¡æ¯
 
 		func (f *File) Chdir() error
 		func (f *File) Chmod(mode FileMode) error
@@ -94,18 +94,18 @@ type
 		func (f *File) Close() error
 		func (f *File) Fd() uintptr
 		func (f *File) Name() string
-			* ·µ»ØÎÄ¼şµÄ¾ø¶ÔÂ·¾¶
+			* è¿”å›æ–‡ä»¶çš„ç»å¯¹è·¯å¾„
 
 		func (f *File) Read(b []byte) (n int, err error)
 		func (f *File) ReadAt(b []byte, off int64) (n int, err error)
 		func (f *File) ReadFrom(r io.Reader) (n int64, err error)
 		func (f *File) Readdir(n int) ([]FileInfo, error)
-			* ·µ»ØÄ¿Â¼ÏÂµÄÎÄ¼şĞÅÏ¢ÁĞ±í£¬nÖ¸¶¨×î¶à·µ»ØÎÄ¼ş¸öÊı
-			* Èç¹ûn <= 0£¬Readdir·µ»ØÄ¿Â¼ÖĞµÄËùÓĞFileInfo
+			* è¿”å›ç›®å½•ä¸‹çš„æ–‡ä»¶ä¿¡æ¯åˆ—è¡¨ï¼ŒnæŒ‡å®šæœ€å¤šè¿”å›æ–‡ä»¶ä¸ªæ•°
+			* å¦‚æœn <= 0ï¼ŒReaddirè¿”å›ç›®å½•ä¸­çš„æ‰€æœ‰FileInfo
 
 		func (f *File) Readdirnames(n int) (names []string, err error)
-			* ·µ»ØÄ¿Â¼ÏÂµÄÎÄ¼şÃû³Æ£¬nÖ¸¶¨×î¶à·µ»ØÎÄ¼ş¸öÊı
-			* Èç¹ûn <= 0£¬Readdir·µ»ØÄ¿Â¼ÖĞµÄËùÓĞFileInfo
+			* è¿”å›ç›®å½•ä¸‹çš„æ–‡ä»¶åç§°ï¼ŒnæŒ‡å®šæœ€å¤šè¿”å›æ–‡ä»¶ä¸ªæ•°
+			* å¦‚æœn <= 0ï¼ŒReaddirè¿”å›ç›®å½•ä¸­çš„æ‰€æœ‰FileInfo
 
 		func (f *File) Seek(offset int64, whence int) (ret int64, err error)
 		func (f *File) SetDeadline(t time.Time) error
@@ -120,25 +120,25 @@ type
 		func (f *File) WriteString(s string) (n int, err error)
 	
 	# type FileInfo interface {
-			Name() string       // ·µ»ØÎÄ¼şÃû³Æ£¬²»´øÂ·¾¶
+			Name() string       // è¿”å›æ–‡ä»¶åç§°ï¼Œä¸å¸¦è·¯å¾„
 			Size() int64        // length in bytes for regular files; system-dependent for others
-			Mode() FileMode     // ÎÄ¼şµÄÈ¨ÏŞĞÅÏ¢
+			Mode() FileMode     // æ–‡ä»¶çš„æƒé™ä¿¡æ¯
 			ModTime() time.Time // modification time
 			IsDir() bool        // abbreviation for Mode().IsDir()
 			Sys() interface{}   // underlying data source (can return nil)
 		}
 
-		* ÎÄ¼şµÄĞÅÏ¢½á¹¹Ìå
+		* æ–‡ä»¶çš„ä¿¡æ¯ç»“æ„ä½“
 
 		func Lstat(name string) (FileInfo, error)
-			* ·µ»ØÒ»¸öÎÄ¼şµÄĞÅÏ¢£¬µ«ÊÇµ±ÎÄ¼şÊÇÒ»¸öÈíÁ´½ÓÊ±£¬Ëü·µ»ØÈíÁ´½ÓµÄĞÅÏ¢£¬¶ø²»ÊÇÒıÓÃµÄÎÄ¼şµÄĞÅÏ¢¡£
-			* SymlinkÔÚWindowsÖĞ²»¹¤×÷¡£
+			* è¿”å›ä¸€ä¸ªæ–‡ä»¶çš„ä¿¡æ¯ï¼Œä½†æ˜¯å½“æ–‡ä»¶æ˜¯ä¸€ä¸ªè½¯é“¾æ¥æ—¶ï¼Œå®ƒè¿”å›è½¯é“¾æ¥çš„ä¿¡æ¯ï¼Œè€Œä¸æ˜¯å¼•ç”¨çš„æ–‡ä»¶çš„ä¿¡æ¯ã€‚
+			* Symlinkåœ¨Windowsä¸­ä¸å·¥ä½œã€‚
 
 		func Stat(name string) (FileInfo, error)
 	
 	# type FileMode uint32
-		* ÎÄ¼şµÄÀàĞÍ
-		* Ô¤¶¨Òå
+		* æ–‡ä»¶çš„ç±»å‹
+		* é¢„å®šä¹‰
 			const (
 				// The single letters are the abbreviations
 				// used by the String method's formatting.
@@ -163,12 +163,12 @@ type
 			)
 		
 		func (m FileMode) IsDir() bool
-			* ÊÇ·ñÊÇÄ¿Â¼
+			* æ˜¯å¦æ˜¯ç›®å½•
 		func (m FileMode) IsRegular() bool
-			* ÊÇ·ñÊÇ³£¹æÎÄ¼ş
+			* æ˜¯å¦æ˜¯å¸¸è§„æ–‡ä»¶
 		func (m FileMode) Perm() FileMode
 		func (m FileMode) String() string
-			* ·µÈ¨ÏŞĞÅÏ¢µÄ×Ö·ûÃèÊö
+			* è¿”æƒé™ä¿¡æ¯çš„å­—ç¬¦æè¿°
 				-rw-rw-rw-
 	
 	# type LinkError struct {
@@ -199,27 +199,27 @@ type
 			Sys *syscall.SysProcAttr
 		}
 
-		* ½ø³ÌµÄÏà¹ØĞÅÏ¢
+		* è¿›ç¨‹çš„ç›¸å…³ä¿¡æ¯
 	
 	# type Process struct {
 			Pid int
-				* ½øĞĞµÄid
+				* è¿›è¡Œçš„id
 		}
 		
-		* ½ø³ÌĞÅÏ¢
+		* è¿›ç¨‹ä¿¡æ¯
 
 		func FindProcess(pid int) (*Process, error)
-			* ¸ù¾İIDµÈĞÅÏ¢»ñÈ¡½ø³ÌĞÅÏ¢
+			* æ ¹æ®IDç­‰ä¿¡æ¯è·å–è¿›ç¨‹ä¿¡æ¯
 
 		func StartProcess(name string, argv []string, attr *ProcAttr) (*Process, error)
-			* ¸ù¾İ²ÎÊıµÈĞÅÏ¢£¬´´½¨Ò»¸öĞÂµÄ½ø³Ì
+			* æ ¹æ®å‚æ•°ç­‰ä¿¡æ¯ï¼Œåˆ›å»ºä¸€ä¸ªæ–°çš„è¿›ç¨‹
 
 		func (p *Process) Kill() error
 		func (p *Process) Release() error
 		func (p *Process) Signal(sig Signal) error
-			* ¸ø½ø³Ì·¢ËÍĞÅºÅ£¬ºÃÏñWindows²»Ö§³Ö£¬»áÒì³£
+			* ç»™è¿›ç¨‹å‘é€ä¿¡å·ï¼Œå¥½åƒWindowsä¸æ”¯æŒï¼Œä¼šå¼‚å¸¸
 				not supported by windows
-			* Èç¹û½ø³ÌÒÑ¾­½áÊø£¬·µ»Ø ErrProcessDone 
+			* å¦‚æœè¿›ç¨‹å·²ç»ç»“æŸï¼Œè¿”å› ErrProcessDone 
 
 		func (p *Process) Wait() (*ProcessState, error)
 	
@@ -234,20 +234,20 @@ type
 		func (p *ProcessState) SystemTime() time.Duration
 		func (p *ProcessState) UserTime() time.Duration
 
-		* ½ø³Ì×´Ì¬
+		* è¿›ç¨‹çŠ¶æ€
 	
 	# type Signal interface {
 			String() string
 			Signal() // to distinguish from other Stringers
 		}
 
-		* ÊäÈëĞÅºÅ
-		* Ô¤¶¨Òå(syscallÖĞÓĞ¶¨Òå)
+		* è¾“å…¥ä¿¡å·
+		* é¢„å®šä¹‰(syscallä¸­æœ‰å®šä¹‰)
 			var (
 				Interrupt Signal = syscall.SIGINT
-					* ÖĞ¶ÏĞÅºÅ
+					* ä¸­æ–­ä¿¡å·
 				Kill      Signal = syscall.SIGKILL
-					* KillĞÅºÅ
+					* Killä¿¡å·
 			)
 		
 		
@@ -261,48 +261,48 @@ type
 	
 
 ---------------
-·½·¨
+æ–¹æ³•
 ---------------
 	func Chdir(dir string) error
 	func Chmod(name string, mode FileMode) error
 	func Chown(name string, uid, gid int) error
-		* ĞŞ¸ÄÈ¨ÏŞ/ËùÓĞÕßĞÅÏ¢
+		* ä¿®æ”¹æƒé™/æ‰€æœ‰è€…ä¿¡æ¯
 
 	func Chtimes(name string, atime time.Time, mtime time.Time) error
-		* ¸Ä±äÊ±¼äĞÅÏ¢
+		* æ”¹å˜æ—¶é—´ä¿¡æ¯
 
 	func Clearenv()
 	func Environ() []string
-		* »ñÈ¡»·¾³±äÁ¿£¬Ã¿Ò»¸ö×Ö·ûÔªËØ¶¼ÊÇ: name=value ÕâÖÖ¸ñÊ½
+		* è·å–ç¯å¢ƒå˜é‡ï¼Œæ¯ä¸€ä¸ªå­—ç¬¦å…ƒç´ éƒ½æ˜¯: name=value è¿™ç§æ ¼å¼
 
 	func Executable() (string, error)
-		* ·µ»Ø¿ÉÖ´ĞĞÎÄ¼şµÄÂ·¾¶
+		* è¿”å›å¯æ‰§è¡Œæ–‡ä»¶çš„è·¯å¾„
 
 	func Exit(code int)
 	func Expand(s string, mapping func(string) string) string
 	func ExpandEnv(s string) string
 	func Getegid() int
 	func Getenv(key string) string
-		* »ñÈ¡Ö¸¶¨µÄ»·¾³±äÁ¿
+		* è·å–æŒ‡å®šçš„ç¯å¢ƒå˜é‡
 	
 	func Geteuid() int
 	func Getgid() int
 	func Getgroups() ([]int, error)
-		* »ñÈ¡µ±Ç°ÓÃ»§ËùÊô×éµÄID
+		* è·å–å½“å‰ç”¨æˆ·æ‰€å±ç»„çš„ID
 
 	func Getpagesize() int
 	func Getpid() int
-		* »ñÈ¡µ±Ç°½ø³ÌID
-		* »ñÈ¡½ø³ÌPIDĞ´Èëµ½ÎÄ¼ş
+		* è·å–å½“å‰è¿›ç¨‹ID
+		* è·å–è¿›ç¨‹PIDå†™å…¥åˆ°æ–‡ä»¶
 			var pid = os.Getpid()
 			if config.App.PidFile != "" {
-				// Ğ´ÈëPIDÎÄ¼ş
+				// å†™å…¥PIDæ–‡ä»¶
 				if err := os.WriteFile(config.App.PidFile, []byte(fmt.Sprintf("%d", pid)), 0x775); err != nil {
-					log.Printf("Ğ´ÈëPIDÎÄ¼şÒì³££º%s\n", err.Error()) // ºöÂÔÒì³£
+					log.Printf("å†™å…¥PIDæ–‡ä»¶å¼‚å¸¸ï¼š%s\n", err.Error()) // å¿½ç•¥å¼‚å¸¸
 				} else {
 					defer func() {
 						if err := os.Remove(config.App.PidFile); err != nil {
-							log.Printf("É¾³ıPIDÎÄ¼şÒì³££º%s\n", err.Error())
+							log.Printf("åˆ é™¤PIDæ–‡ä»¶å¼‚å¸¸ï¼š%s\n", err.Error())
 						}
 					}()
 				}
@@ -310,7 +310,7 @@ type
 
 	func Getppid() int
 	func Getuid() int
-		* »ñÈ¡µ±Ç°ÓÃ»§µÄUID
+		* è·å–å½“å‰ç”¨æˆ·çš„UID
 
 	func Getwd() (dir string, err error)
 	func Hostname() (name string, err error)
@@ -320,30 +320,30 @@ type
 	func IsPathSeparator(c uint8) bool
 	func IsPermission(err error) bool
 	func IsTimeout(err error) bool
-		* ¶ÔÒì³£µÄÅĞ¶Ï 
+		* å¯¹å¼‚å¸¸çš„åˆ¤æ–­ 
 
 	func Lchown(name string, uid, gid int) error
 	func Link(oldname, newname string) error
-		* ´´½¨Ò»¸öÓ²Á´½Ó
+		* åˆ›å»ºä¸€ä¸ªç¡¬é“¾æ¥
 
 	func LookupEnv(key string) (string, bool)
 	func Mkdir(name string, perm FileMode) error
 	func MkdirAll(path string, perm FileMode) error
-		* ´´½¨Ä¿Â¼£¬All¿ÉÒÔ´´½¨¶à¼¶Ä¿Â¼
+		* åˆ›å»ºç›®å½•ï¼ŒAllå¯ä»¥åˆ›å»ºå¤šçº§ç›®å½•
 
 	func NewSyscallError(syscall string, err error) error
 
 	func Pipe() (r *File, w *File, err error)
-		* ·µ»ØÒ»¸ö¹ÜµÀ
+		* è¿”å›ä¸€ä¸ªç®¡é“
 
 	func Readlink(name string) (string, error)
 
 	func Remove(name string) error
 	func RemoveAll(path string) error
-		* É¾³ıÎÄ¼ş
+		* åˆ é™¤æ–‡ä»¶
 
 	func Rename(oldpath, newpath string) error
-		* ÖØÃüÃû£¬ÀàËÆÓÚmv²Ù×÷£¬ºÍmove²Ù×÷ÊÇÒ»ÑùµÄ
+		* é‡å‘½åï¼Œç±»ä¼¼äºmvæ“ä½œï¼Œå’Œmoveæ“ä½œæ˜¯ä¸€æ ·çš„
 
 	func SameFile(fi1, fi2 FileInfo) bool
 	func Setenv(key, value string) error
@@ -351,22 +351,22 @@ type
 
 	func TempDir() string
 	func Truncate(name string, size int64) error
-		* ²Ã¼ôÒ»¸öÎÄ¼şµ½n¸ö×Ö½Ú£¬¶àÁË¾ÍÉ¾£¬ÉÙÁË¾ÍÌî³ä£¬·´ÕıÒ»¶¨ÒªÊÇsize¸ö×Ö½Ú
-		* Èç¹ûÎÄ¼ş´óĞ¡Ğ¡ÓÚn£¬Ôò»á±£ÁôÔ­Ê¼Êı¾İ£¬Ê£ÏÂµÄÌî³änull
-		* Èç¹ûÉèÖÃ0£¬¾Í»áÇå¿Õ
+		* è£å‰ªä¸€ä¸ªæ–‡ä»¶åˆ°nä¸ªå­—èŠ‚ï¼Œå¤šäº†å°±åˆ ï¼Œå°‘äº†å°±å¡«å……ï¼Œåæ­£ä¸€å®šè¦æ˜¯sizeä¸ªå­—èŠ‚
+		* å¦‚æœæ–‡ä»¶å¤§å°å°äºnï¼Œåˆ™ä¼šä¿ç•™åŸå§‹æ•°æ®ï¼Œå‰©ä¸‹çš„å¡«å……null
+		* å¦‚æœè®¾ç½®0ï¼Œå°±ä¼šæ¸…ç©º
 
 
 	func ReadFile(name string) ([]byte, error)
-		* ¶ÁÈ¡ÎÄ¼ş
+		* è¯»å–æ–‡ä»¶
 	
 	func MkdirTemp(dir, pattern string) (string, error)
 	func CreateTemp(dir, pattern string) (*File, error)
-		* ´´½¨ÁÙÊ±Ä¿Â¼/ÎÄ¼ş£¬ĞèÒª×Ô¼ºÉ¾³ı
-		* Èç¹û dir ÊÇ¿Õ×Ö·û´®£¬ÄÇÃ´»áÄ¬ÈÏµÄÔÚÏµÍ³µÄÁÙÊ±Ä¿Â¼È¥´´½¨
-		* os°üÏÂ
+		* åˆ›å»ºä¸´æ—¶ç›®å½•/æ–‡ä»¶ï¼Œéœ€è¦è‡ªå·±åˆ é™¤
+		* å¦‚æœ dir æ˜¯ç©ºå­—ç¬¦ä¸²ï¼Œé‚£ä¹ˆä¼šé»˜è®¤çš„åœ¨ç³»ç»Ÿçš„ä¸´æ—¶ç›®å½•å»åˆ›å»º
+		* osåŒ…ä¸‹
 	
 	func WriteFile(name string, data []byte, perm FileMode) error
-		* ¿ìËÙµÄĞ´ÈëÊı¾İµ½ÎÄ¼şÖĞ
+		* å¿«é€Ÿçš„å†™å…¥æ•°æ®åˆ°æ–‡ä»¶ä¸­
 
 	func Unsetenv(key string) error
 	func UserCacheDir() (string, error)
@@ -376,7 +376,7 @@ type
 ------------------------
 Demo
 ------------------------
-	# µİ¹éÍ³¼ÆÖ¸¶¨Ä¿Â¼ÏÂËùÓĞÎÄ¼şµÄ´óĞ¡
+	# é€’å½’ç»Ÿè®¡æŒ‡å®šç›®å½•ä¸‹æ‰€æœ‰æ–‡ä»¶çš„å¤§å°
 		func TreeSize(name string) (int64, error) {
 			var total int64 = 0
 			dirEntry, err := os.ReadDir(name)

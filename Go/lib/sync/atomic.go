@@ -1,5 +1,5 @@
 ----------------------
-变量
+鍙橀噺
 ----------------------
 
 
@@ -13,7 +13,7 @@ type
 		func (v *Value) CompareAndSwap(old, new interface{}) (swapped bool)
 
 ----------------------
-方法
+鏂规硶
 ----------------------
 	func AddInt32(addr *int32, delta int32) (new int32)
 	func AddInt64(addr *int64, delta int64) (new int64)

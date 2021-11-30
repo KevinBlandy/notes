@@ -3,7 +3,7 @@ bufio
 ------------------------
 
 ------------------------
-±äÁ¿
+å˜é‡
 ------------------------
 	
 	const (
@@ -36,11 +36,11 @@ type
 	
 	# type Reader struct
 		
-		* ´ø»º³åÇøµÄReader
+		* å¸¦ç¼“å†²åŒºçš„Reader
 		
 		func NewReader(rd io.Reader) *Reader
 		func NewReaderSize(rd io.Reader, size int) *Reader
-			* Ä¬ÈÏµÄsizeÊÇ: defaultBufSize = 4096
+			* é»˜è®¤çš„sizeæ˜¯: defaultBufSize = 4096
 
 		func (b *Reader) Buffered() int
 		func (b *Reader) Discard(n int) (discarded int, err error)
@@ -49,15 +49,15 @@ type
 		func (b *Reader) ReadByte() (byte, error)
 		func (b *Reader) ReadBytes(delim byte) ([]byte, error)
 		func (b *Reader) ReadLine() (line []byte, isPrefix bool, err error)
-			* ÕâÊÇÒ»¸ö±È½ÏµÍ¼¶µÄApi£¬´ó¶àÊıµ÷ÓÃÕßÓ¦¸ÃÊ¹ÓÃ
+			* è¿™æ˜¯ä¸€ä¸ªæ¯”è¾ƒä½çº§çš„Apiï¼Œå¤§å¤šæ•°è°ƒç”¨è€…åº”è¯¥ä½¿ç”¨
 				ReadBytes('\n')
 				ReadString('\n')
-			* À´´úÌæ»òÊ¹ÓÃScanner
+			* æ¥ä»£æ›¿æˆ–ä½¿ç”¨Scanner
 
 		func (b *Reader) ReadRune() (r rune, size int, err error)
 		func (b *Reader) ReadSlice(delim byte) (line []byte, err error)
 		func (b *Reader) ReadString(delim byte) (string, error)
-			* ¸ù¾İÖ¸¶¨·Ö¸ô·û¶ÁÈ¡Êı¾İ
+			* æ ¹æ®æŒ‡å®šåˆ†éš”ç¬¦è¯»å–æ•°æ®
 
 		func (b *Reader) Reset(r io.Reader)
 		func (b *Reader) Size() int
@@ -67,44 +67,44 @@ type
 	
 	# type Scanner struct
 		
-		* É¨ÃèÆ÷
+		* æ‰«æå™¨
 		
 		func NewScanner(r io.Reader) *Scanner
 		
 
 		func (s *Scanner) Buffer(buf []byte, max int)
 		func (s *Scanner) Err() error
-			* ·µ»ØÒì³£ĞÅÏ¢
+			* è¿”å›å¼‚å¸¸ä¿¡æ¯
 
 		func (s *Scanner) Scan() bool
-			* ¶ÁÈ¡ÏÂÒ»¸ö·Ö¸ô·û£¬·µ»Ø½á¹û±íÊ¾ÊÇ·ñ»¹ÓĞÊı¾İ
+			* è¯»å–ä¸‹ä¸€ä¸ªåˆ†éš”ç¬¦ï¼Œè¿”å›ç»“æœè¡¨ç¤ºæ˜¯å¦è¿˜æœ‰æ•°æ®
 
 		func (s *Scanner) Split(split SplitFunc)
-			* Ö¸¶¨·Ö¸ô·û£¬Èç¹û²»Ö¸¶¨£¬»áÊ¹ÓÃnewline×Ö·û×÷Îª·Ö¸ô·û
-			* ÆäËüµÄ·Ö¸ôº¯Êı»¹°üÀ¨ ScanRunes ºÍ ScanWords,½ÔÔÚbufio°üÖĞ¡£
+			* æŒ‡å®šåˆ†éš”ç¬¦ï¼Œå¦‚æœä¸æŒ‡å®šï¼Œä¼šä½¿ç”¨newlineå­—ç¬¦ä½œä¸ºåˆ†éš”ç¬¦
+			* å…¶å®ƒçš„åˆ†éš”å‡½æ•°è¿˜åŒ…æ‹¬ ScanRunes å’Œ ScanWords,çš†åœ¨bufioåŒ…ä¸­ã€‚
 
 		func (s *Scanner) Bytes() []byte
 		func (s *Scanner) Text() string
-			* ÒÔ×Ö½Ú»¹ÊÇ×Ö·ûµÄĞÎÊ½¶ÁÈ¡Êı¾İ
+			* ä»¥å­—èŠ‚è¿˜æ˜¯å­—ç¬¦çš„å½¢å¼è¯»å–æ•°æ®
 	
 	# type SplitFunc func(data []byte, atEOF bool) (advance int, token []byte, err error)
-		* ÓÃÓÚÖ¸¶¨·Ö¸ô·û
+		* ç”¨äºæŒ‡å®šåˆ†éš”ç¬¦
 
 	# type Writer struct
 		
-		* ´ø»º³åÇøµÄWriter
+		* å¸¦ç¼“å†²åŒºçš„Writer
 
 		func NewWriter(w io.Writer) *Writer
 		func NewWriterSize(w io.Writer, size int) *Writer
 
 		func (b *Writer) Available() int
-			* Î´Ê¹ÓÃµÄ»º´æ´óĞ¡
+			* æœªä½¿ç”¨çš„ç¼“å­˜å¤§å°
 
 		func (b *Writer) Buffered() int
 		func (b *Writer) Flush() error
 		func (b *Writer) ReadFrom(r io.Reader) (n int64, err error)
 		func (b *Writer) Reset(w io.Writer)
-			* ¶ªÆú»¹Ã»ÓĞflushµÄ»º´æµÄÄÚÈİ£¬Çå³ı´íÎó²¢°ÑËüµÄÊä³ö´«¸ø²ÎÊıÖĞµÄwriter
+			* ä¸¢å¼ƒè¿˜æ²¡æœ‰flushçš„ç¼“å­˜çš„å†…å®¹ï¼Œæ¸…é™¤é”™è¯¯å¹¶æŠŠå®ƒçš„è¾“å‡ºä¼ ç»™å‚æ•°ä¸­çš„writer
 
 		func (b *Writer) Size() int
 		func (b *Writer) Write(p []byte) (nn int, err error)
@@ -113,22 +113,22 @@ type
 		func (b *Writer) WriteString(s string) (int, error)
 
 ------------------------
-·½·¨
+æ–¹æ³•
 ------------------------
 	func ScanBytes(data []byte, atEOF bool) (advance int, token []byte, err error)
-		* É¨Ãè×Ö½Ú
+		* æ‰«æå­—èŠ‚
 	func ScanLines(data []byte, atEOF bool) (advance int, token []byte, err error)
-		* É¨ÃèÒ»ĞĞ
+		* æ‰«æä¸€è¡Œ
 	func ScanRunes(data []byte, atEOF bool) (advance int, token []byte, err error)
-		* É¨Ãèµ¥¸ö×Ö·û
+		* æ‰«æå•ä¸ªå­—ç¬¦
 	func ScanWords(data []byte, atEOF bool) (advance int, token []byte, err error)
-		* É¨Ãè´ÊÓï
+		* æ‰«æè¯è¯­
 
 
 ------------------------
 Demo
 ------------------------
-	# Scanner É¨Ãè
+	# Scanner æ‰«æ
 		import (
 			"bufio"
 			"fmt"
@@ -136,22 +136,22 @@ Demo
 			"os"
 		)
 		func main() {
-			file, _ := os.Open("C:\\Users\\Administrator\\Desktop\\ĞÂ½¨ÎÄ±¾ÎÄµµ.txt")
+			file, _ := os.Open("C:\\Users\\Administrator\\Desktop\\æ–°å»ºæ–‡æœ¬æ–‡æ¡£.txt")
 			defer file.Close()
 			scanner := bufio.NewScanner(file)
 			scanner.Split(bufio.ScanLines)
 			for {
 				if scanner.Scan() {
-					// ´æÔÚÏÂÒ»ĞĞÊı¾İ
+					// å­˜åœ¨ä¸‹ä¸€è¡Œæ•°æ®
 					err := scanner.Err()
 					if err != nil {
 						if err != io.EOF {
-							// Òì³£
-							fmt.Fprintf(os.Stderr, "ÎÄ¼şÉ¨ÃèÒì³£:%s\n", err.Error())
+							// å¼‚å¸¸
+							fmt.Fprintf(os.Stderr, "æ–‡ä»¶æ‰«æå¼‚å¸¸:%s\n", err.Error())
 							return
 						}
 					}
-					// ÒÔ×Ö·ûĞÎÊ½»ñÈ¡ÄÚÈİ
+					// ä»¥å­—ç¬¦å½¢å¼è·å–å†…å®¹
 					text := scanner.Text()
 					fmt.Println(text)
 				} else {
@@ -161,7 +161,7 @@ Demo
 		}
 	
 	
-	# ¶ÁÈ¡±ê×¼ÊäÈëÁ÷µÄÊäÈë
+	# è¯»å–æ ‡å‡†è¾“å…¥æµçš„è¾“å…¥
 		package main
 
 		import (

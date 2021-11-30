@@ -1,101 +1,101 @@
 ------------------------
-Nginx-·´Ïò´úÀí			|
+Nginx-åå‘ä»£ç†			|
 ------------------------
-	1,ÔÚNginxµÄ°²×°Ä¿Â¼µÄ:confÄ¿Â¼ÖĞ
-	2,ÕÒµ½:nginx.confÎÄ¼ş
+	1,åœ¨Nginxçš„å®‰è£…ç›®å½•çš„:confç›®å½•ä¸­
+	2,æ‰¾åˆ°:nginx.confæ–‡ä»¶
 
 ------------------------
-Nginx-¾ßÌåÅäÖÃ			|
+Nginx-å…·ä½“é…ç½®			|
 ------------------------
 
 	server {
-		//¼àÌı¶Ë¿Ú
+		//ç›‘å¬ç«¯å£
 		listen 80;
 
-		//¼àÌıÓòÃû
+		//ç›‘å¬åŸŸå
 		server_name manager.kevinblandy.com;
 
-	//ÈÕÖ¾ÎÄ¼şÅäÖÃ
+	//æ—¥å¿—æ–‡ä»¶é…ç½®
 	#access_log  logs/kevinblandy.com.access.log  main;
 
-	//´íÎóÈÕÖ¾ÎÄ¼ş
+	//é”™è¯¯æ—¥å¿—æ–‡ä»¶
 	#error_log  logs/kevinblandy.com.error.log;
 
 
-	//×ª·¢¿Í»§¶ËÇëÇóµÄÊ±ºòĞ¯´øµÄÓòÃû
+	//è½¬å‘å®¢æˆ·ç«¯è¯·æ±‚çš„æ—¶å€™æºå¸¦çš„åŸŸå
 	proxy_set_header Host $host;
 
 	proxy_set_header X-Forwarded-Host $host;
 	proxy_set_header X-Forwarded-Server $host;
 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-	//×ª·¢¿Í»§¶ËÕæÊµIP(Í¨¹ı request.getHeader("X-Requested-For")»ñÈ¡)
+	//è½¬å‘å®¢æˆ·ç«¯çœŸå®IP(é€šè¿‡ request.getHeader("X-Requested-For")è·å–)
 	proxy_set_header X-Requested-For $remote_addr;
 	proxy_set_header REMOTE-HOST $remote_addr;
 
-		//Ó³Éä
+		//æ˜ å°„
 		location / {
-			//×ª·¢µØÖ·+¶Ë¿Ú
+			//è½¬å‘åœ°å€+ç«¯å£
 			proxy_pass http://127.0.0.1:8081;
-			//Á¬½Ó³¬Ê±
+			//è¿æ¥è¶…æ—¶
 			proxy_connect_timeout 600;
-			//¶ÁÈ¡³¬Ê±
+			//è¯»å–è¶…æ—¶
 			proxy_read_timeout 600;
 		}
 	}
 
-	# ½â¾öJAVA´úÂëÖĞ»ñÈ¡¿Í»§¶ËÕæÊµµÄ·ÃÎÊIP
+	# è§£å†³JAVAä»£ç ä¸­è·å–å®¢æˆ·ç«¯çœŸå®çš„è®¿é—®IP
 		String ip1 = request.getHeader("X-Requested-For");
 
-	# ½â¾öTomcat ÈÕÖ¾ÖĞ,¿Í»§¶ËµÄÕæÊµ·ÃÎÊIP
-		# ĞŞ¸ÄtomcatÈÕÖ¾ÅäÖÃ£º(<host></host>ÖĞ¼ä)
+	# è§£å†³Tomcat æ—¥å¿—ä¸­,å®¢æˆ·ç«¯çš„çœŸå®è®¿é—®IP
+		# ä¿®æ”¹tomcatæ—¥å¿—é…ç½®ï¼š(<host></host>ä¸­é—´)
 
 		<Valve className="org.apache.catalina.valves.AccessLogValve"  
 			directory="logs"  prefix="tomcat_access_log" suffix=".txt"  
 			pattern="%{X-Requested-For}i %l %u %t &quot;%r&quot; %s %b" 
 			resolveHosts="false"/>
 
-		* Ã»ÓĞNginxÕâÒ»²ãµÄÊ±ºòÖ±½ÓÓÃ%a¾Í¿ÉÒÔ»ñµÃ¿Í»§¶ËIP£¬ÏÖÔÚÎÒÃÇµÃÓÃ%{X-Requested-For}i À´»ñµÃÕæÊµµÄIPÁË¡£
+		* æ²¡æœ‰Nginxè¿™ä¸€å±‚çš„æ—¶å€™ç›´æ¥ç”¨%aå°±å¯ä»¥è·å¾—å®¢æˆ·ç«¯IPï¼Œç°åœ¨æˆ‘ä»¬å¾—ç”¨%{X-Requested-For}i æ¥è·å¾—çœŸå®çš„IPäº†ã€‚
 
-		* ÆäÊµÖ»ĞèÒªĞŞ¸Ä:%h %l %u %t &quot;%r&quot; %s %b Ô­Ê¼Öµ¾ÍOK
+		* å…¶å®åªéœ€è¦ä¿®æ”¹:%h %l %u %t &quot;%r&quot; %s %b åŸå§‹å€¼å°±OK
 
-		* Ìæ»»Îª:%{X-Requested-For}i %l %u %t &quot;%r&quot; %s %b
+		* æ›¿æ¢ä¸º:%{X-Requested-For}i %l %u %t &quot;%r&quot; %s %b
 
 
 ------------------------
-Nginx-¾²Ì¬ÎÄ¼ş			|
+Nginx-é™æ€æ–‡ä»¶			|
 ------------------------
 	  server{
 			listen 80;
 			server_name static.kevinblandy.com;
 			location / {
 				root /usr/local/static;		
-				autoindex on;               # ¿ªÆôË÷Òı    
-				charset utf-8,gbk;			# ½â¾öÎÄ¼şÃû³ÆÖĞÎÄÂÒÂëµÄÎÊÌâ
-				autoindex_exact_size on;    # ÏÔÊ¾ÎÄ¼ş´óĞ¡        
-				autoindex_localtime on;     # ÏÔÊ¾×îºóĞŞ¸ÄÊ±¼ä     
+				autoindex on;               # å¼€å¯ç´¢å¼•    
+				charset utf-8,gbk;			# è§£å†³æ–‡ä»¶åç§°ä¸­æ–‡ä¹±ç çš„é—®é¢˜
+				autoindex_exact_size on;    # æ˜¾ç¤ºæ–‡ä»¶å¤§å°        
+				autoindex_localtime on;     # æ˜¾ç¤ºæœ€åä¿®æ”¹æ—¶é—´     
 			}
 		}
 
 ------------------------
 Nginx-WebSocket			|
 ------------------------
-	# ·´Ïò´úÀíWebSocket,ĞèÒªÌí¼ÓÒ»Ğ©ÅäÖÃ
+	# åå‘ä»£ç†WebSocket,éœ€è¦æ·»åŠ ä¸€äº›é…ç½®
 
 	 proxy_http_version 1.1;        
 	 proxy_set_header Upgrade $http_upgrade;
 	 proxy_set_header Connection "upgrade";
 
 ------------------------
-Nginx-ÓòÃûÖØ¶¨Ïò		|
+Nginx-åŸŸåé‡å®šå‘		|
 ------------------------
-	# °Ñ springboot.io ºÍ www.springboot.io ÖØ¶¨Ïòµ½ www.javaweb.io
+	# æŠŠ springboot.io å’Œ www.springboot.io é‡å®šå‘åˆ° www.javaweb.io
 		server{
 				listen 80;
 				server_name www.springboot.io springboot.io;
 				rewrite ^/(.*)$ http://www.javaweb.io/$1 permanent;  
 
-				# return 301 https://$host$request_uri; Ò²¿ÉÒÔÓÃÔÚÕâ¸ö
+				# return 301 https://$host$request_uri; ä¹Ÿå¯ä»¥ç”¨åœ¨è¿™ä¸ª
 		}
 
 ------------------------
@@ -130,7 +130,7 @@ Nginx-https				|
 		}
 	}
 
-	# httpÖØ¶¨Ïòµ½https
+	# httpé‡å®šå‘åˆ°https
 	server {
 		listen       80;
 		server_name  springboot.io www.springboot.io;
@@ -138,10 +138,10 @@ Nginx-https				|
 	}
 
 ------------------------
-Nginx-http2¿ªÆô			|
+Nginx-http2å¼€å¯			|
 ------------------------
-	# ĞèÒªÒÀÀµÄ£¿éÖ§³Ö,±ØĞë¿ªÆôhttps
-	# ºËĞÄµÄÅäÖÃ
+	# éœ€è¦ä¾èµ–æ¨¡å—æ”¯æŒ,å¿…é¡»å¼€å¯https
+	# æ ¸å¿ƒçš„é…ç½®
 		listen 443 ssl http2;;
 	
 		server{
@@ -158,7 +158,7 @@ Nginx-http2¿ªÆô			|
 				proxy_set_header X-Requested-For $remote_addr;
 				proxy_set_header REMOTE-HOST $remote_addr;
 				
-				# websocket ·Ç±ØĞë
+				# websocket éå¿…é¡»
 				proxy_http_version 1.1;
 				proxy_set_header Upgrade $http_upgrade;
 				proxy_set_header Connection "upgrade";
