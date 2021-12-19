@@ -25,12 +25,28 @@ type
 		}
 	
 	# type Map struct {}
+		
+		* 并发安全的Map
+		
 		func (m *Map) Delete(key interface{})
+			* 删除KEY
+
 		func (m *Map) Load(key interface{}) (value interface{}, ok bool)
+			* 检索KEY，ok 表示是否存在
+
 		func (m *Map) LoadAndDelete(key interface{}) (value interface{}, loaded bool)
+			* 删除KEY，并且返回删除后的VALUE，loaded 表示KEY是否存在
+			
 		func (m *Map) LoadOrStore(key, value interface{}) (actual interface{}, loaded bool)
+			* 如果key不存在，返回 value, false
+			* 如果key已经存在，替换，返回 oldValue, true
+
 		func (m *Map) Range(f func(key, value interface{}) bool)
+			* 遍历所有KEY/VAKUE
+			* 如果返回false，停止遍历
+			
 		func (m *Map) Store(key, value interface{})
+			* 存储KEY
 	
 	# type Mutex struct {}
 		func (m *Mutex) Lock()

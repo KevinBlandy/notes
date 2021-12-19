@@ -55,6 +55,9 @@ JDBC-API					  |
 				* 执行添加的批处理语句
 			void clearBatch()
 				* 清空批处理
+			void setFetchSize(int rows)
+				* 设置一次性 fetch 的数量，也就是 fetch 给 ResultSet 的结果
+				* 如果数据量太多，可能导致内存溢出
 
 		# 静态变量
 			int RETURN_GENERATED_KEYS = 1;

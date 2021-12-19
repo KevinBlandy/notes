@@ -3,7 +3,9 @@ JWT
 ------------------------
 	# Doc
 		https://github.com/dgrijalva/jwt-go
-	
+		
+	# import
+		"github.com/golang-jwt/jwt"
 
 ------------------------
 var

@@ -27,7 +27,6 @@ Service抽象
 
 	
 	// 抽象一个 AbstractService 基础实现类
-	
 	import java.util.List;
 	import java.util.Optional;
 	import java.util.function.Function;
@@ -42,16 +41,16 @@ Service抽象
 	import org.springframework.data.domain.Sort;
 	import org.springframework.data.jpa.domain.Specification;
 	import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
+	//import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 	import org.springframework.transaction.annotation.Transactional;
 
 	import com.querydsl.core.types.OrderSpecifier;
 	import com.querydsl.core.types.Predicate;
 	import com.querydsl.jpa.impl.JPAQueryFactory;
 
-	import io.springboot.paste.repository.BaseRepository;
+	import io.springboot.example.repository.BaseRepository;
 
-
-	public  class AbstractService<T, ID>  implements BaseService <T, ID>{
+	public class AbstractService<T, ID>  implements BaseService <T, ID>{
 		
 		@Autowired
 		protected BaseRepository<T,ID> baseRepository;
@@ -283,41 +282,58 @@ Service抽象
 		}
 
 		@Override
+		@Transactional(rollbackFor = Throwable.class)
 		public <S extends T> List<S> saveAllAndFlush(Iterable<S> entities) {
 			return this.baseRepository.saveAllAndFlush(entities);
 		}
 
 		@Override
+		@Transactional(rollbackFor = Throwable.class)
 		public void deleteAllInBatch(Iterable<T> entities) {
 			this.baseRepository.deleteAllInBatch(entities);
 		}
 
 		@Override
+		@Transactional( rollbackFor = Throwable.class)
 		public void deleteAllByIdInBatch(Iterable<ID> ids) {
 			this.baseRepository.deleteAllByIdInBatch(ids);
 		}
 
 		@Override
+		@Transactional(readOnly = true, rollbackFor = Throwable.class)
 		public T getById(ID id) {
 			return this.baseRepository.getById(id);
 		}
 
 		@Override
+		@Transactional(rollbackFor = Throwable.class)
 		public void deleteAllById(Iterable<? extends ID> ids) {
 			this.baseRepository.deleteAllById(ids);
 		}
 		
 		@Override
+		@Transactional(readOnly = true, rollbackFor = Throwable.class)
 		public <S extends T, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
 			return this.baseRepository.findBy(example, queryFunction);
 		}
 
 		@Override
+		@Transactional(readOnly = true, rollbackFor = Throwable.class)
 		public <S extends T, R> R findBy(Predicate predicate, Function<FetchableFluentQuery<S>, R> queryFunction) {
 			return this.baseRepository.findBy(predicate, queryFunction);
 		}
 		
-		// -----
+		// -----------------------
+		
+		protected JPAQueryFactory newQuery() {
+			return new JPAQueryFactory(this.entityManager);
+		}
+		
+		@SuppressWarnings({ "unchecked", "hiding" })
+		protected <T> T repository() {
+			return (T) this.baseRepository;
+		}
+		
 		
 		@Transactional(rollbackFor = Throwable.class)
 		public <R> R apply(Function<JPAQueryFactory, R> function) {
@@ -327,22 +343,5 @@ Service抽象
 		@Transactional(readOnly = true, rollbackFor = Throwable.class)
 		public <R> R applyReadOnly(Function<JPAQueryFactory, R> function) {
 			return function.apply(this.newQuery());
-		}
-		
-		/**
-		 * 创建新的JPAQueryFactory
-		 * @return
-		 */
-		protected JPAQueryFactory newQuery() {
-			return new JPAQueryFactory(this.entityManager);
-		}
-		
-		/**
-		 * 获取Repository，需要转换为实际的实现类
-		 * @return
-		 */
-		@SuppressWarnings({ "unchecked", "hiding" })
-		protected <T> T repository() {
-			return (T) this.baseRepository;
 		}
 	}

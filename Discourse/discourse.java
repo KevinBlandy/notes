@@ -148,6 +148,18 @@ DISCOURSE_SMTP_ENABLE_START_TLS: true
 			常见问题
 			服务条款
 			隐私
+
+---------------------
+zoho 邮箱的配置
+---------------------
+
+  DISCOURSE_SMTP_ADDRESS: smtp.zoho.com
+  DISCOURSE_SMTP_PORT: 587
+  DISCOURSE_SMTP_USER_NAME: no-reply@springcloud.io
+  DISCOURSE_SMTP_PASSWORD: "123456"
+  #DISCOURSE_SMTP_ENABLE_START_TLS: true           # (optional, default true)
+  DISCOURSE_SMTP_DOMAIN: springcloud.io
+  DISCOURSE_NOTIFICATION_EMAIL: "no-reply@springcloud.io"
 	
 
 ---------------------

@@ -332,6 +332,9 @@ type
 		func (r *Request) BasicAuth() (username, password string, ok bool)
 		func (r *Request) Clone(ctx context.Context) *Request
 		func (r *Request) Context() context.Context
+			* 返回当前Request上的Context
+			* 如果没有，则返回 context.Background()
+
 		func (r *Request) Cookie(name string) (*Cookie, error)
 		func (r *Request) Cookies() []*Cookie
 		func (r *Request) FormFile(key string) (multipart.File, *multipart.FileHeader, error)
@@ -350,7 +353,11 @@ type
 		func (r *Request) Referer() string
 		func (r *Request) SetBasicAuth(username, password string)
 		func (r *Request) UserAgent() string
+
 		func (r *Request) WithContext(ctx context.Context) *Request
+			* 给当前Request设置 Context
+			* clone 并且返回新的 Request
+
 		func (r *Request) Write(w io.Writer) error
 		func (r *Request) WriteProxy(w io.Writer) error
 	

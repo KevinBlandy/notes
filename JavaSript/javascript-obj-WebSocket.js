@@ -124,7 +124,7 @@ WebSocket-WebSocket
 ------------------------
 let websocket = new WebSocket("ws://localhost:8000/channel/demo");
 websocket.onclose = e => {
-   console.log(`连接关闭: code=${event.code}, reason=${event.reason}, wasClean=${event.wasClean}`)
+   console.log(`连接关闭: code=${e.code}, reason=${e.reason}, wasClean=${e.wasClean}`)
 }
 websocket.onmessage = e => {
     console.log(`收到消息:${e.data}`);

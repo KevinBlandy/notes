@@ -101,6 +101,7 @@ type
 		func (c *Conn) CloseHandler() func(code int, text string) error
 			
 		func (c *Conn) SetCompressionLevel(level int) error
+			* 设置压缩级别
 
 		func (c *Conn) SetPingHandler(h func(appData string) error)
 		func (c *Conn) SetPongHandler(h func(appData string) error)
@@ -108,10 +109,11 @@ type
 		
 		func (c *Conn) SetReadDeadline(t time.Time) error
 		func (c *Conn) SetReadLimit(limit int64)
-			* 设置最大读取消息大小，如果超过这个大小，会返回 ErrReadLimit
+			* 设置最大读取消息大小，如果超过这个大小，那么连接的读取方法会返回 ErrReadLimit
 			* 并且关闭客户端的连接
 
 		func (c *Conn) SetWriteDeadline(t time.Time) error
+
 		func (c *Conn) Subprotocol() string
 		func (c *Conn) UnderlyingConn() net.Conn
 
@@ -213,8 +215,10 @@ func
 	func FormatCloseMessage(closeCode int, text string) []byte
 
 	func IsCloseError(err error, codes ...int) bool
+		* err 是CloseError 异常，并且是指定的异常之一
+
 	func IsUnexpectedCloseError(err error, expectedCodes ...int) bool
-		* 是否是指定的异常
+		* err 是CloseError 异常，并且不是指定的任意异常之一
 
 	func IsWebSocketUpgrade(r *http.Request) bool
 		* 判断是否是websocket握手请求
