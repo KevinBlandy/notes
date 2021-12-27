@@ -9,6 +9,7 @@ Buffer				|
 				|-UnpooledDirectByteBuf
 		ByteBufHolder
 		ByteBufProcessor
+			* 过期，建议使用: ByteProcessor
 		ByteBufAllocator
 		Unpooled
 		ByteBufUtil

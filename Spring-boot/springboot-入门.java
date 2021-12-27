@@ -275,7 +275,29 @@ Spring-Boot 入门			|
 			* DataSource
 			* 持久层工厂
 			* 
-		
+	
+	# 解决Undertow启用时的告警日志, 添加一个配置类
+		import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
+		import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+		import org.springframework.context.annotation.Configuration;
+
+		import io.undertow.server.DefaultByteBufferPool;
+		import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
+
+
+		@Configuration
+		public class UndertowFactoryCustomizer implements WebServerFactoryCustomizer<UndertowServletWebServerFactory> {
+
+			@Override
+			public void customize(UndertowServletWebServerFactory factory) {
+				factory.addDeploymentInfoCustomizers(deploymentInfo -> {
+					WebSocketDeploymentInfo webSocketDeploymentInfo = new WebSocketDeploymentInfo();
+					webSocketDeploymentInfo.setBuffers(new DefaultByteBufferPool(true, 1024 * 128));
+					deploymentInfo.addServletContextAttribute("io.undertow.websockets.jsr.WebSocketDeploymentInfo", webSocketDeploymentInfo);
+				});
+			}
+		}
+				
 
 ----------------------------
 Spring-Boot 模块			|
