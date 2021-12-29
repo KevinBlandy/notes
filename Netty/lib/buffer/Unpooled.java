@@ -44,12 +44,12 @@ static
 	public static ByteBuf copiedBuffer(ByteBuf... buffers)
 	public static ByteBuf copiedBuffer(ByteBuffer... buffers)
 	public static ByteBuf copiedBuffer(CharSequence string, Charset charset)
-		* 把指定的string编码为ByteBuff
-		* 会开辟字符串大小3倍长度的一个bufer
-	
 	public static ByteBuf copiedBuffer(CharSequence string, int offset, int length, Charset charset)
 	public static ByteBuf copiedBuffer(char[] array, Charset charset)
 	public static ByteBuf copiedBuffer(char[] array, int offset, int length, Charset charset)
+		* 创建一个新的缓冲区，其内容是指定缓冲区的可读字节的副本。
+		* 新缓冲区的readerIndex和writerIndex分别是 0 和 buffer.readableBytes。
+
 	@Deprecated
     public static ByteBuf unmodifiableBuffer(ByteBuf buffer)
 	public static ByteBuf copyInt(int value) 

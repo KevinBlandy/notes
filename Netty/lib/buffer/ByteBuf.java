@@ -175,9 +175,17 @@ this
 	public abstract int forEachByteDesc(int index, int length, ByteProcessor processor);
 	public abstract ByteBuf copy();
 	public abstract ByteBuf copy(int index, int length);
-	public abstract ByteBuf slice();
-	public abstract ByteBuf retainedSlice();
+
 	public abstract ByteBuf slice(int index, int length);
+	public abstract ByteBuf slice();
+		* 返回这个缓冲区的可读字节的一个片断。
+		* 可以指定读取范围，不指定的话，则是取所有可读字节:
+				buf.slice(buf.readerIndex(), buf.readableBytes())
+		* 返回Buf和原buf共享共一个字节数组，但是有各自的read/write标识
+		* 这个方法不会调用retain()，所以不会增加引用数。
+	
+	public abstract ByteBuf retainedSlice();
+	
 	public abstract ByteBuf retainedSlice(int index, int length);
 	public abstract ByteBuf duplicate();
 	public abstract ByteBuf retainedDuplicate();
