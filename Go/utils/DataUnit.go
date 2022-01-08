@@ -1,8 +1,6 @@
-
 package dataunit
 
-
-// Copy了spring框架的 org.springframework.util.unit.DataSize 实现
+// 数据大小
 
 import (
 	"errors"
@@ -23,18 +21,19 @@ const (
 // DataUnit 数据单位
 type DataUnit struct {
 	suffix string
-	size *DataSize
+	size   *DataSize
 }
+
 var (
-	BYTES = &DataUnit{suffix: "B", size:   OfBytes(1)}
-	KILOBYTES = &DataUnit{suffix: "KB", size:   OfKilobytes(1)}
-	MEGABYTES = &DataUnit{suffix: "MB", size:   OfMegabytes(1)}
-	GIGABYTES = &DataUnit{suffix: "GB", size:   OfGigabytes(1)}
-	TERABYTES = &DataUnit{suffix: "TB", size:   OfTerabytes(1)}
+	BYTES     = &DataUnit{suffix: "B", size: OfBytes(1)}
+	KILOBYTES = &DataUnit{suffix: "KB", size: OfKilobytes(1)}
+	MEGABYTES = &DataUnit{suffix: "MB", size: OfMegabytes(1)}
+	GIGABYTES = &DataUnit{suffix: "GB", size: OfGigabytes(1)}
+	TERABYTES = &DataUnit{suffix: "TB", size: OfTerabytes(1)}
 )
 
 // FromSuffix 根据Suffix获取到 DataUnit
-func FromSuffix (suffix string) *DataUnit {
+func FromSuffix(suffix string) *DataUnit {
 	switch suffix {
 	case BYTES.suffix:
 		return BYTES
@@ -55,22 +54,37 @@ type DataSize struct {
 	bytes int64
 }
 
-func (d DataSize) String () string {
-	return fmt.Sprintf("%dB", d.bytes)
+func (d DataSize) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf("%d", d.bytes)), nil
+}
+
+func (d *DataSize) UnmarshalJSON(data []byte) error {
+	ret, err := strconv.ParseInt(string(data), 10, 64)
+	if err == nil {
+		d.bytes = ret
+	}
+	return err
+}
+
+func (d DataSize) String() string {
+	return fmt.Sprintf("%d", d.bytes)
 }
 
 // IsNegative 是否是负值
 func (d DataSize) IsNegative() bool {
 	return d.bytes < 0
 }
+
 // ToByte 转换为字节
 func (d DataSize) ToByte() int64 {
 	return d.bytes
 }
+
 // ToKilobytes 转换为Kb
 func (d DataSize) ToKilobytes() int64 {
 	return d.bytes / BytesPerKb
 }
+
 // ToMegabytes 转换为Mb
 func (d DataSize) ToMegabytes() int64 {
 	return d.bytes / BytesPerMb
@@ -80,6 +94,7 @@ func (d DataSize) ToMegabytes() int64 {
 func (d DataSize) ToGigabytes() int64 {
 	return d.bytes / BytesPerGb
 }
+
 // ToTerabytes 转换为TB
 func (d DataSize) ToTerabytes() int64 {
 	return d.bytes / BytesPerTb
@@ -111,15 +126,15 @@ func OfTerabytes(terabytes int64) *DataSize {
 }
 
 // Of 解析
-func Of (amount int64, unit *DataUnit) *DataSize {
+func Of(amount int64, unit *DataUnit) *DataSize {
 	return &DataSize{bytes: amount * unit.size.ToByte()}
 }
 
 // Parse 解析字符串为数据单位
-func Parse (text string) (*DataSize, error) {
+func Parse(text string) (*DataSize, error) {
 	pattern := regexp.MustCompile(pattern)
 	if !pattern.MatchString(text) {
-		return nil, errors.New("Does not match data size pattern")
+		return nil, errors.New("does not match data size pattern")
 	}
 	result := pattern.FindAllStringSubmatch(text, -1)
 	size, err := strconv.ParseInt(result[0][1], 10, 64)
@@ -129,7 +144,7 @@ func Parse (text string) (*DataSize, error) {
 	var suffix = result[0][2]
 	unit := FromSuffix(suffix)
 	if unit == nil {
-		return nil, fmt.Errorf("Unknown data unit suffix '%s'", suffix)
+		return nil, fmt.Errorf("unknown data unit suffix '%s'", suffix)
 	}
 	return Of(size, unit), nil
 }

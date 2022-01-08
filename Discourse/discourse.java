@@ -241,10 +241,10 @@ zoho 邮箱的配置
 ---------------------
 一些链接
 ---------------------
-/sidekiq
-	
+# 消息队列
+	/sidekiq
 
 # rss订阅链接（可以提交给搜索引擎）
-/posts.rss
-/latest.rss
-/c/[分类uri].rss
+	/posts.rss
+	/latest.rss
+	/c/[分类uri].rss
