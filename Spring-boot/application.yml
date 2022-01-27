@@ -57,9 +57,11 @@ spring:
     converters:
       preferred-json-mapper: gson
 
-  resources:
-    static-locations:
-      - classpath:/static/
+  web:
+    resources:
+      static-locations:
+        - "classpath:/public/"
+        - "file:${user.home}/public/"
 
   freemarker:
     enabled: true

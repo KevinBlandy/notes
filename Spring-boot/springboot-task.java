@@ -40,7 +40,6 @@ task					|
 		spring.task.execution.pool.keep-alive = 10s
 			* 线程空闲多久就会被回收
 
-
 		spring.task.execution.pool.allow-core-thread-timeout	true	
 			* 是否允许核心线程超时。这样可以实现池的动态增长和收缩。
 		spring.task.execution.pool.core-size	8.0	
@@ -65,6 +64,12 @@ task					|
 			* 执行者应等待剩余任务完成的最长时间。
 		spring.task.scheduling.thread-name-prefix	scheduling-	
 			* 用于新创建的线程名称的前缀。
+	
+	# 注意
+		* 默认任务的执行是单线程，如果一个任务阻塞了，其他任务都不会执行
+		* 可以通过配置: spring.task.scheduling.pool.size 设置为多线程模式
+
+		* 多线程模式下，就算任务执行时间，超出了“调度时间”。也不会重复执行。而是会等待上一次任务完成后，立即执行
 
 ---------------------
 通过代码自定义配置	 |

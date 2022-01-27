@@ -37,6 +37,10 @@ compress	|
 	# 属性
 		single_line 
 			* bool值,如果该值为 true,则会连换行都一起移除
+	
+		<#compress>
+		  ...
+		</#compress>
 
 ------------
 escape		|

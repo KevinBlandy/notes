@@ -31,8 +31,6 @@ Spring-Boot »Î√≈			|
 				</project.reporting.outputEncoding>
 				<encoding>UTF-8</encoding>
 				<java.version>17</java.version>
-				<maven.compiler.source>17</maven.compiler.source>
-				<maven.compiler.target>17</maven.compiler.target>
 				
 				<skipTests>true</skipTests>
 				

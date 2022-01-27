@@ -35,6 +35,8 @@ type
 				* 错误输出，如果这两个（Stdout和Stderr）为空的话，则command运行时将响应的文件描述符连接到os.DevNull  
 
 			ExtraFiles []*os.File
+				* 指定由新进程继承的其他 open files
+				* windows 上不支持
 				
 			SysProcAttr *syscall.SysProcAttr
 				* 系统进程信息
