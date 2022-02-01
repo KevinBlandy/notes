@@ -8,3 +8,10 @@ GitHub	-	打造个人站点|
 	Continue to Layouts 选择主题
 	Publish
 		OK
+
+
+-------------------------
+使用accessToken拉/推代码
+-------------------------
+	# 修改一下URL就行
+		git clone https://oauth2:<accessToken>@github.com/..git

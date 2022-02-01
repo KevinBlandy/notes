@@ -9,7 +9,7 @@ Files-静态方法				|
 ----------------------------
 	//=======================文件信息
 	String			probeContentType(Path path)
-						* 获取文件类型
+						* 获取文件类型(ContentType)
 	boolean			isHidden(Path path);
 						* 判断指定的path是否是隐藏文件/目录
 	boolean			exists(Path path, LinkOption... options);
@@ -83,7 +83,9 @@ Files-静态方法				|
 	
 	String readString(Path path) throws IOException
 	String readString(Path path, Charset cs) throws IOException
-		* 读取为字符串
+					* 读取为字符串
+	Stream<Path> list(Path dir) throws IOException 
+					* 获取文件列表
 	
 	//=======================写入
 	Path			write(Path path,byte[] bute,OpenOption penOption...);
