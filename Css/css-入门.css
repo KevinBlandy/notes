@@ -275,4 +275,7 @@ css 自定义变量
 		console.log(String(mainColor).trim());   // 确保mainColor是一个字符串，并去掉前后空格；打印结果为“#fff”
 	
 
+-------------------
+css 
+-------------------
 
