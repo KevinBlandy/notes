@@ -15,8 +15,6 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import org.springframework.util.StringUtils;
-
 /**
  * 
  * 文件工具类
@@ -25,12 +23,6 @@ import org.springframework.util.StringUtils;
  *
  */
 public class ZipUtils {
-
-	// Zip文件分隔符
-	private static final String FOLDER_SEPARATOR = "/";
-
-	// windows 路径分隔符
-	private static final String WINDOWS_FOLDER_SEPARATOR = "\\";
 
 	/**
 	 * 压缩指定的文件，可以包含目录
@@ -90,8 +82,10 @@ public class ZipUtils {
 				try (InputStream inputStream = Files.newInputStream(file)) {
 
 					// 创建一个压缩项，指定名称
-					String fileName = StringUtils.replace(folderName + folder.relativize(file).toString(),
-							WINDOWS_FOLDER_SEPARATOR, FOLDER_SEPARATOR);
+//					String fileName = StringUtils.replace(folderName + folder.relativize(file).toString(),
+//							WINDOWS_FOLDER_SEPARATOR, FOLDER_SEPARATOR);
+
+					String fileName = folderName + folder.relativize(file).toString();
 
 					// 添加到压缩流
 					zipOutputStream.putNextEntry(new ZipEntry(fileName));
@@ -183,8 +177,7 @@ public class ZipUtils {
 
 					// 写入目录
 					try {
-						zipOutputStream.putNextEntry(new ZipEntry(StringUtils.replace(folder.relativize(dir).toString(),
-								WINDOWS_FOLDER_SEPARATOR, FOLDER_SEPARATOR) + "/"));
+						zipOutputStream.putNextEntry(new ZipEntry(folder.relativize(dir).toString() + "/"));
 						zipOutputStream.flush();
 					} catch (IOException e) {
 						throw new RuntimeException(e);
@@ -198,8 +191,7 @@ public class ZipUtils {
 					try (InputStream inputStream = Files.newInputStream(file)) {
 
 						// 创建一个压缩项，指定名称
-						String fileName = StringUtils.replace(folder.relativize(file).toString(),
-								WINDOWS_FOLDER_SEPARATOR, FOLDER_SEPARATOR);
+						String fileName = folder.relativize(file).toString();
 
 						// 添加到压缩流
 						zipOutputStream.putNextEntry(new ZipEntry(fileName));

@@ -1,0 +1,213 @@
+--------------
+Flex
+--------------
+	# 参考
+		https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flexible_Box_Layout
+		https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex
+		https://developer.mozilla.org/zh-CN/docs/Glossary/Flexbox
+		https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
+	
+	# 任何一个容器都可以指定为 Flex 布局
+		.box{
+		  display: flex;
+		}
+
+		.box{
+		  display: inline-flex;  /* 行内元素 */
+		}
+
+	# Webkit 内核的浏览器,必须加上-webkit前缀
+		.box{
+		  display: -webkit-flex; /* Safari */
+		  display: flex;
+		}
+
+	# 设为 Flex 布局以后,子元素的float,clear和vertical-align属性将失效
+
+----------------------------
+基本的概念
+----------------------------
+	# 采用 Flex 布局的元素,称为 Flex 容器(flex container)
+	# 它的所有直接子元素自动成为容器成员, 称为 Flex 项目(flex item)
+
+	# 容器
+		* 容器会填满可用空间
+	
+	# 项目
+		* 默认是在同一行按照从左到右的顺序排列, 并且高度相等(高度是由内容决定)
+		* 容器会填满可用空间, 但是项目不会
+	
+	# 容器存在2根轴
+		main axis
+			|-main start(x轴头)
+			|-main end(x轴尾)
+			|-main size(项目元素宽度)
+
+		cross axis
+			|-cross start(y轴头)
+			|-cross end(y轴尾)
+			|-cross size(项目元素高度)
+	
+
+----------------------------
+容器的属性
+----------------------------
+	# flex-direction
+		* 性决定主轴的排列行为(即项目的排列方向)
+		* 主轴方向改变了, 副轴方向也会随之改变(因为副轴要与主轴垂直)
+
+		row(默认值)
+			* 主轴为水平方向,起点在左端 (从左到右)
+
+		row-reverse
+			* 主轴为水平方向,起点在右端 (从右到左)
+
+		column
+			* 主轴为垂直方向,起点在上沿 (从上而下)
+		
+		column-reverse
+			* 主轴为垂直方向,起点在下沿 (从下而上)
+
+	# flex-wrap
+		* 默认情况下,项目都排在一条线上.
+		* 该属性决定了换行行为, 如果一条轴线排不下, 如何换行
+		* 启用换行后, 项目不再根据flex-shrink值收缩, 任何超过弹性容器的子元素都会换行显示。
+
+		nowrap(默认)
+			* 不换行
+		
+		wrap
+			* 换行, 新的一行在下面(从上往下)
+
+		wrap-reverse
+			* 换行,第一行在上面(从下往上)
+		
+		* 如果容器的flex-direction方向是column或column-reverse, 那么只有在限制了容器高度的情况下, flex-wrap会允许项目换到新的一列显示
+		* 没有限制容器高度, 则容器会自动扩展高度以包含全部的项目
+
+
+	# flex-flow
+		* flex-direction 属性和 flex-wrap 属性的简写形式,默认值为:row nowrap
+			.box {
+			  flex-flow: <flex-direction> || <flex-wrap>;
+			}
+
+	# justify-content
+		* 当项目未填满容器时, 在主轴上的对齐方式
+		* 它可能取5个值,具体对齐方式与轴的方向有关(假设主轴为从左到右)
+
+		flex-start(默认值)
+			* 主轴起点对齐
+		
+		flex-end
+			* 主轴终点对齐
+		
+		center
+			* 主轴居中
+		
+		space-between
+			* 主轴两端对齐
+		
+		space-around
+			* 每个项目两侧的间隔相等
+			* 所以,项目之间的间隔比项目与边框的间隔大一倍(左右边距 = 项目之间的边距)
+
+	# align-content
+		* 多根轴线的对齐方式(轴与轴之间)
+		* 如果开启了flex-wrap,  align-content就会控制项目在副轴上的间距。如果项目没有换行，就会忽略align-cont(如果项目只有一根轴线,该属性不起作用)
+
+		flex-start
+			* 与副轴的起点对齐
+		
+		flex-end
+			*  与副轴的终点对齐
+		
+		center
+			* 与副轴的中点对齐
+		
+		space-between
+			* 与副轴两端对齐,轴线之间的间隔平均分布
+			* 上下居中,两端对齐,中间间隔自动
+
+		space-around
+			* 每根轴线两侧的间隔都相等
+			* 所以,轴线之间的间隔比轴线与边框的间隔大一倍
+
+		stretch(默认值)
+			* 轴线占满整个副轴
+		
+	
+	# align-items
+		* 项目在副轴上如何对齐
+		
+		flex-start
+			* 副轴的起点对齐
+		
+		flex-end
+			* 副轴的终点对齐
+		
+		center
+			* 副轴的中点对齐
+		
+		baseline
+			* 项目的第一行文字的基线对齐。
+		
+		stretch(默认值)
+			* 如果项目未设置高度或设为auto,将占满整个容器的高度	
+	
+
+			
+		
+
+----------------------------
+项目属性
+----------------------------
+	# order
+		* 定义项目的排列顺序,数值越小,排列越靠前,默认为0
+
+	# flex-grow
+		* 定义项目的放大比例, 非负数, 整数.
+		* 每个item的flex-basis计算出来后(加上子元素之间的外边距), 占据的空间可能不会占满容器宽度
+		* 默认为0, 即如果存在剩余空间,也不放大
+		* 如果所有项目的flex-grow属性都为1,则它们将等分剩余空间(如果有的话)
+		* 如果一个项目的flex-grow属性为2,其他项目都为1,则前者占据的剩余空间将比其他项多一倍
+
+	# flex-shrink
+		* 项目的缩小比例,默认为1,即如果空间不足,该项目将缩小, 值越大, 收缩越大
+		* 每个item的flex-basis计算出来后(加上子元素之间的外边距), 占据的空间可能会超出容器宽度
+		* 如果所有项目的flex-shrink属性都为1,当空间不足时,都将等比例缩小
+		* 如果一个项目的flex-shrink属性为0,其他项目都为1,则空间不足时,前者不缩小
+		* 负值对该属性无效
+
+	# flex-basis
+		* 定义了在分配多余空间之前,项目占据的主轴空间(main size)
+		* 浏览器根据这个属性,计算主轴是否有多余空间,它的默认值为auto,即项目的本来大小
+		* 它可以设为跟width或height属性一样的值(px,em,rem,百分比),则项目将占据固定空间
+
+	# flex
+		*  flex-grow, flex-shrink 和 flex-basis的简写,默认值为0 1 auto
+		* 后两个属性可选
+			.item {
+			  flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]
+			}
+		
+		* 该属性有两个快捷值:
+			auto (1 1 auto) 
+			none (0 0 auto)
+			initial(0 1 auto)
+
+		* 建议优先使用这个属性,而不是单独写三个分离的属性, 因为浏览器会推算出其他相关值(你自己写的值, 可能是计算错误的)
+
+		* 水平弹性盒子的大部分概念同样适用于垂直的弹性盒子（column或column-reverse）,
+		* 但是有一点不同在CSS中处理高度的方式与处理宽度的方式在本质上不一样。
+		* 容器会占据100%的可用宽度，而高度则由自身的内容来决定。即使改变主轴方向, 也不会影响这一本质
+		* 在垂直的主轴容器中里, 子元素的flex-grow和flex-shrink不会起作用, 除非有"外力"强行改变容器的高度(就是容器高度可以计算)
+
+
+	# align-self
+		* align-self属性允许单个项目有与其他项目不一样的对齐方式,可覆盖 align-items 属性
+		* 默认值为 auto,表示继承容器的 align-items 属性,如果没有父元素,则等同于:stretch
+		* 该属性可能取6个值,除了auto,其他都与 align-items 属性完全一致
+
+	
+		
