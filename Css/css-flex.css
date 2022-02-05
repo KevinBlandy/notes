@@ -114,7 +114,7 @@ Flex
 
 	# align-content
 		* 多根轴线的对齐方式(轴与轴之间)
-		* 如果开启了flex-wrap,  align-content就会控制项目在副轴上的间距。如果项目没有换行，就会忽略align-cont(如果项目只有一根轴线,该属性不起作用)
+		* 如果开启了flex-wrap,  align-content就会控制项目在副轴上的间距。如果项目没有换行，就会忽略align-content(如果项目只有一根轴线,该属性不起作用)
 
 		flex-start
 			* 与副轴的起点对齐
