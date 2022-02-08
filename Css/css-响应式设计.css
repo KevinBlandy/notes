@@ -1,4 +1,11 @@
 --------------------
 响应式设计
 --------------------
+	# 三大原则:
+		* 移动优先
+		* 媒体查询
+		* 流式布局
+	
+	# meta
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 	
