@@ -27,7 +27,8 @@ css 层叠
 			3. ID, class一样多, 标签名称越多, 权重越高
 			4. 都一样多, 越后面的, 权重越高, 覆盖前面的
 			
-			* 伪类/属性选择器和class选择器相同
+			* 伪类(:hover)和属性([type="input"])选择器和class选择器相同
+			* 通用选择器(*) 和组合选择器(>, +, ~) 对优先级没有影响
 		
 		# 优先级的一种标记算法
 			* 数值标记法
@@ -153,8 +154,8 @@ css 相对单位
 		* 想把已知的 fount-size 换算为另一个 em
 			em = fount-zie / em  // 元素继承的字体是12px, 如果想要一个16px的字体, 父级字号为12px, 则计算结果是16/12 = 1.3333em
 			
-		* 浏览器必须先计算字号, 然后使用这个计算值去算出其余的属性值
-		* 这两类属性可以拥有一样的声明值, 但是计算值不一样
+		* 浏览器必须先计算字号(font-size)值, 然后使用这个计算值去算出其余的属性值
+		* 这两类属性(font-size 和 其他属性)可以拥有一样的声明值, 但是计算值不一样
 			body {
 			  font-size: 16px;
 			}
@@ -200,6 +201,7 @@ css 相对单位
 
 		* 可以作为字号单位
 			font-size: 2vw // 在一个1200px的桌面显示器上，计算值为24px（1200的2%）。在一个768px宽的平板上，计算值约为15px（768的2%）
+		* 这样做的好处在于元素能够在这两种大小之间平滑地过渡, 这意味着不会在某个断点突然改变, 当视口大小改变时, 元素会逐渐过渡.
 		
 
 		* 使用calc()定义字号, 该函数可以对字号进行+-*/运算(操作符后面要记得添加空格)
@@ -229,19 +231,19 @@ css 无单位数值
 
 			// 无单位
 			body {
-			  line-height: 1.2;   // 后代元素继承了无单位的值
+			  line-height: 1.2;   // 后代元素继承了无单位的值，写多少就是多少。
 			}                        
 			.about-us {
-			  font-size: 2em;  // 2 * 16 * 1.2 = 38.4
+			  font-size: 2em;  // ine-height = 38.4 (2 * 16 * 1.2 = 38.4)
 			}
 			
 			// 有单位
 			body {    
-			  line-height: 1.2em;    // 后代元素继承了表达式计算后的值19.2px(1.2 * 16 = 19.2px), 而不是表达式值
+			  line-height: 1.2em;    // 后代元素的ine-height继承了这个表达式计算后的值19.2px(1.2 * 16 = 19.2px), 而不是直接继承表达式
 			}                          
 
 			.about-us {
-			  font-size: 2em;  // 计算值为32px(2 * 16)
+			  font-size: 2em;  // 计算值为32px(2 * 16), 但是 line-height 却是 19.2px;
 			}
 		
 		* 使用无单位的数值时, 继承的是声明值, 即在每个继承子元素上会重新算它的计算值。这样得到的结果几乎总是我们想要的。
@@ -273,14 +275,17 @@ css 自定义变量
 	
 	# 动态改变自定义属性
 		* 使用自定义变量的属性可以被层叠, 继承
-		* 子元素继承了'使用自定义变量'的属性, 那么子元素可以修改自定义变量的值, 来达到修改继承值的效果
+		* 子元素继承了'使用自定义变量'的属性, 那么子元素可以修改自定义变量的值, 来达到修改(复写)继承值的效果
+		* 完成复写后, 复写元素的元素的子元素, 也会使用复写后的值
 	
 	# 使用JS修改自定义变量属性
 		var rootElement = document.documentElement;
 		var styles = getComputedStyle(rootElement);   // 获取一个元素的styles对象
 		var mainColor = styles.getPropertyValue('--main-bg');  //  获取styles对象的--main-bg值
-		console.log(String(mainColor).trim());   // 确保mainColor是一个字符串，并去掉前后空格；打印结果为“#fff”
+		console.log(String(mainColor).trim());   // 确保mainColor是一个字符串，并去掉前后空格；打印结果为"#fff"
 	
+		var rootElement = document.documentElement;
+		rootElement.style.setProperty('--main-bg', '#cdf');  // 将根元素上的--main-bg设置为浅蓝色
 
 -------------------
 css 

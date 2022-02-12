@@ -39,6 +39,7 @@ http
 		415  Unsupported Media Type(媒体类型不支持)
 		416  Requested Range Not Satisfiable(请求范围不合要求)
 		417  Expectation Failed(预期结果失败)
+		451  因法律原因不可用（英语：HTTP 451 Unavailable For Legal Reasons）是一种HTTP协议的错误状态代码，当用户请求访问某个经政府审核等查核方法后认定不合法的来源时，就会显示这个错误代码。
 	服务器端错误
 		500  Internal Server Error(内部服务器错误)
 		501  Implemented(未实现)

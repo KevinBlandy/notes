@@ -14,6 +14,8 @@ FFmpeg
 		http://qt.digitser.net/ffmpeg/4.2.2/zh-CN/index.html
 
 		https://www.bookstack.cn/read/other-doc-cn-ffmpeg/README.md
+
+		https://github.com/0voice/ffmpeg_develop_doc
 	
 	# “Ù ”∆µ»Î√≈
 		https://www.bilibili.com/video/av54248249/
