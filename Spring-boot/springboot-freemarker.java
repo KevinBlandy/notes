@@ -66,10 +66,15 @@ spring:
 	# 暴露官方的宏
     expose-spring-macro-helpers: true
     check-template-location: true
+	# 优先加载文件系统的模板
+	prefer-file-system-access: true
     template-loader-path:
+	  - file:${user.dir}/templates/
       - classpath:/templates/
     settings:
       datetime_format: yyyy-MM-dd HH:mm:ss
+	  template_update_delay: 30m # 模板引擎刷新时间
+      default_encoding: utf-8 # 默认编码
 	
 	# Demo
 		* 模板文件
@@ -117,7 +122,10 @@ spring:
 		
 		@PostConstruct
 		public void configuration() throws TemplateModelException {
-			//自定义配置信息
+			// 添加全局变量
 			this.configuration.setSharedVariable("ctx", this.servletContext.getContextPath());
+
+			// 清除模板缓存
+			this.configuration.clearTemplateCache();
 		}
 	}

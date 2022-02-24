@@ -63,3 +63,18 @@ FFmpeg - 音视频处理流程
 	3. 解码后数据帧 
 	4. 编码数据包 (encoder)
 	5. 输出文件 (muxer)
+
+
+---------------------------
+FFmpeg - 常用
+---------------------------
+	# 多个视频文件合并
+		ffmpeg -f concat -i filelist.txt -c copy file.mp4
+
+		filelist.txt 文件内容
+			file '1.mp4'
+			file '.mp4'
+	
+	# 字幕合并
+		ffmpeg -i my.mkv -vf subtitles=my.ass my2.mkv
+		

@@ -14,8 +14,49 @@
 
 
 
+-------------------
+清理浮动
+-------------------
+	# clear 属性可以清除当前元素旁边的浮动元素
+		* 可选值
+			left	左边
+			right	右边
+			both	两边
+
+		* 但是clear属性只能对块级元素生效
+		
+	# ::after  
+		.clearfix::after {   /** 选中容器末尾的伪元素**/
+		  display: block;     /** 将伪元素的display设置为非inline，并给定一个content值，以便让伪元素出现在文档中**/
+		  content: " ";        
+		  clear: both;  /**让伪元素清除容器中的所有浮动**/
+		}
+	
+	# 浮动元素的外边距不会折叠到清除浮动容器的外部，非浮动元素的外边距则会正常折叠。
+		
+		
 
 -------------------
 bfc
 -------------------
+	# 块级格式化上下文 BFC(Block Formatting Context)
+		* BFC是网页的一块区域，元素基于这块区域布局。
+		* 虽然BFC本身是环绕文档流的一部分，但它将内部的内容与外部的上下文隔离开。
+		* 这种隔离为创建BFC的元素做出了以下3件事情。
+
+		1. 包含了内部所有元素的上下外边距。它们不会跟BFC外面的元素产生外边距折叠。
+		2. 包含了内部所有的浮动元素。
+		3. 不会跟BFC外面的浮动元素重叠。
+
+	# BFC里的内容不会跟外部的元素重叠或者相互影响。
+		* 如果给元素增加clear属性，它只会清除自身所在BFC内的浮动。
+		* 如果强制给一个元素生成一个新的BFC，它不会跟其他BFC重叠。
 	
+	# 给元素添加以下的任意属性值都会创建BFC。
+		* float： left或right，不为none即可。
+		* overflow：hidden、auto或scroll，不为visible即可。
+		* display：inline-block、table-cell、table-caption、flex、inline-flex、grid或inline-grid。拥有这些属性的元素称为块级容器（block container）。
+		* position：absolute或position: fixed。
+	
+	# 网页的根元素也创建了一个顶级的BFC。
+		

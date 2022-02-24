@@ -59,7 +59,7 @@ type
 	# type JSStr string
 	# type Srcset string
 	# type Template struct {
-			Tree *parse.Tree
+			Tree *parse.Tree  // Ä£°åÊ÷
 		}
 
 		func Must(t *Template, err error) *Template
