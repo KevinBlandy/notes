@@ -59,6 +59,12 @@ StampedLock					 |
 			* 获取一个写锁
 		
 		public long writeLockInterruptibly() throws InterruptedException
+	
+	# 静态方法
+		public static boolean isWriteLockStamp(long stamp) 
+		public static boolean isReadLockStamp(long stamp)
+		public static boolean isLockStamp(long stamp)
+		public static boolean isOptimisticReadStamp(long stamp)
 
 	
 	# 读加锁

@@ -128,6 +128,45 @@ gather							|
 		* 关于SocketChannel的问题在transferTo()方法中同样存在。
 		* 'SocketChannel会一直传输数据直到目标buffer被填满'。
 
+	# 零拷贝一次性只能传输2147483647字节数据，也就是2GB - 1KB
+		@GetMapping("/download")
+		public void download(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+			// 下载的文件3.67 GB
+			Path file = Paths.get("E:\\电影\\NothingtoLose\\NothingtoLose.mkv"); //
+
+			String contentType = Files.probeContentType(file);
+			if (contentType == null) {
+				contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+			}
+
+			try (FileChannel fileChannel = FileChannel.open(file)) {
+				
+				long size = fileChannel.size();
+				
+				log.info("文件大小: {}", size);
+
+				response.setContentType(contentType);
+				response.setHeader(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment()
+						.filename(file.getFileName().toString(), StandardCharsets.UTF_8).build().toString());
+				response.setContentLengthLong(size);
+
+				/**
+				 * transferTo 一次性最多只能处理2147483647字节数据。
+				 * 所以需要多次调用
+				 */
+				
+				long position = 0; 
+				
+				while (size > position) {
+					long count = fileChannel.transferTo(position, size - position, Channels.newChannel(response.getOutputStream()));
+					if (count > 0) {
+						position += count;
+					}
+				}
+			}
+		}
+
 -------------------------------
 FileChannel-内存文件映射		|
 -------------------------------
