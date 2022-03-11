@@ -1,5 +1,3 @@
-package org.sobyte.utils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,7 +23,7 @@ import java.util.zip.ZipOutputStream;
 public class ZipUtils {
 
 	/**
-	 * 压缩指定的文件，可以包含目录
+	 * 压缩指定的文件，可以包含目录。输出到本地磁盘。
 	 * 
 	 * @param files
 	 * @param zipFile
@@ -33,8 +31,20 @@ public class ZipUtils {
 	 * @throws IOException
 	 */
 	public static Path zip(Set<Path> files, Path zipFile) throws IOException {
-		try (ZipOutputStream zipOutputStream = new ZipOutputStream(
-				Files.newOutputStream(zipFile, StandardOpenOption.CREATE_NEW))) {
+		try (OutputStream zipOutputStream = Files.newOutputStream(zipFile, StandardOpenOption.CREATE_NEW)) {
+			zip(files, zipOutputStream);
+		}
+		return zipFile;
+	}
+	
+	/**
+	 * 压缩指定的文件，可以包含目录。输出到本地磁盘。输出到out流。
+	 * @param files
+	 * @param out
+	 * @throws IOException
+	 */
+	public static void zip(Set<Path> files, OutputStream out) throws IOException {
+		try (ZipOutputStream zipOutputStream = new ZipOutputStream(out)) {
 			for (Path file : files) {
 				if (Files.isDirectory(file)) {
 					writeFolder(file, zipOutputStream);
@@ -44,7 +54,6 @@ public class ZipUtils {
 			}
 			zipOutputStream.closeEntry();
 		}
-		return zipFile;
 	}
 
 	// 写入文件
@@ -139,7 +148,7 @@ public class ZipUtils {
 						// 读取zip项数据流
 						try (InputStream zipEntryInputStream = zipFile.getInputStream(zipEntry)) {
 							try (OutputStream fileOutputStream = Files.newOutputStream(entryFile,
-									StandardOpenOption.CREATE_NEW)) {
+									StandardOpenOption.CREATE_NEW, StandardOpenOption.TRUNCATE_EXISTING)) {
 								zipEntryInputStream.transferTo(fileOutputStream);
 								fileOutputStream.flush();
 							}

@@ -24,8 +24,9 @@ StampedLock					 |
 		public int getReadLockCount()
 		public Lock asReadLock() 
 		public boolean isReadLocked() 
+
 		public long readLock()
-			* 获取读悲观锁, 和写锁互斥
+			* 获取读排他锁
 
 		public long readLockInterruptibly() throws InterruptedException
 		public long tryConvertToReadLock(long stamp)
@@ -40,8 +41,9 @@ StampedLock					 |
 		public boolean isWriteLocked() 
 		
 		public long tryConvertToOptimisticRead(long stamp)
-		
 		public long tryConvertToWriteLock(long stamp)
+			
+
 		public long tryOptimisticRead()
 			* 获取一个乐观读锁, 返回的类似于一个版本号
 		
@@ -56,7 +58,7 @@ StampedLock					 |
 			* 判断指定的乐观锁版本号是否过期
 
 		public long writeLock()
-			* 获取一个写锁
+			* 获取一个写排他锁
 		
 		public long writeLockInterruptibly() throws InterruptedException
 	

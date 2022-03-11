@@ -63,6 +63,10 @@ Spring-Boot »Î√≈			|
 							<groupId>org.springframework.boot</groupId>
 							<artifactId>spring-boot-starter-tomcat</artifactId>
 						</exclusion>
+						<exclusion>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-starter-logging</artifactId>
+						</exclusion>
 					</exclusions>
 				</dependency>
 				<dependency>

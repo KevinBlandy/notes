@@ -20,7 +20,7 @@ var
 type
 ----------------------
 	# type DirEntry interface {
-			Name() string
+			Name() string			// 名称，不是全路径
 			IsDir() bool
 			Type() FileMode
 			Info() (FileInfo, error)
@@ -46,9 +46,9 @@ type
 		* 文件接口
 			
 	# type FileInfo interface {
-			Name() string       // base name of the file
+			Name() string       // 返回文件名称，不带路径
 			Size() int64        // length in bytes for regular files; system-dependent for others
-			Mode() FileMode     // file mode bits
+			Mode() FileMode     // 文件的权限信息
 			ModTime() time.Time // modification time
 			IsDir() bool        // abbreviation for Mode().IsDir()
 			Sys() interface{}   // underlying data source (can return nil)

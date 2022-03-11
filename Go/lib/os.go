@@ -119,14 +119,8 @@ type
 		func (f *File) WriteAt(b []byte, off int64) (n int, err error)
 		func (f *File) WriteString(s string) (n int, err error)
 	
-	# type FileInfo interface {
-			Name() string       // 返回文件名称，不带路径
-			Size() int64        // length in bytes for regular files; system-dependent for others
-			Mode() FileMode     // 文件的权限信息
-			ModTime() time.Time // modification time
-			IsDir() bool        // abbreviation for Mode().IsDir()
-			Sys() interface{}   // underlying data source (can return nil)
-		}
+
+	# type FileInfo = fs.FileInfo
 
 		* 文件的信息结构体
 
@@ -346,6 +340,8 @@ type
 		* 重命名，类似于mv操作，和move操作是一样的
 
 	func SameFile(fi1, fi2 FileInfo) bool
+		* 判断是否是同一个文件
+
 	func Setenv(key, value string) error
 	func Symlink(oldname, newname string) error
 
