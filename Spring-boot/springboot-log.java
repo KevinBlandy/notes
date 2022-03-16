@@ -7,7 +7,7 @@ logback的配置			 |
 
 	  * 不能命名为 logback.xml, 如果使用标准配置位, Spring将无法完全控制日志初始化
 	
-	# springboot logback默认的配置
+	# springboot logback默认的配置(spring-boot.jar)
 		org/springframework/boot/logging/logback/defaults.xml
 
 -------------------------
@@ -15,16 +15,7 @@ logback的配置			 |
 -------------------------
 	<configuration>
 		
-		<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-		<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
-		<conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
-		
-		<!-- 控制台输出的格式 -->
-		<property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
-
-		<!-- 文件输出的格式 -->
-		<property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
-		
+		<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
 		<!-- 窗口输出日志 -->
 		<appender name="console" class="ch.qos.logback.core.ConsoleAppender">

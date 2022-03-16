@@ -219,6 +219,7 @@ type
 			Unparsed []string // Raw text of unparsed attribute-value pairs
 		}
 		func (c *Cookie) String() string
+		func (c *Cookie) Valid() error
 	
 	# type CookieJar interface {
 			SetCookies(u *url.URL, cookies []*Cookie)
@@ -539,7 +540,14 @@ func
 
 		* 在异常发生后，如果w实现了 `requestTooLarge` 方法，会执行调用
 
-
+	func MaxBytesHandler(h Handler, n int64) Handler
+		* 快捷的返回“限制请求体大小”的handler
+		* 源码
+			return HandlerFunc(func(w ResponseWriter, r *Request) {
+				r2 := *r
+				r2.Body = MaxBytesReader(w, r.Body, n)
+				h.ServeHTTP(w, &r2)
+			})
 
 
 	func NotFound(w ResponseWriter, r *Request)

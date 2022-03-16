@@ -100,6 +100,11 @@ type
 		func (b *Writer) Available() int
 			* 未使用的缓存大小
 
+		func (b *Writer) AvailableBuffer() []byte
+			* AvailableBuffer返回一个具有b.Available()容量的空缓冲区。这个缓冲区的目的是被追加到紧接着的Write调用中并传递给它。
+			* 该缓冲区只在对b进行下一次写操作之前有效。
+				return b.buf[b.n:][:0]
+
 		func (b *Writer) Buffered() int
 		func (b *Writer) Flush() error
 		func (b *Writer) ReadFrom(r io.Reader) (n int64, err error)

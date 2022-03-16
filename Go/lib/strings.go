@@ -129,6 +129,9 @@
 		* 不区分大小写比较字符串是否相等
 
 	func Index(s, substr string) int
+	func Cut(s, sep string) (before, after string, found bool)
+	func Clone(s string) string
+
 
 
 

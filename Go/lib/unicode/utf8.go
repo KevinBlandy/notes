@@ -13,6 +13,7 @@ type
 -----------------
 Ä£¿é·½·¨
 -----------------
+	func AppendRune(p []byte, r rune) []byte
 	func FullRune(p []byte) bool 
 	func FullRuneInString(s string) bool 
 

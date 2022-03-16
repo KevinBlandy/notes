@@ -59,6 +59,7 @@ type
 		func (it *MapIter) Key() Value
 		func (it *MapIter) Next() bool
 		func (it *MapIter) Value() Value
+		func (iter *MapIter) Reset(v Value)
 	
 	# type Method struct {
 			Name    string
@@ -521,3 +522,4 @@ func
 	func Swapper(slice interface{}) func(i, j int)
 	func VisibleFields(t Type) []StructField
 		* 返回一个结构类型中的所有可见字段，包括匿名结构成员中的字段。
+	func PointerTo(t Type) Type

@@ -51,6 +51,7 @@ type
 	# type Mutex struct {}
 		func (m *Mutex) Lock()
 		func (m *Mutex) Unlock()
+		func (m *Mutex) TryLock() bool
 	
 	# type Once struct {}
 		func (o *Once) Do(f func())
@@ -71,6 +72,7 @@ type
 		func (rw *RWMutex) RLocker() Locker
 		func (rw *RWMutex) RUnlock()
 		func (rw *RWMutex) Unlock()
+		func (rw *RWMutex) TryLock() bool
 	
 	# type WaitGroup struct {}
 		func (wg *WaitGroup) Add(delta int)

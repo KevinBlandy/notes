@@ -302,6 +302,7 @@ type
 		func (r *Resolver) LookupPort(ctx context.Context, network, service string) (port int, err error)
 		func (r *Resolver) LookupSRV(ctx context.Context, service, proto, name string) (cname string, addrs []*SRV, err error)
 		func (r *Resolver) LookupTXT(ctx context.Context, name string) ([]string, error)
+		func (r *Resolver) LookupNetIP(ctx context.Context, network, host string) ([]netip.Addr, error)
 	
 	# type SRV struct {
 			Target   string
@@ -317,8 +318,11 @@ type
 			Zone string // IPv6 scoped addressing zone
 		}
 		func ResolveTCPAddr(network, address string) (*TCPAddr, error)
+		func TCPAddrFromAddrPort(addr netip.AddrPort) *TCPAddr
+
 		func (a *TCPAddr) Network() string
 		func (a *TCPAddr) String() string
+		func (a *TCPAddr) AddrPort() netip.AddrPort
 	
 	# type TCPConn struct {
 		}
@@ -366,9 +370,12 @@ type
 		* UDP Addrµÿ÷∑
 
 		func ResolveUDPAddr(network, address string) (*UDPAddr, error)
+		func UDPAddrFromAddrPort(addr netip.AddrPort) *UDPAddr
+
 		func (a *UDPAddr) Network() string
 		func (a *UDPAddr) String() string
-	
+		func (a *UDPAddr) AddrPort() netip.AddrPort
+
 	# type UDPConn struct {
 		}
 		func DialUDP(network string, laddr, raddr *UDPAddr) (*UDPConn, error)
@@ -392,6 +399,10 @@ type
 		func (c *UDPConn) WriteMsgUDP(b, oob []byte, addr *UDPAddr) (n, oobn int, err error)
 		func (c *UDPConn) WriteTo(b []byte, addr Addr) (int, error)
 		func (c *UDPConn) WriteToUDP(b []byte, addr *UDPAddr) (int, error)
+		func (c *UDPConn) ReadFromUDPAddrPort(b []byte) (n int, addr netip.AddrPort, err error)
+		func (c *UDPConn) ReadMsgUDPAddrPort(b, oob []byte) (n, oobn, flags int, addr netip.AddrPort, err error)
+		func (c *UDPConn) WriteToUDPAddrPort(b []byte, addr netip.AddrPort) (int, error)
+		func (c *UDPConn) WriteMsgUDPAddrPort(b, oob []byte, addr netip.AddrPort) (n, oobn int, err error)
 	
 	# type UnixAddr struct {
 			Name string
@@ -459,3 +470,6 @@ type
 	func ParseCIDR(s string) (IP, *IPNet, error)
 	func Pipe() (Conn, Conn)
 	func SplitHostPort(hostport string) (host, port string, err error)
+
+	
+

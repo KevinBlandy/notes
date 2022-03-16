@@ -123,6 +123,9 @@ type
 		func (v Value) Uint() uint64 
 		func (v Value) UnsafeAddr() uintptr 
 		func (v Value) Convert(t Type) Value 
+		func (v Value) SetIterKey(iter *MapIter)
+		func (v Value) SetIterValue(iter *MapIter)
+		func (v Value) UnsafePointer() unsafe.Pointer
 
 	# type ValueError struct
 		Method string

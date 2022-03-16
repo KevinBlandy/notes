@@ -121,3 +121,5 @@
 	func ReplaceAll(s, old, new []byte) []byte
 	func EqualFold(s, t []byte) bool
 	func Index(s, sep []byte) int 
+	func Cut(s, sep []byte) (before, after []byte, found bool) 
+
