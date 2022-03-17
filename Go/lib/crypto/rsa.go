@@ -67,7 +67,8 @@ type
 		func (priv *PrivateKey) Equal(x crypto.PrivateKey) bool
 		func (priv *PrivateKey) Precompute()
 		func (priv *PrivateKey) Public() crypto.PublicKey
-			* 返回公钥
+			* 返回公钥，类型是 crypto.PublicKey
+
 		func (priv *PrivateKey) Sign(rand io.Reader, digest []byte, opts crypto.SignerOpts) ([]byte, error)
 		func (priv *PrivateKey) Validate() error
 	
@@ -97,11 +98,56 @@ func
 
 	func SignPKCS1v15(rand io.Reader, priv *PrivateKey, hash crypto.Hash, hashed []byte) ([]byte, error)
 	func SignPSS(rand io.Reader, priv *PrivateKey, hash crypto.Hash, digest []byte, ...) ([]byte, error)
+
 	func VerifyPKCS1v15(pub *PublicKey, hash crypto.Hash, hashed []byte, sig []byte) error
 	func VerifyPSS(pub *PublicKey, hash crypto.Hash, digest []byte, sig []byte, opts *PSSOptions) error
 
 ----------------------
 rsa
 ----------------------
-	TODO
+	# 加密解密
+		package main
+
+		import (
+			"crypto/rand"
+			"crypto/rsa"
+			"encoding/hex"
+			"log"
+			"os"
+		)
+
+		func init() {
+			log.Default().SetOutput(os.Stdout)
+			log.Default().SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+		}
+
+		func main() {
+
+			// 生成私钥
+			privateKey, err := rsa.GenerateKey(rand.Reader, 512)
+			if err != nil {
+				log.Fatalln(err.Error())
+			}
+
+			content := []byte("Hello 世界")
+
+			// 公钥加密
+			cipher, err := rsa.EncryptPKCS1v15(rand.Reader, &privateKey.PublicKey, content)
+			if err != nil {
+				log.Fatalln(err.Error())
+			}
+
+			log.Printf("cipher: %s\n", hex.EncodeToString(cipher))
+
+			// 公钥解密
+			raw, err := rsa.DecryptPKCS1v15(rand.Reader, privateKey, cipher)
+			if err != nil {
+				log.Fatalln(err.Error())
+			}
+
+			log.Printf("result: %s\n", string(raw))
+		}
 	
+	# 签名验证
+		TODO
+			
