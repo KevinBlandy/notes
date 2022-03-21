@@ -51,7 +51,11 @@ v2ry						|
 		* 如果之前安装过 V2Ray, 则只更新 V2Ray 二进制程序而不更新配置
 	
 	# 客户端的下载
-		https://github.com/v2ray/v2ray-core/releases
+		windows:
+			https://github.com/2dust/v2rayN
+		android:
+			https://github.com/2dust/v2rayNG
+
 	
 	# 客户端命令
 		v2ray info 

@@ -31,7 +31,8 @@ Netty-入门					|
 		* 使用ForkJoinPool极大的增加了复杂性,但是没有明显的性能提升
 
 
-
+	# Netty5 迁移方案
+		https://github.com/netty/netty/wiki/Netty-5-Migration-Guide
 
 ----------------------------
 Netty-HelloWorld			|
