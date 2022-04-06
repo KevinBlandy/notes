@@ -137,6 +137,9 @@ go 泛型方法
 			"1": 15,
 			"2": 15,
 		}))
+
+		var Foo = Func[string, int]
+		log.Println(Foo(map[string]int{"1": 1}))
 	}
 
 
