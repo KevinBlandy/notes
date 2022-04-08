@@ -9,6 +9,9 @@ Builder
 			@Target(FIELD)
 			@Retention(SOURCE)
 			public @interface Default {}
+				* 如果属性带有默认值，可以在属性上添加这个注解
+					@Builder.Default
+					private Boolean isSubtotal = false;
 
 			String builderMethodName() default "builder";
 				* 获取builder的方法名称
@@ -37,3 +40,4 @@ Builder
 				boolean isStatic() default false;
 			}
 		}
+	
