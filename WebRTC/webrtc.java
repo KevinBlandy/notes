@@ -11,6 +11,13 @@ WebRTC
 		https://github.com/coturn/coturn
 		https://github.com/pion/turn
 	
+	# 书籍
+		《webrtc技术详解：从0到1构建多人视频会议系统》
+		《WebRTC音视频开发：React+Flutter+Go实战》
+		《WebRTC音视频实时互动技术:原理、实战与源码分析》
+		《WebRTC权威指南（第三版中文版）》
+		《WebRTC Native 开发实战》
+		《Learning WebRTC 中文版》
 
 ----------------------
 专业术语

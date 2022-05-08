@@ -90,6 +90,11 @@ Path-实例方法			|
 						* 未知
 	WatchKey register(WatchService watcher,WatchEvent.Kind<?>... events)
 						* 绑定监听	
+	@Override
+    WatchKey register(WatchService watcher,
+                      WatchEvent.Kind<?>[] events,
+                      WatchEvent.Modifier... modifiers)
+        throws IOException;
 
 ------------------------
 Path-静态方法			|
