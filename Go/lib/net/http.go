@@ -190,6 +190,8 @@ type
 	# type CloseNotifier interface {
 			CloseNotify() <-chan bool
 		}
+
+		* 废弃
 	
 	# type ConnState int
 		* 连接状态
@@ -229,7 +231,7 @@ type
 	# type Dir string
 		func (d Dir) Open(name string) (File, error)
 
-		* 一个Dir实现了FileSystem，使用本地文件系统限制在一个特定的目录树上。
+		* 一个Dir实现了 FileSystem，使用本地文件系统限制在一个特定的目录树上。
 		* 空的Dir会被视为"."
 
 	
@@ -241,11 +243,16 @@ type
 			Stat() (os.FileInfo, error)
 		}
 
+		* http文件对象
+
 	# type FileSystem interface {
 			Open(name string) (File, error)
 		}
 
 		* 文件系统接口，本质上就是要求实现Open返回File
+
+		func FS(fsys fs.FS) FileSystem
+			* 转换 fs.FS 为 http.FileSystem
 	
 	# type Flusher interface {
 			Flush()
@@ -254,6 +261,10 @@ type
 	# type Handler interface {
 			ServeHTTP(ResponseWriter, *Request)
 		}
+		
+		func AllowQuerySemicolons(h Handler) Handler
+			* 返回一个支持 ; 分割查询参数的handler
+			* 这个方法应该在Request.ParseForm被调用之前被调用。
 
 		func FileServer(root FileSystem) Handler
 			* 返回一个使用 FileSystem 接口 root 提供文件访问服务的 HTTP 处理器。可以方便的实现静态文件服务器
@@ -268,6 +279,17 @@ type
 				// 服务器收到 /tmpfiles/ 开头的请求，然后会移除URL中的 /tmpfiles/，然后去 /tmp 目录找文件
 
 		func TimeoutHandler(h Handler, dt time.Duration, msg string) Handler
+			* 返回一个支持调用超时的Handler，如果超过时间还没处理完，则会给客户端响应503
+			* 如果msg为空，则会响应默认的html代码消息。
+
+		func MaxBytesHandler(h Handler, n int64) Handler
+			* 快捷的返回“限制请求体大小”的handler
+			* 源码
+				return HandlerFunc(func(w ResponseWriter, r *Request) {
+					r2 := *r
+					r2.Body = MaxBytesReader(w, r.Body, n)
+					h.ServeHTTP(w, &r2)
+				})
 	
 	# type HandlerFunc func(ResponseWriter, *Request)
 		func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request)
@@ -289,6 +311,9 @@ type
 	# type ProtocolError struct {
 			ErrorString string
 		}
+		
+		* 协议异常，已过时
+
 		func (pe *ProtocolError) Error() string
 	
 	# type PushOptions struct {
@@ -378,6 +403,9 @@ type
 			Request *Request
 			TLS *tls.ConnectionState
 		}
+
+		* 执行http请求后的服务器响应对象
+
 		func Get(url string) (resp *Response, err error)
 		func Head(url string) (resp *Response, err error)
 		func Post(url, contentType string, body io.Reader) (resp *Response, err error)
@@ -399,6 +427,9 @@ type
 					writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 					writer.WriteHeader(http.StatusOK)  // 在其他Header被写入后执行
 					writer.Write(jsonRet) // 写入响应体
+		}
+
+		* http服务器中的Response对象，用于往客户端写入http响应
 	
 	# type RoundTripper interface {
 			RoundTrip(*Request) (*Response, error)
@@ -486,6 +517,10 @@ type
 			ReadBufferSize int
 			ForceAttemptHTTP2 bool // contains filtered or unexported fields
 		}
+
+		* Http通信协议相关的配置
+		* 线程安全，可重用
+
 		func (t *Transport) CancelRequest(req *Request)
 		func (t *Transport) Clone() *Transport
 		func (t *Transport) CloseIdleConnections()
@@ -540,15 +575,6 @@ func
 
 		* 在异常发生后，如果w实现了 `requestTooLarge` 方法，会执行调用
 
-	func MaxBytesHandler(h Handler, n int64) Handler
-		* 快捷的返回“限制请求体大小”的handler
-		* 源码
-			return HandlerFunc(func(w ResponseWriter, r *Request) {
-				r2 := *r
-				r2.Body = MaxBytesReader(w, r.Body, n)
-				h.ServeHTTP(w, &r2)
-			})
-
 
 	func NotFound(w ResponseWriter, r *Request)
 		* 404 handler
@@ -577,7 +603,5 @@ func
 		* 有时候蛮有用
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	
-	func FS(fsys fs.FS) FileSystem
-		* 转换 fs.FS 为 http.FileSystem
+
 	
-	func AllowQuerySemicolons(h Handler) Handler

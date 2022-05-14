@@ -46,6 +46,16 @@ SpringQueryMap
 	
 
 	# Demo
+
+		// Params.java
+		public class Params {
+			private String param1;
+			private String param2;
+
+			// [Getters and setters omitted for brevity]
+		}
+
+
 		@FeignClient("demo")
 		public interface DemoTemplate {
 

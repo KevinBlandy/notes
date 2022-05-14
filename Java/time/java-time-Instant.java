@@ -22,3 +22,14 @@ Instant-API					|
 
 	long toEpochMilli();
 		* 返回时间戳对应的毫秒值
+	
+	public long getEpochSecond()
+		* 返回时间戳对应的秒
+
+	public int getNano()
+		* 返回当前秒以后的纳秒数
+		* 完整的纳秒数有19位长度，java的long存不下
+		* 所以一个“时间”，会拆分为2部分，秒，秒后面的纳秒
+			
+	
+
