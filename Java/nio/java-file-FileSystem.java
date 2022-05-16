@@ -13,11 +13,17 @@ FileSystem					|
 ---------------------------
 FileSystem-实例方法			|
 ---------------------------
-Iterable<Path>		getRootDirectories();
-						* 获取根路径的磁盘(磁盘分区)
+		Iterable<Path> getRootDirectories();
+			* 获取根路径的磁盘(磁盘分区)
 
-Iterable<FileStore>	getFileStores();
-						* 获取根路径的磁盘(磁盘分区)
+		Iterable<FileStore>	getFileStores();
+			* 获取根路径的磁盘(磁盘分区)
 
-Path				getPath(String first, String... more);
-						* 根据路径,从当前文件系统获取Path对象
+		Path getPath(String first, String... more);
+			* 根据路径,从当前文件系统获取Path对象
+
+		String getSeparator();
+			* 获取跨平台文件分隔符
+		
+
+

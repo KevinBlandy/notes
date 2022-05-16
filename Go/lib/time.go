@@ -135,8 +135,9 @@ type
 		func (t Time) Hour() int 
 		func (t Time) Minute() int 
 		func (t Time) Second() int 
+			* 获取秒
 		func (t Time) Nanosecond() int 
-			* 获取时分秒
+			* 返回当前秒以后的纳秒数
 
 		func (t Time) YearDay() int 
 			* 按照年份获取日
