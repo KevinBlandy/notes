@@ -21,12 +21,6 @@ https://spring.io/blog/2021/04/13/introducing-spring-cloud-square
 https://github.com/mojocn/base64Captcha
 
 ## 有空研究
-Quartz
-Hibernate多租户 -> CurrentTenantIdentifierResolver
-数据权限控制
-
-## 前端学习
-
-CSS权威指南
-
-
+Webassembly 
+WebRTC
+FFmpeg

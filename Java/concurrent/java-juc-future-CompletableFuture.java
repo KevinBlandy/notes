@@ -174,7 +174,9 @@ CompletableFuture<T>			|
 		Executor defaultExecutor()
 		<U> CompletableFuture<U> newIncompleteFuture()
 
-		
+	
+	# 一些点
+
 		* 没有指定 Executor 的方法会使用 ForkJoinPool.commonPool() 作为它的线程池执行异步代码
 		* 如果指定线程池，则使用指定的线程池运行
 
@@ -195,7 +197,26 @@ CompletableFuture<T>			|
 
 		* 两个CompletionStage, 谁执行返回的结果快, 就用那个CompletionStage的结果进行下一步的转化操作
 
-	
+	# 线程池的问题
+		* 线程池循环引用可能会导致死锁
+			public Object doGet() {
+			  ExecutorService threadPool1 = new ThreadPoolExecutor(10, 10, 0L, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(100));
+			  CompletableFuture cf1 = CompletableFuture.supplyAsync(() -> {
+			  //do sth
+				return CompletableFuture.supplyAsync(() -> {
+					System.out.println("child");
+					return "child";
+				  }, threadPool1).join();//子任务
+				}, threadPool1);
+			  return cf1.join();
+			}
+			
+			// doGet方法第三行通过supplyAsync向threadPool1请求线程，并且内部子任务又向threadPool1请求线程。
+			// threadPool1大小为10，当同一时刻有10个请求到达，则threadPool1被打满，子任务请求线程时进入阻塞队列排队，但是父任务的完成又依赖于子任务，
+			// 这时由于子任务得不到线程，父任务无法完成。主线程执行cf1.join()进入阻塞状态，并且永远无法恢复。
+
+			// 为了修复该问题，需要将父任务与子任务做线程池隔离，两个任务请求不同的线程池，避免循环依赖导致的阻塞
+		
 
 
 -------------------------------
