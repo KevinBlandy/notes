@@ -134,81 +134,87 @@ req 中间件
 
 	
 	# 读取响应/请求BODY中间件
-		type LogWriter struct {
+		import (
+			"bytes"
+			"github.com/gin-gonic/gin"
+			"io"
+			"log"
+			"net/http"
+			"time"
+		)
+
+		type ContentCachingResponse struct {
 			gin.ResponseWriter
-			Buffer *bytes.Buffer
+			Buf io.ReadWriter
 		}
-		func (l LogWriter) Write(data []byte) (int, error){
-			if count, err := l.Buffer.Write(data); err != nil {
-				return count, err
+
+		func (c ContentCachingResponse) Write(content []byte) (int, error) {
+			if _, err := c.Buf.Write(content); err != nil {
+				return 0, err
 			}
-			return l.ResponseWriter.Write(data)
+			return c.ResponseWriter.Write(content)
+		}
+		func (c ContentCachingResponse) WriteString(content string) (int, error) {
+			if _, err := io.WriteString(c.Buf, content); err != nil {
+				return 0, nil
+			}
+			return c.ResponseWriter.WriteString(content)
 		}
 
-		// Log 记录请求响应日志等等信息
-		func Log (ctx *gin.Context ){
+		// AccessLog 访问日志
+		func AccessLog(ctx *gin.Context) {
 
-			// 记录响应日志
-			var logWriter = &LogWriter {
+			response := &ContentCachingResponse{
 				ResponseWriter: ctx.Writer,
-				Buffer:    &bytes.Buffer{},
+				Buf:            &bytes.Buffer{},
 			}
-			ctx.Writer = logWriter
+			ctx.Writer = response
 
-			// 对于当前请求，生成唯一ID
-			var requestedId = uuid.New().String()
-			ctx.Writer.Header().Set(constant.HttpHeaders.RequestId, requestedId)
+			requestBody, err := io.ReadAll(ctx.Request.Body)
 
-			// 读取请求体
-			var body, err = io.ReadAll(ctx.Request.Body)
 			if err != nil {
-				response.ErrorResponse(ctx, err)  // 读取BOdy异常，直接给客户端响应异常信息
-				ctx.Abort()  					  // 阻断执行链
-			} else {
-				// 重新设置请求体
-				ctx.Request.Body = io.NopCloser(bytes.NewReader(body))
+				// body读取异常
+				ctx.AbortWithStatus(http.StatusBadRequest)
+				return
 			}
+			ctx.Request.Body = io.NopCloser(bytes.NewReader(requestBody))
 
-			// 消耗时间，默认为-1，表示没有进入到业务执行步骤
-			var executionTime int64 = -1
-			if !ctx.IsAborted() {
-				var startTime = time.Now().Unix()
-				ctx.Next()
-				var endTime = time.Now().Unix()
-				executionTime = endTime - startTime
-			}
+			start := time.Now().UnixMilli()
+			ctx.Next()
+			end := time.Now().UnixMilli()
 
-			var method = ctx.Request.Method					// 请求方法
-			var fullPath = ctx.FullPath()					// 映射路径
-			var requestURI = ctx.Request.URL.RequestURI()	// 完整的URL，包括查询参数
-			// TODO 请求Header
-			// TODO 响应Header
-			var status = ctx.Writer.Status()				// 响应状态码
-			var requestBody = string(body)					// 请求体
-			var responseBody = logWriter.Buffer.String()	// 字符串响应体，如果响应的不是字符串，则需要按需解码
+			executionTime := end - start
 
-			// 输出日志
-			log.Printf("id=%s, method=%s, path=%s, uri=%s, time=%d, reqBody=%s, respBody=%s, status=%d\n",
-				requestedId, method, fullPath, requestURI, executionTime, requestBody, responseBody, status,
+			method := ctx.Request.Method
+			fullPath := ctx.FullPath()
+			requestURI := ctx.Request.URL.RequestURI()
+			status := ctx.Writer.Status()
+			responseBody, _ := io.ReadAll(response.Buf)
+
+			log.Printf("method=%s, path=%s, uri=%s, time=%d, reqBody=%s, respBody=%s, status=%d\n",
+				method, fullPath, requestURI, executionTime, requestBody, responseBody, status,
 			)
 		}
+
 	
 	# 跨域设置中间件
-		func Cors (context *gin.Context ){
+		// Cors 跨域
+		func Cors(context *gin.Context) {
 			origin := context.GetHeader("Origin")
 			if origin != "" {
-				context.Header("Access-Control-Allow-Origin", origin)
+				context.Header("Access-Control-Allow-Origin", origin) // TODO 限制Origin
 				requestHeader := context.GetHeader("Access-Control-Request-Headers")
 				if requestHeader != "" {
 					context.Header("Access-Control-Allow-Headers", requestHeader)
 				}
 				context.Header("Access-Control-Allow-Credentials", "true")
-				context.Header("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS, DELETE, PATCH")
+				context.Header("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS, TRACE")
 				context.Header("Access-Control-Expose-Headers", "*")
 				context.Header("Access-Control-Max-Age", "3000")
 
 				if context.Request.Method == http.MethodOptions {
 					context.AbortWithStatus(http.StatusNoContent)
+					return
 				}
 			}
 			context.Next()

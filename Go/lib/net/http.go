@@ -166,7 +166,13 @@ http
 	# 默认的HTTP时间格式化
 		const TimeFormat = "Mon, 02 Jan 2006 15:04:05 GMT"
 
-		* time.RFC1123 定义的，ParseTime 用来解析的
+		* time.RFC1123 定义的日期格式
+		* 格式化时间
+			httpTime := time.Now().Format(http.TimeFormat)
+			log.Println(httpTime)
+		
+		* 解析时间
+			func ParseTime(text string) (t time.Time, err error)
 		
 -----------------
 type
@@ -303,6 +309,9 @@ type
 		func (h Header) Values(key string) []string
 		func (h Header) Write(w io.Writer) error
 		func (h Header) WriteSubset(w io.Writer, exclude map[string]bool) error
+			* WriteSubset以wire格式写一个头。
+			* 如果exclude不是nil，exclude[key] == true的键不会被写入。在检查exclude映射之前，键不会被规范化。
+
 	
 	# type Hijacker interface {
 			Hijack() (net.Conn, *bufio.ReadWriter, error)
@@ -592,7 +601,21 @@ func
 		* 重定向handler
 
 	func Serve(l net.Listener, handler Handler) error
-	func ServeContent(w ResponseWriter, req *Request, name string, modtime time.Time, ...)
+
+	func ServeContent(w ResponseWriter, req *Request, name string, modtime time.Time, content io.ReadSeeker)	
+		* 它能正确处理Range请求，设置MIME类型，并处理If-Match、If-Unmodified-Since、If-None-Match、If-Modified-Since和If-Range请求。
+		* 响应HTTP内容
+			name
+				* 文件名称，没啥用其实。主要的作用是在没有设置ContentType头的情况下，根据文件名称检索Content-Type
+				* 如果根据文件名称解析ContentType失败，那么会默认根据文件的魔术字节判断ContenType
+			
+			modtime
+				* 文件最后修改时间，这个方法会根据这个时间正确的处理HTTP协议中跟缓存相关的Header
+			
+			content
+				* 文件内容，必须是可seek的，这个方法通过seek来获取到文件的大小。并且支持Range请求
+
+
 	func ServeFile(w ResponseWriter, r *Request, name string)
 
 	func ServeTLS(l net.Listener, handler Handler, certFile, keyFile string) error

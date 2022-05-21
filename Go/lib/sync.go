@@ -71,8 +71,9 @@ type
 		func (rw *RWMutex) RLock()
 		func (rw *RWMutex) RLocker() Locker
 		func (rw *RWMutex) RUnlock()
-		func (rw *RWMutex) Unlock()
 		func (rw *RWMutex) TryLock() bool
+		func (rw *RWMutex) TryRLock() bool
+		func (rw *RWMutex) Unlock()
 	
 	# type WaitGroup struct {}
 		func (wg *WaitGroup) Add(delta int)

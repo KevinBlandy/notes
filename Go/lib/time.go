@@ -121,6 +121,11 @@ type
 			* 是否在指定的时间之前/之后
 		
 		func (t Time) IsZero() bool
+			* 是否是零时间
+					t := time.Time{}
+					log.Println(t)			//  0001-01-01 00:00:00 +0000 UTC
+					log.Println(t.IsZero())  // true
+
 		func (t Time) Date() (year int, month Month, day int) 
 		func (t Time) Year() int 
 		func (t Time) Month() Month 
@@ -135,10 +140,8 @@ type
 		func (t Time) Hour() int 
 		func (t Time) Minute() int 
 		func (t Time) Second() int 
-			* 获取秒
-		func (t Time) Nanosecond() int 
-			* 返回当前秒以后的纳秒数
-
+			* 获取当前秒
+		
 		func (t Time) YearDay() int 
 			* 按照年份获取日
 
@@ -158,10 +161,13 @@ type
 			* 获取这个时间的时区，返回名字和偏移量
 
 		func (t Time) Unix() int64
-			* 返回unix时间戳的秒数
+			* 返回unix时间戳的秒数 - 1652946208
+		
+		func (t Time) Nanosecond() int 
+			* 返回当前秒以后的纳秒数 - 205556100
 
 		func (t Time) UnixNano() int64
-			* 返回Unix时间戳的纳秒
+			* 返回Unix时间戳的纳秒 - 1652946208205556100
 
 		func (t Time) MarshalBinary() ([]byte, error)
 		func (t *Time) UnmarshalBinary(data []byte) error 
@@ -261,9 +267,12 @@ type
 
 	func Unix(sec int64, nsec int64) Time 
 		* 根据unix时间戳创建时间对象，指定秒和纳秒
+			time.Unix(0, 0)  // 1970-01-01 08:00:00 +0800 CST
+
+			now := time.Now()
+			time.Unix(now.Unix(), int64(now.Nanosecond())).Equal(now) // true
 
 	func Date(year int, month Month, day, hour, min, sec, nsec int, loc *Location) Time 
-	
 
 	func FixedZone(name string, offset int) *Location 
 
