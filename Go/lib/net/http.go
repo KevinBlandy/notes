@@ -427,9 +427,11 @@ type
 	
 	# type ResponseWriter interface {
 			Header() Header
+				* 获取缓存的header
 			Write([]byte) (int, error)
+				* 写入header到缓存
 			WriteHeader(statusCode int)
-				* 写入 http 状态码
+				* 把缓存的header写入到客户端。并且指定状态码
 				* 这个方法，应该在其他header写入后执行
 					jsonRet, _ := json.MarshalIndent(request.Header, "", "	")
 					writer.Header().Set("Server", "Golang")
