@@ -3,11 +3,28 @@ RateLimiter					|
 ----------------------------
 	# 工厂函数
 		RateLimiter create(double permitsPerSecond) 
-		RateLimiter create(double permitsPerSecond, long warmupPeriod, TimeUnit unit)
+			* 平滑突发限流
+			* 1秒内不会给超过permitsPerSecond个令牌，并且以固定速率进行放置，达到平滑输出的效果。
 
-		* permitsPerSecond 表示一秒产生多少个令牌
-		* warmupPeriod
-		* unit表示warmupPeriod的时间单位
+		RateLimiter create(double permitsPerSecond, long warmupPeriod, TimeUnit unit)
+			* 平滑预热限流
+			* 它启动后会有一段预热期，逐步将分发频率提升到配置的速率。 
+			* 比如下面代码中的例子，创建一个平均分发令牌速率为2，预热期为3秒。
+				 RateLimiter r = RateLimiter.create(2, 3, TimeUnit.SECONDS);
+				
+			* 由于设置了预热时间是3秒，令牌桶一开始并不会0.5秒发一个令牌，而是形成一个平滑线性下降的坡度，频率越来越高，在3秒钟之内达到原本设置的频率，以后就以固定的频率输出。
+			* 这种功能适合系统刚启动需要一点时间来“热身”的场景。
+		
+	
+	# 实例方法
+		public double acquire()
+		public double acquire(int permits)
+		public final double getRate()
+		public final void setRate(double permitsPerSecond)
+		public boolean tryAcquire()
+		public boolean tryAcquire(int permits)
+		public boolean tryAcquire(long timeout, TimeUnit unit)
+		
 
 
 ----------------------------

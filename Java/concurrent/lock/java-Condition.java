@@ -8,10 +8,18 @@ Condition				|
 	# 接口方法
 		void await()
 			*  wait() 阻塞睡眠,等待唤醒
+		
 		boolean await(long time, TimeUnit unit)
 		long awaitNanos(long nanosTimeout)
 		void awaitUninterruptibly()
 		boolean awaitUntil(Date deadline) 
 		void signal()
-			* notify ,唤醒
+			* 随机唤醒一个
+		
 		void signalAll()
+			* 唤醒所有
+
+
+------------------------
+Condition 生产者消费者
+------------------------

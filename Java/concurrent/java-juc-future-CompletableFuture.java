@@ -165,6 +165,7 @@ CompletableFuture<T>			|
 		CompletableFuture<T> toCompletableFuture()
 		CompletableFuture<T> completeOnTimeout(T value, long timeout, TimeUnit unit)
 		CompletableFuture<T> orTimeout(long timeout, TimeUnit unit)
+			* 或者抛出异常
 		
 		CompletableFuture<T> completeAsync(Supplier<? extends T> supplier)
 		CompletableFuture<T> completeAsync(Supplier<? extends T> supplier, Executor executor)

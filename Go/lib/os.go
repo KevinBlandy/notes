@@ -346,6 +346,8 @@ type
 	func Symlink(oldname, newname string) error
 
 	func TempDir() string
+		* 返回系统的临时目录
+
 	func Truncate(name string, size int64) error
 		* 裁剪一个文件到n个字节，多了就删，少了就填充，反正一定要是size个字节
 		* 如果文件大小小于n，则会保留原始数据，剩下的填充null

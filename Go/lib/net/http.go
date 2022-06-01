@@ -378,6 +378,7 @@ type
 			* 返回mulripart的reader，可以自己进行迭代获取每一个Part项
 			* 如果迭代到最后，返回 io.EOF 异常
 			* 它不能和ParseMultipartForm一起使用
+			* 建议使用这个，它是流式解析
 
 		func (r *Request) ParseForm() error
 		func (r *Request) ParseMultipartForm(maxMemory int64) error

@@ -19,11 +19,11 @@ ReentrantLock			|
 		lock();
 			* 尝试获取锁,线程阻塞
 
-		lockInterruptibly();
+		lockInterruptibly()  throws InterruptedException;
 			* 当前线程会阻塞获取锁
 			* 如果该线程被执行了 interrupt() 方法,并且该线程处于阻塞状态的话,那么该线程的此方法就会抛出异常
 			* '详情可以看 Thread的中断机制'
-			* 与local()的区别
+			* 与lock()的区别
 				* lock() 会一直阻塞,直到获取锁
 				* lockInterruptibly() 也会一直阻塞,直到获取锁
 					* 但是,如果调用了该线程的 interrupt() 的方法,那么 lockInterruptibly() 就会抛出中断异常,必须进行处理

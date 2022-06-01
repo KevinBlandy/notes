@@ -149,6 +149,7 @@ server
 	
 	# Demo
 		package main
+
 		import (
 			"context"
 			"io"
@@ -159,45 +160,51 @@ server
 			"time"
 		)
 
-		func init(){
+		func init() {
 			log.Default().SetOutput(os.Stdout)
 			log.Default().SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 		}
 
-		func main(){
+		func main() {
 			router := http.NewServeMux()
 
-			server := http.Server {
-				Addr: ":80",
+			server := http.Server{
+				Addr:    ":80",
 				Handler: router,
 			}
 
 			router.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-				defer request.Body.Close()
+				defer func() {
+					_ = request.Body.Close()
+				}()
 				writer.Header().Set("Content-Type", "text/plain; charset=utf-8")
 				writer.WriteHeader(http.StatusOK)
-				io.WriteString(writer, "Hello World")
+				_, _ = io.WriteString(writer, "Hello World")
 			})
 
+			serverClosed := make(chan struct{})
+
 			go func() {
-				if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-					log.Fatalln(err)
-				}
+				ctx, cancel := signal.NotifyContext(context.Background(), os.Kill, os.Interrupt)
+				defer cancel()
+
+				<-ctx.Done()
+
+				func() {
+					ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+					defer cancel()
+					log.Println("Server Shutdown...")
+					if err := server.Shutdown(ctx); err != nil {
+						log.Printf("Server Shutdown Error:%s\n", err)
+					}
+				}()
+				close(serverClosed)
 			}()
 
-			ctx, cancel := signal.NotifyContext(context.Background(), os.Kill, os.Interrupt)
-			defer cancel()
-
-			select {
-				case <- ctx.Done(): {
-					func(){
-						ctx, cancel := context.WithTimeout(context.Background(), time.Second * 5)
-						defer cancel()
-						if err := server.Shutdown(ctx); err != nil {
-							log.Fatalln(err)
-						}
-					}()
-					return
-				}
+			log.Println("Server Start...")
+			if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+				log.Fatalf("Server Start Error: %s\n", err)
 			}
+			<-serverClosed
+			log.Println("Bye")
 		}

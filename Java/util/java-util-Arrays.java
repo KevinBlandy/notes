@@ -18,4 +18,9 @@ Arrays-静态方法		|
 	T[]			copyOf(T[] original, int newLength) 
 					* 扩充原数组,original ,newLength指定新的长度
 					* 返回新的数组,并且会把旧数组的元素复制到新数组,空出来的位置填充默认值
-				
+	
+	public static void parallelSort(byte[] a)
+		* 并行排序
+	
+
+	

@@ -37,3 +37,8 @@ IDEA-修改注释模版	|
 IDEA-设置代码粗体	|
 --------------------
 	Editor -> Color Scheme -> General -> Text -> Default Text -> Bold[√]
+
+--------------------
+加载maven模块
+--------------------
+	Help -> Find Action -> 输入maven

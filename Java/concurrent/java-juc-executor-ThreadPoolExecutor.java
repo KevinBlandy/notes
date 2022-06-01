@@ -90,10 +90,15 @@ ThreadPoolExecutor			|
 
 		<T> Future<T> submit(Runnable task, T result)
 		<T> Future<T> submit(Callable<T> task)
+
 		<T> T invokeAny(Collection<? extends Callable<T>> tasks,long timeout, TimeUnit unit)
 		<T> T invokeAny(Collection<? extends Callable<T>> tasks)
+			* 执行 tasks 中的任务，返回结果是最快执行完毕的那个结果
+	
 		<T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,long timeout, TimeUnit unit)
 		<T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+			* 执行task中的所有任务，返回结果集合
+			* 会阻塞，直到所有任务执行完毕
 
 		protected void afterExecute(Runnable r, Throwable t) { }
 		protected void beforeExecute(Thread t, Runnable r) { }

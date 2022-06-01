@@ -96,6 +96,9 @@ java.reflect.Class	 |
 				Stream.of(actualTypeArguments).forEach(System.out::println);
 			}
 	
+	public java.security.ProtectionDomain getProtectionDomain()
+
+	
 
 ---------------------
 ¾²Ì¬·½·¨			 |

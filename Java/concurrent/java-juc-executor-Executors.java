@@ -10,7 +10,7 @@ Executors			|
 		
 		ExecutorService newCachedThreadPool();
 			* 创建一个可缓存的线程池,如果线程池的大小超过了处理任务所需要的线程,那么就会回收部分空闲的线程
-			* 当任务数增加时,此线程池又添加新线程来处理任务
+			* 当任务数增加时,此线程池又添加新线程来处理任务，空闲线程默认缓存60s
 
 		ExecutorService newSingleThreadExecutor()
 			* 一个单线程的线程池,这个线程池只有一个线程在工作,也就是相当于单线程串行执行所有任务
@@ -21,8 +21,11 @@ Executors			|
 			* 创建调度线程池
 			* 创建固定大小的线程池,可以延时/重复的执行任务调度
 		
+		ScheduledExecutorService newSingleThreadScheduledExecutor()
+			* 同上，线程只有一个。
+		
 		ExecutorService newWorkStealingPool() 
-			* jdk1.8新提供的
+			* jdk1.8新提供的，适合ForkJoin框架使用的线程池
 			* 会根据所需的并行层次来动态创建和关闭线程,通过使用多个队列减少竞争
 			* 底层用的 ForkJoinPool 来实现的
 			* ForkJoinPool的优势在于,可以充分利用多cpu,多核cpu的优势,把一个任务拆分成多个"小任务"

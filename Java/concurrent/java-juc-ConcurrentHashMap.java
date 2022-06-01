@@ -14,105 +14,37 @@ ConcurrentHashMap			|
 		* 取消了 ReentrantLock 改为了 synchronized(可以看出在新版的 JDK 中对 synchronized 优化是很到位的)
 
 	
-	# PUT 过程
-		final V putVal(K key, V value, boolean onlyIfAbsent) {
-			if (key == null || value == null) throw new NullPointerException();
-			int hash = spread(key.hashCode());
-			int binCount = 0;
-			for (Node<K,V>[] tab = table;;) { // 1
-				Node<K,V> f; int n, i, fh;
-				if (tab == null || (n = tab.length) == 0)// 2
-					tab = initTable();
-				else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {// 3
-					if (casTabAt(tab, i, null,
-								 new Node<K,V>(hash, key, value, null)))
-						break;                   // no lock when adding to empty bin
-				}
-				else if ((fh = f.hash) == MOVED)// 4
-					tab = helpTransfer(tab, f);
-				else {
-					V oldVal = null;
-					synchronized (f) {// 5
-						if (tabAt(tab, i) == f) {
-							if (fh >= 0) {
-								binCount = 1;
-								for (Node<K,V> e = f;; ++binCount) {
-									K ek;
-									if (e.hash == hash &&
-										((ek = e.key) == key ||
-										 (ek != null && key.equals(ek)))) {
-										oldVal = e.val;
-										if (!onlyIfAbsent)
-											e.val = value;
-										break;
-									}
-									Node<K,V> pred = e;
-									if ((e = e.next) == null) {
-										pred.next = new Node<K,V>(hash, key,
-																  value, null);
-										break;
-									}
-								}
-							}
-							else if (f instanceof TreeBin) {
-								Node<K,V> p;
-								binCount = 2;
-								if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
-															   value)) != null) {
-									oldVal = p.val;
-									if (!onlyIfAbsent)
-										p.val = value;
-								}
-							}
-						}
-					}
-					if (binCount != 0) {
-						if (binCount >= TREEIFY_THRESHOLD) // 6
-							treeifyBin(tab, i);
-						if (oldVal != null)
-							return oldVal;
-						break;
-					}
-				}
-			}
-			addCount(1L, binCount);
-			return null;
-		}
-			
-		1 根据 key 计算出 hashcode 
-		2 判断是否需要进行初始化
-		3 f 即为当前 key 定位出的 Node,如果为空表示当前位置可以写入数据,利用 CAS 尝试写入,失败则自旋保证成功
-		4 如果当前位置的 hashcode == MOVED == -1,则需要进行扩容
-		5 如果都不满足,则利用 synchronized 锁写入数据
-		6 如果数量大于 TREEIFY_THRESHOLD 则要转换为红黑树
-	
-	# GET过程
-		public V get(Object key) {
-			Node<K,V>[] tab; Node<K,V> e, p; int n, eh; K ek;
-			int h = spread(key.hashCode()); // 1
-			if ((tab = table) != null && (n = tab.length) > 0 &&
-				(e = tabAt(tab, (n - 1) & h)) != null) {
-				if ((eh = e.hash) == h) {
-					if ((ek = e.key) == key || (ek != null && key.equals(ek)))
-						return e.val;  // 2
-				}
-				else if (eh < 0)
-					return (p = e.find(h, key)) != null ? p.val : null;  
-				while ((e = e.next) != null) {
-					if (e.hash == h &&
-						((ek = e.key) == key || (ek != null && key.equals(ek))))
-						return e.val; //3 
-				}
-			}
-			return null;
-		}
-
-		1 根据计算出来的 hashcode 寻址,如果就在桶上那么直接返回值
-		2 如果是红黑树那就按照树的方式获取值
-		3 就不满足那就按照链表的方式遍历获取值
 			
 	# 静态方法
-		<K> KeySetView<K,Boolean> newKeySet()
-		<K> KeySetView<K,Boolean> newKeySet(int initialCapacity)
+		public static <K> KeySetView<K,Boolean> newKeySet()
+		public static <K> KeySetView<K,Boolean> newKeySet(int initialCapacity) 
+			* 返回Set，Set使用的Map就是ConcurrentHashMap
 	
+	# 实例方法
+		public KeySetView<K,V> keySet(V mappedValue) 
+			
+	
+	# 批量操作
+		search
+			* 为每个元素执行操作，直到操作函数返回一个非null的结果
+			* 然后返回这个非null结果，方法结束
+				// 找到第一个v大于100的值
+				map.search(1, ((k, v) -> v > 100 ? v : null));
+		reduce
+			* 计算
 		
+		forEach
+			* 遍历操作
+		
+		* 每个操作都有四个版本
+			xxxKeys(searchKeys)
+			xxx
+			xxxValues
+			xxxEntries
+		
+		* 每个操作都有一个 parallelismThreshold 参数
+		* 如果map包含的元素数量超过了这个值，就会并行完成批量操作
+		* 使用 Long.MAX_VALUE 保证单线程执行
+		* 使用 1 保证多线程执行
+
+

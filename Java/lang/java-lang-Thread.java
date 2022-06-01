@@ -22,13 +22,18 @@ Thread-属性					|
 Thread-方法					|
 ---------------------------
 	# 静态方法
-		Thread currentThread();
+		public static Thread currentThread();
 			* 返回当前的线程对象
-		sleep(long l);
+
+		public static void sleep(long l);
 			* 当前线程停止 l 毫秒
 		
-		Map<Thread, StackTraceElement[]> getAllStackTraces()
+		public static Map<Thread, StackTraceElement[]> getAllStackTraces()
 			* 获取到JVM中所有线程的执行栈
+		
+		public static void setDefaultUncaughtExceptionHandler(UncaughtExceptionHandler eh)
+			* 设置默认的线程中未被捕获异常
+
 
 	# 实例方法
 		
@@ -71,7 +76,13 @@ Thread-方法					|
 		void setContextClassLoader(ClassLoader cl)
 		ClassLoader getContextClassLoader()
 			* 设置/获取当前线程程序中使用的 classloader
-		
+
+		public void setUncaughtExceptionHandler(UncaughtExceptionHandler eh)
+			* 用于处理线程执行过程中，那些未被catch的异常
+			* 函数接口
+				 void uncaughtException(Thread t, Throwable e);
+			
+
 
 ---------------------------
 Thread 的中断机制			|
@@ -81,7 +92,7 @@ Thread 的中断机制			|
 	# 线程在sleep或wait(阻塞),join ....
 		* 此时如果别的进程调用此进程(Thread 对象)的 interrupt()方法,此线程会被唤醒并被要求处理 InterruptedException
 		* (thread在做IO操作时也可能有类似行为,见java thread api)
-		* 异常发生后,会重置这个标识位为 false
+		* InterruptedException 异常发生后，并不会修改线程的中断标识位，需要自己手动修改
 	
 	# 此线程在运行中
 		* 此时如果别的进程调用此进程(Thread 对象)的 interrupt()方法,不会收到提醒,但是此线程的 "中断" 会被设置为 true
@@ -95,24 +106,31 @@ Thread 的中断机制			|
 		isInterrupted()	实例方法	返回 boolean	检测调用该方法的线程是否被中断，不清除中断标记
 	
 	# 优雅的通知线程结束
-		import java.util.concurrent.TimeUnit;
-		public class Main {
-			public static void main(String[] args) throws InterruptedException {
-				Thread t = new Thread(() -> {
-					int i = 0;
-					while (!Thread.currentThread().isInterrupted()) { // 判断线程是否中断过，如果中断过，就清除标识位
-						System.out.println(i ++);
+		public class MainTest {
+			public static void main(String[] args) throws Exception {
+				Thread thread = new Thread(() -> {
+					while (!Thread.interrupted()) {
+						try {
+
+							// TODO 业务处理
+							
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							// 线程被中断，手动重置标识位为: true
+							// 如果不手动重置，线程中断标识不会修改（仍然是false），则while循环不会退出
+							Thread.currentThread().interrupt();
+						}
 					}
 				});
-				t.start();
 				
-				TimeUnit.SECONDS.sleep(3L);
+				thread.start();
+
+				Thread.sleep(2000);
 				
-				t.interrupt(); // 中断线程
-				
-				System.out.println("结束");
+				thread.interrupt();
 			}
 		}
+
 
 ---------------------------
 Thread 状态
