@@ -30,13 +30,13 @@ RandomAccessFile		|
 		int read(byte b[])
 			* 读取数据到 byte[]
 		
-		readFully(byte b[]) 
+		void readFully(byte b[]) 
 		
 		int read(byte b[], int off, int len)
 			* 读取数据到 byte[]
 			* 从byte[]的off开始写入,写入len长度
 		
-		readLine();
+		String readLine();
 			* 从指针位置读取当前行,只会读指针这一行后面的数据
 		
 	

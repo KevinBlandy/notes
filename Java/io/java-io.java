@@ -8,12 +8,16 @@ IO体系				  |
 		ObjectInputStream 
 		PipedInputStream 
 		SequenceInputStream 
+		FilterInputStream
+			* InputStream 的wrapper类，可以自定义实现
 
 	OutputStream
 		ByteArrayOutputStream
 		FileOutputStream
 		ObjectOutputStream
 		PipedOutputStream 
+		FilterOutputStream
+			* OutputStream 的wrapper类，可以自定义实现
 
 	Reader
 		FileReader

@@ -163,6 +163,7 @@ Files-静态方法				|
 	//=======================移动
 	Path			move(Path source, Path target, CopyOption... options)
 						* 移动 source 到 target
+						* 可以通过options来控制目标存在时是覆盖，还是异常
 
 	//=======================删除
 	void			delete(Path path);

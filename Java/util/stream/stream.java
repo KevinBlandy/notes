@@ -342,7 +342,8 @@ JAVA8新特性-collector		|
 		Collectors.toCollection(Supplier collectionFactory);
 			* 转换为自定义的 Collection 接口实现
 			* 就是可以使用自己创建容器
-			* collect(Collectors.toCollection(HashSet::new));
+				collect(Collectors.toCollection(HashSet::new));
+			
 		Collectors.counting();
 			* 返回 lang,把结果收集为一个总数
 		Collectors.averagingInt();

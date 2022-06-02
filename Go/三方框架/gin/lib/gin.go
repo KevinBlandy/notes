@@ -97,6 +97,8 @@ type
 			* 那么可以复制一个context过去
 
 		func (c *Context) Data(code int, contentType string, data []byte)
+			* 响应客户端data数据
+
 		func (c *Context) DataFromReader(code int, contentLength int64, contentType string, reader io.Reader, ...)
 			* 从指定的Reader读取数据响应给客户端
 		

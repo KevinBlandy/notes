@@ -79,7 +79,10 @@ Stream
 		static<T> Stream<T> of(T... values)
 		static<T> Stream<T> iterate(final T seed, final UnaryOperator<T> f)
 		static<T> Stream<T> iterate(T seed, Predicate<? super T> hasNext, UnaryOperator<T> next)
+
 		static<T> Stream<T> generate(Supplier<? extends T> s)
+			* ´´½¨Á÷	
+
 		static<T> Stream<T> concat(Stream<? extends T> a, Stream<? extends T> b)
 	
 
