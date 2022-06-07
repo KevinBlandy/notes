@@ -17,7 +17,9 @@ HttpClient
 	
 	# 静态方法
 		 public static HttpClient newHttpClient()
+		 	* 创建默认的执行器
 		 public static Builder newBuilder()
+		 	* 创建Builder
 	
 	# 抽象方法
 		Optional<CookieHandler> cookieHandler()
@@ -44,6 +46,7 @@ HttpClient
 				HTTP_2
 
 		abstract Optional<Executor> executor()
+			* 返回执行器
 
 		abstract <T> HttpResponse<T> send(HttpRequest request, HttpResponse.BodyHandler<T> responseBodyHandler)
 			* 同步请求

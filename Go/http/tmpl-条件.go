@@ -24,7 +24,11 @@
 				<h1>{{ "非法用户" }}</h1>
 			{{- end  }}	
 		
-	# 比较，{{ function arg1 arg2 }}
+		* and函数返回bool值，通过返回第一个空值或者最后一个值。and x y逻辑上相当于if x then y else x
+		* or 函数类似 and 函数，但是只要遇到 true就返回。or x y 等价于 if x then x else y。 x 非空的情况下y不会被评估。
+		* not函数返回参数的相反值:
+	
+	# 比较，{{ [function] arg1 arg2 }}
 		eq	arg1 == arg2
 		ne	arg1 != arg2
 		lt	arg1 < arg2

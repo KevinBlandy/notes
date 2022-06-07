@@ -35,7 +35,37 @@
 		
 	# 模板的命名，默认使用文件名称(base name)
 		* 如果模板定义了 {{ define "templateName" }} 的话，则使用 templateName
+		* 命名不能重复
+		* 多个模板common命名重复，后来的会覆盖前面的
 	
+	
+	# 文本中的HTML注释会被删除
+		content := `
+			{{ "<!-- 表达式里面的注释 -->"}} 
+			<!-- 文本中的注释 --> 
+			{{ htmlSafe  "<!-- 安全的表达式的注释 --> "}}
+			Hi
+		`
+
+		tpl := template.New("t")
+		tpl.Funcs(template.FuncMap{
+			"htmlSafe": func(content string) template.HTML {
+				return template.HTML(content)
+			},
+		})
+		if _, err := tpl.Parse(content); err != nil {
+			log.Fatalln(err.Error())
+		}
+		tpl.Execute(log.Writer(), nil)
+		
+		// out---------------
+		
+		&lt;!-- 表达式里面的注释 --&gt; 
+										
+		<!-- 安全的表达式的注释 -->     
+		Hi                     
+		
+		* 如果需要输出注释，可以通过 {{ }} 表达式输出 template.HTML 安全属性
 
 ------------------------
 数据渲染
@@ -116,6 +146,8 @@
 	# 移除多余的空格，可以在 {{}} 添加 -
 		* 左边添加表示移除左边的空格，右边添加表示移除右边的
 			{{- .Foo.Bar -}}
+		
+		* '-' 和 '{' / '}' 之间不能有空格
 	
 	
 	# 注释，使用 /**/

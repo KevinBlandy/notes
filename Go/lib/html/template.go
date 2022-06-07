@@ -78,6 +78,7 @@ type
 
 		func ParseFiles(filenames ...string) (*Template, error)
 			* 直接解析一个或多个文件的内容，并返回第一个文件名的basename作为Template的名称
+			* 也就是说返回的 tempate 的 name 是第一个文件名称
 		
 		func ParseGlob(pattern string) (*Template, error)
 			* 根据pattern解析所有匹配的模板，并返回第一个文件名的basename作为Template的名称
@@ -116,9 +117,11 @@ type
 			* 解析指定的文本作为模板，关联到当前模板
 		
 		func (t *Template) ParseFiles(filenames ...string) (*Template, error)
-			* 解析指定的文件
-		
 		func (t *Template) ParseGlob(pattern string) (*Template, error)
+			* 解析指定的文件
+
+			* 解析过程是独立于t之外的，它们只解析文件内容，不解析字符串。而New()出来的模板，需要Parse()方法来解析才会加入到common中。
+
 		func (t *Template) Templates() []*Template
 			* 返回模板组的所有模板
 

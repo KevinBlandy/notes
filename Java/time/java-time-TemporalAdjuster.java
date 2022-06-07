@@ -1,7 +1,7 @@
 --------------------------
 TemporalAdjuster
 --------------------------
-	# 一个接口，用于日期的计算
+	# 一个接口，用于日期调整（时间调整器）
 		Temporal adjustInto(Temporal temporal);
 
 

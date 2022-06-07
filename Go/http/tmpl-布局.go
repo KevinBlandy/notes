@@ -18,6 +18,7 @@
 			{{ end }}
 		
 		* 使用模板，传递变量
-			{{template "header" "utf-8"}}
+			{{template "header" "utf-8"}}		// 常量
+			 {{ template "common/head.html" .val}}	// 模板变量
 		
 

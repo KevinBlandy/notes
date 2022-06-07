@@ -24,6 +24,9 @@ type
 	
 	# type ClientConn struct {
 		}
+		
+		* 已过期
+
 		func NewClientConn(c net.Conn, r *bufio.Reader) *ClientConn
 		func NewProxyClientConn(c net.Conn, r *bufio.Reader) *ClientConn
 		func (cc *ClientConn) Close() error
@@ -35,18 +38,29 @@ type
 	
 	# type ReverseProxy struct {
 			Director func(*http.Request)
+				* 这个方法会把当前请求修改成代理请求
+
 			Transport http.RoundTripper
 			FlushInterval time.Duration
 			ErrorLog *log.Logger
+				* 异常日志处理
 			BufferPool BufferPool
 			ModifyResponse func(*http.Response) error
+				* 可选的，用于修改响应数据
+
 			ErrorHandler func(http.ResponseWriter, *http.Request, error)
 		}
+		
+		* 简单而又强大的代理
+
 		func NewSingleHostReverseProxy(target *url.URL) *ReverseProxy
 		func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request)
 	
 	# type ServerConn struct {
 		}
+		
+		* 已过期
+
 		func NewServerConn(c net.Conn, r *bufio.Reader) *ServerConn
 		func (sc *ServerConn) Close() error
 		func (sc *ServerConn) Hijack() (net.Conn, *bufio.Reader)
@@ -59,8 +73,63 @@ fauc
 ---------------------
 	func DumpRequest(req *http.Request, body bool) ([]byte, error)
 	func DumpRequestOut(req *http.Request, body bool) ([]byte, error)
-
 	func DumpResponse(resp *http.Response, body bool) ([]byte, error)
 
 	func NewChunkedReader(r io.Reader) io.Reader
 	func NewChunkedWriter(w io.Writer) io.WriteCloser
+
+
+
+---------------------
+Demo
+---------------------
+	# 一个代理服务器
+
+		package main
+
+		import (
+			"log"
+			"net/http"
+			"net/http/httputil"
+			"net/url"
+			"os"
+		)
+
+		func init() {
+			log.Default().SetOutput(os.Stdout)
+			log.Default().SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+		}
+
+		func main() {
+			// 代理的地址
+			targetURL, err := url.Parse("http://localhost")
+			if err != nil {
+				log.Fatalf(err.Error())
+			}
+			reverseProxy := httputil.NewSingleHostReverseProxy(targetURL)
+
+			// 修改请求
+			director := reverseProxy.Director
+			reverseProxy.Director = func(request *http.Request) {
+				director(request)
+			}
+
+			// 异常处理
+			reverseProxy.ErrorHandler = func(writer http.ResponseWriter, request *http.Request, err error) {
+				log.Printf("异常: %s\n", err.Error())
+			}
+			// 修改响应
+			reverseProxy.ModifyResponse = func(response *http.Response) error {
+				return nil
+			}
+
+			server := &http.Server{
+				Addr: ":8080",
+				Handler: http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+					// 执行代理请求
+					reverseProxy.ServeHTTP(writer, request)
+				}),
+			}
+
+			server.ListenAndServe()
+		}

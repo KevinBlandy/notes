@@ -83,8 +83,10 @@ BodyHandlers
 
 	static BodyHandler<Path> ofFile(Path file, OpenOption... openOptions)
 	static BodyHandler<Path> ofFile(Path file)
+		* 存储响应数据为本地文件
+
 	static BodyHandler<Path> ofFileDownload(Path directory, OpenOption... openOptions)
-		* 转换为文件下载
+		* 会根据Content-Disposition 头，把文件存入到 directory目录下
 
 	static BodyHandler<InputStream> ofInputStream()
 		* 转换为读取流
