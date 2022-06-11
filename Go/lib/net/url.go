@@ -28,8 +28,12 @@ type
 	
 	# type URL struct {
 			Scheme      string
+				* 协议
+
 			Opaque      string    // encoded opaque data
 			User        *Userinfo // username and password information
+				* 用户信息，用户名密码
+
 			Host        string    // host or host:port
 			Path        string    // 相对路径，（相对路径可以省略前面的斜线）
 			RawPath     string    // 编码的路径提示（见 EscapedPath 方法）。
@@ -38,6 +42,9 @@ type
 			Fragment    string    // fragment for references, without '#'
 			RawFragment string    // encoded fragment hint (see EscapedFragment method)
 		}
+		
+		* URL对象
+
 		func Parse(rawurl string) (*URL, error)
 		func ParseRequestURI(rawurl string) (*URL, error)
 
@@ -52,6 +59,8 @@ type
 			* 返回检索参数
 
 		func (u *URL) Redacted() string
+			* 把URL中的密码信息替换为: XXXX 
+
 		func (u *URL) RequestURI() string
 		func (u *URL) ResolveReference(ref *URL) *URL
 		func (u *URL) String() string
@@ -62,6 +71,7 @@ type
 		
 		func User(username string) *Userinfo
 		func UserPassword(username, password string) *Userinfo
+			* 通过用户名和密码构建用户信息
 
 		func (u *Userinfo) Password() (string, bool)
 		func (u *Userinfo) String() string

@@ -340,6 +340,11 @@ type
 	# type Request struct {
 			Method string
 			URL *url.URL
+				* 请求的URL
+
+				* 如果是Server中的Request，那么这个值是从 RequestURI 中的URI解析而来
+				* 所以大多数情况这个对象里只有 Path 和 RawQuery 字段有值
+
 			Proto      string // "HTTP/1.0"
 			ProtoMajor int    // 1
 			ProtoMinor int    // 0
@@ -350,12 +355,16 @@ type
 			TransferEncoding []string
 			Close bool
 			Host string
+				* 客户端请求的HOST，如果有端口会包含端口信息
+
 			Form url.Values
 			PostForm url.Values
 			MultipartForm *multipart.Form
 			Trailer Header
 			RemoteAddr string
 			RequestURI string
+				* 请求的URI
+
 			TLS *tls.ConnectionState
 			Cancel <-chan struct{}
 			Response *Response
@@ -366,6 +375,8 @@ type
 		func (r *Request) AddCookie(c *Cookie)
 		func (r *Request) BasicAuth() (username, password string, ok bool)
 		func (r *Request) Clone(ctx context.Context) *Request
+			* Clone一个Request请求
+
 		func (r *Request) Context() context.Context
 			* 返回当前Request上的Context
 			* 如果没有，则返回 context.Background()
@@ -445,7 +456,12 @@ type
 	
 	# type RoundTripper interface {
 			RoundTrip(*Request) (*Response, error)
+				* 执行HTTP请求，返回Response
 		}
+		
+		* RoundTripper是一个接口，代表了执行单个HTTP事务的能力，为一个给定的请求获取响应。
+		* 一个RoundTripper必须是安全的，可以被多个goroutine同时使用。
+
 		func NewFileTransport(fs FileSystem) RoundTripper
 	
 	# type SameSite int
@@ -538,6 +554,7 @@ type
 		func (t *Transport) CloseIdleConnections()
 		func (t *Transport) RegisterProtocol(scheme string, rt RoundTripper)
 		func (t *Transport) RoundTrip(req *Request) (*Response, error)
+			* 执行HTTP请求，返回Response
 
 -----------------
 func

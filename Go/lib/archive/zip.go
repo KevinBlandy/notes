@@ -7,8 +7,12 @@ var
 -----------------
 	const (
 		Store   uint16 = 0 // no compression
+			* 不压缩
 		Deflate uint16 = 8 // DEFLATE compressed
+			* 压缩
 	)
+
+
 	var (
 		ErrFormat    = errors.New("zip: not a valid zip file")
 		ErrAlgorithm = errors.New("zip: unsupported compression algorithm")
@@ -29,12 +33,17 @@ type
 	
 	# type FileHeader struct {
 			Name string
+				* 名称，如果是 "/" 结尾，则是一个目录
+
 			Comment string
 			NonUTF8 bool
 			CreatorVersion uint16
 			ReaderVersion  uint16
 			Flags          uint16
 			Method uint16
+				* 压缩方式，对于目录项来说无效
+				* 一般设置: zip.Deflate
+
 			Modified     time.Time
 			ModifiedTime uint16 // Deprecated: Legacy MS-DOS date; use Modified instead.
 			ModifiedDate uint16 // Deprecated: Legacy MS-DOS time; use Modified instead.
@@ -46,7 +55,12 @@ type
 			Extra              []byte
 			ExternalAttrs      uint32 // Meaning depends on CreatorVersion
 		}
+		
+		* 一个Zip压缩项
+
 		func FileInfoHeader(fi fs.FileInfo) (*FileHeader, error)
+			* 根据文件的 FileInfo 创建
+
 		func (h *FileHeader) FileInfo() fs.FileInfo
 		func (h *FileHeader) ModTime() time.Time
 		func (h *FileHeader) Mode() (mode fs.FileMode)
@@ -73,12 +87,17 @@ type
 		func NewWriter(w io.Writer) *Writer
 		func (w *Writer) Close() error
 		func (w *Writer) Create(name string) (io.Writer, error)
+
 		func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error)
+			* 写入一个*FileHeader文件项
+
 		func (w *Writer) Flush() error
 		func (w *Writer) RegisterCompressor(method uint16, comp Compressor)
 		func (w *Writer) SetComment(comment string) error
 		func (w *Writer) SetOffset(n int64)
 		func (w *Writer) CreateRaw(fh *FileHeader) (io.Writer, error)
+			* 与CreateHeader不同的是，传递给Writer的字节没有被压缩。
+		
 		func (w *Writer) Copy(f *File) error
 
 

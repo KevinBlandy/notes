@@ -38,10 +38,13 @@ type
 		}
 	
 	# type HTML struct {
-			Template *template.Template
-			Name     string
-			Data     interface{}
+			Template *template.Template		// 模板引擎对象
+			Name     string					// 模板引起名称。可以为""
+			Data     interface{}			// 数据
 		}
+		
+		* 渲染模板引擎
+
 		func (r HTML) Render(w http.ResponseWriter) error
 		func (r HTML) WriteContentType(w http.ResponseWriter)
 	

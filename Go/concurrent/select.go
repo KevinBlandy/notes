@@ -144,3 +144,17 @@ context 退出
 ----------------------
 	# 看Context笔记
 
+
+		
+----------------------
+判断是否可以写入
+----------------------
+
+func Writable(data any, ch chan any) bool {
+	select {
+	case ch <- data:
+		return true
+	default:
+		return false
+	}
+}

@@ -41,20 +41,28 @@ type
 				* 这个方法会把当前请求修改成代理请求
 
 			Transport http.RoundTripper
+				* HTTP执行器
+
 			FlushInterval time.Duration
 			ErrorLog *log.Logger
 				* 异常日志处理
+
 			BufferPool BufferPool
+
 			ModifyResponse func(*http.Response) error
 				* 可选的，用于修改响应数据
 
 			ErrorHandler func(http.ResponseWriter, *http.Request, error)
+				* 异常处理
 		}
 		
-		* 简单而又强大的代理
+		* 简单而又强大的代理服务器
 
 		func NewSingleHostReverseProxy(target *url.URL) *ReverseProxy
+			* 创建新的代理服务器，指定要代理的URL地址
+
 		func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request)
+			* 执行代理请求
 	
 	# type ServerConn struct {
 		}

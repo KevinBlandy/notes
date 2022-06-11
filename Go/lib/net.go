@@ -470,6 +470,10 @@ type
 	func ParseCIDR(s string) (IP, *IPNet, error)
 	func Pipe() (Conn, Conn)
 	func SplitHostPort(hostport string) (host, port string, err error)
+		* 分离出请求地址中的HOST和端口
+			if clientIP, port, err := net.SplitHostPort(req.RemoteAddr); err == nil {
+				...
+			}
 
 	
 
