@@ -490,6 +490,7 @@ type
 			Addr string
 			Handler Handler // handler to invoke, http.DefaultServeMux if nil
 			TLSConfig *tls.Config
+				* tls的配置
 
 			ReadTimeout time.Duration
 			ReadHeaderTimeout time.Duration
@@ -530,7 +531,11 @@ type
 
 			TLSHandshakeTimeout time.Duration
 			DisableKeepAlives bool
+				* 禁止保持长连接
+
 			DisableCompression bool
+				* 禁止压缩
+
 			MaxIdleConns int
 			MaxIdleConnsPerHost int
 			MaxConnsPerHost int
@@ -546,7 +551,7 @@ type
 			ForceAttemptHTTP2 bool // contains filtered or unexported fields
 		}
 
-		* Http通信协议相关的配置
+		* Http通信协议相关的配置，主要是客户端使用
 		* 线程安全，可重用
 
 		func (t *Transport) CancelRequest(req *Request)

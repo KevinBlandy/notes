@@ -53,6 +53,15 @@ func
 			})
 			fmt.Println(val)  // application/json; charset=utf-8
 		
+		* 它可以正确的解析 attachment
+			mediaType := mime.FormatMediaType("attachment", map[string]string{"filename": "金瓶梅.pdf"})
+			log.Println(mediaType) 
+			// attachment; filename*=utf-8''%E9%87%91%E7%93%B6%E6%A2%85.pdf
+			
+
+			// 用于下载
+			ctx.Header("Content-Disposition", mime.FormatMediaType("attachment", map[string]string{"filename": stat.Name()}))
+			
 
 	func ParseMediaType(v string) (mediatype string, params map[string]string, err error)
 		* 解析ContentType，返回ContentType，参数，异常

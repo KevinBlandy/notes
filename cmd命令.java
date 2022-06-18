@@ -4,8 +4,9 @@
 
 	* hash算法可以是: md5,sha1,sha256
 
-# 清除由于网络问题带来的,maven依赖下载失败遗留的 .lastupdate文件
+# 清除由于网络问题带来的,maven依赖下载失败遗留的 .lastupdate/_remote.repositories文件
 	for /r %i in (*.lastUpdated)do del %i
+	for /r %i in (*.repositories)do del %i
 
 	* 需要在maven的仓库目录执行
 
@@ -17,3 +18,9 @@
 	CHCP 65001
 		* 设置编码为utf-8
 		* 设置成功后如果不能正常显示,则尝试设置一下cmd属性里面的字体
+
+# 查看端口占用进程
+
+	netstat -aon|findstr "8081"
+
+
