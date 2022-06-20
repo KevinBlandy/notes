@@ -3,13 +3,17 @@ var
 -------------------
 	const (
 		UNKNOWN = iota
-		QUESTION
-		DOLLAR
-		NAMED
-		AT
+		QUESTION	// ?
+		DOLLAR		// $
+		NAMED		// :name
+		AT			// @
 	)
 
+		* 占位符类型
+
 	var NameMapper = strings.ToLower
+		* 列映射Mappper
+
 
 -------------------
 type
@@ -56,29 +60,38 @@ type
 
 		func (db *DB) BeginTxx(ctx context.Context, opts *sql.TxOptions) (*Tx, error)
 		func (db *DB) Beginx() (*Tx, error)
+			* 开始事务，可以通过 opts 指定事务的隔离级别等等
+			
 		func (db *DB) BindNamed(query string, arg interface{}) (string, []interface{}, error)
 		func (db *DB) Connx(ctx context.Context) (*Conn, error)
 		func (db *DB) DriverName() string
 
 		func (db *DB) MapperFunc(mf func(string) string)
+			* 重新设置struct与列名映射关系的函数
+			* 如果关系映射不上，可以通过 `db:""` 来设置。
+			* Named 查询的参数，如果是struct，不会用这个 mf 来进行列名称的转换
 
 		func (db *DB) MustBegin() *Tx
 		func (db *DB) MustBeginTx(ctx context.Context, opts *sql.TxOptions) *Tx
 
 		func (db *DB) MustExec(query string, args ...interface{}) sql.Result
 		func (db *DB) MustExecContext(ctx context.Context, query string, args ...interface{}) sql.Result
-			* 执行SQL更新语句，如果出现异常则panic
+			* 执行SQL更新/INSERT语句，如果出现异常则panic
 			* 如果需要自己控制err，则可以使用父类的Exec方法
 
 		func (db *DB) NamedExec(query string, arg interface{}) (sql.Result, error)
 		func (db *DB) NamedExecContext(ctx context.Context, query string, arg interface{}) (sql.Result, error)
 		func (db *DB) NamedQuery(query string, arg interface{}) (*Rows, error)
 		func (db *DB) NamedQueryContext(ctx context.Context, query string, arg interface{}) (*Rows, error)
+			* 命名查询/修改。返回多行多列
 
 		func (db *DB) PrepareNamed(query string) (*NamedStmt, error)
 		func (db *DB) PrepareNamedContext(ctx context.Context, query string) (*NamedStmt, error)
+			* 命名预编译SQL
+
 		func (db *DB) Preparex(query string) (*Stmt, error)
 		func (db *DB) PreparexContext(ctx context.Context, query string) (*Stmt, error)
+			* 预编译语句
 
 		func (db *DB) QueryRowx(query string, args ...interface{}) *Row
 		func (db *DB) QueryRowxContext(ctx context.Context, query string, args ...interface{}) *Row
@@ -87,14 +100,30 @@ type
 		func (db *DB) Queryx(query string, args ...interface{}) (*Rows, error)
 		func (db *DB) QueryxContext(ctx context.Context, query string, args ...interface{}) (*Rows, error)
 			* 查询多行结果，异常发生在查询执行的时候
+			* 一定要记得关闭*Rows
 
 		func (db *DB) Rebind(query string) string
+			* Rebind将一个查询从?占位符查询转换为DB驱动的bindvar类型。
 
 		func (db *DB) Get(dest interface{}, query string, args ...interface{}) error
 		func (db *DB) GetContext(ctx context.Context, dest interface{}, query string, args ...interface{}) error
-
 		func (db *DB) Select(dest interface{}, query string, args ...interface{}) error
 		func (db *DB) SelectContext(ctx context.Context, dest interface{}, query string, args ...interface{}) error
+			* 获取单行/多行数据，desct可以是可扫描的类型
+			* 它会一次性把数据都加载到内存
+
+			* Select 中的 dest 参数，只能是struct类型的切片，并且检索结果中的所有列都要定义
+				type User struct {
+					Id   int
+					Name string
+				}
+				var ret []User		// 切片，必须是strutc类型
+				err = db.Select(&ret, "SELECT id, name FROM user WHERE id < ?", 100)  // 查询的id, name 列，必须在strutc中定义
+				if err != nil {
+					log.Fatalf(err.Error())
+				}
+				log.Println(ret)
+			
 
 		func (db *DB) Unsafe() *DB
 	
@@ -170,6 +199,10 @@ type
 			*sql.Rows
 			Mapper *reflectx.Mapper
 		}
+	
+		* 多行多列结果集
+		* 千万要记得Close，可以重复调用，多调用几次也无妨
+
 		func NamedQuery(e Ext, query string, arg interface{}) (*Rows, error)
 		func NamedQueryContext(ctx context.Context, e ExtContext, query string, arg interface{}) (*Rows, error)
 		func (r *Rows) MapScan(dest map[string]interface{}) error
@@ -201,6 +234,10 @@ type
 			*sql.Tx
 			Mapper *reflectx.Mapper
 		}
+
+		
+		* 事务
+
 		func (tx *Tx) BindNamed(query string, arg interface{}) (string, []interface{}, error)
 		func (tx *Tx) DriverName() string
 		func (tx *Tx) Get(dest interface{}, query string, args ...interface{}) error
@@ -237,13 +274,42 @@ func
 	func BindType(driverName string) int
 	func Get(q Queryer, dest interface{}, query string, args ...interface{}) error
 	func GetContext(ctx context.Context, q QueryerContext, dest interface{}, query string, ...) error
+
 	func In(query string, args ...interface{}) (string, []interface{}, error)
+		* 生成带有in表达式的SQL，会自动展开 args 中的切片来填充 ?
+			
+
 	func LoadFile(e Execer, path string) (*sql.Result, error)
 	func LoadFileContext(ctx context.Context, e ExecerContext, path string) (*sql.Result, error)
 	func MapScan(r ColScanner, dest map[string]interface{}) error
 	func MustExec(e Execer, query string, args ...interface{}) sql.Result
 	func MustExecContext(ctx context.Context, e ExecerContext, query string, args ...interface{}) sql.Result
 	func Named(query string, arg interface{}) (string, []interface{}, error)
+		* 解析 name 查询为 ? 查询
+			var params = map[string]interface{}{
+				"createAt": time.Now(),
+				"names":    []string{"JPA", "MYBATIS"},
+				"ids":      []int{15, 16},
+				"enabled":  true,
+			}
+
+			query, args, err := sqlx.Named("SELECT `id`, `name` FROM `user` WHERE `create_at` < :createAt and `name` in (:names) and `id` IN (:ids) and `enabled` = :enabled ", params)
+			log.Println(query, args, err)
+			// SELECT `id`, `name` FROM `user` WHERE `create_at` < ? and `name` in (?) and `id` IN (?) and `enabled` = ?  [2022-06-20 12:45:52.0977691 +0800 CST m=+0.008774201 [JPA MYBATIS] [15 16] true] <nil>
+		
+		* 也可以把参数换成结构体
+			var params = struct {
+				CreateAt time.Time `db:"createAt"`
+				Names    []string  `db:"names"`
+				Ids      []int     `db:"ids"`
+				Enabled  bool      `db:"enabled"`
+			}{
+				CreateAt: time.Now(),
+				Names:    []string{"JPA", "MYBATIS"},
+				Ids:      []int{15, 16},
+				Enabled:  true,
+			}
+		
 	func NamedExec(e Ext, query string, arg interface{}) (sql.Result, error)
 	func NamedExecContext(ctx context.Context, e ExtContext, query string, arg interface{}) (sql.Result, error)
 	func Rebind(bindType int, query string) string
