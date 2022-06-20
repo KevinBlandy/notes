@@ -110,6 +110,8 @@ type
 		func (db *DB) Select(dest interface{}, query string, args ...interface{}) error
 		func (db *DB) SelectContext(ctx context.Context, dest interface{}, query string, args ...interface{}) error
 			* 获取单行/多行数据，desct可以是可扫描的类型
+			* select/get只支持当前数据库支持的占位符类型。
+				* 如果是MYSQL的话，只支持?,需要想用命名参数，那么需要通过 Named 来对SQL进行转换
 			* 它会一次性把数据都加载到内存
 
 			* Select 中的 dest 参数，只能是struct类型的切片，并且检索结果中的所有列都要定义
