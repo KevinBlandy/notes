@@ -13,7 +13,8 @@ var
 
 	var NameMapper = strings.ToLower
 		* 列映射Mappper
-
+		* 用于结果集映射，Named 检索映射
+		* `db:""` 的优先级会比mapper高
 
 -------------------
 type
@@ -69,7 +70,6 @@ type
 		func (db *DB) MapperFunc(mf func(string) string)
 			* 重新设置struct与列名映射关系的函数
 			* 如果关系映射不上，可以通过 `db:""` 来设置。
-			* Named 查询的参数，如果是struct，不会用这个 mf 来进行列名称的转换
 
 		func (db *DB) MustBegin() *Tx
 		func (db *DB) MustBeginTx(ctx context.Context, opts *sql.TxOptions) *Tx

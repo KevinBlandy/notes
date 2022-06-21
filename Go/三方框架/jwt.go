@@ -69,6 +69,8 @@ type
 			ValidMethods         []string // If populated, only these methods will be considered valid
 			UseJSONNumber        bool     // Use JSON Number format in JSON decoder
 			SkipClaimsValidation bool     // Skip claims validation during token parsing
+				* 解析的时候是否校验Token(token有效, 未过期, 已生效)
+				* 如果为true,那么在执行 ParseWithClaims/Parse 校验失败就会返回异常
 		}
 		func (p *Parser) Parse(tokenString string, keyFunc Keyfunc) (*Token, error)
 		func (p *Parser) ParseUnverified(tokenString string, claims Claims) (token *Token, parts []string, err error)
@@ -151,11 +153,14 @@ type
 			Subject   string `json:"sub,omitempty"`
 		}
 		func (c StandardClaims) Valid() error
+
 		func (c *StandardClaims) VerifyAudience(cmp string, req bool) bool
 		func (c *StandardClaims) VerifyExpiresAt(cmp int64, req bool) bool
 		func (c *StandardClaims) VerifyIssuedAt(cmp int64, req bool) bool
 		func (c *StandardClaims) VerifyIssuer(cmp string, req bool) bool
 		func (c *StandardClaims) VerifyNotBefore(cmp int64, req bool) bool
+			* 使用 cmp 和 StandardClaims 中对应的字段进行比较。
+			* req 表示，是否是必须存在的字段。如果字段不存在，返回true
 	
 	# type Token struct {
 			Raw       string                 // The raw token.  Populated when you Parse a token
@@ -199,56 +204,61 @@ HMAC-SHA 签发验证
 ------------------------
 	import (
 		"errors"
-		"github.com/dgrijalva/jwt-go"
-		"log"
+		"github.com/golang-jwt/jwt"
+		"github.com/google/uuid"
+		"strconv"
 		"time"
 	)
-	var Key = []byte("123456")
 
-	func main(){
-		v, err := Encode()
-		log.Println(v, err )
+	// unverifiedParser 不验证合法性的解析器
+	var unverifiedParser = &jwt.Parser{SkipClaimsValidation: true}
 
-		c, err := Decode(v)
-		log.Println(c, err)
-	}
+	// verifiedParser 验证合法性的解析器
+	var verifiedParser = new(jwt.Parser)
 
-	func Encode () (string, error){
-		claims := &jwt.StandardClaims {
+	// GenToken 生成Token
+	func GenToken(userId int, key []byte, expiresAt time.Time) (string, error) {
+		now := time.Now()
+		return jwt.NewWithClaims(jwt.SigningMethodHS512, &jwt.StandardClaims{
 			// 受众
-			Audience: "KevinBlandy",
+			Audience: strconv.Itoa(userId),
 			// 签发人
-			Issuer: "SpringBoot Community",
-			// 过期时间戳
-			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
-			// ID
-			Id: "1",
-			// 签发时间戳
-			IssuedAt: time.Now().Unix(),
-			// 生效时间戳
-			NotBefore: time.Now().Unix(),
+			//Issuer:    "",
+			// 过期时间
+			ExpiresAt: expiresAt.Unix(),
+			//Token Id
+			Id: uuid.New().String(),
+			// 发布时间
+			IssuedAt: now.Unix(),
+			// 生效时间
+			NotBefore: now.Unix(),
 			// 主题
-			Subject: "App Auth",
-		}
-		// 创建Token
-		token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
-
-		// 使用Key对Token进行签名，返回签名后的Token字符串和异常
-		return token.SignedString(Key)
+			//Subject: "App Auth",
+		}).SignedString(key)
 	}
 
-	func Decode (signedString string) (*jwt.StandardClaims, error) {
-		token, err := jwt.ParseWithClaims(signedString, &jwt.StandardClaims{} , func(token *jwt.Token) (i interface{}, err error) {
-			return Key, nil
+	// Decode 解析JWT，会根据key进行校验
+	func Decode(signedString string, key []byte) (*jwt.StandardClaims, error) {
+		token, err := verifiedParser.ParseWithClaims(signedString, &jwt.StandardClaims{}, func(token *jwt.Token) (i interface{}, err error) {
+			return key, nil
 		})
 		if err != nil {
+			// 如果Token无效（KEY不对，过期了，还未生效都会返回Error）
 			return nil, err
 		}
 		if claims, ok := token.Claims.(*jwt.StandardClaims); ok && token.Valid {
 			// 返回StandardClaims
-			// Token.Valid 验证基于时间的声明，例如：过期时间（ExpiresAt）、签发者（Issuer）、生效时间（Not Before），需要注意的是，如果没有任何声明在令牌中，仍然会被认为是有效的。
+			// Token.Valid 验证基于时间的声明，例如：过期时间（ExpiresAt）、签发者（Issuer）、生效时间（Not Before）
+			// 需要注意的是，如果没有任何声明在令牌中，仍然会被认为是有效的。
 			return claims, nil
 		}
 		// 非法Token
 		return nil, errors.New("bad token")
+	}
+
+	// ParseUnverified 从token中解析出数据，但是不会校验
+	func ParseUnverified(signedString string) (claim *jwt.StandardClaims, err error) {
+		claim = &jwt.StandardClaims{}
+		_, _, err = unverifiedParser.ParseUnverified(signedString, claim)
+		return claim, err
 	}

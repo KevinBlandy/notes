@@ -56,7 +56,7 @@
 			static PageRequest of(int page, int size) 
 			static PageRequest of(int page, int size, Sort sort)
 			static PageRequest of(int page, int size, Direction direction, String... properties)
-				page 页码, 第一页从0开始
+				page 页码, 第一页从0开始（客户端传递分页参数 - 1 就行）
 				size 每页显示数量
 					
 
