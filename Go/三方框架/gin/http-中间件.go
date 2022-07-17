@@ -219,3 +219,30 @@ req 中间件
 			}
 			context.Next()
 		}
+	
+
+----------------------
+实现带有状态的中间件
+----------------------
+	# 类似于 Spring 中拦截器，可以实现类似于读取Handler注解的功能
+	# 中间件定义
+		type AuthInterceptor struct {
+			Auth []string
+		}
+
+		func (a AuthInterceptor) Handle(ctx *gin.Context) {
+			log.Printf("权限: %s\n", a.Auth)
+		}
+		func NewAuthInterceptor(auth ...string) func(ctx *gin.Context) {
+			return AuthInterceptor{Auth: auth}.Handle
+		}
+
+		func Test(ctx *gin.Context) (render.Render, error) {
+			return render.JSON{Data: response.Ok()}, nil
+		}
+
+	
+	# 中间件使用
+		router.Any("/test", handler.NewAuthInterceptor("1", "2", "3"), handler.Render(handler.Test))
+		router.Any("/test1", handler.AuthInterceptor{Auth: []string{"7", "8", "9"}}.Handle, handler.Render(handler.Test))
+

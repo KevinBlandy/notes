@@ -2,6 +2,11 @@
 函数
 ------------------------
 	# 模板里面调用的方法，只能返回一个参数，如果有2个，那么第二个必须是 error
+
+	# 内置函数调用直接声明就可以了
+		call/html
+	
+	# 函数变量，需要用 call 指令
 		
 
 	# 结构体方法调用，使用:. 
@@ -33,15 +38,41 @@
 	
 
 	# 注册全局函数，任意地方都可以调用，声明即调用，参数写在后面，多个的话使用逗号分隔
-		testTemplate, err = template.New("hello.gohtml").Funcs(template.FuncMap{
-		"hasPermission": func(user User, feature string) bool {
-		  if user.ID == 1 && feature == "feature-a" {
-			return true
-		  }
-		  return false
-		},
-	  }).ParseFiles("hello.gohtml")
-	 
+
+		* 也就是注册未了内置函数，跟 call, html 是一样的
+		
+		// FuncMaps 系统中用到的模板引擎函数
+		var FuncMaps = template.FuncMap{
+			"Global": func() map[string]any {
+				return map[string]any{
+					// struct
+					"Title": struct {
+						Name string
+					}{Name: "PPP"},
+
+					// func
+					"Key": func(val string) string {
+						return "Hello " + val
+					},
+				}
+			},
+			// func
+			"Test": func() string {
+				return "Im From Func"
+			},
+		}
+		
+		// 调用
+        {{ Global.Title.Name }} <br/>
+        {{ call Global.Key "Go's hh ;" | html }}<br/>			// 通过 call 调用 Global.Key 函数，传递参数，并且把返回值给 html再次调用
+        {{ html (call Global.Key "Go's template") }}<br/>		// 调用 call Global.Key 函数，传递参数，并且把返回值给 html再次调用
+        {{ Test }}<br/>			// 注册的全局内置函数，直接调用
+
+		// 输出
+        PPP <br/>
+        Hello Go&#39;s hh ;<br/>
+        Hello Go&#39;s template<br/>
+        Im From Func<br/>
 	
 	# 管道调用
 		* 使用 | 把变量作为参数，传递给函数
@@ -69,6 +100,7 @@
 	
 	call
 		* 执行结果是调用第一个参数的返回值，该参数必须是函数类型，其余参数作为调用该函数的参数
+		* 没有参数直接调用，有参数使用call
 	
 	html
 		* 对参数进行HTML编码

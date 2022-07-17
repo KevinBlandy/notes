@@ -312,6 +312,8 @@ func
 				Enabled:  true,
 			}
 		
+		* 这个方法struct字段映射规则，不受mapper的控制，但是可以通过db标签控制
+		
 	func NamedExec(e Ext, query string, arg interface{}) (sql.Result, error)
 	func NamedExecContext(ctx context.Context, e ExtContext, query string, arg interface{}) (sql.Result, error)
 	func Rebind(bindType int, query string) string

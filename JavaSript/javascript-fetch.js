@@ -324,3 +324,13 @@ Demo				|
 	}).catch(function(error){
 		console.log(error);
 	});
+
+
+	fetch("/index", {
+		method: "POST", 
+		headers: {
+			"Content-Type": "application/x-www-form-urlencoded"
+		},
+		body: new URLSearchParams("name=foo&age=22")
+	})
+	.then(resp => {})
