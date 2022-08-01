@@ -187,6 +187,17 @@ CASE 表达式, IF 语句, IFNULL 语句
 			.when(customer.annualSpending.gt(2000)).then("Silver")
 			.otherwise("Bronze");
 		// The cases expression can now be used in a projection or condition
+	
+	# Expressions.nullExpression()
+		query.select(
+							qAccUnitStock.quantity.when(
+								Expressions.nullExpression()).then(0L).otherwise(qAccUnitStock.quantity) 
+					)
+					.from(qAccUnitStock)
+					.where(qAccUnitStock.booksId.eq(item.getBooksId()).and(qAccUnitStock.unitAgencyId.eq(ret.getUnitAgencyId()))).fetchOne()
+		
+
+		* 如果值为null，则设置为自定义值
 
 	# Demo
 		QVideo qVideo = QVideo.video;

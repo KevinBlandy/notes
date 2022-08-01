@@ -112,6 +112,9 @@ type
 	# type ReaderFrom interface {
 			ReadFrom(r Reader) (n int64, err error)
 		}
+		
+		* 底层可能使用零拷贝技术
+
 	# type RuneReader interface {
 			ReadRune() (r rune, size int, err error)
 		}
@@ -162,6 +165,8 @@ type
 	# type WriterTo interface {
 			WriteTo(w Writer) (n int64, err error)
 		}
+
+		* 底层可能使用零拷贝技术
 	
 
 --------------------------
