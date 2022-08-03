@@ -18,6 +18,12 @@ func
     func As(err error, target interface{}) bool
 		* target 必须是指针，不能为nil，并且必须是实现了error的接口
 		* 判断 err 是不是属于target类型
+			// 异常实例
+			var err = &http.MaxBytesError{}
+			// 异常类型指针
+			var errType *http.MaxBytesError
+			// 结果
+			fmt.Println(errors.As(err, &errType))
 
     func Is(err, target error) bool
 		* 返回 targer 的异常链中，是否有err错误

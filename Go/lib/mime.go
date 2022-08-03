@@ -61,6 +61,9 @@ func
 
 			// 用于下载
 			ctx.Header("Content-Disposition", mime.FormatMediaType("attachment", map[string]string{"filename": stat.Name()}))
+
+			// 类似于
+			c.Writer.Header().Set("Content-Disposition", `attachment; filename*=UTF-8''`+url.QueryEscape(filename))
 			
 
 	func ParseMediaType(v string) (mediatype string, params map[string]string, err error)

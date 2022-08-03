@@ -30,6 +30,8 @@ type
 	
 	# type ArrayMarshalerFunc func(ArrayEncoder) error
 		func (f ArrayMarshalerFunc) MarshalLogArray(enc ArrayEncoder) error
+
+		* 数组序列号器，用于序列化数组类型的参数
 	
 	# type CallerEncoder func(EntryCaller, PrimitiveArrayEncoder)
 		func (e *CallerEncoder) UnmarshalText(text []byte) error
@@ -381,9 +383,11 @@ type
 	# type ObjectMarshaler interface {
 			MarshalLogObject(ObjectEncoder) error
 		}
-	
+
 	# type ObjectMarshalerFunc func(ObjectEncoder) error
 		func (f ObjectMarshalerFunc) MarshalLogObject(enc ObjectEncoder) error
+
+		* 对象序列化器
 	
 	# type PrimitiveArrayEncoder interface {
 			// Built-in types.

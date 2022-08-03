@@ -32,7 +32,9 @@ type
 	
 	func Search(n int, f func(int) bool) int 
 		* 2分搜索的实现， 下标范围是 0 - n，通过 f 判断是否命中，返回就是下标
-
+	
+	func Find(n int, cmp func(int) int) (i int, found bool)
+		* 类似于Search，但是更好用，它返回一个额外的布尔值，报告是否找到相等的值。
 		
 	func SearchInts(a []int, x int) int 
 	func SearchFloat64s(a []float64, x float64) int 
@@ -56,3 +58,5 @@ type
 	func Float64sAreSorted(a []float64) bool 
 	func StringsAreSorted(a []string) bool 
 		* 判断指定的切片，是否是有序的
+	
+	

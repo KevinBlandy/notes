@@ -86,7 +86,9 @@ type
 			* 如果c.Stdin、c.Stdout或c.Stderr中的任何一个不是*os.File，Wait也会等待各自的I/O循环复制到进程中或从进程中复制出来完成
 			* Wait会释放任何与Cmd.Stdin.File相关的资源
 
-	
+		func (c *Cmd) Environ() []string
+			* Environ返回一个环境的副本，该命令将在该环境中运行，因为它是当前配置的。
+
 	# type Error struct {
 			Name string
 			Err error

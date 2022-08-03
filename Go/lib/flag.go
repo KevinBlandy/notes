@@ -158,6 +158,7 @@ type
 		
 	func Visit(fn func(*Flag))
 	func VisitAll(fn func(*Flag))
+	func TextVar(p encoding.TextUnmarshaler, name string, value encoding.TextMarshaler, usage string)
 
 ---------------------------------------
 Demo

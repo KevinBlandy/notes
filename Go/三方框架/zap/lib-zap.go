@@ -252,6 +252,8 @@ struct
 
 		func Development() Option
 		func ErrorOutput(w zapcore.WriteSyncer) Option
+			* 异常输出，这个只会记录内部的异常，而不是ERROR级别的日志
+
 		func Fields(fs ...Field) Option
 			* 预设一堆输出字段，这个logger输出都会带上这个
 

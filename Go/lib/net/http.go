@@ -325,6 +325,14 @@ type
 
 		func (pe *ProtocolError) Error() string
 	
+	# type MaxBytesError struct {
+			Limit int64
+		}	
+		
+		* 请求体超出最大限制异常
+
+		func (e *MaxBytesError) Error() string
+
 	# type PushOptions struct {
 			Method string
 			Header Header

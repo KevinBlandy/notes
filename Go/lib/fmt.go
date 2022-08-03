@@ -69,3 +69,8 @@ type
 	func Sscan(str string, a ...interface{}) (n int, err error)
 	func Sscanf(str string, format string, a ...interface{}) (n int, err error)
 	func Sscanln(str string, a ...interface{}) (n int, err error) 
+
+	func Append(b []byte, a ...any) []byte
+	func Appendf(b []byte, format string, a ...any) []byte
+	func Appendln(b []byte, a ...any) []byte
+	

@@ -100,6 +100,8 @@ type
 
 		func (d Duration) Truncate(m Duration) Duration 
 		func (d Duration) Round(m Duration) Duration
+		func (d Duration) Abs() Duration
+			* 返回绝对值
 
 
 	# type Time struct 
@@ -207,6 +209,12 @@ type
 		
 		func (t Time) UnixMicro() int64
 			* 返回时间戳微秒
+		
+		func (t Time) ZoneBounds() (start, end Time)
+			* ZoneBounds返回在时间t生效的时区的边界，时区从start开始，下一个时区从end开始。
+			* 如果该区域从时间的开始开始，start将被返回为一个零的时间。
+			* 如果该区一直持续下去，那么结束将以零时间的形式返回。返回的时间的位置将与t相同。
+
 
 	# type ParseError struct{
 			Layout     string

@@ -37,6 +37,7 @@ type
 			Host        string    // host or host:port
 			Path        string    // 相对路径，（相对路径可以省略前面的斜线）
 			RawPath     string    // 编码的路径提示（见 EscapedPath 方法）。
+			OmitHost	bool	  // do not emit empty host (authority)
 			ForceQuery  bool      // append a query ('?') even if RawQuery is empty
 			RawQuery    string    // encoded query values, without '?'
 			Fragment    string    // fragment for references, without '#'
@@ -65,6 +66,8 @@ type
 		func (u *URL) ResolveReference(ref *URL) *URL
 		func (u *URL) String() string
 		func (u *URL) UnmarshalBinary(text []byte) error
+		func (u *URL) JoinPath(elem ...string) *URL 
+			* 添加路径
 
 	# type Userinfo struct {
 		}
@@ -95,10 +98,14 @@ fanc
 	func PathEscape(s string) string
 	func PathUnescape(s string) (string, error)
 	func QueryEscape(s string) string
+		* URL编码
+			c.Writer.Header().Set("Content-Disposition", `attachment; filename*=UTF-8''`+url.QueryEscape(filename))
+		
 	func QueryUnescape(s string) (string, error) 
 		* 检索参数URI解码
 
-
+	func JoinPath(base string, elem ...string) (result string, err error)
+		* 路径join
 
 --------------------
 Demo

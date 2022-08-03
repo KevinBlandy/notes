@@ -18,6 +18,13 @@ binary
 ----------------------------
 type
 ----------------------------
+	# type AppendByteOrder interface {
+		AppendUint16([]byte, uint16) []byte
+		AppendUint32([]byte, uint32) []byte
+		AppendUint64([]byte, uint64) []byte
+		String() string
+	}
+
 	# type ByteOrder interface {
 			Uint16([]byte) uint16
 			Uint32([]byte) uint32
@@ -33,6 +40,8 @@ type
 ----------------------------
 方法
 ----------------------------
+	func AppendUvarint(buf []byte, x uint64) []byte
+	func AppendVarint(buf []byte, x int64) []byte
 	func PutUvarint(buf []byte, x uint64) int
 	func PutVarint(buf []byte, x int64) int
 	func Read(r io.Reader, order ByteOrder, data interface{}) error
@@ -57,6 +66,7 @@ type
 	func Write(w io.Writer, order ByteOrder, data interface{}) error 
 		* 把data以指定的字节序列写入到 w
 		* data可以是boo/[]bool/数值/[]数值
+	
 
 
 ----------------------------
