@@ -274,7 +274,7 @@ type
 		* 获取当前时间
 
 	func Unix(sec int64, nsec int64) Time 
-		* 根据unix时间戳创建时间对象，指定秒和纳秒
+		* 根据unix时间戳创建时间对象（根据本地时区），指定秒和纳秒
 			time.Unix(0, 0)  // 1970-01-01 08:00:00 +0800 CST
 
 			now := time.Now()

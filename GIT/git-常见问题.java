@@ -20,3 +20,11 @@ Git
 		# 取消代理
 		git config --global --unset http.proxy
 		git config --global --unset https.proxy
+	
+
+	# Filename too long 问题
+		
+		* 一般在windows下容易出现，执行如下命令就可以了
+
+		git config --system core.longpaths true
+	

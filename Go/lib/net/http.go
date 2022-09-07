@@ -371,7 +371,7 @@ type
 			Trailer Header
 			RemoteAddr string
 			RequestURI string
-				* 请求的URI
+				* 请求的URI，会包含查询字符串
 
 			TLS *tls.ConnectionState
 			Cancel <-chan struct{}
