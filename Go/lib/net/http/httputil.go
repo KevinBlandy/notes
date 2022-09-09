@@ -110,7 +110,7 @@ Demo
 
 		func main() {
 			// 代理的地址
-			targetURL, err := url.Parse("http://localhost")
+			targetURL, err := url.Parse("https://start.spring.io/")
 			if err != nil {
 				log.Fatalf(err.Error())
 			}
@@ -135,6 +135,8 @@ Demo
 				Addr: ":8080",
 				Handler: http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 					// 执行代理请求
+					// 考虑重新设置HOST字段为目标地址的host，不然可能导致403（有些服务器会校验这个header）
+					request.Host = "start.spring.io"
 					reverseProxy.ServeHTTP(writer, request)
 				}),
 			}
