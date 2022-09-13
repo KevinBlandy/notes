@@ -25,4 +25,34 @@ SpringBoot Initializr
 				npm install -g node-gyp
 			
 			* 你妈的可能还要python3的环境
-				
+	
+
+	# Nginx 反向代理配置
+
+		#PROXY-START/
+		#location  ~* \.(gif|png|jpg|css|js|woff|woff2)$
+		#{
+		#    proxy_pass https://start.spring.io;
+		#    proxy_set_header Host $host;
+		#    proxy_set_header X-Real-IP $remote_addr;
+		#    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		#    proxy_set_header REMOTE-HOST $remote_addr;
+		#    expires 12h;
+		#}
+		location /
+		{
+			proxy_pass https://start.spring.io/;
+			# proxy_pass http://localhost:8080/;
+			#proxy_set_header Host $host;
+			#proxy_set_header X-Real-IP $remote_addr;
+			#proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			#proxy_set_header REMOTE-HOST $remote_addr;
+			
+			#add_header X-Cache $upstream_cache_status;
+			
+			#Set Nginx Cache
+			
+				#add_header Cache-Control no-cache;
+		}
+
+		#PROXY-END/
