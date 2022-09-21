@@ -42,7 +42,7 @@ logbackµƒ≈‰÷√			 |
 				<totalSizeCap>1GB</totalSizeCap>
 			</rollingPolicy>
 			<encoder>
-				<pattern>${PATTERN}</pattern>
+				<pattern>${FILE_LOG_PATTERN}</pattern>
 			</encoder>
 		</appender>
 

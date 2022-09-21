@@ -72,21 +72,21 @@ SpringBoot Initializr
 			proxy_set_header Connection $connection_upgrade;
 			# proxy_hide_header Upgrade;
 
-			add_header X-Cache $upstream_cache_status;
+			# add_header X-Cache $upstream_cache_status;
 
 			#Set Nginx Cache
 			
 			
-			set $static_fileZHbkGDhd 0;
-			if ( $uri ~* "\.(gif|png|jpg|css|js|woff|woff2)$" )
-			{
-				set $static_fileZHbkGDhd 1;
-				expires 12h;
-				}
-			if ( $static_fileZHbkGDhd = 0 )
-			{
-			add_header Cache-Control no-cache;
-			}
+			#set $static_fileZHbkGDhd 0;
+			#if ( $uri ~* "\.(gif|png|jpg|css|js|woff|woff2)$" )
+			#{
+			#	set $static_fileZHbkGDhd 1;
+			#	expires 12h;
+			#	}
+			#if ( $static_fileZHbkGDhd = 0 )
+			#{
+			#add_header Cache-Control no-cache;
+			#}
 		}
 
 		#PROXY-END/
