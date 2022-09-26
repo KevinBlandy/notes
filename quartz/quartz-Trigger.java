@@ -32,6 +32,7 @@ Trigger
 		* 当调度程序启动时，它会搜索任何已Misfire的持久触发器，然后根据它们单独配置的失火指令更新每个触发器。
 		
 		Trigger
+			public static final int DEFAULT_PRIORITY = 5;
 			public static final int MISFIRE_INSTRUCTION_SMART_POLICY = 0;  // 默认
 			public static final int MISFIRE_INSTRUCTION_IGNORE_MISFIRE_POLICY = -1;
 		
