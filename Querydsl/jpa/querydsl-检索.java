@@ -141,6 +141,23 @@
 		
 		* 不能对 null 值进行处理
 	
+	# 子查询结果集排序
+			select 
+				t.id, 
+				(select count(1) from table2 t1 where t1.id = t.t_id) as t2_count 
+			from 
+				table t 
+			order by t2_count desc;
+		
+		* 使用 StringTemplate 对as别名字段进行排序
+
+			//查询列使用
+			select(Expressions.as(t2Count, "t2_count"))
+
+			//排序条件使用
+			orderBy(new OrderSpecifier(Order.DESC, 
+				Expressions.stringTemplate("t2_count")));
+
 
 --------------------
 加锁
@@ -160,6 +177,23 @@
 			PESSIMISTIC_WRITE
 			PESSIMISTIC_FORCE_INCREMENT
 			NONE
+
+----------------------------
+对结果列进行计算后作为条件
+----------------------------
+	# 例如
+		// 查询学生的考试分数，表中有总分和平均分字段，需要找出总分 - 平均分 > 30的记录。
+		select sum_score, avg_score, student_name from stu_score where sum_score - avg_score > 30
+
+		JPAQuery<Tuple> jpaQuery = select(QStuScore.stuscore.sumScore, QStuScore.stuscore.avgScore).from(QStuScore.stuscore);
+
+		//添加条件，计算出一个
+		jpaQuery.where(Expressions.numberOperation(Integer.class, Ops.SUB,QStuScore.stuscore.sumScore, QStuScore.stuscore.avgScore).gt(30));
+
+		//说明
+		//Expressions.numberOperation(Integer.class, Ops.SUB ,QStuScore.stuscore.sumScore, QStuScore.stuscore.avgScore)
+		//表示创建一个数字操作, 类型为Integer, Ops.SUB 表示减操作, 后面两个就是操作的列, gt(30)表示结果需大于30
+
 
 --------------------
 本地JPA查询
@@ -198,6 +232,13 @@ CASE 表达式, IF 语句, IFNULL 语句
 		
 
 		* 如果值为null，则设置为自定义值
+	
+	# coalesce 
+
+		select(QTable.table.count.sum().coalesce(0)).from(QTable.table)
+
+		* 如果值为null，则设置为自定义值
+		* 比上面的更加快捷，本质上是： ifnull(sum(count), 0)
 
 	# Demo
 		QVideo qVideo = QVideo.video;
