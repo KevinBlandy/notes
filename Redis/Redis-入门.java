@@ -78,6 +78,14 @@ Redis-安装				|
 			* 直接双击redis-server.exe 启动服务
 			* 加载配置文件启动服务:redis-server.exe redis.conf
 		* 双击redis-cli 启动客户端
+	
+
+		* windows新版本下载
+			https://github.com/zkteco-home/redis-windows
+
+		* windows新版本的客户端下载
+			https://github.com/lework/RedisDesktopManager-Windows
+		
 
 -----------------------
 Redis-支持的数据类型	|
