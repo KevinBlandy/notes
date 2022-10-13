@@ -27,18 +27,44 @@ Trigger
 	# 一个Trigger可以关联一个Job
 
 	# Misfire
-		* 如果由于调度程序关闭，或者因为 Quartz 的线程池中没有可用的线程来执行作业，持久触发器“错过”了它的触发时间，则会发生Misfire
-		* 不同的触发器类型有不同的Misfire指令可供它们使用。默认情况下，它们使用“智能策略”指令——它具有基于触发器类型和配置的动态行为。
-		* 当调度程序启动时，它会搜索任何已Misfire的持久触发器，然后根据它们单独配置的失火指令更新每个触发器。
+		* Misfire的原因
+			1.当job达到触发时间时，所有线程都被其他job占用，没有可用线程。
+			2.在job需要触发的时间点，scheduler 停止了（可能是意外停止的）。
+			3.job使用了 @DisallowConcurrentExecution 注解，job不能并发执行，当达到下一个job执行点的时候，上一个任务还没有完成。
+			4.job指定了过去的开始执行时间，例如当前时间是8点00分00秒，指定开始时间为7点00分00秒
+		
+		* MisFire的前置条件
+			1. job到达触发时间时没有被执行
+			2. 被执行的延迟时间超过了Quartz配置的 misfireThreshold 阀值
+		
+
+			* 如果延迟执行的时间小于阀值，则Quartz不认为发生了misfire，立即执行job；
+			* 如果延迟执行的时间大于或者等于阀值，则被判断为 misfire，然后会按照指定的策略来执行。
+		
+		* 案例说明
+			* 设置一个job在上午8点执行，由于一些原因job在8点没有执行，分为两种情况
+
+			1. 在8点00分50秒Quartz有资源来执行这个job
+				* 此时的延迟执行时间是50秒，小于misfireThreshold为60秒的阀值，则Quartz认为该job没有发生misfire，立即执行job。
+
+			2. 在8点10分00秒Quartz有资源来执行这个job
+				* 此时延迟执行时间是600秒，大于misfireThreshold为60秒的阀值，则Quartz认为该job发生了misfire，会根据指定的misfire策略来执行。
 		
 		Trigger
-			public static final int DEFAULT_PRIORITY = 5;
 			public static final int MISFIRE_INSTRUCTION_SMART_POLICY = 0;  // 默认
+
 			public static final int MISFIRE_INSTRUCTION_IGNORE_MISFIRE_POLICY = -1;
+				* 不会判断发生了misfire，立即执行所有发生了misfire的任务，然后按照原计划进行执行。
+				* 例如：10:15分立即执行9:00和10:00的任务，然后等待下一个任务在11:00执行，后续按照原计划执行。
+
 		
 		CalendarIntervalTrigger
 			public static final int MISFIRE_INSTRUCTION_FIRE_ONCE_NOW = 1;
+				* 立即执行第一个发生misfire的任务，忽略其他发生misfire的任务，然后按照原计划继续执行。
+				* 例如：在10:15立即执行9:00任务，忽略10:00任务，然后等待下一个任务在11:00执行，后续按照原计划执行
+				
 			public static final int MISFIRE_INSTRUCTION_DO_NOTHING = 2;
+				* 所有发生misfire的任务都被忽略，只是按照原计划继续执行
 		
 		CronTrigger
 			public static final int MISFIRE_INSTRUCTION_FIRE_ONCE_NOW = 1;

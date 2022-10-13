@@ -18,6 +18,7 @@ Scheduler
 
 		SchedulerContext getContext() throws SchedulerException;
 			* 获取上下文对象（实现了Map）, 就是一个Map结构, String 为Key
+			* 除了继承Map外，没其他属性了。
 		
 		void start() throws SchedulerException;
 		void startDelayed(int seconds) throws SchedulerException;
