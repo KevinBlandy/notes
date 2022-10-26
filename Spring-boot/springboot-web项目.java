@@ -172,6 +172,9 @@ Spring-boot 静态资源			|
 	# 配置类
 		ResourceProperties(过期了)
 		WebProperties.Resources
+	
+	# 静态资源的处理类是: ResourceHttpRequestHandler
+		
 
 --------------------------------
 Spring-boot 视图映射			|

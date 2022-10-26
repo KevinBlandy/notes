@@ -78,6 +78,17 @@ i18n 国际化			 |
 		<#-- 根据local环境读取name -->
 		<@spring.message code='name'/>
 	
+	# 在程序种使用国际化文字，可以注入 MessageSource 来使用
+		    @Autowired
+			private MessageSource messageSource;
+			
+			@GetMapping
+			public ModelAndView index (HttpServletRequest request, HttpServletResponse response) {
+				// 获取name
+				log.info("{}", messageSource.getMessage("name", null, LocaleContextHolder.getLocale()));
+				return new ModelAndView("index/index");
+			}
+
 	# 使用请求参数切换环境
 		?_lang=zh_CN
 		?_lang=en_US

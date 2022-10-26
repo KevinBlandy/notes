@@ -7,6 +7,22 @@
 		MaxASCII        = '\u007F'     // maximum ASCII value.
 		MaxLatin1       = '\u00FF'     // maximum Latin-1 value.
 	)
+	const (
+		UpperCase = iota		// 大写
+		LowerCase			// 小写
+		TitleCase
+		MaxCase
+	)
+	const (
+		UpperLower = MaxRune + 1 // (Cannot be a valid delta.)
+	)
+	var (
+		...
+
+		Han                    = _Han  //汉字字体的Unicode字符集。
+			
+		...
+	)
 
 
 -----------------
@@ -54,6 +70,10 @@
 -----------------
 方法
 -----------------
+	func Is(rangeTab *RangeTable, r rune) bool
+		* 判断 r 是否是 rangeTab 中的类型
+			 unicode.Is(unicode.Han, '余')  // 是否中中文字符集
+
 	func IsDigit(r rune) bool
 	func IsGraphic(r rune) bool 
 	func IsPrint(r rune) bool 
@@ -86,3 +106,4 @@
 	func ToTitle(r rune) rune
 	
 	func SimpleFold(r rune) rune
+
