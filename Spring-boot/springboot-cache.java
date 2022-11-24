@@ -350,3 +350,28 @@ CachingConfigurerSupport	 |
 				return redisCacheConfiguration;
 			}
 		}
+	
+	# 实现 RedisCacheManagerBuilderCustomizer 接口也可以
+	
+
+	# 修改Redis批量删除缓存的方式为:scan （默认为keys）
+		import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
+		import org.springframework.context.annotation.Bean;
+		import org.springframework.context.annotation.Configuration;
+		import org.springframework.data.redis.cache.BatchStrategies;
+		import org.springframework.data.redis.cache.RedisCacheWriter;
+		import org.springframework.data.redis.connection.RedisConnectionFactory;
+
+		import dev.bitone.common.constant.AppConstant;
+
+		@Configuration
+		public class RedisCacheScanConfiguration {
+
+			@Bean
+			public RedisCacheManagerBuilderCustomizer RedisCacheManagerBuilderCustomizer(RedisConnectionFactory redisConnectionFactory) {
+				return builder -> {
+					builder.cacheWriter(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory,
+							BatchStrategies.scan(AppConstant.REDIS_SCAN_BATCH_SIZE)));
+				};
+			}
+		}

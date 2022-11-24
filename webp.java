@@ -3,6 +3,8 @@ webp
 ------------------------
 	# 一种高效推荐的图片编码方式
 		https://developers.google.com/speed/webp/download
+
+		https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html
 	
 
 ------------------------
