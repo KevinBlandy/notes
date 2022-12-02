@@ -104,6 +104,8 @@ type
 			* 如果任何一个Reader，返回一个非nil、非EOF的错误，Read将返回该错误
 
 		func TeeReader(r Reader, w Writer) Reader
+			* 返回一个reader，读这个reader，就是相当于从 r 读取数据
+			* 并且读取出来的数据，还会被自动写入到w
 	
 	# type ReaderAt interface {
 			ReadAt(p []byte, off int64) (n int, err error)

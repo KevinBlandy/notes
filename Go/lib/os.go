@@ -99,9 +99,15 @@ type
 		func (f *File) Read(b []byte) (n int, err error)
 		func (f *File) ReadAt(b []byte, off int64) (n int, err error)
 		func (f *File) ReadFrom(r io.Reader) (n int64, err error)
+		func (f *File) ReadDir(n int) ([]DirEntry, error)
+			* 返回目录下的所有文件列表，如果n <= 0，Readdir返回目录中的所有文件
+			* 返回 DirEntry
+			* 推荐使用
+
 		func (f *File) Readdir(n int) ([]FileInfo, error)
 			* 返回目录下的文件信息列表，n指定最多返回文件个数
 			* 如果n <= 0，Readdir返回目录中的所有FileInfo
+			* 返回 FileInfo
 
 		func (f *File) Readdirnames(n int) (names []string, err error)
 			* 返回目录下的文件名称，n指定最多返回文件个数
