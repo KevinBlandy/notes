@@ -12,9 +12,10 @@
 
 		* 如果变量不存在，会返回false
 		* 当 .condition 为bool类型的时候，则为true表示执行
-		* 当 .condition为string类型的时候，则非空表示执行
-		* 当 .condition为数值类型的时候，则非0表示执行
-		* 当 .condition为指针类型的时候，则非nil表示执行
+		* 当 .condition 为string类型的时候，则非空表示执行
+		* 当 .condition 为数值类型的时候，则非0表示执行
+		* 当 .condition 为指针类型的时候，则非nil表示执行
+		* 当 .condition 为其他类型的时候，只要存在。就表示执行！
 	
 	# 关系
 		and/or/not

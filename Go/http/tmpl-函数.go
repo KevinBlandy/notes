@@ -81,6 +81,8 @@
 		
 		* 如果函数有多个参数，那么管道符会把变量传递给最后一个参数
 			{{ . | printf "%s\n" "abcd" }}  // {.}}的结果将传递给printf，且传递的参数位置是"abcd"之后。
+		
+		* 管道调用函数的返回值只能有一个，如果有俩，那么第二个必须是errror
 				
 	# 直接输出原始内容
 		{{`"output"`}}
@@ -89,27 +91,54 @@
 ------------------------
 内置函数
 ------------------------
+	and
+		* 函数返回bool值，通过返回第一个空值或者最后一个值。and x y 逻辑上相当于if x then y else x
+
+	call
+		* 执行结果是调用第一个参数的返回值，该参数必须是函数类型，其余参数作为调用该函数的参数
+		* 没有参数直接调用，有参数使用call
+
+	html
+		* 对参数进行HTML编码
+
+	index
+		* 根据索引返回值
+
+	slice
+
 	js
 		* 返回与其参数的文本表示形式等效的转义JavaScript
 	
 	len
 		* 返回长度
 	
-	index
-		* 根据索引返回值
+	not
+	or
+		* or 函数类似 and 函数，但是只要遇到 true就返回。or x y 等价于 if x then x else y。 x 非空的情况下y不会被评估。
 	
-	call
-		* 执行结果是调用第一个参数的返回值，该参数必须是函数类型，其余参数作为调用该函数的参数
-		* 没有参数直接调用，有参数使用call
-	
-	html
-		* 对参数进行HTML编码
+	print
+	printf
+	println
+
 
 	urlquery
 		* 对检索参数进行编码
 			{{ urlquery "name=刘备&age=65" }}
 			name%3D%E5%88%98%E5%A4%87%26age%3D65
 	
+	# 用于比较
+		eq
+			arg1 == arg2
+		ne
+			arg1 != arg2
+		lt
+			arg1 < arg2
+		le
+			arg1 <= arg2
+		gt
+			arg1 > arg2
+		ge
+			arg1 >= arg2
 
 ------------------------
 第三方的函数库

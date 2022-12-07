@@ -5,8 +5,11 @@
 	# 参考
 		https://www.cnblogs.com/f-ck-need-u/p/10035768.html
 		https://cloud.tencent.com/developer/article/1683688
-
-
+	
+	# 官方文档
+		* https://pkg.go.dev/text/template
+		* https://pkg.go.dev/html/template
+	
 ------------------------
 加载
 ------------------------
@@ -83,7 +86,7 @@
 		* 反正是用 String() 来访问
 	
 	# with用来重新设置"."的值
-		* 当pipeline不为0值的时候，点"."设置为pipeline运算的值，执行T1的输出
+		* 当 pipeline 结果不为0值的时候，点"."设置为pipeline运算的值，执行T1的输出
 			{{ with pipeline }} 
 				T1 
 			{{ end }}
@@ -177,7 +180,7 @@
 			{{$key}} = {{$val}}
 		{{ end }}
 
-		* 只有一个变量，则是遍历的当前值
+		* 只有一个变量，则是遍历的当前值（go语法中对集合进行迭代，默认一个参数的话是索引）
 		* 2个变量，第一个为key/index，第二个为当前值
 	
 	# else，判断，如果没有可遍历数据，就会执行
