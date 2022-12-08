@@ -85,8 +85,11 @@
 				}
 			* 必须要和有异常的栈帧只隔一个栈帧，recover函数才能正常捕获异常
 			* 也可以在defer中继续panic，那么这个panic也是只会被自己上面最近的一个recover捕获到
-
-
+	
+	# 并不是所有的异常都能被 recover()
+		* 如果是 runtime.panic() 抛出的异常可以被 recover()
+		* 如果是 runtime.throw() / runtime.fatal() 抛出的异常，不能被 recover() 捕获
+	
 -------------------------
 error 接口
 -------------------------

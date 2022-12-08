@@ -78,6 +78,8 @@ type
 		
 		func (c *Conn) LocalAddr() net.Addr
 		func (c *Conn) NextReader() (messageType int, r io.Reader, err error)
+			* 读取下一条数据，返回的是reader
+			
 		func (c *Conn) NextWriter(messageType int) (io.WriteCloser, error)
 			* 获取消息的读写流
 
@@ -86,7 +88,8 @@ type
 
 		func (c *Conn) ReadJSON(v interface{}) error
 		func (c *Conn) ReadMessage() (messageType int, p []byte, err error)
-			* 从conn中读取数据，返回数据类型，还有数据
+			* 读取下一条数据，返回的是[]byte
+			* 底层调用的是 NextReader
 
 		func (c *Conn) RemoteAddr() net.Addr
 		func (c *Conn) SetCloseHandler(h func(code int, text string) error)

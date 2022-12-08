@@ -26,8 +26,8 @@
 	# block
 		* 使用 {{template "header" . }} 时如果 "header" 不存在，则会异常
 		* 可以使用 block，它允许模板不存在，而且可以输出默认值
-
-		{{ block "header" .}}
-			header 模板没找到
-		{{ end }}
 	
+		{{ block "header" .}} header 模板没找到 {{ end }}
+		
+			* 如果 "header" 模板不存在，则临时定义一个{{define "header"}} header 模板没找到 {{end}}，并执行它。
+		
