@@ -16,8 +16,25 @@ Querydsl				|
 			<artifactId>querydsl-apt</artifactId>
 			<scope>provided</scope>
 		</dependency>
+	
 
-
+		<!-- 如果是sb3的话 - start -->
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>
+			<classifier>jakarta</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+		    <version>${querydsl.version}</version>
+			<classifier>jakarta</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<!-- 如果是sb3的话 - end -->
+	
+		<!-- 生成插件 -->
 		<build>
 			<plugins>
 				<!-- https://mvnrepository.com/artifact/com.mysema.maven/apt-maven-plugin -->

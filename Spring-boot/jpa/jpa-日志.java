@@ -5,3 +5,7 @@
 		<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
 
 
+		* hibernate6╨Сё╛╦дак
+
+			<logger name="org.hibernate.orm.jdbc.bind" level="TRACE" />
+	

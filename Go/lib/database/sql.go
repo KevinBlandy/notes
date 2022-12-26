@@ -1,7 +1,7 @@
 -----------------
 sql
 -----------------
-	# SQLµÄÇı¶¯ĞèÒªµ¼Èë£¬¸úJavaÒ»Ñù£¬¼ÓÔØµ½ÄÚ´æ¾ÍĞĞ
+	# SQLçš„é©±åŠ¨éœ€è¦å¯¼å…¥ï¼Œè·ŸJavaä¸€æ ·ï¼ŒåŠ è½½åˆ°å†…å­˜å°±è¡Œ
 		import (
 			_ "github.com/go-sql-driver/mysql"
 		)
@@ -11,17 +11,17 @@ sql
 -----------------
 var
 -----------------
-	# Òì³£ĞÅÏ¢
+	# å¼‚å¸¸ä¿¡æ¯
 		var ErrConnDone = errors.New("sql: connection is already closed")
-			* Á¬½ÓÒ»¸ö¹Ø±Õ
+			* è¿æ¥ä¸€ä¸ªå…³é—­
 		
 		var ErrNoRows = errors.New("sql: no rows in result set")
-			* ¿Õ½á¹ûÒì³£
+			* ç©ºç»“æœå¼‚å¸¸
 				var name string
 				err = db.QueryRow("select name from users where id = ?", 1).Scan(&name)
 				if err != nil {
 					if err == sql.ErrNoRows {
-						// Ã»¼ìË÷µ½ÈÎºÎÊı¾İ
+						// æ²¡æ£€ç´¢åˆ°ä»»ä½•æ•°æ®
 					} else {
 						log.Fatal(err)
 					}
@@ -29,7 +29,7 @@ var
 				fmt.Println(name)
 		
 		var ErrTxDone = errors.New("sql: transaction has already been committed or rolled back")
-			* Òì³£ÒÑ¾­»Ø¹ö»òÕßÌá½»
+			* å¼‚å¸¸å·²ç»å›æ»šæˆ–è€…æäº¤
 
 
 -----------------
@@ -38,33 +38,33 @@ type
 	# type ColumnType struct {
 		}
 
-		* ÁĞÀàĞÍ
+		* åˆ—ç±»å‹
 		func (ci *ColumnType) DatabaseTypeName() string
-			* ·µ»ØÊı¾İ¿âµÄÁĞÀàĞÍÃû³Æ
+			* è¿”å›æ•°æ®åº“çš„åˆ—ç±»å‹åç§°
 		
 		func (ci *ColumnType) DecimalSize() (precision, scale int64, ok bool)
-			* ·µ»ØĞ¡ÊıÀàĞÍµÄ±ÈÀıºÍ¾«¶È¡£Èç¹û²»ÊÊÓÃ»ò²»Ö§³ÖokÔò·µ»Øfalse¡£
+			* è¿”å›å°æ•°ç±»å‹çš„æ¯”ä¾‹å’Œç²¾åº¦ã€‚å¦‚æœä¸é€‚ç”¨æˆ–ä¸æ”¯æŒokåˆ™è¿”å›falseã€‚
 
 		func (ci *ColumnType) Length() (length int64, ok bool)
-			* Length ·µ»Ø¿É±ä³¤¶ÈÁĞÀàĞÍ£¨ÈçÎÄ±¾ºÍ¶ş½øÖÆ×Ö¶ÎÀàĞÍ£©µÄÁĞÀàĞÍ³¤¶È¡£
-			* Èç¹ûÀàĞÍ³¤¶ÈÊÇÎŞÏŞÖÆµÄ£¬ÄÇÃ´¸ÃÖµ½«ÊÇmath.MaxInt64£¨ÈÎºÎÊı¾İ¿âÏŞÖÆÈÔÈ»ÊÊÓÃ£©¡£
-			* Èç¹ûÁĞÀàĞÍ²»ÊÇ¿É±ä³¤¶ÈµÄ£¬ÀıÈçint£¬»òÕßÈç¹ûÇı¶¯³ÌĞò²»Ö§³Ö£¬okÎªfalse¡£
+			* Length è¿”å›å¯å˜é•¿åº¦åˆ—ç±»å‹ï¼ˆå¦‚æ–‡æœ¬å’ŒäºŒè¿›åˆ¶å­—æ®µç±»å‹ï¼‰çš„åˆ—ç±»å‹é•¿åº¦ã€‚
+			* å¦‚æœç±»å‹é•¿åº¦æ˜¯æ— é™åˆ¶çš„ï¼Œé‚£ä¹ˆè¯¥å€¼å°†æ˜¯math.MaxInt64ï¼ˆä»»ä½•æ•°æ®åº“é™åˆ¶ä»ç„¶é€‚ç”¨ï¼‰ã€‚
+			* å¦‚æœåˆ—ç±»å‹ä¸æ˜¯å¯å˜é•¿åº¦çš„ï¼Œä¾‹å¦‚intï¼Œæˆ–è€…å¦‚æœé©±åŠ¨ç¨‹åºä¸æ”¯æŒï¼Œokä¸ºfalseã€‚
 
 		func (ci *ColumnType) Name() string
-			* ÁĞÃû³Æ
+			* åˆ—åç§°
 
 		func (ci *ColumnType) Nullable() (nullable, ok bool)
-			* Nullable±¨¸æÁĞÊÇ·ñÎª¿Õ¡£
-			* Èç¹ûÒ»¸öÇı¶¯³ÌĞò²»Ö§³ÖÕâ¸öÊôĞÔ£¬ÄÇÃ´ok½«Îªfalse¡£
+			* NullableæŠ¥å‘Šåˆ—æ˜¯å¦ä¸ºç©ºã€‚
+			* å¦‚æœä¸€ä¸ªé©±åŠ¨ç¨‹åºä¸æ”¯æŒè¿™ä¸ªå±æ€§ï¼Œé‚£ä¹ˆokå°†ä¸ºfalseã€‚
 
 		func (ci *ColumnType) ScanType() reflect.Type
-			* ¸ÃÀàĞÍ£¬¶ÔÓ¦µÄGoÀàĞÍ
-			* Èç¹ûÒ»¸öÇı¶¯³ÌĞò²»Ö§³ÖÕâ¸öÊôĞÔ£¬ScanType½«·µ»ØÒ»¸ö¿Õ½Ó¿ÚµÄÀàĞÍ¡£
+			* è¯¥ç±»å‹ï¼Œå¯¹åº”çš„Goç±»å‹
+			* å¦‚æœä¸€ä¸ªé©±åŠ¨ç¨‹åºä¸æ”¯æŒè¿™ä¸ªå±æ€§ï¼ŒScanTypeå°†è¿”å›ä¸€ä¸ªç©ºæ¥å£çš„ç±»å‹ã€‚
 	
 	# type Conn struct {
 		}
 	
-		* Êı¾İ¿âÁ¬½Ó
+		* æ•°æ®åº“è¿æ¥
 
 		func (c *Conn) BeginTx(ctx context.Context, opts *TxOptions) (*Tx, error)
 		func (c *Conn) Close() error
@@ -78,61 +78,61 @@ type
 	# type DB struct {
 		}
 		
-		* Êı¾İ¿âÁ¬½Ó³Ø
+		* æ•°æ®åº“è¿æ¥æ± 
 
 		func Open(driverName, dataSourceName string) (*DB, error)
-			* ·µ»ØDB£¬×Ô¼º¼ìË÷Çı¶¯£¬Çı¶¯ĞèÒªÏÈ±»¼ÓÔØ½øÄÚ´æ
+			* è¿”å›DBï¼Œè‡ªå·±æ£€ç´¢é©±åŠ¨ï¼Œé©±åŠ¨éœ€è¦å…ˆè¢«åŠ è½½è¿›å†…å­˜
 				db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", "root", "root", "localhost", 3306, "demo"))
 
 		func OpenDB(c driver.Connector) *DB
-			* ¸ù¾İÇı¶¯·µ»ØDB
+			* æ ¹æ®é©±åŠ¨è¿”å›DB
 
 		func (db *DB) Begin() (*Tx, error)
 		func (db *DB) BeginTx(ctx context.Context, opts *TxOptions) (*Tx, error)
-			* ¿ªÊ¼ÊÂÎñ
+			* å¼€å§‹äº‹åŠ¡
 			
 		func (db *DB) Close() error
-			* ¹Ø±ÕÊı¾İÔ´
+			* å…³é—­æ•°æ®æº
 
 		func (db *DB) Conn(ctx context.Context) (*Conn, error)
-			* »ñÈ¡Ò»¸öÊı¾İ¿âµÄÁ¬½Ó
+			* è·å–ä¸€ä¸ªæ•°æ®åº“çš„è¿æ¥
 
 		func (db *DB) Driver() driver.Driver
 
 		func (db *DB) Exec(query string, args ...interface{}) (Result, error)
 		func (db *DB) ExecContext(ctx context.Context, query string, args ...interface{}) (Result, error)
-			* Ö´ĞĞ²Ù×÷£¬Ò»°ãÊÇĞŞ¸ÄÉ¾³ı²åÈë²Ù×÷£¬SQL»ñÈ¡µ½Ö´ĞĞ½á¹û
-			* Èç¹ûÖ´ĞĞÁË¼ìË÷²Ù×÷£¬²»»áÒì³££¬resultµÄ2¸öÖµ¶¼ÊÇ0
+			* æ‰§è¡Œæ“ä½œï¼Œä¸€èˆ¬æ˜¯ä¿®æ”¹åˆ é™¤æ’å…¥æ“ä½œï¼ŒSQLè·å–åˆ°æ‰§è¡Œç»“æœ
+			* å¦‚æœæ‰§è¡Œäº†æ£€ç´¢æ“ä½œï¼Œä¸ä¼šå¼‚å¸¸ï¼Œresultçš„2ä¸ªå€¼éƒ½æ˜¯0
 
 		func (db *DB) Ping() error
-			* ·¢ËÍping£¬¼ì²âÁ¬½ÓÊÇ·ñOK
-			* Open()·½·¨£¬²¢²»»á´´½¨Á¬½Ó£¬Á¬½ÓÊÇÑÓ³Ù¼ÓÔØµÄ£¬¿ÉÒÔÍ¨¹ıÕâ¸ö·½·¨À´ÅĞ¶ÏÁ¬½ÓÊÇ·ñÕı³£
+			* å‘é€pingï¼Œæ£€æµ‹è¿æ¥æ˜¯å¦OK
+			* Open()æ–¹æ³•ï¼Œå¹¶ä¸ä¼šåˆ›å»ºè¿æ¥ï¼Œè¿æ¥æ˜¯å»¶è¿ŸåŠ è½½çš„ï¼Œå¯ä»¥é€šè¿‡è¿™ä¸ªæ–¹æ³•æ¥åˆ¤æ–­è¿æ¥æ˜¯å¦æ­£å¸¸
 
 		func (db *DB) PingContext(ctx context.Context) error
-			* »ñÈ¡Êı¾İ¿âÁ´½Ó
+			* è·å–æ•°æ®åº“é“¾æ¥
 
 		func (db *DB) Prepare(query string) (*Stmt, error)
 		func (db *DB) PrepareContext(ctx context.Context, query string) (*Stmt, error)
-			* ½âÎöSQLÎªÔ¤±àÒëÓï¾ä
+			* è§£æSQLä¸ºé¢„ç¼–è¯‘è¯­å¥
 
 		func (db *DB) Query(query string, args ...interface{}) (*Rows, error)
-		func (db *DB) QueryContext(ctx context.Context, query string, args ...interface{}) (*Rows, error)¡®¡¯
-			* Ö´ĞĞ²éÑ¯£¬»ñÈ¡¶àĞĞ¶àÁĞ½á¹û¼¯
+		func (db *DB) QueryContext(ctx context.Context, query string, args ...interface{}) (*Rows, error)â€˜â€™
+			* æ‰§è¡ŒæŸ¥è¯¢ï¼Œè·å–å¤šè¡Œå¤šåˆ—ç»“æœé›†
 
 		func (db *DB) QueryRow(query string, args ...interface{}) *Row
 		func (db *DB) QueryRowContext(ctx context.Context, query string, args ...interface{}) *Row
-			* Ö´ĞĞ²éÑ¯£¬»ñÈ¡µ¥ĞĞ¶àÁĞ½á¹û¼¯
-			* Èç¹û½á¹û¼¯ÓĞ¶àĞĞ£¬Ôò»áÖ»È¡µÚÒ»ĞĞ£¬²»»áÒì³£
-			* ËüµÄ·µ»ØÖ»ÓĞÒ»¸ö½á¹û£¬Ã»ÓĞÒì³£²ÎÊı£¬Èç¹û²éÑ¯³öÏÖÁËÒì³££¬ÄÇÃ´»áÍÆ³Ùµ½Scan()
+			* æ‰§è¡ŒæŸ¥è¯¢ï¼Œè·å–å•è¡Œå¤šåˆ—ç»“æœé›†
+			* å¦‚æœç»“æœé›†æœ‰å¤šè¡Œï¼Œåˆ™ä¼šåªå–ç¬¬ä¸€è¡Œï¼Œä¸ä¼šå¼‚å¸¸
+			* å®ƒçš„è¿”å›åªæœ‰ä¸€ä¸ªç»“æœï¼Œæ²¡æœ‰å¼‚å¸¸å‚æ•°ï¼Œå¦‚æœæŸ¥è¯¢å‡ºç°äº†å¼‚å¸¸ï¼Œé‚£ä¹ˆä¼šæ¨è¿Ÿåˆ°Scan()
 
 		func (db *DB) SetConnMaxIdleTime(d time.Duration)
-			* Á¬½Ó×î´ó¿ÕÏĞÊ±¼ä¿ÕÏĞ³¬¹ıÕâ¸öÊ±¼äµÄÁ¬½Ó£¬ÔÚÏÂ´Î±»ÖØ¸´Ê¹ÓÃÇ°»á±»ÑÓ³Ù¹Ø±Õ¡£<= 0 ±íÊ¾²»³¬Ê±
+			* è¿æ¥æœ€å¤§ç©ºé—²æ—¶é—´ç©ºé—²è¶…è¿‡è¿™ä¸ªæ—¶é—´çš„è¿æ¥ï¼Œåœ¨ä¸‹æ¬¡è¢«é‡å¤ä½¿ç”¨å‰ä¼šè¢«å»¶è¿Ÿå…³é—­ã€‚<= 0 è¡¨ç¤ºä¸è¶…æ—¶
 		func (db *DB) SetConnMaxLifetime(d time.Duration)
-			* Á¬½Ó×î³¤´æ»îÊ±¼ä£¬ÖØ¸´Ê¹ÓÃ³¬¹ıÁËÕâ¸öÊ±¼äµÄÁ¬½Ó£¬ÔÚÏÂ´Î±»ÖØ¸´Ê¹ÓÃÇ°»á±»ÑÓ³Ù¹Ø±Õ¡£ <= 0 ±íÊ¾²»³¬Ê±
+			* è¿æ¥æœ€é•¿å­˜æ´»æ—¶é—´ï¼Œé‡å¤ä½¿ç”¨è¶…è¿‡äº†è¿™ä¸ªæ—¶é—´çš„è¿æ¥ï¼Œåœ¨ä¸‹æ¬¡è¢«é‡å¤ä½¿ç”¨å‰ä¼šè¢«å»¶è¿Ÿå…³é—­ã€‚ <= 0 è¡¨ç¤ºä¸è¶…æ—¶
 		func (db *DB) SetMaxIdleConns(n int)
-			* ×î´ó¿ÕÏĞÁ¬½ÓÊıÁ¿,Ä¬ÈÏµÄ×î´ó¿ÕÏĞÁ¬½ÓÊıÊÇ2¡£
+			* æœ€å¤§ç©ºé—²è¿æ¥æ•°é‡,é»˜è®¤çš„æœ€å¤§ç©ºé—²è¿æ¥æ•°æ˜¯2ã€‚
 		func (db *DB) SetMaxOpenConns(n int)
-			* Êı¾İ¿â´ò¿ªµÄ×î´óÁ¬½ÓÊı,Ä¬ÈÏÊÇ0£¬±íÊ¾ÎŞÏŞÖÆ¡£
+			* æ•°æ®åº“æ‰“å¼€çš„æœ€å¤§è¿æ¥æ•°,é»˜è®¤æ˜¯0ï¼Œè¡¨ç¤ºæ— é™åˆ¶ã€‚
 		func (db *DB) Stats() DBStats
 	
 	# type DBStats struct {
@@ -151,10 +151,10 @@ type
 			MaxLifetimeClosed int64         // The total number of connections closed due to SetConnMaxLifetime.
 		}
 
-		* Êı¾İ¿â×´Ì¬
+		* æ•°æ®åº“çŠ¶æ€
 	
 	# type IsolationLevel int
-		* ÊÂÎñ¸ôÀë¼¶±ğ
+		* äº‹åŠ¡éš”ç¦»çº§åˆ«
 
 		const (
 			LevelDefault IsolationLevel = iota
@@ -173,8 +173,19 @@ type
 			Name string
 			Value interface{} // contains filtered or unexported fields
 		}
-		* SQLÖĞµÄ¾ßÃû²ÎÊı
+		* SQLä¸­çš„å…·åå‚æ•°
+
 		func Named(name string, value interface{}) NamedArg
+			* SQLä¸­ä½¿ç”¨ @name å ä½ç¬¦
+			* ç”¨æ³•
+				db.ExecContext(ctx, `
+					delete from Invoice
+					where
+						TimeCreated < @end
+						and TimeCreated >= @start;`,
+					sql.Named("start", startTime),
+					sql.Named("end", endTime),
+				)
 	
 	# type NullBool struct {
 			Bool  bool
@@ -238,61 +249,61 @@ type
 		}
 	
 	# type RawBytes []byte
-		* ×îÔ­Ê¼µÄ×Ö½ÚÊı¾İ
-		* Èç¹û²»ÖªµÀÊı¾İÁĞµÄ×Ö¶ÎÀàĞÍ£¬ÄÇÃ´¿ÉÒÔÊ¹ÓÃRawBytes£¬·µ»ØÔ­Ê¼µÄ×Ö½ÚÊı¾İ
+		* æœ€åŸå§‹çš„å­—èŠ‚æ•°æ®
+		* å¦‚æœä¸çŸ¥é“æ•°æ®åˆ—çš„å­—æ®µç±»å‹ï¼Œé‚£ä¹ˆå¯ä»¥ä½¿ç”¨RawBytesï¼Œè¿”å›åŸå§‹çš„å­—èŠ‚æ•°æ®
 
 	# type Result interface {
 			LastInsertId() (int64, error)
-				* ×ÔÔöID£¬ºÍÒì³£ĞÅÏ¢
+				* è‡ªå¢IDï¼Œå’Œå¼‚å¸¸ä¿¡æ¯
 
 			RowsAffected() (int64, error)
-				* ÊÜÓ°ÏìµÄĞĞÊı£¬ºÍÒì³£ĞÅÏ¢
+				* å—å½±å“çš„è¡Œæ•°ï¼Œå’Œå¼‚å¸¸ä¿¡æ¯
 		}
-		* SQLµÄĞŞ¸ÄÖ´ĞĞ½á¹û
+		* SQLçš„ä¿®æ”¹æ‰§è¡Œç»“æœ
 	
 	# type Row struct {
 		}
 
-		* µ¥ĞĞ¶àÁĞÊı¾İ
+		* å•è¡Œå¤šåˆ—æ•°æ®
 
 		func (r *Row) Err() error
-			* Òì³£ĞÅÏ¢
+			* å¼‚å¸¸ä¿¡æ¯
 		func (r *Row) Scan(dest ...interface{}) error
-			* Èç¹û½á¹û¼¯²»´æÔÚ£¬Ã»ÓĞÊı¾İ£¬ÄÇÃ´»á·µ»ØÒì³£: ErrNoRows
+			* å¦‚æœç»“æœé›†ä¸å­˜åœ¨ï¼Œæ²¡æœ‰æ•°æ®ï¼Œé‚£ä¹ˆä¼šè¿”å›å¼‚å¸¸: ErrNoRows
 	
 	# type Rows struct {
 		}
 
-		* ¶àĞĞ¶àÁĞÊı¾İ
+		* å¤šè¡Œå¤šåˆ—æ•°æ®
 
 		func (rs *Rows) Close() error
-			* ¹Ø±ÕRows£¬Õâ¸ö²Ù×÷Òª¼ÇµÄÖ´ĞĞ
-			* Rows»á±£ÁôÊı¾İ¿âÁ¬½Ó£¬Ö±µ½sql.Rows¹Ø±Õ
-				_, err := db.Query("DELETE FROM users") // ÕâÖÖ²Ù×÷£¬»áµ¼ÖÂÁ¬½Ó²»»á±»ÊÍ·Å
-			* Õâ¸ö·½·¨¿ÉÒÔ±»¶à´Îµ÷ÓÃ£¬ÎŞËùÎ½
+			* å…³é—­Rowsï¼Œè¿™ä¸ªæ“ä½œè¦è®°çš„æ‰§è¡Œ
+			* Rowsä¼šä¿ç•™æ•°æ®åº“è¿æ¥ï¼Œç›´åˆ°sql.Rowså…³é—­
+				_, err := db.Query("DELETE FROM users") // è¿™ç§æ“ä½œï¼Œä¼šå¯¼è‡´è¿æ¥ä¸ä¼šè¢«é‡Šæ”¾
+			* è¿™ä¸ªæ–¹æ³•å¯ä»¥è¢«å¤šæ¬¡è°ƒç”¨ï¼Œæ— æ‰€è°“
 
 		func (rs *Rows) ColumnTypes() ([]*ColumnType, error)
 		func (rs *Rows) Columns() ([]string, error)
 		func (rs *Rows) Err() error
-			* ·µ»ØÒì³£ĞÅÏ¢£¬¿ÉÄÜÔÚµøµ½¹ı³ÌÖĞ²úÉúÁËÒì³££¬µ¼ÖÂµü´úÌáÇ°ÖÕÖ¹
-			* ¿ÉÒÔÔÚµü´úÍê³Éºó£¬³¢ÊÔ»ñÈ¡µ½Õâ¸öÒì³£ĞÅÏ¢½øĞĞ´¦Àí
-			* Èç¹ûÌáÇ°ÖÕÖ¹ÁËµü´ú£¬ÄÇÃ´¿ÉÄÜÃ»ÓĞ¹Ø±Õ×ÊÔ´£¬ÄÇÃ´ĞèÒª×Ô¼ºClose()
+			* è¿”å›å¼‚å¸¸ä¿¡æ¯ï¼Œå¯èƒ½åœ¨è·Œåˆ°è¿‡ç¨‹ä¸­äº§ç”Ÿäº†å¼‚å¸¸ï¼Œå¯¼è‡´è¿­ä»£æå‰ç»ˆæ­¢
+			* å¯ä»¥åœ¨è¿­ä»£å®Œæˆåï¼Œå°è¯•è·å–åˆ°è¿™ä¸ªå¼‚å¸¸ä¿¡æ¯è¿›è¡Œå¤„ç†
+			* å¦‚æœæå‰ç»ˆæ­¢äº†è¿­ä»£ï¼Œé‚£ä¹ˆå¯èƒ½æ²¡æœ‰å…³é—­èµ„æºï¼Œé‚£ä¹ˆéœ€è¦è‡ªå·±Close()
 
 		func (rs *Rows) Next() bool
-			* ÔÚÃ»ÓĞÊı¾İºó£¬Ö´ĞĞrows.Next() »áÓöµ½ EOF Òì³££¬´ËÊ±»á×Ô¶¯µ÷ÓÃ rows.Close() ¹Ø±Õ×ÊÔ´
-			* Í¨Ë×Àí½â¾ÍÊÇ£¬Í¨¹ınextÕı³£±éÀúÍê±ÏÊı¾İºó£¬»á×Ô¶¯ÊÍ·ÅÁ´½Ó×ÊÔ´
+			* åœ¨æ²¡æœ‰æ•°æ®åï¼Œæ‰§è¡Œrows.Next() ä¼šé‡åˆ° EOF å¼‚å¸¸ï¼Œæ­¤æ—¶ä¼šè‡ªåŠ¨è°ƒç”¨ rows.Close() å…³é—­èµ„æº
+			* é€šä¿—ç†è§£å°±æ˜¯ï¼Œé€šè¿‡nextæ­£å¸¸éå†å®Œæ¯•æ•°æ®åï¼Œä¼šè‡ªåŠ¨é‡Šæ”¾é“¾æ¥èµ„æº
 
 		func (rs *Rows) NextResultSet() bool
 		func (rs *Rows) Scan(dest ...interface{}) error
 
-		* Rows»á±£ÁôÊı¾İ¿âÁ¬½Ó£¬Ö±µ½sql.Rows¹Ø±Õ
+		* Rowsä¼šä¿ç•™æ•°æ®åº“è¿æ¥ï¼Œç›´åˆ°sql.Rowså…³é—­
 	
 	# type Scanner interface {
 			Scan(src interface{}) error
 		}
 		
-		* °ÑÊı¾İ¿âÖµĞ´Èëµ½GoµÄ½Ó¿Ú
-		* srcµÄÖµ¿ÉÄÜÊÇ
+		* æŠŠæ•°æ®åº“å€¼å†™å…¥åˆ°Goçš„æ¥å£
+		* srcçš„å€¼å¯èƒ½æ˜¯
 			int64
 			float64
 			bool
@@ -304,45 +315,45 @@ type
 	# type Stmt struct {
 		}
 	
-		* Ô¤±àÒëSSQL
+		* é¢„ç¼–è¯‘SSQL
 
 		func (s *Stmt) Close() error
 		func (s *Stmt) Exec(args ...interface{}) (Result, error)
 		func (s *Stmt) ExecContext(ctx context.Context, args ...interface{}) (Result, error)
-			* Ö´ĞĞĞŞ¸ÄSQL£¬Ìî³ä²ÎÊı£¬»ñÈ¡µ½½á¹û
+			* æ‰§è¡Œä¿®æ”¹SQLï¼Œå¡«å……å‚æ•°ï¼Œè·å–åˆ°ç»“æœ
 
 		func (s *Stmt) Query(args ...interface{}) (*Rows, error)
 		func (s *Stmt) QueryContext(ctx context.Context, args ...interface{}) (*Rows, error)
-			* Ìî³ä²ÎÊı£¬Ö´ĞĞ¼ìË÷£¬»ñÈ¡¶àĞĞ¶àÁĞ½á¹û
+			* å¡«å……å‚æ•°ï¼Œæ‰§è¡Œæ£€ç´¢ï¼Œè·å–å¤šè¡Œå¤šåˆ—ç»“æœ
 
 		func (s *Stmt) QueryRow(args ...interface{}) *Row
 		func (s *Stmt) QueryRowContext(ctx context.Context, args ...interface{}) *Row
-			* Ìî³ä²ÎÊı£¬Ö´ĞĞ¼ìË÷£¬»ñÈ¡µ¥ĞĞ¶àÁĞ½á¹û
+			* å¡«å……å‚æ•°ï¼Œæ‰§è¡Œæ£€ç´¢ï¼Œè·å–å•è¡Œå¤šåˆ—ç»“æœ
 	
 	# type Tx struct {
 		}
-		* ÊÂÎñ
+		* äº‹åŠ¡
 		func (tx *Tx) Commit() error
-			* Ìá½»ÊÂÎñ
+			* æäº¤äº‹åŠ¡
 
 		func (tx *Tx) Exec(query string, args ...interface{}) (Result, error)
 		func (tx *Tx) ExecContext(ctx context.Context, query string, args ...interface{}) (Result, error)
-			* Ö´ĞĞSQL£¬»ñÈ¡½á¹û
+			* æ‰§è¡ŒSQLï¼Œè·å–ç»“æœ
 
 		func (tx *Tx) Prepare(query string) (*Stmt, error)
 		func (tx *Tx) PrepareContext(ctx context.Context, query string) (*Stmt, error)
-			* Ö´ĞĞÔ¤±àÒë£¬·µ»Ø*Stmt
+			* æ‰§è¡Œé¢„ç¼–è¯‘ï¼Œè¿”å›*Stmt
 
 		func (tx *Tx) Query(query string, args ...interface{}) (*Rows, error)
 		func (tx *Tx) QueryContext(ctx context.Context, query string, args ...interface{}) (*Rows, error)
-			* Ö´ĞĞ¼ìË÷·µ»Ø¶àĞĞ¶àÁĞ½á¹û¼¯
+			* æ‰§è¡Œæ£€ç´¢è¿”å›å¤šè¡Œå¤šåˆ—ç»“æœé›†
 
 		func (tx *Tx) QueryRow(query string, args ...interface{}) *Row
 		func (tx *Tx) QueryRowContext(ctx context.Context, query string, args ...interface{}) *Row
-			* Ö´ĞĞ¼ìË÷·µ»Øµ¥ĞĞ¶àÁĞ½á¹û¼¯
+			* æ‰§è¡Œæ£€ç´¢è¿”å›å•è¡Œå¤šåˆ—ç»“æœé›†
 
 		func (tx *Tx) Rollback() error
-			* »Ø¹ö²Ù×÷
+			* å›æ»šæ“ä½œ
 		
 		func (tx *Tx) Stmt(stmt *Stmt) *Stmt
 		func (tx *Tx) StmtContext(ctx context.Context, stmt *Stmt) *Stmt
@@ -358,14 +369,14 @@ func
 -----------------
 demo
 -----------------
-	# ×Ô¶¨ÒåGoÊı¾İÀàĞÍºÍSQLÀàĞÍµÄ×ª»»
-		* Ö÷ÒªÊÇÊµÏÖ2¸ö½Ó¿Ú
+	# è‡ªå®šä¹‰Goæ•°æ®ç±»å‹å’ŒSQLç±»å‹çš„è½¬æ¢
+		* ä¸»è¦æ˜¯å®ç°2ä¸ªæ¥å£
 			type Scanner interface {
 				Scan(src interface{}) error
 			}
 				
-				* °ÑÊı¾İ¿âÖµĞ´Èëµ½GoµÄ½Ó¿Ú
-				* srcµÄÖµ¿ÉÄÜÊÇ
+				* æŠŠæ•°æ®åº“å€¼å†™å…¥åˆ°Goçš„æ¥å£
+				* srcçš„å€¼å¯èƒ½æ˜¯
 					int64
 					float64
 					bool
@@ -381,7 +392,7 @@ demo
 				Value() (Value, error)
 			}
 			type Value interface{}
-				* value±íÊ¾Êı¾İ¿âµÄÖµ£¬ÀàĞÍ¿ÉÒÔÊÇ:
+				* valueè¡¨ç¤ºæ•°æ®åº“çš„å€¼ï¼Œç±»å‹å¯ä»¥æ˜¯:
 					int64
 					float64
 					bool
@@ -389,7 +400,7 @@ demo
 					string
 					time.Time
 		
-		* ÊµÏÖ
+		* å®ç°
 			import (
 				"database/sql"
 				"database/sql/driver"

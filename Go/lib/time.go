@@ -116,6 +116,8 @@ type
 				time.Now().Format(time.RFC3339)
 
 		func (t Time) AppendFormat(b []byte, layout string) []byte 
+			* 格式化，并且添加字符前缀
+				text = t.AppendFormat([]byte("Time: "), time.Kitchen) fmt.Println(string(text))
 
 		func (t Time) After(u Time) bool
 		func (t Time) Before(u Time) bool 

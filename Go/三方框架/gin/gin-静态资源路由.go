@@ -7,201 +7,177 @@
 
 
 
-// ----------
-
-
+-------------------
 
 package main
 
 import (
 	"context"
-	"demo/resources/public"
-	"errors"
 	"github.com/gin-gonic/gin"
-	"io/fs"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
 	"path"
+	"path/filepath"
 	"strings"
 	"time"
 )
 
 func init() {
+	rand.Seed(time.Now().UnixNano())
 	log.Default().SetOutput(os.Stdout)
-	log.Default().SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	log.Default().SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
-func main() {
-	HttpServer()
-}
-
-// MultiFileSystem 多资源FS
-type MultiFileSystem struct {
+// MultiHttpFileSystem 支持多个目录的 Http File System
+type MultiHttpFileSystem struct {
 	Fs []http.FileSystem
 }
 
-func (m MultiFileSystem) Open(name string) (http.File, error) {
-	for _, fileSystem := range m.Fs {
-		file, err := fileSystem.Open(name)
+func (m MultiHttpFileSystem) Open(path string) (http.File, error) {
+	for _, f := range m.Fs {
+		file, err := f.Open(path)
 		if err != nil {
 			if os.IsNotExist(err) {
 				continue
 			}
-			return nil, err
 		}
 		return file, err
 	}
 	return nil, os.ErrNotExist
 }
 
-// WebSource Web资源可以有多个目录
-var WebSource = MultiFileSystem{Fs: []http.FileSystem{
-	http.Dir("."),       // 当前运行目录
-	http.FS(public.Fs)}, // 嵌入式目录
-}
+// FsHandler 资源文件处理
+func FsHandler(fs http.FileSystem) gin.HandlerFunc {
 
-// WebSourceHandler Web资源处理器
-func WebSourceHandler(ctx *gin.Context) {
-	// 如果不是 / 开头，则添加前缀
-	requestPath := ctx.Request.URL.Path
-	if !strings.HasPrefix(requestPath, "/") {
-		requestPath = "/" + requestPath
-		ctx.Request.URL.Path = requestPath
-	}
+	return func(ctx *gin.Context) {
 
-	// 清除路径中的..等非法路径
-	requestPath = path.Clean(requestPath)
-
-	// 打开目标文件/或者文件夹
-	requestFile, err := WebSource.Open(requestPath)
-	if err != nil {
-		if os.IsNotExist(err) {
-			ctx.Next()
-		} else {
-			ctx.AbortWithStatus(toHTTPErrorStatus(err))
+		reqPath := ctx.Request.URL.Path
+		if !strings.HasPrefix(reqPath, "/") {
+			reqPath = "/" + reqPath
+			ctx.Request.URL.Path = reqPath
 		}
-		return
-	}
-	defer func() {
-		_ = requestFile.Close()
-	}()
 
-	requestFileStat, err := requestFile.Stat()
-	if err != nil {
-		if os.IsNotExist(err) {
-			ctx.Next()
-		} else {
-			ctx.AbortWithStatus(toHTTPErrorStatus(err))
-		}
-		return
-	}
-
-	// 目录的话，尝试加载index.html
-	if requestFileStat.IsDir() {
-		indexPath := strings.TrimSuffix(requestPath, "/") + "/index.html"
-		indexFile, err := WebSource.Open(indexPath)
+		reqFile, err := fs.Open(path.Clean(reqPath))
 		if err != nil {
-			// index.html 读取异常
 			if os.IsNotExist(err) {
 				ctx.Next()
 			} else {
-				ctx.AbortWithStatus(toHTTPErrorStatus(err))
+				_ = ctx.AbortWithError(http.StatusInternalServerError, err)
 			}
 			return
 		}
-		// 有index.html文件
+
 		defer func() {
-			_ = indexFile.Close()
+			_ = reqFile.Close()
 		}()
-		indexFileStat, err := indexFile.Stat()
+
+		reqFileStat, err := reqFile.Stat()
 		if err != nil {
 			if os.IsNotExist(err) {
 				ctx.Next()
 			} else {
-				ctx.AbortWithStatus(toHTTPErrorStatus(err))
+				_ = ctx.AbortWithError(http.StatusInternalServerError, err)
 			}
 			return
 		}
-		requestPath = indexPath
-		requestFileStat = indexFileStat
-		requestFile = indexFile
+
+		if reqFileStat.IsDir() {
+			indexPath := strings.TrimSuffix(reqPath, "/")
+			indexFile, err := fs.Open(indexPath + "/index.html")
+			if err != nil {
+				if os.IsNotExist(err) {
+					ctx.Next()
+				} else {
+					_ = ctx.AbortWithError(http.StatusInternalServerError, err)
+				}
+				return
+			}
+
+			defer func() {
+				_ = indexFile.Close()
+			}()
+
+			indexFileStat, err := indexFile.Stat()
+			if err != nil {
+				if os.IsNotExist(err) {
+					ctx.Next()
+				} else {
+					_ = ctx.AbortWithError(http.StatusInternalServerError, err)
+				}
+				return
+			}
+
+			if indexFileStat.IsDir() {
+				ctx.Next()
+				return
+			}
+
+			reqPath = indexPath
+			reqFile = indexFile
+			reqFileStat = indexFileStat
+		}
+
+		// 响应内容
+		http.ServeContent(ctx.Writer, ctx.Request, reqPath, reqFileStat.ModTime(), reqFile)
+
+		// 阻断调用链表
+		ctx.Abort()
 	}
-
-	// TODO 可以在这里进行鉴权
-
-	http.ServeContent(ctx.Writer, ctx.Request, requestPath, requestFileStat.ModTime(), requestFile)
-
-	// 阻断调用链
-	ctx.Abort()
-
-	return
 }
 
-// toHTTPErrorStatus 把系统异常转换为HTTP异常状态码
-func toHTTPErrorStatus(err error) (httpStatus int) {
-	if errors.Is(err, fs.ErrNotExist) {
-		return http.StatusNotFound
-	}
-	if errors.Is(err, fs.ErrPermission) {
-		return http.StatusForbidden
-	}
-	return http.StatusInternalServerError
-}
+func main() {
 
-func HttpServer() {
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("获取运行目录异常: %s\n", err.Error())
+	}
 
 	router := gin.New()
 
-	// Web资源加载器
-	router.Use(WebSourceHandler)
-
-	// 业务Handler
-	router.GET("/hello", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"success": true})
+	// 普通路由
+	router.GET("/hello", func(ctx *gin.Context) {
+		ctx.String(http.StatusOK, "Hello World")
 	})
 
-	server := &http.Server{
+	// 未经过所有路由，尝试解析文件
+	router.Use(FsHandler(MultiHttpFileSystem{
+		Fs: []http.FileSystem{http.Dir(filepath.Join(dir, "resources"))},
+	}))
+
+	// 处理404
+	router.NoRoute(func(ctx *gin.Context) {
+		ctx.String(http.StatusNotFound, "啥也没")
+	})
+
+	server := http.Server{
 		Addr:    ":80",
 		Handler: router,
 	}
 
+	closed := make(chan struct{})
+
 	go func() {
-		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("server err: %s\n", err.Error())
+		ctx, stop := signal.NotifyContext(context.Background(), os.Kill, os.Interrupt)
+		defer stop()
+		<-ctx.Done()
+
+		log.Println("Server Shutdown")
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+		defer cancel()
+		if err := server.Shutdown(ctx); err != nil {
+			log.Printf("Server Shutdown Error: %s\n", err.Error())
 		}
+		close(closed)
 	}()
 
-	ctx, cancel := signal.NotifyContext(context.Background(), os.Kill, os.Interrupt)
-	defer cancel()
-
-	for {
-		<-ctx.Done()
-		func() {
-			ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
-			defer cancel()
-			log.Println("Service Shutdown...")
-			if err := server.Shutdown(ctx); err != nil {
-				log.Printf("Error: %s\n", err.Error())
-			}
-		}()
-		return
+	log.Println("Server Start")
+	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		log.Printf("Server Listen Error: %s\n", err.Error())
 	}
+
+	<-closed
 }
-
-
-// ---- resource_fs
-
-demo
-	|-resources
-		|-public
-			|-resource_fs.go
-
--------------------
-package public
-
-import "embed"
-
-//go:embed *
-var Fs embed.FS
