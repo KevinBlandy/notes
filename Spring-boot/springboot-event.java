@@ -64,6 +64,9 @@ Event						|
 		4. 对应的监听器会得到执行
 			* 如果存在多个监听, 则多个监听都会执行
 			* 默认执行的线程, 就是当前的发布线程(非异步)
+	
+	# @TransactionalEventListener
+		TODO 
 
 ----------------------------
 applicationEvent			|

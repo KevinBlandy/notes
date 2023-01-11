@@ -85,8 +85,7 @@ func FsHandler(fs http.FileSystem) gin.HandlerFunc {
 		}
 
 		if reqFileStat.IsDir() {
-			indexPath := strings.TrimSuffix(reqPath, "/")
-			indexFile, err := fs.Open(indexPath + "/index.html")
+			indexFile, err := fs.Open(strings.TrimSuffix(reqPath, "/") + "/index.html")
 			if err != nil {
 				if os.IsNotExist(err) {
 					ctx.Next()
@@ -114,14 +113,12 @@ func FsHandler(fs http.FileSystem) gin.HandlerFunc {
 				ctx.Next()
 				return
 			}
-
-			reqPath = indexPath
 			reqFile = indexFile
 			reqFileStat = indexFileStat
 		}
 
 		// 响应内容
-		http.ServeContent(ctx.Writer, ctx.Request, reqPath, reqFileStat.ModTime(), reqFile)
+		http.ServeContent(ctx.Writer, ctx.Request, reqFileStat.Name(), reqFileStat.ModTime(), reqFile)
 
 		// 阻断调用链表
 		ctx.Abort()

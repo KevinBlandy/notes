@@ -147,6 +147,10 @@ public class ZipUtils {
 					} else { // 文件
 						// 读取zip项数据流
 						try (InputStream zipEntryInputStream = zipFile.getInputStream(zipEntry)) {
+							// 尝试创建其父目录
+							if (!Files.isDirectory(entryFile.getParent())) {
+								Files.createDirectories(entryFile.getParent());	
+							}
 							try (OutputStream fileOutputStream = Files.newOutputStream(entryFile,
 									StandardOpenOption.CREATE_NEW, StandardOpenOption.TRUNCATE_EXISTING)) {
 								zipEntryInputStream.transferTo(fileOutputStream);

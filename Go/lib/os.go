@@ -313,6 +313,8 @@ type
 		* 获取当前用户的UID
 
 	func Getwd() (dir string, err error)
+		* 获取运行程序的目录
+			
 	func Hostname() (name string, err error)
 
 	func IsExist(err error) bool
