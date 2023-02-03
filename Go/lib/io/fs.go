@@ -15,6 +15,7 @@ var
 	)
 	
 	var SkipDir = errors.New("skip this directory")
+	var SkipAll = errors.New("skip everything and stop the walk")
 
 ----------------------
 type

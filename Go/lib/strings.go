@@ -130,8 +130,11 @@
 
 	func Index(s, substr string) int
 	func Cut(s, sep string) (before, after string, found bool)
+	func CutPrefix(s, prefix string) (after string, found bool)
+		* 类似于 TrimPrefix，但是返回是否找到前缀
+	func CutSuffix(s, suffix string) (before string, found bool)
+		* 同上
 	func Clone(s string) string
-
 
 
 

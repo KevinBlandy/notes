@@ -73,4 +73,4 @@ type
 	func Append(b []byte, a ...any) []byte
 	func Appendf(b []byte, format string, a ...any) []byte
 	func Appendln(b []byte, a ...any) []byte
-	
+	func FormatString(state State, verb rune) string

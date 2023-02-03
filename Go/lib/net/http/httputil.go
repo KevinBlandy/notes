@@ -21,6 +21,13 @@ type
 			Get() []byte
 			Put([]byte)
 		}
+
+	# type ProxyRequest struct {
+			In *http.Request
+			Out *http.Request
+		}
+		func (r *ProxyRequest) SetURL(target *url.URL)
+		func (r *ProxyRequest) SetXForwarded()
 	
 	# type ClientConn struct {
 		}
@@ -37,6 +44,17 @@ type
 		func (cc *ClientConn) Write(req *http.Request) error
 	
 	# type ReverseProxy struct {
+			Rewrite func(*ProxyRequest)
+				* 取代了 Director 钩子
+				* 示例
+					proxyHandler := &httputil.ReverseProxy{ 
+					  Rewrite: func(r *httputil.ProxyRequest) { 
+						r.SetURL(outboundURL) // 将请求转发到 outboundURL。
+						r.SetXForwarded() // 设置 X-Forwarded-* 标头。
+						r.Out.Header.Set("X-Additional-Header", "代理设置的头部") 
+					  }, 
+					}
+				
 			Director func(*http.Request)
 				* 这个方法会把当前请求修改成代理请求
 

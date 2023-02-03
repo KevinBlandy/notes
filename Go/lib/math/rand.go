@@ -82,3 +82,5 @@ Demo
 	
 	# 系统启动的时候，一般就设置全局的随机种子
 		rand.Seed(time.Now().UTC().UnixNano())
+
+		* 这个方法已经废弃了，不建议设置全局

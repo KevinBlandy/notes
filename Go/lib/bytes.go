@@ -122,4 +122,6 @@
 	func EqualFold(s, t []byte) bool
 	func Index(s, sep []byte) int 
 	func Cut(s, sep []byte) (before, after []byte, found bool) 
-
+	func CutPrefix(s, prefix []byte) (after []byte, found bool)
+	func CutSuffix(s, suffix []byte) (before []byte, found bool)
+	func Clone(b []byte) []byte

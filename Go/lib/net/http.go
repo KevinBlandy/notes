@@ -445,6 +445,15 @@ type
 		func (r *Response) ProtoAtLeast(major, minor int) bool
 		func (r *Response) Write(w io.Writer) error
 	
+	# type ResponseController struct {
+			// contains filtered or unexported fields
+		}
+		func NewResponseController(rw ResponseWriter) *ResponseController
+		func (c *ResponseController) Flush() error
+		func (c *ResponseController) Hijack() (net.Conn, *bufio.ReadWriter, error)
+		func (c *ResponseController) SetReadDeadline(deadline time.Time) error
+		func (c *ResponseController) SetWriteDeadline(deadline time.Time) error
+
 	# type ResponseWriter interface {
 			Header() Header
 				* 获取缓存的header
@@ -497,6 +506,7 @@ type
 	# type Server struct {
 			Addr string
 			Handler Handler // handler to invoke, http.DefaultServeMux if nil
+			DisableGeneralOptionsHandler bool
 			TLSConfig *tls.Config
 				* tls的配置
 
@@ -531,6 +541,7 @@ type
 	
 	# type Transport struct {
 			Proxy func(*Request) (*url.URL, error)
+			OnProxyConnectResponse func(ctx context.Context, proxyURL *url.URL, connectReq *Request, connectRes *Response) error
 			DialContext func(ctx context.Context, network, addr string) (net.Conn, error)
 			Dial func(network, addr string) (net.Conn, error)
 			DialTLSContext func(ctx context.Context, network, addr string) (net.Conn, error)

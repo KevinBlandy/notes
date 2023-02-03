@@ -133,6 +133,18 @@
 		fmt.Printf("%T=%v\n", p2, p2) // *[]string=&[E L L o]
 		
 		fmt.Println(p2 == p1)	// false
+	
+	# 切换转换为指针
+		* Go 1.20 的功能
+
+		var slice = []int{1, 2, 3}
+		var arr = *(*[3]int)(slice) 
+		log.Println(arr) // [1 2 3]
+
+		* 数组长度要和切片的len一样
+
+			var arr = *(*[3]int)(make([]int, 2, 3))  
+			// panic: runtime error: cannot convert slice with length 2 to array or pointer to array with length 3
 
 --------------------------
 切片扩容

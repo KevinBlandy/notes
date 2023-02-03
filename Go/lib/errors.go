@@ -38,6 +38,9 @@ func
     func Unwrap(err error) error
 		* 如果异常是一个包装异常，也就是实现了: Unwrap() error 
 		* 那么就会返回包装的异常，否则返回nil
+	
+	func Join(errs ...error) error
+		
 
 ------------------------
 demo

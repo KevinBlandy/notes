@@ -27,7 +27,9 @@ type
 	# type Map struct {}
 		
 		* 并发安全的Map
-		
+
+		func (m *Map) CompareAndDelete(key, old any) (deleted bool)
+		func (m *Map) CompareAndSwap(key, old, new any) bool
 		func (m *Map) Delete(key interface{})
 			* 删除KEY
 
@@ -47,6 +49,8 @@ type
 			
 		func (m *Map) Store(key, value interface{})
 			* 存储KEY
+		
+		func (m *Map) Swap(key, value any) (previous any, loaded bool)
 	
 	# type Mutex struct {}
 		func (m *Mutex) Lock()

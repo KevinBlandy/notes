@@ -16,7 +16,8 @@ filepath
 	
 	var SkipDir = errors.New("skip this directory")
 		* 遍历目录的时候，可以返回这个异常，则跳出当前目录
-
+	var SkipAll error = fs.SkipAll
+		* 遍历目录的时候，可以犯规这个异常，则跳出所有目录
 
 -------------------------
 type
@@ -98,4 +99,4 @@ type
 		* 类似于 Walk，但通常效率更高。
 		* 传递给的函数WalkDir接收 fs.DirEntry 而不是 fs.FileInfo
 	
-
+	func IsLocal(path string) bool

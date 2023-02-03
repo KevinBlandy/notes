@@ -99,7 +99,13 @@ func
 
 	func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc) 
 		* 从父节点获取一个context，指定超时的时间单位，用于传递给子任务
-
+	
+	func WithCancelCause(parent Context) (ctx Context, cancel CancelCauseFunc)
+		* 示例
+			ctx, cancel := context.WithCancelCause(parent)
+			cancel(myError)
+			ctx.Err() // returns context.Canceled
+			context.Cause(ctx) // returns myError
 
 -------------------------
 demo

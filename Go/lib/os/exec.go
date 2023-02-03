@@ -48,7 +48,8 @@ type
 				* ProcessState包含一个退出进程的信息，当进程调用Wait或者Run时便会产生该信息．  
 			
 			Err error // LookPath error, if any.
-				
+			Cancel func() error
+			WaitDelay time.Duration
 		}
 
 		func Command(name string, arg ...string) *Cmd

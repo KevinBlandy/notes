@@ -51,6 +51,13 @@ type
 		
 		func (l *LimitedReader) Read(p []byte) (n int, err error)
 	
+	# type OffsetWriter struct {
+		}
+		func NewOffsetWriter(w WriterAt, off int64) *OffsetWriter
+		func (o *OffsetWriter) Seek(offset int64, whence int) (int64, error)
+		func (o *OffsetWriter) Write(p []byte) (n int, err error)
+		func (o *OffsetWriter) WriteAt(p []byte, off int64) (n int, err error)
+
 	# type PipeReader struct
 		func (r *PipeReader) Close() error
 		func (r *PipeReader) CloseWithError(err error) error

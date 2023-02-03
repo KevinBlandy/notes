@@ -21,6 +21,7 @@ time
 		var Local *Location = &localLoc
 	
 	# 时间格式化的预定义格式
+		Layout      = "01/02 03:04:05PM '06 -0700" // The reference time, in numerical order.
 		ANSIC       = "Mon Jan _2 15:04:05 2006"
 		UnixDate    = "Mon Jan _2 15:04:05 MST 2006"
 		RubyDate    = "Mon Jan 02 15:04:05 -0700 2006"
@@ -37,6 +38,9 @@ time
 		StampMilli = "Jan _2 15:04:05.000"
 		StampMicro = "Jan _2 15:04:05.000000"
 		StampNano  = "Jan _2 15:04:05.000000000"
+		DateTime   = "2006-01-02 15:04:05" // 日期时间
+		DateOnly   = "2006-01-02"			// 日期
+		TimeOnly   = "15:04:05"			// 时间
 
 ---------------
 type
@@ -121,6 +125,7 @@ type
 
 		func (t Time) After(u Time) bool
 		func (t Time) Before(u Time) bool 
+		func (t Time) Compare(u Time) int
 		func (t Time) Equal(u Time) bool 
 			* 是否在指定的时间之前/之后
 		
