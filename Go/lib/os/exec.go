@@ -47,9 +47,17 @@ type
 			ProcessState *os.ProcessState
 				* ProcessState包含一个退出进程的信息，当进程调用Wait或者Run时便会产生该信息．  
 			
-			Err error // LookPath error, if any.
+			Err error
+				* LookPath错误，如果有的话。
+			
 			Cancel func() error
+				* 如果Cancel不是nil，那么该命令必须是用 CommandContext 创建的
+				* Cancel将在该命令的Context done 后被调用。
+				* 默认情况下，CommandContext将Cancel设置为调用命令的Process上的Kill方法。
+
 			WaitDelay time.Duration
+				* 如果WaitDelay为非零，它限定了Wait中两个意外延迟源的等待时间：一个是在关联的Context被取消后未能退出的子进程，另一个是退出但未关闭其I/O管道的子进程。
+
 		}
 
 		func Command(name string, arg ...string) *Cmd

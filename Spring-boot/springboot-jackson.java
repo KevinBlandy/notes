@@ -109,3 +109,14 @@ Jackson
 				};
 			}
 		}
+
+------------------
+一些配置
+------------------
+	# 全局序列化 Long 为 String ，避免js客户端精度丢失问题
+		@Bean
+		public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
+			return builder -> {
+				builder.serializerByType(Long.class, ToStringSerializer.instance);
+			};
+		}

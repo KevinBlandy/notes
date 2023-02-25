@@ -1,4 +1,12 @@
 ------------------------
+Stream	- 命令
+------------------------
+	# 参考
+		* https://redis.io/docs/data-types/streams/
+		* https://redis.io/docs/data-types/streams-tutorial/
+		* https://redis.io/commands/?group=stream
+
+------------------------
 Stream	- 命令总结		|
 ------------------------
 	XADD 
@@ -16,7 +24,7 @@ Stream	- 命令总结		|
 	XLEN
 		* XLEN key
 		* 获取stream中的消息数量
-		
+	
 	XRANGE
 		* XRANGE key start end [COUNT count]
 		* 从stream中根据指定范围条件获取一段范围内的消息
@@ -29,17 +37,19 @@ Stream	- 命令总结		|
 		* XREAD [COUNT count] [BLOCK milliseconds] STREAMS key [key ...] ID [ID ...]
 		* 从stream中根据指定id的位置, 阻塞/非阻塞的读取一条/多条消息
 		
-	XGROUP
-		* XGROUP [CREATE key groupname id-or-$] [SETID key id-or-$] [DESTROY key groupname] [DELCONSUMER key groupname consumername]
+	XGROUP CREATE key groupname <id | $> [MKSTREAM] [ENTRIESREAD entries_read]
 		* 创建/删除消费组
+	XGROUP CREATECONSUMER key groupname consumername
+	XGROUP DELCONSUMER key groupname consumername
+	XGROUP DESTROY key groupname
+	XGROUP SETID key groupname <id | $> [ENTRIESREAD entries_read]
 		
 	XREADGROUP
 		* XREADGROUP GROUP group consumer [COUNT count] [BLOCK milliseconds] STREAMS key [key ...] ID [ID ...]
 		* 分组消费, 从stream中根据group和consumer读取若干未被消费的消息
 		
-	XPENDING
-		* XPENDING key group [start end count] [consumer]
-		* 从stream中读取一个group,consumer已经获取但是还未通知消费成功的消息队列
+	XPENDING key group [[IDLE min-idle-time] start end count [consumer]]
+		* * 从stream中读取一个group,consumer已经获取但是还未通知消费成功的消息队列
 		
 	XACK
 		* XACK key group ID [ID ...]
@@ -48,10 +58,17 @@ Stream	- 命令总结		|
 	XCLAIM
 		* XCLAIM key group consumer min-idle-time ID [ID ...] [IDLE ms] [TIME ms-unix-time] [RETRYCOUNT count] [force] [justid]
 		* 把一条/多条消息, 从一个consumer的XPENDING列表, 转移到另一个consumer的XPENDING列表
+	
+	XAUTOCLAIM key group consumer min-idle-time start [COUNT count] [JUSTID]
+
 		
 	XINFO
 		* XINFO [CONSUMERS key groupname] [GROUPS key] [STREAM key] [HELP]
-		* 监控命令, 可以检测各种指标, 命令比较复杂
+		
+	
+	XINFO CONSUMERS key groupname
+	XINFO GROUPS key
+	XINFO STREAM key [FULL [COUNT count]]
 	
 ------------------------
 Stream					|
