@@ -40,7 +40,9 @@ DSL
 		* 构建一个 table
 	
 	public static Field<Object> field(String sql)
+	public static <T> Field<T> field(String sql, Class<T> type, Object... bindings)
 		* 构建一个 Field
+		* 有N多重载函数，可以用来自定义字段，函数调用（可以用{0}占位符填充参数）
 	
 	public static Field<String> concat(String... values)
 		* concat 函数
@@ -137,3 +139,10 @@ DSL
 	public static Condition condition(String sql, QueryPart... parts) 
 	public static Condition condition(String sql, Object... bindings)
 		* 使用SQL构建条件
+	
+	public static Param<String> inline(String value)
+		* 把字符串参数，包裹为内联字符串
+		* 类似于filed，但是会自动添加引号，以保证SQL语法的正确性和SQL注入的预防
+			inline("abc'def") renders 'abc''def'
+			field("abc'def") renders abc'def
+	
