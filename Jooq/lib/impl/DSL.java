@@ -41,8 +41,10 @@ DSL
 	
 	public static Field<Object> field(String sql)
 	public static <T> Field<T> field(String sql, Class<T> type, Object... bindings)
-		* 构建一个 Field
+		* 构建一个 Field，可以 通过 type 指定字段的类型
 		* 有N多重载函数，可以用来自定义字段，函数调用（可以用{0}占位符填充参数）
+			field("date_format({0}, {1})", field("NOW()"), "%d/%m/%Y").cast(String.class).as("NOW")
+			// field("date_format({0}, {1})", String.class, field("NOW()"), "%d/%m/%Y").as("NOW"); 同上，不是通过
 	
 	public static Field<String> concat(String... values)
 		* concat 函数
@@ -146,3 +148,5 @@ DSL
 			inline("abc'def") renders 'abc''def'
 			field("abc'def") renders abc'def
 	
+	 public static Field<BigDecimal> rand()
+	 	* 随机值字段

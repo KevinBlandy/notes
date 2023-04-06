@@ -327,3 +327,37 @@ case/when
 			)
 			.from(table(name("ACTOR")))
 			.fetch();
+
+-----------------------
+Group вс╠М
+-----------------------
+	var table = Tables.SYS_MENU;
+
+	Table<Record1<String>> temp = this.dslContext.select(
+								field("date_format({0}, {1})", String.class, table.CREATE_AT, "%d/%m/%Y").as(table.CREATE_AT.getName()))
+						.from(table)
+						.asTable("temp")
+						;
+
+	var createAtField = field(table.CREATE_AT.getName());
+
+	var ret = this.dslContext.select(createAtField, count(createAtField))
+		.from(temp)
+		.groupBy(createAtField)
+		.fetch()
+		;
+
+	ret.stream().forEach(System.out::println);
+
+	/* SQL
+
+	SELECT
+	  create_at,
+	  count(create_at)
+	FROM (
+	  SELECT date_format(`springboot`.`sys_menu`.`create_at`, '%d/%m/%Y') AS `create_at`
+	  FROM `springboot`.`sys_menu`
+	) AS `temp`
+	GROUP BY create_at
+
+	*/

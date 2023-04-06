@@ -14,4 +14,27 @@
 		// CAST(date_format(NOW(), '%d/%m/%Y') AS char) AS `NOW`
 		
 	
+	# IN 查询，按照 IN 参数进行排序
+		List<Long> ids = List.of(108561785421955072L, 108561954930556928L, 108563064705646592L);
+
+		var table = Tables.SYS_MENU;
+
+		List<SysMenu> ret = this.dslContext.select()
+				.from(table)
+				.where(table.ID.in(ids))  // IN 条件
+				.orderBy(table.ID.sortAsc(ids)) // 结果集按照 IN 的结果升序排序
+				.fetch()
+				.into(SysMenu.class)
+				;
+		ret.stream().forEach(System.out::println);
+
+
+	# 从数据库中随机获取N条记录
+		var ret = this.dslContext.select()
+			.from(Tables.SYS_MENU)
+			.orderBy(rand())
+			.limit(5)
+			.fetch()
+			;
+		ret.stream().forEach(System.out::println);
 	

@@ -31,6 +31,38 @@ rabbitmq
 			* 交换机
 		Binding
 			* 绑定关系
+	
+	# AMQP 注解
+		@EnableRabbit
+		@RabbitListener
+		@Exchange
+		@Queue
+		@QueueBinding
+		@RabbitListeners
+		@RabbitHandler
+			boolean isDefault() default false;
+				* 当为 true 时，如果 payload 类型与其他 RabbitHandler 方法不匹配，指定这是默认的 fallback 方法。
+				* 只有一个方法可以被如此指定。
+			
+			* 注解在方法上，与注解在类上的 @RabbitListener 进行配合
+			* 收到来自于 @RabbitListener 指定队列的消息时，从当前类所有注解了 @RabbitHandler 方法中，根据消息数据类型和方法参数进行匹配，选择一个方法进行调用。
+			* 参数要么是单个，如果是多个，则需要使用 @Payload 指定消息绑定的参数
+
+		@Argument
+	
+	# 通用的Message注解
+		@Header
+			* 消息头
+
+		@Headers
+		@DestinationVariable
+		@MessageExceptionHandler
+		@MessageMapping
+		@Payload
+			* 消息体
+		
+		@SendTo
+
 
 -------------------
 rabbitmq 配置

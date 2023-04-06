@@ -217,7 +217,7 @@ this
 			* true 表示确认deliveryTag这个编号及其以前所有未被消费者确认的消息
 
 	public abstract void basicNack(long deliveryTag, boolean multiple, boolean requeue)
-		* 消息拒绝，跟basicReject本质上一样
+		* 消息拒绝，跟 basicReject 本质上一样
 		* 它多提供了一个参数，可以一次性拒绝一批
 
 		multiple

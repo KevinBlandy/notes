@@ -4,8 +4,10 @@
 	# 使用同一个交换机，不同的 route_key 区分不同队列即可
 	# 一个交换机，具备多个不同ttl的延时队列
 	# 消费队列只有一个
-
-
+	# 路由图
+									[queue (ttl队列, 没有消费者, 设置死信交换机, 死信key)]
+		[message] -> [exchange] -> 
+									[queue (正常队列, 有消费者, 当 ttl 队列成为死信后, 投递到这个队列进行消费)]
 -----------------------
 生产者
 -----------------------
@@ -54,17 +56,17 @@ public class Producer {
 		
 		// 声明05秒延迟队列
 		Map<String, Object> properties = new HashMap<>();
-		properties.put("x-dead-letter-exchange", DELAY_EXCHANGE);
-		properties.put("x-message-ttl", TimeUnit.SECONDS.toMillis(5));
-		properties.put("x-dead-letter-routing-key" , EXPIRATION_QUQUE_ROUTE);
+		properties.put("x-dead-letter-exchange", DELAY_EXCHANGE);  // 没有消费者，则投递到这个交换机
+		properties.put("x-dead-letter-routing-key" , EXPIRATION_QUQUE_ROUTE); // 没有消费者，，则投递到 x-dead-letter-exchange 交换机时使用的key
+		properties.put("x-message-ttl", TimeUnit.SECONDS.toMillis(5)); // 消息在队列中的最大生存时间，超过这个时间还没被消费，则认为是“无消费者”
 		channel.queueDeclare(DELAY_05_SECONDS_QUEUE, false, false, false, properties);
 		channel.queueBind(DELAY_05_SECONDS_QUEUE, DELAY_EXCHANGE, "05"); // 5 秒 
 		
 		// 声明10秒延迟队列
 		properties = new HashMap<>();
 		properties.put("x-dead-letter-exchange", DELAY_EXCHANGE);
-		properties.put("x-message-ttl", TimeUnit.SECONDS.toMillis(10));
 		properties.put("x-dead-letter-routing-key" , EXPIRATION_QUQUE_ROUTE);
+		properties.put("x-message-ttl", TimeUnit.SECONDS.toMillis(10));
 		channel.queueDeclare(DELAY_10_SECONDS_QUEUE, false, false, false, properties);
 		channel.queueBind(DELAY_10_SECONDS_QUEUE, DELAY_EXCHANGE, "10"); // 10 秒 
 		
