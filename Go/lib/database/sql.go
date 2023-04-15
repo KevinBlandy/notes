@@ -247,6 +247,9 @@ type
 			Dest interface{}
 			In bool // contains filtered or unexported fields
 		}
+
+		* 存储过程，输出
+			_, err := db.ExecContext(ctx, "ProcName", sql.Named("Arg1", sql.Out{Dest: &outArg}))
 	
 	# type RawBytes []byte
 		* 最原始的字节数据
@@ -268,6 +271,9 @@ type
 
 		func (r *Row) Err() error
 			* 异常信息
+			* 可以在不调用Scan的情况下检查查询错误。Err 返回运行查询时遇到的错误（如果有的话）。
+			* 如果这个错误不是nil，这个错误也将从Scan返回。
+
 		func (r *Row) Scan(dest ...interface{}) error
 			* 如果结果集不存在，没有数据，那么会返回异常: ErrNoRows
 	

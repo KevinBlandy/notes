@@ -220,6 +220,10 @@
 			copy(slice[i:], slice[i+1:])
 			return slice[:len(slice)-1]
 		}
+
+		func remove(slice []int, index int) []int {
+			return append(slice[:index], slice[index+1:]...)
+		}
 	
 
 	# 在头部添加元素

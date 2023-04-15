@@ -56,6 +56,8 @@ type
 		func (ip *Addr) UnmarshalText(text []byte) error
 		func (ip Addr) WithZone(zone string) Addr
 		func (ip Addr) Zone() string
+
+		* 地址
 	
 	# type AddrPort struct {
 			// contains filtered or unexported fields
@@ -72,6 +74,8 @@ type
 		func (p AddrPort) String() string
 		func (p *AddrPort) UnmarshalBinary(b []byte) error
 		func (p *AddrPort) UnmarshalText(text []byte) error
+
+		* 地址和端口
 	
 	# type Prefix struct {
 		}

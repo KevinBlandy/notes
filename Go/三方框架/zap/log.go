@@ -1,6 +1,6 @@
+package log
+
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -12,81 +12,16 @@ import (
 	"time"
 )
 
-var Loggers = make(map[string] *zap.Logger)
-
-// loggers
 var (
 	// App app全局日志记录器
-	App *zap.Logger
+	app *zap.Logger
+
+	level zap.AtomicLevel
 )
 
-// writers
-var (
-	// AppLogWriter App全局日志输出
-	AppLogWriter = NewLogFileWriter(filepath.Join("log", "app.log"), 100, 0, 10, true, true)
-
-	// ErrorLogWriter 异常日志输出
-	ErrorLogWriter = NewLogFileWriter(filepath.Join("log", "error", "error.log"), 100, 0, 10, true, true)
-)
-
-
-
-// Close 释放所有资源
-func Close () {
-	for name, logger := range Loggers {
-		if err := logger.Sync(); err != nil {
-			fmt.Fprintf(os.Stderr, "logger同步异常, logger=%s, err=%s\n", name, err.Error())
-		}
-	}
-	var CloseLogger = func(logger *lumberjack.Logger) (){
-		if err := logger.Close(); err != nil {
-			fmt.Fprintf(os.Stderr, "日志文件关闭异常, logger=%s, err=%s\n", logger.Filename, err.Error())
-		}
-	}
-	CloseLogger(AppLogWriter)
-	CloseLogger(ErrorLogWriter)
-}
-
-
-// ErrorEvent 异常日志时间处理
-func ErrorEvent (entry zapcore.Entry) error {
-	if entry.Level < zapcore.ErrorLevel {
-		return nil
-	}
-
-	var writer io.Writer
-
-	switch entry.Level {
-		case zapcore.ErrorLevel, zapcore.PanicLevel, zapcore.DPanicLevel, zapcore.FatalLevel: writer = ErrorLogWriter
-		// TODO 可以让不同级别的日志，输出到不同的文件
-		default: return nil
-	}
-
-	// 编码为JSON
-	jsonData, err := json.Marshal(entry)
-	if err != nil {
-		return err
-	}
-
-	buffer := bytes.NewBuffer(jsonData)
-	buffer.WriteString("\n")  // 写入换行符
-
-	// 输出到日志文件
-	if _, err := buffer.WriteTo(writer); err != nil {
-		return err
-	}
-
-	go func() {
-		// TODO 发送邮件
-		// var content = buffer.String()
-	}()
-
-	return nil
-}
-
-// NewLogFileWriter 创建新的日志输出文件
-func NewLogFileWriter(file string, maxSize, maxAge, maxBackups int, localTime, compress bool) *lumberjack.Logger {
-	return &lumberjack.Logger {
+// newLogFileWriter 创建新的日志输出文件
+func newLogFileWriter(file string, maxSize, maxAge, maxBackups int, localTime, compress bool) *lumberjack.Logger {
+	return &lumberjack.Logger{
 		Filename:   file,
 		MaxSize:    maxSize,
 		MaxAge:     maxAge,
@@ -96,40 +31,95 @@ func NewLogFileWriter(file string, maxSize, maxAge, maxBackups int, localTime, c
 	}
 }
 
-// NewLogger 创建新的logger
-func NewLogger (name string, level zap.AtomicLevel, writer zapcore.WriteSyncer) *zap.Logger {
-	// 消息编码器配置
+// newLogger 创建新的logger
+func newLogger(level zap.AtomicLevel, logWriter io.Writer, errorWriter io.Writer) *zap.Logger {
 	encodeConfig := zap.NewProductionEncoderConfig()
 	encodeConfig.MessageKey = "message"
 	encodeConfig.TimeKey = "time"
 	encodeConfig.EncodeLevel = func(level zapcore.Level, encoder zapcore.PrimitiveArrayEncoder) {
 		encoder.AppendString(strings.ToUpper(level.String()))
 	}
-	encodeConfig.CallerKey = "file"
-	// 时间格式化
+	encodeConfig.CallerKey = "go"
 	encodeConfig.EncodeTime = func(time time.Time, encoder zapcore.PrimitiveArrayEncoder) {
 		encoder.AppendString(time.Format("2006-01-02 15:04:05"))
 	}
 
-	// 创建核心配置
-	core := zapcore.NewCore(zapcore.NewJSONEncoder(encodeConfig), writer, level)
+	// json编码器
+	jsonEncoder := zapcore.NewJSONEncoder(encodeConfig)
+
+	// 控制台编码器
+	consoleEncoder := zapcore.NewConsoleEncoder(encodeConfig)
+
+	core := zapcore.NewTee(
+		// json编码输出到文件
+		zapcore.NewCore(jsonEncoder, zapcore.AddSync(logWriter), level),
+		// console编码输出到控制台
+		zapcore.NewCore(consoleEncoder, os.Stdout, level),
+		// 异常级别的日志，以json编码输出到异常日志
+		zapcore.NewCore(jsonEncoder, zapcore.AddSync(errorWriter), zap.LevelEnablerFunc(func(level zapcore.Level) bool {
+			return level >= zap.ErrorLevel
+		})),
+	)
 
 	// 日志记录器的一些选项
-	options := []zap.Option {
-		zap.AddCaller(),						// 日志中添加调用信息
-		zap.AddStacktrace(zapcore.ErrorLevel),  // 异常级别以上，添加调用栈信息
-		zap.Hooks(ErrorEvent),
+	options := []zap.Option{
+		zap.AddCaller(),                       // 日志中添加调用信息
+		zap.AddCallerSkip(1),                  // 跳过一层调用栈
+		zap.AddStacktrace(zapcore.ErrorLevel), // 异常级别以上，添加调用栈信息
+		//zap.Hooks(ErrorEvent),
 	}
-
-	// 创建日志记录器, 设置名称
-	return zap.New(core, options...).Named(name)
+	return zap.New(core, options...)
 }
 
+// Initialization 初始化日志组件
+func Initialization() func() {
+	// AppLogWriter App全局日志输出
+	appLogWriter := newLogFileWriter(filepath.Join("logs", "app.log"), 100, 0, 10, true, true)
 
-func Init (){
-	var appLogFile = zapcore.Lock(zapcore.AddSync(AppLogWriter))
-	// App日志，输出到标准输出和文件
-	App = NewLogger("app", zap.NewAtomicLevelAt(zapcore.DebugLevel), zapcore.NewMultiWriteSyncer(zapcore.AddSync(os.Stdout), appLogFile))
+	// ErrorLogWriter 异常日志输出
+	errorLogWriter := newLogFileWriter(filepath.Join("logs", "error.log"), 100, 0, 10, true, true)
 
-	Loggers["app"] = App
+	level = zap.NewAtomicLevelAt(zap.DebugLevel)
+	app = newLogger(level, appLogWriter, errorLogWriter)
+
+	return func() {
+		if err := app.Sync(); err != nil {
+			_, _ = fmt.Fprintf(os.Stderr, "日志同步异常: %s\n", err.Error())
+		}
+		var CloseLogger = func(logger *lumberjack.Logger) {
+			if err := logger.Close(); err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "日志文件关闭异常, logger=%s, err=%s\n", logger.Filename, err.Error())
+			}
+		}
+		CloseLogger(appLogWriter)
+		CloseLogger(errorLogWriter)
+	}
+}
+
+func Debug(msg string, field ...zap.Field) {
+	app.Debug(msg, field...)
+}
+func Info(msg string, field ...zap.Field) {
+	app.Info(msg, field...)
+}
+func Warn(msg string, field ...zap.Field) {
+	app.Warn(msg, field...)
+}
+func Error(msg string, field ...zap.Field) {
+	app.Error(msg, field...)
+}
+func Panic(msg string, field ...zap.Field) {
+	app.Panic(msg, field...)
+}
+func DPanic(msg string, field ...zap.Field) {
+	app.DPanic(msg, field...)
+}
+func Fatal(msg string, field ...zap.Field) {
+	app.Fatal(msg, field...)
+}
+func Level() zapcore.Level {
+	return level.Level()
+}
+func SetLevel(newLevel zapcore.Level) {
+	level.SetLevel(newLevel)
 }

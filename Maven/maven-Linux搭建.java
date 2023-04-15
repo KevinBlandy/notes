@@ -10,7 +10,7 @@ Maven-Linux				|
 	3,编辑环境变量文件
 		vim /etc/profile
 	
-export MAVEN_HOME=/usr/local/maven/apache-maven-3.5.4
+export MAVEN_HOME=/root/apache-maven-3.9.1
 export PATH=$PATH:$MAVEN_HOME/bin
 
 	4,source profile
