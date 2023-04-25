@@ -8,6 +8,8 @@
 	for /r %i in (*.lastUpdated)do del %i
 	for /r %i in (*.repositories)do del %i
 
+	for /r %i in (*.lastUpdated)do del %i & for /r %i in (*.repositories)do del %i
+
 	* 需要在maven的仓库目录执行
 
 # 使用 pause 指令让控制台 "请按任意键继续。。。"

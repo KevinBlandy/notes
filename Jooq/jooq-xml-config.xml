@@ -36,17 +36,26 @@
 	<generator>
 		<name>org.jooq.codegen.JavaGenerator</name>
 		<database>
+			<!-- 方言 -->
 			<name>org.jooq.meta.mysql.MySQLDatabase</name>
-			<includes>.*</includes>
+			<!-- 生成的Java不使用无符号类型 -->
+			<unsignedTypes>false</unsignedTypes>
 			<!-- 要生成的表 -->
+			<includes>.*</includes>
+			<!-- 库 -->
 			<inputSchema>springcloud.io</inputSchema>
 			<forcedTypes>
-				<!-- BOOLEAN 字段规则 -->
+				<!-- BOOLEAN 字段规则（会默认把 bit(1) 映射为 Boolean 类型） -->
 				<forcedType>
 					<name>BOOLEAN</name>
 					<includeTypes>
 						(?i:(TINY|SMALL|MEDIUM|BIG)?INT(UNSIGNED)?\(1\))
 					</includeTypes>
+				</forcedType>
+				<!-- JSON 映射到String，这个值是 SQLDataType 中支持的类型 -->
+				<forcedType>
+					<name>VARCHAR</name>
+					<includeTypes>(?i:json)</includeTypes>
 				</forcedType>
 			</forcedTypes>
 		</database>
