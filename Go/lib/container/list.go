@@ -86,3 +86,58 @@ demo
 		1
 		2
 		3
+	
+	# 使用队列迭代HTML文档的例子
+		// Preview 从HTML文本中解析出文字内容
+		func Preview(content string, size int) (string, error) {
+			if size < 1 {
+				return "", errors.New("预览字符长度不能小于 1")
+			}
+			if content == "" {
+				return "", nil
+			}
+			document, err := html.Parse(strings.NewReader(content))
+			if err != nil {
+				return "", err
+			}
+
+			// 已经读取到的字符数量
+			var count int
+			var ret string
+
+			// 队列遍历
+			queue := list.New()
+			queue.PushBack(document)
+
+			for queue.Len() > 0 {
+				// 移除当前节点
+				item := queue.Remove(queue.Back())
+
+				// 遍历每一个节点
+				node := item.(*html.Node)
+
+				// 文本节点
+				if node.Type == html.TextNode {
+					text := strings.TrimSpace(node.Data)
+					if text != "" {
+						textCont := utf8.RuneCountInString(text)
+						if textCont+count > size {
+							textCont = size - count
+						}
+						ret = ret + string([]rune(text)[:textCont])
+						count += textCont
+					}
+				}
+
+				// 下一个兄弟节点
+				if node.NextSibling != nil {
+					queue.PushBack(node.NextSibling)
+				}
+
+				// 下一个子节点
+				if node.FirstChild != nil {
+					queue.PushBack(node.FirstChild)
+				}
+			}
+			return ret, nil
+		}
