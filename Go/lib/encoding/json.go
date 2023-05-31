@@ -26,7 +26,13 @@ struct
 				<nil>
 
 		func (dec *Decoder) UseNumber()
+			* 将一个数字作为Number而不是float64解码到 interface{}。
 			* 使用Number代替json中的float64
+				kv := map[string]any{} 
+				d := json.NewDecoder(...)
+				d.UseNumber()
+				d.Decode(&kv)
+				
 
 	# type Delim rune
 		func (d Delim) String() string

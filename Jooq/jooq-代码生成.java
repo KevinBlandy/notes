@@ -33,6 +33,9 @@ dao
 				<!-- 要转换的列类型，可以是正则 -->
 				<includeTypes>.*</includeTypes>
 			</forcedType>
+		
+		* 把数据列定义为枚举类型，就会自动生成枚举对象，枚举类名称为：表名称 + 列名称，驼峰
+
 	
 	# Boolean 类型映射
 		<forcedType>

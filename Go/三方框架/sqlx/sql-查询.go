@@ -18,6 +18,9 @@
 				var p Place
 				err = rows.StructScan(&p)
 			}
+		
+		* 'db' 注解用于参数绑定
+		* mapper 用于查询结果和对象绑定
 	
 	
 	# IN 查询

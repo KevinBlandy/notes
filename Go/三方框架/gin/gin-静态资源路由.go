@@ -70,8 +70,9 @@ func FsHandler(fs http.FileSystem) gin.HandlerFunc {
 			return
 		}
 
+		closeFile := reqFile // reqFile 如果是文件夹，并且文件夹内有index.xml，则该变量会被重置
 		defer func() {
-			_ = reqFile.Close()
+			_ = closeFile.Close()
 		}()
 
 		reqFileStat, err := reqFile.Stat()

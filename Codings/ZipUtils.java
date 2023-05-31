@@ -132,7 +132,7 @@ public class ZipUtils {
 			Files.createDirectories(targetDir);
 		}
 		// 创建zip对象
-		try (ZipFile zipFile = new ZipFile(file.toFile())) {
+		try (ZipFile zipFile = new ZipFile(file.toFile(), StandardCharsets.UTF_8))) {
 			// 读取zip流
 			try (ZipInputStream zipInputStream = new ZipInputStream(Files.newInputStream(file))) {
 				ZipEntry zipEntry = null;

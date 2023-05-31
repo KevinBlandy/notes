@@ -55,10 +55,14 @@ Insert
 		* 如果有自增ID，则会反写入到 adminRecord 对象中
 			adminRecord.getId();
 		
+		* 注意了，只有根据自增列生成的Record才会写入自增值，也就是说，生成Record的时候ID不是自增的，后来修改了表结构后，使用Record也不会自增。
+		
 		* 插入的字段必须显式的进行set操作，才会在最终的SQL语句中体现出来
 		* 也可以指定只插入部分数据
 			 adminRecord.insert(Tables.ADMIN.ACCOUNT, Tables.ADMIN.ENABLED, Tables.ADMIN.PASSWORD);
-	 
+		
+		* 创建 Record得时候，可以直接使用对象填充
+			this.dslContext.newRecord(Tables.UPLOAD_FILE, entity).insert();
 
 	# 通过 Record 批量插入数据
 

@@ -19,6 +19,9 @@ DSLContext
 	
 	boolean fetchExists(Select<?> query)
 		* 执行 query 的 exists查询
+
+	<R extends Record> R fetchOne(Table<R> table, Condition condition) throws DataAccessException, TooManyRowsException;
+		* 检索 一条记录
 	
 	int fetchCount(Table<?> table, Collection<? extends Condition> conditions) throws DataAccessException;
 		* 查询指定Table的总数量，根据condition
@@ -29,3 +32,8 @@ DSLContext
 	<T> T connectionResult(ConnectionCallable<T> callable);
 	void connection(ConnectionRunnable runnable);
 		* 获取到JDBC Connection 对象
+	
+	
+	<R extends Record> R newRecord(Table<R> table, Object source);
+		* 创建Record对象，使用 source填充
+	

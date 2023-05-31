@@ -5,6 +5,7 @@ Record
 		public interface Record extends Fields, Attachable, Comparable<Record>, Formattable
 	
 		* 定义的用于储存数据库结果记录的一个接口，其主要是将一个表字段的列表和值的列表使用相同的顺序储存在一起
+		* 建议生成Java对象得时候，同时生成表列的接口，那么 Record 中会新增2个复写的方法 into/from ，使用的是接口，而不是反射，性能会提高
 
 
 	Row valuesRow();

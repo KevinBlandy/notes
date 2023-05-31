@@ -16,6 +16,10 @@
 		fetchOne();
 			* 读取单条或者0记录，如果记录超过一条会报错。
 		
+		Optional<R> fetchOptional()
+			* 返回结果包装为 Optional
+			* 读取单条或者0记录，如果记录超过一条会报错。
+		
 		fetchSingle()
 			* 必须且只有一条记录，没有或者超出都会异常
 		
@@ -26,6 +30,10 @@
 		fetchGroups()
 			* 返回一个分组Map
 			* 以表字段值为Key，返回一个 K:List<V> 的Map对象
+		
+
+			
+
 	
 	# 异常
 		org.jooq.exception.TooManyRowsException
@@ -38,7 +46,7 @@
 --------------------------------------
 常用的结果集封装
 --------------------------------------
-	# fetch 系列方法，支持 map() 操作，可以把 Record 结果转换为自己封装的对象
+	# fetch 系列方法（包括fetch/fechInto....），支持 map() 操作，可以把 Record 结果转换为自己封装的对象
 		.where(condition)
 		.fetch(r -> {
 			return r.into(ADMIN);
@@ -46,9 +54,13 @@
 
 	# Result 使用 into() 传递 Pojo的class可以把整列转行为对象
 		dslContext.selectFrom(Tables.ADMIN).where(Tables.ADMIN.ID.eq(UInteger.valueOf(1))).fetch().into(Admin.class);
-	
-	
+
 	# 使用对象的Record 转行为单行结果集 Record 转换为Pojo，对象的 Record 都有
+		* 如果 Record 为null，调用 into 会空指针异常。
+			dsl.selectFrom(Tables.POST).where(Tables.POST.ID.eq(1L)).fetchOne().into(Post.class); // Record 为null，空指针异常
+			
+		* 可以使用重载的带有 RecordMapper 的方法解决
+			dsl.fetchOne(i -> i.into(Post.class)); // 如果Record 为null，则返回null
 
 
 	# 多表联合检索
