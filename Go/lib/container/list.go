@@ -90,9 +90,6 @@ demo
 	# 使用队列迭代HTML文档的例子
 		// Preview 从HTML文本中解析出文字内容
 		func Preview(content string, size int) (string, error) {
-			if size < 1 {
-				return "", errors.New("预览字符长度不能小于 1")
-			}
 			if content == "" {
 				return "", nil
 			}
@@ -102,7 +99,6 @@ demo
 			}
 
 			// 已经读取到的字符数量
-			var count int
 			var ret string
 
 			// 队列遍历
@@ -121,11 +117,13 @@ demo
 					text := strings.TrimSpace(node.Data)
 					if text != "" {
 						textCont := utf8.RuneCountInString(text)
-						if textCont+count > size {
-							textCont = size - count
+						if textCont > size {
+							ret = ret + string([]rune(text)[:size])
+							break
+						} else {
+							ret = ret + text
 						}
-						ret = ret + string([]rune(text)[:textCont])
-						count += textCont
+						size -= textCont
 					}
 				}
 
