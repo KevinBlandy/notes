@@ -133,3 +133,48 @@
 		}
 		return retVal;
 	}
+
+
+------------------------------
+一次性加载到内存后，递归组合
+------------------------------
+type menuService struct {}
+
+// Tree 检索系统中完整的菜单树
+func (m menuService) Tree(ctx context.Context) (menus []*model.Menu, err error) {
+	// 查询出所有的菜单记录
+	data := make([]*model.Menu, 0)
+	if err = dao.Tx(ctx).Select(&data, "SELECT `id`, `parent_id`, `name`, `type`, `icon`, `instruction` FROM `menu` ORDER BY `sort` DESC, `create_at` ASC"); err != nil {
+		return
+	}
+	// 在内存中构建树结构
+	menus = make([]*model.Menu, 0)
+	// 顶级记录ID
+	for _, v := range data {
+		if v.ParentId.Equals(constant.TreeTopId) {
+			menus = append(menus, v)
+		}
+	}
+	// 递归检索子菜单
+	for _, v := range menus {
+		v.Sub = m.subMenus(v.Id, data)
+	}
+	return
+}
+
+// subMenus 根据id从menus里面找出这个id下的子记录
+// 会进行递归查找
+func (m menuService) subMenus(id t.ID, menus []*model.Menu) (sub []*model.Menu) {
+	sub = make([]*model.Menu, 0)
+	for _, v := range menus {
+		if v.ParentId == id {
+			sub = append(sub, v)
+		}
+	}
+	for _, v := range sub {
+		v.Sub = m.subMenus(v.Id, menus)
+	}
+	return
+}
+
+var Menu = &menuService{}
