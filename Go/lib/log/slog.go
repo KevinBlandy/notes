@@ -2,23 +2,24 @@
 slog
 --------------
 	# 标准库的日志增强
+	# 文档
+		https://pkg.go.dev/log/slog
 
 --------------
 var
 --------------
 	const (
-		// TimeKey is the key used by the built-in handlers for the time
-		// when the log method is called. The associated Value is a [time.Time].
 		TimeKey = "time"
-		// LevelKey is the key used by the built-in handlers for the level
-		// of the log call. The associated value is a [Level].
+			* 输出日期时间的key
+
 		LevelKey = "level"
-		// MessageKey is the key used by the built-in handlers for the
-		// message of the log call. The associated value is a string.
+			* 输出日志级别的key
+
 		MessageKey = "msg"
-		// SourceKey is the key used by the built-in handlers for the source file
-		// and line of the log call. The associated value is a string.
+			* 输出日志消息的key
+
 		SourceKey = "source"
+			* 输出源文件（调用）的key
 	)
 
 --------------
@@ -28,34 +29,75 @@ type
 			Key   string
 			Value Value
 		}
+
+		* 日志中的输出属性
+
 		func Any(key string, value any) Attr
 		func Bool(key string, v bool) Attr
 		func Duration(key string, v time.Duration) Attr
 		func Float64(key string, v float64) Attr
 		func Group(key string, args ...any) Attr
+			* 构建一个分组属性
+				group := slog.Group("http",
+					slog.Group("request",
+						slog.String("method", "Get"),
+						slog.String("Host", "go.dev")),
+					slog.Group("response",
+						slog.Int("status", 200),
+						slog.String("Content-Type", "application/json")),
+				)
+
+				{
+					"http":{
+						"request":{"method":"Get","Host":"go.dev"},
+						"response":{"status":200,"Content-Type":"application/json"}
+					}
+				}
+
 		func Int(key string, value int) Attr
 		func Int64(key string, value int64) Attr
 		func String(key, value string) Attr
 		func Time(key string, v time.Time) Attr
 		func Uint64(key string, v uint64) Attr
+
 		func (a Attr) Equal(b Attr) bool
 		func (a Attr) String() string
 	
 	# type Handler interface {
 			Enabled(context.Context, Level) bool
+				* 是否在指定级别启用
+
 			Handle(context.Context, Record) error
+				* 处理日志记录
+
 			WithAttrs(attrs []Attr) Handler
+				* 给此 handler 额外新增一些输出属性，在最后
 			WithGroup(name string) Handler
+				* 给此 handler 额外新增一个分组，在最后
 		}
+
+		* 日志处理器
 	
 	# type HandlerOptions struct {
 			AddSource bool
+				* 是否添加调用信息
+
 			Level Leveler
+				* 日志级别动态修改句柄
+				
 			ReplaceAttr func(groups []string, a Attr) Attr
+				* 替换属性，在输出前会对非 group 属性进行重写
+				* 如果返回 nil，则该属性会被丢弃
+
 		}
+
+		* handler属性配置
 	
 	# type JSONHandler struct {
 		}
+
+		* json 处理器
+
 		func NewJSONHandler(w io.Writer, opts *HandlerOptions) *JSONHandler
 		func (h *JSONHandler) Enabled(_ context.Context, level Level) bool
 		func (h *JSONHandler) Handle(_ context.Context, r Record) error
@@ -78,6 +120,8 @@ type
 		func (k Kind) String() string
 	
 	# type Level int
+			
+		* 日志级别
 
 		const (
 			LevelDebug Level = -4
@@ -95,6 +139,9 @@ type
 	
 	# type LevelVar struct {
 		}
+		
+		* 日志变量，可以修改日志级别，线程安全的
+
 		func (v *LevelVar) Level() Level
 		func (v *LevelVar) MarshalText() ([]byte, error)
 		func (v *LevelVar) Set(l Level)
@@ -104,17 +151,33 @@ type
 	# type Leveler interface {
 			Level() Level
 		}
+
+		* 返回level的接口
 	
 	# type LogValuer interface {
 			LogValue() Value
 		}
+
+		* 日志输出值接口，实现了这个接口，日志输出的时候就会调用
+		* 例如 Token 类
+			type Token string
+			func (Token) LogValue() slog.Value {
+				return slog.StringValue("REDACTED_TOKEN")
+			}
 	
 	# type Logger struct {
 		}
+		
+		* 日志记录器
+
 		func Default() *Logger
 		func New(h Handler) *Logger
 		func With(args ...any) *Logger
 		func (l *Logger) Debug(msg string, args ...any)
+			* 如果 args 不是 Attr 参数，则会尝试编码为 Attr
+				log.Debug("hello", "name", "vin", "age")		// "msg":"hello","name":"vin","!BADKEY":"age"}
+				log.Debug("hello", "name", "vin", "age", 19)	// "msg":"hello","name":"vin","age":19
+
 		func (l *Logger) DebugContext(ctx context.Context, msg string, args ...any)
 		func (l *Logger) Enabled(ctx context.Context, level Level) bool
 		func (l *Logger) Error(msg string, args ...any)
@@ -128,28 +191,56 @@ type
 		func (l *Logger) WarnContext(ctx context.Context, msg string, args ...any)
 		func (l *Logger) With(args ...any) *Logger
 		func (l *Logger) WithGroup(name string) *Logger
+
 	
 	# type Record struct {
 			Time time.Time
+				* 时间
 			Message string
+				* 消息
 			Level Level
+				* 级别
 			PC uintptr
+				* 调用栈
 		}
+		
+		* 日志记录
+
 		func NewRecord(t time.Time, level Level, msg string, pc uintptr) Record
+			* 创建新的日志记录
+
 		func (r *Record) Add(args ...any)
+			* 按照 Logger.Log 中的说明将 args 转换为 Attrs，然后将 Attrs 附加到 Record 的 Attrs 列表中。
+			* 忽略空的属性组
+
 		func (r *Record) AddAttrs(attrs ...Attr)
+			* 新增属性，忽略空的属性组
+
 		func (r Record) Attrs(f func(Attr) bool)
+			* 遍历属性，返回 false 停止
+
 		func (r Record) Clone() Record
+			* clone
+
 		func (r Record) NumAttrs() int
+			* 获取属性数量
 	
 	# type Source struct {
 			Function string `json:"function"`
+				* 方法
 			File string `json:"file"`
+				* 文件
 			Line int    `json:"line"`
+				* 行号
 		}
+
+		* 调用信息
 	
 	# type TextHandler struct {
 		}
+		
+		* txt输出
+
 		func NewTextHandler(w io.Writer, opts *HandlerOptions) *TextHandler
 		func (h *TextHandler) Enabled(_ context.Context, level Level) bool
 		func (h *TextHandler) Handle(_ context.Context, r Record) error
@@ -158,6 +249,9 @@ type
 	
 	# type Value struct {
 		}
+		
+		* 日志value值
+
 		func AnyValue(v any) Value
 		func BoolValue(v bool) Value
 		func DurationValue(v time.Duration) Value
@@ -194,8 +288,17 @@ funcs
 	func InfoContext(ctx context.Context, msg string, args ...any)
 	func Log(ctx context.Context, level Level, msg string, args ...any)
 	func LogAttrs(ctx context.Context, level Level, msg string, attrs ...Attr)
-	func NewLogLogger(h Handler, level Level) *log.Logger
-	func SetDefault(l *Logger)
 	func Warn(msg string, args ...any)
 	func WarnContext(ctx context.Context, msg string, args ...any)
+
+	func NewLogLogger(h Handler, level Level) *log.Logger
+		* 创建 log 包下的 logger
+		
+	func SetDefault(l *Logger)
+		* 设置默认的logger，默认是 log.Default()
+			var defaultLogger atomic.Value
+			func init() {
+				defaultLogger.Store(New(newDefaultHandler(loginternal.DefaultOutput)))
+			}
+
 

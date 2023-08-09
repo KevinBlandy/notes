@@ -59,6 +59,9 @@ type
 		func (v *Value) Store(val any)
 		func (v *Value) Swap(new any) (old any)
 
+		* 线程安全的Value
+	
+
 ----------------------
 方法
 ----------------------
