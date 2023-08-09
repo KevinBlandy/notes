@@ -88,4 +88,8 @@ type
 ----------------------
 ·½·¨
 ----------------------
+
+	func OnceFunc(f func()) func()
+	func OnceValue(f func() T) func() T
+	func OnceValues(f func() (T1, T2)) func() (T1, T2)
 	

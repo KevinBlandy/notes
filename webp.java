@@ -2,10 +2,12 @@
 webp
 ------------------------
 	# 一种高效推荐的图片编码方式
+		https://developers.google.com/speed/webp/faq?hl=zh-cn
 		https://developers.google.com/speed/webp/download
-
 		https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html
 	
+	# linux下安装，后设置环境变量
+		export PATH=$PATH:/root/webp
 
 ------------------------
 Java

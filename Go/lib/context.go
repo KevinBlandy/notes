@@ -30,6 +30,8 @@ context
 -------------------------
 type
 -------------------------
+	# type CancelCauseFunc func(cause error)
+
 	# type CancelFunc func()
 		* 父Goroutine用于取消子context的函数
 		* 子节点需要添加代码来判断，父节点是否执行cancel了
@@ -67,7 +69,7 @@ type
 		func WithValue(parent Context, key, val interface{}) Context
 			* 包装一个带key/value的context
 			* 子孙节点中可以加入新的值，注意若存在Key相同，则会被覆盖。
-			* 覆盖，仅仅只会影响子孙节点
+			* 覆盖，仅仅只会影响子孙节点（检索key的时候，是往上递归检索，你就理解了）
 				// 一级ctx，添加了3个key1，2，3
 				ctx1 := context.WithValue(context.Background(), "key1", "val1")
 				ctx1 = context.WithValue(ctx1, "key2", "val2")
@@ -88,9 +90,17 @@ type
 				// 一级ctx不能访问到二级ctx属性
 				log.Println(ctx1.Value("key4"))	// <nil>
 		
+		func WithoutCancel(parent Context) Context
+	
+		
 -------------------------
 func
 -------------------------
+	func AfterFunc(ctx Context, f func()) (stop func() bool)
+	func Cause(c Context) error
+	func WithDeadlineCause(parent Context, d time.Time, cause error) (Context, CancelFunc)
+	func WithTimeoutCause(parent Context, timeout time.Duration, cause error) (Context, CancelFunc)
+
 	func WithCancel(parent Context) (ctx Context, cancel CancelFunc)
 		* 从父节点获取一个context，用于传递给子任务
 

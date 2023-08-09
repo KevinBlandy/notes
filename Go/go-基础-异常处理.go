@@ -90,6 +90,15 @@
 		* 如果是 runtime.panic() 抛出的异常可以被 recover()
 		* 如果是 runtime.throw() / runtime.fatal() 抛出的异常，不能被 recover() 捕获
 	
+	# 如果往panic传 nil，则会在 recover 中收到 PanicNilError 
+		type PanicNilError struct {
+		 _ [0]*PanicNilError
+		}
+
+		func (*PanicNilError) Error() string { return "panic called with nil argument" }
+		func (*PanicNilError) RuntimeError() {}
+	
+
 -------------------------
 error 接口
 -------------------------

@@ -47,3 +47,17 @@
 	func println(args ...Type)
 		* 输出信息到标准错误流
 
+	func clear[T ~[]Type | ~map[Type]Type1](t T)
+		* 清空 slice，或者是 map
+		* 对于数组，会把所有元素都设置为0值，不会改变长度和容量
+				arr := []string{"1", "2", "3"}
+				clear(arr)
+				fmt.Println(len(arr)) // 3
+		* 对于 map，会清空所有元素，变成一个空map
+				dict := map[string]any{
+					"1": 1,
+					"2": 2,
+				}
+				clear(dict)
+				fmt.Println(len(dict)) // 0
+	
