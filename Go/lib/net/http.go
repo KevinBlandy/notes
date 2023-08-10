@@ -154,6 +154,9 @@ http
 		var ErrMissingFile = errors.New("http: no such file")
 		var ErrNoCookie = errors.New("http: named cookie not present")
 		var ErrNoLocation = errors.New("http: no Location header in response")
+		var ErrSchemeMismatch = errors.New("http: server gave HTTP response to HTTPS client")
+			* 当服务器向 HTTPS 客户端返回 HTTP 响应时，会返回 ErrSchemeMismatch。
+		
 		var ErrServerClosed = errors.New("http: Server closed")
 			* 服务器关闭
 
@@ -449,10 +452,15 @@ type
 			// contains filtered or unexported fields
 		}
 		func NewResponseController(rw ResponseWriter) *ResponseController
+		func (c *ResponseController) EnableFullDuplex() error
+			* 表示允许同时读取请求和响应body
+
 		func (c *ResponseController) Flush() error
 		func (c *ResponseController) Hijack() (net.Conn, *bufio.ReadWriter, error)
 		func (c *ResponseController) SetReadDeadline(deadline time.Time) error
 		func (c *ResponseController) SetWriteDeadline(deadline time.Time) error
+		
+
 
 	# type ResponseWriter interface {
 			Header() Header

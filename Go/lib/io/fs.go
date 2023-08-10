@@ -29,6 +29,9 @@ type
 		
 		* 目录下面的项
 
+		func FileInfoToDirEntry(info FileInfo) DirEntry
+			* 将一个FileInfo 转换为DirEntry
+
 	# type FS interface {
 			Open(name string) (File, error)
 		}
@@ -131,9 +134,9 @@ type
 ----------------------
 func
 ----------------------
+	func FormatDirEntry(dir DirEntry) string
+	func FormatFileInfo(info FileInfo) string
 	func Glob(fsys FS, pattern string) (matches []string, err error)
 	func ReadFile(fsys FS, name string) ([]byte, error)
 	func ValidPath(name string) bool
 	func WalkDir(fsys FS, root string, fn WalkDirFunc) error
-	func FileInfoToDirEntry(info FileInfo) DirEntry
-		* 将一个FileInfo 转换为DirEntry

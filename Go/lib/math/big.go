@@ -103,6 +103,7 @@ type
 		func (z *Int) DivMod(x, y, m *Int) (*Int, *Int)
 		func (z *Int) Exp(x, y, m *Int) *Int
 		func (x *Int) FillBytes(buf []byte) []byte
+		func (x *Int) Float64() (float64, Accuracy)
 		func (x *Int) Format(s fmt.State, ch rune)
 		func (z *Int) GCD(x, y, a, b *Int) *Int
 		func (z *Int) GobDecode(buf []byte) error

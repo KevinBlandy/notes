@@ -103,6 +103,10 @@ type
 		}
 		func (d *Dialer) Dial(network, address string) (Conn, error)
 		func (d *Dialer) DialContext(ctx context.Context, network, address string) (Conn, error)
+		func (d *Dialer) MultipathTCP() bool
+		func (d *Dialer) SetMultipathTCP(use bool)
+			* 开启 MultipathTCP 
+			* 需要在调用 Dialer.Dial 或 Dialer.DialContext 方法之前调用 Dialer.SetMultipathTCP 方法
 	
 	# type Error interface {
 			error
@@ -229,6 +233,9 @@ type
 		}
 		func (lc *ListenConfig) Listen(ctx context.Context, network, address string) (Listener, error)
 		func (lc *ListenConfig) ListenPacket(ctx context.Context, network, address string) (PacketConn, error)
+		func (lc *ListenConfig) MultipathTCP() bool
+		func (lc *ListenConfig) SetMultipathTCP(use bool)
+			* 要在 Server 上使用MultipathTCP，在调用 ListenConfig.Listen 方法之前调用 ListenConfig.SetMultipathTCP 方法。
 	
 	# type Listener interface {
 			Accept() (Conn, error)
@@ -348,6 +355,8 @@ type
 		func (c *TCPConn) SetWriteDeadline(t time.Time) error
 		func (c *TCPConn) SyscallConn() (syscall.RawConn, error)
 		func (c *TCPConn) Write(b []byte) (int, error)
+		func (c *TCPConn) MultipathTCP() (bool, error)
+			* 检测是否支持 MultipathTCP
 	
 	# type TCPListener struct {
 

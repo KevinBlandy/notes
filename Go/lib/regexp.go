@@ -46,6 +46,7 @@ type
 		func (re *Regexp) FindSubmatchIndex(b []byte) []int
 		func (re *Regexp) LiteralPrefix() (prefix string, complete bool)
 		func (re *Regexp) Longest()
+		func (re *Regexp) MarshalText() ([]byte, error)
 
 		func (re *Regexp) Match(b []byte) bool
 		func (re *Regexp) MatchReader(r io.RuneReader) bool
@@ -65,6 +66,7 @@ type
 		func (re *Regexp) String() string
 		func (re *Regexp) SubexpIndex(name string) int
 		func (re *Regexp) SubexpNames() []string
+		func (re *Regexp) UnmarshalText(text []byte) error
 	
 -------------
 ·½·¨

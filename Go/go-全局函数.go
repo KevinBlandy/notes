@@ -60,4 +60,10 @@
 				}
 				clear(dict)
 				fmt.Println(len(dict)) // 0
+
+	func max[T cmp.Ordered](x T, y ...T) T
+	func min[T cmp.Ordered](x T, y ...T) T
+		* 计算最小，最大值
 	
+
+

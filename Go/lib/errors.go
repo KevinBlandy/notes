@@ -6,6 +6,8 @@ errors
 ------------------------
 var
 ------------------------
+	var ErrUnsupported = New("unsupported operation")
+		* 不支持的操作异常
 
 ------------------------
 type

@@ -19,6 +19,15 @@
 		func NewBuffer(buf []byte) *Buffer { return &Buffer{buf: buf} 
 		func NewBufferString(s string) *Buffer 
 
+		func (b *Buffer) Available() int
+			* 返回缓冲区中未使用的字节数。
+				 return cap(b.buf) - len(b.buf)
+		
+		func (b *Buffer) AvailableBuffer() []byte
+			* AvailableBuffer 返回一个容量为 b.Available() 的空缓冲区。该缓冲区将被追加并传递给紧随其后的 "Write" 调用。
+			* 该缓冲区只在下次对 b 进行写操作之前有效。
+				 return b.buf[len(b.buf):]
+
 		func (b *Buffer) Bytes() []byte	
 			* 返回其中的字节切片
 

@@ -91,15 +91,23 @@ type
 				log.Println(ctx1.Value("key4"))	// <nil>
 		
 		func WithoutCancel(parent Context) Context
+			* WithoutCancel 返回父节点的副本，当父节点被取消时，该副本不会被取消。
+			* 返回的上下文不返回 Deadline 或 Err，其 Done channel 为 nil。对返回的上下文调用 Cause 会返回 nil。
+
 	
 		
 -------------------------
 func
 -------------------------
 	func AfterFunc(ctx Context, f func()) (stop func() bool)
+		* 在 ctx 完成（取消或超时）后该函数会在 ctx 完成（取消或超时）后调用所传入的函数 f。
+
 	func Cause(c Context) error
+		* 从ctx获取到异常原因
+
 	func WithDeadlineCause(parent Context, d time.Time, cause error) (Context, CancelFunc)
 	func WithTimeoutCause(parent Context, timeout time.Duration, cause error) (Context, CancelFunc)
+		* 可以在“最后期限”或“计时器到期”时设置 ctx 取消原因（异常）的方法。可以使用 Cause 函数检索取消原因。
 
 	func WithCancel(parent Context) (ctx Context, cancel CancelFunc)
 		* 从父节点获取一个context，用于传递给子任务
@@ -111,6 +119,8 @@ func
 		* 从父节点获取一个context，指定超时的时间单位，用于传递给子任务
 	
 	func WithCancelCause(parent Context) (ctx Context, cancel CancelCauseFunc)
+		* 根据 parent 创建一个 context 和 cancel 函数，这个cancel函数可以在取消得时候传递一个“原因”
+		* 该原因可以通过 context.Cause 方法获取
 		* 示例
 			ctx, cancel := context.WithCancelCause(parent)
 			cancel(myError)

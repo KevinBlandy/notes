@@ -42,6 +42,7 @@ type
 			ErrRangeLoopReentry
 			ErrSlashAmbig
 			ErrPredefinedEscaper
+			ErrJSTemplate
 		)
 	
 	# type FuncMap map[string]interface{}

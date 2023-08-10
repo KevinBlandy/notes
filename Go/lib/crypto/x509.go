@@ -199,6 +199,7 @@ type
 	
 	# type RevocationList struct {
 			SignatureAlgorithm SignatureAlgorithm
+			RevokedCertificateEntries []RevocationListEntry
 			RevokedCertificates []pkix.RevokedCertificate
 			Number *big.Int
 			ThisUpdate time.Time
