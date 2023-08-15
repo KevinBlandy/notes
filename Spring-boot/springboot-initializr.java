@@ -241,3 +241,46 @@ SpringBoot Initializr 社区构建
 
 7. 修改文件，共7个
 
+
+-----------------
+自定义依赖
+-----------------
+
+# 参考配置类：io.spring.initializr.metadata.Dependency
+# compatibilityRange:
+# 3.1.0-M1
+# [2.6.0,3.2.0-M1)
+# [2.7.0-M1,3.0.0-M1)
+# '[' 和 ']' 表示包含，') 表示不包含
+# 参考配置类：io.spring.initializr.metadata.Dependency
+
+    - name: 常用开源
+      content:
+        # Knife4j
+        - name: Knife4j
+          id: Knife4j
+          compatibilityRange: "[2.0.0,3.2.0-M1]"
+          mappings:
+            - compatibilityRange: "[2.0.0,3.0.0-M1)"
+              groupId: com.github.xiaoymin
+              artifactId: knife4j-openapi3-spring-boot-starter
+              version: 4.3.0
+            - compatibilityRange: "[3.0.0-M1,3.2.0-M1]"
+              groupId: com.github.xiaoymin
+              artifactId: knife4j-openapi3-jakarta-spring-boot-starter
+              version: 4.3.0
+          description: Knife4j 是一个集 Swagger2 和 OpenAPI3 为一体的增强解决方案。
+          links:
+            - rel: guide
+              href: https://doc.xiaominfo.com/docs/quick-start
+        # MyBatis-Plus
+        - name: MyBatis-Plus
+          id: MyBatis-Plus
+          compatibilityRange: "[2.0.0,3.2.0-M1]"
+          groupId: com.baomidou
+          artifactId: mybatis-plus-boot-starter
+          version: 3.5.3.2
+          description: 🚀为简化开发而生。
+          links:
+            - rel: guide
+              href: https://baomidou.com/

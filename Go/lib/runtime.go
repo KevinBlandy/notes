@@ -131,7 +131,8 @@
 		* 0表示当前方法，1表示上级调用
 
 	func Callers(skip int, pc []uintptr) int
-		* 返回调用栈的程序计数器, 放到一个uintptr中
+		* 获取调用栈，写入到 pc
+		* 可以通过 skip 跳过多少帧，0 表示 Callers 本身的栈帧，1 表示 Callers 的调用者
 
 	func GC()
 	func GOMAXPROCS(n int) int
