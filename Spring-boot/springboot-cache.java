@@ -176,6 +176,7 @@ springboot-cache	|
 		spring.cache.redis.time-to-live=
 		spring.cache.redis.cache-null-values=
 		spring.cache.redis.key-pre-fix=
+		spring.cache.redis.use-key-prefix=
 
 	
 	# 注解配置
@@ -350,6 +351,33 @@ CachingConfigurerSupport	 |
 				return redisCacheConfiguration;
 			}
 		}
+
+		* Jackson
+
+			// 缓存对象中可能会有 LocalTime/LocalDate/LocalDateTime 等 java.time 段，所以需要通过 JavaTimeModule 定义其序列化、反序列化格式
+			JavaTimeModule javaTimeModule = new JavaTimeModule();
+			
+			javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern("HH:mm:ss.SSSSSSSSS")));
+			javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS")));
+
+			javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern("HH:mm:ss.SSSSSSSSS")));
+			javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS")));
+
+			// 创建基于 Jackson 的通用 Serializer
+			GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer();
+			
+			// 把 javaTimeModule 配置到 Serializer 中
+			serializer = serializer.configure(config -> {
+				config.registerModules(javaTimeModule);
+			});
+			;
+			
+			// 设置 Value 的序列化方式
+			return redisCacheConfiguration
+					.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));
+
 	
 	# 实现 RedisCacheManagerBuilderCustomizer 接口也可以
 	

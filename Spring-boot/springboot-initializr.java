@@ -227,7 +227,12 @@ SpringBoot Initializr 社区构建
 
 	start-client\src\components\common\layout\Header.js
 
-	<a href='https://springdoc.cn' target="_blank">优质的 spring/boot/security/data/cloud 中文文档尽在 => springdoc.cn</a>
+	
+	// 在 h1 标签后新增
+	<div className='banner'>
+	 <a href='https://springdoc.cn' target="_blank">优质的 spring/boot/security/data/cloud 中文文档尽在 => springdoc.cn</a>
+	</div>
+
 
 5. application.yml 配置修改，设置端口为：8088
 
@@ -239,7 +244,34 @@ SpringBoot Initializr 社区构建
 	maven-checkstyle-plugin 插件，整个删除就行
 
 
-7. 修改文件，共7个
+7. /start-client/src/styles/_main.scss
+		#header {
+		  padding-top: 40px;	// 新增此行
+		  h1,
+		
+	  // 末尾新增如下样式
+	 
+	 .banner {
+		  position: absolute;
+		  top: 0;
+		  right: 5rem;
+		  left: 5rem;
+		  a {
+			display: block;;
+			background-color: #6db33f;
+			color:  #FFF;
+			font-weight: normal;
+			display: block;
+			font-size: 0.9rem;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+			text-decoration: none;
+			cursor: pointer;
+		  }
+		}
+
+> 修改文件，共8个
 
 
 -----------------
@@ -254,33 +286,33 @@ SpringBoot Initializr 社区构建
 # '[' 和 ']' 表示包含，') 表示不包含
 # 参考配置类：io.spring.initializr.metadata.Dependency
 
-    - name: 常用开源
+    - name: "常用开源"
       content:
         # Knife4j
         - name: Knife4j
-          id: Knife4j
-          compatibilityRange: "[2.0.0,3.2.0-M1]"
+          id: knife4j
+          compatibilityRange: "[2.0.0,3.2.0-SNAPSHOT]"
           mappings:
             - compatibilityRange: "[2.0.0,3.0.0-M1)"
               groupId: com.github.xiaoymin
               artifactId: knife4j-openapi3-spring-boot-starter
               version: 4.3.0
-            - compatibilityRange: "[3.0.0-M1,3.2.0-M1]"
+            - compatibilityRange: "[3.0.0-M1,3.2.0-SNAPSHOT]"
               groupId: com.github.xiaoymin
               artifactId: knife4j-openapi3-jakarta-spring-boot-starter
               version: 4.3.0
-          description: Knife4j 是一个集 Swagger2 和 OpenAPI3 为一体的增强解决方案。
+          description: "Knife4j 是一个集 Swagger2 和 OpenAPI3 为一体的增强解决方案。"
           links:
             - rel: guide
               href: https://doc.xiaominfo.com/docs/quick-start
         # MyBatis-Plus
         - name: MyBatis-Plus
-          id: MyBatis-Plus
-          compatibilityRange: "[2.0.0,3.2.0-M1]"
+          id: mybatis-plus
+          # compatibilityRange: "[2.0.0,3.2.0-M1]"
           groupId: com.baomidou
           artifactId: mybatis-plus-boot-starter
           version: 3.5.3.2
-          description: 🚀为简化开发而生。
+          description: "🚀为简化开发而生。"
           links:
             - rel: guide
               href: https://baomidou.com/

@@ -395,7 +395,13 @@ type
 		func (r *Request) Cookie(name string) (*Cookie, error)
 		func (r *Request) Cookies() []*Cookie
 		func (r *Request) FormFile(key string) (multipart.File, *multipart.FileHeader, error)
+			* 返回 formdata 请求中的文件参数
+
 		func (r *Request) FormValue(key string) string
+			* 返回表单参数中的第一个值，包括查询参数，body 参数优先于查询参数。
+			* FormValue 会调用 ParseMultipartForm 和 ParseForm
+			* 如果要获取参数值列表，请调用 ParseForm()，然后直接使用 Request.Form 对象。
+
 		func (r *Request) MultipartReader() (*multipart.Reader, error)
 			* 返回mulripart的reader，可以自己进行迭代获取每一个Part项
 			* 如果迭代到最后，返回 io.EOF 异常
@@ -407,6 +413,9 @@ type
 			* 解析multipart请求，设置内存缓存大小，超过这个阈值，就会把数据IO到临时文件
 
 		func (r *Request) PostFormValue(key string) string
+			* 获取表单参数，注意，它会忽略查询参数。
+			* PostFormValue 会调用 ParseMultipartForm 和 ParseForm
+
 		func (r *Request) ProtoAtLeast(major, minor int) bool
 		func (r *Request) Referer() string
 		func (r *Request) SetBasicAuth(username, password string)

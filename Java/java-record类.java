@@ -40,3 +40,30 @@ Record
 				this(name, capitalCity, List.of(cities));
 			}
 		}
+	
+	# 在 instanceof 中可以简化
+
+		// jdk 21 以前
+		record User(String name) {}
+
+		public class Main {
+			public static void main(String[] args) throws Exception {
+				Object obj = new User("spring");
+				if (obj instanceof User user) {
+					String name = user.name();
+				}
+			}
+		}
+	
+
+		// jdk 21 以后
+		record User(String name) {}
+
+		public class Main {
+			public static void main(String[] args) throws Exception {
+				Object obj = new User("spring");
+				if (obj instanceof User(String name)) {
+					System.out.println(name);
+				}
+			}
+		}

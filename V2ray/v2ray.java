@@ -14,6 +14,7 @@ v2ry						|
 	# 下载并安装 V2Ray
 		bash <(curl -s -L https://git.io/v2ray.sh)
 
+
 		* yum 或 apt-get 可用的情况下,此脚本会自动安装 unzip 和 daemon
 		* 这两个组件是安装 V2Ray 的必要组件
 		* 如果系统不支持 yum 或 apt-get,请自行安装 unzip 和 daemon
