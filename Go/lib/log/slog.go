@@ -147,6 +147,19 @@ type
 		func (v *LevelVar) Set(l Level)
 		func (v *LevelVar) String() string
 		func (v *LevelVar) UnmarshalText(data []byte) error
+
+		* 如：
+			// 动态的日志级别
+			var level = &slog.LevelVar{}
+			level.Set(slog.LevelDebug) // 初始化日志级别
+
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+				AddSource:   true,
+				Level:       level, // 日志级别
+				ReplaceAttr: nil,
+			})))
+
+			level.Set(slog.LevelInfo) // 修改日志级别
 	
 	# type Leveler interface {
 			Level() Level
@@ -301,4 +314,27 @@ funcs
 				defaultLogger.Store(New(newDefaultHandler(loginternal.DefaultOutput)))
 			}
 
+
+
+---------------
+用法
+---------------
+	# 作为默认的 logger 用
+	
+		package main
+
+		import (
+			"log/slog"
+			"os"
+		)
+
+		func init() {
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+				AddSource: true, Level: slog.LevelDebug, ReplaceAttr: nil,
+			})))
+		}
+
+		func main() {
+			slog.Debug("Hello")
+		}
 

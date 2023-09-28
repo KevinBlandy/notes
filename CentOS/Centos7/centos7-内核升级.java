@@ -18,7 +18,7 @@
 			$ yum list available --disablerepo=* --enablerepo=elrepo-kernel
 		
 		* 安装指定的 kernel 版本
-			$ yum install -y kernel-lt-5.4.235-1.el7.elrepo --enablerepo=elrepo-kernel
+			$ yum install -y kernel-lt-5.4.257-1.el7.elrepo --enablerepo=elrepo-kernel
 		
 	
 	# 设置开启系统启动时使用的内核版本
@@ -26,11 +26,11 @@
 		$ cat /boot/grub2/grub.cfg | grep menuentry
 
 		## 设置开机从新内核启动
-		$ grub2-set-default "CentOS Linux (5.4.235-1.el7.elrepo.x86_64) 7 (Core)"
+		$ grub2-set-default "CentOS Linux (5.4.257-1.el7.elrepo.x86_64) 7 (Core)"
 
 		## 查看内核启动项
 		$ grub2-editenv list
-		saved_entry=CentOS Linux (5.4.235-1.el7.elrepo.x86_64) 7 (Core)
+		saved_entry=CentOS Linux (5.4.257-1.el7.elrepo.x86_64) 7 (Core)
 				
 	
 	# 重启系统并观察内核版本
@@ -39,4 +39,4 @@
 
 		## 启动完成查看内核版本是否更新：
 		$ uname -rs
-		Linux 5.4.235-1.el7.elrepo.x86_64
+		Linux 5.4.257-1.el7.elrepo.x86_64

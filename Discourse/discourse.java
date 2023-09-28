@@ -248,3 +248,69 @@ zoho 邮箱的配置
 	/posts.rss
 	/latest.rss
 	/c/[分类uri].rss
+
+
+---------------------
+国内构建
+---------------------
+	# 解决 ruby 依赖下载的问题
+		* 在 app.yml 的 templates 节点下新增如下配置：
+		* 加在第一行
+
+			- "templates/web.china.template.yml"
+
+------------------------------------------
+使用自己的网关 - 反向代理 socket
+------------------------------------------
+	# 编辑 app.yml 的 templates 节点
+		* 注释掉 ssl 配置
+		* 添加 socketed 配置
+
+		  - "templates/postgres.template.yml"
+		  - "templates/redis.template.yml"
+		  - "templates/web.template.yml"
+		  # - "templates/web.ssl.template.yml" # 注释
+		  # - "templates/web.letsencrypt.ssl.template.yml" # 注释
+		  - "templates/web.ratelimited.template.yml"
+		  - "templates/web.socketed.template.yml"  # 添加
+		
+	# 注释掉 expose 下的端口映射
+		# - "80:80"   # http
+		# - "443:443" # https
+	
+	
+	# 编辑 nginx 配置
+		server_name discourse.example.com;  # 修改为自己的域名
+
+		location / {
+			proxy_pass http://unix:/var/discourse/shared/standalone/nginx.http.sock:;
+			proxy_set_header Host $http_host;
+			proxy_http_version 1.1;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			proxy_set_header X-Forwarded-Proto $scheme;
+			proxy_set_header X-Real-IP $remote_addr;
+		}
+	
+	# 参考：https://meta.discourse.org/t/run-other-websites-on-the-same-machine-as-discourse/17247/269
+	# 这种方式比较复杂
+
+------------------------------------------
+使用自己的网关 - 双 Nginx
+------------------------------------------
+	# 编辑 app.yml 的 templates 节点
+		* 注释掉 ssl 配置
+
+		  - "templates/postgres.template.yml"
+		  - "templates/redis.template.yml"
+		  - "templates/web.template.yml"
+		  - "templates/web.ratelimited.template.yml"
+		  # - "templates/web.ssl.template.yml" # 注释
+		  # - "templates/web.letsencrypt.ssl.template.yml" # 注释
+	
+	# 注释掉 expose 节点下的 https 端口映射配置
+		- "80:80"   # http
+		# - "443:443" # https
+
+	# 重新构建
+		
+		

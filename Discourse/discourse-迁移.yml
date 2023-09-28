@@ -4,5 +4,15 @@
 # 打包整个程序目录
 	tar -cvzf discourse.tar.gz discourse/
 
-# 把tar.gz包复制到其他机器
-# 解压后，进入目录重新构建即可
+# 使用 scp 命令 copy 到新服务器
+	
+	scp 选项 源文件 用户名@远程地址:/目标文件
+
+	scp -P22 -v /var/discourse.tar.gz root@192.168.0.15:/var/discourse.tar.gz
+
+# 解压应用
+	tar -zxvf discourse.tar.gz 
+
+# 重新构建应用
+	
+	./launcher rebuild app
