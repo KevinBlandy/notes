@@ -314,3 +314,19 @@ Redis-Redisson						|
 						;
 			}
 		}
+
+
+------------------------------------
+获取底层连接，实现高级用法
+------------------------------------
+	@Autowired
+	StringRedisTemplate stringRedisTemplate;
+
+	@Test
+	public void test() {
+		// 从 ConnectionFactory 获取到连接
+		try (RedisConnection connection = this.stringRedisTemplate.getConnectionFactory().getConnection()) {
+			// 使用原生的 String 命令
+			connection.stringCommands().set("key".getBytes(), "value".getBytes(), Expiration.keepTtl(), SetOption.UPSERT); // Expiration.keepTtl() 意思是保持 ttl
+		}
+	}
