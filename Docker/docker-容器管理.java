@@ -49,6 +49,7 @@
 				* 还可以添加权限来控制是否只读:ro(readOnly),rw(read and write)
 					-v /usr/local/website:/var/www/html/website:ro
 				* 可以有多个 -v 参数,来表示要设置多个共享卷
+				* 如果指定的是单个文件要注意，宿主机中的文件必须存在，否则会被当做一个目录挂载到容器
 			
 			-h
 				* 指定容器的主机名,默认主机名使用的是容器id
@@ -216,11 +217,15 @@
 		* 进入容器内部
 			docker exec -it [id] /bin/bash  
 
+			* 这种方式新启动了shell
+
 	
 	# 快速的进入到容器内部
 		docker attach [id]
 			id
 				* 容器id或者name
+		
+		* 这种方式不会新启动 shell，而是直接使用容器启动时的 shell。
 	
 	
 	# 查看容器的详细信息(返回json信息)

@@ -29,6 +29,8 @@ os
 			ErrClosed           = errClosed()           // "file already closed"
 			ErrNoDeadline       = errNoDeadline()       // "file type does not support deadline"
 			ErrDeadlineExceeded = errDeadlineExceeded() // "i/o timeout"
+				* 读写超时异常，例如：net 包下设置了：onn.SetReadDeadline(time.Now().Add(time.Second * 10))
+				* 超时后还没 io 到数据就会返回这个异常
 		)
 
 	

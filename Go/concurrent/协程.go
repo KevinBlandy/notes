@@ -40,6 +40,8 @@ channel
 		* 如果channel中没有数据，那么从channel中读取数据也会导致程序阻塞，直到channel中被写入数据为止。
 
 		* 如果channel是nil，则读写都会一直阻塞导致死锁
+
+		* 默认是无缓冲的，发送动作一定发生在接收动作完成之前，接收动作一定发生在发送动作完成之前。
 		
 	
 	# 缓冲channel
@@ -56,7 +58,7 @@ channel
 		
 		* 缓冲区本质上是一个队列，添加数据，插入到尾部，读取数据从头部读取
 		* 通过 cap 查看队列的缓冲区大小
-		* 通过 len 查看队列中有效元素的大小
+		* 通过 len 查看队列中有效元素的大小（也就是尚未被读取的元素的数量）
 			var ch = make(chan int, 10)
 			ch <- 1
 			fmt.Println(cap(ch))	// 10
@@ -120,6 +122,8 @@ channel
 			val, ok := <- ch
 
 			* 如果读取成功，ok = true， 如果读取失败，也就是没有数据了， ok = false
+		
+		* 当 close 一个 channel的时候，所有阻塞在这个 channel 上的 Goroutine 都会收到通知
 	
 	# 防止Channel的内存泄漏问题
 		// 获取3个网站中最快的一个响应结果

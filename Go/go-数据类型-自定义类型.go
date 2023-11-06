@@ -55,7 +55,30 @@ type 自定义类型
 			fmt.Println(i2 == 0)		// true
 		}
 
-				
+	
+	# 基于接口类型创建的 type 类型与原接口类型的方法集合是一致的
+		
+		* 而基于自定义非接口类型创建的 type 类型则并没有“继承”原类型的方法集合，新的 type 类型的方法集合是空的
+
+		type Foo interface {
+			M()  // 接口有个 M 方法
+		}
+
+		type Bar struct{}
+
+		func (b Bar) M() {}// struct 有个 M 方法
+
+		type MyFoo Foo // 接口的 Type 类型
+		type MyBar Bar // struct 的 Type 类型
+
+		func main() {
+			var v1 MyFoo
+			v1.M() // 可调用
+
+			var v2 MyBar
+			v2.M() // 异常，非接口的 Type 类型，不会继承它的方法
+		}
+
 
 -------------------------
 type 类型别名
@@ -89,3 +112,5 @@ type 类型别名
 	# 仅存在于编写过程, 提高代码可读性
 		* 编译后，该是什么类型，还是什么类型
 	
+	
+	# 类型别名与原类型拥有完全相同的方法集合，无论原类型是接口类型还是非接口类型。

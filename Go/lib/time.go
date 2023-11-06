@@ -1,26 +1,26 @@
 ---------------
 time
 ---------------
-	# ¹ÏÆ¤Ò»°ãµÄ¸ñÊ½»¯
-		* ²¢²»ÊÇ²ÉÓÃÍ¨ÓÃµÄ "yyyy-MM-dd HH:mm:ss"
-		* ¶øÊÇ²ÉÓÃGoµ®ÉúµÄÈÕÆÚ×÷Îª¸ñÊ½»¯×Ö·û´®
-			2006 1 2 3 4 5 => 2006Äê1ÔÂ2ÈÕ15µã04·Ö05Ãë
+	# ç“œçš®ä¸€èˆ¬çš„æ ¼å¼åŒ–
+		* å¹¶ä¸æ˜¯é‡‡ç”¨é€šç”¨çš„ "yyyy-MM-dd HH:mm:ss"
+		* è€Œæ˜¯é‡‡ç”¨Goè¯ç”Ÿçš„æ—¥æœŸä½œä¸ºæ ¼å¼åŒ–å­—ç¬¦ä¸²
+			2006 1 2 3 4 5 => 2006å¹´1æœˆ2æ—¥15ç‚¹04åˆ†05ç§’
 		
-		* Èç¹ûĞèÒª¸ñÊ½»¯Îª12Ğ¡Ê±ÖÆ£¬ĞèÒªÖ¸¶¨PM
+		* å¦‚æœéœ€è¦æ ¼å¼åŒ–ä¸º12å°æ—¶åˆ¶ï¼Œéœ€è¦æŒ‡å®šPM
 
 
 		
 
 ---------------
-³£Á¿
+å¸¸é‡
 ---------------
-	# UTCÊ±Çø
+	# UTCæ—¶åŒº
 		var UTC *Location = &utcLoc
 	
-	# ±¾µØÊ±Çø
+	# æœ¬åœ°æ—¶åŒº
 		var Local *Location = &localLoc
 	
-	# Ê±¼ä¸ñÊ½»¯µÄÔ¤¶¨Òå¸ñÊ½
+	# æ—¶é—´æ ¼å¼åŒ–çš„é¢„å®šä¹‰æ ¼å¼
 		Layout      = "01/02 03:04:05PM '06 -0700" // The reference time, in numerical order.
 		ANSIC       = "Mon Jan _2 15:04:05 2006"
 		UnixDate    = "Mon Jan _2 15:04:05 MST 2006"
@@ -38,15 +38,15 @@ time
 		StampMilli = "Jan _2 15:04:05.000"
 		StampMicro = "Jan _2 15:04:05.000000"
 		StampNano  = "Jan _2 15:04:05.000000000"
-		DateTime   = "2006-01-02 15:04:05" // ÈÕÆÚÊ±¼ä
-		DateOnly   = "2006-01-02"			// ÈÕÆÚ
-		TimeOnly   = "15:04:05"			// Ê±¼ä
+		DateTime   = "2006-01-02 15:04:05" // æ—¥æœŸæ—¶é—´
+		DateOnly   = "2006-01-02"			// æ—¥æœŸ
+		TimeOnly   = "15:04:05"			// æ—¶é—´
 
 ---------------
 type
 ---------------
 	# type Month int
-		* ÔÂ·İÃ¶¾Ù
+		* æœˆä»½æšä¸¾
 			const (
 				January Month = 1 + iota
 				February
@@ -65,7 +65,7 @@ type
 		func (m Month) String() string
 	
 	# type Weekday int
-		* ÖÜÃ¶¾Ù
+		* å‘¨æšä¸¾
 			const (
 				Sunday Weekday = iota
 				Monday
@@ -79,18 +79,21 @@ type
 		func (d Weekday) String() string 
 	
 	# type Duration int64
-		* Ô¤¶¨ÒåµÄÊ±¼äµ¥Î»
+		* é¢„å®šä¹‰çš„æ—¶é—´å•ä½
 			const (
-				Nanosecond  Duration = 1					// ÄÉÃë
-				Microsecond          = 1000 * Nanosecond	// Î¢Ãë
-				Millisecond          = 1000 * Microsecond	// ºÁÃë
-				Second               = 1000 * Millisecond	// Ãë
-				Minute               = 60 * Second			// ·Ö
-				Hour                 = 60 * Minute			// Ê±
+				Nanosecond  Duration = 1					// çº³ç§’
+				Microsecond          = 1000 * Nanosecond	// å¾®ç§’
+				Millisecond          = 1000 * Microsecond	// æ¯«ç§’
+				Second               = 1000 * Millisecond	// ç§’
+				Minute               = 60 * Second			// åˆ†
+				Hour                 = 60 * Minute			// æ—¶
 			)
 		
 		func Since(t Time) Duration 
+			*  time.Now().Sub(t) çš„ç®€å†™
+		
 		func Until(t Time) Duration
+			* t.Sub(time.Now()) çš„ç®€å†™
 		
 		func (d Duration) String() string 
 
@@ -100,37 +103,37 @@ type
 		func (d Duration) Seconds() float64
 		func (d Duration) Minutes() float64
 		func (d Duration) Hours() float64
-			* ·µ»ØÇø¼äµÄÄÉÃë/Î¢Ãë/ºÁÃë/Ãë/·Ö/Ê±
+			* è¿”å›åŒºé—´çš„çº³ç§’/å¾®ç§’/æ¯«ç§’/ç§’/åˆ†/æ—¶
 
 		func (d Duration) Truncate(m Duration) Duration 
 		func (d Duration) Round(m Duration) Duration
 		func (d Duration) Abs() Duration
-			* ·µ»Ø¾ø¶ÔÖµ
+			* è¿”å›ç»å¯¹å€¼
 
 
 	# type Time struct 
 		
 		func (t Time) String() string 
 		func (t Time) Format(layout string) string 
-			* ¸ñÊ½»¯Ê±¼ä
+			* æ ¼å¼åŒ–æ—¶é—´
 				2006-01-02 15:04:05
 				2006-01-02 15:04:05.0000000
 			
-			* ÏµÍ³Ô¤¶¨ÁËºÜ¶à¸ñÊ½»¯·½Ê½
+			* ç³»ç»Ÿé¢„å®šäº†å¾ˆå¤šæ ¼å¼åŒ–æ–¹å¼
 				time.Now().Format(time.RFC3339)
 
 		func (t Time) AppendFormat(b []byte, layout string) []byte 
-			* ¸ñÊ½»¯£¬²¢ÇÒÌí¼Ó×Ö·ûÇ°×º
+			* æ ¼å¼åŒ–ï¼Œå¹¶ä¸”æ·»åŠ å­—ç¬¦å‰ç¼€
 				text = t.AppendFormat([]byte("Time: "), time.Kitchen) fmt.Println(string(text))
 
 		func (t Time) After(u Time) bool
 		func (t Time) Before(u Time) bool 
 		func (t Time) Compare(u Time) int
 		func (t Time) Equal(u Time) bool 
-			* ÊÇ·ñÔÚÖ¸¶¨µÄÊ±¼äÖ®Ç°/Ö®ºó
+			* æ˜¯å¦åœ¨æŒ‡å®šçš„æ—¶é—´ä¹‹å‰/ä¹‹å
 		
 		func (t Time) IsZero() bool
-			* ÊÇ·ñÊÇÁãÊ±¼ä
+			* æ˜¯å¦æ˜¯é›¶æ—¶é—´
 					t := time.Time{}
 					log.Println(t)			//  0001-01-01 00:00:00 +0000 UTC
 					log.Println(t.IsZero())  // true
@@ -140,43 +143,43 @@ type
 		func (t Time) Month() Month 
 		func (t Time) Day() int
 		func (t Time) Weekday() Weekday 
-			* »ñÈ¡ÄêÔÂÈÕÖÜ
+			* è·å–å¹´æœˆæ—¥å‘¨
 
 		func (t Time) ISOWeek() (year, week int)
 		func (t Time) Clock() (hour, min, sec int) 
-			* ·µ»ØÊ±·ÖÃë
+			* è¿”å›æ—¶åˆ†ç§’
 
 		func (t Time) Hour() int 
 		func (t Time) Minute() int 
 		func (t Time) Second() int 
-			* »ñÈ¡µ±Ç°Ãë
+			* è·å–å½“å‰ç§’
 		
 		func (t Time) YearDay() int 
-			* °´ÕÕÄê·İ»ñÈ¡ÈÕ
+			* æŒ‰ç…§å¹´ä»½è·å–æ—¥
 
 		func (t Time) UTC() Time 
-			* ×ª»»ÎªUTCÊ±¼ä£¬°´ÕÕÏµÍ³Ê±Çø
+			* è½¬æ¢ä¸ºUTCæ—¶é—´ï¼ŒæŒ‰ç…§ç³»ç»Ÿæ—¶åŒº
 
 		func (t Time) Local() Time
-			* ×ª»»Îª±¾µØÊ±ÇøµÄÊ±¼ä
+			* è½¬æ¢ä¸ºæœ¬åœ°æ—¶åŒºçš„æ—¶é—´
 
 		func (t Time) In(loc *Location) Time
-			* ÒÔÖ¸¶¨µÄÊ±Çø£¬×ª»»ÎªÊ±¼ä
+			* ä»¥æŒ‡å®šçš„æ—¶åŒºï¼Œè½¬æ¢ä¸ºæ—¶é—´
 
 		func (t Time) Location() *Location 
-			* »ñÈ¡Õâ¸öÊ±¼äµÄÊ±Çø
+			* è·å–è¿™ä¸ªæ—¶é—´çš„æ—¶åŒº
 
 		func (t Time) Zone() (name string, offset int)
-			* »ñÈ¡Õâ¸öÊ±¼äµÄÊ±Çø£¬·µ»ØÃû×ÖºÍÆ«ÒÆÁ¿
+			* è·å–è¿™ä¸ªæ—¶é—´çš„æ—¶åŒºï¼Œè¿”å›åå­—å’Œåç§»é‡
 
 		func (t Time) Unix() int64
-			* ·µ»ØunixÊ±¼ä´ÁµÄÃëÊı - 1652946208
+			* è¿”å›unixæ—¶é—´æˆ³çš„ç§’æ•° - 1652946208
 		
 		func (t Time) Nanosecond() int 
-			* ·µ»Øµ±Ç°ÃëÒÔºóµÄÄÉÃëÊı - 205556100
+			* è¿”å›å½“å‰ç§’ä»¥åçš„çº³ç§’æ•° - 205556100
 
 		func (t Time) UnixNano() int64
-			* ·µ»ØUnixÊ±¼ä´ÁµÄÄÉÃë - 1652946208205556100
+			* è¿”å›Unixæ—¶é—´æˆ³çš„çº³ç§’ - 1652946208205556100
 
 		func (t Time) MarshalBinary() ([]byte, error)
 		func (t *Time) UnmarshalBinary(data []byte) error 
@@ -185,42 +188,42 @@ type
 
 		func (t Time) MarshalJSON() ([]byte, error) 
 		func (t *Time) UnmarshalJSON(data []byte) error 
-			* ĞòÁĞ»¯/·´ĞòÁĞ»¯Îªjson
+			* åºåˆ—åŒ–/ååºåˆ—åŒ–ä¸ºjson
 
 		func (t Time) MarshalText() ([]byte, error) 
 		func (t *Time) UnmarshalText(data []byte) error 
 		func (t Time) Truncate(d Duration) Time
-			* °Ñµ±Ç°Ê±¼äËÄÉáÎåÈëµ½dµÄ±¶Êı
+			* æŠŠå½“å‰æ—¶é—´å››èˆäº”å…¥åˆ°dçš„å€æ•°
 			
 		func (t Time) Round(d Duration) Time
-			* »Ø½« t ËÄÉáÎåÈëµ½ d µÄ×î½ü±¶ÊıµÄ½á¹û£¨×ÔÁãÊ±Æğ£©¡£
-			* °ë³ÌÖµµÄÉáÈëĞĞÎªÊÇÏòÉÏÉáÈë¡£
+			* å›å°† t å››èˆäº”å…¥åˆ° d çš„æœ€è¿‘å€æ•°çš„ç»“æœï¼ˆè‡ªé›¶æ—¶èµ·ï¼‰ã€‚
+			* åŠç¨‹å€¼çš„èˆå…¥è¡Œä¸ºæ˜¯å‘ä¸Šèˆå…¥ã€‚
 
 		func (t Time) Sub(u Time) Duration 
-			* µ±Ç°Ê±¼ä¼õÈ¥Ö¸¶¨µÄÊÂ¼ş£¬·µ»ØÊ±¼äÇø¼ä
+			* å½“å‰æ—¶é—´å‡å»æŒ‡å®šçš„äº‹ä»¶ï¼Œè¿”å›æ—¶é—´åŒºé—´
 
 		func (t Time) Add(d Duration) Time 
-			* Ìí¼ÓÖ¸¶¨µÄÊ±¼äÇø¼ä
+			* æ·»åŠ æŒ‡å®šçš„æ—¶é—´åŒºé—´
 
 		func (t Time) AddDate(years int, months int, days int) Time 
-			* Ìí¼ÓÊ±¼ä£¬ÄêÔÂÈÕ
+			* æ·»åŠ æ—¶é—´ï¼Œå¹´æœˆæ—¥
 		
 		func (t Time) GoString() string
-			* µ±Ê¹ÓÃfmt °üÖĞµÄ%#v ¸ñÊ½Ö¸¶¨·û´òÓ¡Ê±£¬½«·µ»ØÒ»¸ö¸üÓĞÓÃµÄÊ±¼äÖµ¡£
+			* å½“ä½¿ç”¨fmt åŒ…ä¸­çš„%#v æ ¼å¼æŒ‡å®šç¬¦æ‰“å°æ—¶ï¼Œå°†è¿”å›ä¸€ä¸ªæ›´æœ‰ç”¨çš„æ—¶é—´å€¼ã€‚
 		
 		func (t Time) IsDST() bool
-			* µ±Ç°Ê±¼äÊÇ·ñÊÇÏÄÁîÊ±
+			* å½“å‰æ—¶é—´æ˜¯å¦æ˜¯å¤ä»¤æ—¶
 		
 		func (t Time) UnixMilli() int64
-			* ·µ»ØÊ±¼ä´ÁºÁÃë£¨²»ÓÃ×Ô¼ºĞ´ÁË£©
+			* è¿”å›æ—¶é—´æˆ³æ¯«ç§’ï¼ˆä¸ç”¨è‡ªå·±å†™äº†ï¼‰
 		
 		func (t Time) UnixMicro() int64
-			* ·µ»ØÊ±¼ä´ÁÎ¢Ãë
+			* è¿”å›æ—¶é—´æˆ³å¾®ç§’
 		
 		func (t Time) ZoneBounds() (start, end Time)
-			* ZoneBounds·µ»ØÔÚÊ±¼ätÉúĞ§µÄÊ±ÇøµÄ±ß½ç£¬Ê±Çø´Óstart¿ªÊ¼£¬ÏÂÒ»¸öÊ±Çø´Óend¿ªÊ¼¡£
-			* Èç¹û¸ÃÇøÓò´ÓÊ±¼äµÄ¿ªÊ¼¿ªÊ¼£¬start½«±»·µ»ØÎªÒ»¸öÁãµÄÊ±¼ä¡£
-			* Èç¹û¸ÃÇøÒ»Ö±³ÖĞøÏÂÈ¥£¬ÄÇÃ´½áÊø½«ÒÔÁãÊ±¼äµÄĞÎÊ½·µ»Ø¡£·µ»ØµÄÊ±¼äµÄÎ»ÖÃ½«ÓëtÏàÍ¬¡£
+			* ZoneBoundsè¿”å›åœ¨æ—¶é—´tç”Ÿæ•ˆçš„æ—¶åŒºçš„è¾¹ç•Œï¼Œæ—¶åŒºä»startå¼€å§‹ï¼Œä¸‹ä¸€ä¸ªæ—¶åŒºä»endå¼€å§‹ã€‚
+			* å¦‚æœè¯¥åŒºåŸŸä»æ—¶é—´çš„å¼€å§‹å¼€å§‹ï¼Œstartå°†è¢«è¿”å›ä¸ºä¸€ä¸ªé›¶çš„æ—¶é—´ã€‚
+			* å¦‚æœè¯¥åŒºä¸€ç›´æŒç»­ä¸‹å»ï¼Œé‚£ä¹ˆç»“æŸå°†ä»¥é›¶æ—¶é—´çš„å½¢å¼è¿”å›ã€‚è¿”å›çš„æ—¶é—´çš„ä½ç½®å°†ä¸tç›¸åŒã€‚
 
 
 	# type ParseError struct{
@@ -237,18 +240,20 @@ type
 			C <-chan Time
 		}
 		
-		* ÑİÊ¾Æ÷£¬ÔÚÖ¸¶¨Ê±¼äºó£¬¾Í»áÍøC·¢ËÍÒ»´ÎÊı¾İ
+		* æ¼”ç¤ºå™¨ï¼Œåœ¨æŒ‡å®šæ—¶é—´åï¼Œå°±ä¼šç½‘Cå‘é€ä¸€æ¬¡æ•°æ®
 
 		func NewTimer(d Duration) *Timer 
 
 		func (t *Timer) Stop() bool
+			* è¦åŠæ—¶è°ƒç”¨timerçš„Stopæ–¹æ³•ä»æœ€å°å †ä¸­åˆ é™¤å°šæœªåˆ°è¾¾è¿‡æœŸæ—¶é—´çš„timerå¯¹è±¡
+
 		func (t *Timer) Reset(d Duration) bool 
 
 	# type Ticker struct{
 			C <-chan Time
 		}
 		
-		* ¶¨Ê±Æ÷£¬Ö¸¶¨ÔÚÖ¸¶¨Ê±¼äÄÚ£¬»áÒ»Ö±ÖØ¸´µÄÍùC·¢ËÍÊı¾İ
+		* å®šæ—¶å™¨ï¼ŒæŒ‡å®šåœ¨æŒ‡å®šæ—¶é—´å†…ï¼Œä¼šä¸€ç›´é‡å¤çš„å¾€Cå‘é€æ•°æ®
 
 		func NewTicker(d Duration) *Ticker
 
@@ -257,31 +262,31 @@ type
 
 	
 	# type Location struct
-		* Ê±ÇøĞÅÏ¢
+		* æ—¶åŒºä¿¡æ¯
 
 		func (l *Location) String() string 
 
 
 ---------------
-·½·¨
+æ–¹æ³•
 ---------------
 	func Parse(layout, value string) (Time, error)	
 	func ParseInLocation(layout, value string, loc *Location) (Time, error) 
-		* ½âÎöÖ¸¶¨µÄÊ±¼äÎª±¾µØÊ±¼ä & Ö¸¶¨Ê±ÇøµÄÊ±¼ä
-		* Parse() ·½·¨»á³¢ÊÔÔÚÈë²ÎµÄ²ÎÊıÖĞÖĞ·ÖÎö²¢¶ÁÈ¡Ê±ÇøĞÅÏ¢£¬µ«ÊÇÈç¹ûÈë²ÎµÄ²ÎÊıÃ»ÓĞÖ¸¶¨Ê±ÇøĞÅÏ¢µÄ»°£¬ÄÇÃ´¾Í»áÄ¬ÈÏÊ¹ÓÃ UTC Ê±¼ä
+		* è§£ææŒ‡å®šçš„æ—¶é—´ä¸ºæœ¬åœ°æ—¶é—´ & æŒ‡å®šæ—¶åŒºçš„æ—¶é—´
+		* Parse() æ–¹æ³•ä¼šå°è¯•åœ¨å…¥å‚çš„å‚æ•°ä¸­ä¸­åˆ†æå¹¶è¯»å–æ—¶åŒºä¿¡æ¯ï¼Œä½†æ˜¯å¦‚æœå…¥å‚çš„å‚æ•°æ²¡æœ‰æŒ‡å®šæ—¶åŒºä¿¡æ¯çš„è¯ï¼Œé‚£ä¹ˆå°±ä¼šé»˜è®¤ä½¿ç”¨ UTC æ—¶é—´
 
 	func ParseDuration(s string) (Duration, error) 
-		* ½âÎöDuration£¬ÀıÈç£º"300ms", "-1.5h", "2h45m"
-		* ¿ÉÒÔÊ¹ÓÃµÄµ¥Î»£º "ns", "us" , "ms", "s", "m", "h".
+		* è§£æDurationï¼Œä¾‹å¦‚ï¼š"300ms", "-1.5h", "2h45m"
+		* å¯ä»¥ä½¿ç”¨çš„å•ä½ï¼š "ns", "us" , "ms", "s", "m", "h".
 
 	func Sleep(d Duration)
-		* µ±Ç°Ïß³ÌÔİÍ£Ò»¶ÎÊ±¼ä
+		* å½“å‰çº¿ç¨‹æš‚åœä¸€æ®µæ—¶é—´
 	
 	func Now() Time
-		* »ñÈ¡µ±Ç°Ê±¼ä
+		* è·å–å½“å‰æ—¶é—´
 
 	func Unix(sec int64, nsec int64) Time 
-		* ¸ù¾İunixÊ±¼ä´Á´´½¨Ê±¼ä¶ÔÏó£¨¸ù¾İ±¾µØÊ±Çø£©£¬Ö¸¶¨ÃëºÍÄÉÃë
+		* æ ¹æ®unixæ—¶é—´æˆ³åˆ›å»ºæ—¶é—´å¯¹è±¡ï¼ˆæ ¹æ®æœ¬åœ°æ—¶åŒºï¼‰ï¼ŒæŒ‡å®šç§’å’Œçº³ç§’
 			time.Unix(0, 0)  // 1970-01-01 08:00:00 +0800 CST
 
 			now := time.Now()
@@ -294,47 +299,47 @@ type
 	func LoadLocationFromTZData(name string, data []byte) (*Location, error)
 
 	func LoadLocation(name string) (*Location, error) 
-		* ¼ÓÔØÖ¸¶¨µÄÊ±Çø
+		* åŠ è½½æŒ‡å®šçš„æ—¶åŒº
 			time.LoadLocation("Asia/Shanghai")
 	
 	func After(d Duration) <-chan Time
-		* ÀàËÆÓÚ¶¨Ê±Æ÷£¬ÔÚÖ¸¶¨µÄÊ±¼äºó£¬»áÍùÒ»¸öchanĞ´Èëµ±Ç°Ê±¼ä
-		* ±¾ÖÊÉÏÊÇ NewTimer µÄ°ü×°£¬Ä¿µÄÊÇÎªÁË·µ»Øchan£¬·ÀÖ¹ÄÚ´æĞ¹Â©
+		* ç±»ä¼¼äºå®šæ—¶å™¨ï¼Œåœ¨æŒ‡å®šçš„æ—¶é—´åï¼Œä¼šå¾€ä¸€ä¸ªchanå†™å…¥å½“å‰æ—¶é—´
+		* æœ¬è´¨ä¸Šæ˜¯ NewTimer çš„åŒ…è£…ï¼Œç›®çš„æ˜¯ä¸ºäº†è¿”å›chanï¼Œé˜²æ­¢å†…å­˜æ³„æ¼
 			return NewTimer(d).C
 
 	func AfterFunc(d Duration, f func()) *Timer 
-		* ÔÚÖ¸¶¨Ê±¼äºó£¬Ö´ĞĞ f ·½·¨
+		* åœ¨æŒ‡å®šæ—¶é—´åï¼Œæ‰§è¡Œ f æ–¹æ³•
 
 	func Tick(d Duration) <-chan Time
-		* ¶¨Ê±Æ÷
+		* å®šæ—¶å™¨
 			timer := time.Tick(time.Second)
 			for val:= range timer{
-				fmt.Println(val) // 1ÃëÖÓÖ´ĞĞÒ»´Î
+				fmt.Println(val) // 1ç§’é’Ÿæ‰§è¡Œä¸€æ¬¡
 			}
-		* ±¾ÖÊÉÏÉÏNewTicker£¬·µ»Øchan£¬·ÀÖ¹ÄÚ´æĞ¹Â©
+		* æœ¬è´¨ä¸Šä¸ŠNewTickerï¼Œè¿”å›chanï¼Œé˜²æ­¢å†…å­˜æ³„æ¼
 			return NewTicker(d).C
 	
 	func UnixMilli(msec int64) Time
-		* ¸ù¾İÊ±¼ä´ÁºÁÃë£¬½âÎöÎª±¾µØÊ±¼ä
+		* æ ¹æ®æ—¶é—´æˆ³æ¯«ç§’ï¼Œè§£æä¸ºæœ¬åœ°æ—¶é—´
 
 	func UnixMicro(usec int64) Time 
-		* ¸ù¾İÊ±¼ä´ÁÎ¢Ãë£¬½âÎöÎª±¾µØÊ±¼ä
+		* æ ¹æ®æ—¶é—´æˆ³å¾®ç§’ï¼Œè§£æä¸ºæœ¬åœ°æ—¶é—´
 
 ---------------
-³£ÓÃ²Ù×÷
+å¸¸ç”¨æ“ä½œ
 ---------------
-	# »ñÈ¡UnixÊ±¼ä´Á£¬ºÁÃë = ÄÉÃë / ºÁÃë
+	# è·å–Unixæ—¶é—´æˆ³ï¼Œæ¯«ç§’ = çº³ç§’ / æ¯«ç§’
 		var now = time.Now()
 		fmt.Println(now.UnixNano() / int64(time.Millisecond))
 
-	# »ñÈ¡Ö¸¶¨ÈÕÆÚµ±ÌìµÄ¿ªÊ¼Ê±¼äºÍ½áÊøÊ±¼ä
+	# è·å–æŒ‡å®šæ—¥æœŸå½“å¤©çš„å¼€å§‹æ—¶é—´å’Œç»“æŸæ—¶é—´
 		func DayStartAndEnd(day time.Time) (start, end time.Time){
 			dayStart := time.Date(day.Year(), day.Month(), day.Day(), 0, 0, 0, 0, day.Location())
 			dayEnd := time.Date(day.Year(), day.Month(), day.Day(), 23, 59, 59, 999999999, day.Location())
 			return dayStart, dayEnd
 		}
 
-	# »ñÈ¡Ö¸¶¨Äê·İ£¬Ö¸¶¨ÔÂ·İµÄ×î´óÌìÊı
+	# è·å–æŒ‡å®šå¹´ä»½ï¼ŒæŒ‡å®šæœˆä»½çš„æœ€å¤§å¤©æ•°
 		func MaxDaysOfMonth(year int, month time.Month) int {
 			switch month {
 				case time.January, time.March, time.May, time.July, time.August, time.October, time.December:
@@ -350,7 +355,7 @@ type
 		}
 
 
-	# ¼òµ¥µÄ¶¨Ê±ÈÎÎñÖ´ĞĞ
+	# ç®€å•çš„å®šæ—¶ä»»åŠ¡æ‰§è¡Œ
 		func Schedule (run func(), duration time.Duration) *time.Ticker {
 			var ticker = time.NewTicker(duration)
 			go func() {
@@ -358,7 +363,7 @@ type
 					func(){
 						defer func() {
 							if err := recover(); err != nil {
-								log.Printf("task err£º%s\n", err)
+								log.Printf("task errï¼š%s\n", err)
 							}
 						}()
 						run()
@@ -369,15 +374,15 @@ type
 		}
 
 		func main(){
-			fmt.Printf("¿ªÊ¼Êä³ö£¬1ÃëÒ»´Î\n")
+			fmt.Printf("å¼€å§‹è¾“å‡ºï¼Œ1ç§’ä¸€æ¬¡\n")
 
 			t := Schedule(func() {
 				fmt.Printf("Hello World c=%d\n", runtime.NumGoroutine())
 			}, time.Second)
 
-			time.Sleep(time.Second * 5) // ÈÃÈÎÎñÖ´ĞĞ5´Î
+			time.Sleep(time.Second * 5) // è®©ä»»åŠ¡æ‰§è¡Œ5æ¬¡
 
-			t.Stop()				// Í£Ö¹ÈÎÎñ
+			t.Stop()				// åœæ­¢ä»»åŠ¡
 
-			time.Sleep(time.Second)		// µÈ´ıÍ£Ö¹²Ù×÷Ö´ĞĞÍê±Ï
+			time.Sleep(time.Second)		// ç­‰å¾…åœæ­¢æ“ä½œæ‰§è¡Œå®Œæ¯•
 		}

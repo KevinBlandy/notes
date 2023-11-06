@@ -34,6 +34,25 @@ SpringBoot
 			}
 			return Message.success(user);
 		}
+
+		@PostMapping(value = "/demo")
+		public ResponseEntity<Object> demo(@RequestBody @Validated UserDTO user, BindingResult bindingResult) {
+			
+			if (bindingResult.hasErrors()) {
+				
+				List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+				
+				for (FieldError err : fieldErrors) {
+					Object reject = err.getRejectedValue();		// 校验失败的值
+					String field = err.getField();				// 字段名称
+					String message = err.getDefaultMessage(); // 国际化后的信息
+					log.info("{} = {}，校验失败：{}", field, message,  reject);
+				}
+			}
+
+			return ResponseEntity.ok(user);
+		}
+
 	
 	# 通过全局异常处理器，处理校验的异常信息
 		* 如果没有定义 BindingResult ，那么在校验失败的时候会抛出异常
@@ -43,6 +62,8 @@ SpringBoot
 			})
 			public Object validateFail(HttpServletRequest request, HttpServletResponse response, BindException e)
 					throws IOException {
+				
+				// e.getBindingResult(); 可以获取到 BindingResult 对象
 				String errorMessage = e.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining("|"));
 				return this.errorHandler(request, response, Message.fail(Message.Code.BAD_REQUEST, errorMessage), e);
 			}

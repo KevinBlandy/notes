@@ -12,10 +12,13 @@
 			import javax.validation.ConstraintValidator;
 			import javax.validation.ConstraintValidatorContext;
 			public class TestConstraintValidator implements ConstraintValidator<TestConstraint, String> {
+
 				@Override
 				public void initialize(TestConstraint constraintAnnotation) {
-					// 构造方法可以获取到注解
+					// 初始化方法可以获取到注解
+					// 只会在初始化后执行一次
 				}
+
 				@Override
 				public boolean isValid(String value, ConstraintValidatorContext context) {
 					context.disableDefaultConstraintViolation();
@@ -23,6 +26,9 @@
 					return "Test".equals(value);
 				}
 			}
+		
+
+		* ConstraintValidator 在运行时只会创建一个
 
 		
 

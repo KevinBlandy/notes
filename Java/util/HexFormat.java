@@ -62,6 +62,18 @@ HexFormat
 
 	
 
-
-
-
+----------------------
+HexFormat
+----------------------
+	# 编码
+		MessageDigest sha256 = MessageDigest.getInstance("SHA256");
+		
+		sha256.update("123456".getBytes());
+		
+		byte[] sign = sha256.digest();
+		
+		String signHex = HexFormat.of()
+					.withUpperCase()	// 大写
+					.formatHex(sign);
+		
+		System.out.println(signHex);
