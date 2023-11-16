@@ -10,7 +10,7 @@ css
 	
 	# 学习网站
 		https://pengfeixc.com/tutorial/css/introduction
-		
+		https://developer.mozilla.org/zh-CN/docs/Web/CSS
 
 -------------------
 css 层叠
@@ -48,8 +48,7 @@ css 层叠
 
 	# 源码顺序
 		* 优先级相同的时候, 最后出现的样式会覆盖先出现的样式
-		* 如果一个元素同时处于2个或者更多的状态, 最后一个状态就会覆盖其他状态
-
+		* 如果一个元素同时处于2个或者更多的状态（例如伪类，可以同时有访问、指向状态）, 最后一个状态就会覆盖其他状态
 		* 顺序口诀: LoVe/HAte
 			link
 			visited
@@ -78,6 +77,11 @@ css 继承
 		* 列表属性
 			list-style list-style-type list-style-position list-style-image
 		
+		* 表格边框
+			border-collapse border-spacing
+
+			* 注意，只有表格边框属性才可以被继承。非表格元素上的边框属性不会被继承
+		
 		* and so on
 	
 
@@ -90,6 +94,9 @@ css 继承
 		* 该值表示: 初始值
 		* 每个css属性都有默认值, 如果把属性值设置为 initial, 就表示该属性复位
 			color: initial == color: black /* 在大多数浏览器中，黑色是color属性的初始值 */
+		
+		* initial 重置为 “属性的初始值”，而不是 “元素的初始值”
+		* 注意，“属性默认值” 和 “元素的样式属性默认值” 有区别，说白了 'initial' 和元素无关，无论 div 还是 span，display 的初始值都是 inline
 		
 -------------------
 css 简写属性
@@ -112,6 +119,26 @@ css 简写属性
 	
 	# 简写属性会有默认值
 		* 简写属性的一堆值, 如果没有设置, 则会有默认值
+		* 这可能会导致样式覆写
+            h1 {
+                font-weight: bold; /* 粗体 */
+            }
+
+            .title {
+                font: 32px Helvetica, Arial, sans-serif; /* 大小、字体家族 */
+            }
+
+			/* title 实际上等于如下：*/
+			.title {
+			  font-style: normal;			/* 默认值 */
+			  font-variant: normal;			/* 默认值 */
+			  font-weight: normal;			/* 默认值，覆盖了 h1 {} 中的 font-weight 样式  */
+			  font-stretch: normal;			/* 默认值 */
+			  line-height: normal;			/* 默认值 */
+			  font-size: 32px;
+			  font-family: Helvetica, Arial, sans-serif;
+			}
+
 	
 	# 简写值的顺序
 		* 浏览器会尝试尽力的包容指定属性值的顺序(尽量猜)
@@ -130,6 +157,8 @@ css 简写属性
 			* 如果只指定一个值, 则4个方向都会用
 		
 		* 两个方向: 垂直, 水平 (不一定谁先)
+			box-shadow: 10px 2px #6f9090; /* 水平偏移量、垂直偏移量 */
+
 			background-position: 25% 75% 
 			// 先指定了水平方向的右/左属性值, 然后才是垂直方向的上/下属性值
 
@@ -189,8 +218,8 @@ css 相对单位
 
 	# 建议
 		* 拿不准的时候, 用rem设置字号. 用px设置边框, 用em设置其他大部分属性
+		* 停止 “像素思维”，1.2em 到底是多少像素并不重要，重点是它比继承的字号要稍微大一点。
 
-	
 	# 视口相对单位
 		* 浏览器窗口里网页可见部分的边框区域。它不包括浏览器的地址栏, 工具栏, 状态栏
 			vh 视口高度的1/100

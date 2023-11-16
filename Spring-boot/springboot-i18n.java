@@ -36,6 +36,8 @@ i18n 国际化			 |
 				localeChangeInterceptor.setParamName("_lang");
 				return localeChangeInterceptor;
 			}
+		
+		* 记得要在 MvcConfigurator 中配置，自己定义要拦截的路径
 	
 	# 在classpath目录下创建文件
 		i18n

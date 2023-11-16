@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Index</title>
+        <style>
+
+        .wrapper{
+            margin-left: -1.5em;   /* 给表格容器设置负外边距，抵消表格容器外侧 1.5em 的 border-spacing */
+            margin-right: -1.5em;
+        }
+        .container {
+            display: table;         /* 以表格形式渲染 */
+            width: 100%;            /* 表格默认不会铺满 */
+            border-spacing: 1.5em 0;    /* 设置列、行间距 */
+        }
+        
+        .main {
+            display: table-cell;            /* 渲染为一列 */
+            width: 70%;                     /* 列宽度 */
+            background-color: #ccc;
+        }
+        .aside {
+            display: table-cell;            /* 渲染为一列 */
+            width: 30%;                      /* 列宽度 */
+            background-color: #ccc;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="container">
+                <main class="main">
+                    我是主栏
+                </main>
+                <aside class="aside">
+                    我是侧栏
+                    <ul>
+                        <li>勇气</li>
+                        <li>智慧</li>
+                        <li>运气</li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </body>
+</html>
