@@ -168,3 +168,15 @@ Nginx-http2开启			|
 						index index.html index.htm;
 				}       
 			}
+
+
+-------
+拒绝爬虫
+-------
+
+	# 拒绝抓取或爬虫的User-Agent列表
+		set $blocked_useragents "Curl*|HttpClient*|python-requests*|BOT/* (BOT for JCE)|ApacheBench*|Python-urllib*|ZmEu*|WinHttp*|^jaunty |FeedDemon*|Jullo*|JikeSpider*|Indy Library*|Alexa Toolbar*|AskTbFXTV*|CoolpadWebkit*|Feedly*|UniversalFeedParser*|Microsoft URL Control*|Swiftbot*|oBot*| YandexBot*|EasouSpider*|heritrix*|LinkpadBot*|Ezooms*|^$";
+
+		if ($http_user_agent ~* ($blocked_useragents)) {
+			return 403;
+		} 
