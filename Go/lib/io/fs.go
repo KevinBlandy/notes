@@ -140,3 +140,6 @@ func
 	func ReadFile(fsys FS, name string) ([]byte, error)
 	func ValidPath(name string) bool
 	func WalkDir(fsys FS, root string, fn WalkDirFunc) error
+		* 递归遍历 fsys 文件系统中的文件
+		* root 指定开始遍历的根文件/目录。可以使用 "." 表示从根路径开始遍历
+		* fn 遍历到的文件、目录回调

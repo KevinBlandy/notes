@@ -1,3 +1,4 @@
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,8 +10,12 @@ import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
@@ -20,16 +25,15 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-
 public class RSAHelper {
 
 	public static void main(String[] args) throws Exception {
 
 		// 生成 RSA 密钥对
 		KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-		keyPairGenerator.initialize(2048); // 密钥长度
+		keyPairGenerator.initialize(2048);
 		KeyPair keyPair = keyPairGenerator.generateKeyPair();
-		
+
 		// 公钥和私钥
 		RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
 		RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
@@ -42,24 +46,22 @@ public class RSAHelper {
 		ByteArrayOutputStream cipherOut = new ByteArrayOutputStream();
 		encode((Key) rsaPublicKey, new ByteArrayInputStream(raw.getBytes()), cipherOut);
 		System.out.println("公钥加密 - 密文：" + Base64.getEncoder().encodeToString(cipherOut.toByteArray()));
-		
+
 		// 私钥解密
 		ByteArrayOutputStream rawOut = new ByteArrayOutputStream();
 		decode((Key) rsaPrivateKey, new ByteArrayInputStream(cipherOut.toByteArray()), rawOut);
 		System.out.println("私钥解密 - 原文：" + new String(rawOut.toByteArray()));
-		
 
 		// 私钥加密
 		cipherOut = new ByteArrayOutputStream();
 		encode((Key) rsaPrivateKey, new ByteArrayInputStream(raw.getBytes()), cipherOut);
 		System.out.println("私钥加密 - 密文：" + Base64.getEncoder().encodeToString(cipherOut.toByteArray()));
-		
+
 		// 公钥解密
 		rawOut = new ByteArrayOutputStream();
 		decode((Key) rsaPublicKey, new ByteArrayInputStream(cipherOut.toByteArray()), rawOut);
 		System.out.println("公钥解密 - 原文：" + new String(rawOut.toByteArray()));
-		
-		
+
 		// 签名 -------------------------------
 		// 计算签名
 		byte[] sign = sign(rsaPrivateKey, "SHA256withRSA", new ByteArrayInputStream(raw.getBytes()));
@@ -67,7 +69,7 @@ public class RSAHelper {
 
 		// 校验签名
 		boolean validate = validate(rsaPublicKey, "SHA256withRSA", new ByteArrayInputStream(raw.getBytes()), sign);
-		System.out.println("公钥校验：" +validate);
+		System.out.println("公钥校验：" + validate);
 	}
 
 	/**
@@ -80,11 +82,11 @@ public class RSAHelper {
 	 * @throws NoSuchPaddingException
 	 * @throws InvalidKeyException
 	 * @throws IOException
-	 * @throws BadPaddingException 
-	 * @throws IllegalBlockSizeException 
+	 * @throws BadPaddingException
+	 * @throws IllegalBlockSizeException
 	 */
-	public static void encode(Key key, InputStream in, OutputStream out)
-			throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
+	public static void encode(Key key, InputStream in, OutputStream out) throws NoSuchAlgorithmException,
+			NoSuchPaddingException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
 		// 最大的加密明文长度
 		final int MAX_ENCRYPT_BLOCK = 245;
 
@@ -99,21 +101,22 @@ public class RSAHelper {
 		}
 	}
 
-	
 	/**
 	 * 解密
-	 * @param key	KEY
-	 * @param in	输入参数
-	 * @param out	输出解密后的原文
+	 * 
+	 * @param key KEY
+	 * @param in  输入参数
+	 * @param out 输出解密后的原文
 	 * @throws NoSuchAlgorithmException
 	 * @throws NoSuchPaddingException
 	 * @throws InvalidKeyException
 	 * @throws IOException
-	 * @throws BadPaddingException 
-	 * @throws IllegalBlockSizeException 
+	 * @throws BadPaddingException
+	 * @throws IllegalBlockSizeException
 	 */
-	public static void decode(Key key, InputStream in, OutputStream out) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
-		
+	public static void decode(Key key, InputStream in, OutputStream out) throws NoSuchAlgorithmException,
+			NoSuchPaddingException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
+
 		// 最大的加密明文长度
 		final int MAX_DECRYPT_BLOCK = 256;
 
@@ -175,5 +178,20 @@ public class RSAHelper {
 			signature.update(buffer, 0, len);
 		}
 		return signature.verify(sign);
+	}
+
+	/**
+	 * 从证书解析出公钥
+	 * 
+	 * @param pem
+	 * @return
+	 * @throws CertificateException
+	 */
+	public static PublicKey parsePublicKeyFromCertificate(InputStream pem) throws CertificateException {
+		CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+		// 获取证书链
+		// Collection<? extends Certificate> certificates = certFactory.generateCertificates(pem);
+		Certificate certificate = certFactory.generateCertificate(pem);
+		return certificate.getPublicKey();
 	}
 }
