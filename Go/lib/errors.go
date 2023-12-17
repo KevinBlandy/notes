@@ -42,6 +42,7 @@ func
 		* 那么就会返回包装的异常，否则返回nil
 	
 	func Join(errs ...error) error
+		* 一次性把多个 error 封装为 error
 		
 
 ------------------------
