@@ -3,6 +3,8 @@ Phaser
 -------------------
 	# JDK17新的同步类
 		public class Phaser
+
+		* 和Barrier有点类似，但是它比Barrier更加灵活。
 	
 	# 作用
 		* 阶段任务同时阻塞, 同时唤醒

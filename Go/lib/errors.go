@@ -30,8 +30,9 @@ func
     func Is(err, target error) bool
 		* 返回 targer 的异常链中，是否有err错误
 		* 如果target实现了 Is 方法，会通过这个接口判断，如果target实现了Unwrap方法，会不断剥离出包装的异常进行比较
+		* 会采用深度优先的方式进行遍历检查，寻找目标error。
 
-		* 判断err是不是等于 target
+		* 判断err是不是等于 target，Is函数其实叫做 Has 函数更贴切些。
 
 
     func New(text string) error
@@ -72,4 +73,12 @@ demo
 			fmt.Println(errors.As(err3, &x)) // 传递给As的是指针的指针，可以传递对象的指针
 		}
 
+		* 可以使用泛型，以避免声明变量
+			func AsA[T any](err error) (T, bool) {
+				var t T
+				if errors.As(err, &t) {
+					return t, true
+				}
+				return t, false
+			}
 

@@ -100,7 +100,8 @@ type
 func
 -------------------------
 	func AfterFunc(ctx Context, f func()) (stop func() bool)
-		* 在 ctx 完成（取消或超时）后该函数会在 ctx 完成（取消或超时）后调用所传入的函数 f。
+		* 指定的 Context 在在 done(超时或者取消)，如果 context 已经 done,那么f立即被调用。
+		* 返回的 stop 函数用来停止f的调用，如果 stop 被调用并且返回 true，f不会被调用。
 
 	func Cause(c Context) error
 		* 从ctx获取到异常原因
@@ -123,7 +124,7 @@ func
 		* 该原因可以通过 context.Cause 方法获取
 		* 示例
 			ctx, cancel := context.WithCancelCause(parent)
-			cancel(myError)
+			cancel(myError)  // 传递异常
 			ctx.Err() // returns context.Canceled
 			context.Cause(ctx) // returns myError
 

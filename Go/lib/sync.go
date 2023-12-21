@@ -90,6 +90,25 @@ type
 ----------------------
 
 	func OnceFunc(f func()) func()
+		* 返回一个函数 g
+		* 仅执行一次
+			onceFunc := sync.OnceFunc(func() {
+				fmt.Println("Hello World")
+			})
+
+			go onceFunc()
+			go onceFunc()
+			go onceFunc()
+			go onceFunc()
+			go onceFunc()
+		
+		* 如果f执行时panic, 则后续调用这个函数g不会再执行f,但是每次调用都会panic。
+		
 	func OnceValue(f func() T) func() T
+		* 类似于 OnceFunc，支持返回一个结果，panic原理同上。
+
 	func OnceValues(f func() (T1, T2)) func() (T1, T2)
+		* 同上，返回 2 个值
+
+
 	
