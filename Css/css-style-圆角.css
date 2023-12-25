@@ -1,0 +1,16 @@
+---------------------
+圆角
+---------------------
+	# border-radius:
+
+		* 支持百分比
+		* 可以设置 4 个值，表示 4 个不同的角（顺时针），只设置两个，表示设置对角。
+		* 圆角矩形，设置为元素高度的一半
+	
+
+	# 分别设置四个角
+		border-top-left-radius:
+		border-top-right-radius:
+		border-bottom-left-radius:
+		border-bottom-right-radius:
+	

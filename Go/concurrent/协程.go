@@ -55,6 +55,9 @@ channel
 			for v := range ch {
 				fmt.Println(v)
 			}
+
+			* for 遍历 channel，发送方在完成发送后必须调用 close()，for 才会退出
+			* 如果发送方不调用 close，则 for 可能会导致死锁异常
 		
 		* 缓冲区本质上是一个队列，添加数据，插入到尾部，读取数据从头部读取
 		* 通过 cap 查看队列的缓冲区大小
