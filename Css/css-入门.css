@@ -343,6 +343,10 @@ css 自定义变量
 		rootElement.style.setProperty('--main-bg', '#cdf');  // 将根元素上的--main-bg设置为浅蓝色
 
 -------------------
-css 
+css 样式的书写顺序
 -------------------
+	1. 布局定位属性（display）
+	2. 自身属性（width）
+	3. 文本属性（font-size）
+	4. 其他属性（content）
 
