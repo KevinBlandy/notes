@@ -33,6 +33,28 @@ HTML 元素类型
 		* 默认宽度内容宽度（行内元素特点）。
 		* 高度、行高、外边距、内边距都可以控制（块级元素特点）。
 
+	# 消除行内、行内块元素之间的间隙
+		1. 设置父元素: font-size: 0;
+			* 当父元素的font-size为0时，该“空白”也为0
+			* 注意：内联元素会继承父元素的 font-size，所以要单独给内联元素设置font-size，否则font-size为 0 文本内容将不会显示。
+		
+		2. 设置浮动属性float
+			* 浮动之后会脱离标准流，不受“空白”的影响。
+		
+		3. 设置 margin 属性值为负数
+			* 负数的值要根据父元素的 font-size 大小确定
+
+			<body>
+				<span style="font-size: 25px; background-color: #CCFF66;">today</span>
+				<span style="font-size: 25px; background-color: #CCCCFF; margin-left: -5px;">tomorrow</span>
+			</body>
+		
+		4. 设置 word-spacing 属性值为负数 
+			* 和 margin 一样，负值要根据父元素的 font-size 大小确定
+		
+		5. 设置属性 display: block;
+			* 块级元素之间不存在这样的空白，所以可以使用使 display: block; 将内联元素设置为块级元素。
+
 -------------------
 css 层叠
 -------------------

@@ -246,6 +246,7 @@ type
 
 		func (t *Timer) Stop() bool
 			* 要及时调用timer的Stop方法从最小堆中删除尚未到达过期时间的timer对象
+			* 避免内存泄露
 
 		func (t *Timer) Reset(d Duration) bool 
 
@@ -386,3 +387,28 @@ type
 
 			time.Sleep(time.Second)		// 等待停止操作执行完毕
 		}
+	
+	
+	# Timer 内存泄露的问题
+		for {
+			select {
+			case <-time.After(time.Second * 30):
+				fmt.Println("Hello World")
+			}
+		}
+
+		* 每次进行 select 时，都会重新初始化一个全新 Timer。
+		* 旧的 time.After 的定时任务还是在时间堆中等待触发，在定时任务未到期之前，是不会被 GC 清除的（内存泄露）。
+		* 改进办法，就是只使用一个 Ticker
+
+			// 只创建唯一的一个 Ticker
+			ticker := time.NewTicker(time.Second)
+			// 最后关闭资源
+			defer ticker.Stop()
+			for {
+				select {
+				// 处理消息
+				case <-ticker.C:
+					fmt.Println("Hello World")
+				}
+			}
