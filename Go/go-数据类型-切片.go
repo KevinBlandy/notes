@@ -43,11 +43,20 @@
 			fmt.Println(val[:1])	// [1]
 		
 		* val[start:end:cap]
-		* start表示开始角标，默认值是0，end表示结束角标，默认值是len（不会包含在切片结果中，左闭右开）
-		* start最小值是0，end最大值就是元素的长度，并且start不能大于end，否则异常
+		* start	表示开始角标，默认值是 0，end表示结束角标，默认值是数组的最大长度（不会包含在切片结果中，左闭右开）
+		* start	最小值是0，end最大值就是元素的长度，并且start不能大于end，否则异常
 		
-		* cap 控制切片的容量(cap-start)，如果没有给定 cap，则表示切到底层数组的最尾部。
+		* cap	控制切片的容量(cap-start)，如果没有给定 cap，则表示切到底层数组的最尾部。
 
+			arr := [...]int{0, 1, 2}
+			fmt.Println(len(arr), cap(arr)) // len=3 cap=3
+
+			arr1 := arr[0:1]
+			fmt.Println(len(arr1), cap(arr1), arr1) // len=1 cap=3 [0]
+
+			arr2 := arr1[1:2]
+			fmt.Println(len(arr2), cap(arr2), arr2) // len=1 cap=2 [1]
+		
 		* 切片，本身也是一个可切片的类型
 
 	
