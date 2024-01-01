@@ -1,0 +1,101 @@
+----------------------
+常用的样式
+----------------------
+	# 垂直对齐: vertical-align
+		* 指定行内元素（inline）、行内块元素或表格单元格（table-cell）元素的垂直对齐方式。不能用它垂直对齐块级元素！
+		* vertical-align 属性可被用于两种环境：
+			* 使行内元素盒模型与其行内元素容器垂直对齐。例如，用于垂直对齐一行文本内的图片 <img>：
+			* 垂直对齐表格单元内容。
+		
+		* vertical-align: top;			/* 中线 （文字顶部）*/
+		* vertical-align: middle;		/* 中线对齐 */
+		* vertical-align: baseline;		/* 基线对齐（文字底部） */
+		* vertical-align: bottom;		/* 底线对齐（容器底部）*/
+
+		* vertical-align: sub;			/* 元素的基线与父元素的下标基线对齐 */
+		* vertical-align: super;		/* 元素的基线与父元素的上标基线对齐。 */
+
+		* vertical-align: text-top;
+		* vertical-align: text-bottom;
+
+		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/vertical-align
+
+
+	# 鼠标样式: cursor
+		* cursor: default;		/* 鼠标 */
+		* cursor: pointer;		/* 小手 */
+		* cursor: move;			/* 移动 */
+		* cursor: text;			/* 文本 */
+		* cursor: not-allowed;	/* 禁止 */
+		* cursor: zoom-in;		/* 放大镜 */
+		* cursor: crosshair;	/* 十字准线 */
+		* cursor: wait;			/* 加载，转圈儿 */
+		* cursor: help;			/* 问号，帮助 */
+		* cursor: grab;			/* 抓取 */
+
+		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor
+	
+	# 尺寸调整: resize 
+		* resize: both;			/* 可沿水平和竖直方向调整尺寸 */
+		* resize: horizontal;	/* 沿水平方向调整其尺寸 */
+		* resize: vertical;		/* 沿竖直方向调整其尺寸。 */
+		* resize: none;			/* 禁止调整尺寸 */
+
+		* resize 不适用于内联元素和 overflow 属性设置为 visible 的块元素
+
+		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/resize
+	
+----------------------
+轮廓线
+----------------------
+	# outline
+		* 和 border 很类似，但有如下区别：
+			* outline 不占据空间，绘制于元素内容周围。
+			* 根据规范，outline 通常是矩形，但也可以是非矩形的。
+		
+		* 可使用以如下一个、两个或三个值来声明，且顺序不重要。
+			color：默认值为 currentcolor
+			style：默认值为 none
+			width：默认值为 medium
+		
+		* 将 outline 设置为 0 或 none 会移除浏览器的默认聚焦样式
+	
+	# outline-color
+	# outline-offset
+	# outline-style
+	# outline-width
+
+	# 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/outline
+
+----------------------
+表格
+----------------------
+
+----------------------
+阴影
+----------------------
+	# box-shadow
+		* 盒子阴影
+		* 默认的是外阴影：outset，但是不能主动声明这个值，否则阴影无效
+		* 盒子阴影不占用空间，不会影响其他盒子排列
+	
+
+	#  text-shadow
+		* 文本阴影
+	
+---------------------
+圆角
+---------------------
+	# border-radius:
+
+		* 支持百分比
+		* 可以设置 4 个值，表示 4 个不同的角（顺时针），只设置两个，表示设置对角。
+		* 圆角矩形，设置为元素高度的一半
+	
+
+	# 分别设置四个角
+		border-top-left-radius:
+		border-top-right-radius:
+		border-bottom-left-radius:
+		border-bottom-right-radius:
+	

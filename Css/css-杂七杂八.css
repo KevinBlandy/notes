@@ -1,0 +1,74 @@
+------------------	--------
+一切乱七八糟的东西
+--------------------------
+	# 初始化 CSS
+		* {
+		margin: 0;
+			padding: 0;
+		}
+		:root {
+			box-sizing: border-box;   /* 根元素设置为border-box */
+		}                               
+
+		*,
+		::before,
+		::after {
+			box-sizing: inherit;    /* 告诉其他所有元素和伪元素继承其盒模型 */
+		}
+
+		.content-box {
+		  box-sizing: content-box; /* 可以在必要时选中第三方组件的顶级容器，将其恢复为content-box。这样组件的内部元素会继承该盒模型 */
+		}
+
+
+	# 消除行内、行内块元素之间的间隙
+		1. 设置父元素: font-size: 0;
+			* 当父元素的font-size为0时，该“空白”也为0
+			* 注意：内联元素会继承父元素的 font-size，所以要单独给内联元素设置font-size，否则font-size为 0 文本内容将不会显示。
+		
+		2. 设置浮动属性float
+			* 浮动之后会脱离标准流，不受“空白”的影响。
+		
+		3. 设置 margin 属性值为负数
+			* 负数的值要根据父元素的 font-size 大小确定
+
+			<body>
+				<span style="font-size: 25px; background-color: #CCFF66;">today</span>
+				<span style="font-size: 25px; background-color: #CCCCFF; margin-left: -5px;">tomorrow</span>
+			</body>
+		
+		4. 设置 word-spacing 属性值为负数 
+			* 和 margin 一样，负值要根据父元素的 font-size 大小确定
+		
+		5. 设置属性 display: block;
+			* 块级元素之间不存在这样的空白，所以可以使用使 display: block; 将内联元素设置为块级元素。
+
+	
+	# 去除图片和容器底部之间的间隙
+		* 原因在于图片是和文字的基线对齐的
+		* 可以给图片加 vertical-align 设置垂直对齐方式
+		* 或者直接把图片转换为块儿级元素
+	
+	# 文本溢出，显示省略号
+		* 只对那些在块级元素溢出的内容有效，但是必须要与块级元素内联（inline）方向一致（举个反例：文本无法在盒子的下方溢出）。
+		* 单行文本
+			white-space: nowrap;			/* 强制在一行显示 */
+            overflow: hidden;				/* 超出后隐藏 */
+            text-overflow: ellipsis;		/* 超出部分使用 ... 代替 */
+		
+		* 多行文本（可能有兼容问题）
+			overflow: hidden;				/* 溢出部分隐藏 */
+            text-overflow: ellipsis;		/* 超出部分使用 ... 代替 */
+	
+            display: -webkit-box;			/* 弹性伸缩盒子模型 */
+            -webkit-line-clamp: 2;			/* 块儿元素显示文本行数 */
+            -webkit-box-orient: vertical;	/* 设置或检索伸缩盒子对象的子元素的排列方式 */
+	
+
+	# 画三角形
+		width: 0;
+		height: 0;
+		border-color: transparent white transparent transparent;
+		border-style: solid;
+		border-width: 100px 50px 0 0 ;
+	

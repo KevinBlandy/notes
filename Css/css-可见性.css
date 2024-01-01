@@ -1,0 +1,18 @@
+------------------
+display
+------------------
+	# display: none;
+		* 隐藏对象，显示对象对应的就是: display: block;
+	
+	# 元素隐藏后，不会占用文档流的位置
+
+
+------------------
+visibility
+------------------
+	#  visibility: hidden;
+		* 隐藏元素，对应的显示元素就是: visibility: visible;
+		* 默认值为: visibility: inherit; （继承父级）
+	
+	# 元素隐藏后，会占用文档流的位置
+

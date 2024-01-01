@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频播放按钮遮罩层</title>
+    <style>
+        .container { 
+            position: relative; /* 相对定位 */
+            width: 448px;
+            height: 252px;
+            background-color: skyblue;
+            margin: 100px auto;
+        }
+        /* 遮罩层 */
+        .cover {
+            display: none;          /* 默认元素不可见 */
+            position: absolute;     /* 绝对定位 */
+            left: 0;
+            top: 0;
+            width: 100%;            /*  宽高和父元素一样大 */
+            height: 100%;   
+            /* 设置背景色为黑色，半透明，以及一个小图标，显示在中间 */
+            background: rgba(0, 0, 0, .3) url('../arr.png') no-repeat center;
+        }
+
+        /* 鼠标经过容器的时候，选中其下的 .cover 元素，使元素可见 */
+        .container:hover .cover{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+	<!-- 容器 -->
+    <div class="container">
+        <!-- 遮罩层 -->
+        <div class="cover"></div>
+        <!-- 容器中的元素 -->
+        <img src="tudou.jpg"/>
+    </div>
+</body>
+</html>
