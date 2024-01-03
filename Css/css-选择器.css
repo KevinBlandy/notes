@@ -58,9 +58,40 @@
 -----------------------
 伪类
 -----------------------
-	:first-child
-	:last-child
-	:only-child
+	# 结构选择器，根据父级选择子元素
+		E:first-child
+			* 父元素中的第一个子元素 E
+		E:last-child
+			* 父元素中的最后一个子元素 E
+		E:only-child
+			* 父元素中的唯一一个子元素 E
+		
+		E:nth-child(n)
+			* 父元素中的第 n 个子元素 E
+			* n 可以是数字或者公式: odd\even 偶数和级数
+			* n 也可以是一个表达式，从 0 开始，每次 + 1。但是第 0 个元素或者是超出了元素个数，会被忽略。关键字必须是 n
+				2n		/* 偶数 */
+				2n-1	/* 奇数 */
+				5n		/* 5/10/15 */
+				n+5		/* 从第 5 个开始，直到最后*/
+				-n+5	/* 前5个，包含第 5 个 */
+			
+			* 先匹配n，再匹配元素类型，如果类型不匹配，则不会生效
+				.container div:nth-child(1) {
+					... /* 只有第 1 个元素是 div 的情况下，才会生效 */
+				}
+				
+		E:first-of-type
+			* 指定类型 E 的第一个
+		
+		E:last-of-type
+			* 指定类型 E 的最后一个
+		
+		E:nth-of-type(n)
+			* 指定类型 E 的第 n 个
+			* 类似于 nth-child，但是它先匹配类型，在匹配 n
+		
+	
 	:link
 		* 链接，未被访问
 
@@ -75,4 +106,19 @@
 	
 	:focus
 		* 获得焦点的表单元素
+
+	
+-----------------------
+伪元素
+-----------------------
+	# 使用 CSS 创建新标签元素，而不需要HTML 标签
+	# 伪元素前面是 2 个冒号
+
+	::before
+	::after
+		* 在元素内部的前面（开头）和后面（结尾）创建元素，是内联元素
+		* 必须要有 content 属性
+		* 参考:
+			https://developer.mozilla.org/zh-CN/docs/Web/CSS/::before
+			https://developer.mozilla.org/zh-CN/docs/Web/CSS/::after
 	
