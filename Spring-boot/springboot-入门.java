@@ -112,8 +112,8 @@ Spring-Boot »Î√≈			|
 					<version>${redisson-spring-boot-starter.version}</version>
 				</dependency>
 				<dependency>
-					<groupId>mysql</groupId>
-					<artifactId>mysql-connector-java</artifactId>
+					<groupId>com.mysql</groupId>
+					<artifactId>mysql-connector-j</artifactId>
 				</dependency>
 				<dependency>
 					<groupId>org.projectlombok</groupId>
