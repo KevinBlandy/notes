@@ -26,6 +26,7 @@
 		div,p {}
 
 		* 注意，用逗号分割，并集选择器
+		* 如果任意选择器无效，整个并集选择器都会被忽略
 	
 	# 相邻兄弟选择
 		p + h2 {}
@@ -91,21 +92,21 @@
 			* 指定类型 E 的第 n 个
 			* 类似于 nth-child，但是它先匹配类型，在匹配 n
 		
-	
-	:link
-		* 链接，未被访问
+	# 特定状态下的特定元素
+		:link
+			* 链接，未被访问
 
-	:visited
-		* 访问过了
+		:visited
+			* 访问过了
 
-	:hover
-		* 鼠标指向
+		:hover
+			* 鼠标指向
 
-	:active
-		* 鼠标点击，但还未松开（激活）
-	
-	:focus
-		* 获得焦点的表单元素
+		:active
+			* 鼠标点击，但还未松开（激活）
+		
+		:focus
+			* 获得焦点的表单元素
 
 	
 -----------------------
@@ -121,4 +122,6 @@
 		* 参考:
 			https://developer.mozilla.org/zh-CN/docs/Web/CSS/::before
 			https://developer.mozilla.org/zh-CN/docs/Web/CSS/::after
+	
+	::first-line
 	

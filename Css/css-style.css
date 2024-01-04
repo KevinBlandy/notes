@@ -68,10 +68,6 @@
 	# 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/outline
 
 ----------------------
-表格
-----------------------
-
-----------------------
 阴影
 ----------------------
 	# box-shadow
@@ -99,3 +95,28 @@
 		border-bottom-left-radius:
 		border-bottom-right-radius:
 	
+
+
+---------------------
+滤镜
+---------------------
+	# filter
+		* 值是函数	
+			blur()
+				* filter: blur(5px);
+				* 值越大，图片越模糊
+
+			brightness()
+			contrast()
+			drop-shadow()
+			grayscale()
+			hue-rotate()
+			invert()
+			opacity()
+			sepia()
+		
+		* 可以组合任意数量的函数来控制渲染。滤镜将按声明顺序依次应用
+
+
+	
+	# 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/filter
