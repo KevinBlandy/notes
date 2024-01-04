@@ -45,16 +45,24 @@
 		E[attr="val"]
 			* 选择具有 attr 属性且值为 val 的元素
 		
+		E[attr~="val"]
+			* 选择具有 attr 属性的元素，其值为 val，或者其中一个值为 val。
+			* 在一列中的好几个值，是用空格隔开的。
+		
+		E[attr|="val"]
+			* 选择具有 attr 属性的元素，其值为 val，或者以 val开头，后面紧随着一个连字符。
+		
 		E[attr^="val"]
-			* 选择具有 attr 属性且值以 val '开头'的元素
+			* 子串匹配，选择具有 attr 属性且值以 val '开头'的元素
 		
 		E[attr$="val"]
-			* 选择具有 attr 属性且值以 val '结尾'的元素
+			* 子串匹配，选择具有 attr 属性且值以 val '结尾'的元素
 		
 		E[attr*="val"]
-			* 选择具有 attr 属性且值'包含'了 val 的元素
+			* 子串匹配，选择具有 attr 属性且值'包含'了 val 的元素
 		
 		* val 可以加引号，也可以不加。如果包含特殊字符，那就加。
+		* 可以在表达式后添加 i 标识，指定忽略大小写： li[class^="a" i]
 
 -----------------------
 伪类
@@ -107,6 +115,9 @@
 		
 		:focus
 			* 获得焦点的表单元素
+		
+		:invalid
+			* 未通过验证的元素
 
 	
 -----------------------
@@ -124,4 +135,6 @@
 			https://developer.mozilla.org/zh-CN/docs/Web/CSS/::after
 	
 	::first-line
+	::first-letter
+	::selection
 	
