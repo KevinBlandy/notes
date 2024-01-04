@@ -120,3 +120,39 @@
 
 	
 	# 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/filter
+
+
+---------------------
+过渡
+---------------------
+	# Transition 可以在不利用Flash动画或者 Js 的情况下。为元素从一种样式转换为另一种样式时添加效果。
+	# 过渡动画：一个状态，渐渐过渡到另一个状态
+	# 经常和 :hover :active 配合使用
+
+	transition: property duration timing-function delay
+		* property: 需要变化的 css 属性，宽高，背景，内外边距都可以。如果所有属性都需要变换，可以设置为 all，设置为 none 表示没有动画
+		* duration: 效果持续时间，单位是秒
+		* timing-function: 运动曲线，默认为 ease 可以省略
+			ease		逐渐慢下来
+			ease-in		加速
+			ease-out	减速
+			ease-in-out	先加速后减速
+			linear		匀速
+			step-start
+			step-end
+			steps(...);
+			cubic-bezier(number)
+
+		* delay: 延迟开始的时间，单位为秒，默认为 0s，可以省略
+
+		* 可以一次性指定多组属性
+			 transition: width 1.5s linear 0s, height 2s;
+	
+	# 完整的属性
+		transition-property: all
+		transition-duration: 0s
+		transition-timing-function: ease
+		transition-delay: 0s;
+	
+
+	# 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/transition
