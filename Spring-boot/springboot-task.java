@@ -64,6 +64,30 @@ task					|
 			* 执行者应等待剩余任务完成的最长时间。
 		spring.task.scheduling.thread-name-prefix	scheduling-	
 			* 用于新创建的线程名称的前缀。
+
+# YAML 配置
+
+  task:
+    # Scheduling
+    scheduling:
+      shutdown:
+        await-termination: true
+        await-termination-period: 30s
+      thread-name-prefix: "app-scheduling-"
+      pool:
+        size: 8
+    # Aysnc
+    execution:
+      shutdown:
+        await-termination: true
+        await-termination-period: 30s
+      thread-name-prefix: "app-task-"
+      pool:
+        queue-capacity: 50
+        core-size: 8
+        max-size: 16
+        keep-alive: 30s
+
 	
 	# 注意
 		* 默认任务的执行是单线程，如果一个任务阻塞了，其他任务都不会执行
