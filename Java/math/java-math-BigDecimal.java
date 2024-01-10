@@ -128,8 +128,10 @@ BigDecimal-实例方法		|
 	int precision()
 	BigDecimal plus(MathContext mc)
 	BigDecimal plus()
+
 	BigDecimal negate(MathContext mc)
 	BigDecimal negate()
+		* 取反
 
 
 -------------------
