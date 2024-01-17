@@ -240,4 +240,97 @@ Redis 原生命令
 			   3) (integer) 196415			// 自上次向该消费者发送此信息以来所经过的毫秒数
 			   4) (integer) 1				// 该消息被传递的次数。
 		
-		* 可用于迭代待处理消息，ID 前加上 '(' 字符，表示开放（独占）范围的括号，
+		* 可用于迭代待处理消息，ID 前加上 '(' 字符，表示开放（独占）范围的括号，用于迭代
+	
+	XRANGE key start end [COUNT count]
+		* 检索 Stream 中的条目
+			key				Stream名称
+			start			开始ID
+			end				结束 ID
+			COUNT			数量
+		
+
+		* 特殊的消息ID：'-' 和 '+'，表示最小 ID 和 最大 ID
+		* ID 也可以只指定时间戳部分，不指定序列号部分
+			> XRANGE orders 1526985054069 1526985055069
+		
+
+		* 默认情况下，开始和结束 ID 都是包含在结果中的，可以使用 '(' 来排除开始 ID，用于迭代
+			> XRANGE orders (1526985685298-0 + COUNT 2
+		
+
+		* Redis 未提供根据 ID 获取单个消息的命令，但这可以通过 XRANGE 来实现，开始和结束 ID 都为指定 ID 即可
+			> XRANGE orders 1526984818136-0 1526984818136-0
+	
+	XREVRANGE key end start [COUNT count]
+		* 逆向检索 Stream 中的条目
+		* 和 XRANGE 一模一样，只是它是从后往前遍历，end 参数在前，start 参数在后
+	
+	
+	XREAD [COUNT count] [BLOCK milliseconds] STREAMS key [key ...] id [id ...]
+		* 从一个或多个流中读取数据
+		
+			COUNT		读取多少个
+			BLOCK		阻塞时间，毫秒，如果为 0 表示不超时。该参数决定了是否是阻塞的
+			STREAMS		指定多个流
+			id			消费大于该 ID 的消息
+		
+		* 如果指定了多个 STREAMS 那么每个 STREAMS 必须要有对应的 ID，ID 也可以仅指定时间戳
+
+		* 特殊 ID：'$'，表示只接收从阻塞开始通过 XADD 添加到数据流中的条目
+		* 注意，使用 '$' 阻塞消费，可能会错过流中的条目，你在消费的时候流中可能已经新增了N条记录。当你消费完毕后，再次阻塞消费，只能消费到阻塞后新增的条目
+		* 因此在使用 '$' 消费后，应该使用非阻塞的方式，从上次消费 ID 开始进行消费
+
+		* 非阻塞模式
+			* '$' 参数是无意义的, 读取的消息总是为空
+
+		* 阻塞模式
+			* 如果参数 ID 指定为 '$', 那么 COUNT 参数不起作用，只要有有数据, 就会立即返回，阻塞结束
+			* 如果指定的 ID 不是'$', 比如是 0，并且 stream 中有数据可读, 此时阻塞模式可以简单地认为退化成非阻塞模式，'COUNT' 参数起作用
+	
+		* 如果同时监听了多个 stream，在集群环境下, 要注意所有的 stream  key 必须在同一个 slot 上否则异常
+	
+
+	XREADGROUP GROUP group consumer [COUNT count] [BLOCK milliseconds] [NOACK] STREAMS key [key ...] id [id ...]
+		* 以消费组的形式从一个流或者多个流中消费消息
+
+			group		消费组
+			consumer	消费组中的消费者
+			COUNT		读取多少个
+			BLOCK		阻塞时间，毫秒，如果为 0 表示不超时。该参数决定了是否是阻塞的
+			NOACK		不需要 ACK（即，自动 ACK）
+			STREAMS		指定多个流，但是有一个前提条件: 所有的 stream 都预先创建了同名的消费者组
+			id			消费大于该 ID 的消息
+		
+		* 基本上和 XREAD 相同
+
+		* 一条消息只能被消费组中的一个消费者消费，且需要 ACK 消息
+		* 也就是说存一种可能，即消费者崩溃，导致消息未 ACK，此时需要通过 XAUTOCLAIM 等命令把未 ACK 消息转移给其他消费者进行处理
+
+		* 消费组只有一个特殊 ID：'>'，仅在消费组模式下有效，个特殊的ID其实就是 last_delivered_id
+		* 当ID不是特殊字符 '>' 时, XREADGROUP 不再是从消息队列中读取消息, 而是从消费者的 pending 消息列表中读取历史消息。在这种情况下，BLOCK 和 NOACK 都会被忽略。
+		* 如果把ID设为 0-0，表示读取所有的 pending 消息以及自 last_delivered_id 之后的新消息。
+		* 使用非 '>' 作为 ID，通常用于读取那些未被 ACK 的消息
+
+		* XREADGROUP 虽然是个读取操作，本质上是一个写命令。
+		* 因为在读取的时候，XREADGROUP 内部会把读取到的消息添加到消费者的pending消息队列，并且会修改消费者组中的 last_delivered_id 等数据结构
+		* 所以这是一个写命令，如果在开启了读写分离的环境中, 这个命令只能在 master 节点上进行操作
+		
+		* 如果 PEL 中的条目被从 Stream 中删除了（XDEL 或者是修剪），那么 PEL 中的条目 ID 仍然存在，但是键值对是 NULL
+	
+	
+	XSETID key last-id [ENTRIESADDED entries-added] [MAXDELETEDID max-deleted-id]
+		* 内部命令，用于复制 Stream 的 last_delivered_id
+
+	
+	XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT count]
+		* 修剪 Stream 长度，删除 ID 较低的条目来实现修剪
+
+			key				Stream名称
+			MAXLEN			最大长度（正整数），超过这个长度就会被修剪
+			MINID			删除 ID 小于 MINID 值的条目
+			[= | ~]			'=' 表示精确长度，'~' 表示非精确
+		
+		* 非精确修剪，效率大大提高
+			> XTRIM orders MAXLEN ~ 1000
+		
