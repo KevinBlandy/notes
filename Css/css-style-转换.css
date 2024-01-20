@@ -1,0 +1,68 @@
+-----------------------
+2D 转换
+-----------------------
+	# transform，让元素实现位置移动，旋转，缩放等，即变形
+	# 2D 转换是在二维坐标下进行的转换
+	
+	# translate
+		none
+			* 不应用任何变换。
+		<transform-function>
+			* 变换函数。变换函数按从左到右的顺序相乘，这意味着复合变换按从右到左的顺序有效地应用。
+		
+		* 它不会影响其他元素的位置，只对块儿元素生效
+		* 变换函数
+			matrix(1, 2, 3, 4, 5, 6);
+				
+			translate(12px, 50%);
+			translateX(2em);
+			translateY(3in);
+				* 朝 X/Y轴移动，translate 必须写全乎两个参数值，参数值可以为 0
+				* 百分比单位是相对于自身元素的
+
+			scale(2, 0.5);
+			scaleX(2);
+			scaleY(0.5);
+			
+			skew(30deg, 20deg);
+			skewX(30deg);
+			skewY(1.07rad);
+			matrix3d(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+			translate3d(12px, 50%, 3em);
+			translateZ(2px);
+			scale3d(2.5, 1.2, 0.3);
+			scaleZ(0.3);
+
+			rotate3d(1, 2, 3, 10deg);
+
+			rotate(0.5turn);
+			rotateX(10deg);
+			rotateY(10deg);
+			rotateZ(10deg);
+				* 旋转，deg 表示度数，正数表示顺时针，负数表示逆时针
+				* 旋转的中心点，默认为元素的中心点
+				* X，Y，Z 表示设置
+
+			perspective(17px);
+
+			
+	# transform-origin 
+		* 设置转换的中心点，可以使用一个，两个或三个值来指定，其中每个值都表示一个偏移量。没有明确定义的偏移将重置为其对应的初始值。
+			x-offset
+				* X 坐标
+			offset-keyword
+				* 关键字：left，right，top，bottom 或 center 中之一
+			
+			y-offset
+				* Y 坐标
+			
+			x-offset-keyword
+				* left，right 或 center 中之一，
+			
+			y-offset-keyword
+				* top，bottom 或 center 中之一
+			
+			z-offset
+				* 用户视线（z=0 处）的<length>（不能是<percentage>）偏移值。
+			
+		
