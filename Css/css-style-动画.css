@@ -1,0 +1,113 @@
+------------------------
+动画
+------------------------
+	# 动画，相比较于过渡，可以实现更多变化，更多控制，连续自动重播等功能
+	# 分为两步
+		1. 定义动画
+		2. 再使用（调用）动画
+
+
+		/* 定义动画 */
+        @keyframes my-animation {
+            /* 动画序列：动画开始时的样式，也可以使用 from 关键字 */
+            0% {
+				/* 0% 可以省略，表示初始状态 */
+                transform: translateX(0px);
+            }
+
+			/* 25% */
+			/* 30% */
+			/* ... */
+
+            50%{
+                transform: translateY(200px);
+            }
+		
+
+            /* 动画序列：动画完成时的样式，也可以使用 to 关键字 */
+            100%{
+                transform: translateX(200px);
+            }
+
+			/* 百分比表示时间线，只能是整数 */
+        }
+
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: skyblue;
+            margin: 0 auto;
+            /* 使用动画 */
+            animation: my-animation;
+            /* 持续 2s */
+            animation-duration: 2s;
+            /* 一直重复 */
+            animation-iteration-count: infinite;
+            /* 动画方向来回变化 */
+            animation-direction: alternate-reverse;
+        }
+	
+	animation
+		* 简写属性
+
+	animation-composition (en-US) 实验性
+	animation-delay
+		* 开始动画之前的等待时间
+
+	animation-direction
+		* 设置动画是应正向播放、反向播放还是在正向和反向之间交替播放。
+
+		normal
+			* 动画在每个循环中正向播放，每次动画循环时，动画将重置为起始状态并重新开始。这是默认值。
+		reverse
+			* 动画在每个循环中反向播放。换句话说，每次动画循环时，动画将重置为结束状态并重新开始。动画步骤将反向执行，并且时间函数也将被反转。
+			* 例如，ease-in 时间函数变为 ease-out。
+		
+		alternate
+			* 动画在每个循环中正反交替播放，第一次迭代是正向播放。确定循环是奇数还是偶数的计数从 1 开始。
+		
+		alternate-reverse
+			* 动画在每个循环中正反交替播放，第一次迭代是反向播放。确定循环是奇数还是偶数的计数从 1 开始。
+
+
+	animation-duration
+		* 动画持续时间，持续时间就是 0% - 100% 总花费时间
+
+	animation-fill-mode
+		*  设置 CSS 动画在执行之前和之后如何将样式应用于其目标。
+	
+	animation-iteration-count
+		* 设置动画序列在停止前应播放的次数
+		
+		infinite
+			* 无限
+		<number>
+			* 动画重复的次数；默认为 1，可以指定非整数值以播放动画循环的一部分：例如，0.5 将播放动画循环的一半。负值是无效的。
+
+	animation-name
+		* 指定动画名称，可以有多个，使用逗号分割
+
+		none
+			* 禁用动画
+	
+	animation-play-state
+		* 设置动画是运行还是暂停。
+
+		running
+			* 运行
+		
+		paused
+			* 停止
+			
+	animation-timing-function
+		* 设置动画在每个周期的持续时间内如何进行，设置的值是函数
+		
+		cubic-bezier(p1, p2, p3, p4)
+			* 自定义的三次贝塞尔曲线，其中 p1 和 p3 的值必须在 0 到 1 的范围内。
+		
+		ease
+			* 等同于 cubic-bezier(0.25, 0.1, 0.25, 1.0)，即默认值，表示动画在中间加速，在结束时减速。
+		
+
+	animation-timeline
+		* 指定用于控制 CSS 动画进度的时间轴。

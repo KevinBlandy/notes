@@ -76,7 +76,7 @@ task					|
       thread-name-prefix: "app-scheduling-"
       pool:
         size: 8
-    # Aysnc
+    # Aysnc，会配置一个 ThreadPoolTaskExecutor Bean
     execution:
       shutdown:
         await-termination: true
@@ -93,7 +93,12 @@ task					|
 		* 默认任务的执行是单线程，如果一个任务阻塞了，其他任务都不会执行
 		* 可以通过配置: spring.task.scheduling.pool.size 设置为多线程模式
 
-		* 多线程模式下，就算任务执行时间，超出了“调度时间”。也不会重复执行。而是会等待上一次任务完成后，立即执行
+		* 在多个 scheduling 线程模式下，就算任务执行时间，超出了“调度时间”。也不会重复执行。而是会等待上一次任务完成后，立即执行
+		* 异步加持的情况下，会按照任务时间进行调度，如果任务超时，不会等待。
+			@Scheduled(cron = "0/2 * * * * ? ") // 2s执行一次
+			@Async		// 异步任务，如果超过 2s 未执行完毕，则会再次执行 test 异步的任务
+			public void test () {}
+
 
 ---------------------
 通过代码自定义配置	 |
