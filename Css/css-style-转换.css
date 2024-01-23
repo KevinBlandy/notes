@@ -4,7 +4,7 @@
 	# transform，让元素实现位置移动，旋转，缩放等，即变形
 	# 2D 转换是在二维坐标下进行的转换
 	
-	# translate
+	# transform
 		none
 			* 不应用任何变换。
 		<transform-function>

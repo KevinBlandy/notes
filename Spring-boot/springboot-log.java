@@ -8,7 +8,13 @@ logback的配置			 |
 	  * 不能命名为 logback.xml, 如果使用标准配置位, Spring将无法完全控制日志初始化
 	
 	# springboot logback默认的配置(spring-boot.jar)
-		org/springframework/boot/logging/logback/defaults.xml
+		/org/springframework/boot/logging/logback/defaults.xml
+		/org/springframework/boot/logging/logback/console-appender.xml
+		/org/springframework/boot/logging/logback/base.xml
+		/org/springframework/boot/logging/logback/file-appender.xml
+
+		* 实际使用中，可以直接继承、参考这几个配置
+
 
 -------------------------
 常用的logback的配置文件	 |
@@ -44,6 +50,10 @@ logback的配置			 |
 			<encoder>
 				<pattern>${FILE_LOG_PATTERN}</pattern>
 			</encoder>
+			<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+				<!-- 仅输出 INFO 级别以上的日志 -->
+				<level>INFO</level>
+			</filter>
 		</appender>
 
 		<root level="DEBUG">
