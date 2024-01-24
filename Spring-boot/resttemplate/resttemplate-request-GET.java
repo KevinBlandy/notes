@@ -29,4 +29,10 @@ GET							|
         restTemplate.getForEntity("http://localhost/user?name={name}&age={age}",String.class,param);
 	
 	# 可以使用 UriComponentsBuilder 来构建 URI 对象
-	
+		
+		ResponseEntity<String> response = this.restTemplate.getForEntity(UriComponentsBuilder.fromHttpUrl(url)
+											// 查询参数
+											.queryParam("name", name)
+											.queryParam("val", val)
+											.encode()
+										   .toUriString(), String.class);

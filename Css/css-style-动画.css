@@ -114,13 +114,16 @@
 			* 停止
 			
 	animation-timing-function
-		* 设置动画在每个周期的持续时间内如何进行，设置的值是函数
+		* 设置动画在每个周期的持续时间内如何进行，设置的值是函数（速度曲线）
 		
 		cubic-bezier(p1, p2, p3, p4)
 			* 自定义的三次贝塞尔曲线，其中 p1 和 p3 的值必须在 0 到 1 的范围内。
 		
 		ease
 			* 等同于 cubic-bezier(0.25, 0.1, 0.25, 1.0)，即默认值，表示动画在中间加速，在结束时减速。
+
+		steps(n, <jumpterm>)
+			* 分成 N 步来执行
 		
 
 	animation-timeline

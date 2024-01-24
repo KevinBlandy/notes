@@ -85,3 +85,32 @@ Spring-boot 事务			|
 				AFTER_COMPLETION
 			
 			* fallbackExecution 
+
+
+---------------------------
+TransactionTemplate
+---------------------------
+	# 手动执行事务任务的模板
+
+		@Autowired
+		TransactionTemplate transactionTemplate;
+		
+		// 可以设置事务隔离级别
+		this.transactionTemplate.setIsolationLevel(TransactionTemplate.ISOLATION_REPEATABLE_READ);
+		// 可以设置事务传播属性
+		this.transactionTemplate.setPropagationBehavior(TransactionTemplate.PROPAGATION_REQUIRED);
+		// 可以设置事务是否只读
+		this.transactionTemplate.setReadOnly(false);
+
+		// 返回jieguo
+		this.transactionTemplate.execute(status -> {
+			// TODO 执行事务方法，返回jieguo
+			// 如果出现异常则自动回滚，反之，则会自动提交
+			return null;
+		});
+
+		// 不返回执行结果
+		this.transactionTemplate.executeWithoutResult(status -> {
+			
+		});
+		
