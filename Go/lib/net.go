@@ -486,3 +486,32 @@ type
 
 	
 
+
+----------------
+Demo
+----------------
+	# 获取本机 IP
+		func host() []string {
+			interfaces, err := net.InterfaceAddrs()
+			if err != nil {
+				return nil
+			}
+
+			var ipSlice []string
+
+			for _, v := range interfaces {
+				if ipNet, ok := v.(*net.IPNet); ok {
+
+					if ipNet.IP.IsLoopback() {
+						// 本地回环地址
+						continue
+					}
+
+					// 只要本地局域网地址
+					if ipv4 := ipNet.IP.To4(); ipv4 != nil && ipv4.IsPrivate() {
+						ipSlice = append(ipSlice, ipNet.IP.To4().String())
+					}
+				}
+			}
+			return ipSlice
+		}
