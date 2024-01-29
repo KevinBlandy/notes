@@ -3,6 +3,11 @@
 -----------------------
 	# transform，让元素实现位置移动，旋转，缩放等，即变形
 	# 2D 转换是在二维坐标下进行的转换
+	# 3D，三维指的是立体空间，由三个轴组成
+
+		* X 轴，水平向右。x 右边是正值，左边是负值
+		* y 轴，垂直向下。y 下面是正值，上面是复值
+		* z 轴，垂直屏幕。z 往外面是正值（视觉近），往里面是负值（视觉远）
 	
 	# transform
 		none
@@ -21,6 +26,16 @@
 			translateY(3in);
 				* 朝 X/Y轴移动，translate 必须写全乎两个参数值，参数值可以为 0
 				* 百分比单位是相对于自身元素的
+				* 下面俩声明的效果相同
+					transform: translate(100px, 100px);
+					transform: translateX(100px) translateY(100px)
+			
+			translateZ(2px);	
+				* 在 Z 轴上移动，一般用 px 作为单位
+			
+			translate3d(12px, 50%, 3em);
+				* 3D 位移，分别指定 X，Y，Z 轴的方向距离
+				* XYZ都不能省略，想省略的话，可以设置为 0 
 
 			scale(2, 0.5);
 				* 如果只有一个参数，表示等比例缩放
@@ -28,28 +43,39 @@
 			scaleY(0.5);
 				* 缩放倍数，X、Y 是宽高
 				* 小于 1 表示缩小
+
+			scaleZ(0.3);
+				* 按照 Z 轴缩放
+
+			scale3d(2.5, 1.2, 0.3);
+				* 3 D缩放，设置 X、Y、Z 轴的缩放倍数
 			
 			skew(30deg, 20deg);
 			skewX(30deg);
 			skewY(1.07rad);
 			matrix3d(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
-			translate3d(12px, 50%, 3em);
-			translateZ(2px);
-			scale3d(2.5, 1.2, 0.3);
-			scaleZ(0.3);
 
-			rotate3d(1, 2, 3, 10deg);
 
 			rotate(0.5turn);
+
+				* 旋转，deg 表示度数，正数表示顺时针，负数表示逆时针
+				* 旋转的中心点，默认为元素的中心点
 
 			rotateX(10deg);
 			rotateY(10deg);
 			rotateZ(10deg);
-				* 旋转，deg 表示度数，正数表示顺时针，负数表示逆时针
-				* 旋转的中心点，默认为元素的中心点
-				* X，Y，Z 表示设置
+				* 以 X、Y 或 Z 轴为中心旋转
 
-			perspective(17px);
+			rotate3d(1, 2, 3, 10deg);
+				* 3D，设置 X,Y,Z 旋转角度
+				
+
+	# perspective(17px);
+			* 透视，指定了观察者与 z=0 平面的距离，使具有三维位置变换的元素产生透视效果。
+			* 值越小，元素越大，模拟的就是眼睛怼得近一点
+			
+			* 单位是像素，需要写在被观察元素的父盒子上。
+
 
 			
 	# transform-origin 
@@ -71,4 +97,16 @@
 			z-offset
 				* 用户视线（z=0 处）的<length>（不能是<percentage>）偏移值。
 			
+	# transform-style
+
+		flat
+			* 设置元素的子元素位于该元素的平面中。
+
+		preserve-3d
+			* 指示元素的子元素应位于 3D 空间中。
 		
+
+
+	
+
+	
