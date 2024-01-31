@@ -14,7 +14,11 @@ Period							|
 		
 				// 相距 1 年 3 日 2 天
 				System.out.printf("相距 %d 年 %d 日 %d 天\n", period.getYears(), period.getMonths(), period.getDays());
-	
+			
+			* 计算年龄
+				Period age = Period.between(LocalDate.of(1993, 11, 9), LocalDate.now());
+				System.out.println(age.getYears());  //30
+
 
 ------------------------------
 Period-API						|

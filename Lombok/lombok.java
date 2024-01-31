@@ -39,12 +39,17 @@ Lombok 和 MapStruct同时使用
 					<path>
 						<groupId>org.projectlombok</groupId>
 						<artifactId>lombok</artifactId>
-						<version>${lombok.version}</version>
+						<version>${org.projectlombok.version}</version>
+					</path>
+					<path>
+						<groupId>org.projectlombok</groupId>
+						<artifactId>lombok-mapstruct-binding</artifactId>
+						<version>${lombok-mapstruct-binding.version}</version>
 					</path>
 					<path>
 						<groupId>org.mapstruct</groupId>
 						<artifactId>mapstruct-processor</artifactId>
-						<version>${mapstruct.version}</version>
+						<version>${org.mapstruct.version}</version>
 					</path>
 				</annotationProcessorPaths>
 			</configuration>

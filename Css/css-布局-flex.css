@@ -67,6 +67,8 @@ Flex
 		
 		column-reverse
 			* 主轴为垂直方向,起点在下沿 (从下而上)
+		
+		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex-direction
 
 	# flex-wrap
 		* 默认情况下,项目都排在一条线上.
@@ -82,8 +84,10 @@ Flex
 		wrap-reverse
 			* 换行,第一行在上面(从下往上)
 		
-		* 如果容器的flex-direction方向是column或column-reverse, 那么只有在限制了容器高度的情况下, flex-wrap会允许项目换到新的一列显示
+		* 如果容器的 flex-direction 方向是 column 或 column-reverse, 那么只有在限制了容器高度的情况下, flex-wrap 会允许项目换到新的一列显示
 		* 没有限制容器高度, 则容器会自动扩展高度以包含全部的项目
+
+		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex-wrap
 
 
 	# flex-flow
@@ -96,25 +100,42 @@ Flex
 		* 当项目未填满容器时, 在主轴上的对齐方式
 		* 它可能取5个值,具体对齐方式与轴的方向有关(假设主轴为从左到右)
 
+		start
+		end
+
 		flex-start(默认值)
-			* 主轴起点对齐
+			* 主轴起点对齐（紧贴左边）
 		
 		flex-end
-			* 主轴终点对齐
+			* 主轴终点对齐（紧贴右边）
 		
 		center
-			* 主轴居中
+			* 主轴居中（在中间）
 		
 		space-between
-			* 主轴两端对齐
+			* 主轴两端对齐（紧贴两边）
 		
 		space-around
 			* 每个项目两侧的间隔相等
 			* 所以,项目之间的间隔比项目与边框的间隔大一倍(左右边距 = 项目之间的边距)
+		
+		space-evenly
+			* 均匀排列每个元素，每个元素之间的间隔相等 
+		
+		stretch
+			* 如果元素沿主轴的组合尺寸小于对齐容器的尺寸，任何尺寸设置为 auto 的元素都会等比例地增加其尺寸（而不是按比例增加），同时仍然遵守由 max-height/max-width（或相应功能）施加的约束，以便沿主轴完全填充对齐容器的组合尺寸。
+		
+		safe
+		unsafe
+
+		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/justify-content
 
 	# align-content
 		* 多根轴线的对齐方式(轴与轴之间)
 		* 如果开启了flex-wrap,  align-content就会控制项目在副轴上的间距。如果项目没有换行，就会忽略align-content(如果项目只有一根轴线,该属性不起作用)
+
+		start
+		end
 
 		flex-start
 			* 与副轴的起点对齐
@@ -124,6 +145,8 @@ Flex
 		
 		center
 			* 与副轴的中点对齐
+		
+		normal
 		
 		space-between
 			* 与副轴两端对齐,轴线之间的间隔平均分布
@@ -136,6 +159,14 @@ Flex
 		stretch(默认值)
 			* 轴线占满整个副轴
 		
+		safe
+		unsafe
+		
+		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/align-content
+		
+	
+	# place-content 
+		* align-content 和 justify-content 简写
 	
 	# align-items
 		* 项目在副轴上如何对齐
@@ -154,10 +185,33 @@ Flex
 		
 		stretch(默认值)
 			* 如果项目未设置高度或设为auto,将占满整个容器的高度	
+		
+		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/align-items
+	
+	# column-gap
+		* 设置元素列之间的间隔（gutter）大小。
+
+		normal
+			* 在 多列布局 时默认间隔为 1em，其他类型布局默认间隔为 0。
+		
+		<length>
+			* <length> 值必须是非负数的。
+		
+		<percentage>
+			* 百分比，同样的，<percentage> 值也必须是非负数的。
+	
+	# column-gap
+		* 设置行元素之间的间隙（gutter）大小。
+
+		<length-percentage>
+	
+			* 表示行之间的间隔宽度。<percentage> 表示相对栅格容器的百分比。
+	
+	# gap 
+		* 行与列之间的间隙，是 row-gap 和 column-gap 的简写形式。
 	
 
-			
-		
+
 
 ----------------------------
 项目属性

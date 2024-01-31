@@ -9,6 +9,13 @@ Future<V>						|
 
 		boolean isCancelled();
 			* 是否是被取消执行的
+		
+		Throwable exceptionNow()
+
+		V resultNow() 
+
+		State state()
+			* 返回状态，枚举
 
 		boolean isDone();
 			* 是否执行完毕，只要是结束不管是否是异常结束，都返回true
@@ -20,3 +27,13 @@ Future<V>						|
 			* 获取到执行的结果,会阻塞当前的线程
 			* 可以设置一个超时时间,超时后抛出 TimeoutException
 
+
+-------------------------------
+State
+-------------------------------
+	# 内部枚举
+		RUNNING,
+        SUCCESS,
+        FAILED,
+        CANCELLED
+	

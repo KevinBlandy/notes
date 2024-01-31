@@ -39,5 +39,7 @@ FileLock
 		* À¯ «∑Ò”––ß
 
 	public abstract void release() throws IOException;
-	public final void close() throws IOException {
+	public final void close() throws IOException
+
+	public final String toString()
 	
