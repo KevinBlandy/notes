@@ -3,6 +3,7 @@ Flex
 --------------
 	# 参考
 		https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flexible_Box_Layout
+		https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox
 		https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex
 		https://developer.mozilla.org/zh-CN/docs/Glossary/Flexbox
 		https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
@@ -129,6 +130,11 @@ Flex
 		unsafe
 
 		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/justify-content
+		* 常见的案例是导航栏，一些重要项目右对齐，而一组其他主要项目左对齐
+		        .item-4 {
+					margin-left: auto; /* item-4 这个元素会紧贴容器右边，如果右边有元素的话会一起挤过去，[1|2|3|   |4|5] */
+				}
+
 
 	# align-content
 		* 多根轴线的对齐方式(轴与轴之间)
@@ -155,9 +161,12 @@ Flex
 		space-around
 			* 每根轴线两侧的间隔都相等
 			* 所以,轴线之间的间隔比轴线与边框的间隔大一倍
+		
+		space-evenly
+			* 所有行沿垂直轴均匀分布在对齐容器内。每对相邻的项之间的间距，主开始边和第一项，以及主结束边和最后一项，都是完全相同的。
 
 		stretch(默认值)
-			* 轴线占满整个副轴
+			* 轴线占满整个副轴， 拉伸 '自动' - 大小的项目以充满容器 
 		
 		safe
 		unsafe
@@ -220,48 +229,53 @@ Flex
 		* 定义项目的排列顺序,数值越小,排列越靠前,默认为0
 
 	# flex-grow
-		* 定义项目的放大比例, 非负数, 整数.
-		* 每个item的flex-basis计算出来后(加上子元素之间的外边距), 占据的空间可能不会占满容器宽度
-		* 默认为0, 即如果存在剩余空间,也不放大
-		* 如果所有项目的flex-grow属性都为1,则它们将等分剩余空间(如果有的话)
-		* 如果一个项目的flex-grow属性为2,其他项目都为1,则前者占据的剩余空间将比其他项多一倍
+		* 定义项目的放大比例, 非负数, 整数。
+		* 每个 item 的 flex-basis 计算出来后(加上子元素之间的外边距), 占据的空间可能不会占满容器宽度（剩余空间，放大）
+		* 默认为 0，即如果存在剩余空间,也不放大
+		* 如果所有项目的 flex-grow 属性都为 1，则它们将等分剩余空间(如果有的话)
+		* 如果一个项目的 flex-grow 属性为 2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍
 
 	# flex-shrink
-		* 项目的缩小比例,默认为1,即如果空间不足,该项目将缩小, 值越大, 收缩越大
-		* 每个item的flex-basis计算出来后(加上子元素之间的外边距), 占据的空间可能会超出容器宽度
-		* 如果所有项目的flex-shrink属性都为1,当空间不足时,都将等比例缩小
-		* 如果一个项目的flex-shrink属性为0,其他项目都为1,则空间不足时,前者不缩小
+		* 项目的缩小比例,默认为1,即如果空间不足,该项目将缩小, 值越大, 收缩越大。
+		* 每个 item 的 flex-basis 计算出来后(加上子元素之间的外边距), 占据的空间可能会超出容器宽度（空间不足，缩小）
+		* 如果所有项目的 flex-shrink 属性都为1,当空间不足时,都将等比例缩小
+		* 如果一个项目的 flex-shrink 属性为 0,其他项目都为1,则空间不足时,前者不缩小（值越大，缩小程度越大）
 		* 负值对该属性无效
 
 	# flex-basis
 		* 定义了在分配多余空间之前,项目占据的主轴空间(main size)
-		* 浏览器根据这个属性,计算主轴是否有多余空间,它的默认值为auto,即项目的本来大小
-		* 它可以设为跟width或height属性一样的值(px,em,rem,百分比),则项目将占据固定空间
+		* 浏览器根据这个属性,计算主轴是否有多余空间,它的默认值为auto，即项目的本来大小（包裹性）
+		* 它可以设为跟 width 或 height 属性一样的值(px,em,rem,百分比)，则项目将占据固定空间
+
+		* 浏览器会检测这个元素是否具有确定的尺寸，如果元素都设定了宽度（width）为 100px，所以 flex-basis 的值为 100px。
 
 	# flex
-		*  flex-grow, flex-shrink 和 flex-basis的简写,默认值为0 1 auto
+		*  flex-grow, flex-shrink 和 flex-basis 的简写,默认值为0 1 auto
 		* 后两个属性可选
 			.item {
 			  flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]
 			}
 		
 		* 该属性有两个快捷值:
-			auto (1 1 auto) 
-			none (0 0 auto)
-			initial(0 1 auto)
+			auto	-> (1 1 auto) 
+			none	-> (0 0 auto)
+			initial	-> (0 1 auto)
 
-		* 建议优先使用这个属性,而不是单独写三个分离的属性, 因为浏览器会推算出其他相关值(你自己写的值, 可能是计算错误的)
+		* 建议优先使用这个属性,而不是单独写三个分离的属性, 因为浏览器会推算出其他相关值（你自己写的值, 可能是计算错误的）
 
 		* 水平弹性盒子的大部分概念同样适用于垂直的弹性盒子（column或column-reverse）,
 		* 但是有一点不同在CSS中处理高度的方式与处理宽度的方式在本质上不一样。
 		* 容器会占据100%的可用宽度，而高度则由自身的内容来决定。即使改变主轴方向, 也不会影响这一本质
 		* 在垂直的主轴容器中里, 子元素的flex-grow和flex-shrink不会起作用, 除非有"外力"强行改变容器的高度(就是容器高度可以计算)
 
+		* 在计算 flex 元素收缩的大小时，它的最小尺寸也会被考虑进去，就是说实际上 flex-shrink 属性可能会和 flex-grow 属性表现的不一致。
+
 
 	# align-self
-		* align-self属性允许单个项目有与其他项目不一样的对齐方式,可覆盖 align-items 属性
-		* 默认值为 auto,表示继承容器的 align-items 属性,如果没有父元素,则等同于:stretch
-		* 该属性可能取6个值,除了auto,其他都与 align-items 属性完全一致
+		* align-self 属性允许单个项目有与其他项目不一样的对齐方式,可覆盖 align-items 属性
+		* 默认值为 auto,表示继承容器的 align-items 属性,如果没有父元素,则等同于: stretch
+		* 该属性可能取6个值，除了auto,其他都与 align-items 属性完全一致
+
 
 	
 		
