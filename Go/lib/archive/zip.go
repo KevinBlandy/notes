@@ -165,3 +165,36 @@ demo
 				log.Fatal(err)
 			}
 		}
+	
+	# 压缩整个目录
+		package main
+
+		import (
+			"archive/zip"
+			"fmt"
+			"os"
+		)
+
+		func main() {
+			// 预创建 zip 文件
+			zipFile, err := os.Create("D:\\apache-maven.zip")
+			if err != nil {
+				fmt.Printf("创建文件异常 %s\n", err.Error())
+				return
+			}
+			defer func() {
+				_ = zipFile.Close()
+			}()
+
+			writer := zip.NewWriter(zipFile)
+
+			defer func() {
+				_ = writer.Close()
+			}()
+
+			// 压缩指定的目录
+			if err := writer.AddFS(os.DirFS("D:\\apache-maven-3.9.6")); err != nil {
+				fmt.Printf("zip 文件压缩异常 %s\n", err.Error())
+				return
+			}
+		}
