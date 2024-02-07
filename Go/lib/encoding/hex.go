@@ -19,6 +19,8 @@ type
 -----------------------
 func
 -----------------------
+	func AppendDecode(dst, src []byte) ([]byte, error)
+	func AppendEncode(dst, src []byte) []byte
 	func Decode(dst, src []byte) (int, error)
 	func DecodeString(s string) ([]byte, error)
 		* 把字符串解码为字节数组

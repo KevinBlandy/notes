@@ -6,6 +6,52 @@ grid
 		http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html
 
 		https://cssgridgarden.com/
+	
+	# 和 Flex 布局比
+		* 因为 Flexbox 是一维的，所以它很适合用在相似的元素组成的行（或列）上。它支持用 flex-wrap 换行，但是没法让上一行元素跟下一行元素对齐。
+		* 相反，网格是二维的，旨在解决一个轨道的元素跟另一个轨道的元素对齐的问题。
+		* 当设计要求元素在两个维度上都对齐时，使用网格。当只关心一维的元素排列时，使用Flexbox。
+	
+	# 容器属性
+		grid-template-columns
+		grid-template-rows
+		grid-template-areas
+		grid-template			/* 上面仨属性的简写 */
+
+		grid-auto-columns
+		grid-auto-rows
+		grid-auto-flow
+		grid					/*上面六个属性的简写*/
+
+		justify-items
+		align-items
+		place-items				/*简写*/
+
+		justify-content
+		align-content
+		place-content			/* 简写*/
+
+	
+	# 元素属性
+		grid-row-start
+		grid-row-end
+		grid-row				/* 简写 */
+
+		grid-column-start
+		grid-column-end
+		grid-column				/* 简写 */
+
+		grid-area
+
+		row-gap
+		column-gap
+		gap						/* 简写 */
+	
+	
+	# 函数
+		repeat()
+		minmax()
+		fit-content()
 
 ---------------------
 grid 基本概念
@@ -65,29 +111,25 @@ grid 基本概念
 	
 
 		* 单元格的大小是固定的，但是容器的大小不确定
-		* 如果希望每一行（或每一列）容纳尽可能多的单元格，这时可以使用 auto-fill 关键字表示自动填充。
+		* 如果希望每一行（或每一列）容纳尽可能多的单元格，这时可以使用 auto-fill 关键字（作为第一个参数）表示自动填充。
+		* 当容器不能放更多列的时候就会自动换行
 			grid-template-columns: repeat(auto-fill, 100px); /* 每列宽度100px，然后自动填充，直到容器不能放置更多的列 */
-		
-		
-		* 如果要限制每一列的最大/最小宽度值, 用 minmax 函数
-			grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));/* 每一行尽量容纳更多的列。每一列最低100PX，最高1fr */
 		
 		* 如果网格元素不够填满所有网格轨道，auto-fill 就会导致一些空的网格轨道
 		* 如果不希望出现空的网格轨道，可以使用 auto-fit 关键字代替 auto-fill， 它会让非空的网格轨道扩展，填满可用空间
 
-		* 按照比例的划分
-		* 为了方便表示比例关系，网格布局提供了fr关键字（fraction 的缩写，意为"片段"）
+		* 按照比例的划分，为了方便表示比例关系，网格布局提供了fr关键字（fraction 的缩写，意为"片段"）
 		* 如果两列的宽度分别为1fr和2fr，就表示后者是前者的两倍。
 			grid-template-columns: 1fr 1fr;  /* 两个相同宽度的列 */
-		
 
 		* fr可以与绝对长度的单位结合使用
 			grid-template-columns: 150px 1fr 2fr;  /* 第一列的宽度为150像素，第二列的宽度是第三列的一半。 */
 		
-
+		
+		* 如果要限制每一列的最大/最小宽度值，用 minmax 函数
 		* minmax() 函数产生一个长度范围，表示长度就在这个范围之中。它接受两个参数，分别为最小值和最大值
 			grid-template-columns: 1fr 1fr minmax(100px, 1fr);  /* 表示列宽不小于100px，不大于1fr。 */
-		
+			grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));/* 每一行尽量容纳更多的列。每一列最低100PX，最高1fr */
 
 		* auto 关键字表示由浏览器自己决定长度
 			grid-template-columns: 100px auto 100px; /* 第二列的宽度，基本上等于该列单元格的最大宽度，除非单元格内容设置了min-width，且这个值大于最大宽度。 */
@@ -109,7 +151,7 @@ grid 基本概念
 		
 		gap
 			* 行列间距的简写
-				grid-gap: <grid-row-gap> <grid-column-gap>;
+				gap: <grid-row-gap> <grid-column-gap>;
 			* 如果省略了第二个值，浏览器认为第二个值等于第一个值。
 		
 	
@@ -137,6 +179,8 @@ grid 基本概念
 
 		* 区域的命名会影响到网格线。每个区域的起始网格线，会自动命名为：区域名-start，终止网格线自动命名为：区域名-end。
 		* 比如，区域名为 header，则起始位置的水平网格线和垂直网格线叫做 header-start，终止位置的水平网格线和垂直网格线叫做 header-end。
+
+		* 返过来，如果把网格线命名为 xxx-start 和 xxx-end ，就相当于定义了一个名为 xxx 的 area
 	
 	# 摆放方式
 		* 划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格

@@ -125,6 +125,9 @@ type
 		func (f *File) Truncate(size int64) error
 		func (f *File) Write(b []byte) (n int, err error)
 		func (f *File) WriteAt(b []byte, off int64) (n int, err error)
+		func (f *File) WriteTo(w io.Writer) (n int64, err error)
+			* ZeroCopy
+
 		func (f *File) WriteString(s string) (n int, err error)
 	
 

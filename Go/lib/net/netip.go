@@ -67,6 +67,7 @@ type
 		func ParseAddrPort(s string) (AddrPort, error)
 		func (p AddrPort) Addr() Addr
 		func (p AddrPort) AppendTo(b []byte) []byte
+		func (p AddrPort) Compare(p2 AddrPort) int
 		func (p AddrPort) IsValid() bool
 		func (p AddrPort) MarshalBinary() ([]byte, error)
 		func (p AddrPort) MarshalText() ([]byte, error)

@@ -16,6 +16,7 @@ type
 		func NewCertPool() *CertPool
 		func SystemCertPool() (*CertPool, error)
 		func (s *CertPool) AddCert(cert *Certificate)
+		func (s *CertPool) AddCertWithConstraint(cert *Certificate, constraint func([]*Certificate) error)
 		func (s *CertPool) AppendCertsFromPEM(pemCerts []byte) (ok bool)
 		func (s *CertPool) Subjects() [][]byte
 	
@@ -183,6 +184,17 @@ type
 			KeyUsageEncipherOnly
 			KeyUsageDecipherOnly
 		)
+	
+	# type OID struct {
+			// contains filtered or unexported fields
+		}
+
+		func OIDFromInts(oid []uint64) (OID, error)
+
+		func (oid OID) Equal(other OID) bool
+		func (oid OID) EqualASN1OID(other asn1.ObjectIdentifier) bool
+		func (oid OID) String() string
+
 	
 	# type PEMCipher int
 		const (

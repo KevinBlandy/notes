@@ -24,6 +24,8 @@ type
 		
 		func NewEncoding(encoder string) *Encoding
 
+		func (enc *Encoding) AppendDecode(dst, src []byte) ([]byte, error)
+		func (enc *Encoding) AppendEncode(dst, src []byte) []byte
 		func (enc *Encoding) Decode(dst, src []byte) (n int, err error)
 		func (enc *Encoding) DecodeString(s string) ([]byte, error)
 		func (enc *Encoding) DecodedLen(n int) int

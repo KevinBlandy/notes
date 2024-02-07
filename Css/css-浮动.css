@@ -45,7 +45,9 @@
 			* 设置值为：hidden、auto、scroll
 
 		2. 父元素添加 after 伪元素
-		3. 父元素添加双伪元素
+		3. 父元素添加 双伪 元素
+		4. 父元素添加 display: flow-root 属性
+			* 给 <div> 元素设置 display: flow-root 属性后，<div> 中的所有内容都会参与 BFC，浮动的内容不会从底部溢出。
 
 	# ::after 伪类
 		.clearfix::after {   /** 选中容器末尾的伪元素**/
@@ -67,7 +69,7 @@
 	# 浮动元素的外边距不会折叠到 '清除浮动容器' 的外部，'非浮动元素' 的外边距则会正常折叠。
 	# 使用 display: table 来包含外边距
 	
-		* display: table 元素（或者是伪元素），在元素内隐式创建了一个表格行和一个单元格。
+		* display: table 元素（或者是伪元素），在元素内隐式创建了一个表格行和一个单元格（table-cell）。
 		* 因为外边距无法通过单元格元素折叠，所以也无法通过设置了 display: table 的伪元素折叠。
 		
 		* 看起来似乎使用 display: table-cell 也能达到相同的效果，但是 clear 属性只能对块级元素生效。
@@ -81,21 +83,28 @@ bfc
 		* 虽然BFC本身是环绕文档流的一部分，但它将内部的内容与外部的上下文隔离开。
 		* 这种隔离为创建BFC的元素做出了以下3件事情。
 
-		1. 包含内部浮动：包含了内部所有元素的上下外边距。它们不会跟BFC外面的元素产生外边距折叠。
-		2. 排除外部浮动：包含了内部所有的浮动元素。
-		3. 阻止外边距重叠：不会跟BFC外面的浮动元素重叠。
+			1. 包含内部浮动：包含了内部所有元素的上下外边距。它们不会跟BFC外面的元素产生外边距折叠。
+			2. 排除外部浮动：包含了内部所有的浮动元素。
+			3. 阻止外边距重叠：不会跟BFC外面的浮动元素重叠。
+
+		* BFC元素特性表现原则就是，内部子元素再怎么翻江倒海，翻云覆雨都不会影响外部的元素（清除浮动、防止外边距折叠）。
 
 	# BFC里的内容不会跟外部的元素重叠或者相互影响。
 		* 如果给元素增加clear属性，它只会清除自身所在BFC内的浮动。
 		* 如果强制给一个元素生成一个新的BFC，它不会跟其他BFC重叠。
+
+		* 完全没有必要对BFC元素设置 margin，可以使用浮动元素的 margin-right 或者 padding-right （BFC元素）轻松实现间距效果
 	
 	# 给元素添加以下的任意属性值都会创建BFC。
 		* float: left 或 right ，不为 none 即可。
 		* overflow: hidden 、auto 或 scroll 、不为 visible 即可。
 		* display: inline-block、table-cell、table-caption、flex、inline-flex、grid 或 inline-grid。拥有这些属性的元素称为块级容器（block container）。
 		* position: absolute 或 position: fixed
+		* display: flow-root， 一个新的 display 属性的值，它可以创建无副作用的 BFC。在父级块中使用 display: flow-root 可以创建新的 BFC。
+
 	
 	# 网页的根元素也创建了一个顶级的BFC。
+
 		
 	
 	# 参考: https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context

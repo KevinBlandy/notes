@@ -115,7 +115,20 @@
 			for i, v := range name{
 				fmt.Println(i, v)
 			}
+	
+		
+	# for range 可以直接遍历数值
+		for i := range 5 {
+			fmt.Println(i) // 输出 0 - 4
+		}
 
+		* 如果 range 的值 <= 0 则不会进行任何迭代
+		* 本质上是下面循环的语法糖
+			for i := 0; i < 5; i++ {
+			    fmt.Println(i)
+			}
+
+	
 
 -------------------------
 switch

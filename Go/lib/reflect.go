@@ -243,6 +243,7 @@ type
 		func SliceOf(t Type) Type
 		func StructOf(fields []StructField) Type
 		func TypeOf(i interface{}) Type
+		func TypeFor[T any]() Type
 	
 	# type Value struct {}
 		func Append(s Value, x ...Value) Value

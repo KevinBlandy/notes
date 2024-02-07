@@ -158,6 +158,7 @@ type
 		func (x *Rat) Float32() (f float32, exact bool)
 		func (x *Rat) Float64() (f float64, exact bool)
 		func (x *Rat) FloatString(prec int) string
+		func (x *Rat) FloatPrec() (n int, exact bool)
 		func (z *Rat) GobDecode(buf []byte) error
 		func (x *Rat) GobEncode() ([]byte, error)
 		func (z *Rat) Inv(x *Rat) *Rat

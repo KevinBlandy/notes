@@ -186,6 +186,23 @@ type
 					sql.Named("start", startTime),
 					sql.Named("end", endTime),
 				)
+	# type Null[T any] struct {
+			V     T
+			Valid bool
+		}
+		func (n *Null[T]) Scan(value any) error
+		func (n Null[T]) Value() (driver.Value, error)
+
+		* Null 值封装
+
+		var s Null[string] // strig 类型的 null 值
+		err := db.QueryRow("SELECT name FROM foo WHERE id=?", id).Scan(&s)
+		...
+		if s.Valid {
+		   // use s.V
+		} else {
+		   // NULL value
+		}
 	
 	# type NullBool struct {
 			Bool  bool

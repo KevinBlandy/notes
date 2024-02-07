@@ -90,6 +90,9 @@ type
 
 		func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error)
 			* 写入一个*FileHeader文件项
+		func (w *Writer) AddFS(fsys fs.FS) error
+			* 写入一个 FS，AddFS
+			* 它从文件系统的根目录开始遍历目录树，使用 deflate 将每个文件添加到压缩包，同时保持目录结构不变。
 
 		func (w *Writer) Flush() error
 		func (w *Writer) RegisterCompressor(method uint16, comp Compressor)

@@ -23,6 +23,9 @@ func
 	func CompactFunc(s S, eq func(E, E) bool) S
 	func Compare(s1, s2 S) int
 	func CompareFunc(s1 S1, s2 S2, cmp func(E1, E2) int) int
+	func Concat[S ~[]E, E any](slices ...S) S
+		* 拼接切片
+
 	func Contains(s S, v E) bool
 	func ContainsFunc(s S, f func(E) bool) bool
 	func Delete(s S, i, j int) S

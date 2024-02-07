@@ -1,0 +1,60 @@
+------------------------------
+Grid 容器
+------------------------------
+
+	# 容器属性
+
+
+------------------------------
+划分
+------------------------------
+	# 栅格划分
+		grid-template-columns
+		grid-template-rows
+			* 指定 '列宽'，'行高'，n 行和 m 列会产生 n x m 个单元格。
+			* 单位可以是长度单位、百分比、fr（比例）、auto（元素本身的宽高）、minmax
+			* 快捷指令: repeat(n, size); n 表示重复次数，size 表示宽/高单位，可以有多个
+				grid-template-columns: repeat(2,100px auto 1fr);		/* 等同于下 */
+				grid-template-columns: 100px auto 1fr 100px auto 1fr;	/* 等同于上 */
+
+			* 注意，受浏览器宽高机制的影响，如果给没有固定高度（不能计算出高度）的 grid 容器设置百分比、fr '行高' ，不会生效，此时高度为 auto，即元素本身的高度。
+			* 浏览器宽度有限，可以计算，高度无限，不能计算
+		
+		auto
+			* 由内容决定宽高
+			* 如果是设置横向（即浏览器宽度方向），默认会占满可用空间
+			* 如果是设置纵向（即浏览器高度方向），默认为元素本身高度
+
+		minmax(min, max)
+			* 一个宽高单位区间。不小于 min，不大于 max
+		
+		auto-fill
+		auto-fit
+
+	# 栅格线划分
+		grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];
+		grid-template-rows: [r1] 100px [r2] 100px [r3] auto [r4];
+
+			* 使用 '[name]' 指定栅格线名称，允许同一根线有多个名字，使用空格分隔，比如 '[fifth-line row-5]'。
+			* 栅格线的命名可能会影响到区域，如果把网格线命名为 'xxx-start' 和 'xxx-end'，就相当于定义了一个名为 xxx 的 area
+	
+	# 区域划分
+		grid-template-areas
+			* 按照划分的栅格，给每个区域设置名称
+				grid-template-areas: 'a b c'
+									   'd e f'
+									   'g h i';
+			
+			* 用不上的区域可以设置为 '.' 表示忽略
+				grid-template-areas: 'a . c'
+									 'd . f'
+									 'g . i';
+		
+			* 多个单元格合并成一个区域（多个单元格名字相同即可）
+				grid-template-columns-template-areas: 'a a a' 
+														'b b b'
+														'c c c'; /* 9个单元格分成a、b、c三个区域。 */
+			
+			
+			* 区域的命名会影响到网格线。每个区域的起始网格线，会自动命名为：'区域名-start'，终止网格线自动命名为：'区域名-end'。
+	

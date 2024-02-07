@@ -270,7 +270,10 @@ type
 	# type Handler interface {
 			ServeHTTP(ResponseWriter, *Request)
 		}
-		
+		func FileServerFS(root fs.FS) Handler
+			* 用文件系统 fsys 的内容为 HTTP 请求提供服务
+			* 本质上就是调用：FileServer(FS(root))
+
 		func AllowQuerySemicolons(h Handler) Handler
 			* 返回一个支持 ; 分割查询参数的handler
 			* 这个方法应该在Request.ParseForm被调用之前被调用。
@@ -327,6 +330,7 @@ type
 		* 协议异常，已过时
 
 		func (pe *ProtocolError) Error() string
+		func (pe *ProtocolError) Is(err error) bool
 	
 	# type MaxBytesError struct {
 			Limit int64
@@ -411,10 +415,17 @@ type
 		func (r *Request) ParseForm() error
 		func (r *Request) ParseMultipartForm(maxMemory int64) error
 			* 解析multipart请求，设置内存缓存大小，超过这个阈值，就会把数据IO到临时文件
-
+		
 		func (r *Request) PostFormValue(key string) string
 			* 获取表单参数，注意，它会忽略查询参数。
 			* PostFormValue 会调用 ParseMultipartForm 和 ParseForm
+		
+		func (r *Request) PathValue(name string) string
+			* 获取 ServeMux 模式中指定路径通配符的值
+			* 果请求未与模式匹配或模式中没有此类通配符，则返回空字符串。
+		
+		func (r *Request) SetPathValue(name, value string)
+			* 在 Requst 上将 name 设置为 value，以便后续调用 request.PathValue(name) 时返回 value。
 
 		func (r *Request) ProtoAtLeast(major, minor int) bool
 		func (r *Request) Referer() string
@@ -493,10 +504,11 @@ type
 				* 执行HTTP请求，返回Response
 		}
 		
-		* RoundTripper是一个接口，代表了执行单个HTTP事务的能力，为一个给定的请求获取响应。
-		* 一个RoundTripper必须是安全的，可以被多个goroutine同时使用。
+		* RoundTripper 是一个接口，代表了执行单个HTTP事务的能力，为一个给定的请求获取响应。
+		* 一个 RoundTripper 必须是安全的，可以被多个goroutine同时使用。
 
 		func NewFileTransport(fs FileSystem) RoundTripper
+		func NewFileTransportFS(fsys fs.FS) RoundTripper
 	
 	# type SameSite int
 		* Cookie的SameSite策略
@@ -518,6 +530,8 @@ type
 		func (mux *ServeMux) Handle(pattern string, handler Handler)
 		func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request))
 		func (mux *ServeMux) Handler(r *Request) (h Handler, pattern string)
+			* 获取与指定请求相匹配的 handler 和映射模式
+
 		func (mux *ServeMux) ServeHTTP(w ResponseWriter, r *Request)
 	
 	# type Server struct {
@@ -678,6 +692,9 @@ func
 
 
 	func ServeFile(w ResponseWriter, r *Request, name string)
+		* 响应磁盘上的指定文件
+	func ServeFileFS(w ResponseWriter, r *Request, fsys fs.FS, name string)
+		* 响应指定 fs 下的指定文件
 
 	func ServeTLS(l net.Listener, handler Handler, certFile, keyFile string) error
 	func SetCookie(w ResponseWriter, cookie *Cookie)
@@ -686,6 +703,5 @@ func
 		* 根据http状态码返回描述
 		* 有时候蛮有用
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-	
 
 	
