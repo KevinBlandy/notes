@@ -27,14 +27,24 @@ type
 ---------------------------
 	# type Accuracy int8
 		func (i Accuracy) String() string
-	
+		
+		* 预定义常量
+			const (
+				Below Accuracy = -1
+				Exact Accuracy = 0
+				Above Accuracy = +1
+			)
+		
 	# type ErrNaN struct
 		func (err ErrNaN) Error() string
+
+		* 非数字错误
 	
 	# type Float struct
 
 		func NewFloat(x float64) *Float
 		func ParseFloat(s string, base int, prec uint, mode RoundingMode) (f *Float, b int, err error)
+			* 类似于 f.Parse(s,base)，f 设置为给定精度和四舍五入模式。
 
 		func (z *Float) Abs(x *Float) *Float
 		func (x *Float) Acc() Accuracy
@@ -71,6 +81,10 @@ type
 		func (z *Float) SetMantExp(mant *Float, exp int) *Float
 		func (z *Float) SetMode(mode RoundingMode) *Float
 		func (z *Float) SetPrec(prec uint) *Float
+			* 将 z 的精度设置为 prec，并返回经过（可能）舍入的 z 值。如果尾数无法在不损失精度的情况下用 prec 位表示，则根据 z 的舍入模式进行舍入。
+			* SetPrec(0) 将所有有限值映射为 ±0；无限值保持不变。如果 prec > MaxPrec，则设置为 MaxPrec。
+
+			
 		func (z *Float) SetRat(x *Rat) *Float
 		func (z *Float) SetString(s string) (*Float, bool)
 		func (z *Float) SetUint64(x uint64) *Float
@@ -198,7 +212,17 @@ type
 				ToNegativeInf                     // == IEEE 754-2008 roundTowardNegative
 				ToPositiveInf                     // == IEEE 754-2008 roundTowardPositive
 			)
-	
+		
+		* 舍入如下
+
+			   x  ToNearestEven  ToNearestAway  ToZero  AwayFromZero  ToNegativeInf  ToPositiveInf
+			 2.6              3              3       2             3              2              3
+			 2.5              2              3       2             3              2              3
+			 2.1              2              2       2             3              2              3
+			-2.1             -2             -2      -2            -3             -3             -2
+			-2.5             -2             -3      -2            -3             -3             -2
+			-2.6             -3             -3      -2            -3             -3             -2
+
 	# type Word uint
 		* 代表一个多精度无符号整数的单个数字
 

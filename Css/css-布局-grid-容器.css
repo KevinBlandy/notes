@@ -29,7 +29,10 @@ Grid 容器
 			* 一个宽高单位区间。不小于 min，不大于 max
 		
 		auto-fill
+			* 用空格子填满剩余宽度
+
 		auto-fit
+			* 尽量扩大单元格的宽度
 
 	# 栅格线划分
 		grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];
@@ -51,9 +54,9 @@ Grid 容器
 									 'g . i';
 		
 			* 多个单元格合并成一个区域（多个单元格名字相同即可）
-				grid-template-columns-template-areas: 'a a a' 
-														'b b b'
-														'c c c'; /* 9个单元格分成a、b、c三个区域。 */
+				grid-template-areas: 'a a a' 
+									'b b b'
+									'c c c'; /* 9个单元格分成a、b、c三个区域。 */
 			
 			
 			* 区域的命名会影响到网格线。每个区域的起始网格线，会自动命名为：'区域名-start'，终止网格线自动命名为：'区域名-end'。

@@ -31,6 +31,11 @@ grid
 		align-content
 		place-content			/* 简写*/
 
+		row-gap
+		column-gap
+		gap						/* 简写 */
+
+
 	
 	# 元素属性
 		grid-row-start
@@ -43,9 +48,9 @@ grid
 
 		grid-area
 
-		row-gap
-		column-gap
-		gap						/* 简写 */
+		justify-self
+		align-self
+		place-self				/* 简写 */
 	
 	
 	# 函数
@@ -140,6 +145,8 @@ grid 基本概念
 			grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];
 			grid-template-rows: [r1] 100px [r2] 100px [r3] auto [r4];		/** 方括号里面依次是这八根线的名字。 **/
 		
+		* 可以使用简写定义行和列
+			grid-template: grid-template-rows / grid-template-columns
 
 	# 间隔
 		row-gap
@@ -181,6 +188,8 @@ grid 基本概念
 		* 比如，区域名为 header，则起始位置的水平网格线和垂直网格线叫做 header-start，终止位置的水平网格线和垂直网格线叫做 header-end。
 
 		* 返过来，如果把网格线命名为 xxx-start 和 xxx-end ，就相当于定义了一个名为 xxx 的 area
+
+		* 重复命名的区域不能是 U 形、L 形，只能是矩形
 	
 	# 摆放方式
 		* 划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格
@@ -196,8 +205,6 @@ grid 基本概念
 			
 			row dense
 				* 表示 '先行后列'，尽可能紧密填满，尽量不出现空格
-				* 先列后行，并且尽量填满空格
-				* 这两个值主要用于，某些项目指定位置以后，剩下的项目怎么自动放置。
 			
 			column dense
 				* 表示 '先列后行'，并且尽量填满空格。
@@ -267,6 +274,7 @@ grid 基本概念
 --------------------
 项目属性
 --------------------
+	# U 形、L 形不能整，只能是矩形
 	# 项目的位置, 可以通过设置四个边框来指定
 		grid-column-start
 			* 左边框所在的垂直网格线
@@ -282,7 +290,7 @@ grid 基本概念
 			/* 这个项目的左边框是第二根垂直网格线，右边框是第四根垂直网格线。*/
 			/* 没有指定上下边框，所以会采用默认位置，即上边框是第一根水平网格线，下边框是第二根水平网格线。 */
 		
-		* 如果不设置位置, 摆放位置则依赖容器的 grid-auto-flow 属性值决定
+		* 如果不设置位置，项目摆放位置则依赖容器的 grid-auto-flow 属性值决定
 	
 		
 		* 网格线标识还支持负数, 最后一条是 -1, 依次递减
