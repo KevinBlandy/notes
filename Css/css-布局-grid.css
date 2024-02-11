@@ -3,6 +3,7 @@ grid
 ---------------------
 	# 参考地址
 		https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Grid_Layout
+		https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_grid_layout/Basic_concepts_of_grid_layout#grid_tracks
 		http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html
 
 		https://cssgridgarden.com/
@@ -122,10 +123,16 @@ grid 基本概念
 		
 		* 如果网格元素不够填满所有网格轨道，auto-fill 就会导致一些空的网格轨道
 		* 如果不希望出现空的网格轨道，可以使用 auto-fit 关键字代替 auto-fill， 它会让非空的网格轨道扩展，填满可用空间
+	
+		* 二者区别只在于单行时对剩余空间的处理，只有行的宽度大到能够容纳额外的列时，auto-fill 和 auto-fit 这两者的区别才会体现出来。
+			* fill 是有足够空间就创建空白列，剩余不到一列时才均分该剩余空间
+			* fit 是直接均分剩余空间
 
 		* 按照比例的划分，为了方便表示比例关系，网格布局提供了fr关键字（fraction 的缩写，意为"片段"）
 		* 如果两列的宽度分别为1fr和2fr，就表示后者是前者的两倍。
 			grid-template-columns: 1fr 1fr;  /* 两个相同宽度的列 */
+		
+		* 如果其中一行行高/列宽变高了撑大了容器，则同行/列的其他元素也会变化
 
 		* fr可以与绝对长度的单位结合使用
 			grid-template-columns: 150px 1fr 2fr;  /* 第一列的宽度为150像素，第二列的宽度是第三列的一半。 */
@@ -138,6 +145,7 @@ grid 基本概念
 
 		* auto 关键字表示由浏览器自己决定长度
 			grid-template-columns: 100px auto 100px; /* 第二列的宽度，基本上等于该列单元格的最大宽度，除非单元格内容设置了min-width，且这个值大于最大宽度。 */
+		* columns 的 auto 基本上就是占满格子，rows 的 auto 就是包裹，内容多高就多高
 	
 
 		* 可以使用方括号，指定每一根网格线的名字，方便以后的引用
@@ -145,8 +153,15 @@ grid 基本概念
 			grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];
 			grid-template-rows: [r1] 100px [r2] 100px [r3] auto [r4];		/** 方括号里面依次是这八根线的名字。 **/
 		
+		* 网格线名称可以一样
+			grid-template-rows: repeat(4, [row] auto);	/* 声明了 4 根儿名称为 row 的网格线（水平），除了最后一条 */
+		* 对于名称相同的线，可以用数字标识是哪个
+			grid-template-columns: repeat(3, [col] 1fr);	/* [col] 1fr [col] 1fr [col] 1fr ：声明了 3 根 名为 col 的垂直的网格线，除了最后一条 */
+			grid-column: col 2 / span 1;		/* 从第 2个 col 列开始 */
+		
 		* 可以使用简写定义行和列
 			grid-template: grid-template-rows / grid-template-columns
+		
 
 	# 间隔
 		row-gap
@@ -208,6 +223,9 @@ grid 基本概念
 			
 			column dense
 				* 表示 '先列后行'，并且尽量填满空格。
+			
+		* grid-auto-flow: dense 等价于 grid-auto-flow: row dense。（前者隐含了row，因为初始值就是row。）
+		* 紧凑（dense）的 auto-flow 方式会导致元素出现的顺序跟HTML里不一致。当使用键盘（Tab键）或者使用以源码顺序而非以显示顺序为准的屏幕阅读器来浏览网页时，用户可能会感到困惑。
 
 	
 	# 单元格内容的水平位置
@@ -251,7 +269,7 @@ grid 基本概念
 			space-evenly - 项目与项目的间隔相等，项目与容器边框之间也是同样长度的间隔（所有列间隔一样长）
 
 	
-	# 多余的行和列
+	# 多余的行和列（即隐式网格）
 		* 一些项目的指定位置，在现有网格的外部。比如网格只有3列，但是某一个项目指定在第5行。
 		* 这时，浏览器会自动生成多余的网格，以便放置项目。
 
@@ -263,7 +281,15 @@ grid 基本概念
 
 		
 		* 如果不指定这两个属性，浏览器完全根据单元格内容的大小，决定新增网格的列宽和行高。
+		* 隐式网格轨道默认大小为 auto，也就是它们会扩展到能容纳网格元素内容。
+
+		* 指定网格线的时候，隐式网格轨道不会改变负数的含义。负的网格线编号仍然是从显式网格的右下开始的。
+
 	
+	# 子网格（subgrid）
+		* 在网格元素上设置 grid-template-columns/grid-template-rows: subgrid，就可以创建嵌套网格
+		* 嵌套网格会沿用父网格轨道来布局项目。
+
 	# 属性的简写
 		grid-template
 			* grid-template-columns、grid-template-rows 和 grid-template-areas 这三个属性的合并简写形式。
@@ -291,9 +317,12 @@ grid 基本概念
 			/* 没有指定上下边框，所以会采用默认位置，即上边框是第一根水平网格线，下边框是第二根水平网格线。 */
 		
 		* 如果不设置位置，项目摆放位置则依赖容器的 grid-auto-flow 属性值决定
+		* 元素会按照其布局算法自动放置。默认情况下，布局算法会按元素在标记中的顺序将其逐列逐行摆放。
+		* 当一个元素无法在某一行容纳（也就是说该元素占据了太多网格轨道）时，算法会将它移动到下一行，寻找足够大的空间容纳它
 	
 		
 		* 网格线标识还支持负数, 最后一条是 -1, 依次递减
+		* grid-column: 1 / -1;  即可跨域整个网格
 		
 
 		* 除了指定为第几个网格线，还可以指定为网格线的名字。
@@ -301,10 +330,11 @@ grid 基本概念
 			grid-column-end: header-end;
 		
 		
-		* 以使用span关键字，表示"跨越"，即左右边框（上下边框）之间跨越多少个网格
-		* 不指出开始的网格坐标，就会按照网格的布局算法自动放到合适的位置
-			grid-column-start: span 2; /* 要占用2列 */
-		
+		* 使用span关键字，表示"跨越"，即左右边框（上下边框）之间跨越多少个网格
+		* 不指出开始的网格坐标（只用 span 关键字），就会按照网格的布局算法自动放到合适的位置（布局算法会将元素放在网格上可以容纳该元素的第一处可用空间）
+			grid-column-start: span 2; /* 边框距离右边框跨越2个网格  */
+			grid-row: span 1;
+
 		
 		* 使用这四个属性，如果产生了项目的重叠，则使用z-index属性指定项目的重叠顺序。
 
@@ -366,4 +396,3 @@ grid 基本概念
 
 
 
-				
