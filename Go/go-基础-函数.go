@@ -215,6 +215,39 @@ defer 语句
 	
 	# 函数返回的是值，不是变量，不能获取它的指针
 
+	
+	# 在释放资源的时候，如果资源会被重新初始化需要注意资源泄露问题
+
+		package main
+
+		import "fmt"
+
+		type Bar struct {
+			Name string
+		}
+
+		func (b Bar) Close() {
+			fmt.Printf("%s close\n", b.Name)
+		}
+
+		func main() {
+			// 初始化 b1 资源
+			b1 := &Bar{Name: "b1"}
+
+			defer func(b *Bar) {
+				b.Close() // b1 close
+			}(b1)
+
+			defer func() {
+				b1.Close() // b2 close，资源泄露，这种方式关闭的是最后初始化的 b2 资源，最开始的 b1 资源泄露
+			}()
+
+			defer b1.Close() //b1 close
+
+			// 修改 b1 为 b2
+			b1 = &Bar{Name: "b2"}
+		}
+
 
 ------------------------
 函数类型
