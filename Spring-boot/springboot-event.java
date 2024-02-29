@@ -66,7 +66,23 @@ Event						|
 			* 默认执行的线程, 就是当前的发布线程(非异步)
 	
 	# @TransactionalEventListener
-		TODO 
+		* 根据事务阶段调用的事件监听器。
+		* 相对于普通的  EventListtener 多了 2 个事务相关的属性。
+
+			TransactionPhase phase() default TransactionPhase.AFTER_COMMIT;
+				* 阶段枚举
+					BEFORE_COMMIT		提交前
+					AFTER_COMMIT		提交后
+					AFTER_ROLLBACK		回滚后
+					AFTER_COMPLETION	完成后
+
+			boolean fallbackExecution() default false;
+				* 如果事件未在激活的事务中发布，除非显式设置了 fallbackExecution() 标志为 true，否则该事件将被丢弃
+				* 如果事务正在运行，则根据其 TransactionPhase 处理该事件。
+
+		* 这里需要特别注意的一个点就是：当监听器操作有数据改动并持久化时，并希望在业务的 AFTER_COMMIT 阶段执行，那么你需要将监听器事务声明为 PROPAGATION_REQUIRES_NEW。
+		* 这是因为业务操作的事务提交后，事务资源可能仍然处于激活状态，如果监听器使用默认的 PROPAGATION_REQUIRED 的话，会直接加入到业务的事务中，但是这时候业务事务是不会再提交的，结果就是监听器写了修改和保存逻辑，但是数据库数据却没有发生变化（未提交）
+		* 解决方案就是要明确的将监听器的事务设为 PROPAGATION_REQUIRES_NEW。
 
 ----------------------------
 applicationEvent			|

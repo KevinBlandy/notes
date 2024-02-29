@@ -140,3 +140,6 @@
 			Future<Void> sendText(String text);
 			Future<Void> sendBinary(ByteBuffer data);
 			Future<Void> sendObject(Object data);
+	
+	# 注意线程安全问题
+		* 如果调用 RemoteEndpoint.Basic 发送信息时，该 RemoteEndpoint.Basic 的 websocket 连接正忙于发送信息，例如，如果两个线程试图同时调用发送方法，或者如果在发送现有信息的过程中试图发送新信息，那么在连接已处于繁忙状态时调用的发送方法可能会抛出 java.lang.IllegalStateException 异常。

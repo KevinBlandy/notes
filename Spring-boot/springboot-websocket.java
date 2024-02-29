@@ -160,3 +160,5 @@ Spring-boot websocket整1	|
 		}
 
 		* 不需要在 TestChannel 类上声明 @Component
+	
+
