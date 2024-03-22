@@ -104,3 +104,19 @@ Async				|
 					return threadPoolTaskExecutor;
 				}
 			}
+		
+		* 虚拟线程加持
+			/**
+			 * 
+			 * 异步任务
+			 * 
+			 */
+			@Configuration
+			public class AsyncTaskConfiguration implements AsyncConfigurer {
+
+				@Bean
+				@Override
+				public Executor getAsyncExecutor() {
+					return new TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor());
+				}
+			}

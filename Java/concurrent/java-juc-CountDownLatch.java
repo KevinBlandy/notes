@@ -22,6 +22,8 @@ CountDownLatch				|
 		
 		boolean await(long timeout, TimeUnit unit)
 			* 设置超时时间
+			* 如果是任务完成后返回，则返回值为 true
+			* 如果是超时后返回，则返回值为 false
 		
 		long getCount()
 			* 返回count

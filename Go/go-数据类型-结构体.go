@@ -406,7 +406,8 @@
 				fmt.Println(User{} == User{}) // invalid operation: User literal == User literal (struct containing []string cannot be compared)
 			}
 		
-		* 字段的顺序也必须是一样的，如果声明的顺序不一样，也会被认为是不可比
+		* 不同类型的结构体之间不能进行比较
+		* 字段声明的顺序也必须是一样的，如果声明的顺序不一样，也会被认为是不可比
 		* 可比较的结构体，可以作为map的key
 		* 结构体不能和nil进行比较，因为它不可能为nil，声明即创建
 

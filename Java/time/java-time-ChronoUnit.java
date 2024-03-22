@@ -28,5 +28,8 @@ ChronoUnit
 		boolean isDateBased()
 		boolean isTimeBased()
 		boolean isSupportedBy(Temporal temporal)
+
 		<R extends Temporal> R addTo(R temporal, long amount)
+
 		long between(Temporal temporal1Inclusive, Temporal temporal2Exclusive)
+			* 以枚举为单位计算两个日期之间的差距

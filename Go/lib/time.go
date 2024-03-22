@@ -139,6 +139,8 @@ type
 					log.Println(t.IsZero())  // true
 
 		func (t Time) Date() (year int, month Month, day int) 
+			* 返回年月日
+
 		func (t Time) Year() int 
 		func (t Time) Month() Month 
 		func (t Time) Day() int

@@ -2,7 +2,7 @@
 * 尝试先执行	swapoff /swapfile
 
 # 打包整个程序目录
-	tar -cvzf discourse.tar.gz discourse/
+	tar -zcvf discourse.tar.gz discourse/
 
 # 使用 scp 命令 copy 到新服务器
 	
