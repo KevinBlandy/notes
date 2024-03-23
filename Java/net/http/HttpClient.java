@@ -54,6 +54,9 @@ HttpClient
 		abstract <T> CompletableFuture<HttpResponse<T>> sendAsync(HttpRequest request, BodyHandler<T> responseBodyHandler)
 		abstract <T> CompletableFuture<HttpResponse<T>> sendAsync(HttpRequest request, BodyHandler<T> responseBodyHandler, PushPromiseHandler<T> pushPromiseHandler)
 			* 异步请求, 返回 CompletableFuture
+		
+		public void shutdown()
+			* 关闭 HTTP 客户端
 
 	
 	# 实例方法
