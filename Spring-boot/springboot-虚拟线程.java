@@ -9,7 +9,7 @@
 -------------------------
 服务器配置
 -------------------------
-	# Tomcat，目前仅支持 Tomcat
+	# Tomcat
 		@Configuration
 		public class TomcatConfiguration {
 			
@@ -23,6 +23,36 @@
 			}
 		}
 
+
+	# Undertow
+
+
+		import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
+		import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+		import org.springframework.context.annotation.Configuration;
+
+		import io.undertow.server.DefaultByteBufferPool;
+		import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
+
+		@Configuration
+		public class UndertowConfiguration implements WebServerFactoryCustomizer<UndertowServletWebServerFactory> {
+
+			@Override
+			public void customize(UndertowServletWebServerFactory factory) {
+				
+				factory.addDeploymentInfoCustomizers(deploymentInfo -> {
+					
+					WebSocketDeploymentInfo webSocketDeploymentInfo = new WebSocketDeploymentInfo();
+					webSocketDeploymentInfo.setBuffers(new DefaultByteBufferPool(true, 8192));
+					
+					// WebSocket 配置
+					deploymentInfo.addServletContextAttribute(WebSocketDeploymentInfo.ATTRIBUTE_NAME,webSocketDeploymentInfo);
+
+					// 虚拟线程设置
+					deploymentInfo.setExecutor(Executors.newThreadPerTaskExecutor(Thread.ofVirtual().name("vt-req-", 1).factory()));
+				});
+			}
+		}
 
 -------------------------
 @Async 异步任务

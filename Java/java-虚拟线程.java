@@ -15,7 +15,7 @@
 		thread.start();
 
 	# 通过 ExecutorService 执行
-		ExecutorService executorService = Exec	utors.newVirtualThreadPerTaskExecutor();
+		ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
 		executorService.execute(() -> {});;
 	
 	# 通过 ThreadFactory 运行
