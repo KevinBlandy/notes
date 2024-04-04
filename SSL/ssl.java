@@ -83,6 +83,8 @@ java ssl					 |
 	# 从证书中导出公钥
 		keytool -export -alias [alias] -file [name.cer] -keystore [name.keystore] -storepass [密码]
 
+		keytool -export -alias TrendBox -file TrendBox.cer -keystore app.keystore -storepass 120397
+
 			-export
 				* 导出公钥的指令
 			-alias

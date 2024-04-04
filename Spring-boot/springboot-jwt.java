@@ -32,7 +32,7 @@ jwt
 			* JWT 规定了7个官方字段, 都定义在了接口:PublicClaims 中
 					iss (issuer)签发人
 					exp (expiration time)过期时间
-					sub (subject)主题
+					sub (subject)主题					// 谷歌 Auth 用这个字段放用户 ID
 					aud (audience)受众
 					nbf (Not Before)生效时间
 					iat (Issued At)签发时间
