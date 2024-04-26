@@ -13,6 +13,31 @@ map
 		fmt.Println(config)
 
 		* key必须是，可以用==操作的类型，可以扩容的，都不行
+	
+	# Map 的 Value 也是需要保证是不可变类型
+		type Foo struct {
+			Name string
+		}
+
+		dict := make(map[string]Foo)
+
+		foo := Foo{
+			Name: "Hello",
+		}
+
+		dict["k1"] = foo
+
+		// 尝试直接修改 Map 中 “k1” 的值会导致 Value 发生改变，会抛出异常：
+		// cannot assign to struct field dict["k1"].Name in map
+		dict["k1"].Name = "Hi"
+
+		* 解决办法，先读后写
+			v := dict["k1"]
+			v.Name = "Hi"
+			dict["k1"] = v
+		
+		* 或者使用指针
+			dict := make(map[string]*Foo)
 
 	# map初始化，与创建
 		* 字面量形式的初始化

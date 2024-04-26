@@ -36,3 +36,6 @@ GET							|
 											.queryParam("val", val)
 											.encode()
 										   .toUriString(), String.class);
+	
+
+	# 注意， restTemplate 很傻逼，会自动对URL中的查询参数进行编码，也就是说你对查询参数编码过一次后，它有可能会进行二次编码。

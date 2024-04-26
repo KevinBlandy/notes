@@ -26,3 +26,19 @@ MathContext				|
 		int getPrecision()
 		RoundingMode getRoundingMode()
 	
+
+	# 在乘法中，不一定能保证正确的精度设置
+
+		BigDecimal number1 = new BigDecimal("0.01");
+		BigDecimal number2 = new BigDecimal("0.2");
+
+		// 保留 2 位精度
+		BigDecimal result = number1.multiply(number2, new MathContext(2, RoundingMode.DOWN));
+
+		// 结果却是 3 位
+		// Result: 0.002
+		System.out.println("Result: " + result);
+		
+		// 可以直接用 setScale 修改精度
+		// 0.00
+		System.out.println(result.setScale(2, RoundingMode.DOWN));

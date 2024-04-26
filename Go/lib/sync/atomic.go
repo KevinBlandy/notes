@@ -53,7 +53,8 @@ type
 		func (x *Uintptr) Load() uintptr
 		func (x *Uintptr) Store(val uintptr)
 		func (x *Uintptr) Swap(new uintptr) (old uintptr)
-	# type Value
+
+	# type Value struct {}
 		func (v *Value) CompareAndSwap(old, new any) (swapped bool)
 		func (v *Value) Load() (val any)
 		func (v *Value) Store(val any)
@@ -94,3 +95,36 @@ type
 	func SwapUint32(addr *uint32, new uint32) (old uint32)
 	func SwapUint64(addr *uint64, new uint64) (old uint64)
 	func SwapUintptr(addr *uintptr, new uintptr) (old uintptr)
+
+----------------------
+用法
+----------------------
+	# 使用原子类型
+		// 创建原子 int64，默认值为 0
+		var counter = atomic.Int64{}
+
+		// 自增 1
+		counter.Add(1)
+		// 设置值
+		counter.Store(3)
+		// 设置值，返回旧值
+		counter.Swap(4)
+		// 比较，交换值。如果比较失败，则会返回 false
+		if counter.CompareAndSwap(4, 5) {
+			fmt.Println("修改成功")
+		}
+
+		// 获取值
+		fmt.Println(counter.Load())
+	
+	# 使用非原子类型
+		// 创建非原子性 int64，默认值为 0
+		var counter int64
+
+		// 使用原子操作进行自增、写、交换
+		atomic.AddInt64(&counter, 1)
+		atomic.StoreInt64(&counter, 2)
+		atomic.SwapInt64(&counter, 3)
+		atomic.CompareAndSwapInt64(&counter, 4, 5)
+
+		atomic.LoadInt64(&counter)

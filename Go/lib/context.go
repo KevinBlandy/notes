@@ -105,6 +105,8 @@ func
 
 	func Cause(c Context) error
 		* 从ctx获取到异常原因
+		* 如果是通过调用 CancelCauseFunc(err) 发生的，则 Cause 返回 err。
+		* 否则，Cause(c) 返回与 c. Err() 相同的值。如果 c 尚未被取消，则 Cause 返回 nil。
 
 	func WithDeadlineCause(parent Context, d time.Time, cause error) (Context, CancelFunc)
 	func WithTimeoutCause(parent Context, timeout time.Duration, cause error) (Context, CancelFunc)
