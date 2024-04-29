@@ -263,6 +263,12 @@ type
 		func (h *TextHandler) Handle(_ context.Context, r Record) error
 		func (h *TextHandler) WithAttrs(attrs []Attr) Handler
 		func (h *TextHandler) WithGroup(name string) Handler
+
+			* WithAttrs 用于指定额外的属性
+			* WithGroup 用于分组，通常配合 WithAttrs 使用
+				 handler.WithGroup("foo").WithAttrs([]slog.Attr{slog.String("config", "app")})
+				 // JSON -> "foo":{"config":"app"}
+				 // Text -> foo.config=app
 	
 	# type Value struct {
 		}

@@ -38,6 +38,12 @@ RandomAccessFile		|
 		
 		String readLine();
 			* 从指针位置读取当前行,只会读指针这一行后面的数据
+			* 这方法是有问题的，它们都没有编码的概念，都假定一个字节就代表一个字符，这对于中文显然是不成立的，所以，应避免使用这两个方法。
+		
+		void setLength(long newLength);
+			* 如果当前文件的长度小于 newLength，则文件会扩展，扩展部分的内容未定义。
+			* 如果当前文件的长度大于newLength，则文件会收缩，多出的部分会截取，如果当前文件指针比 newLength 大，则调用后会变为 newLength。
+
 		
 	
 	# 读取Demo

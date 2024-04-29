@@ -30,7 +30,12 @@ type
 		func (re *Regexp) FindAll(b []byte, n int) [][]byte
 		func (re *Regexp) FindAllIndex(b []byte, n int) [][]int
 		func (re *Regexp) FindAllString(s string, n int) []string
+			* FindString 的批量版本，参数 n，代表只查找前n次匹配，指定 -1 的话，则检索出 s 字符串中所有符合表达式的子串
+		
 		func (re *Regexp) FindAllStringIndex(s string, n int) [][]int
+			* FindStringIndex 的批量版本，参数 n，代表只查找前n次匹配，指定 -1 的话，则检索出 s 字符串中所有符合表达式的下标
+			* 如果不存在，则返回 nill
+
 		func (re *Regexp) FindAllStringSubmatch(s string, n int) [][]string
 		func (re *Regexp) FindAllStringSubmatchIndex(s string, n int) [][]int
 		func (re *Regexp) FindAllSubmatch(b []byte, n int) [][][]byte
@@ -38,9 +43,17 @@ type
 		func (re *Regexp) FindIndex(b []byte) (loc []int)
 		func (re *Regexp) FindReaderIndex(r io.RuneReader) (loc []int)
 		func (re *Regexp) FindReaderSubmatchIndex(r io.RuneReader) []int
+
 		func (re *Regexp) FindString(s string) string
+			* 获取 s 中符合表达式的子串
+
 		func (re *Regexp) FindStringIndex(s string) (loc []int)
+			* 用于在文本变量 s 中进行匹配查找，并在第一次匹配成功时返回匹配位置（起始和结束位置）。
+			* 如果不存在，则返回 nill
+
 		func (re *Regexp) FindStringSubmatch(s string) []string
+
+
 		func (re *Regexp) FindStringSubmatchIndex(s string) []int
 		func (re *Regexp) FindSubmatch(b []byte) [][]byte
 		func (re *Regexp) FindSubmatchIndex(b []byte) []int
@@ -77,3 +90,37 @@ type
 		* 判断指定的字节数组/Reader/字符串 是否符合表达式
 
 	func QuoteMeta(s string) string
+
+----------------------
+示例
+----------------------
+	package main
+
+	import (
+		"fmt"
+		"regexp"
+	)
+
+	func main() {
+		text := "Hello123World456"
+		reg := regexp.MustCompile("\\d{3}")
+
+		// 获取匹配到的字串开始、结束位置
+		// [5 8]
+		fmt.Println(reg.FindStringIndex(text))
+		// [[5 8] [13 16]]
+		fmt.Println(reg.FindAllStringIndex(text, -1))
+
+		// 获取匹配到的字串
+		// 123
+		fmt.Println(reg.FindString(text))
+		// [123 456]
+		fmt.Println(reg.FindAllString(text, -1))
+
+		// 对匹配到的子串进行替换
+		ret := reg.ReplaceAllStringFunc(text, func(s string) string {
+			return "[" + s + "]"
+		})
+		//Hello[123]World[456]
+		fmt.Println(ret)
+	}

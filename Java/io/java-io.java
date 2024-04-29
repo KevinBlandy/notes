@@ -82,6 +82,18 @@ FileOutputStream			|
 	fileOutputStream.write(new String("696615").getBytes());		//N多重载方法,可以直接写入一个字节,或者是一个字节数组中的指定数据
 	fileOutputStream.flush();
 	fileOutputStream.close();
+
+
+	* FileOutputStream 的 flush 方法其实是一个空实现，并不是理解的那种 “把数据从缓冲区刷出到硬盘”
+	* FileOutputStream 没有缓冲，数据只是传递给了操作系统，但操作系统什么时候保存到硬盘上，这是不一定的。
+	* 要强制刷出到硬盘，可以使用 FileDescriptor
+
+		// 从流获取到文件描述符对象
+		FileDescriptor fileDescriptor = fileOutputStream.getFD();
+		// 同步到硬盘
+		fileDescriptor.sync();
+
+	* 不过一般情况下，并不需要手工调用它，只要操作系统和硬件设备没问题，数据迟早会写入。
 	
 ----------------------------
 BufferedOutputStream		|

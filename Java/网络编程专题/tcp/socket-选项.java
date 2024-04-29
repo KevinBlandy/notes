@@ -80,7 +80,7 @@ socket选项-详解				|
 			void setSoLinger(boolean on, int linger)
 			void setSoLinger(boolean on, int linger)
 		* 默认情况下,socket执行close()时,该方法会立即 return,但底层socket实际上并不会立即关闭
-		  它会延迟一段时间,直到发送完毕所有剩余数据,才会真正关闭socket,断开连接
+		  它会延迟一段时间,直到发送完毕缓冲区中的所有剩余数据(对于TCP连接，还会与对端完成四次挥手的过程，从而做到优雅的关闭),才会真正关闭socket,断开连接
 		* 如果执行以下方法
 
 			//注意,超时的单位是秒,而不是毫秒
@@ -108,6 +108,7 @@ socket选项-详解				|
 		  如果在12分钟内未收到响应,tcp实现就会自动关闭本地socket,断开连接
 		* 在不同的网络平台上,tcp实现尝试与远程socket对话的时限会有所差别
 		* 默认值为:false,表示tcp不会监视连接是否有效,不活动的客户端可能会永久存活小区,而不会注意到服务器已经崩溃
+		* keep-alive必须在客户端和服务端同时开启，才能开启长连接。
 
 	OOBINLINE
 		* 表示是否支持发送一个字节的紧急数据
