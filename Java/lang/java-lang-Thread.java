@@ -92,11 +92,15 @@ Thread 的中断机制			|
 	# 线程在sleep或wait(阻塞),join ....
 		* 此时如果别的进程调用此进程(Thread 对象)的 interrupt()方法,此线程会被唤醒并被要求处理 InterruptedException
 		* (thread在做IO操作时也可能有类似行为,见java thread api)
-		* InterruptedException 异常发生后，并不会修改线程的中断标识位，需要自己手动修改
+		* InterruptedException 异常发生后，并不会修改线程的中断标识位，需要自己手动修改（抛出异常后，中断标志位会被清空，而不是被设置）
 	
 	# 此线程在运行中
 		* 此时如果别的进程调用此进程(Thread 对象)的 interrupt()方法,不会收到提醒,但是此线程的 "中断" 会被设置为 true
 		* 可以通过 isInterrupted() 查看并作出处理
+	
+	# 如果线程尚未启动（NEW），或者已经结束（TERMINATED），则调用interrupt()对它没有任何效果，中断标志位也不会被设置。
+	
+	# 使用 synchronized 关键字获取锁的过程中不响应中断请求
 
 	# 总结
 		interrupt()		实例方法	返回 void		中断调用该方法的当前线程
@@ -108,6 +112,7 @@ Thread 的中断机制			|
 
 
 		isInterrupted()	实例方法	返回 boolean	检测调用该方法的线程是否被中断，不清除中断标记
+
 	
 	# 优雅的通知线程结束
 		public class MainTest {
@@ -174,6 +179,23 @@ Thread 等待唤醒机制
 	
 		
 		* 调用这些方法，需要枷锁，在sync...代码块中调用
+
+
+	# 等待唤醒机制
+		* 每个对象除了用于锁的等待队列，还有另一个等待队列，表示条件队列，该队列用于线程间的协作。
+		* 调用 wait 就会把当前线程放到条件队列上并阻塞，表示当前线程执行不下去了，它需要等待一个条件，这个条件它自己改变不了，需要其他线程改变。
+
+		* 调用 wait() 的时候，当前线程会 '释放持有的锁'，然后进入条件等待队列，直到超时或是被其他线程 notify。
+		* 把当前线程放入条件等待队列，释放对象锁，阻塞等待，线程状态变为 WAITING 或 TIMED_WAITING。
+		* 等待时间到或被其他线程调用 notify/notifyAll 从条件队列中移除，这时，要 '重新竞争对象锁'：
+			* 如果能够获得锁，线程状态变为 RUNNABLE，并从 wait 调用中返回
+			* 该线程加入对象锁等待队列，线程状态变为 BLOCKED，只有在 '获得锁后才会从 wait 调用中返回'。
+
+		* 调用 notify 会把在条件队列中等待的线程唤醒并从队列中移除，但它不会释放对象锁。
+		* notify 做的事情就是从条件队列中选一个线程，将其从队列中移除并唤醒，notifyAll 和 notify 的区别是，它会移除条件队列中所有的线程并全部唤醒。
+		* 也就是说，只有在包含 notify 的 synchronized 代码块执行完后，等待的线程才会从 wait 调用中返回。
+		* notify 一般是最后一行调用。
+	
 	
 	# 一般工作模式
 		* 生产者
@@ -189,3 +211,47 @@ Thread 等待唤醒机制
 				// 改变条件
 				[lock].notifyAll();
 			}
+		
+	# Demo
+
+		import java.util.ArrayList;
+		import java.util.List;
+
+
+		public class BlockedQueue {
+			
+			private final List<Object> quque;
+			
+			private final int len;
+			
+			public BlockedQueue(int len) {
+				this.len = len;
+				this.quque = new ArrayList<Object>(len);
+			}
+
+			public synchronized Object get () {
+				while (this.quque.isEmpty()) {
+					try {
+						System.out.println("队列空了，阻塞...");
+						this.wait();
+					} catch (InterruptedException e) {
+					}
+				}
+				
+				Object ret = quque.removeLast();
+				this.notifyAll();
+				return ret;
+			}
+			
+			public synchronized void put (Object val) {
+				while (this.quque.size() >= this.len) {
+					try {
+						System.out.println("队列满了，阻塞...");
+						this.wait();
+					} catch (InterruptedException e) {
+					}
+				}
+				this.quque.addFirst(val);
+				this.notifyAll();
+			}
+		}

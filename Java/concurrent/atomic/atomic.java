@@ -10,6 +10,10 @@ Atomic						|
 			* 长整型原子类
 		AtomicBoolean 
 			* 布尔型原子类
+		
+		LongAdder
+		LongAccumulator
+
 
 	# 数组类型
 		* 使用原子的方式更新数组里的某个元素

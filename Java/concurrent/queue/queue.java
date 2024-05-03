@@ -14,6 +14,7 @@ Queue								|
 
 				|-SynchronousQueue
 					* 一个不存储元素的阻塞队列，每一个put操作必须等待一个take操作，否则不能继续添加元素。
+					* 类似于 golang 中的无缓冲 chan
 
 				|-PriorityBlockingQueue
 					* 支持优先级排序的无界阻塞队列

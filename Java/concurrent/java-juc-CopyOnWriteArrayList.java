@@ -6,6 +6,8 @@ CopyOnWriteArrayList		|
 		
 	# 写入并复制
 		* 每次写入数据的时候,都会在低层复制出新的一个列表,再进行添加
+		* 在 CopyOnWriteArrayList 中，读不需要锁，可以并行，读和写也可以并行，但多个线程不能同时写，每个写操作都需要先获取锁。
+
 	
 	# 它要处理的问题
 		* Java的list在遍历时,若中途有别的线程对list容器进行修改,则会抛出 ConcurrentModificationException 异常

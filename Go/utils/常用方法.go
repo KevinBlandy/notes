@@ -2,18 +2,21 @@
 --------------------------------
 获取客户端的真实IP
 --------------------------------
-	// RemoteIP 获取客户端真实的地址
-	func RemoteIP(ctx *gin.Context) net.IP {
-		remoteIp := net.ParseIP(ctx.GetHeader("x-forwarded-for"))
-		if remoteIp == nil {
-			remoteIp = net.ParseIP(ctx.GetHeader("Proxy-Client-IP"))
-			if remoteIp == nil {
-				remoteIp = net.ParseIP(ctx.GetHeader("WL-Proxy-Client-IP"))
-				if remoteIp == nil {
-					remoteIp, _ = ctx.RemoteIP()
-				}
-			}
-		}
-		return remoteIp
-	}
+	// proxyHeaders 反向代理情况下的源 IP Header
+	var proxyHeaders = []string{"X-Forwarded-For", "Proxy-Client-IP", "WL-Proxy-Client-IP"}
 
+	// RemoteAddr 获取客户端 IP 地址
+	func RemoteAddr(request *http.Request) string {
+		for _, header := range proxyHeaders {
+			ip, err := netip.ParseAddr(request.Header.Get(header))
+			if err != nil || !ip.IsValid() {
+				continue
+			}
+			return ip.String()
+		}
+		host, _, err := net.SplitHostPort(request.RemoteAddr)
+		if err != nil {
+			host = request.RemoteAddr
+		}
+		return host
+	}

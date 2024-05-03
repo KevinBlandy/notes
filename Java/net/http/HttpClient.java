@@ -57,6 +57,11 @@ HttpClient
 		
 		public void shutdown()
 			* 关闭 HTTP 客户端
+	
+		public void shutdownNow()
+		
+		public boolean awaitTermination(Duration duration) throws InterruptedException
+		public boolean isTerminated()
 
 	
 	# 实例方法
@@ -65,3 +70,22 @@ HttpClient
 			* 创建一个 WebScoket 的Builder
 
 
+---------------------
+Builder
+---------------------
+	# 构建接口
+		interface Builder 
+
+		public static final ProxySelector NO_PROXY = ProxySelector.of(null);
+		public Builder cookieHandler(CookieHandler cookieHandler);
+		public Builder connectTimeout(Duration duration);
+		public Builder sslContext(SSLContext sslContext);
+		public Builder sslParameters(SSLParameters sslParameters);
+		public Builder executor(Executor executor);
+		public Builder followRedirects(Redirect policy);
+		public Builder version(HttpClient.Version version);
+		public Builder priority(int priority);
+		public Builder proxy(ProxySelector proxySelector);
+		public Builder authenticator(Authenticator authenticator);
+		public Builder localAddress(InetAddress localAddr);
+		public HttpClient build();

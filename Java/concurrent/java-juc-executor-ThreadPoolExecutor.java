@@ -51,6 +51,7 @@ ThreadPoolExecutor			|
 
 		long getKeepAliveTime(TimeUnit unit)
 		int getLargestPoolSize()
+			* 线程池曾获达到过的最大线程数量
 		int getMaximumPoolSize()
 		int getPoolSize()
 			* 线程池线程的数量，如果线程池不销毁的话，线程池里面的线程不会自动销毁，这个数据只增不减

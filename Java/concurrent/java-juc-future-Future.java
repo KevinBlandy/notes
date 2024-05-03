@@ -4,7 +4,7 @@ Future<V>						|
 	# 异步执行结果的接口
 	# 方法
 		boolean cancel(boolean mayInterruptIfRunning);
-			* 取消执行。
+			* 取消执行,如果任务还未开始，则不再运行。
 			* 如果任务已经执行了，那么可以通过 mayInterruptIfRunning 设置是否要抛出线程中断异常
 
 		boolean isCancelled();
