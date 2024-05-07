@@ -11,5 +11,30 @@
 		* 流式布局
 	
 	# meta
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-	
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+		
+		width
+			* 视口的大小。这可以设置为特定像素数（如'width=600'），也可以设置为特殊值 device-width，即 100vw，100% 的视口宽度。
+			* 最小值为 1。最大值为 10000。负值会被忽略。
+
+		initial-scale
+			* 控制页面首次加载时显示的缩放倍数。最小值是 0.1 。最大值是 10 。默认值为 1。负值会被忽略。
+
+		minimum-scale
+			* 控制页面允许缩小的倍数。最小值是 0.1。最大值是 10。默认值为 1。负值会被忽略。
+
+		maximum-scale
+			* 控制页面允许放大的倍数。设置一个低于 3 的值将不具备无障碍访问性。
+			* 最小值是 0.1。最大值是 10。默认值为 1。负值会被忽略。
+
+		user-scalable
+			* 控制是否允许页面上的放大和缩小操作。
+			* 有效值为 0、1、yes 或 no。默认值为 1，与 yes 相同。
+			* 将值设置为 0（即与 no 相同）将违反 Web 内容无障碍指南（WCAG）。
+
+		interactive-widget
+			* 指定交互式 UI 组件（如虚拟键盘）对页面视口的影响。有效值：resizes-visual、resizes-content 或 overlays-content。
+			* 默认值：resizes-visual。
+
+
+

@@ -330,3 +330,12 @@ Redis-Redisson						|
 			connection.stringCommands().set("key".getBytes(), "value".getBytes(), Expiration.keepTtl(), SetOption.UPSERT); // Expiration.keepTtl() 意思是保持 ttl
 		}
 	}
+
+
+-----------------------
+DefaultRedisScript
+-----------------------
+	# DefaultRedisScript 用于执行 Lua 脚本
+		* Redis 采用相同的 Lua 解释器去运行所有命令，可以保证，脚本的执行是原子性的。
+		* 作用就类似于加了 MULTI/EXEC
+	
