@@ -12,7 +12,8 @@ SysMenu
 	@Index(columnList = "method,uri", name = "method_uri"),
 	@Index(columnList = "uri", name = "uri")
 })
-@org.hibernate.annotations.Table(appliesTo = "sys_menu", comment = "系统菜单")
+@org.hibernate.annotations.Table(appliesTo = "sys_menu", comment = "系统菜单") // 过期了
+@org.hibernate.annotations.Comment("系统菜单") // 用这个得
 public class SysMenu implements Serializable {
 	
 	/**

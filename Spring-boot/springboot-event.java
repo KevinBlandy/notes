@@ -78,6 +78,7 @@ Event						|
 
 			boolean fallbackExecution() default false;
 				* 如果事件未在激活的事务中发布，除非显式设置了 fallbackExecution() 标志为 true，否则该事件将被丢弃
+				* 如果事件未在激活的事务中发布，明确设置了 fallbackExecution 为 true，那么直接执行，该效果和 EventListener 一样。
 				* 如果事务正在运行，则根据其 TransactionPhase 处理该事件。
 
 		* 这里需要特别注意的一个点就是：当监听器操作有数据改动并持久化时，并希望在业务的 AFTER_COMMIT 阶段执行，那么你需要将监听器事务声明为 PROPAGATION_REQUIRES_NEW。

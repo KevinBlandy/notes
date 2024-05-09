@@ -7,6 +7,8 @@ querydsl			|
 		https://querydsl.com/static/querydsl/latest/reference/html/index.html
 
 		https://fududu.gitbooks.io/querydsl-zh_cn/Introduction.html
+
+		https://www.cnblogs.com/aspiration2016/p/15854933.html
 	
 	# Ö§³Ö
 		JPA

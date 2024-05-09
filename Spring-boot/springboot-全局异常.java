@@ -21,6 +21,12 @@
 				logger.error("参数解析失败", e);  
 				return new Response().failure("could_not_read_json");  
 			}  
+
+			// NoResourceFoundException  新版本增加的异常类，可以处理静态资源不存在的异常
+			@ExceptionHandler(NoResourceFoundException.class)
+			public Response notFound(HttpServletRequest request, HttpServletResponse response,
+					NoResourceFoundException exception) {
+			}
 		  
 			/** 
 			 * 405 - Method Not Allowed 

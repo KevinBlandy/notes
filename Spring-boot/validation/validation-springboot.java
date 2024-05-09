@@ -63,6 +63,10 @@ SpringBoot
 			public Object validateFail(HttpServletRequest request, HttpServletResponse response, BindException e)
 					throws IOException {
 				
+
+				//  从 MethodArgumentNotValidException 异常获取到异常的字段名称和提示消息
+				Map<String, String> errors = exception.getFieldErrors().stream().map(err -> Map.entry(err.getField(), err.getDefaultMessage())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
 				// e.getBindingResult(); 可以获取到 BindingResult 对象
 				String errorMessage = e.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining("|"));
 				return this.errorHandler(request, response, Message.fail(Message.Code.BAD_REQUEST, errorMessage), e);
