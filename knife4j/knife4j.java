@@ -63,3 +63,11 @@ openapi3 & sb3
 		@Parameter(hidden = true) 、@Operation(hidden = true)@Hidden	排除或隐藏api
 		@Schema								DTO实体DTO实体属性
 		@Hidden								隐藏API接口
+	
+
+		* 枚举参数
+			@Schema(description = "性别", implementation = Gender.class)
+			private Gender gender;
+		
+		* 也可以手动指定
+			

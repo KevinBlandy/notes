@@ -167,6 +167,8 @@ type
 		func (n *NamedStmt) Select(dest interface{}, arg interface{}) error
 		func (n *NamedStmt) SelectContext(ctx context.Context, dest interface{}, arg interface{}) error
 		func (n *NamedStmt) Unsafe() *NamedStmt
+			* 某一列无法映射到目标结构体中的字段，StructScan 将返回一个错误。
+			* 如果希望忽略没有目标字段的列，可以使用 Unsafe 返回的 NamedStmt。
 	
 	# type Preparer interface {
 			Prepare(query string) (*sql.Stmt, error)

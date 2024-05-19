@@ -42,7 +42,7 @@
 			* 在容器后面添加元素，设置清除浮动属性
 
 		1. 父元素添加 overflow 属性
-			* 设置值为：hidden、auto、scroll
+			* 设置值为：hidden(推荐)、auto、scroll
 
 		2. 父元素添加 after 伪元素
 		3. 父元素添加 双伪 元素

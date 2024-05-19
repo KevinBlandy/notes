@@ -9,6 +9,9 @@ sqlx
 		https://github.com/jmoiron/sqlx
 	
 		"github.com/jmoiron/sqlx"
+	
+	# 参考博客
+		https://colobu.com/2024/05/10/sqlx-a-brief-introduction/
 
 	# 数据库的初始化
 		func Connect(driverName, dataSourceName string) (*DB, error)

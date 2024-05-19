@@ -25,6 +25,9 @@ ByteBuffer-API					|
 			* 读取length个元素到 dst, position 会向前移动,所以:'length,不能超出:remaining,会抛出异常'
 			* offset 数组开始写入的位置
 			* length 从当前position读取多少个字节数据
+		
+		ByteBuffer get(int index, byte[] dst, int offset, int length) 
+		ByteBuffer get(int index, byte[] dst)
 
 		byte get(int index);
 			* 绝对读,读取byteBuffer底层的bytes中下标为index的byte，不改变position			
@@ -51,6 +54,10 @@ ByteBuffer-API					|
 			* 把 src 中的数据写入到当前 buf,指针向前移动,所以:'src的remaining,不能超出当前buf:remaining,会抛出异常'
 			* 当前remaining就是:可以写入多少个数据
 			* src remaining就是:可以读取多少个数据
+		
+		ByteBuffer put(int index, ByteBuffer src, int offset, int length)
+		ByteBuffer put(int index, byte[] src, int offset, int length)
+		ByteBuffer put(int index, byte[] src) 
 
 		//========================位属性相关
 		int remaining();
@@ -74,7 +81,7 @@ ByteBuffer-API					|
 			* 获取指针的位置
 		Buffer	position(int newPosition);
 			* 重新设置指针的位置
-
+		
 		int	capacity();
 			* 返回开辟的内存大小
 
@@ -99,6 +106,12 @@ ByteBuffer-API					|
 		Buffer reset();
 			* 通过调用Buffer.mark()方法，可以标记Buffer中的一个特定position。
 			* 之后可以通过调用Buffer.reset()方法恢复到这个position。
+		
+		int mismatch(ByteBuffer that)
+
+		int alignmentOffset(int index, int unitSize)
+
+		ByteBuffer alignedSlice(int unitSize)
 
 
 		//========================其他
@@ -141,7 +154,8 @@ ByteBuffer-API					|
 			* 修改数据对双方都是可见的
 			* 如果主体是只读,那么副体也是只读
 			* 他们的属性值独立
-
+		
+		ByteBuffer slice(int index, int length);
 		ByteBuffer slice();
 			* 复制出来一个新的缓冲区,(可以修改属性和数据)
 			* 属性修改
