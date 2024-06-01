@@ -169,4 +169,3 @@ json				  |
 			JSON_UNQUOTE(JSON_EXTRACT(column, path))
 			JSON_UNQUOTE(column -> path)
 		
-	

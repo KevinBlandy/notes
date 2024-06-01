@@ -22,6 +22,24 @@
 				};
 			}
 		}
+		
+		// 或
+		@Configuration
+		public class TomcatConfiguration implements TomcatConnectorCustomizer {
+			
+		//	@Bean
+		//	public TomcatProtocolHandlerCustomizer<?> protocolHandlerVirtualThreadExecutorCustomizer() {
+		//		
+		//		return protocolHandler -> {
+		//			protocolHandler.setExecutor(Executors.newThreadPerTaskExecutor(Thread.ofVirtual().name("handler-", 1).factory()));
+		//		};
+		//	}
+
+			@Override
+			public void customize(Connector connector) {
+				connector.getProtocolHandler().setExecutor(Executors.newThreadPerTaskExecutor(Thread.ofVirtual().name("handler-", 1).factory()));
+			}
+		}
 
 
 	# Undertow

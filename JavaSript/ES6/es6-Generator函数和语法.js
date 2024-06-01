@@ -113,7 +113,7 @@ next 方法参数						|
 		function* foo(num){
 			for(let x = 0 ;x < num ; x++){
 				let param = yield x;
-				console.log(`本次迭代参数${param}`);
+				console.log(`本次迭代参数 ${param}`);
 			}
 		}
 		

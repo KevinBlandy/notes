@@ -41,7 +41,7 @@ os
 			O_WRONLY int = syscall.O_WRONLY // 只写
 			O_RDWR   int = syscall.O_RDWR   //读写
 			// The remaining values may be or'ed in to control behavior.
-			O_APPEND int = syscall.O_APPEND //往文件中添加
+			O_APPEND int = syscall.O_APPEND // 写入数据时，添加到文件末尾
 			O_CREATE int = syscall.O_CREAT  // 如果文件不存在则先创建
 			O_EXCL   int = syscall.O_EXCL   // 和O_CREATE一起使用，文件必须不能存在
 			O_SYNC   int = syscall.O_SYNC   // 以同步I/O的方式打开
@@ -116,6 +116,9 @@ type
 			* 如果n <= 0，Readdir返回目录中的所有FileInfo
 
 		func (f *File) Seek(offset int64, whence int) (ret int64, err error)
+			* 指针移动，从 whence 位置开始移动 offset 个字节。
+			* 返回移动后的指针位置
+
 		func (f *File) SetDeadline(t time.Time) error
 		func (f *File) SetReadDeadline(t time.Time) error
 		func (f *File) SetWriteDeadline(t time.Time) error

@@ -50,6 +50,8 @@ task					|
 			* 允许的最大线程数。如果任务占满了队列，池可以扩展到该大小以适应负载。如果队列是无约束的，则忽略。
 		spring.task.execution.pool.queue-capacity		
 			* 队列容量。无限制的容量不会增加队列池，因此忽略了 "最大容量 "属性。
+		spring.task.execution.pool.shutdown.accept-tasks-after-context-close
+			* 控制在 Context Shutdown 被启动后，ThreadPoolTaskExecutor 是否接受任务。
 		spring.task.execution.shutdown.await-termination	false	
 			* 执行者是否应该在关机时等待预定任务完成。
 		spring.task.execution.shutdown.await-termination-period		
@@ -64,6 +66,7 @@ task					|
 			* 执行者应等待剩余任务完成的最长时间。
 		spring.task.scheduling.thread-name-prefix	scheduling-	
 			* 用于新创建的线程名称的前缀。
+		
 
 # YAML 配置
 
