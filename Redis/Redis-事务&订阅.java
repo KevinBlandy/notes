@@ -25,13 +25,19 @@ Redis-发布订阅		|
 			(1)"message"		//固定的死格式,就是代表这是一条频道推送信息
 			(2)频道名称
 			(3)消息内存
+
+	UNSUBSCRIBE [channel channel ...]
+		# 退订频道，不写 channel 参数的话，就是退订所有频道
+
 	redis-cli.exe -h localhost -p6379 subscribe channle
 		# windows下启动redsi客户端的时候,就订阅一个指定服务器频道
 		# 不写  -h 和 -p 参数.那么默认的就是连接本机
 	./redis-cli -h localhost -p6379 subscribe channle
 		# linux下启动redis客户端的时候,就订阅一个指定服务器频道
 		# 同上
-		
+	
+	* 除了订阅频道之外，客户端还可以通过订阅模式（pattern）来接收消息：每当发布者向某个频道发送消息的时候，不仅频道的订阅者会收到消息，与频道匹配的所有模式的订阅者也会收到消息。
+
 
 
 -------------------
