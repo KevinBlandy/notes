@@ -393,8 +393,10 @@ type
 			* Clone一个Request请求
 
 		func (r *Request) Context() context.Context
-			* 返回当前Request上的Context
-			* 如果没有，则返回 context.Background()
+			* 返回当前Request上的Context，如果没有，则返回 context.Background()
+			* 对于传出的客户端请求，Context 控制取消操作。
+			* 对于传入的服务器请求，当客户端连接关闭、请求被取消（使用 HTTP/2），或 ServeHTTP 方法返回时，上下文将被取消。
+
 
 		func (r *Request) Cookie(name string) (*Cookie, error)
 		func (r *Request) Cookies() []*Cookie
@@ -437,7 +439,23 @@ type
 			* clone 并且返回新的 Request
 
 		func (r *Request) Write(w io.Writer) error
+			* 写入 Write，写入一个 HTTP/1.1 请求，包括 Header 和 Body。此方法会参考请求的以下字段：
+				Host
+				URL
+				Method （默认为 "GET"）
+				Header
+				ContentLength
+				TransferEncoding
+				Body
+			* 如果存在 Body 且 Content-Length 小于等于 0 并且 Request.TransferEncoding 没有被设置为 "identity"，Write 会在头部添加 "Transfer-Encoding: chunked"。
+			* Body 在发送后会被关闭。
+
+
 		func (r *Request) WriteProxy(w io.Writer) error
+			* 类似于 Request.Write，但它以 HTTP 代理预期的形式写入请求。
+			* 特别地，Request.WriteProxy 会根据 RFC 7230 第 5.3 节的规定，在请求的初始 Request-URI 行写入一个绝对 URI，包括 Sheme 和 Host。
+			* 在任何情况下，WriteProxy 还会写入一个 Host Header，使用 r.Host 或 r.URL.Host。
+
 	
 	# type Response struct {
 			Status     string // e.g. "200 OK"
