@@ -6,6 +6,8 @@ vite
 	
 	# '@' alias 相对路径映射
 
+		// vite.config.js
+
 		import { defineConfig } from 'vite'
 		import vue from '@vitejs/plugin-vue'
 		import path from 'path'
