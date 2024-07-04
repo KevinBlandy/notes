@@ -9,6 +9,31 @@
 				|-image2
 			|-repoisoty2
 	
+	# 快速设置
+
+		sudo mkdir -p /etc/docker
+
+		sudo tee /etc/docker/daemon.json <<-'EOF'
+		{
+		  "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn", "https://ustc-edu-cn.mirror.aliyuncs.com","https://7uuu3esz.mirror.aliyuncs.com","https://780urbjd.mirror.aliyuncs.com"]
+		}
+		EOF
+
+
+		sudo systemctl daemon-reload
+		sudo systemctl restart docker
+	
+		
+		* 可用的节点 2
+
+			sudo tee /etc/docker/daemon.json <<EOF
+			{
+				"registry-mirrors": ["https://dockerhub.icu"]
+			}
+			EOF
+
+			sudo systemctl daemon-reload
+			sudo systemctl restart docker
 
 
 ------------------------
@@ -41,3 +66,5 @@
 	docker push xx.com:8080/kevinblandy/app:1
 	docker pull xx.com:8080/kevinblandy/app:1
 	docker run xx.com:8080/kevinblandy/app:1
+
+
