@@ -220,6 +220,39 @@ export 与 import 的复合写法
 		export default function(x) {
 		  return Math.exp(x);
 		}
+	
+	
+	# 如果当前模块导出了和 '父' 模块相同的变量，则会覆盖父级的导出。
+		// md1
+		export const v1 = 1;
+		export const v2 = 2;
+		export const v3 = 3;
+		export default  "Hi";
+
+		// md2
+		export * from '/js/md1.js';
+		export const v1 = -1;  // 覆盖了 md1 中的 v1 变量
+
+		// index.js
+		import  {v1, v2, v3} from '/js/md2.js';
+		console.log(v1, v2, v3) // -1 2 3
+	
+	# export * from 不会继承父模块的 default 导出
+		
+		// index.js
+		import  defVal, {v1, v2, v3} from '/js/md2.js';
+		console.log(defVal)  // SyntaxError: The requested module '/js/md2.js' does not provide an export named 'default' (at index.js:1:9)
+		
+		* 可以在子模块中先导入，再导出
+			// md2
+			export * from '/js/md1.js';
+			
+			import defaultVal from '/js/md1.js'; //导入父模块的默认导出
+			export default defaultVal;	// 再次默认导出
+		
+			// index.js
+			import  defVal, {v1, v2, v3} from '/js/md2.js';
+			console.log(defVal)  // Hi
 
 ------------------------------
 import()

@@ -82,11 +82,33 @@
 		// b
 		
 		* 如果 next 方法返回的 Promise 对象被 reject，for await...of 就会报错，要用 try...catch 捕捉。
-		* for await...of循环也可以用于同步遍历器。
+		* for await...of 循环也可以用于同步遍历器。
 
 
 
 	# yield* 语句 
-		* yield*语句也可以跟一个异步遍历器。
+		* yield* 语句也可以跟一个异步遍历器。
 		* 与同步 Generator 函数一样，for await...of 循环会展开 yield*。
 	
+
+	# Demo
+
+		async function* g(){
+			yield new Promise((resolve, reject) => {
+				setTimeout(() => resolve('第一个结果'), 700);
+			});
+			yield new Promise((resolve, reject) => {
+				setTimeout(() => resolve('第二个结果'), 300);
+			});
+			yield new Promise((resolve, reject) => {
+				setTimeout(() => resolve('第三个结果'), 600);
+			});
+		}
+
+		for await (const val of g()){
+			console.log(val);
+		}
+
+		// 第一个结果
+		// 第二个结果
+		// 第三个结果
