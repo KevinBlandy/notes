@@ -1,7 +1,13 @@
 ----------------------
 Element
 ----------------------
+	# Element extends Node/EventTarget
+
+		https://developer.mozilla.org/zh-CN/docs/Web/API/Element
+	
 	# 表示 XML 或 HTML 元素，对外暴露出访问元素标签名、子节点和属性的能力。
+
+
 
 		* 是最通用的基类，Document 中的所有元素对象（即表示元素的对象）都继承自它。它只具有各种元素共有的方法和属性。更具体的类则继承自 Element。
 
@@ -41,6 +47,15 @@ this
 		
 		value
 			* 属性的值的字符串。任何指定的非字符串值都会自动转换为字符串。
+	
+	requestFullscreen(options)
+		* 发出异步请求使元素进入全屏模式。
+
+			options
+				* 可选，FullscreenOptions 对象
+				* 提供切换到全屏模式的控制选项。目前，唯一的选项是 'navigationUI'，这控制了是否在元素处于全屏模式时显示导航条 UI。
+				* 默认值是 'auto'，表明这将由浏览器来决定是否显示导航条。
+
 	
 
 ----------------------

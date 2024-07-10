@@ -1,9 +1,9 @@
 ---------------------------
 Document
 ---------------------------
-	# extends
-		Node
-		EventTarget
+	# Document extends Node/EventTarget
+
+		https://developer.mozilla.org/zh-CN/docs/Web/API/Document
 
 	# 文档对象，也就是 DOM 树。
 
@@ -13,6 +13,13 @@ this
 ---------------------------
 	documentElement
 		* 返回 document 的根元素（例如，HTML 文档的 <html> 元素）。
+	
+	fullscreenElement
+		* 返回当前页面中以全屏模式呈现的 Element，如果当前页面未使用全屏模式，则返回 null。
+	
+	fullscreenEnabled 
+		* 只读属性，表明全屏模式是否可用。
+		* 如果调用 Element.requestFullscreen() 能进入全屏模式，则为 true。如果全屏模式不可用，则该值为 false。
 	
 	body 
 		* 返回当前文档的 <body> 或 <frameset> 节点，如果不存在此类元素，则为 null。
@@ -124,7 +131,22 @@ this
 	
 	createRange();
 		* 返回一个新的 Range 对象。
+	
+	
+	exitFullscreen();
+		* 让当前文档退出全屏模式。
+		* 调用这个方法会让文档回退到上一个调用 Element.requestFullscreen() 方法进入全屏模式之前的状态。
+		*  如果一个元素 A 在请求进去全屏模式之前，已经存在其他元素处于全屏状态，当这个元素 A 退出全屏模式之后，之前的元素仍然处于全屏状态。浏览器内部维护了一个全屏元素栈用于实现这个目的。
 
+			// 点击切换全屏模式
+			document.onclick = function (event) {
+			  if (document.fullscreenElement) {
+				document.exitFullscreen();
+			  } else {
+				document.documentElement.requestFullscreen();
+			  }
+			};
+	
 ---------------------------
 static
 ---------------------------
