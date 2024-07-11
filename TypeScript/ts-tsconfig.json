@@ -1,0 +1,18 @@
+-------------------
+tsconfig.json
+-------------------
+	# TS 的配置
+		* 只要当前目录有这个文件，tsc就会自动读取。
+		* 可以把一些编译时的参数写到这个里面，编译时直接调用 tsc 命令就可以了。
+
+		{
+		  "files": [],
+		  "references": [
+			{
+			  "path": "./tsconfig.app.json"
+			},
+			{
+			  "path": "./tsconfig.node.json"
+			}
+		  ]
+		}

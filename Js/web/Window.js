@@ -54,6 +54,13 @@ this
 		event
 			* 被调度的 Event。其 Event.target 属性为当前的 EventTarget。
 		
+	matchMedia(mediaQueryString)
+		* https://developer.mozilla.org/zh-CN/docs/Web/API/Window/matchMedia
+		* 返回一个新的 MediaQueryList 对象，表示指定的媒体查询字符串解析后的结果。
+		
+		mediaQueryString
+			* 用于媒体查询解析的字符串。
+		
 
 --------------------
 static 
