@@ -68,3 +68,24 @@ UFW
 	# 查看帮助
 		ufw help
 
+----------------------
+UFW - 坑
+----------------------
+	# UFW(iptables)规则的匹配基于规则出现的顺序，
+		* 一旦匹配某个规则，检查便会停止。
+		* 因此，如果某个规则允许访问TCP端口22(如使用 udo ufw allow 22)，
+		* 后面另一个规则指示拦截某个IP地址(如使用  ufw deny proto tcp from 202.54.1.1 to any port 22)。
+
+		* 这都是由于规则的顺序造成的
+	
+	# 为避免这类问题，需要编辑 /etc/ufw/before.rule s文件，在 "# End required lines" 之后 "Block an IP Address" 添加规则。
+		
+		vim /etc/ufw/before.rules
+
+		查找
+		# End required lines
+
+		# Block spammers
+		-A ufw-before-input -s A.B.C.D -j DROP
+
+		ufw reload

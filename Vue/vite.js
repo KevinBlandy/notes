@@ -1,6 +1,9 @@
 ------------------------
 vite
 ------------------------
+	# 可以先安装 pnpm
+		npm install -g pnpm
+
 	# 创建 Vue
 		pnpm create vite
 	
