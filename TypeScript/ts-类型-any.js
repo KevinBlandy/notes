@@ -87,6 +87,14 @@ any
 				console.log(arr.length);        // 3
 			}
 
+			// 使用 as 指定其类型
+			let val:unknown;
+
+			val = () => console.log('Hi');
+
+			(val as Function)();
+
+
 	# never 类型
 		* “空类型” 的概念，即该类型为空，不包含任何值。
 		* 不能赋给它任何值，否则都会报错。

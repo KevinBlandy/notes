@@ -219,20 +219,26 @@
 
 	# 类与接口的合并
 		* TS 不允许两个同名的类，但是允许和类同名的接口，接口会被合并进类中。
-			interface A {
-				y: number;
+			interface Foo {
+				name: string        // 接口的属性
+				age: number
 			}
 
-			class A {
-				x: number = 1;
+			class Foo {
+				address: string[];      // 类的属性
+				constructor(address: string[]){
+					this.address = address  // 初始化类的属性
+					this.name = "KK"        // 初始化接口的属性
+				}
 			}
 
-			let a = new A();
-			a.y					// 没赋值前，读取接口属性： undefined
-			a.y = 10;           // 设置接口属性
+			// 初始化类的属性
+			const foo:Foo = new Foo(['CN', 'CQ']);
 
-			a.x // 1
-			a.y // 10			// 再次读取接口属性：10
+			// 初始化接口的属性
+			foo.age = 25;
+
+			console.log(JSON.stringify(foo));  // {"address":["CN","CQ"],"name":"KK","age":25}
 	
 	# Class 类型 
 		* TS 的类本身就是一种类型，但是它代表该类的实例类型，而不是 class 的自身类型。
@@ -274,7 +280,7 @@
 
 			// 错误
 			function createPoint (
-				PointClass: Point,			// 这是一个 Point 类型的实例对象
+				PointClass: Point,			// 这是一个 Point 类型的实例对象，而不是 Point 类本身（构造函数）
 				x: number,
 				y: number
 			) {

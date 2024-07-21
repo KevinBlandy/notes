@@ -151,7 +151,9 @@ import 指令
 			// 通过 mod 引用模块导出的变量
 			mod.foo(); // foo
 		
-		* import * 会忽略 export default
+		* import * 可以通过 default 关键字访问默认导出
+			import * as f from './foo'
+			console.log(f.default);
 		
 		* 模块的对象，也是不允许修改的
 			import * as mod from "./module.js";

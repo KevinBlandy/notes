@@ -6,6 +6,7 @@ TS
 	
 	# 在线学习
 		* https://www.typescriptlang.org/zh/
+		* https://www.patrickzhong.com/TypeScript/
 		* https://wangdoc.com/typescript
 		
 	# 在线运行环境

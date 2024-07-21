@@ -136,4 +136,43 @@ TS 模块
 
 
 
+----------------------
+TS 模块
+----------------------
+	# 导出 - demo.ts
+
+		// 直接导出类型
+		export type Bar = string;
+
+		// 声明类型
+		type Foo = string
+		type Zoo = number | boolean;
+
+		// 导出默认类型
+		export default Zoo;
+
+		// 导出具名类型
+		export { 
+			type Foo as RFoo, 
+			type Zoo as RZoo
+		};
+
+		// 也可以
+		export type {
+			Foo,
+			Zoo,
+		}
+	
+	# 导入
+		import type { Bar, RFoo, RZoo, Foo, Zoo } from './demo' 
+
+		import type DeaultType from './demo'
+
+		let a: RFoo;
+		let b: RZoo;
+		let c: DeaultType;
+		let d: Foo;
+		let e: Zoo;
+		let f: Bar;
+
 

@@ -219,6 +219,11 @@
 			let val = obj?.bar?.foo ?? 'defaultVal';
 			console.log(val);  // defaultVal
 		
+		* 和 || 的不同
+			* 使用 ?? 时，只有当左边的值为 null 或 undefined 时才返回右边的值。
+			* 使用 || 时，左边的值会转换为布尔值判断，为 true 返回左边的值，false 返回右边的值。
+
+		
 		* 与 && 和 || 的优先级问题，如果多个逻辑运算符一起使用，必须用括号表明优先级，否则会报错。
 			(lhs && middle) ?? rhs;
 			lhs && (middle ?? rhs);

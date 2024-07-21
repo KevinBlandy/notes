@@ -215,6 +215,7 @@ declare
 
 		* 使用时，自己的脚本使用三斜杠命令，加载这个类型声明文件。
 			/// <reference path="node.d.ts"/>					// 导入 node.d.ts 中各个模块定义的类型
-			import type { UserResponse } from "userApi"			// 从 url 模块（定义在 node.d.ts 中）中导入 UserResponse 类型
+			import type { UserResponse } from "url"			// 从 url 模块（定义在 node.d.ts 中）中导入 UserResponse 类型
 
 			// 如果没有上面这一行命令，自己的脚本使用外部模块时，就需要在脚本里面使用 declare 命令单独给出外部模块的类型。
+	

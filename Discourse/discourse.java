@@ -135,7 +135,7 @@ DISCOURSE_SMTP_ENABLE_START_TLS: true
 	# 删除Swap
 		
 		* 停止swap分区
-			/sbin/swapoff /swapfile
+			swapoff /swapfile
 		
 		* 删除swap分区文件
 			rm -rf /swapfile
@@ -314,3 +314,33 @@ zoho 邮箱的配置
 	# 重新构建
 		
 		
+
+------------------------------------------
+国内的代理源
+------------------------------------------
+	# 删除默认的官方源
+	gem sources --remove https://rubygems.org/  
+
+
+	# 添加源（任意）
+		gem sources -a https://ruby.taobao.org/
+		gem sources -a https://gems.ruby-china.com/
+
+	# 查看当前源
+		gem sources -l                                # https://ruby.taobao.org
+	
+	
+	# 在 app.yaml 配置文件末尾添加配置
+		
+		hooks:
+		  after_code:
+			# 通过这个命令，设置 yarn 的镜像地址
+			- exec:
+				cd: /var/www/discourse
+				cmd:
+				  - "yarn config set registry https://registry.npm.taobao.org/"
+			# 设置 yarn 的超时时间
+			- exec:
+				cd: $home
+				cmd:
+				  - "su discourse -c 'yarn config set network-timeout 6000000 -g'"

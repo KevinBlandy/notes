@@ -26,6 +26,7 @@ Object
 	Object.prototype.__defineSetter__()已弃用
 	Object.prototype.__lookupGetter__()已弃用
 	Object.prototype.__lookupSetter__()已弃用
+
 	Object.prototype.hasOwnProperty(prop)
 		* 返回一个布尔值，表示对象自有属性（而不是继承来的属性）中是否具有指定的属性 prop。
 

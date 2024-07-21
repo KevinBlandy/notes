@@ -29,7 +29,7 @@ Object
 		toLocaleString()
 			* 返回对象的字符串表示，该字符串反映对象所在的本地化执行环境。
 		
-		 toString()
+		toString()
 			* 返回对象的字符串表示。❑
 			
 		valueOf()
