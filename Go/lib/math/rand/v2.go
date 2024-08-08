@@ -82,6 +82,7 @@ func
 		* 随机 0 - n，不包含 n
 
 	func N[Int intType](n Int) Int
+		* 返回半开放区间 [0,n) 内的伪随机数
 		* 适用于任何整数类型。例如，从 0 到 5 分钟的随机持续时间为： rand.N(5 * time.Minute)。
 
 	func NormFloat64() float64

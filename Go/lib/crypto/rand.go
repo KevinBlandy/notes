@@ -26,3 +26,28 @@ func
 	func Read(b []byte) (n int, err error)
 		* 本质上是
 			return io.ReadFull(Reader, b)
+
+---------------------
+demo
+---------------------
+	# 生成安全的随机密钥
+
+		package main
+
+		import (
+			"crypto/rand"
+			"encoding/base64"
+			"fmt"
+		)
+
+		func main() {
+			// 32 个字节的密钥
+			key := make([]byte, 32)
+			for range 5 {
+				// 生成
+				if _, err := rand.Read(key); err != nil {
+					panic(err)
+				}
+				fmt.Println(base64.StdEncoding.EncodeToString(key), len(key))
+			}
+		}

@@ -33,6 +33,8 @@ this
 			
 			param
 				* 运行方法时传递给方法的参数。
+		
+		* 返回值 timeoutID 是一个正整数，表示由 setTimeout() 调用创建的定时器的编号。这个值可以传递给 clearTimeout() 来取消该定时器。
 
 	setInterval(func, [delay, arg1, arg2, ...]);
 		* 每经过指定 delay 毫秒后执行一次 func，第一次调用发生在 delay 毫秒之后。
