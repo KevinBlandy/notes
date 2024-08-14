@@ -60,6 +60,30 @@ os
 			PathSeparator     = '/' // OS-specific path separator
 			PathListSeparator = ':' // OS-specific path list separator
 		)
+
+	* 文件模式位（mod bits）
+		const (
+			// The single letters are the abbreviations
+			// used by the String method's formatting.
+			ModeDir        = fs.ModeDir        // d: is a directory
+			ModeAppend     = fs.ModeAppend     // a: append-only
+			ModeExclusive  = fs.ModeExclusive  // l: exclusive use
+			ModeTemporary  = fs.ModeTemporary  // T: temporary file; Plan 9 only
+			ModeSymlink    = fs.ModeSymlink    // L: symbolic link
+			ModeDevice     = fs.ModeDevice     // D: device file
+			ModeNamedPipe  = fs.ModeNamedPipe  // p: named pipe (FIFO)
+			ModeSocket     = fs.ModeSocket     // S: Unix domain socket
+			ModeSetuid     = fs.ModeSetuid     // u: setuid
+			ModeSetgid     = fs.ModeSetgid     // g: setgid
+			ModeCharDevice = fs.ModeCharDevice // c: Unix character device, when ModeDevice is set
+			ModeSticky     = fs.ModeSticky     // t: sticky
+			ModeIrregular  = fs.ModeIrregular  // ?: non-regular file; nothing else is known about this file
+
+			// Mask for the type bits. For regular files, none will be set.
+			ModeType = fs.ModeType
+
+			ModePerm = fs.ModePerm // Unix permission bits, 0o777
+		)
 	
 	* 黑洞
 		const DevNull = "/dev/null"
@@ -280,6 +304,11 @@ type
 		* 改变时间信息
 
 	func Clearenv()
+	func CopyFS(dir string, fsys fs.FS) error
+		* 把文件系统 fsys 复制到目录 dir，必要时创建 dir。
+	func DirFS(dir string) fs.FS
+		* 返回以目录 dir 为根的文件树的文件系统（fs.FS）。
+	
 	func Environ() []string
 		* 获取环境变量，每一个字符元素都是: name=value 这种格式
 

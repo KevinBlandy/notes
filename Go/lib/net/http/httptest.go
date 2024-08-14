@@ -48,6 +48,7 @@ type
 ----------------
 func
 ----------------
+	func NewRequestWithContext(ctx context.Context, method, target string, body io.Reader) *http.Request
 	func NewRequest(method, target string, body io.Reader) *http.Request
 		* 快速生成一个Reuqet对象
 		* Response状态是400，method 不写默认是 GET

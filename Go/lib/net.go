@@ -97,6 +97,7 @@ type
 			DualStack bool
 			FallbackDelay time.Duration
 			KeepAlive time.Duration
+			KeepAliveConfig KeepAliveConfig
 			Resolver *Resolver
 			Cancel <-chan struct{}
 			Control func(network, address string, c syscall.RawConn) error
@@ -227,9 +228,19 @@ type
 		func (e InvalidAddrError) Temporary() bool
 		func (e InvalidAddrError) Timeout() bool
 	
+	# type KeepAliveConfig struct {
+			Enable bool
+			Idle time.Duration
+			Interval time.Duration
+			Count int
+		}
+
+		* 包含 TCP 保持连接选项。
+	
 	# type ListenConfig struct {
 			Control func(network, address string, c syscall.RawConn) error
 			KeepAlive time.Duration
+			KeepAliveConfig KeepAliveConfig
 		}
 		func (lc *ListenConfig) Listen(ctx context.Context, network, address string) (Listener, error)
 		func (lc *ListenConfig) ListenPacket(ctx context.Context, network, address string) (PacketConn, error)
@@ -346,6 +357,7 @@ type
 			* 设置发送接受数据超时
 
 		func (c *TCPConn) SetKeepAlive(keepalive bool) error
+		func (c *TCPConn) SetKeepAliveConfig(config KeepAliveConfig) error
 		func (c *TCPConn) SetKeepAlivePeriod(d time.Duration) error
 		func (c *TCPConn) SetLinger(sec int) error
 		func (c *TCPConn) SetNoDelay(noDelay bool) error

@@ -51,6 +51,8 @@ type
 			* 存储KEY
 		
 		func (m *Map) Swap(key, value any) (previous any, loaded bool)
+		func (m *Map) Clear()
+			* 删除所有条目，使 Map 为空。
 	
 	# type Mutex struct {}
 		func (m *Mutex) Lock()

@@ -17,16 +17,20 @@ type
 	# type Int32 struct {
 		}
 		func (x *Int32) Add(delta int32) (new int32)
+		func (x *Int32) And(mask int32) (old int32)
 		func (x *Int32) CompareAndSwap(old, new int32) (swapped bool)
 		func (x *Int32) Load() int32
+		func (x *Int32) Or(mask int32) (old int32)
 		func (x *Int32) Store(val int32)
 		func (x *Int32) Swap(new int32) (old int32)
-	
+			
 	# type Int64 struct {
 		}
 		func (x *Int64) Add(delta int64) (new int64)
+		func (x *Int64) And(mask int64) (old int64)
 		func (x *Int64) CompareAndSwap(old, new int64) (swapped bool)
 		func (x *Int64) Load() int64
+		func (x *Int64) Or(mask int64) (old int64)
 		func (x *Int64) Store(val int64)
 		func (x *Int64) Swap(new int64) (old int64)
 
@@ -35,22 +39,31 @@ type
 		func (x *Pointer[T]) Load() *T
 		func (x *Pointer[T]) Store(val *T)
 		func (x *Pointer[T]) Swap(new *T) (old *T)
+
 	# type Uint32
 		func (x *Uint32) Add(delta uint32) (new uint32)
+		func (x *Uint32) And(mask uint32) (old uint32)
 		func (x *Uint32) CompareAndSwap(old, new uint32) (swapped bool)
 		func (x *Uint32) Load() uint32
+		func (x *Uint32) Or(mask uint32) (old uint32)
 		func (x *Uint32) Store(val uint32)
 		func (x *Uint32) Swap(new uint32) (old uint32)
+
 	# type Uint64
 		func (x *Uint64) Add(delta uint64) (new uint64)
+		func (x *Uint64) And(mask uint64) (old uint64)
 		func (x *Uint64) CompareAndSwap(old, new uint64) (swapped bool)
 		func (x *Uint64) Load() uint64
+		func (x *Uint64) Or(mask uint64) (old uint64)
 		func (x *Uint64) Store(val uint64)
 		func (x *Uint64) Swap(new uint64) (old uint64)
+
 	# type Uintptr
 		func (x *Uintptr) Add(delta uintptr) (new uintptr)
+		func (x *Uintptr) And(mask uintptr) (old uintptr)
 		func (x *Uintptr) CompareAndSwap(old, new uintptr) (swapped bool)
 		func (x *Uintptr) Load() uintptr
+		func (x *Uintptr) Or(mask uintptr) (old uintptr)
 		func (x *Uintptr) Store(val uintptr)
 		func (x *Uintptr) Swap(new uintptr) (old uintptr)
 
@@ -71,6 +84,11 @@ type
 	func AddUint32(addr *uint32, delta uint32) (new uint32)
 	func AddUint64(addr *uint64, delta uint64) (new uint64)
 	func AddUintptr(addr *uintptr, delta uintptr) (new uintptr)
+	func AndInt32(addr *int32, mask int32) (old int32)
+	func AndInt64(addr *int64, mask int64) (old int64)
+	func AndUint32(addr *uint32, mask uint32) (old uint32)
+	func AndUint64(addr *uint64, mask uint64) (old uint64)
+	func AndUintptr(addr *uintptr, mask uintptr) (old uintptr)
 	func CompareAndSwapInt32(addr *int32, old, new int32) (swapped bool)
 	func CompareAndSwapInt64(addr *int64, old, new int64) (swapped bool)
 	func CompareAndSwapPointer(addr *unsafe.Pointer, old, new unsafe.Pointer) (swapped bool)
@@ -83,6 +101,11 @@ type
 	func LoadUint32(addr *uint32) (val uint32)
 	func LoadUint64(addr *uint64) (val uint64)
 	func LoadUintptr(addr *uintptr) (val uintptr)
+	func OrInt32(addr *int32, mask int32) (old int32)
+	func OrInt64(addr *int64, mask int64) (old int64)
+	func OrUint32(addr *uint32, mask uint32) (old uint32)
+	func OrUint64(addr *uint64, mask uint64) (old uint64)
+	func OrUintptr(addr *uintptr, mask uintptr) (old uintptr)
 	func StoreInt32(addr *int32, val int32)
 	func StoreInt64(addr *int64, val int64)
 	func StorePointer(addr *unsafe.Pointer, val unsafe.Pointer)

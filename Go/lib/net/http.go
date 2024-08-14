@@ -218,6 +218,9 @@ type
 	# type Cookie struct {
 			Name  string
 			Value string
+			Quoted bool
+				* Cookie 保留了 cookie 值周围的双引号。
+				* Cookie.Quoted 字段表示 Cookie.Value 是否最初是带引号的。
 			Path       string    // optional
 			Domain     string    // optional
 			Expires    time.Time // optional
@@ -226,9 +229,18 @@ type
 			Secure   bool
 			HttpOnly bool
 			SameSite SameSite
+			Partitioned bool
+				* 是否带有 Partitioned 属性
 			Raw      string
 			Unparsed []string // Raw text of unparsed attribute-value pairs
 		}
+
+		func ParseCookie(line string) ([]*Cookie, error)
+			* 解析 Cookie header 值，并返回其中设置的所有 cookie。由于相同的 cookie 名称可以出现多次，因此返回的值可以包含给定键的多个值。
+
+		func ParseSetCookie(line string) (*Cookie, error)
+			* 解析 Set-Cookie header 值并返回 cookie。如果语法错误，则返回错误信息。
+
 		func (c *Cookie) String() string
 		func (c *Cookie) Valid() error
 	
@@ -383,6 +395,9 @@ type
 			TLS *tls.ConnectionState
 			Cancel <-chan struct{}
 			Response *Response
+			Pattern string
+				* 对于入站请求Pattern 字段包含与请求匹配的 ServeMux 模式（如果有）。
+
 		}
 		func NewRequest(method, url string, body io.Reader) (*Request, error)
 		func NewRequestWithContext(ctx context.Context, method, url string, body io.Reader) (*Request, error)
@@ -400,6 +415,7 @@ type
 
 		func (r *Request) Cookie(name string) (*Cookie, error)
 		func (r *Request) Cookies() []*Cookie
+		func (r *Request) CookiesNamed(name string) []*Cookie
 		func (r *Request) FormFile(key string) (multipart.File, *multipart.FileHeader, error)
 			* 返回 formdata 请求中的文件参数
 

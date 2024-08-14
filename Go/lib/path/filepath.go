@@ -68,6 +68,11 @@ type
 	func Join(elem ...string) string
 		* 拼接路径，如果路径中已经包含了一些多余的分隔符，会被去除
 		* 忽略空元素，清理多余字符。
+	
+	func Localize(path string) (string, error)
+		* 将以斜线分隔的路径转换为操作系统路径。输入路径必须是由 io/fs.ValidPath 报告的有效路径。
+		* 如果操作系统无法表示路径，Localize 将返回错误信息。例如，路径 a\b 在 Windows 下会被拒绝，因为在 Windows 下 \ 是一个分隔符，不能作为文件名的一部分。
+		* Localize 返回的路径总是本地路径，正如 IsLocal 所报告的那样。
 
 	func Match(pattern, name string) (matched bool, err error)
 		* name 是否和指定的模式 pattern 完全匹配
