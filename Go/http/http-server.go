@@ -147,13 +147,14 @@ server
 
 		
 	
-	# Demo
+	# 快速启动一个 HTTP 服务器
+
 		package main
 
 		import (
 			"context"
-			"io"
-			"log"
+			"errors"
+			"log/slog"
 			"net/http"
 			"os"
 			"os/signal"
@@ -161,26 +162,26 @@ server
 		)
 
 		func init() {
-			log.Default().SetOutput(os.Stdout)
-			log.Default().SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+				AddSource: true,
+				Level:     slog.LevelDebug,
+				ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
+					if a.Value.Kind() == slog.KindTime {
+						return slog.String(a.Key, a.Value.Time().Format(time.DateTime))
+					}
+					return a
+				},
+			})))
 		}
 
 		func main() {
+
 			router := http.NewServeMux()
 
 			server := http.Server{
-				Addr:    ":80",
+				Addr:    ":8080",
 				Handler: router,
 			}
-
-			router.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-				defer func() {
-					_ = request.Body.Close()
-				}()
-				writer.Header().Set("Content-Type", "text/plain; charset=utf-8")
-				writer.WriteHeader(http.StatusOK)
-				_, _ = io.WriteString(writer, "Hello World")
-			})
 
 			serverClosed := make(chan struct{})
 
@@ -193,18 +194,28 @@ server
 				func() {
 					ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 					defer cancel()
-					log.Println("Server Shutdown...")
+
+					slog.Info("Server Shutdown...")
+
 					if err := server.Shutdown(ctx); err != nil {
-						log.Printf("Server Shutdown Error:%s\n", err)
+						slog.Error("Server Shutdown Error", slog.String("err", err.Error()))
 					}
 				}()
+
+				// 暂停 1s
+				time.Sleep(time.Second)
+
 				close(serverClosed)
 			}()
 
-			log.Println("Server Start...")
-			if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-				log.Fatalf("Server Start Error: %s\n", err)
+			slog.Info("Server Start...")
+
+			if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+				slog.Error("Server Start Error", slog.String("err", err.Error()))
+				return
 			}
+
 			<-serverClosed
-			log.Println("Bye")
+
+			slog.Info("Bye")
 		}
