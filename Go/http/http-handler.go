@@ -54,3 +54,42 @@ Basic 认证
 			handler.ServeHTTP(w, r)
 		})
 	}
+
+---------------------------------
+请求体响应体缓存
+---------------------------------
+	type cachedResponseWriterWriter struct {
+		http.ResponseWriter
+		buf *bytes.Buffer
+	}
+
+	func (c *cachedResponseWriterWriter) Write(content []byte) (int, error) {
+		_, _ = c.buf.Write(content)
+		return c.ResponseWriter.Write(content)
+	}
+	func (c *cachedResponseWriterWriter) Content() []byte {
+		return c.buf.Bytes()
+	}
+
+	func payload(handler http.Handler) http.Handler {
+
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			payload, err := io.ReadAll(r.Body)
+			if err != nil {
+				// TODO 异常处理
+				slog.Error("Request Body Read Error", slog.String("err", err.Error()))
+				return
+			}
+
+			r.Body = io.NopCloser(bytes.NewBuffer(payload))
+			w = &cachedResponseWriterWriter{ResponseWriter: w, buf: bytes.NewBuffer(nil)}
+
+			handler.ServeHTTP(w, r)
+
+			slog.Info("Request Body", slog.String("content", string(payload)))
+			slog.Info("Response Body", slog.String("content", string(w.(*cachedResponseWriterWriter).Content())))
+		})
+	}
+
+
+
