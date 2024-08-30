@@ -2,19 +2,49 @@
 big
 ---------------------------
 	# 实现了任意精度算术(超大数)支持以下数字类型:
-		Float	默认值0
+		Float	默认值0，浮点数
 			
-		Int		默认值0
-		Rat		默认值0/1
+		Int		默认值0，整数
+		Rat		默认值0/1，有理数（分数）
+	
+	# 初始化值的几种方式
+		// 使用工厂方法进行初始化，需要指定 int / float 数据
+		number := big.NewInt(21321)
+		
+		// 手动创建对象后，使用字符串调用链式方法初始化
+		// 这种方式需要根据返回值判断是否Ok
+		number, ok := new(big.Int).SetString("1999321392131221423432432532", 10)
+	
+	# JSON 序列化和反序列化
+
+		* Int 默认序列化为 int
+		* Float 默认序列化为 string
+
+		type Foo struct {
+			Amount  *big.Int   `json:"amount"`
+			Balance *big.Float `json:"balance"`
+		}
+
+		func main() {
+			j, _ := json.MarshalIndent(&Foo{Amount: new(big.Int).SetInt64(8832423), Balance: new(big.Float).SetFloat64(8843.442333)}, "", "	")
+			fmt.Println(string(j))
+		}
+
+		{
+			"amount": 8832423,
+			"balance": "8843.442333"
+		}
+	
+	# JDBC
 
 
 ---------------------------
 变量
 ---------------------------
 	const (
-		MaxExp  = math.MaxInt32  // largest supported exponent
-		MinExp  = math.MinInt32  // smallest supported exponent
-		MaxPrec = math.MaxUint32 // largest (theoretically) supported precision; likely memory-limited
+		MaxExp  = math.MaxInt32  // 最大支持指数
+		MinExp  = math.MinInt32  // 最小支持指数
+		MaxPrec = math.MaxUint32 // 最大（理论上）支持精度；可能受内存限制
 	)
 
 	const MaxBase = 10 + ('z' - 'a' + 1) + ('Z' - 'A' + 1)
@@ -51,6 +81,11 @@ type
 		func (z *Float) Add(x, y *Float) *Float
 		func (x *Float) Append(buf []byte, fmt byte, prec int) []byte
 		func (x *Float) Cmp(y *Float) int
+			* 比较 x 和 y 的大小
+				x > y 返回 1
+				x < y 返回 -1
+				x = y 返回 0
+
 		func (z *Float) Copy(x *Float) *Float
 		func (x *Float) Float32() (float32, Accuracy)
 		func (x *Float) Float64() (float64, Accuracy)
@@ -70,6 +105,8 @@ type
 		func (z *Float) Parse(s string, base int) (f *Float, b int, err error)
 		func (x *Float) Prec() uint
 		func (z *Float) Quo(x, y *Float) *Float
+			* 除法
+
 		func (x *Float) Rat(z *Rat) (*Rat, Accuracy)
 		func (z *Float) Scan(s fmt.ScanState, ch rune) error
 
@@ -164,6 +201,7 @@ type
 	# type Rat struct
 		func NewRat(a, b int64) *Rat
 			* 使用分子a和分母b创建一个Rat
+			* 有理数
 
 		func (z *Rat) Abs(x *Rat) *Rat
 		func (z *Rat) Add(x, y *Rat) *Rat
