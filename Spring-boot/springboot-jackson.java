@@ -120,3 +120,18 @@ Jackson
 				builder.serializerByType(Long.class, ToStringSerializer.instance);
 			};
 		}
+
+
+------------------------------------
+ContextualSerializer
+------------------------------------
+	# 可以根据字段动态创建 JsonSerializer
+
+		public interface ContextualSerializer{
+			public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property)throws JsonMappingException;
+		}
+
+		// 获取到字段上的注解
+		Serial annotation = property.getAnnotation(Serial.class);
+		// 返回默认的 JsonSerializer
+		prov.findValueSerializer(property.getType(), property);
