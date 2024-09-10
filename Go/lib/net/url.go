@@ -89,6 +89,10 @@ type
 		func (v Values) Del(key string)
 		func (v Values) Encode() string
 		func (v Values) Get(key string) string
+			* 获取与给定 KEY 相关的第一个值。如果没有与 KEY 相关的值，Get 返回空字符串。
+			* 要访问多个值，可直接使用 map。
+				var column []string = query["column"]
+			
 		func (v Values) Set(key, value string)
 		func (v Values) Has(key string) bool
 
