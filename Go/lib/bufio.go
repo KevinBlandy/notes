@@ -74,10 +74,17 @@ type
 
 		func (s *Scanner) Buffer(buf []byte, max int)
 		func (s *Scanner) Err() error
-			* 返回异常信息
+			* 返回异常信息，如果是 EOF 异常，则返回 nil
+				// 源码如下
+				if s.err == io.EOF {
+					return nil
+				}
+				return s.err
 
 		func (s *Scanner) Scan() bool
 			* 读取下一个分隔符，返回结果表示是否还有数据
+			* 如果读取到末尾，或者是异常则返回 false
+			* 此时可以通过 Err() 方法获取到异常
 
 		func (s *Scanner) Split(split SplitFunc)
 			* 指定分隔符，如果不指定，会使用newline字符作为分隔符
@@ -134,37 +141,39 @@ type
 Demo
 ------------------------
 	# Scanner 扫描
+		package main
+
 		import (
 			"bufio"
 			"fmt"
-			"io"
 			"os"
 		)
+
 		func main() {
-			file, _ := os.Open("C:\\Users\\Administrator\\Desktop\\新建文本文档.txt")
-			defer file.Close()
+			file, err := os.Open("C:\\Users\\Administrator\\Desktop\\notes\\Google Authenticator.java")
+
+			if err != nil {
+				panic(err.Error())
+			}
+
+			defer func() {
+				_ = file.Close()
+			}()
+
 			scanner := bufio.NewScanner(file)
 			scanner.Split(bufio.ScanLines)
-			for {
-				if scanner.Scan() {
-					// 存在下一行数据
-					err := scanner.Err()
-					if err != nil {
-						if err != io.EOF {
-							// 异常
-							fmt.Fprintf(os.Stderr, "文件扫描异常:%s\n", err.Error())
-							return
-						}
-					}
-					// 以字符形式获取内容
-					text := scanner.Text()
-					fmt.Println(text)
-				} else {
-					break
-				}
+			for scanner.Scan() {
+				// 以字符形式获取内容
+				text := scanner.Text()
+				fmt.Println(text)
+			}
+
+			// 异常处理
+			if scanner.Err() != nil {
+				panic(scanner.Err())
 			}
 		}
-	
+
 	
 	# 读取标准输入流的输入
 		package main
@@ -172,29 +181,27 @@ Demo
 		import (
 			"bufio"
 			"fmt"
-			"io"
 			"os"
 			"strings"
 		)
 
 		func main() {
+
 			scanner := bufio.NewScanner(os.Stdin)
 			scanner.Split(bufio.ScanLines)
 			for scanner.Scan() {
-				err := scanner.Err()
-				if err != nil {
-					if err == io.EOF {
-						break
-					} else {
-						panic(err)
-					}
-				}
+				text := scanner.Text()
+				fmt.Println(text)
 
-				line := scanner.Text()
-				if strings.EqualFold(line, "bye") {
+				// 如果是 bye 就退出
+				if strings.EqualFold(text, "bye") {
 					break
 				}
-				fmt.Println(line)
+			}
+
+			// 异常处理
+			if scanner.Err() != nil {
+				panic(scanner.Err())
 			}
 		}
 
