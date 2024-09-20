@@ -29,6 +29,14 @@ rand
 		func (r *Rand) Read(p []byte) (n int, err error)
 		func (r *Rand) Seed(seed int64)
 		func (r *Rand) Shuffle(n int, swap func(i, j int))
+			* 洗牌，n 表示元素长度，swap 为元素交换方法
+				arr := []int{1, 2, 3, 4}
+				rand.Shuffle(len(arr), func(i, j int) {
+					// 交换元素位置
+					arr[i], arr[j] = arr[j], arr[i]
+				})
+				fmt.Println(arr)  // [4 1 3 2]
+
 		func (r *Rand) Uint32() uint32
 		func (r *Rand) Uint64() uint64
 	

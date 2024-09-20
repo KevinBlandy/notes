@@ -81,8 +81,8 @@ func ReQueue(ctx context.Context, count int) (int, error) {
 	return items, nil
 }
 
-// QueueLen 待消费队列长度
-func QueueLen(ctx context.Context) (int, error) {
+// Len 待消费队列长度
+func Len(ctx context.Context) (int, error) {
 	conn := rdb.Conn()
 	size, err := conn.LLen(ctx, keyQueue).Result()
 	return int(size), err
