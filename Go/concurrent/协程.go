@@ -59,7 +59,7 @@ channel
 			* for 遍历 channel，发送方在完成发送后必须调用 close()，for 才会退出
 			* 如果发送方不调用 close，则 for 可能会导致死锁异常
 		
-		* close 一个带缓冲区的 chan 后，如果 chan 中还有数据，那么不能继续写入。但可以继续读取，直到读取完毕
+		* close 一个带缓冲区的 chan 后，如果 chan 中还有数据，那么不能继续写入。但可以继续读取，直到读取完毕。
 		
 		* 缓冲区本质上是一个队列，添加数据，插入到尾部，读取数据从头部读取
 		* 通过 cap 查看队列的缓冲区大小
@@ -128,7 +128,8 @@ channel
 
 			* 如果读取成功，ok = true， 如果读取失败，也就是没有数据了， ok = false
 		
-		* 当 close 一个 channel的时候，所有阻塞在这个 channel 上的 Goroutine 都会收到通知
+		* 当 close 一个 channel的时候，所有阻塞（读取）在这个 channel 上的 Goroutine 都会收到通知
+		* 如果 close chan 的时候，还有阻塞等待写入状态的协程会 panic: send on closed channel
 	
 	# 防止Channel的内存泄漏问题
 		// 获取3个网站中最快的一个响应结果
