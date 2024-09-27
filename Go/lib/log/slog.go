@@ -207,6 +207,13 @@ type
 		func (l *Logger) Warn(msg string, args ...any)
 		func (l *Logger) WarnContext(ctx context.Context, msg string, args ...any)
 		func (l *Logger) With(args ...any) *Logger
+			* 返回的日志 Logger 在每次输出操作中都包含给定的属性。
+			* args 会被转换为属性，如果 args 的长度是奇数，那么最后一个单出来的属性 key 为 '!BADKEY'。
+
+				myLogger := slog.With("key1", "val1", "key2", 0xFF, "key3", []int{1, 2}, "bad")
+				myLogger.Debug("hi")
+				// time="2024-09-24 18:05:23" level=DEBUG source=D:/golang-app/app/main.go:25 msg=hi key1=val1 key2=255 key3="[1 2]" !BADKEY=bad
+
 		func (l *Logger) WithGroup(name string) *Logger
 
 	
