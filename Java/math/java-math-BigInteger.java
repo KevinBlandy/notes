@@ -49,6 +49,9 @@ BigInteger				   |
 		BigInteger nextProbablePrime()
 		BigInteger not()
 		BigInteger or(BigInteger val)
+		BigInteger parallelMultiply(BigInteger val)
+			* 当 this 和 val 都很大（通常是数千比特）时，可以使用并行乘法。
+
 		BigInteger pow(int exponent) 
 		BigInteger remainder(BigInteger val)
 		BigInteger setBit(int n)
@@ -56,6 +59,9 @@ BigInteger				   |
 		BigInteger shiftRight(int n)
 		short shortValueExact() 
 		int signum()
+		BigInteger sqrt()
+			* 开平方
+		BigInteger[] sqrtAndRemainder()
 		boolean testBit(int n)
 		byte[] toByteArray()
 		String toString(int radix)

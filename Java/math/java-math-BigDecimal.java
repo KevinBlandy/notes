@@ -125,6 +125,8 @@ BigDecimal-实例方法		|
 	BigInteger unscaledValue()
 	BigDecimal ulp()
 	int signum()
+	BigDecimal sqrt(MathContext mc)
+		* 开平方
 	int precision()
 	BigDecimal plus(MathContext mc)
 	BigDecimal plus()
