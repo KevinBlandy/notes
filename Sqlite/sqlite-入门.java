@@ -4,7 +4,9 @@ sqlite					|
 	# 嵌入式数据库
 	# 官网
 		https://www.sqlite.org/index.html
-
+	
+	# 在线
+		https://sqlite.org/fiddle/index.html
 	
 	# 文档
 		* 数据类型

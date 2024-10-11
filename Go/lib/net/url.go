@@ -47,7 +47,13 @@ type
 		* URL对象
 
 		func Parse(rawurl string) (*URL, error)
+			* 把原始 URL 解析为 URL 结构。
+			* URL 可以是相对的（不含主机的路径），也可以是绝对的（以 scheme 开头）。
+			* 尝试解析不含 scheme 的主机名和路径是无效的，但由于解析歧义，不一定会返回错误。
+
 		func ParseRequestURI(rawurl string) (*URL, error)
+			* 将原始 url 解析为 URL 结构。它假定 url 是在 HTTP 请求中收到的，因此 url 只被解释为绝对 URI 或绝对路径。
+			* 假定 url 字符串没有 #fragment 后缀。（浏览器在向网络服务器发送 URL 前会去掉 #fragment）。
 
 		func (u *URL) EscapedFragment() string
 		func (u *URL) EscapedPath() string
