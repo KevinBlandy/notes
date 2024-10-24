@@ -77,11 +77,13 @@ type
 			BufferPool BufferPool
 
 			ModifyResponse func(*http.Response) error
-				* 可选的，用于修改响应数据
+				* 可选的，用于代理服务器的响应
+				* 只有代理服务器返回了 HTTP 状态码，才会调用，换句话说，如果代理服务器没响应，则不会调用这个方法，而会调用 ErrorHandler
+				* 如果这个方法返回 error 也会调用 ErrorHandler
 
 			ErrorHandler func(http.ResponseWriter, *http.Request, error)
 				* 异常处理，用于处理代理后端服务的错误或来自 ModifyResponse 的错误。
-				* 如果为空，默认情况下会在 logger 输出所提供的错误并返回 502 Status Bad Gateway 响应。
+				* 如果为空，则会使用默认的实现，默认情况下会在 logger 输出所提供的错误并返回 502 Status Bad Gateway 响应。
 		}
 		
 		* 简单而又强大的代理服务器
