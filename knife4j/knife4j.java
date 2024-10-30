@@ -28,32 +28,40 @@ openapi3 & sb3
 		</dependency>
 	
 	# 配置
-		# springdoc-openapi项目配置
-		springdoc:
-		  swagger-ui:
-			enabled: true
-			path: /swagger-ui.html
-			tags-sorter: alpha
-			operations-sorter: alpha
-		  api-docs:
-			path: /v3/api-docs
-		  # API 分组
-		  group-configs:
-			- group: "manager"
-			  packages-to-scan: demo.web.controller.manager
-            # 组名称
-			- group: "user"
-			  # 扫描的包
-			  packages-to-scan: demo.web.controller.user
-			  # 排除的包
-			  packages-to-exclude: demo.web.controller.user.test
-		
-		# knife4j的增强配置，不需要增强可以不配
-		knife4j:
-		  enable: true
-		  setting:
-			language: zh_cn
-			footer-custom-content: "Chatty Application"
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+	enabled: true
+	path: /swagger-ui.html
+	tags-sorter: alpha
+	operations-sorter: alpha
+  api-docs:
+	path: /v3/api-docs
+  # API 分组
+  group-configs:
+	- group: "manager"
+	  packages-to-scan: demo.web.controller.manager
+	# 组名称
+	- group: "user"
+	  # 扫描的包
+	  packages-to-scan: demo.web.controller.user
+	  # 排除的包
+	  packages-to-exclude: demo.web.controller.user.test
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+    # 开启自定义 Foooter
+    enable-footer-custom: true
+    footer-custom-content: "My App"
+  # 用户名密码
+  basic:
+      enable: true
+      username: test
+      password: 123
+
 	
 	# 注解
 		@Tag(name = “接口类描述”)			Controller 类

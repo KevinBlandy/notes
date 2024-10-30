@@ -24,9 +24,11 @@ Caffeine
 		public Caffeine<K, V> scheduler(Scheduler scheduler)
 			* 过期事件调度例行维护时使用的 scheduler
 			* 默认使用 Scheduler.disabledScheduler()。
+			* Java 9以上版本的用户可以选择 Scheduler.systemScheduler() 利用系统范围内的调度线程。
 
 		public Caffeine<K, V> maximumSize(@NonNegative long maximumSize)
 			* 最多缓存数量，超过数量后会执行缓存驱逐
+			* 缓存将会尝试通过基于就近度和频率的算法来驱逐掉不会再被使用到的元素。
 
 		public Caffeine<K, V> maximumWeight(@NonNegative long maximumWeight)
 			* 根据缓存的权重来进行驱逐（权重只是用于确定缓存大小，不会用于决定该缓存是否被驱逐）
@@ -81,6 +83,9 @@ Caffeine
 
 		@CanIgnoreReturnValue
 		public Caffeine<K, V> ticker(Ticker ticker)
+			* 
+
+
 		@CanIgnoreReturnValue
 		public <K1 extends K, V1 extends V> Caffeine<K1, V1> evictionListener(RemovalListener<? super K1, ? super V1> evictionListener)
 			* 监听器，缓存在被驱逐时触发
@@ -119,3 +124,22 @@ CaffeineSpec
 	# 实例方法
 		
 		 public String toParsableString()
+	
+	# 可配置的属性
+		initialCapacity
+		maximumSize
+		maximumWeight
+		weakKeys
+		weakValues
+		softValues
+			* 使用软引用存储value。当内存满了过后，软引用的对象以将使用最近最少使用(least-recently-used ) 的方式进行垃圾回收。
+			* 由于使用软引用是需要等到内存满了才进行回收，所以我们通常建议给缓存配置一个使用内存的最大值。
+			* softValues() 将使用身份相等(identity) (==) 而不是equals() 来比较值。
+
+		expireAfterAccess
+		expireAfterWrite
+		refreshAfterWrite
+		recordStats
+	
+	# 配置格式，逗号分割
+		maximumSize=10000,expireAfterWrite=1h,recordStats
