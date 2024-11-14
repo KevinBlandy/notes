@@ -19,46 +19,54 @@ logback的配置			 |
 -------------------------
 常用的logback的配置文件	 |
 -------------------------
-	<configuration>
-		
-		<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
-		<!-- 窗口输出日志 -->
-		<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+	<configuration>
+
+		<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+		<appender name="console"
+			class="ch.qos.logback.core.ConsoleAppender">
 			<encoder>
 				<pattern>${CONSOLE_LOG_PATTERN}</pattern>
 			</encoder>
 		</appender>
-		
-		<!-- 滚动日志 -->
-		<appender name="rolling"
+
+
+		<appender name="rollingAppLog"
 			class="ch.qos.logback.core.rolling.RollingFileAppender">
-			<!-- 日志文件的目录和名称 -->
-			<file>production.log</file>
+			<file>logs/app.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<maxFileSize>10MB</maxFileSize>
+				<fileNamePattern>logs/app-%d{yyyy-MM-dd}-%i.gz</fileNamePattern>
+				<maxHistory>60</maxHistory>
+				<totalSizeCap>5GB</totalSizeCap>
+			</rollingPolicy>
+			<encoder>
+				<pattern>${FILE_LOG_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="rollingErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/error.log</file>
 			<rollingPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-				<!-- 单个日志文件的最大体积，达到该体积后就会进行归档(压缩) -->
-				<maxFileSize>100MB</maxFileSize>
-				<!-- 单个日志文件超过限定大小后，就会被压缩为zip文件，设置zip文件的名称格式(2019-09-05-0.zip) -->
-				<fileNamePattern>%d{yyyy-MM-dd}-%i.zip</fileNamePattern>
-				<!-- 保留的存档文件的数量，与上一个 fileNamePattern 有关。 假设定义为6，当fileNamePattern以天为单位时，即保存6天的日志。 
-					当以月为单位时，即保存6个月的日志。 旧的日志以异步的方式删除。 -->
+				<maxFileSize>10MB</maxFileSize>
+				<fileNamePattern>logs/error-%d{yyyy-MM-dd}-%i.gz</fileNamePattern>
 				<maxHistory>60</maxHistory>
-				<!-- 所有的归档日志的大小。当超过限制时，会删掉旧的归档日志。 -->
-				<totalSizeCap>1GB</totalSizeCap>
+				<totalSizeCap>5GB</totalSizeCap>
 			</rollingPolicy>
 			<encoder>
 				<pattern>${FILE_LOG_PATTERN}</pattern>
 			</encoder>
 			<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-				<!-- 仅输出 INFO 级别以上的日志 -->
-				<level>INFO</level>
+				<level>ERROR</level>
 			</filter>
 		</appender>
 
-		<root level="DEBUG">
+		<root level="INFO">
 			<appender-ref ref="console" />
-			<appender-ref ref="rolling" />
+			<appender-ref ref="rollingAppLog" />
+			<appender-ref ref="rollingErrorLog" />
 		</root>
 	</configuration>
 

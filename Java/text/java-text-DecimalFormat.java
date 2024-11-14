@@ -66,3 +66,10 @@ demo					|
 	# 0 表示如果位数不足则以 0 填充，# 表示只要有可能就把数字拉上这个位置。
 
 	
+
+	# 还可以指定分隔符
+
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+		symbols.setGroupingSeparator('.');  // 分隔符
+        symbols.setDecimalSeparator('.');		// 小数点分隔符
+		return new DecimalFormat("#,###", symbols).format(val);

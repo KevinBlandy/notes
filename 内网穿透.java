@@ -7,7 +7,7 @@ frp
 
 	# 服务端安装
 		* 下载 & 解压
-			wget https://github.com/fatedier/frp/releases/download/v0.30.0/frp_0.30.0_linux_amd64.tar.gz
+			wget https://github.com/fatedier/frp/releases/download/v0.61.0/frp_0.61.0_linux_amd64.tar.gz
 
 		* 进入文件编辑服务端配置文件
 			vi frps.ini
@@ -32,7 +32,7 @@ frp
 		
 	# 客户端安装
 		* 下载 & 解压
-			https://github.com/fatedier/frp/releases/download/v0.30.0/frp_0.30.0_windows_amd64.zip
+			https://github.com/fatedier/frp/releases/download/v0.61.0/frp_0.61.0_windows_amd64.zip
 		
 		* 配置客户端文件
 			frpc.ini

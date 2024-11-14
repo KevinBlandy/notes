@@ -136,5 +136,12 @@
 	
 	::first-line
 	::first-letter
+		* 只能用在块级元素上。
+		
 	::selection
 	
+	::marker
+		* 匹配列表的标记框（通常为一个符号或数字）。
+		* 它作用在任何设置了 display: list-item 的元素或伪元素上，例如 <li> 和 <summary> 元素。
+		参考：
+			https://developer.mozilla.org/zh-CN/docs/Web/CSS/::marker

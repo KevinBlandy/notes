@@ -81,6 +81,13 @@ type
 		func User(username string) *Userinfo
 		func UserPassword(username, password string) *Userinfo
 			* 通过用户名和密码构建用户信息
+				u, err := url.Parse("https://gitee.com/kevinblandy/demo.git")
+				if err != nil {
+					panic(err)
+				}
+				u.User = url.UserPassword("kevinblandy", "******")
+				fmt.Println(u) 
+				// https://kevinblandy:%2A%2A%2A%2A%2A%2A@gitee.com/kevinblandy/demo.git
 
 		func (u *Userinfo) Password() (string, bool)
 		func (u *Userinfo) String() string
