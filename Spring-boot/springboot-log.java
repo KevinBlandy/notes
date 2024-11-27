@@ -22,7 +22,8 @@ logback的配置			 |
 
 	<configuration>
 
-		<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+		<include
+			resource="org/springframework/boot/logging/logback/defaults.xml" />
 
 		<appender name="console"
 			class="ch.qos.logback.core.ConsoleAppender">
@@ -35,18 +36,26 @@ logback的配置			 |
 		<appender name="rollingAppLog"
 			class="ch.qos.logback.core.rolling.RollingFileAppender">
 			<file>logs/app.log</file>
-			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 				<maxFileSize>10MB</maxFileSize>
 				<fileNamePattern>logs/app-%d{yyyy-MM-dd}-%i.gz</fileNamePattern>
 				<maxHistory>60</maxHistory>
 				<totalSizeCap>5GB</totalSizeCap>
 			</rollingPolicy>
-			<encoder>
-				<pattern>${FILE_LOG_PATTERN}</pattern>
+			<encoder class="ch.qos.logback.classic.encoder.JsonEncoder">
+				<withFormattedMessage>true</withFormattedMessage>
+				<withSequenceNumber>false</withSequenceNumber>
+				<withNanoseconds>false</withNanoseconds>
+				<withMessage>false</withMessage>
+				<withMDC>false</withMDC>
+				<withContext>false</withContext>
+				<withArguments>false</withArguments>
 			</encoder>
 		</appender>
 
-		<appender name="rollingErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<appender name="rollingErrorLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
 			<file>logs/error.log</file>
 			<rollingPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -69,6 +78,45 @@ logback的配置			 |
 			<appender-ref ref="rollingErrorLog" />
 		</root>
 	</configuration>
+
+
+-------------------------
+JSON 输出
+-------------------------
+
+	<appender name="rollingAppLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/app.log</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<maxFileSize>10MB</maxFileSize>
+			<fileNamePattern>logs/app-%d{yyyy-MM-dd}-%i.gz</fileNamePattern>
+			<maxHistory>60</maxHistory>
+			<totalSizeCap>5GB</totalSizeCap>
+		</rollingPolicy>
+		<!-- 配置 JSON Encoder -->
+		<encoder class="ch.qos.logback.classic.encoder.JsonEncoder">
+			<withFormattedMessage>true</withFormattedMessage>
+			<withSequenceNumber>false</withSequenceNumber>
+			<withNanoseconds>false</withNanoseconds>
+			<withMessage>false</withMessage>
+			<withMDC>false</withMDC>
+			<withContext>false</withContext>
+			<withArguments>false</withArguments>
+		</encoder>
+	</appender>
+
+	* 更多的配置信息，可以参考 JsonEncoder 类属性
+	* 在日志中输出 key, value 以及格式化信息：
+		log.atInfo()
+			.addKeyValue("app", "hhh")  // key / value 参数
+			.setMessage("你好： {}")	// 格式化消息
+			.addArgument("窝嫩叠")		// 格式化参数
+			.log();;
+
+		// 输出的日志：
+
+		{"timestamp":1732675274386,"level":"INFO","threadName":"main","loggerName":"demo.DemoApplication","kvpList": [{"app":"hhh"}],"formattedMessage":"你好： 窝嫩叠","throwable":null}
 
 -------------------------
 logback多环境的配置		 |
