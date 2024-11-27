@@ -10,6 +10,19 @@
 		* 设置字体颜色
 	
 	letter-spacing
+		* 字符间距
+	
+	word-spacing
+		* 词间距
+
+	white-space
+	 	* 设置如何处理元素内的空白字符
+
+	text-shadow
+		* 设置阴影
+	
+	word-break
+		* 怎样在单词内断行
 
 	text-align
 		* 文本对齐方式
