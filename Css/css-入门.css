@@ -374,26 +374,5 @@ css 样式的书写顺序
 	3. 文本属性（font-size）
 	4. 其他属性（content）
 
--------------------
-行高
--------------------
-	# 字母 x 的下边缘（线）就是基线。
-
-		 ascender height：上下线高度。
-		 cap height：大写字母高度。
-		 median：中线。
-		 descender height：下行线高度。
-
-		 * 内联元素默认是基线对齐的，而基线就是x的底部。
-		 * 字母 x 衍生出了 x-height 概念，ex 是CSS中的一个相对单位，指的是小写字母 x 的高度，就是指 x-height。
-
-	
-	# vertical-align
-		* middle: 指的是基线往上 1/2 x-height 高度，可以近似理解为字母 x 交叉点那个位置。
-	
-	# line-height
-		* 高度是由行高决定的，而非文字。
-
-		
 
 
