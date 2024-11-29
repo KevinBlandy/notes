@@ -129,3 +129,17 @@ spring:
 			this.configuration.clearTemplateCache();
 		}
 	}
+
+
+	# ≈‰÷√»´æ÷ Ù–‘
+		@FunctionalInterface
+		public interface FreeMarkerVariablesCustomizer {
+
+			/**
+			 * Customize the {@code variables} to be set as well-known FreeMarker objects.
+			 * @param variables the variables to customize
+			 * @see FreeMarkerConfigurationFactory#setFreemarkerVariables(Map)
+			 */
+			void customizeFreeMarkerVariables(Map<String, Object> variables);
+
+		}

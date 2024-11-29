@@ -1,3 +1,78 @@
 ---------------------
 背景
 ---------------------
+	background 
+		* 所有背景属性的简写
+
+
+	background-attachment
+		* 设置背景图像的位置是在视口内固定，或者随着包含它的区块滚动。
+		* 取值
+			fixed
+				* 相对于视口固定。即使一个元素拥有滚动机制，背景也不会随着元素的内容滚动。
+
+			local
+				* 相对于元素的内容固定。如果一个元素拥有滚动机制，背景将会随着元素的内容滚动，并且背景的绘制区域和定位区域是相对于可滚动的区域而不是包含他们的边框。
+
+			scroll
+				* 此关键属性值表示背景相对于元素本身固定，而不是随着它的内容滚动（对元素边框是有效的）。
+
+	background-blend-mode
+	background-clip
+	background-color
+	background-image
+		* 设置背景图片
+		* 可选值
+			none
+				* 不显示图片
+			<image>
+				* 要显示的图片。支持多背景设置，背景之间以逗号隔开。
+					url("startransparent.gif"), url("catfront.png");
+				
+				* 先指定的图像会在之后指定的图像上面绘制。因此指定的第一个图像“最接近用户”。
+	
+	background-repeat
+		* 定义背景图像的重复方式
+		* 可选值
+			repeat
+				* 重复，直到铺满整个元素，如果最后一个图像比剩余空间大，图像会被裁剪。
+			space
+				* 尽可能得重复，但是不会裁剪。
+			round
+				* 随着允许的空间在尺寸上的增长，被重复的图像将会伸展 (没有空隙), 直到有足够的空间来添加一个图像。
+			no-repeat
+				* 不重复
+		
+		* 单值语法是完整的双值语法的简写（第一个值表示水平重复行为，第二个值表示垂直重复行为）
+			repeat-x	等于	repeat no-repeat
+			repeat-y	等于	no-repeat repeat
+			repeat		等于	repeat repeat
+			space		等于	space space
+			round		等于	round round
+			no-repeat	等于	no-repeat no-repeat
+	
+	background-position
+		* 可以使用专门针对 x、y 轴进行设置的属性
+			background-position-x
+			background-position-y
+
+		* 每一个背景图片设置初始位置。这个位置是相对于由 background-origin 定义的位置图层的。
+		* 属性值为一个或多个 <position> 值，用逗号隔开。
+			<position>
+				* center/top/left/bottom/right/<length>/<percentage>
+		
+		* 如果是值（可以为负数），不是关键字的话，则是以图片的左上角为中心进行偏移计算
+			/* 图片距离左边 10px，距离顶部 50px */
+			background-position: 10px 50px; 
+
+		* 一个 <position> 可以有1 - 4 值
+			* 1个值，另一个维度的值会被设置为 center
+			* 2个值， 一个定义 x 坐标，另一个定义 y 坐标。
+			* 3个值，两个值是关键字值，第三个是前面值的偏移量。
+			* 4个值，第一个和第三个值是定义 X 和 Y 的关键字值。第二个和第四个值是前面 X 和 Y 关键字值的偏移量。
+				background-position: right 35% bottom 45%; /* 距离右边 35%，底下 45% */
+
+	background-origin
+	
+	background-size
+
