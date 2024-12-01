@@ -1,0 +1,47 @@
+--------------------------
+布局
+--------------------------
+
+--------------------------
+子元素的绝对垂直居中
+--------------------------
+	
+	* 要点在于 vertical-align: middle 属性，可以通过这个属性设置子元素的垂直居中。
+	* 但是 vertical-align: middle 并不是绝对的居中，它受到字体（特别是大小）的影响。
+	* 解决办法就是直接把父元素的字体大小设置为 0，完全重置居中点为绝对居中（不会收到字体大小的影响）。
+	* 在子元素的文本元素中，重新设置字体的大小。
+	
+		<style>
+			.box {
+				width: 200px;
+				height: 200px;
+				background-color: gray;
+				text-align: center;     /* 文字水平居中 */
+				line-height: 200px;     /* 文字垂直居中 */
+				font-size: 0;           /* 设置字体大小为 0，避免子元素的 vertical-align 受到影响，目的就是为了保证子元素的绝对垂直居中 */
+			}
+
+			.logo {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background-color: aquamarine;
+				vertical-align: middle;         /* 设置元素垂直居中 */
+			}
+
+			.content {
+				font-size: 1rem;                  /* 重置文本的大小 */
+				background-color: antiquewhite;
+				vertical-align: middle;           /* 设置元素垂直居中 */
+			}
+		</style>
+
+		<div class="box">
+			<div class="container">
+				<!-- 非文本属性 -->
+				<span class="content">XxxX</span>
+				<!-- 文本属性 -->
+				<span class="logo"></span> 
+			</div>
+		</div>
+	
