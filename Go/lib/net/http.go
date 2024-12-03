@@ -706,6 +706,8 @@ func
 
 	func ProxyFromEnvironment(req *Request) (*url.URL, error)
 	func ProxyURL(fixedURL *url.URL) func(*Request) (*url.URL, error)
+		* 设置代理请求地址
+
 	func Redirect(w ResponseWriter, r *Request, url string, code int)
 		* 重定向handler
 
