@@ -67,7 +67,11 @@ Spring-boot 文件下载		|
 		@ResponseBody
 		public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 			Resource file = storageService.loadAsResource(filename);
-			return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+			return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition
+				   .attachment()    // 附件形式
+				   .filename("my.txt", StandardCharsets.UTF_8)  // 文件名称 & 编码
+				   .build()
+				   .toString()).body(file);
 		}
 
 	# 使用 StreamingResponseBody 响应数据
