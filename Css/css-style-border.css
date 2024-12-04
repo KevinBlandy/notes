@@ -1,0 +1,74 @@
+----------------------------
+Border
+----------------------------
+	border
+		* 简写属性
+
+	border-block
+	border-block-color
+	border-block-end
+	border-block-end-color
+	border-block-end-style
+	border-block-end-width
+	border-block-start
+	border-block-start-color
+	border-block-start-style
+	border-block-start-width
+	border-block-style
+	border-block-width
+	border-bottom
+	border-bottom-color
+	border-bottom-left-radius
+	border-bottom-right-radius
+	border-bottom-style
+	border-bottom-width
+	border-collapse
+	border-color
+
+	border-radius
+		* 设置边框四个角的圆角
+		* 它是下面属性的简写
+			border-end-start-radius
+				* 左下角
+			border-end-end-radius
+				* 右下角
+			border-start-end-radius
+				* 右上角
+			border-start-start-radius
+				* 左上角
+
+	border-image
+	border-image-outset
+	border-image-repeat
+	border-image-slice
+	border-image-source
+	border-image-width
+	border-inline
+	border-inline-color
+	border-inline-end
+	border-inline-end-color
+	border-inline-end-style
+	border-inline-end-width
+	border-inline-start
+	border-inline-start-color
+	border-inline-start-style
+	border-inline-start-width
+	border-inline-style
+	border-inline-width
+	border-left
+	border-left-color
+	border-left-style
+	border-left-width
+	border-right
+	border-right-color
+	border-right-style
+	border-right-width
+	border-spacing
+	border-style
+	border-top
+	border-top-color
+	border-top-left-radius
+	border-top-right-radius
+	border-top-style
+	border-top-width
+	border-width
