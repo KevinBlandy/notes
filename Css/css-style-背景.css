@@ -3,7 +3,12 @@
 ---------------------
 	background 
 		* 所有背景属性的简写
+		* 可以一次性设置多个背景图片
 
+			background: url(../images/bg-lt.png) no-repeat,
+						url(../images/bg-rt.png) no-repeat right top,
+						url(../images/bg-lb.png) no-repeat left bottom,
+						url(../images/bg-rb.png) no-repeat right bottom;
 
 	background-attachment
 		* 设置背景图像的位置是在视口内固定，或者随着包含它的区块滚动。
@@ -18,7 +23,23 @@
 				* 此关键属性值表示背景相对于元素本身固定，而不是随着它的内容滚动（对元素边框是有效的）。
 
 	background-blend-mode
+
 	background-clip
+		* 设置元素的背景（背景图片或颜色）是否延伸到边框、内边距盒子、内容盒子下面。
+		* 可选值
+
+			border-box
+				* 背景延伸至边框外沿（但是在边框下层）。
+
+			padding-box
+				* 背景延伸至内边距（padding）外沿。不会绘制到边框处。
+
+			content-box
+				* 背景被裁剪至内容区（content box）外沿。
+
+			text
+				* 背景被裁剪成文字的前景色（背景只渲染在文字背后，需要把文字颜色调整为透明色）。
+
 	background-color
 	background-image
 		* 设置背景图片
@@ -73,6 +94,34 @@
 				background-position: right 35% bottom 45%; /* 距离右边 35%，底下 45% */
 
 	background-origin
-	
+		* 指定背景图片 background-image 属性的原点位置的背景相对区域。
+		* 注意：当使用 background-attachment 为 fixed 时，该属性将被忽略不起作用。
+		* 可选值
+			border-box
+				* 背景图片的摆放以 border 区域为参考
+
+			padding-box
+				* 背景图片的摆放以 padding 区域为参考
+
+			content-box
+				* 背景图片的摆放以 content 区域为参考
+		
 	background-size
+		* 设置背景图片大小。图片可以保有其原有的尺寸，或者拉伸到新的尺寸，或者在保持其原有比例的同时缩放到元素的可用空间的尺寸。
+		* 设置值
+
+			<length>
+				* 指定长度，不能为负
+			<percentage>
+				* 指定百分比长度，不能为负
+			auto
+				* 默认
+			cover
+				* 将背景图片等比缩放，直到完全覆盖容器，图片会尽可能全的显示在元素上，但要
+				* 注意：背景图片有可能显示不完整。—— 相对比较好的选择
+
+			contain
+				* 将背景图片等比缩放，使背景图片的宽或高，与容器的宽或高相等，再将完整背景图片包含在容器内，
+				* 注意：可能会造成容器里部分区域没有背景图片。
+
 

@@ -18,8 +18,6 @@ Border
 	border-block-width
 	border-bottom
 	border-bottom-color
-	border-bottom-left-radius
-	border-bottom-right-radius
 	border-bottom-style
 	border-bottom-width
 	border-collapse
@@ -36,6 +34,24 @@ Border
 				* 右上角
 			border-start-start-radius
 				* 左上角
+		
+		* 也可以是下列属性
+			border-top-left-radius
+				* 左上角
+			border-top-right-radius
+				* 右上角
+			border-bottom-left-radius
+				* 左下角
+			border-bottom-right-radius
+				* 右下角
+			
+		* 可选值
+			<length>
+				* 定义圆形半径或椭圆的半长轴，半短轴。负值无效。
+
+			<percentage>
+				* 使用百分数定义圆形半径或椭圆的半长轴，半短轴。
+				* 水平半轴相对于盒模型的宽度；垂直半轴相对于盒模型的高度。负值无效。
 
 	border-image
 	border-image-outset
@@ -67,8 +83,6 @@ Border
 	border-style
 	border-top
 	border-top-color
-	border-top-left-radius
-	border-top-right-radius
 	border-top-style
 	border-top-width
 	border-width

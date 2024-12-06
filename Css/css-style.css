@@ -45,6 +45,12 @@
 
 		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/resize
 	
+	# 指定元素的不透明度: opacity
+		* <number> /*  0.0 到 1.0 范围内的数字值，这个数值既包含也代表通道的透明度，也就是 alpha 通道的值。任何一个溢出这个取值区间的值，尽管有效，但会被解析为在取值范围内最靠近它的值。 */
+		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/opacity
+		* opacity 是一个属性，设置的是整个元素（包括元素里的内容）的不透明度。
+		
+
 ----------------------
 轮廓线
 ----------------------
