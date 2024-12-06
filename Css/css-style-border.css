@@ -24,7 +24,9 @@ Border
 	border-color
 
 	border-radius
-		* 设置边框四个角的圆角
+		* 设置边框四个角的圆角，可以使用综合写法
+			border-raidus: 左上角x 右上角x 右下角x 左下角x / 左上y 右上y 右下y 左下y;
+
 		* 它是下面属性的简写
 			border-end-start-radius
 				* 左下角
@@ -36,6 +38,7 @@ Border
 				* 左上角
 		
 		* 也可以是下列属性
+		* 可以设置俩值，分别是椭圆的 x 半径、 y 半径
 			border-top-left-radius
 				* 左上角
 			border-top-right-radius

@@ -17,38 +17,81 @@
 
 	white-space
 	 	* 设置如何处理元素内的空白字符
+		* 可选值
+							换行符	空格和制表符	文本换行	行末空格	行末的其他空白分隔符
+			normal			合并	合并			换行		移除		挂起
+			nowrap			合并	合并			不换行		移除		挂起
+			pre				保留	保留			不换行		保留		不换行
+			pre-wrap		保留	保留			换行		挂起		挂起
+			pre-line		保留	合并			换行		移除		挂起
+			break-spaces	保留	保留			换行		换行		换行
+
+		* 参考
+			https://developer.mozilla.org/zh-CN/docs/Web/CSS/white-space
 
 	text-shadow
 		* 设置阴影
+			text-shadow: h-shadow v-shadow blur color;
+
+		* 值
+			<color>
+				* 可选。阴影的颜色。可以在偏移量之前或之后指定。如果没有指定颜色，则使用用户代理自行选择的颜色，因此需要跨浏览器的一致性时，应该明确定义它。
+
+			<offset-x> <offset-y>
+				* 必选。这些 <length> 值指定阴影相对文字的偏移量。
+				* <offset-x> 指定水平偏移量，若是负值则阴影位于文字左侧。<offset-y> 指定垂直偏移量，若是负值则阴影位于文字上方。如果两者均为 0，则阴影位于文字正后方，如果设置了 <blur-radius> 则会产生模糊效果。
+
+			<blur-radius>
+				* 模糊值，可选。这是 <length> 值。如果没有指定，则默认为 0。值越大，模糊半径越大，阴影也就越大越淡（wider and lighter）。
+		
+		* 参考
+			https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-shadow
 	
+	text-overflow
+		* 设置文本溢出后的处理方式
+		* 可选值
+			clip
+				* 默认值。这个关键字会在内容区域的极限处截断文本，因此可能会在单词的中间发生截断。
+				* 如果你的目标浏览器支持 text-overflow: ''，为了能在两个单词过渡处截断，你可以使用一个空字符串值（''）作为 text-overflow 属性的值。
+
+			ellipsis
+				* 这个关键字会用一个省略号（'…'、U+2026 HORIZONTAL ELLIPSIS）来表示被截断的文本。
+				* 这个省略号被添加在内容区域中，因此会减少显示的文本。如果空间太小以至于连省略号都容纳不下，那么这个省略号也会被截断。
+
+		* 注意：要使得 text-overflow 属性生效，块容器必须显式定义 overflow 为非 visible 值， white-space 为 nowrap 值。
+
 	word-wrap
 		* 目前它已被更名为 overflow-wrap，word-wrap 相当于其别称。
 		* 应用于行级元素，用来设置浏览器是否应该在一个本来不能断开的字符串中插入换行符，以防止文本溢出其行向盒。
 		* 与 word-break 相比，overflow-wrap 仅在无法将整个单词放在自己的行而不会溢出的情况下才会产生换行。
-	
 
 	text-decoration
 		* 它是如下属性的简写
 			text-decoration-color
-			text-decoration-line
-			text-decoration-style
-			text-decoration-thickness
+				* 颜色
 
-		* 设置文本装饰
-			overline
-				* 上划线
-			underline
-				* 下划线
-			line-through
-				* 删除线
-			
-		* 第二个参数设置线体的格式
-			dotted
-				* 虚线
-			wavy
-				* 波浪线
-		
-		* 第三个参数设置颜色
+			text-decoration-line
+				* 线条格式
+					overline
+						* 上划线
+					underline
+						* 下划线
+					line-through
+						* 删除线
+			text-decoration-style
+				* 线条类型
+					dotted
+						* 虚线
+					wavy
+						* 波浪线
+
+			text-decoration-thickness
+				* 指定当上划线和下划线经过字形上升部和下降部时如何渲染
+				* 可选值
+					none
+					auto
+					all
+
 		* 参考
 			https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-decoration
 	

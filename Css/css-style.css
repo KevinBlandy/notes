@@ -49,12 +49,17 @@
 		* <number> /*  0.0 到 1.0 范围内的数字值，这个数值既包含也代表通道的透明度，也就是 alpha 通道的值。任何一个溢出这个取值区间的值，尽管有效，但会被解析为在取值范围内最靠近它的值。 */
 		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/opacity
 		* opacity 是一个属性，设置的是整个元素（包括元素里的内容）的不透明度。
-		
 
-----------------------
-轮廓线
-----------------------
-	# outline
+	# 轮廓线: outline
+		* 简写
+			outline-color
+			outline-style
+			outline-width
+		
+		* outline-offset 不是 outline 的子属性，它是独立的，要单独声明
+			<length>
+				* 元素与其轮廓线之间的间距宽度。负值会将轮廓线置于元素内部。当值为 0 时，轮廓线与元素之间没有间距。
+
 		* 和 border 很类似，但有如下区别：
 			* outline 不占据空间，绘制于元素内容周围。
 			* 根据规范，outline 通常是矩形，但也可以是非矩形的。
@@ -65,53 +70,11 @@
 			width：默认值为 medium
 		
 		* 将 outline 设置为 0 或 none 会移除浏览器的默认聚焦样式
+
+		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/outline
+
 	
-	# outline-color
-	# outline-offset
-	# outline-style
-	# outline-width
-
-	# 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/outline
-
-----------------------
-阴影
-----------------------
-	# box-shadow
-		* 盒子阴影
-		* 默认的是外阴影：outset，但是不能主动声明这个值，否则阴影无效
-		* 盒子阴影不占用空间，不会影响其他盒子排列
-	
-
-	#  text-shadow
-		* 文本阴影
-	
----------------------
-圆角
----------------------
-	# border-radius:
-
-		* 第一个值定义水平半径，第二个值定义垂直半径。在很多情况下，只会传入一个值，这个值会被用于这两个。
-			.box {
-			  border-top-right-radius: 1em 10%; /* 右上角的水平半径为 1em，垂直半径为 10％ */
-			}
-
-		* 支持百分比
-		* 可以设置 4 个值，表示 4 个不同的角（顺时针），只设置两个，表示设置对角。
-		* 圆角矩形，设置为元素高度的一半
-	
-
-	# 分别设置四个角
-		border-top-left-radius:
-		border-top-right-radius:
-		border-bottom-left-radius:
-		border-bottom-right-radius:
-	
-
-
----------------------
-滤镜
----------------------
-	# filter
+	# 滤镜: filter
 		* 值是函数	
 			blur()
 				* filter: blur(5px);
@@ -127,9 +90,4 @@
 			sepia()
 		
 		* 可以组合任意数量的函数来控制渲染。滤镜将按声明顺序依次应用
-
-
-	
-	# 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/filter
-
-
+		*  参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/filter
