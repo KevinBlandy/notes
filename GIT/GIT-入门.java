@@ -13,6 +13,9 @@ Git-入门				|
 		* 多用命令行,少整UI.更专业,更牛逼.你会Linux,不要怂.
 		* ssh
 		* 协同方式
+	
+	# 学习
+		https://learngitbranching.js.org/?locale=zh_CN
 
 ------------------------
 Git-工作模型			|
