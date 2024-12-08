@@ -1,0 +1,34 @@
+------------------
+column - 多列布局
+------------------
+	columns
+		* 设置元素的列宽和列数。
+		* 取值
+			<'column-width'>
+				* 理想的列宽，定义为 <length> 或 auto 关键字。实际宽度可以更宽或更窄以适合可用空间。See column-width。
+
+			<'column-count'>
+				* 元素内容应分成的理想列数，定义为 <integer> 或 auto 关键字。如果此值和列的宽度都不是 auto ，则它仅指示允许的最大列数。请参阅 column-count 。
+		
+	column-count
+		* 将一个元素的内容分成指定数量的列。
+		
+	column-fill
+	column-gap
+	
+	column-rule
+	column-rule-color
+	column-rule-style
+	column-rule-width
+
+	column-span
+		* 设置列跨度
+		* 取值
+			none
+				* 元素不跨多个列。
+
+			all
+				* 元素横跨所有列。元素出现之前，出现在元素之前的正常流中的内容在所有列之间自动平衡。该元素建立一个新的区块格式化上下文。
+	
+	column-width
+		* 设置列宽
