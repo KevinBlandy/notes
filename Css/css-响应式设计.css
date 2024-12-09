@@ -6,13 +6,13 @@
 	
 
 	# 三大原则:
-		* 移动优先
+		* 移动优先，在实现桌面布局之前先构建移动版的布局
 			1. 所有设备通用的样式写在最上面，大家都公用
 			2. 使用 min-width 逐步递进断点，由大屏幕覆盖小屏幕样式
 			3. 如果小屏幕样式过于复杂，大屏幕覆盖起来麻烦，则小屏幕样式可以直接使用 max-width 来只对小屏幕生效，避免大屏幕覆写（非常规的响应式开发手段）
 
 		* 媒体查询
-		* 流式布局
+		* 流式布局，允许容器根据视口宽度缩放尺寸。
 	
 	# meta
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
@@ -40,5 +40,42 @@
 			* 指定交互式 UI 组件（如虚拟键盘）对页面视口的影响。有效值：resizes-visual、resizes-content 或 overlays-content。
 			* 默认值：resizes-visual。
 
+	# Bootstrap 中的响应式断点设计
+
+		/* sm */
+		@media (min-width: 576px) {
+		  .container-sm, .container {
+			max-width: 540px;
+		  }
+		}
+		/* md */
+		@media (min-width: 768px) {
+		  .container-md, .container-sm, .container {
+			max-width: 720px;
+		  }
+		}
+		/* lg */
+		@media (min-width: 992px) {
+		  .container-lg, .container-md, .container-sm, .container {
+			max-width: 960px;
+		  }
+		}
+		/* xl */
+		@media (min-width: 1200px) {
+		  .container-xl, .container-lg, .container-md, .container-sm, .container {
+			max-width: 1140px;
+		  }
+		}
+		/* xxl */
+		@media (min-width: 1400px) {
+		  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+			max-width: 1320px;
+		  }
+		}
 
 
+
+	# 响应式图片
+		* 图片作为流式布局的一部分，请始终确保它不会超过容器的宽度。
+		* 为了避免这种情况发生，一劳永逸的办法是在样式表加入规则img { max-width: 100%; }。
+	

@@ -123,6 +123,32 @@ Jackson
 
 
 ------------------------------------
+自定义注解处理
+------------------------------------
+	1. 创建自定义注解
+		import static java.lang.annotation.ElementType.FIELD;
+		import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+		import java.lang.annotation.Retention;
+		import java.lang.annotation.Target;
+
+		import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+		import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+		@Retention(RUNTIME)
+		@Target(FIELD)
+		// 很关键，必须使用 @JacksonAnnotationsInside 元注解来标注自定义注解
+		@JacksonAnnotationsInside				
+		// 很关键字，设置 Serialize 处理器
+		@JsonSerialize(using = DynamicResouceHostSerialize.class)
+		public @interface DynamicResouceHost {
+			
+		}
+	
+	2. 在需要的地方，使用该注解，则会自动调用 @JsonSerialize 指定的处理器来进行处理
+
+
+------------------------------------
 ContextualSerializer
 ------------------------------------
 	# 可以根据字段动态创建 JsonSerializer
