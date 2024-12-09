@@ -5,3 +5,60 @@
 		https://developer.mozilla.org/zh-CN/docs/Web/CSS/@media
 		https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_media_queries/Using_media_queries
 	
+	
+	@media
+		* 语法
+
+		@media screen and (max-width:768px) {
+			/*CSS-Code;*/
+		}
+		@media screen and (min-width:768px) and (max-width: 1200px) {
+			/*CSS-Code;*/
+		}
+
+		* 可选值：媒体类型
+			all
+				* 检测所有设备
+			
+			screen
+				* 检测电子屏幕，包括：电脑屏幕、平板屏幕、手机屏幕等。
+			
+			print
+				* 检测打印机。
+		
+		* 可选值：媒体特性
+			width
+				* 检测视口宽度。
+			max-width
+				* 检测视口最大宽度。
+			min-width
+				* 检测视口最小宽度。
+			height
+				* 检测视口高度。
+			max-height
+				* 检测视口最大高度。
+			min-height
+				* 检测视口最小高度。
+			device-width
+				* 检测设备屏幕的宽度。
+			max-device-width
+				* 检测设备屏幕的最大宽度。
+			min-device-width
+				* 检测设备屏幕的最小宽度。
+			orientation
+				* 检测视口的旋转方向（是否横屏）。
+					portrait	视口处于纵向，即高度大于等于宽度。
+					landscape	视口处于横向，即宽度大于高度。
+		
+
+		* 运算符
+			and
+				* 并且
+			, 或 or
+				* 或
+			not
+				* 否定
+			only
+				* 肯定
+		
+		
