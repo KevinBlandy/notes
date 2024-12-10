@@ -1,0 +1,29 @@
+----------------------------
+bs
+----------------------------
+	# 网站
+		https://getbootstrap.com/
+	
+		
+	
+
+----------------------------
+入门
+----------------------------
+	<!doctype html>
+	<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>App</title>
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="bootstrap/icon/font/bootstrap-icons.min.css">
+	</head>
+
+	<body>
+
+
+	<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+	</body>
+	</html>

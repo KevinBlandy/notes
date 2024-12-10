@@ -1,0 +1,59 @@
+----------------------
+断点
+----------------------
+	# 断点
+		断点				类				尺寸
+		Extra small			None			<576px		特小
+		Small				sm				≥576px		小
+		Medium				md				≥768px		中等
+		Large				lg				≥992px		大
+		Extra large			xl				≥1200px		特大
+		Extra extra large	xxl				≥1400px		特特大
+	
+	# 媒体查询
+		* 最小宽度
+			/* sm */
+			@media (min-width: 576px) { ... }
+
+			/* md */ 
+			@media (min-width: 768px) { ... }
+
+			/* lg */ 
+			@media (min-width: 992px) { ... }
+
+			/* xl */ 
+			@media (min-width: 1200px) { ... }
+
+			/* xxl */ 
+			@media (min-width: 1400px) { ... }
+		
+		* 最大宽度
+			@media (max-width: 575.98px) { ... }
+			@media (max-width: 767.98px) { ... }
+			@media (max-width: 991.98px) { ... }
+			@media (max-width: 1199.98px) { ... }
+			@media (max-width: 1399.98px) { ... }
+
+			* 为什么要减去 .02px？
+			* 浏览器目前不支持范围上下文（range context）查询，因此通过使用精度更高的值来绕过 min- 和 max- 前缀以及小数宽度视口的限制（例如，在高分辨率设备的某些条件下可能会出现这种情况）。
+	
+
+----------------------
+容器
+----------------------
+	# 容器
+							特小	sm		md		lg		xl		xxl
+							<576px	≥576px	≥768px	≥992px	≥1200px	≥1400px
+		.container			100%	540px	720px	960px	1140px	1320px
+		.container-sm		100%	540px	720px	960px	1140px	1320px
+		.container-md		100%	100%	720px	960px	1140px	1320px
+		.container-lg		100%	100%	100%	960px	1140px	1320px
+		.container-xl		100%	100%	100%	100%	1140px	1320px
+		.container-xxl		100%	100%	100%	100%	100%	1320px
+		.container-fluid	100%	100%	100%	100%	100%	100%
+
+
+----------------------
+网格
+----------------------
+
