@@ -3,12 +3,12 @@
 ----------------------
 	# 断点
 		断点				类				尺寸
-		Extra small			None			<576px		特小
-		Small				sm				≥576px		小
-		Medium				md				≥768px		中等
-		Large				lg				≥992px		大
-		Extra large			xl				≥1200px		特大
-		Extra extra large	xxl				≥1400px		特特大
+		Extra small			None			<576px		特小	超小屏幕设备（例如小屏智能手机、功能手机等）
+		Small				sm				≥576px		小		小屏幕设备（例如大部分智能手机）
+		Medium				md				≥768px		中等	中等屏幕设备（例如小型平板电脑、折叠屏手机）
+		Large				lg				≥992px		大		大屏幕设备（例如大部分笔记本电脑、平板电脑）
+		Extra large			xl				≥1200px		特大	超大屏幕设备（例如桌面显示器、高清显示器）
+		Extra extra large	xxl				≥1400px		特特大	超高清屏幕（例如 4K 显示器、超宽屏显示器）
 	
 	# 媒体查询
 		* 最小宽度
@@ -56,4 +56,87 @@
 ----------------------
 网格
 ----------------------
+	# 网格支持六个响应式断点。
+		* 断点基于最小宽度媒体查询（min-width），这意味着它们会影响该断点及其以上所有断点（例如，.col-sm-4 适用于 sm、md、lg、xl 和 xxl）。
+		* 这意味着你可以通过每个断点来控制容器和列的大小及行为。
+	
+	# 设置列数
+		* .row-cols-* 类可快速设置列数，以最佳方式呈现内容和布局。
+		* 普通的 .col-* 类适用于单列（例如 .col-md-4），而行列类则作为快捷方式设置在父 .row 上。
+		* 使用 .row-cols-auto 可以使列具有自然宽度（包裹）。
+
+	
+	# 等宽列
+		* 默认情况下，如果不指定列宽， row 中的每一个 col 都是等宽的
+	
+	# 设置某列的宽度
+		* 设置列占据的格子数量
+			col-6
+		
+		* 设置列的绝对宽度
+		
+		* 设置列的宽度为自然宽度（包裹）
+			col-auto
+
+----------------------
+列
+----------------------
+	# 偏移列
+		* offset 类为列添加空白区域
+			offset-4
+			offset-md-4
+			offset-lg-0  /* 重置 */
+
+	# 列垂直对齐（flex 中的 align-items）
+		* 默认情况下，列会自动占满容器高度（align-items: stretch）
+		* 如果设置了对齐方式，则列高度自动变成自然高度
+		* 设置在 row 上
+			align-items-start
+			align-items-center
+			align-items-end
+		
+		* col 单独设置
+			align-self-start
+			align-self-center
+			align-self-end
+
+	
+	# 水平对齐（flex 中的 justify-content）
+		* 设置在 row 上
+			justify-content-start
+			justify-content-center
+			justify-content-end
+			justify-content-around
+			justify-content-between
+			justify-content-evenly
+		
+	
+	# 列排序，不建议用
+
+	# 列 margin
+		ms-auto
+		ms-md-auto
+
+		* ms，是指 margin-start，start 即书写方向开始。即 left，所以最终结果是：margin-left
+		
+
+
+	# 独立的列
+		* .col-* 类也可以在 .row 之外使用，以赋予元素特定的宽度。
+		* 当列类作为 row 的非直接子类使用时，会省略 padding。
+
+
+----------------------
+间隙
+----------------------
+	# 列之间的间隔
+		* 是通过设置水平 padding 来实现的
+		* 为每一列设置 padding-right 和 padding-left，并在每一行的开始和结束处使用负边距来抵消，以对齐内容。
+	
+	# 水平/垂直间隙
+		.gx-*
+		.gy-*
+		.g-x			/* 同时设置 x 和 y 轴 */
+		.g-0			/* 消除间隙 */
+		.g-lg-3			/* 响应式间隙 */
 
