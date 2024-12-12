@@ -19,7 +19,6 @@ Border
 	border-bottom
 	border-bottom-color
 	border-bottom-style
-	border-bottom-width
 	border-collapse
 	border-color
 
@@ -57,11 +56,13 @@ Border
 				* 水平半轴相对于盒模型的宽度；垂直半轴相对于盒模型的高度。负值无效。
 
 	border-image
+		* 设置边框图片
 	border-image-outset
 	border-image-repeat
 	border-image-slice
 	border-image-source
 	border-image-width
+
 	border-inline
 	border-inline-color
 	border-inline-end
@@ -77,15 +78,24 @@ Border
 	border-left
 	border-left-color
 	border-left-style
-	border-left-width
+	
 	border-right
 	border-right-color
 	border-right-style
-	border-right-width
+	
 	border-spacing
 	border-style
 	border-top
 	border-top-color
 	border-top-style
-	border-top-width
+
+	
 	border-width
+		* 设置四条边的厚度
+		* 是如下属性的简写
+
+			border-top-width
+			border-right-width
+			border-left-width
+			border-bottom-width
+		
