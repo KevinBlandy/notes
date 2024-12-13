@@ -19,6 +19,9 @@ this
 		* 返回 element 元素的标签名。
 		* 对于元素节点来说，tagName 属性的值和nodeName属性的值是相同的。
 	
+	children
+		* 返回 一个 Node 的子elements ，是一个动态更新的 HTMLCollection。
+
 	classList
 		* 返回元素上的的 class 类名集合，是一个 DOMTokenList。
 		* 可以使用 add()、remove()、replace() 和 toggle() 方法修改其关联的 DOMTokenList。

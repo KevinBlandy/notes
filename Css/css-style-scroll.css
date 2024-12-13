@@ -1,0 +1,42 @@
+------------------------
+滚动相关的行为控制
+------------------------
+
+	scroll-behavior
+		* 设置滚动行为
+		* 一定要给 html 添加 scroll-behavior 而不是给 body 添加，不然没有效果。
+		* 可选值
+			auto
+				* 滚动框立即滚动。
+
+			smooth
+				* 滚动框通过一个用户代理预定义的时长、使用预定义的时间函数，来实现平稳的滚动，用户代理应遵循其平台的约定，如果有的话。
+
+	scroll-margin
+	scroll-margin-block
+	scroll-margin-block-end
+	scroll-margin-block-start
+	scroll-margin-bottom
+	scroll-margin-inline
+	scroll-margin-inline-end
+	scroll-margin-inline-start
+	scroll-margin-left
+	scroll-margin-right
+	scroll-margin-top
+	scroll-padding
+	scroll-padding-block
+	scroll-padding-block-end
+	scroll-padding-block-start
+	scroll-padding-bottom
+	scroll-padding-inline
+	scroll-padding-inline-end
+	scroll-padding-inline-start
+	scroll-padding-left
+	scroll-padding-right
+	scroll-padding-top
+	scroll-snap-align
+	scroll-snap-stop
+	scroll-snap-type
+	scroll-timeline
+	scroll-timeline-axis
+	scroll-timeline-name

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>App</title>
+    <style>
+        
+        .container {
+            margin-top: 100px;
+        }
+
+        .btn {
+            cursor: pointer;
+            font-size: 16px;
+            padding: .666em .999em;
+            background-color: white;
+            border: 1px solid skyblue;
+            color: skyblue;
+            border-radius: 3px;
+            /* 绝对定位 */
+            position: relative; 
+        }
+
+        .btn:active {
+            transform: translateY(3px);
+        }
+
+        .badge  {
+            font-size: 12px;
+            padding: 0.09em;
+            width: 20px;
+            height: 20px;
+            color: white;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: red;
+            border-radius: 50%;
+
+            /* 相对定位 */
+            position: absolute;
+            /* 靠最顶端 */
+            top: 0;
+            /* 靠最右端 */
+            right: 0;
+            /* 靠 2D 转换把自己网上、右移动 50%（基于自己的宽高）以实现完美的居中 */
+            transform: translateY(-50%) translateX(50%);
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="container">
+        <button class="btn">
+            戳我 <span class="badge">99+</span>
+        </button>
+    </div>
+      
+<script>
+</script>
+</body>
+</html>
