@@ -1,0 +1,27 @@
+---------------
+轮廓线:
+---------------
+	outline
+		* 是如下属性的简写
+			outline-color
+			outline-offset
+			outline-style
+			outline-width
+					
+		* outline-offset 不是 outline 的子属性，它是独立的，要单独声明
+			<length>
+				* 元素与其轮廓线之间的间距宽度。负值会将轮廓线置于元素内部。当值为 0 时，轮廓线与元素之间没有间距。
+
+		* 和 border 很类似，但有如下区别：
+			* outline 不占据空间，绘制于元素内容周围。
+			* 根据规范，outline 通常是矩形，但也可以是非矩形的。
+		
+		* 可使用以如下一个、两个或三个值来声明，且顺序不重要。
+			color：默认值为 currentcolor
+			style：默认值为 none
+			width：默认值为 medium
+		
+		* 将 outline 设置为 0 或 none 会移除浏览器的默认聚焦样式
+
+		* 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/outline
+
