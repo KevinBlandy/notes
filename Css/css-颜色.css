@@ -9,3 +9,36 @@
 	# HSLA 函数
 	# HWB 函数
 
+----------------------------------
+属性
+----------------------------------
+	color
+		* 设置元素的文本以及文本装饰的前景色颜色值，并设置 currentcolor 值。currentcolor 可以用作其他属性的间接值，且为其他颜色属性（如 border-color）的默认值。
+			https://developer.mozilla.org/zh-CN/docs/Web/CSS/color
+		
+		* 值
+			<color>
+				* 设置元素的文本和装饰部分的颜色。
+
+			currentcolor
+				* 将颜色设置为元素的 color 属性值。但是，如果设置为 color 的值，currentcolor 将被视为 inherit。
+
+	color-scheme 
+		* 允许元素指示它可以舒适地呈现哪些颜色方案。
+			https://developer.mozilla.org/zh-CN/docs/Web/CSS/color-scheme
+		* 值
+			normal
+				* 表示元素未指定任何配色方案，因此应使用浏览器的默认配色方案呈现。
+
+			light
+				* 表示可以使用操作系统亮色配色方案渲染元素。
+
+			dark
+				* 表示可以使用操作系统深色配色方案渲染元素。
+
+			only
+				* 禁止用户代理覆盖元素的颜色方案。
+
+		
+		* 可以使用 color-scheme: only light; 应用于特定的元素或 :root，以关闭由 Chrome 的自动深色主题引起的颜色覆盖。
+
