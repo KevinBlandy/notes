@@ -18,6 +18,10 @@ Blob
 				endings
 					* 可选，如果数据是文本，那么如何解释其中的换行符（\n）。
 					* 默认值 transparent 会将换行符复制到 blob 中而不会改变它们。要将换行符转换为主机系统的本地约定，请指定值 native。
+	
+	# 示例
+		const form = new FormData();
+		form.append("config",  new Blob([JSON.stringify({'with': 200, 'height': 200})], {type: 'application/json'}));
 
 -----------------
 this

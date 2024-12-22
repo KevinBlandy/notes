@@ -13,12 +13,14 @@ URLSearchParams
 				* 一个由字符串键和字符串值组成的键值对对象。请注意，不支持嵌套。
 			
 			
-			const params3 = new URLSearchParams([
+			new URLSearchParams("foo=&bar=baz");
+			 
+			new URLSearchParams([
 			  ["foo", "1"],
 			  ["bar", "2"],
 			]);
 
-			const params4 = new URLSearchParams({ foo: "1", bar: "2" });
+			new URLSearchParams({ foo: "1", bar: "2" });
 
 ----------------------
 this
