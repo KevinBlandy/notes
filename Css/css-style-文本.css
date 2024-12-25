@@ -32,6 +32,8 @@
 	text-shadow
 		* 设置阴影
 			text-shadow: h-shadow v-shadow blur color;
+		
+		* 可以同时设置多组阴影，声明多组属性，建议换行分割
 
 		* 值
 			<color>
@@ -97,6 +99,20 @@
 	
 	word-break
 		* 怎样在单词内断行
+		* 可选值
+
+			normal
+				* 使用默认的断行规则。
+
+			break-all
+				* 允许在单词内换行。
+
+			keep-all
+				* 只能在半角或连字符处换行。
+
+			break-word 已弃用
+				* 他的效果是word-break: normal 和 overflow-wrap: anywhere 的合，不论 overflow-wrap的值是多少。
+		
 
 	text-align
 		* 文本水平对齐方式
@@ -104,7 +120,30 @@
 			justify
 				* 两端对齐，两端对齐的文本会经过拉伸，正好占满左右边界之间的空间，至于如何拉伸是由用户代理决定的，和用户代理没有关系。
 
+	user-select
+		* 控制用户是否可以选择文本。
+		* 可选值
+			none
+				* 禁止选取
+			
+			auto
+				* auto 的具体取值取决于一系列条件，具体如下：
 
+					在 ::before 和 ::after 伪元素上，采用的属性值是 none
+					如果元素是可编辑元素，则采用的属性值是 contain
+					否则，如果此元素的父元素的 user-select 采用的属性值为 all，则该元素采用的属性值也为 all
+					否则，如果此元素的父元素的 user-select 采用的属性值为 none，则该元素采用的属性值也为 none
+					否则，采用的属性值为 text
+			
+			text
+				* 可选值
+			
+			all
+				* 只能选取全部文字。如果双击子元素，那么被选取的部分将是以该子元素向上回溯的最高祖先元素。
+			
+			contain
+				* 允许在元素内选择；但是，选区将被限制在该元素的边界之内。
+				*  CSS UI 4 将 element 值重命名为 contain。
 
 -------------------
 行高 / 字体大小
