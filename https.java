@@ -2,6 +2,10 @@ https://www.oschina.net/news/94188/acme-v2-and-wildcard-certificate-support-is-l
 https://my.oschina.net/kimver/blog/1634575
 https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E
 
+
+
+https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E
+
 ## Nginx反向代理http的tomcat
 	1,执行
 		curl https://get.acme.sh | sh
