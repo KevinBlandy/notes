@@ -98,9 +98,11 @@ func
 
 	func SignPKCS1v15(rand io.Reader, priv *PrivateKey, hash crypto.Hash, hashed []byte) ([]byte, error)
 	func SignPSS(rand io.Reader, priv *PrivateKey, hash crypto.Hash, digest []byte, ...) ([]byte, error)
+		* 使用私钥对数据进行签名
 
 	func VerifyPKCS1v15(pub *PublicKey, hash crypto.Hash, hashed []byte, sig []byte) error
 	func VerifyPSS(pub *PublicKey, hash crypto.Hash, digest []byte, sig []byte, opts *PSSOptions) error
+		* 使用公钥对签名进行验签
 
 ----------------------
 rsa
@@ -149,5 +151,43 @@ rsa
 		}
 	
 	# 签名验证
-		TODO
-			
+		package main
+
+		import (
+			"crypto"
+			"crypto/rand"
+			"crypto/rsa"
+			"crypto/sha256"
+			"fmt"
+		)
+
+		func main() {
+			// 生成 RSA 密钥对
+			privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
+			if err != nil {
+				panic(err)
+			}
+
+			// 获取公钥
+			publicKey := &privateKey.PublicKey
+
+			// 待签名的数据
+			data := []byte("Hello, world!")
+
+			// 对数据进行签名
+			hashed := sha256.Sum256(data)
+			signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA256, hashed[:])
+			if err != nil {
+				panic(err)
+			}
+
+			// 验证签名
+			err = rsa.VerifyPKCS1v15(publicKey, crypto.SHA256, hashed[:], signature)
+			if err != nil {
+				fmt.Println("签名验证失败:", err)
+			} else {
+				fmt.Println("签名验证通过")
+			}
+		}
+
+					
