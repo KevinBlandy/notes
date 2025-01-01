@@ -21,16 +21,22 @@ acme
 	
 		1. 创建证书请求
 			./acme.sh --issue --dns -d *.springboot.io --yes-I-know-dns-manual-mode-enough-go-ahead-please
-		
 		2. 等待添加 DNS 记录（TXT）
 		3. 签发证书
 			./acme.sh --renew -d *.springboot.io --yes-I-know-dns-manual-mode-enough-go-ahead-please
 	
-		4. 证书目录
-			fullchain.cer		// 证书
-			springboot.io.key	// 私钥
+			* 证书目录名称就是域名的名称
+				fullchain.cer		// 证书
+				springboot.io.key	// 私钥
 	
+		4. 续签
 		
-				
-	
+			./acme.sh --renew --force -d *.springboot.io --yes-I-know-dns-manual-mode-enough-go-ahead-please
+
+			
+			* --force 参数的目的是强行续签
+			* 同样，需要再次添加新的 DNS 记录
+		
+		
+		
 		
