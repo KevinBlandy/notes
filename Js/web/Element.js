@@ -29,6 +29,10 @@ this
 	attributes
 		* 返回一个注册到节点的所有属性节点的实时集合（NamedNodeMap 对象）。
 	
+	animate(keyframes, options)
+		* 创建一个新的 Animation ，将它应用于元素，然后运行动画。
+		* 返回一个新建的 Animation 对象实例
+
 	getAttribute(attributeName);
 		* 返回元素上一个指定的属性值。如果指定的属性不存在，则返回 null 或 ""
 		* 能取得不是HTML语言正式属性的自定义属性的值
