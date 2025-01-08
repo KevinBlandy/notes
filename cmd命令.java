@@ -26,3 +26,18 @@
 	netstat -aon|findstr "8081"
 
 
+# 启动 Java 应用，输出 PID
+
+	nohup /usr/local/jdk-21.0.5/bin/java -jar app.jar --spring.profiles.active=test --server.port=8080 > /dev/null 2>&1 & echo $! > app.pid &
+
+
+	// 多个参数，建议换行
+	nohup java -jar app.jar \
+		--spring.profiles.active=test \
+		--server.port=8080 \
+		--server.servlet.context-path=/api \
+		--spring.datasource.url=jdbc:mysql://localhost:3306/db \
+		--spring.datasource.username=root \
+		--spring.datasource.password=123456 \
+		--logging.level.root=INFO \
+		> /dev/null 2>&1 & echo $! > app.pid
