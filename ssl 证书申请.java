@@ -17,8 +17,13 @@ acme
 
 			~/.acme.sh/
 	
+	# 修改CA
+		* acme.sh 脚本默认 CA 服务器是 ZeroSSL，有时可能会导致获取证书的时候一直出现：Pending，The CA is processing your order，please just wait.
+		* 只需要把 CA 服务器改成 Lets Encrypt 即可，虽然更改以后还是有概率出现 pending，但基本 2-3 次即可成功
 
-	这个比较简单，我们在使用acme脚本签发证书时，在末尾加上 --keylength 2048即可
+		./acme.sh --set-default-ca --server letsencrypt
+
+
 	# DNS 验证
 	
 		1. 创建证书请求
@@ -39,7 +44,8 @@ acme
 			./acme.sh --renew -d *.springboot.io --keylength 2048 --yes-I-know-dns-manual-mode-enough-go-ahead-please
 	
 			* 证书目录名称就是域名的名称
-				fullchain.cer		// 证书
+				fullchain.cer		// 全链证书
+				springboot.io.cer	// 证书
 				springboot.io.key	// 私钥
 	
 		4. 续签
@@ -52,4 +58,11 @@ acme
 		
 		
 		
-		
+	# 文件验证
+		./acme.sh --issue -d app.springboot.io -d springboot.io --webroot /root/app/public/
+
+			--webroot
+				* 指的是域名服务的根目录。
+				* acme.sh 会全自动的生成验证文件，并放到网站的根目录，验证完成后会聪明的删除验证文件，整个过程没有任何副作用。
+
+
