@@ -22,6 +22,11 @@ acme
 		* 只需要把 CA 服务器改成 Lets Encrypt 即可，虽然更改以后还是有概率出现 pending，但基本 2-3 次即可成功
 
 		./acme.sh --set-default-ca --server letsencrypt
+		./acme.sh --set-default-ca --server zerossl
+	
+	# 修改邮箱
+		* Lets Encrypt 不能使用默认的 my@example.com 邮箱
+		* 编辑文件 account.conf ，修改里面的 ACCOUNT_EMAIL 配置项
 
 
 	# DNS 验证
@@ -44,7 +49,7 @@ acme
 			./acme.sh --renew -d *.springboot.io --keylength 2048 --yes-I-know-dns-manual-mode-enough-go-ahead-please
 	
 			* 证书目录名称就是域名的名称
-				fullchain.cer		// 全链证书
+				fullchain.cer		// 全链证书，有些 Nginx 需要配置这个
 				springboot.io.cer	// 证书
 				springboot.io.key	// 私钥
 	
@@ -64,5 +69,9 @@ acme
 			--webroot
 				* 指的是域名服务的根目录。
 				* acme.sh 会全自动的生成验证文件，并放到网站的根目录，验证完成后会聪明的删除验证文件，整个过程没有任何副作用。
+
+
+
+
 
 

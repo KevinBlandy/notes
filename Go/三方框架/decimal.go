@@ -171,8 +171,12 @@ type
 		func (d Decimal) RoundCash(interval uint8) Decimal
 		func (d Decimal) RoundCeil(places int32) Decimal
 		func (d Decimal) RoundDown(places int32) Decimal
+	
 		func (d Decimal) RoundFloor(places int32) Decimal
+			* 保留 N 位小数，直接截断
+
 		func (d Decimal) RoundUp(places int32) Decimal
+			* 保留 N 位小数，进位 1
 
 		func (d *Decimal) Scan(value interface{}) error
 		func (d Decimal) Shift(shift int32) Decimal

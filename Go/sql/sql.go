@@ -12,6 +12,22 @@ sql
 		* 驱动的加载
 			_ "github.com/go-sql-driver/mysql"
 	
+	# URL 链接参数
+
+		https://github.com/go-sql-driver/mysql
+			parseTime
+				* parseTime=true 会将 DATE 和 DATETIME 值的输出类型更改为 time.Time，而不是 []byte / string 日期或日期时间（如 0000-00-00 00:00:00）会转换为 time.Time 的零值。
+				* 如果是 false 则返回 []uint8 ，就是字符串 2025-01-14 13:43:54
+			
+			loc
+				* 指定时区，解析/写入 Timestamp 时使用的时区
+
+					loc=UTC		使用 UTC 时区
+					loc=Local	使用本地时区
+
+		
+
+	
 	
 	# 大致API流程
 		DB 执行SQL

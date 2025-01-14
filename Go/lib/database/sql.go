@@ -317,6 +317,23 @@ type
 			* 通俗理解就是，通过next正常遍历完毕数据后，会自动释放链接资源
 
 		func (rs *Rows) NextResultSet() bool
+			* 是否还有下一个 ResultSet 结果集 
+			* 有一些操作可以返回多个结果集
+
+				// 执行多个SELECT语句，返回多个结果集
+				rows, err := db.Query(`
+					SELECT id, name FROM users;
+					SELECT id, title FROM posts;
+				`)
+
+				// 外层循环处理每个结果集
+				for rows.NextResultSet() {
+					// 内层循环处理当前结果集的所有行
+					for rows.Next() {
+						// 处理数据...
+					}
+				}
+
 		func (rs *Rows) Scan(dest ...interface{}) error
 
 		* Rows会保留数据库连接，直到sql.Rows关闭
