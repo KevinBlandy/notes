@@ -43,6 +43,20 @@ struct
 		func (enc *Encoder) Encode(v interface{}) error
 		func (enc *Encoder) SetEscapeHTML(on bool)
 		func (enc *Encoder) SetIndent(prefix, indent string)
+
+		* 自定义 JSON 编码器
+			// 输出到 stdout
+			encoder := json.NewEncoder(os.Stdout)
+			// 前缀 & 缩进
+			encoder.SetIndent("", "  ")
+			// 不编码 HTML
+			encoder.SetEscapeHTML(false)
+
+			// 编码 & 输出
+			encoder.Encode(map[string]interface{}{
+				"lang": "GO语言",
+				"tag":  "<br>",
+			})
 	
 	# type InvalidUTF8Error struct {
 		}
