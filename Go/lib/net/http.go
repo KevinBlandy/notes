@@ -137,7 +137,10 @@ http
 	# ContextKey
 		var (
 			ServerContextKey = &contextKey{"http-server"}
+				* 返回 *Server
+
 			LocalAddrContextKey = &contextKey{"local-addr"}
+				* 返回 net.Addr
 		)
 	
 	# 默认客户端，被Get、Head和Post使用。
@@ -529,6 +532,9 @@ type
 					writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 					writer.WriteHeader(http.StatusOK)  // 在其他Header被写入后执行
 					writer.Write(jsonRet) // 写入响应体
+				
+				* 如果没有显式调用 WriteHeader ，第一次调用 Write 会触发隐式 WriteHeader(http.StatusOK)。
+				* 因此，对 WriteHeader 的显式调用主要用于发送错误代码或 1xx 信息响应。
 		}
 
 		* http服务器中的Response对象，用于往客户端写入http响应
