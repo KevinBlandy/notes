@@ -46,7 +46,7 @@ acme
 
 		2. 等待添加 DNS 记录（TXT）
 		3. 签发证书
-			./acme.sh --renew -d *.springboot.io --keylength 2048 --yes-I-know-dns-manual-mode-enough-go-ahead-please
+			./acme.sh --renew -d *.ft1234.com --keylength 2048 --yes-I-know-dns-manual-mode-enough-go-ahead-please
 	
 			* 证书目录名称就是域名的名称
 				fullchain.cer		// 全链证书，有些 Nginx 需要配置这个
