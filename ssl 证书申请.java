@@ -74,4 +74,3 @@ acme
 
 
 
-./acme.sh --issue -d assets.trendbox.vn --keylength 2048 --webroot /www/wwwroot/assets.trendbox.vn/
