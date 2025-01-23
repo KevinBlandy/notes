@@ -1,0 +1,186 @@
+ <template>
+    <div class="container">
+         <el-container>
+             <!-- 搜索框 -->
+            <el-header>
+                <el-form
+                    ref="searchForm"
+                    :model="params.query"
+                    inline
+                >
+                    <el-form-item label="UID" prop="uid">
+                        <el-input v-model="params.query.uid"></el-input>
+                    </el-form-item>
+                    <el-form-item label="账户" prop="account">
+                        <el-input v-model="params.query.account"></el-input>
+                    </el-form-item>
+
+                    <el-form-item>
+                        <el-button icon="search" @click="query">查询</el-button>
+                        <el-button @click="() => searchForm.resetFields()">清空</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-header>
+
+            <!-- 数据表格 -->
+            <el-main>
+                <el-table
+                    :data="params.list"
+                    highlight-current-row
+                    current-row-key="id"
+                >
+                    <el-table-column label="用户 ID" prop="uid"></el-table-column>
+                    <el-table-column label="账户" prop="account"></el-table-column>
+                    <el-table-column label="昵称" prop="nickName"></el-table-column>
+                    <el-table-column label="头像" prop="avatar"></el-table-column>
+                    <el-table-column label="VIP 等级" prop="vip"></el-table-column>
+                    <el-table-column label="状态" prop="status" :formatter="row => row.status ? '正常' : '禁用'"></el-table-column>
+                    <el-table-column label="创建时间" prop="createTime" show-overflow-tooltip></el-table-column>
+                    <el-table-column label="操作" fixed="right">
+                        <template #default="{ row }">
+                            <el-button-group class="ml-4">
+                                <el-button type="primary" icon="Edit" @click="onEdit(row);" />
+                                <el-button type="danger" icon="Delete" />
+                            </el-button-group>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-main>
+
+            <!-- 分页 -->
+            <el-footer>
+                <el-row
+                    justify="end"
+                >
+                <el-pagination
+                    :page-sizes="[10, 20, 50, 100, 500]"
+                    :current-page="params.page"
+                    :page-size="params.rows"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="params.total"
+                    @update:current-page="onPageChange"
+                    @update:page-size="onPageSizeChange"
+                    />
+                </el-row>
+            </el-footer>
+         </el-container>
+    </div>
+</template>
+
+
+<script setup>
+
+import { onMounted, reactive, useTemplateRef, watch} from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+
+// 搜所表单对象
+const searchForm = useTemplateRef('searchForm');
+
+// 当前路由
+const route = useRoute();
+
+// 路由器
+const router = useRouter();
+
+// 全局的参数模型
+const params = reactive({
+    page: 1,                // 页码
+    rows: 10,               // 每页数量
+    total: 0,               // 总记录数量
+    list: [],               // 集合
+    query: {                // 查询参数
+        uid: null,
+        account: null,
+    }
+});
+
+// 查询数据，传递查询参数
+const fetchData = (queryParams) => {
+    const query = new URLSearchParams();
+    for (const [k, v] of Object.entries(queryParams)){
+        if (v){
+            query.append(k, v);
+        }
+    }
+    
+    fetch('http://localhost/api/test/user' + '?' + query.toString(), {})
+    .then(resp => {
+        if (resp.ok){
+            return resp.json()
+        }
+        return Promise.reject('请求异常');
+    }).then(message => {
+        params.list = message.data.list;
+        params.total = message.data.total;
+    }).catch(err => {
+        console.log('请求异常');
+    });
+}
+
+// 加载时，根据路由参数初始化参数模型
+onMounted(() => {
+    const query = route.query;
+    if (query.uid){
+        params.query.uid = query.uid;
+    }
+    if (query.account){
+        params.query.account = query.account;
+    }
+    if (query.page){
+        params.page = parseInt(query.page);
+    }
+    if (query.rows){
+        params.rows = parseInt(query.rows);
+    }
+});
+
+// 监听路由查询参数的变化，并且立即执行
+watch(() => route.query, (newQuery) => {
+    fetchData(newQuery);
+}, {immediate: true});
+
+
+// 搜索框查询
+const query = () => {
+
+    // 合并新旧查询条件
+    const querParam = {...route.query, ...params.query};
+
+    // 就算是没有修改参数，点击搜索框也强制触发查询
+    querParam['_t'] = new Date().getTime();  
+
+    router.replace({query: {...querParam}});
+}
+
+// 编辑
+const onEdit = (row) => {
+}
+
+// 页码切换
+const onPageChange = (e) => {
+    // 同步更新分页器的显示
+    params.page = e;
+    // 更新路由，触发数据更新
+    router.replace({query: {...route.query, ...{page: e}}});
+}
+
+// 每页显示数量切换
+const onPageSizeChange = (e) => {
+    // 同步更新分页器的显示
+    params.rows = e;
+    // 更新路由，触发数据更新
+    router.replace({query: {...route.query, ...{rows: e}}});
+}
+
+</script>
+
+<style scoped>
+
+.container {
+    width: 1200px;
+    padding: 12px;
+    margin: 0 auto;
+    background-color: skyblue;
+}
+
+</style>
