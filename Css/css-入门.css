@@ -143,6 +143,11 @@ css 继承
 	
 	# unset
 		* 将属性重置为自然值，也就是如果属性是自然继承那么就是 inherit，否则和 initial 一样
+	
+	# revert
+		* 设置为浏览器的默认样式
+		* 参考：https://developer.mozilla.org/en-US/docs/Web/CSS/revert
+		
 		
 -------------------
 css 简写属性
