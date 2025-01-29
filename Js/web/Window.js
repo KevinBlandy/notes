@@ -62,7 +62,12 @@ this
 		
 		mediaQueryString
 			* 用于媒体查询解析的字符串。
-		
+	
+	requestAnimationFrame(callback)
+		* 该函数会在下一次重绘更新你的动画时被调用到
+	
+	requestIdleCallback(callback, options)
+		* callback 函数将在浏览器空闲时期被调用。
 
 --------------------
 static 

@@ -82,7 +82,19 @@ Redis-安装				|
 
 		* windows新版本下载
 			https://github.com/zkteco-home/redis-windows
-
+			
+			* 安装为服务
+				redis-server --service-install redis.conf --loglevel verbose
+			
+			* 卸载服务
+				redis-server --service-uninstall
+			
+			* 启动
+				redis-server --service-start
+			
+			* 停止
+				redis-server --service-stop
+			
 		* windows新版本的客户端下载
 			https://github.com/lework/RedisDesktopManager-Windows
 		
