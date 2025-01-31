@@ -1,0 +1,48 @@
+-----------------------------
+伪元素
+-----------------------------
+	::-moz-color-swatch
+	::-moz-focus-inner
+	::-moz-list-bullet
+	::-moz-list-number
+	::-moz-meter-bar
+	::-moz-progress-bar
+	::-moz-range-progress
+	::-moz-range-thumb
+	::-moz-range-track
+	::-webkit-inner-spin-button
+	::-webkit-meter-bar
+	::-webkit-meter-even-less-good-value
+	::-webkit-meter-inner-element
+	::-webkit-meter-optimum-value
+	::-webkit-meter-suboptimum-value
+	::-webkit-progress-bar
+	::-webkit-progress-inner-element
+	::-webkit-progress-value
+	::-webkit-scrollbar
+	::-webkit-search-cancel-button
+	::-webkit-search-results-button
+	::-webkit-slider-runnable-track
+	::-webkit-slider-thumb
+	::after
+	::backdrop
+	::before
+	::cue (:cue)
+	::details-content
+	::file-selector-button
+	::first-letter
+	::first-line (:first-line)
+	::grammar-error
+	::highlight()
+	::marker
+	::part()
+	::placeholder
+	::selection
+	::slotted()
+	::spelling-error
+	::target-text
+	::view-transition
+	::view-transition-group
+	::view-transition-image-pair
+	::view-transition-new
+	::view-transition-old

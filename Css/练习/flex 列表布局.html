@@ -1,0 +1,38 @@
+
+
+<template>
+    <div class="container">
+        <div class="item" v-for="i of 66">{{ i }}</div>
+    </div>
+</template>
+
+<script setup>
+</script>
+
+
+<style scoped>
+
+.container {
+    width: 800px;
+    height: 800px;
+    background-color: skyblue;
+    display: flex;
+    align-content: start;
+    flex-wrap: wrap;
+    
+}
+.item {
+    /* 每行多少个 */
+    --n: 12;
+    /* 每个多宽 */
+    --w: 40px;
+    /* 计算出左右 margin */
+    --gap: calc((100% - var(--w) * var(--n)) / var(--n) / 2);
+
+    margin: 10px var(--gap);
+
+    width: var(--w);
+    height: 40px;
+    background-color: gray;
+}
+</style>

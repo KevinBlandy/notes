@@ -48,4 +48,6 @@ func
 	func SetPanicOnFault(enabled bool) bool
 	func SetTraceback(level string)
 	func Stack() []byte
+		* Stack 返回调用它的 goroutine 的格式化堆栈跟踪。它会调用 runtime.Stack，并使用足够大的缓冲区来捕获整个跟踪。
+		
 	func WriteHeapDump(fd uintptr)

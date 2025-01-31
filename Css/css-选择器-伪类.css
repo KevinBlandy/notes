@@ -1,0 +1,97 @@
+------------------------------
+Pseudo-classes
+------------------------------
+
+	-moz-brokenNon-standardDeprecated
+	:-moz-drag-overNon-standard
+	:-moz-first-nodeExperimentalNon-standard
+	:-moz-handler-blockedNon-standard
+	:-moz-handler-crashedNon-standard
+	:-moz-handler-disabledNon-standard
+	:-moz-last-nodeExperimentalNon-standard
+	:-moz-loadingNon-standard
+	:-moz-locale-dir(ltr)Non-standard
+	:-moz-locale-dir(rtl)Non-standard
+	:-moz-only-whitespaceNon-standard
+	:-moz-submit-invalidNon-standard
+	:-moz-suppressedNon-standard
+	:-moz-user-disabledNon-standard
+	:-moz-window-inactiveNon-standard
+	:active
+	:any-link
+	:autofill
+	:blankExperimental
+	:buffering
+	:checked
+	:currentExperimental
+	:default
+	:defined
+	:dir()
+	:disabled
+	:empty
+	:enabled
+	:first
+	:first-child
+	:first-of-type
+	:focus
+	:focus-visible
+	:focus-within
+		* 表示当元素或其任意后代元素被聚焦时，将匹配该元素。
+		* 换言之，它表示 :focus 伪类匹配到该元素自身或它的后代时，该伪类生效。（这也包括 shadow 树中的后代元素。）
+
+	:fullscreen
+	:future
+	:has-slottedExperimental
+	:has()
+		* 函数式伪类 :has() 表示一个元素，如果作为参数传递的任何相对选择器在锚定到该元素时，至少匹配一个元素。
+		* 这个伪类通过把可容错相对选择器列表作为参数，提供了一种针对引用元素选择父元素或者先前的兄弟元素的方法。
+		
+	:host
+	:host-context()
+	:host()
+	:hover
+	:in-range
+	:indeterminate
+	:invalid
+	:is()
+	:lang()
+	:last-child
+	:last-of-type
+	:left
+	:link
+	:local-linkExperimental
+	:modal
+	:muted
+	:not()
+	:nth-child()
+	:nth-last-child()
+	:nth-last-of-type()
+	:nth-of-type()
+	:only-child
+	:only-of-type
+	:openExperimental
+	:optional
+	:out-of-range
+	:past
+	:paused
+	:picture-in-picture
+	:placeholder-shown
+	:playing
+	:popover-open
+	:read-only
+	:read-write
+	:required
+	:right
+	:root
+	:scope
+	:seeking
+	:stalled
+	:state()
+	:target
+	:target-withinExperimental
+	:user-invalid
+	:user-valid
+	:valid
+	:visited
+	:volume-locked
+	:where()
