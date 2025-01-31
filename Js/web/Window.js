@@ -4,7 +4,15 @@ window extends EventTarget
 	# Window
 		* window 对象被复用为 ECMAScript 的 Global 对象，所以通过 var 声明的所有全局变量和函数都会变成 window 对象的属性和方法。
 		* JavaScript 中有很多对象都暴露在全局作用域中，比如 location 和 navigator ，因而它们也是 window 对象的属性。
+		
+		https://developer.mozilla.org/zh-CN/docs/Web/API/Window
 
+--------------------
+event
+--------------------
+offline
+online
+	* 离线/在线事件
 
 --------------------
 this
@@ -20,6 +28,9 @@ this
 	
 	indexedDB 
 		* 只读属性，返回 IDBFactory 对象
+	
+	navigator 
+		* 返回一个 Navigator 对象的引用，可以用于请求运行当前代码的应用程序的相关信息。
 
 
 	setTimeout(functionRef, delay, param1, param2, /* … ,*/ paramN)

@@ -9,6 +9,14 @@ Document
 
 
 ---------------------------
+event
+---------------------------
+
+visibilitychange 
+	* 页面切换事件，可以通过 hidden 属性来判断是切出还是切入
+
+
+---------------------------
 this
 ---------------------------
 	documentElement
@@ -45,6 +53,14 @@ this
 	
 	forms 
 		* 返回文档中的所有表单元素（HTMLCollection）。
+		
+	
+	hidden
+		* 只读属性，返回一个表示页面是否被视为隐藏的布尔值。
+			document.addEventListener("visibilitychange", () => {
+			  console.log(document.hidden);
+			  // 修改行为……
+			});
 	
 	visibilityState
 		* 返回document的可见性，即当前可见元素的上下文环境。

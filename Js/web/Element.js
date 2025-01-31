@@ -29,10 +29,25 @@ this
 	attributes
 		* 返回一个注册到节点的所有属性节点的实时集合（NamedNodeMap 对象）。
 	
+	
 	animate(keyframes, options)
-		* 创建一个新的 Animation ，将它应用于元素，然后运行动画。
-		* 返回一个新建的 Animation 对象实例
+	
+		keyframes
+			* 关键帧对象数组，或一个关键帧对象（其属性为可迭代值的数组）。
+			* 关键帧的格式：https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Animations_API/Keyframe_Formats
 
+		options
+			* 代表动画持续时间的整数（以毫秒为单位），或者一个包含一个或多个时间属性（在 KeyframeEffect() options 参数和下方列出）的对象：
+				id 
+					* 可选
+					* 在 animate() 里可作为唯一标识的属性：一个用来引用动画的字符串。
+	
+		* 创建一个新的 Animation 的便捷方法，将它应用于元素，然后运行动画。
+		* 它将返回一个新建的 Animation 对象实例
+	
+	getAnimations(options)
+		* 返回一个数组，其中包含所有影响该元素或计划在未来影响该元素的动画对象。也可以选择返回后代元素的动画对象。
+		
 	getAttribute(attributeName);
 		* 返回元素上一个指定的属性值。如果指定的属性不存在，则返回 null 或 ""
 		* 能取得不是HTML语言正式属性的自定义属性的值
@@ -66,6 +81,9 @@ this
 		* Ok 后返回一个 resolved 的 Promise，值为 undefined。
 		* 这个方法需要用于触发，而不能直接通过顺序执行代码来自动全屏。
 	
+	getBoundingClientRect()
+		* 返回一个 DOMRect 对象，其提供了元素的大小及其相对于视口的位置。
+		* 参考：https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getBoundingClientRect
 
 ----------------------
 static

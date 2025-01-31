@@ -13,41 +13,44 @@ Animation
 				* 指定与动画关联的时间轴。
 				* 目前唯一可用的时间轴类型是DocumentTimeline，但在将来我会有与手势或滚动相关联的时间轴。
 				* 默认为Document.timeline。这也可以设置为 null。
+
 ----------------------
 event
 ----------------------
 
-	cancel
-	finish
-	remove
+cancel
+finish
+remove
 
 ----------------------
 this
 ----------------------
 
-	currentTime
-	effect
-	finished
-	id
-	pending
-	playbackRate
-	playState
-	ready
-	replaceState
-	startTime
-	timeline
+currentTime
+effect
+finished
+id
+overallProgress
+pending
+playbackRate
+playState
+ready
+replaceState
+startTime
+timeline
 
 
-	cancel()
-	commitStyles()
-	finish()
-	pause()
-	persist()
-	play()
-	reverse()
-	updatePlaybackRate()
+cancel()
+commitStyles()
+finish()
+pause()
+persist()
+play()
+reverse()
+updatePlaybackRate()
 
 
 ----------------------
 static
 ----------------------
+
