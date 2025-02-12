@@ -179,3 +179,16 @@ go 泛型类
 		log.Println(foo)
 		log.Println(foo.bar())
 	}
+
+----------------
+go 泛型别名
+----------------
+
+	type AsyncResult[T any, S ~[]T] = func() (Result[T], S)
+
+	type Result[T any] = struct {
+		Value T
+		Error error
+	}
+
+	type myMap[K comparable, V any] = map[K]V

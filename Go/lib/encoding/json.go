@@ -124,6 +124,15 @@ struct
 		}
 		func (e *UnmarshalFieldError) Error() string
 	
+	# type UnmarshalTypeError struct {
+			Value  string       // description of JSON value - "bool", "array", "number -5"
+			Type   reflect.Type // type of Go value it could not be assigned to
+			Offset int64        // error occurred after reading Offset bytes
+			Struct string       // name of the struct type containing the field
+			Field  string       // the full path from root node to the field, include embedded struct
+		}
+		func (e *UnmarshalTypeError) Error() string
+
 	# type Unmarshaler interface {
 			UnmarshalJSON([]byte) error
 		}

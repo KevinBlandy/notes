@@ -21,6 +21,16 @@
 			StackRecord
 		}
 
+	# type Cleanup struct {
+			// contains filtered or unexported fields
+		}
+		
+		* 针对特定对象的清理调用句柄。
+
+		func AddCleanup[T, S any](ptr *T, cleanup func(S), arg S) Cleanup
+		func (c Cleanup) Stop()
+
+
 	# type Error interface {
 			error
 			RuntimeError()

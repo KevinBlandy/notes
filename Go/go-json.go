@@ -47,13 +47,21 @@ json 序列化
 		* 空值/0值得时候不生成字段
 			type Foo struct {
 				Name string `json:",omitempty"`		// 如果name字段，为空字符串，不生成Name这个字段
+				Account string `json:",omitzero"`		// 如果name字段，为空字符串，不生成Name这个字段
+					* 如果字段的值为零时，该字段将被省略。
+					* 如果字段类型有 IsZero() bool 方法，将使用该方法确定值是否为零。否则，如果该值是其类型的零值，则该值为零。
+					* 当要省略零值时，omitzero 字段标记比 omitempty 更清晰、更不易出错。特别是，与 omitempty 不同的是，omitzero 会省略零值的 time.Time 值。
+					* 如果同时指定了 omitempty 和 omitzero，那么如果值为空或零（或两者都是），字段就会被省略。
+					* UnmarshalTypeError.Field 包含嵌入式结构体，可提供更详细的错误信息。
 			}
+		
 		
 		* 不序列化
 			json:"-"
 		
 		* 要被序列化
 			json:"-,"
+		
 		
 		* 把字符串解码/编码为数字
 			type TestObject struct {

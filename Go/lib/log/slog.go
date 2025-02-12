@@ -21,6 +21,9 @@ var
 		SourceKey = "source"
 			* 输出源文件（调用）的key
 	)
+		
+	// 日志丢弃 Handler
+	var DiscardHandler Handler = discardHandler{}
 
 --------------
 type
@@ -134,6 +137,7 @@ type
 			* 在调用 SetDefault 之前，slog 顶级日志记录函数会调用默认的 log.Logger。
 			* 在这种模式下，SetLogLoggerLevel 会为这些调用设置最低级别。默认情况下，最低级别为 Info，因此调用 Debug（以及较低级别的顶级日志调用）不会传递到 log.Logger。调用
 
+		func (l Level) AppendText(b []byte) ([]byte, error)
 		func (l Level) Level() Level
 		func (l Level) MarshalJSON() ([]byte, error)
 		func (l Level) MarshalText() ([]byte, error)
@@ -145,7 +149,8 @@ type
 		}
 		
 		* 日志变量，可以修改日志级别，线程安全的
-
+		
+		func (v *LevelVar) AppendText(b []byte) ([]byte, error)
 		func (v *LevelVar) Level() Level
 		func (v *LevelVar) MarshalText() ([]byte, error)
 		func (v *LevelVar) Set(l Level)

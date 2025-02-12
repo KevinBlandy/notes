@@ -26,6 +26,12 @@ func
 	func Read(b []byte) (n int, err error)
 		* 本质上是
 			return io.ReadFull(Reader, b)
+	
+	func Text() string
+		* 使用标准 RFC 4648 base32 字母表返回一个加密随机字符串，供需要秘密字符串、令牌、密码或其他文本时使用。
+		* 结果至少包含 128 比特的随机性，足以防止暴力猜测攻击，并使碰撞的可能性微乎其微。未来版本可能会根据需要返回更长的文本，以保持这些特性。
+		* 例如：3BVGQSPSODDDH7JZMKFWR5N5XE
+
 
 ---------------------
 demo

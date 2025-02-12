@@ -268,6 +268,26 @@ type
 
 		* 进程状态
 	
+	# type Root struct {
+			// contains filtered or unexported fields
+		}
+		
+		* 提供了在特定目录内执行文件系统操作的能力。
+			
+		func OpenRoot(name string) (*Root, error)
+		func (r *Root) Close() error
+		func (r *Root) Create(name string) (*File, error)
+		func (r *Root) FS() fs.FS
+		func (r *Root) Lstat(name string) (FileInfo, error)
+		func (r *Root) Mkdir(name string, perm FileMode) error
+		func (r *Root) Name() string
+		func (r *Root) Open(name string) (*File, error)
+		func (r *Root) OpenFile(name string, flag int, perm FileMode) (*File, error)
+		func (r *Root) OpenRoot(name string) (*Root, error)
+		func (r *Root) Remove(name string) error
+		func (r *Root) Stat(name string) (FileInfo, error)
+
+	
 	# type Signal interface {
 			String() string
 			Signal() // to distinguish from other Stringers

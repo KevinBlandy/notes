@@ -281,6 +281,23 @@ type
 	# type Flusher interface {
 			Flush()
 		}
+
+	# type HTTP2Config struct {
+			MaxConcurrentStreams int
+			MaxDecoderHeaderTableSize int
+			MaxEncoderHeaderTableSize int
+			MaxReadFrameSize int
+			MaxReceiveBufferPerConnection int
+			MaxReceiveBufferPerStream int
+			SendPingTimeout time.Duration
+			PingTimeout time.Duration
+			WriteByteTimeout time.Duration
+			PermitProhibitedCipherSuites bool
+			CountError func(errType string)
+		}
+
+		* HTTP 2 的配置
+
 	
 	# type Handler interface {
 			ServeHTTP(ResponseWriter, *Request)
@@ -346,6 +363,16 @@ type
 
 		func (pe *ProtocolError) Error() string
 		func (pe *ProtocolError) Is(err error) bool
+	
+	# type Protocols struct {
+		}
+		func (p Protocols) HTTP1() bool
+		func (p Protocols) HTTP2() bool
+		func (p *Protocols) SetHTTP1(ok bool)
+		func (p *Protocols) SetHTTP2(ok bool)
+		func (p *Protocols) SetUnencryptedHTTP2(ok bool)
+		func (p Protocols) String() string
+		func (p Protocols) UnencryptedHTTP2() bool
 	
 	# type MaxBytesError struct {
 			Limit int64
@@ -594,6 +621,12 @@ type
 			ErrorLog *log.Logger
 			BaseContext func(net.Listener) context.Context
 			ConnContext func(ctx context.Context, c net.Conn) context.Context
+			HTTP2 *HTTP2Config
+				* 配置 HTTP/2 连接。
+
+			Protocols *Protocols
+				* 服务器接受的协议集，如果 Protocols 包括 UnencryptedHTTP2，服务器将接受，未加密的 HTTP/2 连接。服务器可以同时提供，HTTP/1 和未加密 HTTP/2。
+				* 如果协议为零，默认值通常是 HTTP/1 和 HTTP/2。如果 TLSNextProto 为非零，且不包含 “h2 ”条目、 默认情况下仅为 HTTP/1。
 		}
 		func (srv *Server) Close() error
 		func (srv *Server) ListenAndServe() error
@@ -639,6 +672,12 @@ type
 			WriteBufferSize int
 			ReadBufferSize int
 			ForceAttemptHTTP2 bool // contains filtered or unexported fields
+			HTTP2 *HTTP2Config
+				* 配置 HTTP/2 连接。
+
+			Protocols *Protocols
+				* 服务器接受的协议集，如果 Protocols 包括 UnencryptedHTTP2，服务器将接受，未加密的 HTTP/2 连接。服务器可以同时提供，HTTP/1 和未加密 HTTP/2。
+				* 如果协议为零，默认值通常是 HTTP/1 和 HTTP/2。如果 TLSNextProto 为非零，且不包含 “h2 ”条目、 默认情况下仅为 HTTP/1。
 		}
 
 		* Http通信协议相关的配置，主要是客户端使用

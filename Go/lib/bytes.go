@@ -81,56 +81,60 @@
 -----------------
 模块方法
 -----------------
-	func Equal(a, b []byte) bool
-		* 比较2个字节切片，是否是完全一样的
-
+	func Clone(b []byte) []byte
 	func Compare(a, b []byte) int
-	func Count(s, sep []byte) int 
 	func Contains(b, subslice []byte) bool
 	func ContainsAny(b []byte, chars string) bool
+	func ContainsFunc(b []byte, f func(rune) bool) bool
 	func ContainsRune(b []byte, r rune) bool
-	func IndexByte(b []byte, c byte) int
-	func LastIndex(s, sep []byte) int
-	func LastIndexByte(s []byte, c byte) int
-	func IndexRune(s []byte, r rune) int
-	func IndexAny(s []byte, chars string) int
-	func LastIndexAny(s []byte, chars string) int
-	func SplitN(s, sep []byte, n int) [][]byte
-	func SplitAfterN(s, sep []byte, n int) [][]byte
-	func Split(s, sep []byte) [][]byte
-	func SplitAfter(s, sep []byte) [][]byte
-	func Fields(s []byte) [][]byte
-	func FieldsFunc(s []byte, f func(rune) bool) [][]byte
-	func Join(s [][]byte, sep []byte) []byte
-	func HasPrefix(s, prefix []byte) bool
-	func HasSuffix(s, suffix []byte) bool 
-	func Map(mapping func(r rune) rune, s []byte) []byte
-	func Repeat(b []byte, count int) []byte 
-	func ToUpper(s []byte) []byte 
-	func ToLower(s []byte) []byte
-	func ToTitle(s []byte) []byte 
-	func ToUpperSpecial(c unicode.SpecialCase, s []byte) []byte 
-	func ToLowerSpecial(c unicode.SpecialCase, s []byte) []byte 
-	func ToTitleSpecial(c unicode.SpecialCase, s []byte) []byte
-	func ToValidUTF8(s, replacement []byte) []byte
-	func Title(s []byte) []byte 
-	func TrimLeftFunc(s []byte, f func(r rune) bool) []byte 
-	func TrimRightFunc(s []byte, f func(r rune) bool) []byte 
-	func TrimFunc(s []byte, f func(r rune) bool) []byte
-	func TrimPrefix(s, prefix []byte) []byte 
-	func TrimSuffix(s, suffix []byte) []byte 
-	func IndexFunc(s []byte, f func(r rune) bool) int 
-	func LastIndexFunc(s []byte, f func(r rune) bool) int 
-	func Trim(s []byte, cutset string) []byte 
-	func TrimLeft(s []byte, cutset string) []byte
-	func TrimRight(s []byte, cutset string) []byte
-	func TrimSpace(s []byte) []byte 
-	func Runes(s []byte) []rune
-	func Replace(s, old, new []byte, n int) []byte
-	func ReplaceAll(s, old, new []byte) []byte
-	func EqualFold(s, t []byte) bool
-	func Index(s, sep []byte) int 
-	func Cut(s, sep []byte) (before, after []byte, found bool) 
+	func Count(s, sep []byte) int
+	func Cut(s, sep []byte) (before, after []byte, found bool)
 	func CutPrefix(s, prefix []byte) (after []byte, found bool)
 	func CutSuffix(s, suffix []byte) (before []byte, found bool)
-	func Clone(b []byte) []byte
+	func Equal(a, b []byte) bool
+	func EqualFold(s, t []byte) bool
+	func Fields(s []byte) [][]byte
+	func FieldsFunc(s []byte, f func(rune) bool) [][]byte
+	func FieldsFuncSeq(s []byte, f func(rune) bool) iter.Seq[[]byte]
+	func FieldsSeq(s []byte) iter.Seq[[]byte]
+	func HasPrefix(s, prefix []byte) bool
+	func HasSuffix(s, suffix []byte) bool
+	func Index(s, sep []byte) int
+	func IndexAny(s []byte, chars string) int
+	func IndexByte(b []byte, c byte) int
+	func IndexFunc(s []byte, f func(r rune) bool) int
+	func IndexRune(s []byte, r rune) int
+	func Join(s [][]byte, sep []byte) []byte
+	func LastIndex(s, sep []byte) int
+	func LastIndexAny(s []byte, chars string) int
+	func LastIndexByte(s []byte, c byte) int
+	func LastIndexFunc(s []byte, f func(r rune) bool) int
+	func Lines(s []byte) iter.Seq[[]byte]
+	func Map(mapping func(r rune) rune, s []byte) []byte
+	func Repeat(b []byte, count int) []byte
+	func Replace(s, old, new []byte, n int) []byte
+	func ReplaceAll(s, old, new []byte) []byte
+	func Runes(s []byte) []rune
+	func Split(s, sep []byte) [][]byte
+	func SplitAfter(s, sep []byte) [][]byte
+	func SplitAfterN(s, sep []byte, n int) [][]byte
+	func SplitAfterSeq(s, sep []byte) iter.Seq[[]byte]
+	func SplitN(s, sep []byte, n int) [][]byte
+	func SplitSeq(s, sep []byte) iter.Seq[[]byte]
+	func Title(s []byte) []bytedeprecated
+	func ToLower(s []byte) []byte
+	func ToLowerSpecial(c unicode.SpecialCase, s []byte) []byte
+	func ToTitle(s []byte) []byte
+	func ToTitleSpecial(c unicode.SpecialCase, s []byte) []byte
+	func ToUpper(s []byte) []byte
+	func ToUpperSpecial(c unicode.SpecialCase, s []byte) []byte
+	func ToValidUTF8(s, replacement []byte) []byte
+	func Trim(s []byte, cutset string) []byte
+	func TrimFunc(s []byte, f func(r rune) bool) []byte
+	func TrimLeft(s []byte, cutset string) []byte
+	func TrimLeftFunc(s []byte, f func(r rune) bool) []byte
+	func TrimPrefix(s, prefix []byte) []byte
+	func TrimRight(s []byte, cutset string) []byte
+	func TrimRightFunc(s []byte, f func(r rune) bool) []byte
+	func TrimSpace(s []byte) []byte
+	func TrimSuffix(s, suffix []byte) []byte
