@@ -180,15 +180,53 @@ go 泛型类
 		log.Println(foo.bar())
 	}
 
+
+
+----------------
+自定义类型泛型
+----------------
+
+// 自定义类型
+type MemberMap[K comparable, V any] map[K]V
+
+// 给自定义类型添加方法
+func (m MemberMap[K, V]) Member(k K) V {
+	return m[k]
+}
+
+func main() {
+
+	// 创建自定义类型，指定泛型参数
+	var m = MemberMap[int64, any](make(map[int64]any))
+	m[1000] = "Jonathan"
+
+	fmt.Println(m)
+
+	// 调用自定义方法
+	fmt.Println(m.Member(1000))
+}
+
+
 ----------------
 go 泛型别名
 ----------------
 
-	type AsyncResult[T any, S ~[]T] = func() (Result[T], S)
+// Wrapper 具有泛型的 Struct
+type Wrapper[T any] struct {
+	value T
+}
 
-	type Result[T any] = struct {
-		Value T
-		Error error
-	}
+// StringWrapper 传统方式，需要位不同的类型定义不同的变量
+type StringWrapper = Wrapper[string]
 
-	type myMap[K comparable, V any] = map[K]V
+// GenericWrapper 使用泛型别名后，可以任意定义
+type GenericWrapper[T any] = Wrapper[T]
+
+func main() {
+	// 传统 StringWrapper
+	_ = StringWrapper{""}
+	// 泛型 StringWrapper
+	_ = GenericWrapper[string]{""}
+	// int
+	_ = GenericWrapper[int]{10000}
+}
