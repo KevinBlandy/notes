@@ -138,12 +138,37 @@ MySQL-日期时间类型		|
 			[mysqld]
 			sql-mode=TIME_TRUNCATE_FRACTIONAL
 	
-	# 修改时间戳的时区
-		-- 修改时区为东八区
-		CONVERT_TZ(t.create_time, '+00:00', '+08:00')
-		-- 格式化后修改的时区
-		DATE_FORMAT(CONVERT_TZ(t.create_time, '+00:00', '+08:00'), '%Y-%m-%d')
+		* 修改时间戳的时区
+			-- 修改时区为东八区
+			CONVERT_TZ(t.create_time, '+00:00', '+08:00')
+			-- 格式化后修改的时区
+			DATE_FORMAT(CONVERT_TZ(t.create_time, '+00:00', '+08:00'), '%Y-%m-%d')
+
+	# 建议使用 bitint 来代替 timestamp 以避免 2038 问题
 		
+		* 把 bigint 转换为时间戳（注意，MYSQL 存储的是秒，所以，如果存储的是毫秒，则需要 / 1000）
+			FROM_UNIXTIME( create_time / 1000 )
+
+
+		* 对转换后的时间戳进行时区转换
+			CONVERT_TZ( FROM_UNIXTIME(create_time / 1000 ), '+00:00', '+08:00' ) 
+				
+				* 第一个参数：'+00:00' 表示数据的原时区，是 UTC
+				* 第二个参数：'+08:00' 表示要转换到的目标时区
+		
+		* 获取年月日时分秒信息
+			DATE(FROM_UNIXTIME(create_time / 1000)) 
+			TIME(FROM_UNIXTIME(create_time / 1000)) 
+
+			* 单独获取某个字段
+
+				YEAR (FROM_UNIXTIME(t.create_time / 1000 ))
+				MONTH()
+				DAY()
+				HOUR()
+				MINUTE()
+				SECOND()
+
 -----------------------
 MySQL-字符串类型		|
 -----------------------
