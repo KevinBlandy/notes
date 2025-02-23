@@ -11,6 +11,8 @@ java.time				|
 			|-DayOfWeek
 			|-Year
 			|-Month
+			|-MonthDay
+			|-YearMonth
 		java.time.chrono
 		java.time.format
 			|-DateTimeFormatter
