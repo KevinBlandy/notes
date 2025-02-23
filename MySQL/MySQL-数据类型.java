@@ -144,7 +144,20 @@ MySQL-日期时间类型		|
 			-- 格式化后修改的时区
 			DATE_FORMAT(CONVERT_TZ(t.create_time, '+00:00', '+08:00'), '%Y-%m-%d')
 
-	# 建议使用 bitint 来代替 timestamp 以避免 2038 问题
+	# 建议使用 BIGINT 来代替 timestamp 以避免 2038 问题
+	
+		* 设置字段的默认值为当前时间的秒级时间戳
+			CREATE TABLE `demo` (
+			  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+			  `create_time` bigint unsigned DEFAULT ((unix_timestamp(now(3)) * 1000)) COMMENT '创建时间',
+			  PRIMARY KEY (`id`)
+			) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+			
+			// now()  表示秒级
+			// now(3) 表示获取精确到毫秒的时间戳值，其中毫秒是小数，所以要 * 1000
+			
+			* 插入数据，不指定 `create_time` 列，则会自动使用当前时间戳值
+				INSERT INTO demo(`id`) VALUES(null);
 		
 		* 把 bigint 转换为时间戳（注意，MYSQL 存储的是秒，所以，如果存储的是毫秒，则需要 / 1000）
 			FROM_UNIXTIME( create_time / 1000 )
