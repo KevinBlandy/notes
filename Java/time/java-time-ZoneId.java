@@ -43,6 +43,9 @@ ZoneId
 		Set<String> getAvailableZoneIds()
 		ZoneId of(String zoneId, Map<String, String> aliasMap)
 		ZoneId of(String zoneId)
+			* 解析时区 ID 为 ZoneId
+				ZoneId.of("Asia/Shanghai");
+			
 		ZoneId ofOffset(String prefix, ZoneOffset offset)
 		ZoneId of(String zoneId, boolean checkAvailable)
 		ZoneId ofWithPrefix(String zoneId, int prefixLength, boolean checkAvailable) 
