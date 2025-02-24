@@ -113,6 +113,9 @@ type
 
 		func OpenFile(name string, flag int, perm FileMode) (*File, error)
 			* 打开文件指定属性以及创建时的权限信息
+		
+		func OpenInRoot(dir, name string) (*File, error)
+			* 
 
 		func (f *File) Chdir() error
 		func (f *File) Chmod(mode FileMode) error
