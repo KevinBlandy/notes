@@ -106,3 +106,54 @@ BeanCopier - demo
 				System.out.println(bar);
 			}
 		}
+
+
+-----------------------------
+BeanCopierUtils
+-----------------------------
+
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import org.springframework.cglib.beans.BeanCopier;
+
+import lombok.extern.slf4j.Slf4j;
+
+/***
+ * 
+ * 基于 CGLIB 字节码的 Bean 属性复制工具
+ */
+@Slf4j
+public class BeanCopierUtils {
+
+	static final ConcurrentMap<String, BeanCopier> map = new ConcurrentHashMap<>();
+	
+	
+	/**
+	 * 复制对象属性，只能复制同名，同类型的属性
+	 * @param src
+	 * @param dest
+	 */
+	public static void copy (Object src, Object dest) {
+
+		Objects.requireNonNull(src);
+		Objects.requireNonNull(dest);
+		
+		Class<?> srcClass = src.getClass();
+		Class<?> destClass = dest.getClass();
+		
+		map.compute(key(srcClass, destClass), (k, v) -> {
+			if (v == null) {
+				log.info("New BeanCopier：{}", k);
+				return BeanCopier.create(srcClass, destClass, false);
+			}
+			return v;
+		}).copy(src, dest, null);;
+	}
+	
+	
+	static String key (Class<?> src, Class<?> dest) {
+		return src.getName() + "_" + dest.getName(); 
+	}
+}
