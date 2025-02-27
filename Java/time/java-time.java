@@ -39,8 +39,9 @@ LocalDateTime minWeak = LocalDateTime.of(LocalDate.now().with(DayOfWeek.MONDAY),
 LocalDateTime maxWeak = LocalDateTime.of(LocalDate.now().with(DayOfWeek.SUNDAY),LocalTime.MAX);
 
 // 本月开始,结束
-LocalDateTime minMonth = LocalDateTime.of(LocalDate.now().withDayOfMonth(1),LocalTime.MIN);
-LocalDateTime maxMonth = LocalDateTime.of(LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()),LocalTime.MAX);
+LocalDate today = LocalDate.now();
+LocalDateTime minMonth = LocalDateTime.of(today.withDayOfMonth(1), LocalTime.MIN);
+LocalDateTime maxMonth = LocalDateTime.of(today.withDayOfMonth(today.getMonth().length(Year.isLeap(today.getYear()))),LocalTime.MAX);
 
 // 本年开始,结束
 LocalDateTime minYear = LocalDateTime.of(LocalDate.now().withDayOfYear(1),LocalTime.MIN);
@@ -68,3 +69,23 @@ public static void main(String[] args) {
 	System.out.println("目标时间：" + memberTime.format(formatter));
 }
 
+
+
+//----------------------
+// 基于时区，进行日期计算
+//----------------------
+
+ZonedDateTime now = ZonedDateTime.now(ZoneId.of("GMT+0800"));
+
+// 今日
+now.withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
+now.withHour(23).withMinute(59).withSecond(59).withNano(999_999_999).toInstant();
+
+//昨日
+ZonedDateTime yesterday  = now.minusDays(1);
+yesterday.withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
+yesterday.withHour(23).withMinute(59).withSecond(59).withNano(999_999_999).toInstant();
+
+// 本月
+now.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
+now.withDayOfMonth(now.getMonth().length(Year.isLeap(now.getYear()))).withHour(23).withMinute(59).withSecond(59).withNano(999_999_999).toInstant();
