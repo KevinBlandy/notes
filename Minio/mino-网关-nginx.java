@@ -4,6 +4,12 @@ Nginx作为网关
 	server {
 		listen 80;
 		server_name example.com;
+
+        location = / {
+			# 禁止访问根目录
+			return 403;
+		}
+
 		location / {
 			proxy_set_header Host $http_host;
 			proxy_pass http://localhost:9000;
