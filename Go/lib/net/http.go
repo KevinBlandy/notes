@@ -188,6 +188,13 @@ type
 				* 连接控制
 			
 			CheckRedirect func(req *Request, via []*Request) error
+				* 重定向跟随策略，
+					req 即将重定向的请求
+					via 已经发出的请求
+				
+				* 如果返回特殊的错误:  http.ErrUseLastResponse, 那么不会跟随重定向，Client 返回最新的未关闭 Body 的响应，以及 nil 错误。
+				* 默认策略，在连续 10 重定向次请求后停止。
+
 			Jar CookieJar
 			Timeout time.Duration
 				* 超时设置，这个时间包含了: 连接时间、任何重定向，和读取响应体
