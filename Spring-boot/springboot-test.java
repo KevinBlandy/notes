@@ -53,3 +53,29 @@ springboot的单元测试		|
 				TestCase.assertEquals();
 			}
 		}
+	
+	# SB 3
+
+		import org.junit.jupiter.api.Test;
+		import org.springframework.boot.test.context.SpringBootTest;
+		import org.springframework.test.context.ActiveProfiles;
+
+		import com.app.App;
+
+
+		@ActiveProfiles("dev")
+		@SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+		public class AppTests {
+
+			@Test
+			public void test () {
+				
+				
+			}
+		}
+
+	
+	# 指定 Profile
+		
+		import org.springframework.test.context.ActiveProfiles;
+		@ActiveProfiles("dev")
