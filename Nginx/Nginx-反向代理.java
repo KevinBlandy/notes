@@ -134,8 +134,19 @@ Nginx-https				|
 	server {
 		listen       80;
 		server_name  springboot.io www.springboot.io;
-		return  301 https://springboot.io$request_uri;
+
+		# 其他路径都 301 到 HTTPS
+		location / {
+			return 301 https://$host$request_uri;
+		}
+
+		# 要把 .well-known 目录暴露出去，方便  SSL 证书申请
+		location /.well-known/acme-challenge/ {
+			root /var/www/html;
+		}
 	}
+
+
 
 ------------------------
 Nginx-http2开启			|

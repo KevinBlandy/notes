@@ -23,6 +23,8 @@ acme
 
 		./acme.sh --set-default-ca --server letsencrypt
 		./acme.sh --set-default-ca --server zerossl
+
+		* 也可以在申请命令后指定这个配置项
 	
 	# 修改邮箱
 		* Lets Encrypt 不能使用默认的 my@example.com 邮箱
