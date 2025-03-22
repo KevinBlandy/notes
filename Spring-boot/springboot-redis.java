@@ -315,6 +315,35 @@ Redis-Redisson						|
 			}
 		}
 
+-----------------------
+GenericJackson2JsonRedisSerializer
+-----------------------
+	# Jackson 实现的通用 JSON 序列化/反序列化
+	
+		import org.springframework.context.annotation.Bean;
+		import org.springframework.context.annotation.Configuration;
+		import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+
+		import com.fasterxml.jackson.databind.SerializationFeature;
+		import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+		@Configuration
+		public class GenericJackson2JsonRedisSerializerConfiguration {
+
+			@Bean
+			public GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer() {
+
+				GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer("@class");
+
+				serializer = serializer.configure(config -> {
+					config.registerModules(new JavaTimeModule());
+					config.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+				});
+
+				return serializer;
+			}
+		}
+
 
 ------------------------------------
 获取底层连接，实现高级用法
@@ -339,3 +368,4 @@ DefaultRedisScript
 		* Redis 采用相同的 Lua 解释器去运行所有命令，可以保证，脚本的执行是原子性的。
 		* 作用就类似于加了 MULTI/EXEC
 	
+
