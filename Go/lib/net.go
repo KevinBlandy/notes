@@ -112,8 +112,14 @@ type
 	# type Error interface {
 			error
 			Timeout() bool   // Is the error a timeout?
+				* 是否是超时异常（连接、读、写）
 			Temporary() bool // Is the error temporary?
+				* 是否是临时异常
+				* 已废弃：临时错误没有明确定义。大多数 “临时 ”错误都是超时，少数例外情况会令人吃惊。
+				* 请勿使用此方法。
 		}
+
+		* NET 相关的异常
 	
 	# type Flags uint
 		const (
@@ -281,10 +287,16 @@ type
 			Addr Addr
 			Err error
 		}
+
+		* OpError 是 net 包中的函数通常返回的错误类型。它描述了操作、网络类型和错误地址。
+
 		func (e *OpError) Error() string
 		func (e *OpError) Temporary() bool
 		func (e *OpError) Timeout() bool
+			* 是否是超时异常
+
 		func (e *OpError) Unwrap() error
+			* 底层异常，即 Err
 	
 	# type PacketConn interface {
 			ReadFrom(p []byte) (n int, addr Addr, err error)
@@ -373,11 +385,16 @@ type
 	# type TCPListener struct {
 
 		}
+		
+		* TCP 监听
+
 		func ListenTCP(network string, laddr *TCPAddr) (*TCPListener, error)
 		func (l *TCPListener) Accept() (Conn, error)
 		func (l *TCPListener) AcceptTCP() (*TCPConn, error)
 		func (l *TCPListener) Addr() Addr
 		func (l *TCPListener) Close() error
+			* 关闭监听，注意不会关闭已创建的连接。
+
 		func (l *TCPListener) File() (f *os.File, err error)
 		func (l *TCPListener) SetDeadline(t time.Time) error
 		func (l *TCPListener) SyscallConn() (syscall.RawConn, error)

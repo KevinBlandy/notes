@@ -109,7 +109,7 @@ BeanCopier - demo
 
 
 -----------------------------
-BeanCopierUtils
+ModelMapper
 -----------------------------
 
 import java.util.Objects;
@@ -120,40 +120,45 @@ import org.springframework.cglib.beans.BeanCopier;
 
 import lombok.extern.slf4j.Slf4j;
 
-/***
- * 
- * 基于 CGLIB 字节码的 Bean 属性复制工具
- */
 @Slf4j
-public class BeanCopierUtils {
+public class ModelMapper {
 
-	static final ConcurrentMap<String, BeanCopier> map = new ConcurrentHashMap<>();
-	
-	
+	private ModelMapper() {
+		throw new RuntimeException();
+	}
+
+	static final ConcurrentMap<String, BeanCopier> CONCURRENT_MAP = new ConcurrentHashMap<>();
+
 	/**
-	 * 复制对象属性，只能复制同名，同类型的属性
+	 * 复制 src 对象的数学到 dest，只 copy 同名且类型一致的属性
+	 * 
 	 * @param src
 	 * @param dest
 	 */
-	public static void copy (Object src, Object dest) {
-
+	public static void copy(Object src, Object dest) {
 		Objects.requireNonNull(src);
 		Objects.requireNonNull(dest);
-		
-		Class<?> srcClass = src.getClass();
-		Class<?> destClass = dest.getClass();
-		
-		map.compute(key(srcClass, destClass), (k, v) -> {
+
+		Class<?> srcClazz = src.getClass();
+		Class<?> destClazz = dest.getClass();
+
+		CONCURRENT_MAP.compute(key(srcClazz, destClazz), (k, v) -> {
 			if (v == null) {
-				log.info("New BeanCopier：{}", k);
-				return BeanCopier.create(srcClass, destClass, false);
+				log.info("Create BeanCopier: {} -> {}", srcClazz, destClazz);
+				v = BeanCopier.create(srcClazz, destClazz, false);
 			}
 			return v;
-		}).copy(src, dest, null);;
+		}).copy(src, dest, null);
+		;
 	}
-	
-	
-	static String key (Class<?> src, Class<?> dest) {
-		return src.getName() + "_" + dest.getName(); 
+
+	private static String key(Class<?> src, Class<?> dest) {
+		return src.getName() + "_" + dest.getName();
 	}
 }
+
+
+
+
+
+

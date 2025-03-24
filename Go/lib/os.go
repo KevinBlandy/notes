@@ -382,7 +382,8 @@ type
 	func IsPathSeparator(c uint8) bool
 	func IsPermission(err error) bool
 	func IsTimeout(err error) bool
-		* 对异常的判断 
+		* 对异常的判断
+		* IsTimeout 底层是判断：os.ErrDeadlineExceeded
 
 	func Lchown(name string, uid, gid int) error
 	func Link(oldname, newname string) error
