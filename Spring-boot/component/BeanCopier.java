@@ -132,10 +132,14 @@ public class ModelMapper {
 	/**
 	 * 复制 src 对象的数学到 dest，只 copy 同名且类型一致的属性
 	 * 
+	 * @param <S>
+	 * @param <T>
 	 * @param src
 	 * @param dest
+	 * @return
 	 */
-	public static void copy(Object src, Object dest) {
+	public static <S, T> T copy(S src, T dest) {
+
 		Objects.requireNonNull(src);
 		Objects.requireNonNull(dest);
 
@@ -150,12 +154,16 @@ public class ModelMapper {
 			return v;
 		}).copy(src, dest, null);
 		;
+
+		return dest;
 	}
 
 	private static String key(Class<?> src, Class<?> dest) {
 		return src.getName() + "_" + dest.getName();
 	}
 }
+
+
 
 
 
