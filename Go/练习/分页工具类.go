@@ -100,12 +100,10 @@ func List[T any](ctx context.Context, tx *sql.Tx, pager *Pager, query string, ma
 				selectSql += ", "
 			}
 
-			var direction string
+			var direction = "ASC"
 
 			if len(pager.Order) > i && strings.EqualFold(pager.Order[i], "DESC") {
 				direction = "DESC"
-			} else {
-				direction = "ASC"
 			}
 
 			selectSql += "`" + field + "` " + direction
@@ -148,7 +146,6 @@ func List[T any](ctx context.Context, tx *sql.Tx, pager *Pager, query string, ma
 func safeClose(closer io.Closer) {
 	_ = closer.Close()
 }
-
 
 -----------------------------------
 使用
