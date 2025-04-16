@@ -1,4 +1,4 @@
-package transaction
+package db
 
 import (
 	"context"
@@ -12,9 +12,6 @@ const (
 	// 在 Context 中存储 sql.Tx 的 Key
 	ctxKeyTx = "__current_tx"
 )
-
-// DB 数据源
-var DB *sql.DB
 
 // Option 事务配置方法
 type Option func(*sql.TxOptions)
@@ -31,11 +28,10 @@ var TxIsolationLevel = func(level sql.IsolationLevel) Option {
 	}
 }
 
-// Execute 执行事务方法
-func Execute[R any](serviceCall func(ctx context.Context) (R, error), options ...Option) (ret R, err error) {
+func ExecuteContext[R any](ctx context.Context, fn func(context.Context) (R, error), options ...Option) (ret R, err error) {
 	// 从数据库获取连接
-	conn, err := DB.Conn(context.Background())
-	slog.Info("[Transaction] Init DB Conn (Writeable)")
+	conn, err := database.Conn(context.Background())
+	slog.DebugContext(ctx, "[transaction] init db conn")
 	if err != nil {
 		return
 	}
@@ -47,7 +43,7 @@ func Execute[R any](serviceCall func(ctx context.Context) (R, error), options ..
 
 		// 最后关闭数据库连接
 		if closeErr := conn.Close(); closeErr != nil {
-			slog.Error("[Transaction] Close DB Conn Err", slog.String("err", closeErr.Error()))
+			slog.ErrorContext(ctx, "[transaction] close db conn err", slog.String("err", closeErr.Error()))
 			if err == nil {
 				err = closeErr
 			} else {
@@ -63,39 +59,44 @@ func Execute[R any](serviceCall func(ctx context.Context) (R, error), options ..
 	}
 
 	// 开启事务
-	tx, err := conn.BeginTx(context.Background(), txOption)
+	tx, err := conn.BeginTx(ctx, txOption)
 	if err != nil {
 		return
 	}
 
 	// 执行事务方法
-	return run(serviceCall, tx)
+	return run(ctx, fn, tx)
+}
+
+// Execute 执行事务方法
+func Execute[R any](fn func(ctx context.Context) (R, error), options ...Option) (ret R, err error) {
+	return ExecuteContext(context.Background(), fn, options...)
 }
 
 // run 在事务中执行逻辑，自动提交。err != nil 或者 panic 自动回滚
-func run[R any](service func(ctx context.Context) (R, error), tx *sql.Tx) (ret R, err error) {
+func run[R any](ctx context.Context, fn func(context.Context) (R, error), tx *sql.Tx) (ret R, err error) {
 	defer func() {
 		if r := recover(); r != nil {
-			_ = rollback(tx)
+			_ = rollback(ctx, tx)
 			panic(r)
 		}
 
 		if err != nil {
 			// 回滚事务
-			slog.Info("[Transaction] Rollback Tx")
-			if rollbackErr := rollback(tx); rollbackErr != nil {
+			slog.DebugContext(ctx, "[transaction] rollback tx")
+			if rollbackErr := rollback(ctx, tx); rollbackErr != nil {
 				err = errors.Join(rollbackErr, err)
 			}
 		} else {
 			// 提交事务
-			slog.Info("[Transaction] Commit Tx")
-			if commitErr := commit(tx); commitErr != nil {
+			slog.DebugContext(ctx, "[transaction] commit tx")
+			if commitErr := commit(ctx, tx); commitErr != nil {
 				err = commitErr
 			}
 		}
 	}()
 
-	ret, err = service(context.WithValue(context.Background(), ctxKeyTx, tx))
+	ret, err = fn(context.WithValue(ctx, ctxKeyTx, tx))
 
 	return
 }
@@ -110,27 +111,27 @@ func Tx(ctx context.Context) *sql.Tx {
 	if !ok {
 		panic(errors.New(fmt.Sprintf("%v 不是合法的 *sql.Tx 对象", ret)))
 	}
-	slog.Info("[Transaction] Get Concurrent Tx")
+	slog.DebugContext(ctx, "[transaction] get concurrent tx")
 	return tx
 }
 
 // rollback 回滚事务
-func rollback(tx *sql.Tx) error {
+func rollback(ctx context.Context, tx *sql.Tx) error {
 	err := tx.Rollback()
 	if err != nil {
 		if errors.Is(err, sql.ErrConnDone) {
 			return nil
 		}
-		slog.Error("[Transaction] Rollback Tx Err", slog.String("err", err.Error()))
+		slog.ErrorContext(ctx, "[transaction] rollback tx err", slog.String("err", err.Error()))
 	}
 	return err
 }
 
 // commit 提交事务
-func commit(tx *sql.Tx) error {
+func commit(ctx context.Context, tx *sql.Tx) error {
 	err := tx.Commit()
 	if err != nil {
-		slog.Error("[Transaction] Commit Tx Err", slog.String("err", err.Error()))
+		slog.ErrorContext(ctx, "[transaction] commit tx err", slog.String("err", err.Error()))
 	}
 	return err
 }

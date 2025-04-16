@@ -104,6 +104,7 @@ lib
 			* 在延迟超过一分钟后运行的作业，其延迟被记录在Info。
 
 			* 当前任务执行时间超过了间隔时间，当前任务执行完毕后，立即执行下次任务。
+			* 这种策略会把未执行的任务都累计起来，在 Stop 的时候会阻塞调度器，直到所有任务都执行完毕
 			
 		func Recover(logger Logger) JobWrapper
 			* Recover 被 warpper 的 job 中的 panic，并用提供的记 Logger 记录它们。
