@@ -224,6 +224,7 @@
 						if err != nil {
 							panic(fmt.Errorf("Read file err: %s\n", err.Error()))
 						}
+						// 添加子模板
 						// 把文件分隔符，统一替换为 “/”
 						templates.New(strings.ReplaceAll(absPath, string(os.PathSeparator), "/")).Parse(string(context))
 					}()

@@ -53,3 +53,54 @@ func
 		to		收件人
 		msg		邮件内容
 	
+
+--------------------------------
+Demo
+--------------------------------
+	# 基本发送
+		package main
+
+		import (
+			"fmt"
+			"log"
+			"net/smtp"
+		)
+
+		func main() {
+			// 连接到远程 smtp 服务器
+			c, err := smtp.Dial("mail.example.com:25")
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// 设置发件人
+			if err := c.Mail("sender@example.org"); err != nil {
+				log.Fatal(err)
+			}
+			// 设置收件人
+			if err := c.Rcpt("recipient@example.net"); err != nil {
+				log.Fatal(err)
+			}
+
+			// 获取邮件 Body Writer
+			wc, err := c.Data()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// 写入邮件内容
+			_, err = fmt.Fprintf(wc, "This is the email body")
+			if err != nil {
+				log.Fatal(err)
+			}
+			err = wc.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// 发送 QUIT 命令，关闭连接。
+			err = c.Quit()
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
