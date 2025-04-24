@@ -41,3 +41,9 @@ type
 ----------------------------
 	func NewDecoder(enc *Encoding, r io.Reader) io.Reader
 	func NewEncoder(enc *Encoding, w io.Writer) io.WriteCloser 
+		* 创建新的 Base64 编码器，指定输出的目的地
+		* 注意！！最后一定要记得调用返回的 WriteCloser 的 Close 方法，才能把缓冲区的数据刷出
+
+			writer := base64.NewEncoder(base64.StdEncoding, w)
+			defer writer.Close()  // 一定要记得关闭
+			_, err = writer.Write(content) // 写入数据
