@@ -262,6 +262,18 @@ Flex
 			  flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]
 			}
 		
+		* 合法的属性值
+			/* 1个值，flex-grow */
+			flex: 1;
+			/* 1个值，flex-basis */
+			flex: 100px;
+			/* 2个值，flex-grow和flex-basis */
+			flex: 1 100px;
+			/* 2个值，flex-grow和flex-shrink */
+			flex: 1 1;
+			/* 3个值 */
+			flex: 1 1 100px;
+		
 		* 该属性有两个快捷值:
 			auto	-> (1 1 auto) 
 			none	-> (0 0 auto)
@@ -275,6 +287,13 @@ Flex
 		* 在垂直的主轴容器中里, 子元素的 flex-grow 和 flex-shrink 不会起作用, 除非有"外力"强行改变容器的高度(就是容器高度可以计算)
 
 		* 在计算 flex 元素收缩的大小时，它的最小尺寸也会被考虑进去，就是说实际上 flex-shrink 属性可能会和 flex-grow 属性表现的不一致。
+		* 最终尺寸计算的优先级是：最大最小尺寸限制 > 弹性增长或收缩 > 基础尺寸
+
+			* 基础尺寸由flex-basis属性或width属性，以及box-sizing盒模型共同决定；
+			* 内容尺寸指最大内容宽度，当没有设置基础尺寸时会顶替基础尺寸的角色；
+			* 弹性增长指的是flex-grow属性，弹性收缩指的是flex-shrink属性；
+			* 最大尺寸主要受max-width属性限制；
+			* 最小尺寸则比较复杂，受最小内容宽度、width属性和min-width属性共同影响。
 
 
 	# align-self

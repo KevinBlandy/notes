@@ -57,9 +57,11 @@ grid
 	
 	
 	# 函数
-		repeat()
+		repeat( [ <positive-integer> | auto-fill | auto-fit ] , <track-list> )
 		minmax()
-		fit-content()
+		fit-content( [ <length> | <percentage> ] )
+			* 用一句话解释就是：让尺寸适应于内容，但不超过设定的尺寸。底层计算公式如下：
+				fit-content(limit) = max(minimum, min(limit, max-content))
 
 ---------------------
 grid 基本概念

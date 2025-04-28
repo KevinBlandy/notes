@@ -118,7 +118,8 @@ type
 		func (z *Float) SetMantExp(mant *Float, exp int) *Float
 		func (z *Float) SetMode(mode RoundingMode) *Float
 		func (z *Float) SetPrec(prec uint) *Float
-			* 将 z 的精度设置为 prec，并返回经过（可能）舍入的 z 值。如果尾数无法在不损失精度的情况下用 prec 位表示，则根据 z 的舍入模式进行舍入。
+			* 设置浮点数计算的精度。它用于指定 big.Float 类型对象在计算时使用的二进制精度（以位为单位）。
+			* 默认精度值在 Go 中是 64 位二进制精度。这相当于标准的 float64 的精度（约为 16 位十进制有效数字）。
 			* SetPrec(0) 将所有有限值映射为 ±0；无限值保持不变。如果 prec > MaxPrec，则设置为 MaxPrec。
 
 			
