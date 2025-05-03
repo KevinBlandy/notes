@@ -8,8 +8,15 @@
 	# 使用组件
 
 		* 通过 <script setup>，导入的组件都在模板中直接可用。
-		* 也可以全局注册组件，不需要导入，全局可用。
+		* 也可以全局注册组件，不需要导入，全局可用（不推荐，不能进行 tree-shaking 优化）。
+			
+			// 链式调用，注册多个全局组件
+			app.component('ComponentA', ComponentA)
+			  .component('ComponentB', ComponentB)
+			  .component('ComponentC', ComponentC)
+		
 		* 每当使用一个组件，就创建了一个新的实例，每个实例都有各自的状态。
+	
 		* 在单文件组件中，推荐使用驼峰标签名称，可以不关闭标签。
 			<MyComponent >
 		
@@ -59,4 +66,41 @@
 			</KeepAlive> 
 		
 		
-		
+----------------------
+生命周期钩子
+----------------------
+	# 每个 Vue 组件实例在创建时都需要经历一系列的初始化步骤
+		* 有一些钩子函数，会在实例生命周期的不同阶段被调用
+		* 这些钩子函数应当在组件初始化时被同步注册
+
+			setTimeout(() => {
+			  onMounted(() => {
+				// 异步注册时当前组件实例已丢失
+				// 这将不会正常工作
+			  })
+			}, 100)
+				
+	# onMounted(callback: () => void): void
+		* 在组件挂载完成后执行。
+
+	# onUpdated()
+	# onUnmounted(callback: () => void): void
+		* 在组件实例被卸载之后调用。
+
+	# onBeforeMount(callback: () => void): void
+		* 在组件被挂载之前被调用。
+
+	# onBeforeUpdate()
+	# onBeforeUnmount()
+	# onErrorCaptured()
+	# onRenderTracked()
+	# onRenderTriggered()
+	# onActivated(callback: () => void): void
+		* 若组件实例是 <KeepAlive> 缓存树的一部分，当组件被插入到 DOM 中时调用。
+
+	# onDeactivated(callback: () => void): void
+		* 若组件实例是 <KeepAlive> 缓存树的一部分，当组件从 DOM 中被移除时调用。
+
+	# onServerPrefetch()
+
+
