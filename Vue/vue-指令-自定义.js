@@ -24,6 +24,12 @@
 	
 		
 		* 在 <script setup> 中，任何以 v 开头的驼峰式命名的变量都可以当作自定义指令使用。
+			
+			* 如果指令是从别处导入的，可以通过重命名来使其符合命名规范
+			
+				<script setup>
+				import { myDirective as vMyDirective } from './MyDirective.js'
+				</script>
 		
 		* 可以全局注册，在整个应用中都可用
 		

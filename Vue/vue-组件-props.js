@@ -51,7 +51,7 @@ Props
 				console.log('ID  改变了:' + id);
 			});
 			
-			// foo 是一个实际的常量，永远不会改变。在 3.5 及以上版本，当在同一个 <script setup> 代码块中访问由 defineProps 解构的变量时，Vue 编译器会自动在前面添加 props.。因此，上面的代码等同于以下代码：
+			// foo 是一个实际的常量，永远不会改变。在 3.5 及以上版本，当在同一个 <script setup> 代码块中访问由 defineProps 解构的变量时，Vue 编译器会自动在前面添加 props。
 		
 		
 		* 可以使用 JavaScript 原生的默认值语法声明 props 
