@@ -7,3 +7,10 @@ RouterLink
 			import { RouterLink } from 'vue-router'
 	
 	
+	
+	# 插槽作用域参数
+
+		isActive
+		href
+		navigate
+	

@@ -104,6 +104,6 @@
 			
 			// 等待导航完成后
 			if (router.currentRoute.value.redirectedFrom) {
-				// redirectedFrom 是解析出的路由地址，就像导航守卫中的 to和 from
+				//  redirectedFrom 包含在重定向到当前地址之前，即最初想访问的地址。
 			}
 			
