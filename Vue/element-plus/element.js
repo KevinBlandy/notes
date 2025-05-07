@@ -20,3 +20,19 @@ element-plus
 
 		app.use(ElementPlus);
 		app.mount('#app');
+
+
+	# 安装 icon	
+		
+		* 安装
+
+			pnpm install @element-plus/icons-vue
+		
+		* 在 main.js 中使用
+
+			import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+
+			const app = createApp(App)
+			for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+			  app.component(key, component)
+			}
