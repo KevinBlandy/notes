@@ -3,6 +3,9 @@ axios
 ----------------------
 	# 基于 promise 的 Web 请求库
 		* https://axios-http.com/zh/docs/intro
+	
+	# 安装
+		pnpm i axios
 
 	
 	# 使用

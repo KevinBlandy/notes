@@ -72,3 +72,9 @@ vite 环境变量
 		// {"VITE_APP_TITLE":"[test] My Project","VITE_BASE_API":"/test-api","BASE_URL":"/","MODE":"test","DEV":true,"PROD":false,"SSR":false}
 	
 
+------------------------
+vite 代理设置
+------------------------
+	# 代理服务器配置
+		https://cn.vite.dev/config/server-options#server-proxy
+	

@@ -3,8 +3,8 @@ Demo
 ------------------
 	# 总结
 		1. 查询参数，必须要通过 config 对象的 params 设置
-		2. 表单、文件请求可以直接使用 URLSearchParams / FormData 对象作为第二个参数
-		3. 如果需要自定义 Header、参数参数，则可以提供第三个参数 config 对象为配置属性
+		2. JSON、表单、文件请求可以直接使用对象、 URLSearchParams、 FormData 对象作为第二个参数
+		3. 如果需要自定义 Header、查询参数，则可以提供第三个参数 config 对象为配置属性
 
 		
 	# 前置
