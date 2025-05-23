@@ -17,6 +17,7 @@ MathContext				|
 
 		setPrecision
 			* 精度,一共最长最少长度(包含小数)
+			* 这个精度指的是结果中“所有有效数字”的总数，包括 整数部分 和 小数部分，不管小数点在哪。
 		
 		setRoundingMode
 			* 舍入模式

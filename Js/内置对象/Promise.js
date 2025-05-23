@@ -156,7 +156,11 @@ static
 				* 一个函数，用于 resolve 该 Promise。
 			reject
 				* 一个函数，用于 reject 该 Promise。
-		
+			
+
+			
+			// const { promise, resolve, reject}  = Promise.withResolvers();
+
 		* 类似于如下代码
 			let resolve, reject;
 			const promise = new Promise((res, rej) => {
