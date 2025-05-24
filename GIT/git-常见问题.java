@@ -13,18 +13,21 @@ Git
 			git add --renormalize .
 	
 	# 代理设置
-		# http或https代理
-		git config --global http.proxy http://127.0.0.1:1080
-		git config --global https.proxy https://127.0.0.1:1080
+		* http或https代理
+			git config --global http.proxy http://127.0.0.1:1080
+			git config --global https.proxy https://127.0.0.1:1080
 
-		# 取消代理
-		git config --global --unset http.proxy
-		git config --global --unset https.proxy
-	
+		 * socks 代理
+		 	git config http.proxy 'socks5://127.0.0.1:1080'
+		
+		* 取消代理
+			git config --global --unset http.proxy
+			git config --global --unset https.proxy
 
 	# Filename too long 问题
 		
 		* 一般在windows下容易出现，执行如下命令就可以了
 
 		git config --system core.longpaths true
+	
 	
