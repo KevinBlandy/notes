@@ -2,7 +2,6 @@
 过渡
 ---------------------
 	# Transition 可以在不利用Flash动画或者 Js 的情况下。为元素从一种样式转换为另一种样式时添加效果。
-		* 不是所有的属性都能过渡，值为数字，或者值能转为数字的属性，都支持过渡，否则不支持过渡。
 
 	# 过渡动画：一个状态，渐渐过渡到另一个状态
 	# 经常和 :hover :active 配合使用
@@ -38,6 +37,18 @@
 		transition-timing-function: ease
 		transition-delay: 0s;
 	
+	# 注意不是所有的属性都能过渡
+		* 值为数字，或者值能转为数字的属性，都支持过渡，否则不支持过渡。
+		* 例如关键字：auth/max-content 之类的东西，不是具体的数值，就不支持过度
+
+		* 解决办法就是使用：interpolate-size 属性（但是有兼容性问题）
+		* 用过这个属性可以在 <length-percentage> 值与诸如 auto、fit-content 或 max-content 等固有尺寸值之间启用动画和过渡效果。
+			
+			transition: all .3s;
+			interpolate-size: allow-keywords;
+
+		* 参考 https://developer.mozilla.org/en-US/docs/Web/CSS/interpolate-size
+
 
 	# 参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/transition
 
