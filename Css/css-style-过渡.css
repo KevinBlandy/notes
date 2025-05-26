@@ -46,6 +46,29 @@
 			
 			transition: all .3s;
 			interpolate-size: allow-keywords;
+		
+		* demo
+			 <p>四十年来家国</p>
+
+			 
+			p {
+				cursor: pointer;
+				padding: 2px;
+				margin: 0;
+				font-size: 1.5rem;
+				height: 1.5rem;
+				width:  1.5rem;
+				line-height: 1.5rem;
+				background-color: skyblue;
+				overflow: hidden;
+
+				transition: .3s;				   /* 动画 */
+				interpolate-size: allow-keywords;  /* 让 max-content 内容生效 */
+			}
+
+			p:hover {
+				width: max-content;		/* 改变宽度为最大动画 */
+			}
 
 		* 参考 https://developer.mozilla.org/en-US/docs/Web/CSS/interpolate-size
 
