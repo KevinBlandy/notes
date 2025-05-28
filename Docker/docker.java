@@ -71,6 +71,7 @@ https://download.docker.com/linux/centos/docker-ce.repo
 ----------------------------
 Centos Docker基本的维护		|
 ----------------------------
+	systemctl enable docker
 	systemctl start docker
 	systemctl stop docker
 	systemctl restart docker
