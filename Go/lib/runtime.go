@@ -197,3 +197,41 @@ Demo
 			pc, _, _, _ := runtime.Caller(1)
 			return runtime.FuncForPC(pc).Name()
 		}
+	
+	# 获取调用栈信息
+		import (
+			"fmt"
+			"runtime"
+			"strings"
+		)
+
+		// StackFrameLines 调用栈
+		func StackFrameLines(skip int) []string {
+			var ret []string
+			// 从调用栈的当前帧开始，跳过指定的层数
+			for i := skip; ; i++ {
+				pc, file, line, ok := runtime.Caller(i)
+				if !ok {
+					break
+				}
+
+				fn := runtime.FuncForPC(pc)
+				var fnName string
+				if fn == nil {
+					fnName = "unknown"
+				} else {
+					fnName = fn.Name()
+					// 去掉包名前缀
+					if idx := strings.LastIndex(fnName, "/"); idx >= 0 {
+						fnName = fnName[idx+1:]
+					}
+					if idx := strings.Index(fnName, "."); idx >= 0 {
+						fnName = fnName[idx+1:]
+					}
+				}
+				// 文件 方法名称 行号
+				ret = append(ret, fmt.Sprintf("%s %s %d", file, fnName, line))
+			}
+
+			return ret
+		}
