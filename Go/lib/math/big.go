@@ -57,12 +57,15 @@ type
 ---------------------------
 	# type Accuracy int8
 		func (i Accuracy) String() string
+
+
+		* 描述了最近一次生成浮点数值的操作相对于精确数值所产生的舍入误差。
 		
 		* 预定义常量
 			const (
-				Below Accuracy = -1
-				Exact Accuracy = 0
-				Above Accuracy = +1
+				Below Accuracy = -1		// 结果小于真实值（被截断或向下舍入）
+				Exact Accuracy = 0		// 结果是精确的
+				Above Accuracy = +1		// 结果大于真实值（被向上舍入）
 			)
 		
 	# type ErrNaN struct
@@ -93,9 +96,24 @@ type
 		func (z *Float) GobDecode(buf []byte) error
 		func (x *Float) GobEncode() ([]byte, error)
 		func (x *Float) Int(z *Int) (*Int, Accuracy)
+			* 截断 x 的小数部分（向零取整），如果 x 是无穷大，则返回 nil。
+			* 根据返回的 Accuracy 可以判断截断后的值是往下、上截断了，还是和原始值一样。
+			* 参数可以传递 nil，改方法会自动创建新的实例返回
+				// 预定义整数
+				var number = &big.Int{}
+				// 舍弃小数，返回整数
+				result, accuracy := new(big.Float).SetFloat64(9.99999).Int(number)
+				// 根据 accuracy 判断截断后的值和原始值的大小
+				fmt.Println(result, accuracy) // 9 Below
+				// 返回的整数就是传入的参数
+				fmt.Println(result == number) // true
+
+
 		func (x *Float) Int64() (int64, Accuracy)
 		func (x *Float) IsInf() bool
 		func (x *Float) IsInt() bool
+			* 报告 x 是否为整数。
+
 		func (x *Float) MantExp(mant *Float) (exp int)
 		func (x *Float) MarshalText() (text []byte, err error)
 		func (x *Float) MinPrec() uint
@@ -134,6 +152,15 @@ type
 		func (x *Float) String() string
 		func (z *Float) Sub(x, y *Float) *Float
 		func (x *Float) Text(format byte, prec int) string
+			* 格式化为字符串
+
+				format 指定格式
+					'f' 无指数
+				
+				prec 指定精度，根据 format 不同意义不同
+					对于 'e'、'E'、'f' 和 'x'，它是小数点后的位数
+					对于 'g'、'G'，则是总位数。
+			
 		func (x *Float) Uint64() (uint64, Accuracy)
 		func (z *Float) UnmarshalText(text []byte) error
 	
@@ -247,6 +274,8 @@ type
 				ToNearestEven RoundingMode = iota // == IEEE 754-2008 roundTiesToEven
 				ToNearestAway                     // == IEEE 754-2008 roundTiesToAway
 				ToZero                            // == IEEE 754-2008 roundTowardZero
+					* 直接丢弃多余的位
+
 				AwayFromZero                      // no IEEE 754-2008 equivalent
 				ToNegativeInf                     // == IEEE 754-2008 roundTowardNegative
 				ToPositiveInf                     // == IEEE 754-2008 roundTowardPositive
@@ -273,3 +302,26 @@ type
 ---------------------------
 demo
 ---------------------------
+	# 两数相除，截断指定的小数位
+		func TruncateToTwoDecimals(a, b string, precision uint) *big.Float {
+			// 设置初始值
+			f1, _, _ := big.ParseFloat(a, 10, 256, big.ToZero)
+			f2, _, _ := big.ParseFloat(b, 10, 256, big.ToZero)
+
+			// 10 进制下的精度位数
+			precisionFloat := big.NewFloat(math.Pow(10, float64(precision)))
+
+			// 相除
+			result := new(big.Float).Quo(f1, f2)
+
+			// 将结果 x 以指定的精度
+			result.Mul(result, precisionFloat)
+
+			// 向下取整
+			intPart, _ := result.Int(nil)
+
+			// 转换为 float 再除以精度
+			truncated := new(big.Float).Quo(new(big.Float).SetInt(intPart), precisionFloat)
+
+			return truncated
+		}
