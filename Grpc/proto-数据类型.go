@@ -47,3 +47,64 @@
 		
 
 		* 对于 string 和 bytes 来说，只要字节是有效的 UTF-8 就兼容。
+	
+	# oneof
+		* oneof 用于定义多个字段，但只能设置其中的一个
+		* oneof  中的所有字段共享内存，且最多只能同时设置一个字段，设置 oneof 中的任何成员都会自动清除所有其他成员。
+	
+			message Member {
+			  int64  id = 1;
+			  // identify 字段只能设置 code 或者是 number 字段
+			  oneof identify  {
+				string code = 2;
+				int64 number = 3;
+			  }
+			}	
+			
+			// go ------------------------------
+
+			// 创建原始对象
+			v := &proto.Member{}
+
+			// 设置某个 OneOf 属性
+			code := proto.Member_Code{Code: "1024"}
+			number := proto.Member_Number{Number: 2048}
+		
+			// 设置给方法
+			v.Identify = &number
+			v.Identify = &code // 覆盖
+			
+			// 读取的适合根据 switch 判断
+			switch v.Identify.(type) {
+			case *proto.Member_Number:
+				fmt.Println(v.Identify.(*proto.Member_Number).Number)
+			case *proto.Member_Code:
+				fmt.Println(v.Identify.(*proto.Member_Code).Code)
+			default:
+				panic("undefined")
+			}
+
+		* oneof 中的编号也不能重复
+		* oneof 中不能使用 repeated\map 等类型
+
+
+
+
+	# map
+		* 定义键值对，指定 key / value 类型
+
+			message Member {
+			  int64  id = 1;
+			  map<string, string> meta = 2;
+			}
+
+			// Go ------
+			v := &proto.Member{}
+			v.Meta["_ser"] = "ser"
+		
+		* key 对于基础类型来说，可以是数值或者是字符串类型（浮点数和字节数组都不行）。
+		* key 也不能是枚举或另一个 message 
+		* value 则任意，除了 map（map 不能嵌套）
+
+
+

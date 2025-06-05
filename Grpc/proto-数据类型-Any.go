@@ -13,6 +13,7 @@ Any
 		* type_url
 			* 这个字段包含一个 URL，它指向存储在 value 字段中的数据的类型。
 			* 它通常是一个指向类型的全名，类似于 type.googleapis.com/some.package.MessageType，它标识了 value 字段中存储的具体消息类型。
+			* 默认值: type.googleapis.com/_packagename_._messagename_
 
 		* value
 			* 是一个 字节序列，用于存储具体的数据。它可以是任何类型的消息的序列化表示。
