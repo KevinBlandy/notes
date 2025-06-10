@@ -129,6 +129,7 @@ channel
 			* 如果读取成功，ok = true， 如果读取失败，也就是没有数据了， ok = false
 		
 		* 当 close 一个 channel的时候，所有阻塞（读取）在这个 channel 上的 Goroutine 都会收到通知
+		* 当 close channel 的时候，如果 channel 是多带缓冲区的，且还有数据没被读取完毕（但 channel 不能被写入数据），那么消费协程可以继续读，直到读取完毕。
 		* 如果 close chan 的时候，还有阻塞等待写入状态的协程会 panic: send on closed channel
 	
 	# 防止Channel的内存泄漏问题
