@@ -26,6 +26,7 @@ net
 	var ErrClosed = errClosed
 		* 网络连接上的I/O调用返回的错误，该连接已经被关闭，或者在I/O完成之前被另一个goroutine关闭
 		* 这可能被包装在另一个错误中，通常应该使用 errors.Is(err, net.ErrClosed)来测试。
+		* Close Listener 的时候，Accept 阻塞方法就会返回 ErrClosed 错误
 
 	var (
 		ErrWriteToConnected = errors.New("use of WriteTo with pre-connected connection")
@@ -391,6 +392,9 @@ type
 		func ListenTCP(network string, laddr *TCPAddr) (*TCPListener, error)
 		func (l *TCPListener) Accept() (Conn, error)
 		func (l *TCPListener) AcceptTCP() (*TCPConn, error)
+			* 阻塞，获取连接。当调用 Listener 的 Close 方法时，会返回 error
+			* 可以用 errors.Is(err, net.ErrClosed) 来判断，是否是正常的 Close 错误。 
+			
 		func (l *TCPListener) Addr() Addr
 		func (l *TCPListener) Close() error
 			* 关闭监听，注意不会关闭已创建的连接。
