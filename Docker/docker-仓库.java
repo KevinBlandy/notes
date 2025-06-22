@@ -15,7 +15,7 @@
 
 		sudo tee /etc/docker/daemon.json <<-'EOF'
 		{
-		  "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn", "https://ustc-edu-cn.mirror.aliyuncs.com","https://7uuu3esz.mirror.aliyuncs.com","https://780urbjd.mirror.aliyuncs.com"]
+		  "registry-mirrors": ["https://docker.1panel.live", "https://hub.rat.dev","https://docker.actima.top","https://docker.m.daocloud.io"]
 		}
 		EOF
 
