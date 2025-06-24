@@ -31,3 +31,12 @@ Git
 		git config --system core.longpaths true
 	
 	
+	# 不同系统下换行符的问题
+		
+		* 处理 Git 中的 "LF will be replaced by CRLF" 警告
+		
+		* 在根目录创建 .gitattributes 文件，写入：
+			
+			* text=auto # Git 将以其认为的最佳方式处理文件。 这是一个合适的默认选项。
+			
+		
