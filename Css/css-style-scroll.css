@@ -34,9 +34,12 @@
 	scroll-padding-left
 	scroll-padding-right
 	scroll-padding-top
+
 	scroll-snap-align
 	scroll-snap-stop
 	scroll-snap-type
+		* 设置滚动吸附
+
 	scroll-timeline
 	scroll-timeline-axis
 	scroll-timeline-name
