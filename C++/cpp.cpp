@@ -1,11 +1,24 @@
 ---------------------------------
 Cpp
 ---------------------------------
-	# 为了考试学 C++（正经人谁用 C++ 啊？）
-	
+	# CPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP~~~
+
+		* “官网”，不是“官方”，但被 C++ 社区广泛接受
+			https://cppreference.com/index.html
+
+			* 内容保持最新，涵盖从 C++98 到 C++26（草案）的大量内容。
+		
+		* 巨硬编译器（MSVC）
+			https://learn.microsoft.com/zh-cn/cpp/cpp/?view=msvc-170
+
+		* C++ 标准委员会
+			https://isocpp.org/
+		
+		* C++ 草案和提交文档
+			https://github.com/cplusplus
+
 	# 书
 		C++ Primer 中文版
-		
 
 
 ---------------------------------
@@ -66,6 +79,3 @@ MinW
 		
 		# 验证安装
 			g++ --version
-
-
-
