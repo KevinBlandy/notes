@@ -302,6 +302,40 @@ decltype
 
 
 ---------------------------
+using
+---------------------------	
+	# 使用 using 声名命名空间中的成员
+
+		#include <iostream>
+		#include <string>
+
+
+		// 全局声名
+		using std::string;
+
+		int main() {
+			{
+				// 局部声名
+				using std::cout;
+				using std::endl;
+
+				string x = "HelloWorld";
+
+				cout << x << endl;
+			}
+
+			string v = "outer string";
+
+			// 在外部，没法访问内部的 using 声名，因此要带上命名空间
+			std::cout << v << std::endl;;
+
+			return 0;
+		}
+
+		
+		* 不建议在 header 文件中使用 using 声名
+	
+---------------------------
 作用域
 ---------------------------
 	# 全局
