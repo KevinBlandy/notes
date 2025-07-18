@@ -23,7 +23,7 @@
 
 			int* p1, p2; // 同时声名指针和值类型时容易混淆：p1 是指针，p2 是 int
 		
-		* 指针类型和要指向的对象的类型必须严格一致（有两个例外）
+		* 指针类型和要指向的对象的类型必须严格一致
 		* 编译器不能检查无效指针，视图操作无效指针可能会导致错误
 		* 引用不是对象，不可寻址，所以不能定义指向引用的指针
 
@@ -218,5 +218,51 @@
 				fooP = &newVal; //  error: assignment of read-only variable 'fooP'
 
 				return 0;
+			}
+		
+	# 指针和数组
+
+		* 存储指针的数组
+
+			// 原数组
+			int idList[] = {1, 2, 3, 4};
+
+			// unsigned long long size
+			// 计算出数组的长度
+			auto size = sizeof(idList) / sizeof(idList[0]);
+
+			// 存储 int 指针的数组
+			int *intPtrs[4] = {};
+
+			// 迭代原数组
+			for (unsigned long i = 0; i != size; i ++){
+				// 存储每个元素的指针
+				intPtrs[i] = &idList[i];
+			}
+
+			// 迭代指针数组 [1, 2, 3, 4]
+			for (auto c : intPtrs){
+				cout << *c << endl;
+				*c *= *c;       
+			}
+
+			cout << "===========" << endl;
+
+			// 迭代指针数组 [1, 4, 9, 16]
+			for (auto c : idList){
+				cout << c << endl;
+			}
+			
+		* 指向指针的数组
+	
+			// 原数组
+			int idList[] = {1, 2, 3, 4};
+
+			// 声名了一个指针 idListPtr，指向一个长度为 4 的 int 数组
+			int (*idListPtr)[4] = &idList;
+
+			// [1, 2, 3, 4]
+			for (auto i : *idListPtr){
+				cout << i << endl;
 			}
 		

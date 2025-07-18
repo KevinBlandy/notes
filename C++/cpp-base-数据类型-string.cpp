@@ -43,13 +43,16 @@
 			cout << (s2 > s1) << endl;  // 0
 			cout << (s1 != s2) << endl; // 0
 	
-	# 支持使用 [] 根据索引访问每个字节
+	# 支持使用 [] 根据索引访、修改问每个字节
 
 		string s = "Hello";
 
 		for (int i = 0; i < int(s.size()); i ++ ){
 			cout << s[i] << endl;
 		}
+
+		* 越界访问会导致意外，千万要注意
+		* 索引如果是带符号的，会被强制转换为无符号的 string::size_type
 	
 	# 使用 + 拼接
 
