@@ -9,6 +9,11 @@
 
 		* 支持 break, continue;
 	
+	# do {[statement]} while ([condition]); 语句
+		
+		* 和 while 一样，但是先执行一次语句，再判断条件。
+		
+	
 	# for 循环
 		for ([init-statement]; [condition] ; [expression] )
 		{
@@ -20,6 +25,34 @@
 		* 对于索引迭代，在判断语句中，推荐采用 !=, 而非其他语言风格的 <。
 		* 因为某些迭代器实现，可能未实现大小比较，但是基本上都实现了相等性比较。
 		* 支持 break, continue 。
+	
+	# goto
+		
+		* 不管啥语言都不推荐使用这个玩意儿
+
+			<lable>: [statement] 
+			goto <label>;
+		
+		* lable 独立于变量名称，也就是说可以和变量名称重名
+		* goto 和 label 必须都要在同一个函数中
+		* goto 不能把程序的控制权从变量的作用域之外转到作用域之内
+		
+		* 例如，跳出外层循环
+		
+		    vector<int> arr = {1, 2, 3, 4};
+			for (auto i : arr){
+				for (auto x : arr){
+					if (x == 2){
+						// 跳出外层循环，继续后续的逻辑
+						goto outter;
+					}
+					cout << i << "\t" << x << endl;
+				}
+			}
+			outter: {
+				cout << "end" << endl;
+			}
+
 
 	# switch 语句
 
@@ -37,7 +70,7 @@
 			}
 		
 		* case 命中后，会依次执行剩下的 case 语句，直到指向完毕或者是 break 跳出 switch。
-		* case 代码也可以添加或不添加大括号，大括号会影响 case 代码块的作用域。
+		* 和 goto 一样，switch 不能把程序的控制权从变量的作用域之外转到作用域之内
 			
 
 	# range 迭代
