@@ -133,7 +133,7 @@ rsa
 
 			content := []byte("Hello 世界")
 
-			// 公钥加密
+			// 私钥加密
 			cipher, err := rsa.EncryptPKCS1v15(rand.Reader, &privateKey.PublicKey, content)
 			if err != nil {
 				log.Fatalln(err.Error())

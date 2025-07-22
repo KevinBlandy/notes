@@ -282,7 +282,10 @@ func
 	func ParseCRL(crlBytes []byte) (*pkix.CertificateList, error)
 	func ParseDERCRL(derBytes []byte) (*pkix.CertificateList, error)
 	func ParseECPrivateKey(der []byte) (*ecdsa.PrivateKey, error)
+	
 	func ParsePKCS1PrivateKey(der []byte) (*rsa.PrivateKey, error)
 	func ParsePKCS1PublicKey(der []byte) (*rsa.PublicKey, error)
+		* 解析 RSA 的私钥/公钥
+	
 	func ParsePKCS8PrivateKey(der []byte) (key interface{}, err error)
 	func ParsePKIXPublicKey(derBytes []byte) (pub interface{}, err error)
