@@ -237,3 +237,41 @@
 				return x;
 			}
 		
+		* 返回引用/指针是可以直接修改的
+
+			int* foo(int arr[], int index) { return &arr[index];};
+			int arr[] = {1, 2, 3};
+			// 修改返回值，数组成了 [1, 2, 9]
+			*foo(arr, 2) = 9;
+		
+
+		* 可以直接用 {} 返回用于列表初始化的返回值
+
+			vector<string> foo (){
+				return {"a", "b", "c"};
+			}
+
+			// 对于基本类型，需要遵循列表初始化的规则，即返回值不能丢失精度，否置异常
+			int bar (){
+				return {12};
+			}
+
+		
+		* 函数不能直接返回数组，但是可以返回数组的指针或引用
+
+			* 最直接的办法就是，使用数组别名作为返回值
+			
+				using MyArr = int[10];
+				MyArr* foo(int x);
+			
+			* 声明返回数组指针的函数: type (*function(parameter)) [dimension]
+
+				type 元素类型
+				dimension 数组大小
+				function 两端括号必须存在
+
+				int (*func(int i))[10];
+
+
+		
+				
