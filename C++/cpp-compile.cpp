@@ -1,1 +1,2 @@
- g++ -Wall -Wextra  .\main.cpp -o main 
+ g++ -Wall -Wextra -std=c++20 .\main.cpp -o main
+

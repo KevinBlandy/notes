@@ -256,22 +256,405 @@
 				return {12};
 			}
 
+	# 返回数组
+
+		* 函数不能直接返回数组（数组特性），但是可以返回数组的指针或引用
+
+		* 最直接的办法就是，使用数组别名作为返回值
 		
-		* 函数不能直接返回数组，但是可以返回数组的指针或引用
-
-			* 最直接的办法就是，使用数组别名作为返回值
-			
-				using MyArr = int[10];
-				MyArr* foo(int x);
-			
-			* 声明返回数组指针的函数: type (*function(parameter)) [dimension]
-
-				type 元素类型
-				dimension 数组大小
-				function 两端括号必须存在
-
-				int (*func(int i))[10];
-
-
+			using MyArr = int[10];
+			MyArr* foo(int x);
 		
+		* 声明返回数组指针的函数: type (*function(parameter)) [dimension]
+
+			type 元素类型
+			dimension 数组大小
+			function 两端括号必须存在
+			
+			// 声明
+			int (*foo(int i))[10];
+
+			// 数组
+			int arr[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+			
+			// 实现
+			// 方法返回一个指针，指向一个长度为 10 的 int 数组
+			int (*foo(int i))[10] {
+				cout << i << endl;
+				return &arr;
+			}
+
+			int main()
+			{   
+
+				int (*ret)[10] = foo(998);
+
+				// 迭代内容
+				for (auto i : *ret){
+					cout << i << endl;
+				}
+
+				return 0;
+			}
+
+			* 整个函数签名，就好像是声明指向数组指针时的变量。
+		
+		* 使用 decltype 来推断返回值类型也可以
+
+			// 数组
+			int arr[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+
+			// 方法返回一个指针，指向一个长度为 10 的 int 数组
+			decltype(arr) *foo(int i) {
+				cout << i << endl;
+				return &arr;
+			}
+
+			* decltype 并不负责把数组转换为指针，它的结果仍然是数组，所以需要在后面添加 * 表示是一个指针
+
+
+		* 使用尾置返回类型，CPP 11 的新标准
+			
+			// 返回一个指针，指向长度为 10 的 int 数组
+			auto bar (int parameter) -> int(*) [10];
+
+			* 在原返回值的地方，声明 auto
+			* 在参数后面通过 -> 指定返回值类型，
+							
+			// 方法返回一个指针，指向一个长度为 10 的 int 数组
+			auto bar (int parameter) -> int(*)[10] {
+				cout << parameter << endl;
+				return &arr;
+			}
+		
+
+	# 重载
+		
+		* 拥有相同的函数名称，不同的参数，编译器可以根据参数推导出要调用的函数。和返回值无关。
+		* 类型别名可以重载
+
+			typedef long long int64;
+
+			// 类型别名，可以重载
+			void foo (int i){};
+			void foo (int64 i){};
+		
+		* 顶层 const 参数没法重载
+
+			void foo (const int i){};
+			void foo (int i){};			//  error: redefinition of 'void foo(int)'
+	
+		* 对于指针、引用来说，底层 const 参数，可以重载
+
+			void foo (int*){};
+			void foo (const int*){};
+
+			void foo (int&){};
+			void foo (const int&){};
+
+			// 可以通过 const_cast 对参数进行转换后，再调用重载方法
+			const string &shorterString (const string &s1, const string &s2){
+				cout << "uncast" << endl;
+				return s1.size() <= s2.size() ? s1 : s2;
+			}
+			string& shorterString (string &s1, string s2){
+				cout << "cast" << endl;
+				// 通过 const_cast 转换调用 const 版的重载函数
+				return const_cast<string&>(shorterString(const_cast<const string&>(s1), const_cast<const string&>(s2)));
+			}
+					
+		* 当函数调用存在类型转换时，如果存在二义性，则会异常，可以通过强制类型转换来实现函数匹配
+
+			void foo (float s){};
+			void foo(long i) {};
+
+			int main()
+			{   
+				//  error: call of overloaded 'foo(double)' is ambiguous
+				// 3.14 是 double，既可以（向下）转换为 float 也可以转换为 long
+				// 这调用出现了二义性
+				// foo(3.14);
+
+				// 强制转换
+				foo(static_cast<long>(3.14));
+			}   
+
+	
+	# 重载和作用域
+		
+		* 在函数内部调用方法的时候，如果找到了局部的声明，就会忽略外层作用域中的同名实体
+			
+			void print(int);
+			void print(string);
+
+			int main()
+			{   
+				// 函数内部声明的方法，覆盖了全局的 print 重载定义
+				void print(double);
+
+				print(123);  // 调用到 void print(double); Ok,参数发生隐式转换
+				print("");    // 调用到 void print(double); 错误，string 没法隐式转换为 double
+			}   
+		
+		* 在 CPP 中，名字检索发生在类型检查之前。
+	
+
+	# 默认参数
+		
+		* 可以为参数指定默认值
+
+			void foo (int w = 150, int h = 50, string title = "captcha"){
+				cout << "w=" << w << " h=" << h << " t=" << title << endl;
+			}
+			foo(1);                 // foo(1, 50, "captcha");
+			foo(1,2);               // foo(1, 2, "captcha");
+			foo(1,2, "verifyCode"); // foo(1, 2, "verifyCode");
+		
+		* 只能省略末尾的默认值参数
+			
+			// 想要覆盖最后的 title, 则必须要为前面的 w / h 赋值
+			foo(1,2, "verifyCode"); // foo(1, 2, "verifyCode");
+		
+
+		* 带默认值参数的函数声明，不能重复声明默认值参数
+		
+			// 最后一个参数声明了默认值
+			void bar(int, int, string = "default");
+
+			// 异常，只能对前两个 int 声明默认值
+			// void bar(int, int, string = "default");  //  error: default argument given for parameter 3 of 'void bar(int, int, std::__cxx11::string)' [-fpermissive]
+
+			// 正常：对其他参数声明默认值
+			void bar(int = 10, int = 20, string);
+
+			* 当给一个参数设置了默认值后，后续的相同声明，只能为没有默认值的参数，添加默认值
+			* 并且默认值形参的右边的参数，都必须要有默认值
+		
+		* 局部变量不能作为默认实参，除此外，只要表达式的类型能转换为形参所需的类型，就能作为作为默认实参
+		
+			int defaultW = 10;
+			int defaultH = 20;
+			int defaultSize();
+
+			// 使用全局变量、表达式
+			void foo(int w = defaultW, int h = defaultH, int defaultSize = defaultSize());
+
+			int main()
+			{   
+				int localX = 10;
+
+				// 使用局部变量，异常
+				//  error: local variable 'localX' may not appear in this context
+				void bar(int x = localX);
+			}   
+		
+
+
+			* 用于默认实参的名字在函数声明所在的区域内解析，求值发生在调用时
+
+				int main()
+				{   
+					// 修改了全局变量，会影响到默认值
+					defaultW = 99;
+					// 局部变量覆盖了全局变量，但是不能覆盖默认值
+					int defaultH = 188l;
+
+					foo(); // 相当于 foo(99, 20, defaultSize());
+				}   
+
+	
+	# 内联函数
+		
+		* 函数调用意味着更多的开销：寄存器状态保存、参数拷贝
+		* 通过 inline 关键字声明内联函数，编译器会把函数的实现代码 copy 到调用出形成表达式，而不是函数调用
+
+			inline int max (int a, int b){
+				return a > b ? a : b;
+			}
+			int main()
+			{   
+				// 函数调用
+				cout << max(1, 2) << endl;
+
+				// 编译后的内联语句
+				cout <<  (1 > 2 ? 1 : 2) << endl;
+			}  
+		
+		* inline 不一定会真的执行，看编译器的实现
+		* 编译器一般不支持内联递归函数，而且函数实现代码太长了，也可能不会执行内联
+	
+
+	# constexpr 函数
+		
+		* 指的是能用于常量表达式的函数，使用 constexpr 修饰
+		* 要求，返回的类型是字面值类型，且函数体中只有一个 return 语句
+		* 给 constexpr 实参传递常量表达式时，返回值也是常量表达式，反之不然（constexpr 函数不一定返回常量表达式）。
+
+			constexpr int doubleLen (int a){
+				return a * 2;
+			}
+
+			constexpr int defaultLen = doubleLen(16);
+
+			int main()
+			{   
+				cout << defaultLen << endl;
+
+				int arr1[defaultLen] = {};
+				cout << sizeof(arr1) / sizeof(*arr1) << endl;
+
+				int arr2[doubleLen(32)] = {};
+				cout << sizeof(arr2) / sizeof(*arr2) << endl;
+
+				// 非常量表达式，也能通过编译？？？
+				// 高版本进行了优化吗？
+				int len = 512;
+				int arr3[doubleLen(len)];
+				cout << sizeof(arr3) / sizeof(*arr3) << endl;
+			}
+
+			// 201709
+			cout << __cplusplus << endl;
+
+	
+	# 函数指针
+		
+		* 指向函数的指针，和函数名称无关，由返回值类型和参数类型决定。
+
+			[return_type] (*[ptrName])([param_types...])
+
+			int sum(int a, int b){
+				return a + b;
+			}
+
+			int main()
+			{
+				// 初始化指针为空指针
+				int (*sumFn)(int, int) = nullptr;
+
+				// 取地址赋值
+				sumFn = &sum;
+
+				// 直接赋值
+				sumFn = sum;
+
+				// 直接执行指针
+				int ret = sumFn(1, 1);
+				cout << ret << endl;
+
+				// 先解引用，再执行
+				cout << (*sumFn)(2, 2) << endl;
+
+				// 1
+				cout <<(*sumFn == sum) << endl; 
+			}   
+	
+		* 把函数赋值给指针的时候，可以直接赋值。执行函数指针的时候，也无需解引用。
+		* 对于重载函数的指针，必须明确的定义到底指向哪个函数
+
+			void func(int*) {};
+			void func(unsigned int){};
+
+
+			int main()
+			{
+				// 指向 void func(int*)
+				void (*funcPtr)(int*) = func;
+				// 指向 void func(unsigned int);
+				void (*funcPtr1)(unsigned int) = func;
+
+				// 异常，没有一个 func 重载匹配 (int) 参数
+				// no matches converting function 'func' to type 'void (*)(int)'
+				void (*funcPtr2)(int) = func;
+
+				// 异常，没有一个 func 返回 bool
+				// error: no matches converting function 'func' to type 'bool (*)(unsigned int)'
+				bool (*funcPtr3)(unsigned int) = func;
+			}   
+		
+	# 函数类型的形参
+		
+		* 类似于数组，可以在函数参数中声明函数，会被编译器转换为函数指针
+
+			int add (int a, int b){
+				return a + b;
+			}
+			int sub (int a, int b){
+				return a - b;
+			}
+			int muti(int a, int b){
+				return a * b;
+			}
+
+			int calc(int a, int b, int ope(int, int)){
+				return ope(a, b);
+			}
+
+			// 声明成指针也可以
+			// int calc1(int a, int b, int (*ope)(int, int))
+
+			int main()
+			{
+				cout << calc(1, 2, add) << endl;        // 3
+				cout << calc(9, 2, sub) << endl;        // 7
+				cout << calc(9, 9, muti) << endl;       // 81
 				
+				// 调用的时候，传递函数指针也可以
+				cout << calc(9, 9, &muti) << endl;       // 81
+			}   
+		
+		* 函数指针，描述起来又臭又长，可以考虑用别名
+			
+			// 类型声明
+			typedef int Handler(int, int);
+			using Handler = int(int, int);
+			typedef decltype(add) Handler;
+
+			// 指针声明
+			typedef int (*Handler)(int, int);
+			using Handler = int(*)(int, int);
+			typedef decltype(add) *Handler;
+
+			int calc(int a, int b, Handler ope);
+		
+	# 函数类型的返回值
+		
+		* 函数不能直接返回，只能返回指针
+	
+		* 直接声明类型
+
+			// ope(string) 返回 int(int, int) 函数的指针
+			int (*ope(string type))(int, int) {
+				if (type == "add"){
+					return add;
+				} else if (type == "sub"){
+					return sub;
+				} else if (type == "muti"){
+					return muti;
+				}
+				return nullptr;
+			}
+			cout <<  ope("add")(1, 2) << endl;      // 3
+			cout <<  ope("sub")(1, 1) << endl;      // 0
+
+			// 使用后置类型
+			auto ope(string type) -> int(*)(int, int);
+	
+		* 使用别名
+				
+			// 声明指针
+			typedef int (*Handler)(int, int);
+			using Handler = int(*)(int, int);
+			typedef decltype(add) *Handler;
+
+			// 声明返回值
+			Handler ope(string type);
+			// 尾置返回类型
+			auto ope(string type) -> Handler;
+		
+			// 声明类型，则需要在函数返回值上添加 * 表示是指针
+			using Handler = int(int, int);
+
+			auto ope(string type) -> Handler*;
+			Handler* ope(string type);
+		
