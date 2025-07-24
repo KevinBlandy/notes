@@ -37,12 +37,13 @@ Go app 的目录结构
 			* 如
 				windows
 				linux
-				darwin
+				darwin(unix/mac)
 
 		SET GOARCH=amd64
 			* 目标处理器架构
 			* 如
 				amd64
+				arm64
 	
 	
 		* 只有Windows平台下，设置变量需要 SET 指令，其他不需要
