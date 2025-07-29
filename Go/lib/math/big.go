@@ -176,11 +176,23 @@ type
 		func (x *Int) BitLen() int
 		func (x *Int) Bits() []Word
 		func (x *Int) Bytes() []byte
+			* 返回大数对应的二进制数组
+
 		func (x *Int) Cmp(y *Int) (r int)
 		func (x *Int) CmpAbs(y *Int) int
 		func (z *Int) Div(x, y *Int) *Int
 		func (z *Int) DivMod(x, y, m *Int) (*Int, *Int)
 		func (z *Int) Exp(x, y, m *Int) *Int
+			* 指数计算，计算 x 的 y 次方是多少
+			* Exp 函数计算 z = x**y mod |m|（忽略 m 的符号）并返回 z。其具体行为如下：
+			* 当 m == nil 或 m == 0 时：
+				若 y > 0 则 z = x**y
+				若 y <= 0 则 z = 1
+			* 当 m != 0 且 y < 0 时：
+				* 若 x 与 m 互质则正常计算
+				* 若非互质则保持 z 不变并返回 nil
+
+
 		func (x *Int) FillBytes(buf []byte) []byte
 		func (x *Int) Float64() (float64, Accuracy)
 		func (x *Int) Format(s fmt.State, ch rune)
@@ -212,6 +224,8 @@ type
 		func (z *Int) SetBit(x *Int, i int, b uint) *Int
 		func (z *Int) SetBits(abs []Word) *Int
 		func (z *Int) SetBytes(buf []byte) *Int
+			* 设置二进制形式表示的大数
+
 		func (z *Int) SetInt64(x int64) *Int
 		func (z *Int) SetString(s string, base int) (*Int, bool)
 		func (z *Int) SetUint64(x uint64) *Int
