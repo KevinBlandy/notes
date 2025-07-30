@@ -234,7 +234,22 @@ OOP
 			void Foo::bar (){}
 		
 		* 友元函数的声明是精准的，不具备重载！
-		* 友元声明和作用域。
+		* 甚至可以在函数的内部声明友元，这种情况下友元的声明可以在类的后面
+			class Member {
+				long long id;
+				string title;
+				// void foo(Member&); 可以访问私有成员
+				friend void foo(Member&);
+				public: 
+					void bar (){
+						// 在 foo 被调用的时候，必须已经被声明了
+						foo(*this);
+					}
+			};
+			// 声明 foo
+			void foo(Member &m) {
+				cout << m.id << endl;
+			};
 
 
 
