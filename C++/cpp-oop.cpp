@@ -48,12 +48,30 @@ OOP
 				return title; // 可以省略 this
 			}
 			unsigned long long Member::getId() const {
-				return this -> id;
+				int i =  Member::id;  // 通过 :: 作用域符号，也可以访问到类中的成员
+				return this -> id;		// 通过指针的 -> 箭头函数
 			};
 
 			
 			* 必须在内部先声明，才能在外部定义
 			* 内部和外部方法可以同时存在，但是不能冲突。
+
+			* 通过 :: 来声明方法所属的作用域后，就可以在形参、函数体中访问类中定义的类型了
+			* 返回值，需要单独声明 :: 作用域，因为解析到返回值的时候，还不知道函数属于哪个作用域
+
+				class Member {
+					// 内部类型
+					typedef long long int64;
+					int64 id;
+					public:
+						int64 memberId (int64);
+				};
+
+				// 外部函数的返回值类型，需要声明作用域，编辑器解析到这里的时候还不知道它的作用域
+				Member::int64 Member::memberId(int64 id){
+					// 函数的参数、函数体可以之间访问类中的类型，因为方法已经声明了作用域
+					return id;
+				}
 
 	# 返回 this 实现链式调用
 		
@@ -89,11 +107,11 @@ OOP
 			class Member {
 				public:
 					long id;
-					// 如果返回引用/指针，则需要添加 const，以保证返回值不可修改
+					// 如果 const 方法返回引用/指针，则返回值需要添加 const，以保证返回值不可修改
 					const Member& decr() const {
 						return *this;
 					}
-					// 返回复制对象，修改不会影响 this，可以不需要加 const
+					// 返回复制对象，修改不会影响 this，返回值可以不需要加 const
 					Member incr()const {
 						return *this;
 					}
@@ -134,16 +152,113 @@ OOP
 			struct Member {
 				long id;
 				string title;
-				Member(long id, string title): /* 初始值列表 */ id(id), title(title + ":" + title)
+				Member(long id, string title): /* 初始值列表，初始 */ id(id), title(title + ":" + title)
 				{
-					// 初始化代码块
+					//也可以在函数体中进行赋值
 					cout << this -> id << endl;
 					cout << this -> title << endl;
 				}
 			};
 			
-			* 初始值列表，就是把类成员字段当成函数使，来初始化类成员。
-			* 也可以在初始化代码块中对成员进行初始化，没有被初始化的类成员，则使用默认值
+			* 初始值列表，就是把类成员字段当成函数使，来初始化类成员，它会在函数体执行前进行
+			* 没有在初始值列表中声明的成员，会在构造函数体执行前，按照默认方式进行初始化。
+			* 注意，初始值列表中的表达式是初始化，而函数体中对成员的值进行设置，是赋值。
+			* 初始和赋值，最终的结果都是给成员设置了值，但可能会因为成员类型的不同，带来的影响所有不同。
+	
+		* 对于 const/引用 成员，必须要在初始化列表中进行初始化
+
+			struct Member {
+				const int id;
+				int &ref;
+				public:
+					// const / 引用成员必须要在初始化列表中先进行初始化
+					Member(int id): id(id), ref(id){
+						// 错，不能给 const 类型赋值
+						//  error: uninitialized const member in 'const int' [-fpermissive]
+						// this -> id = 12;
+					};
+			};
+		
+		* 对于类类型的成员，且这个类型没有默认构造函数时，也需要先手动进行初始化
+
+			class Bar {
+				int id;
+				public:
+					// 声明了构造函数，必须要传递 id
+					Bar(int id): id(id){};
+					int getId (){
+						return this -> id;
+					};
+			};
+
+			class Member {
+				Bar bar;
+				public:
+					// 在初始化的时候，必须要初始化 Bar 成员
+					// Bar 占用的内存空间必须开辟和初始化
+					Member(int i): bar(Bar{i}){};
+					int getBarId (){
+						return this -> bar.getId();
+					}
+			};
+		
+		* 初始化列表的顺序，不一定非要和类成员定义的顺序一样
+		* 但是，编译器会按照定义的顺序对初始化列表中的成员进行初始化
+
+			class Member {
+				int a, b;
+				public:
+					// warning: 'Member::b' will be initialized after [-Wreorder]
+					Member(int i): b(i), a(b){}
+			};
+
+			* 编译器根据定义顺序进行初始化，即先初始化 a，而不是初始列表中的第一个 b
+			* 编译器初始化 a 的时候，用了 b 的值，但是 b 此时并未初始化，所以编译器会给出异常
+			* 所以，尽量让初始化列表，保持和定义的顺序一致。
+		
+		* 构造函数也可以有默认值
+			class Member {
+				public:
+					string title;
+					Member(string t = "default"): title(t){   }
+			};
+		
+		* 委托构造函数，本质上就是在初始化列表中调用另一个构造函数，通过另一个构造函数的初始值列表来进行初始化
+
+			class Member {
+				public:
+					int id;
+					bool enabled;
+					string title;
+
+					// 全参构造函数
+					Member(int id, bool enabled, string title):id(id), enabled(enabled), title(title){
+						  cout << "full arg constructor" << endl;
+					};
+				   
+					// 委托全参
+					Member(int id): Member(id, false, "defaultTitle"){};
+					Member(int id, bool enabled): Member(id, enabled, "defaultTitle"){};
+					Member(): Member(0, false, "defaultTitle"){ // 无参
+						 cout << "no arg constructor" << endl;
+					}; 
+
+					// 委托无参
+					Member(bool enabled): Member() {
+						cout << "called constructor" << endl;
+					};
+			};
+
+			int main(){
+				Member m ={false};
+				/*
+					full arg constructor
+					no arg constructor
+					called constructor
+				*/
+			}
+
+
 
 	# 使用修饰符控制类成员的访问权限
 		
@@ -391,9 +506,48 @@ OOP
 			};
 		
 
+	# 类的作用域
+		
+		* 编译器会先编译类成员，再编译类函数，所以在类中，函数和成员位置不分先后
+		* 函数访问一个类型的时候，会现在函数内部找，内部没有类中找，类中还没则找外面（只考虑之前声明的），都没，则异常
+		* 内部的可以覆盖外部的
+
+			int x = 10; // 在 foo 之前声明，如果是在 foo 之后的话，第一个 cout 就会异常
+			class Member {
+				public:
+				   void foo (){
+						// 先访问外部的
+						cout << x << endl;  // 10 
+						// 内部的覆盖了外部的
+						int x = 12;
+						// 访问的是内部的
+						cout << x << endl; // 12
+				   }
+			};
+		
+		* 但是，“类型” 除外，内部不允许覆盖外部的类型
+
+			typedef long long int64;
+
+			class Member {
+				public:
+					// 访问外部类型 ok
+					int64 foo(){
+						return id;
+					};
+				private:
+					// 异常：在内部重新定义类型
+					typedef long long int64;
+					int64 id = 10086;
+			};
+			
+			* 但是，经过测试上面的代码可以编译通过
+			* 尽管重新定义类型名字是一种错误的行为，但是编译器并不为此负责。一些编译器仍将顺利通过这样的代码，而忽略代码有错的事实！
 		
 
-		
+
+
+					
 
 					
 
