@@ -78,13 +78,21 @@ type
 			* 平均/最大/最小/求和
 
 		func New(value int64, exp int32) Decimal
+
 		func NewFromBigInt(value *big.Int, exp int32) Decimal
+			* 通过 *big.Int 构建， exp 指定小数点应该向左移动多少位。
+			* 即最终表示的值为：value * (10 ^ exp)
+
+				decimal.NewFromBigInt(big.NewInt(1024), 3)  //1024000
+				decimal.NewFromBigInt(big.NewInt(1024), -3) //1.024
+				decimal.NewFromBigInt(big.NewInt(1024), 0)  //1024
+
 
 		func NewFromFloat(value float64) Decimal
 		func NewFromFloat32(value float32) Decimal
 
 		func NewFromFloatWithExponent(value float64, exp int32) Decimal
-			* 根据 Float 创建，并且设置精度为 exp
+			* 根据 Float 创建， 保留 -exp 位小数（即 exp 是控制小数点的位置），自动进行四舍五入。
 
 		func NewFromFormattedString(value string, replRegexp *regexp.Regexp) (Decimal, error)
 		func NewFromInt(value int64) Decimal
@@ -92,7 +100,7 @@ type
 		func NewFromString(value string) (Decimal, error)
 
 		func RequireFromString(value string) Decimal
-			* 从 string 解析价格，如果解析失败则异常
+			* 从 string 解析，如果解析失败则异常
 		
 		func (d Decimal) Abs() Decimal
 			* 绝对值
@@ -101,8 +109,11 @@ type
 			* 相加
 
 		func (d Decimal) Atan() Decimal
+
 		func (d Decimal) BigFloat() *big.Float
 		func (d Decimal) BigInt() *big.Int
+			* 返回 math 包下的 big.int/float 形式	
+
 		func (d Decimal) Ceil() Decimal
 		func (d Decimal) Cmp(d2 Decimal) int
 			* 比较大小，会忽略多余的 0 
@@ -118,9 +129,12 @@ type
 			* 除，四舍五入指定保留的小数位数
 
 		func (d Decimal) Equal(d2 Decimal) bool
-			* 比较是否相等
+			* 比较是否相等，会忽略多余的 0
+				decimal.RequireFromString("10.0000").Equal(decimal.NewFromUint64(10)) // true
 
 		func (d Decimal) Equals(d2 Decimal) bool
+			* 判断是否相等，废弃了，建议用上面个
+
 		func (d Decimal) ExpHullAbrham(overallPrecision uint32) (Decimal, error)
 		func (d Decimal) ExpTaylor(precision int32) (Decimal, error)
 		func (d Decimal) Exponent() int32
@@ -157,12 +171,23 @@ type
 		func (d Decimal) MarshalJSON() ([]byte, error)
 		func (d Decimal) MarshalText() (text []byte, err error)
 		func (d Decimal) Mod(d2 Decimal) Decimal
+			* 取模
+			
 		func (d Decimal) Mul(d2 Decimal) Decimal
+			* 相乘
+
 		func (d Decimal) Neg() Decimal
+			* 取反
+
 		func (d Decimal) NumDigits() int
 		func (d Decimal) Pow(d2 Decimal) Decimal
+			* 计算 d 的 d2 次方
+				decimal.RequireFromString("2").Pow(decimal.NewFromUint64(10)) // 1024
+
 		func (d Decimal) QuoRem(d2 Decimal, precision int32) (Decimal, Decimal)
 		func (d Decimal) Rat() *big.Rat
+			* 返回 rat
+
 		func (d Decimal) Round(places int32) Decimal
 			* 四舍五入保留 n 位小数
 				decimal.RequireFromString("19.482399").Round(4)) // 19.4824
@@ -183,11 +208,45 @@ type
 		func (d Decimal) Sign() int
 		func (d Decimal) Sin() Decimal
 		func (d Decimal) String() string
+			* 输出值，无多余的 0
+
 		func (d Decimal) StringFixed(places int32) string
+			* 保留 N(places)位小数，表示保留小数点后 n 位。
+				正数 n > 0：保留 n 位小数
+				零 n = 0：不保留小数，整数显示
+				负数 n < 0：表示向左取整（即对整数位做四舍五入）
+
+				ewFromFloat(0).StringFixed(2) // output: "0.00"
+				NewFromFloat(0).StringFixed(0) // output: "0"
+				NewFromFloat(5.45).StringFixed(0) // output: "5"
+				NewFromFloat(5.45).StringFixed(1) // output: "5.5"
+				NewFromFloat(5.45).StringFixed(2) // output: "5.45"
+				NewFromFloat(5.45).StringFixed(3) // output: "5.450"
+				NewFromFloat(545).StringFixed(-1) // output: "550"
+
 		func (d Decimal) StringFixedBank(places int32) string
+			* 返回一个格式化为固定小数位数的字符串，并使用“银行家舍入（Banker's Rounding）”进行四舍五入。
+			* 银行家舍入（又称四舍六入五留双）的规则如下：
+				小数 < 0.5 → 舍去
+				小数 > 0.5 → 进位
+				小数 = 0.5 → 向最近的偶数靠拢
+	
+				NewFromFloat(0).StringFixedBank(2) // output: "0.00"
+				NewFromFloat(0).StringFixedBank(0) // output: "0"
+				NewFromFloat(5.45).StringFixedBank(0) // output: "5"
+				NewFromFloat(5.45).StringFixedBank(1) // output: "5.4"
+				NewFromFloat(5.45).StringFixedBank(2) // output: "5.45"
+				NewFromFloat(5.45).StringFixedBank(3) // output: "5.450"
+				NewFromFloat(545).StringFixedBank(-1) // output: "540"
+
 		func (d Decimal) StringFixedCash(interval uint8) string
+
 		func (d Decimal) StringScaled(exp int32) string
+			* 过时，使用 StringFixed
+
 		func (d Decimal) Sub(d2 Decimal) Decimal
+			* 减
+
 		func (d Decimal) Tan() Decimal
 		func (d Decimal) Truncate(precision int32) Decimal
 			* 保留 n 位小数，直接丢弃多余的
@@ -217,3 +276,43 @@ type
 func
 -------------
 	func RescalePair(d1 Decimal, d2 Decimal) (Decimal, Decimal)
+
+
+-------------
+Demo
+-------------
+	# +-*/
+
+		// 加
+		decimal.NewFromInt(1).Add(decimal.NewFromInt(10))         //11
+		// 减
+		decimal.NewFromInt(10).Sub(decimal.NewFromInt(1))         //9
+		// 乘
+		decimal.NewFromInt(10).Mul(decimal.NewFromInt(10))        //100
+		// 除
+		decimal.NewFromInt(10).Div(decimal.NewFromInt(3))         // 3.3333333333333333
+		// 除，只保留 n 位小数，四舍五入
+		decimal.NewFromInt(10).DivRound(decimal.NewFromInt(3), 3) // 3.333
+	
+
+	
+	# 格式化显示
+
+		// 格式 d ，最多保留 n 位小数（截断）
+		// 如果小数不足，则不显示
+		func FormatDecimalNoPad(d decimal.Decimal, n int32) string {
+			// 保留 N 位小数
+			truncated := d.Truncate(n)
+			// 无小数
+			integer := truncated.Truncate(0)
+			if truncated.Equal(integer) {
+				return integer.String()
+			}
+			return truncated.String()
+		}
+
+
+		FormatDecimalNoPad(decimal.RequireFromString("3.1415926"), 3) // 3.141
+		FormatDecimalNoPad(decimal.RequireFromString("3"), 2)         // 3
+		FormatDecimalNoPad(decimal.RequireFromString("3.1"), 2)       // 3.1
+	

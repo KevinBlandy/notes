@@ -44,7 +44,7 @@ big
 	const (
 		MaxExp  = math.MaxInt32  // 最大支持指数
 		MinExp  = math.MinInt32  // 最小支持指数
-		MaxPrec = math.MaxUint32 // 最大（理论上）支持精度；可能受内存限制
+		MaxPrec = math.MaxUint32 // 最大（理论上）支持精度；可能受内存限制 4294967295
 	)
 
 	const MaxBase = 10 + ('z' - 'a' + 1) + ('Z' - 'A' + 1)
