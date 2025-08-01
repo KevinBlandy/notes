@@ -257,7 +257,64 @@ OOP
 					called constructor
 				*/
 			}
+	
+	
+		* 如果构造函数只有一个实参，那么构造函数可以进行隐式的类型转换
 
+			class Bar {
+				private: string title;
+				public:
+					// 只有一个构造函数，可以被 string 隐式转换
+					Bar(string t): title(t){};
+					string getTitle (){
+						return this -> title;
+					};
+
+			};
+			class Member {
+				private: Bar bar;
+				public:
+					Member(Bar bar): bar(bar) {};
+					string getTitle (){
+						return bar.getTitle();
+					}
+			};
+
+			void foo (Bar b){cout << b.getTitle() << endl;};
+
+			int main(){
+				string val = "Hello";
+
+				Member m = {val};   // 隐式转换 val 为 Bar 对象
+				cout << m.getTitle() << endl; // Hello
+
+				// 隐式转换 val 为 Bar 对象
+				foo(val); //  Hello
+			}
+
+			* 编译器只能进行一步的类型转换
+				foo("Hello");			//错误的，编译需要进行两步转换：1、把 "Hello" 转换为 string 对象，2、把 string 对象转换为 Bar 对象
+				foo(string("Hello"))    // Ok
+			
+			* 要阻止这种转换，可以给构造函数添加 explicit 关键字
+
+				explicit Bar (string t): title(t){};
+				
+				* explicit 只能声明在只有一个参数的构造函数上，且只能是类内部的函数
+
+			* 注意，隐式转换不能用于拷贝初始化的形式
+
+				string val = "Hello";
+				Bar b = val; // Ok
+				cout << b.getTitle() << endl;
+
+				// ！！！经过测试，是可以编译过的
+			
+			* 可以用显示转换，对于 explicit 声明的函数也有效
+
+				string val = "Dash";
+				Bar b = static_cast<Bar>(val);   // static_cast，Ok
+				Bar b = Bar(val);				 // 显示构造，Ok
 
 
 	# 使用修饰符控制类成员的访问权限
@@ -545,12 +602,62 @@ OOP
 			* 尽管重新定义类型名字是一种错误的行为，但是编译器并不为此负责。一些编译器仍将顺利通过这样的代码，而忽略代码有错的事实！
 		
 
+	# 聚合类
 
+		* 所有成员都是public的
+		* 没有定义任何构造函数
+		* 没有类内初始值
+		* 没有基类，也没有 virtual 函数
 
-					
+			class Member {
+				public:
+					int id;
+					string title;
+			};
 
-					
+			Member m = {1, "Hello"};
+			cout << m.id << "\t" << m.title << endl;
+		
+		* 初始顺序必须和声明顺序一致
+		* 与初始化数组元素的规则一样，如果初始值列表中的元素个数少于类的成员数量，则靠后的成员被“值初始化（不同类型的默认值）”
+		* 初始值列表的元素个数绝对不能超过类的成员数量
 
+	# 字面值常量类
+		
+		* 数据成员都是字面值类型（常量表达式 constexpr 也就是能在编译期求值的类型）的聚合类是字面值常量类。
+		* 如果一个类不是聚合类，但它符合下述要求，则它也是一个字面值常量类
 
+			* 数据成员都必须是字面值类型。
+			* 类必须至少含有一个 constexpr 构造函数。
+			* 如果一个数据成员含有类内初始值,则内置类型成员的初始值必须是一条常量表达式，或者如果成员属于某种类类型，则初始值必须使用成员自己的 constexpr 构造函数。
+			* 类必须使用析构函数的默认定义，该成员负责销毁类的对象。
 
-	
+		
+		* constexpr 构造函数
+			
+			* 尽管构造函数不能是 const 的，但是字面值常量类的构造函数可以是 constexpr 函数。
+			* 事实上，一个字面值常量类必须至少提供一个 constexpr 构造函数。
+
+			* constexpr 构造函数可以声明成 =default 的形式(或者是删除函数的形式)。
+			* 否则 constexpr 构造函数就必须既符合构造函数的要求（意味着不能包含返回语句），又符合 constexpr 函数的要求（意味着它能拥有的唯一可执行语句就是返回语句）。
+			* 综合这两点可知 constexpr 构造函数体一般来说应该是空的，通过前置关键字 constexpr 就可以声明一个 constexpr 构造数了
+
+			* constexpr 构造函数必须初始化所有数据成员，初始值或者使用 constexpr 构造函数，或者是一条常量表达式。
+			* constexpr 构造函数用于生成 constexpr 对象以及 constexpr 函数的参数或返回类型:
+
+		
+			class Debug {
+				public:
+					constexpr Debug(bool b = true): hw(b), io(b), other(b){};
+					constexpr Debug(bool h, bool i, bool o):hw(h), io(i), other(o){};
+
+					constexpr bool any() const { return hw || io || other;};
+
+				private:
+					bool hw;        // 硬件错误
+					bool io;        // io 错误
+					bool other;     // 其他错误
+			};
+
+			constexpr Debug io_sub(false, true, false);
+			constexpr Debug prod(false);

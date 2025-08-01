@@ -139,6 +139,7 @@
 	
 	# 常量表达式
 		* 用 constexpr 关键字来声名常量表达式，即在编译过程就能计算得到结果的表达式
+		* “字面值类型（Literal Type）” 是一种可以用作 常量表达式（constexpr） 的类型，也就是能在编译期求值的类型。
 
 			constexpr int size = 512;					
 			constexpr int doubleSize = size * 2;		
