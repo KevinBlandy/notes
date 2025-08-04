@@ -166,7 +166,9 @@
 				// const constexpr int *p = &i; // ok
 				return 0;
 			}
-	
+		
+		*  constexpr 函数 ≠ 返回值是 const, 只是说可以在编译期被求值。
+
 	# 顶层和底层
 	
 		* 顶层 const: 指针本身是不是一个常量

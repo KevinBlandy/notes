@@ -651,7 +651,7 @@ OOP
 					constexpr Debug(bool b = true): hw(b), io(b), other(b){};
 					constexpr Debug(bool h, bool i, bool o):hw(h), io(i), other(o){};
 
-					constexpr bool any() const { return hw || io || other;};
+					constexpr bool any()  { return hw || io || other;};
 
 				private:
 					bool hw;        // 硬件错误
@@ -659,5 +659,22 @@ OOP
 					bool other;     // 其他错误
 			};
 
+
+			// io_sub 对象是一个常量表达式，类似于 const 指针，不能通过指针修改其指向的值
+			// 也就是说 io_sub 对象是不可变的，不能被修改的
 			constexpr Debug io_sub(false, true, false);
 			constexpr Debug prod(false);
+
+			int main()
+			{
+
+				// 异常，因为 io_sub 是 constexpr 的，也就是说 io_sub 的值不能被修改
+				// 但是 any 方法不是一个 const 方法，也就是说它可以在内部修改 Debug 对象的值
+				// 所以编译器会给出异常，除非给 any 添加 const，让 this 不可修改  => bool any() const {...}
+				io_sub.any(); //  error: passing 'const Debug' as 'this' argument discards qualifiers
+				
+				// ok
+				Debug d = {};
+				bool  x = d.any();
+				return 0;
+			}
