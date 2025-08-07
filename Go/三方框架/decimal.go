@@ -316,3 +316,20 @@ Demo
 		FormatDecimalNoPad(decimal.RequireFromString("3"), 2)         // 3
 		FormatDecimalNoPad(decimal.RequireFromString("3.1"), 2)       // 3.1
 	
+	
+	# 和 big.Float 无损转换
+		
+		// 原始 big.*Float 3.14159265358979323846264338327950288419716939937510582097494459
+		f := big.NewFloat(math.Pi)
+
+		// 直接用 String() 可能丢失精度：其实只保留了 10 位小数，底层源码：x.Text('g', 10)
+		// 3.141592654
+		fmt.Println(decimal.RequireFromString(f.String()))
+
+		// BigFloat 无损转换为 decimal
+		// 手动指定精度 f.Text('f', 100)：指定输出的 string 要精确到几位，decimal 会忽略后面多余的 0
+		// 3.141592653589793115997963468544185161590576171875
+		fmt.Println(decimal.RequireFromString(f.Text('f', 100)))
+
+		// decimal 无损转换为 BigFloat
+		fmt.Println(decimal.RequireFromString(f.Text('f', 100)).BigFloat().Text('f', 100))

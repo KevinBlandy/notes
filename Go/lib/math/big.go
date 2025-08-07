@@ -161,6 +161,9 @@ type
 					对于 'e'、'E'、'f' 和 'x'，它是小数点后的位数
 					对于 'g'、'G'，则是总位数。
 			
+			* demo
+				f.Text('f', 100) // 输出为字符串，保留 100 位小数，不足的话后面补 0
+			
 		func (x *Float) Uint64() (uint64, Accuracy)
 		func (z *Float) UnmarshalText(text []byte) error
 	
