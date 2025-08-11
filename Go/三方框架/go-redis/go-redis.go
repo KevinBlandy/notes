@@ -10,4 +10,16 @@ go-redis
 	
 		https://pkg.go.dev/github.com/go-redis/redis/v9
 	
-		
+
+-------------------
+Demo
+-------------------
+
+	# 连接到 unixsocket
+
+		options := &redis.Options{
+			Network: "unix",                      // 使用 Unix Socket
+			Addr:    "/var/run/redis/redis.sock", // Redis Unix Socket 路径
+		}
+		// 创建客户端
+		client := redis.NewClient(options)
