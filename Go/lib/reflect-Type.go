@@ -183,6 +183,7 @@ type
 	func DeepEqual(x, y interface{}) bool
 	func MakeFunc(typ Type, fn func(args []Value) (results []Value)) Value 
 	func Swapper(slice interface{}) func(i, j int)
+	func TypeAssert[T any](v Value) (T, bool)
 
 	func PtrTo(t Type) Type 
 

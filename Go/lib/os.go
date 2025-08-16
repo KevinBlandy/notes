@@ -278,17 +278,30 @@ type
 		* 提供了在特定目录内执行文件系统操作的能力。
 			
 		func OpenRoot(name string) (*Root, error)
+
+		func (r *Root) Chmod(name string, mode FileMode) error
+		func (r *Root) Chown(name string, uid, gid int) error
+		func (r *Root) Chtimes(name string, atime time.Time, mtime time.Time) error
 		func (r *Root) Close() error
 		func (r *Root) Create(name string) (*File, error)
 		func (r *Root) FS() fs.FS
+		func (r *Root) Lchown(name string, uid, gid int) error
+		func (r *Root) Link(oldname, newname string) error
 		func (r *Root) Lstat(name string) (FileInfo, error)
 		func (r *Root) Mkdir(name string, perm FileMode) error
+		func (r *Root) MkdirAll(name string, perm FileMode) error
 		func (r *Root) Name() string
 		func (r *Root) Open(name string) (*File, error)
 		func (r *Root) OpenFile(name string, flag int, perm FileMode) (*File, error)
 		func (r *Root) OpenRoot(name string) (*Root, error)
+		func (r *Root) ReadFile(name string) ([]byte, error)
+		func (r *Root) Readlink(name string) (string, error)
 		func (r *Root) Remove(name string) error
+		func (r *Root) RemoveAll(name string) error
+		func (r *Root) Rename(oldname, newname string) error
 		func (r *Root) Stat(name string) (FileInfo, error)
+		func (r *Root) Symlink(oldname, newname string) error
+		func (r *Root) WriteFile(name string, data []byte, perm FileMode) error
 
 	
 	# type Signal interface {

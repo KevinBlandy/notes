@@ -678,3 +678,8 @@ OOP
 				bool  x = d.any();
 				return 0;
 			}
+
+	# 静态成员
+		
+		* 通过 static 关键字声明静态成员，同样，也有 public 和 private 的区别
+

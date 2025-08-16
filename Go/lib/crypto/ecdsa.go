@@ -24,7 +24,10 @@ type
 				elliptic.P256()
 				elliptic.P384()
 				elliptic.P521()
-				
+
+		func ParseRawPrivateKey(curve elliptic.Curve, data []byte) (*PrivateKey, error)
+
+		func (priv *PrivateKey) Bytes() ([]byte, error)
 		func (k *PrivateKey) ECDH() (*ecdh.PrivateKey, error)
 		func (priv *PrivateKey) Equal(x crypto.PrivateKey) bool
 		func (priv *PrivateKey) Public() crypto.PublicKey
@@ -34,6 +37,11 @@ type
 			elliptic.Curve
 			X, Y *big.Int
 		}
+
+		
+		func ParseUncompressedPublicKey(curve elliptic.Curve, data []byte) (*PublicKey, error)
+
+		func (pub *PublicKey) Bytes() ([]byte, error)
 		func (k *PublicKey) ECDH() (*ecdh.PublicKey, error)
 		func (pub *PublicKey) Equal(x crypto.PublicKey) bool
 	

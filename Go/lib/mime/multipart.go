@@ -86,7 +86,10 @@ type
 方法
 --------------------------------
 
-
+	func FileContentDisposition(fieldname, filename string) string
+		* 返回指定字段名和文件名对应的 Content-Disposition 标头值。
+		* 源码
+			return fmt.Sprintf(`form-data; name="%s"; filename="%s"`, escapeQuotes(fieldname), escapeQuotes(filename))
 		
 --------------------------------
 demo

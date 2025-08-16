@@ -259,6 +259,19 @@ type
 			Cookies(u *url.URL) []*Cookie
 		}
 	
+	# type CrossOriginProtection struct {
+		}
+		
+		* CSRF 攻击保护，通过 Sec-Fetch-Site 标头进行检测，该标头自2023年起在所有浏览器中可用，或通过比较Origin标头中的主机名与Host标头中的主机名来实现。
+
+		func NewCrossOriginProtection() *CrossOriginProtection
+
+		func (c *CrossOriginProtection) AddInsecureBypassPattern(pattern string)
+		func (c *CrossOriginProtection) AddTrustedOrigin(origin string) error
+		func (c *CrossOriginProtection) Check(req *Request) error
+		func (c *CrossOriginProtection) Handler(h Handler) Handler
+		func (c *CrossOriginProtection) SetDenyHandler(h Handler)
+	
 	# type Dir string
 		func (d Dir) Open(name string) (File, error)
 

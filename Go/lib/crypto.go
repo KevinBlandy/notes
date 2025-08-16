@@ -49,6 +49,10 @@ type
 		)
 		
 		
+	# type MessageSigner interface {
+			Signer
+			SignMessage(rand io.Reader, msg []byte, opts SignerOpts) (signature []byte, err error)
+		}
 
 	# type PrivateKey interface{}
 	# type PublicKey interface{}

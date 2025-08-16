@@ -121,6 +121,13 @@ type
 			FS
 			ReadFile(name string) ([]byte, error)
 		}
+	
+	# type ReadLinkFS interface {
+		FS
+		ReadLink(name string) (string, error)
+		Lstat(name string) (FileInfo, error)
+	}
+
 	# type StatFS interface {
 			FS
 			Stat(name string) (FileInfo, error)

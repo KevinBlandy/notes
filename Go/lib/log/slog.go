@@ -56,6 +56,8 @@ type
 						"response":{"status":200,"Content-Type":"application/json"}
 					}
 				}
+		func GroupAttrs(key string, attrs ...Attr) Attr
+		
 
 		func Int(key string, value int) Attr
 		func Int64(key string, value int64) Attr
@@ -253,6 +255,10 @@ type
 
 		func (r Record) NumAttrs() int
 			* 获取属性数量
+		
+		func (r Record) Source() *Source
+			* r 的 PC字段返回日志事件的新源对象。
+			* 如果PC字段为零，表示记录在创建时缺少必要信息或位置不可用，则返回nil。
 	
 	# type Source struct {
 			Function string `json:"function"`

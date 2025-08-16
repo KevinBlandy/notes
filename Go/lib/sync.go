@@ -84,6 +84,14 @@ type
 	# type WaitGroup struct {}
 		func (wg *WaitGroup) Add(delta int)
 		func (wg *WaitGroup) Done()
+		func (wg *WaitGroup) Go(f func())
+			* ±ã½Ý·½Ê½£¬Ô´Âë
+					wg.Add(1)
+					go func() {
+						defer wg.Done()
+						f()
+					}()
+
 		func (wg *WaitGroup) Wait()
 
 

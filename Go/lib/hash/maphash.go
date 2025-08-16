@@ -9,6 +9,7 @@ type
 			// contains filtered or unexported fields
 		}
 		func (h *Hash) BlockSize() int
+		func (h *Hash) Clone() (hash.Cloner, error)
 		func (h *Hash) Reset()
 		func (h *Hash) Seed() Seed
 		func (h *Hash) SetSeed(seed Seed)
