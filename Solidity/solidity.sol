@@ -7,6 +7,6 @@ Solidity
 	# 学习
 		* https://decert.me/
 		* https://github.com/AmazingAng/WTF-Solidity
+		* https://learnblockchain.cn/docs/solidity/index.html
 
 		
-	
