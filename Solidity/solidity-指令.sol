@@ -31,4 +31,8 @@ pragma
 			pragma abicoder v1
 			pragma abicoder v2		//从 Solidity 0.8.0 开始默认启用
 		
-		* 
+		* pragma abicoder v2 指令是文件级的，它会影响整个源文件中定义的所有合约的 ABI 编码和解码行为。
+		* 继承时的行为: 使用了 v1 的合约继承了 v2 合约，v1 可以成功继承和使用 v2 中定义的、依赖于 ABI V2 新特性的代码（例如，使用复杂结构体的内部函数），只要这些新特性不暴露在 v1 的对外接口（external functions）中。
+
+		* 在 Solidity 0.7.4 之前，可以通过使用 pragma experimental ABIEncoderV2 来选择 ABI 编码器 v2，但无法显式选择编码器 v1，因为它是默认的。
+	
