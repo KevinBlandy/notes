@@ -37,6 +37,33 @@ func Run(task func(), ch chan struct{}) {
 }
 
 
+//-----------------------------------------
+// 通过 Select Case
+//-----------------------------------------
+func main() {
+	sem := make(chan struct{}, 3)
+
+	handler := func(i int) {
+		fmt.Printf("run %d\n", i)
+		time.Sleep(time.Second)
+	}
+
+	for i := range 100 {
+		select {
+		case sem <- struct{}{}:
+			go func() {
+				defer func() { <-sem }()
+				handler(i)
+			}()
+		default:
+			handler(i)
+		}
+	}
+}
+
+// 可能存在的问题是， default 代码块执行完了， case 中的任务还在执行
+
+
 ------------------
 基于 semaphore
 ------------------
