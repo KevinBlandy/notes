@@ -150,6 +150,7 @@ Systemd 配置文件
 
 			ExecStart
 				* 启动当前服务的命令
+				* 不能使用相对路径，必须使用绝对路径
 
 			ExecStartPre
 				* 启动当前服务之前执行的命令
@@ -167,8 +168,8 @@ Systemd 配置文件
 				* 自动重启当前服务间隔的秒数
 			
 			PIDFile
-				* PID 文件，只有 Type=forking 的时有用
-				* 必须指定 PIDFile，systemd 才能跟踪真正的主进程，Stop/Restart 时通过 PIDFile 找到后台进程发送信号
+				* 指定 PID 文件文件的位置，
+				* 当 Type=forking 时，必须指定 PIDFile，systemd 才能跟踪真正的主进程，Stop/Restart 时通过 PIDFile 找到后台进程发送信号
 				* 适合传统 daemon 风格程序（像很多老服务都会 fork 到后台）
 
 			Restart
