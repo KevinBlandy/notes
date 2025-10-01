@@ -113,6 +113,16 @@ Systemd 配置文件
 				* 当前 Unit 运行必须满足的条件，否则不会运行
 			Assert...
 				* 当前 Unit 运行必须满足的条件，否则会报启动失败
+			
+			StartLimitIntervalSec
+				* 检测窗口时间（默认 10s）
+			StartLimitBurst
+				* 窗口里，允许失败的次数
+				
+				* systemd 的防抖/限流机制，专门用来防止服务疯狂崩溃、重启，形成“重启风暴”。
+				* 如果失败次数超过阈值，systemd 会把服务标记为 failed，并停止再尝试启动。
+				* 如果超过 StartLimitBurst 次失败 → 服务进入 failed 状态，不再自动重启
+				* 必须手动 systemctl reset-failed [service] && systemctl start [service] 才能恢复
 		
 		[Install]
 			* 配置文件的最后一个区块，用来定义如何启动，以及是否开机启动。它的主要字段如下。
@@ -141,10 +151,15 @@ Systemd 配置文件
 						* 以 fork 方式从父进程创建子进程，创建后父进程会立即退出
 					Type=oneshot
 						* 一次性进程，Systemd 会等当前服务退出，再继续往下执行
+						* ExecStart 命令结束（退出码 0） → 服务就 成功完成
+
 					Type=dbus
 						* 当前服务通过D-Bus启动
+	
 					Type=notify
 						* 当前服务启动完毕，会通知Systemd，再继续往下执行
+						* 程序主动调用 sd_notify(READY=1)
+
 					Type=idle
 						* 若有其他任务执行完毕，当前服务才会运行
 
@@ -207,12 +222,19 @@ Systemd 配置文件
 Systemd Demo
 -----------------------
 
+//================================
+// 服务单元
+//================================
+
 [Unit]
 Description=BSC Node
 
 # 在网络可用后启动
 After=network-online.target
 Wants=network-online.target
+
+# 监控单元，非法退出后执行
+OnFailure=bsc-node-recovery.service
 
 [Service]
 
@@ -248,3 +270,14 @@ StandardError=inherit
 [Install]
 # 自启动
 WantedBy=multi-user.target
+
+//========================
+// 监控单元
+//========================
+
+[Unit]
+Description=BSC Node Recovery
+
+[Service]
+Type=oneshot
+ExecStart=echo '进程停止'
