@@ -158,7 +158,7 @@
 		* 可以添加参数 -v 来显示更完整的信息
 
 # 创建与远程分支关联的本地分支
-	git checkout -b  origin/[远程分支名称] [本地分支名称]
+	git checkout -b  [本地分支名称] origin/[远程分支名称] 
 
 # 设置本地分支与远程分支关联
 	git branch --set-upstream-to origin/[远程分支名称] [本地分支名称]
