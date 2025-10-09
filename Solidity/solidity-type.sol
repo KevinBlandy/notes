@@ -188,3 +188,62 @@ integer
 		
 		length
 			* 返回字节数组的长度
+
+-----------------------------------------
+enum
+-----------------------------------------
+	# 使用 enum 关键字声明枚举
+		enum Color {
+			RED, BLUE, WHITE, BLACK
+		}
+			
+		
+		* 每个枚举成员的值从 0 开始递增
+		* 第一个值是默认值，且起码要有一个值，成员不能超过 256 个
+		* 可以和整数类型进行转换，但是需要显示转换，如果转换的整数大于了枚举的表示值，则异常。
+			
+			// enum -> uint8
+			uint8 redVal = uint8(Color.RED); 
+			// uint8 -> enum
+			Color red = Color(0);
+
+		* 使用 type(Color).min 和 type(Color).max 可以获取给定枚举的最小值和最大值。
+			
+			Color max = type(Color).max;
+			Color min = type(Color).min;
+	
+	# 合约不是 ABI 的一部分，函数参数中的枚举会被编译为 uint8
+
+		// 签名将自动更改为 "maxColor() returns (uint8)"。
+		function maxColor() public pure returns(Color){
+			return type(Color).max;
+		}
+	
+	# 枚举也可以在文件级别声明，位于合约或库定义之外
+
+
+-------------------------------
+别名
+-------------------------------
+	# 把已存在的类型声明为另一种类型
+		
+		type C is V
+
+		* C 是新的类型名称
+		* V 必须是内置类型（基础类型）
+	
+		* C.warp() 把基础类型封装为自定义类型
+		* C.unwrap() 把自定义类型转换为基础类型
+
+
+		type ID is uint;
+
+		ID nextId = ID.wrap(100000000);
+		uint idVal = ID.unwrap(nextId);
+	
+	# 限制
+		
+		* 没有运算符或附加成员函数（不能重载运算符，也不能添加额外的方法）
+		* 自定义类型之间以及与其他类型之间的显式和隐式转换是不允许的。
+		* 没有运算符 == 或 !=
+			
