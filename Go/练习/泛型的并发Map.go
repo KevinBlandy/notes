@@ -33,8 +33,7 @@ func (c *concurrentMap[K, V]) LoadOrStore(key K, val V) (V, bool) {
 	if loaded {
 		return actual.(V), loaded
 	}
-	var actualVal V
-	return actualVal, loaded
+	return val, loaded
 }
 
 func (c *concurrentMap[K, V]) LoadAndDelete(key K) (V, bool) {
