@@ -47,6 +47,10 @@ var
 ------------------
 type
 ------------------
+	# type AuthorityOverrideCallOption struct {
+			Authority string
+		}
+
 	# type BackoffConfig struct {
 			// 返回延迟的上限。
 			MaxDelay time.Duration
@@ -67,6 +71,7 @@ type
 	# type CallOption interface {
 		}
 
+		func CallAuthority(authority string) CallOption
 		func CallContentSubtype(contentSubtype string) CallOption
 		func CallCustomCodec(codec Codec) CallOption
 		func FailFast(failFast bool) CallOption

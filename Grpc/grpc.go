@@ -66,9 +66,11 @@ GRPC
 		protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative demo.proto
 
 		--go_out=.
+			* go 专用
 			* 让 protoc 调用 protoc-gen-go 插件，生成 demo.pb.go
 		
 		 --go-grpc_out=.
+		 	* go 专用
 		 	*  让 protoc 调用 protoc-gen-go-grpc 插件，生成 demo_grpc.pb.go
 		
 		paths=source_relative
