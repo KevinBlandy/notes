@@ -16,7 +16,8 @@
 				* 函数结束后自动释放。
 
 			calldata
-				* 存在于交易输入数据（call data）中，只读，不能修改。
+				* 存在于交易输入数据（calldata）中，只读，不能修改。
+				* calldata 只能引用现有的、从外部传入的数组。
 				* 比 memory 更省 Gas，因为不会复制数组内容。
 
 			storage
