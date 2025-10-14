@@ -26,6 +26,19 @@
 
 				* 局部 storage 引用变量只能指向已有的 storage 对象。
 
+				* Solidity 中只有复合类型（数组、结构体、映射）才支持 storage 引用。
+				* 对值类型 (uint, bool, address 等) 不允许声明 storage 引用变量，
+
+					contract C {
+						uint x = 42;
+						function f() public {
+							// 编译错误
+							// “对值类型的引用” 没意义，因为对它的操作永远只是修改值，而不是操作复合数据结构。
+							// 修改 y 不会影响 x
+							uint storage y = x; 
+						}
+					}
+
 
 		* 任何 “改变” 数据位置的赋值或类型转换都会自动引发复制操作
 			

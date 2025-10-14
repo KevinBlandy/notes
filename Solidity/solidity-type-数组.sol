@@ -26,19 +26,26 @@
 
 			list[2]			// {6, 7} -> 第 3 个动态数组
 
-	# bytes 和 string
-		
-		bytes
-			* 类似于 bytes1[], 但在 calldata 和 memory 中紧密打包
-			* bytesN 只有在 storage 中才是紧密打包
-		
-		string 
-			* 等同于 bytes, 但是不允许索引访问和访问长度
-			* string 是动态字节数组 (bytes) 的 UTF-8 编码表示，
+	# bytes 
+		* 类似于 bytes1[], 但在 calldata 和 memory 中紧密打包
+		* bytesN 只有在 storage 中才是紧密打包
+		* 在底层存储（storage）中，它有两种不同的布局形式
+
+			1. 短布局（short layout）
+				* 当 bytes.length ≤ 31 时，Solidity 会将整个字节数组直接存放在一个 32 字节的存储槽（slot）中。
+				* 这时，数据和长度是 “紧密打包” 在一个槽内的。
+
+			2. 长布局（long layout）
+				* 当 bytes.length > 31 时，Solidity 会将实际字节数据存储在一个单独的存储区（类似动态数组 T[] 的方式），并在主槽中仅保存一个指针（或偏移信息）。
+
+
+	# string 
+		* 等同于 bytes, 但是不允许索引访问和访问长度
+		* string 是动态字节数组 (bytes) 的 UTF-8 编码表示，
 
 	# 初始化 Memory 数组
 
-		* 使用 new 操作符创建动态长度的内存数组，注意，不能调整大小
+		* 使用 new 操作符创建动态长度的内存数组，注意，不能调整大小（只是初始化的长度值可以是变量、动态的）
 		* 每个成员的默认值都是默认值
 			
 			 uint[] memory arr = new uint[](12);
@@ -72,13 +79,13 @@
 			* 返回数组长度
 		
 		push()
-			* 动态数组和 bytes 可用，用于在数组末尾添加一个元素（默认值），且返回该元素的引用
+			* 动态 storage 数组和 bytes 可用，用于在数组末尾添加一个元素（默认值），且返回该元素的引用
 				list.push() = 15; 
 		
 			* 可以把元素作为 push 的参数，这样的话 push 方法不会返回内容
 				list.push(15);
 		pop()
-			* 动态数组和 bytes 可用，从数组末尾移除一个元素，不返回任何内容。
+			* 动态 storage 数组和 bytes 可用，从数组末尾移除一个元素，不返回任何内容。
 			* 这也会隐式调用 delete 来删除被移除的元素。
 
 	
@@ -89,4 +96,62 @@
 	
 
 	# 悬空的 Storage 数组元素引用
+		
+		* 当调用 pop() 的时候，storage 动态数组中的元素并不会真的被销毁
+		* 只是单纯的 length - 1，并不会清除尾部位置存储的数据，下次 .push() 时会复用旧数据位置。
 
+			contract Demo {
+
+			  // storage 的嵌套数组，即数组元素是引用
+			  uint[][] list;
+
+			  constructor(){
+				list.push([1, 2]);
+			  }
+
+
+			  function foo() public payable  returns (uint)  {
+			 
+				// 获取 list 最后一个元素的引用，即 [1, 2]
+				uint[] storage lastItem = list[list.length - 1];
+
+				// 移除 list 最后一个元素
+				// 并且会 delete 这个元素，即把原始的值修改为 0 值，空素组
+				list.pop();
+
+				// lastItem 就成了悬空引用
+				// 通过最后一共元素的引用 push 数据
+				lastItem.push(0xFF);
+
+				// list 添加一个空引用
+				list.push();
+
+				// 访问 list 的第一个元素，会发现不是 0 值，而是 255
+				return list[0][0];
+			  }
+			}
+
+		
+		* 当使用复杂表达式进行元组赋值时，悬空引用也可能会暂时发生
+
+			// 用元组赋值 (tuple assignment) 
+			// Solidity 为了在不创建中间拷贝的情况下交换值，会暂时创建中间的 storage 引用。
+			// 在某些复杂表达式下，比如嵌套结构体或数组元素间的交换，这些中间引用在赋值结束前会暂时“悬空”——也就是说，它们在存储层面上暂时指向了已经被替换或释放的槽。
+			// 虽然编译器会在内部正确地避免非法访问，但在理论上这种短暂状态属于“暂时悬空引用”。
+			(a[i], a[j]) = (a[j], a[i]);
+		
+		* 任何具有悬空引用的代码都应被视为未定义行为，确保在代码中避免悬空引用。
+
+
+	# 切片
+		
+		x[start:end]
+
+		* start 和 end 是结果为 uint256 类型（或隐式可转换为它）的表达式。 
+		* 第一个元素是 x[start]，最后一个元素是 x[end - 1]。
+		* 如果 start 大于 end 或 end 大于数组的长度，将抛出异常。
+		* start 和 end 都是可选的：start 默认为 0，end 默认为数组的长度。
+
+		* 数组切片没任何成员，也就是说不能对一个数组切片调用 .length、.push() 或 .pop() 这样的成员函数。
+		* 数组切片不是一个“变量”，而是一个表达式。
+	
