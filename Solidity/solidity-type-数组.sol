@@ -4,7 +4,17 @@
 	# 引用类型，有动态和静态之分
 
 		T[K] // 固定大小，类型是 T 长度为 K
+			* K 只能是常量，不能是变量
+
 		T[]	 // 动态大小，类型是 T
+			* 使用 new 操作符创建动态长度数组，注意，不能调整大小（只是初始化的长度值可以是变量、动态的）
+				uint len = 1024;
+				uint[] memory arr = new uint[](len);
+
+				uint[2][] memory arrayOfPairs = new uint[2][](1024);
+		
+		* 动态和静态数组，不是相同的类型，不能相互赋值
+
 
 	# 多维数组
 
@@ -26,32 +36,6 @@
 
 			list[2]			// {6, 7} -> 第 3 个动态数组
 
-	# bytes 
-		* 类似于 bytes1[], 但在 calldata 和 memory 中紧密打包
-		* bytesN 只有在 storage 中才是紧密打包
-		* 在底层存储（storage）中，它有两种不同的布局形式
-
-			1. 短布局（short layout）
-				* 当 bytes.length ≤ 31 时，Solidity 会将整个字节数组直接存放在一个 32 字节的存储槽（slot）中。
-				* 这时，数据和长度是 “紧密打包” 在一个槽内的。
-
-			2. 长布局（long layout）
-				* 当 bytes.length > 31 时，Solidity 会将实际字节数据存储在一个单独的存储区（类似动态数组 T[] 的方式），并在主槽中仅保存一个指针（或偏移信息）。
-
-
-	# string 
-		* 等同于 bytes, 但是不允许索引访问和访问长度
-		* string 是动态字节数组 (bytes) 的 UTF-8 编码表示，
-
-	# 初始化 Memory 数组
-
-		* 使用 new 操作符创建动态长度的内存数组，注意，不能调整大小（只是初始化的长度值可以是变量、动态的）
-		* 每个成员的默认值都是默认值
-			
-			 uint[] memory arr = new uint[](12);
-
-			 uint[2][] memory arrayOfPairs = new uint[2][](1024);
-
 
 	# 数组字面量
 		* 字面量数组始终是一个静态大小的内存数组，其长度为表达式的数量。
@@ -63,6 +47,8 @@
 			}
 
 			[1, -1] // 无效，第一个成员是 uint8，第二个是 int8，除非强制 [int(1), -1]
+
+			uint[3] memory arr = [uint(1), 2, 3, 4]; // 无效，长度不匹配
 		
 		* 固定大小的内存数据，不能赋值给动态大小的数组
 			uint[] arr = [1, 2, 3];
@@ -72,6 +58,28 @@
 			uint24[2][4] memory x = [[uint24(0x1), 1], [0xffffff, 2], [uint24(0xff), 3], [uint24(0xffff), 4]];
 			// 以下代码无效，因为某些内部数组的类型不正确。
 			uint[2][4] memory x = [[0x1, 1], [0xffffff, 2], [0xff, 3], [0xffff, 4]];
+		
+		* 对于 storage 的动态数组，可以用静态数组来进行初始化
+			
+			contract Demo {
+
+			   uint[] data;
+
+			   uint[] list = [4,5,6];
+
+			   function foo() public payable {
+					data = [1, 2, 3];
+
+					uint[] storage dataRef = data;
+			   }
+			}
+
+			// 只有 storage 本身可以这样初始化，引用都不可以
+
+			// dataRef 是 data 的引用
+			uint[] storage dataRef = data;
+			// 异常，试图把 dataRef 重新绑定到一个 memory 数组，
+			dataRef = [5,6,7];
 
 
 	# 实例成员
@@ -147,6 +155,8 @@
 		
 		x[start:end]
 
+		* 目前只能对 calldata 使用数组切片。 memory 和 storage 都不可以使用
+
 		* start 和 end 是结果为 uint256 类型（或隐式可转换为它）的表达式。 
 		* 第一个元素是 x[start]，最后一个元素是 x[end - 1]。
 		* 如果 start 大于 end 或 end 大于数组的长度，将抛出异常。
@@ -155,3 +165,31 @@
 		* 数组切片没任何成员，也就是说不能对一个数组切片调用 .length、.push() 或 .pop() 这样的成员函数。
 		* 数组切片不是一个“变量”，而是一个表达式。
 	
+----------------------------
+动态字节数组
+----------------------------	
+	# 动态字节数组
+		
+		* bytes 和 string 可以相互转换
+
+		string memory str = "HelloWorld";
+		bytes memory strBytes = bytes(str);
+		string memory str1 = string(strBytes);
+
+	# bytes
+		* 类似于 bytes1[], 但在 calldata 和 memory 中紧密打包，bytesN 只有在 storage 中才是紧密打包
+		* 在底层存储（storage）中，它有两种不同的布局形式
+
+			1. 短布局（short layout）
+				* 当 bytes.length ≤ 31 时，Solidity 会将整个字节数组直接存放在一个 32 字节的存储槽（slot）中。
+				* 这时，数据和长度是 “紧密打包” 在一个槽内的。
+
+			2. 长布局（long layout）
+				* 当 bytes.length > 31 时，Solidity 会将实际字节数据存储在一个单独的存储区（类似动态数组 T[] 的方式），并在主槽中仅保存一个指针（或偏移信息）。
+
+
+	# string 
+		* 等同于 bytes, 但是不允许索引访问和访问长度
+		* string 是动态字节数组 (bytes) 的 UTF-8 编码表示
+	
+

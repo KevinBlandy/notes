@@ -181,7 +181,9 @@ integer
 		* 可与数值类型互相转换（需要显式转换），例如 uint8(x[i]) 可以把字节变成对应的整数 0–255。
 	
 	# 注意当字节数组时的存储问题
-		* bytes1[] 是字节数组，但 bytes1 虽然逻辑上只有 1 字节，但在内存中每个元素都会被填充（padded）成 32 字节，最好使用 bytes 类型。
+		* bytes1[] 是字节数组，但 bytes1 虽然逻辑上只有 1 字节，但在 memory/calldata 中每个元素都会被填充（padded）成 32 字节，最好使用 bytes 类型。
+		* memory 和 calldata 中的数组（比如bytes1[]）的每个元素都要占据32字节的倍数。不足32字节的，会自动 padding 到32字节
+
 		* storage 中除外，因为 在 storage 里，bytes1[] 和 bytes 在空间效率上几乎一样（Solidity 压缩规则，编译器在存储布局上会自动压缩相邻的字节）。
 
 	# 属性
