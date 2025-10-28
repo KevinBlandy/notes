@@ -59,7 +59,7 @@ Go 安装
 			tar -C /usr/local -xzf go1.15.3.linux-amd64.tar.gz
 		
 		* 编辑 /etc/profile 文件，设置PATH
-			export PATH=$PATH:/root/go/bin
+			export PATH=$PATH:/usr/local/go/bin
 			
 		
 		* 查看版本号
