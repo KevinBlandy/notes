@@ -11,9 +11,13 @@ Docker 安装 MYSQL
 		* vim ~/docker/redis/conf/redis.conf
 
 		* 写入配置信息
-		* 完整的配置信息：
-			https://raw.githubusercontent.com/redis/redis/unstable/redis.conf
-	
+		* 完整的配置信息在官方仓库下，可以切换不同的版本（分支）
+			
+			https://github.com/redis/redis/blob/7.4/redis.conf
+		
+
+		* 要取消 bind 才能被宿主机端口映射
+
 	# 启动
 		docker run -d \
 		  --name redis7 \

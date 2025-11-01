@@ -5,6 +5,13 @@
 
 		T[K] // 固定大小，类型是 T 长度为 K
 			* K 只能是常量，不能是变量
+			* 对于静态数组，直接声明即可，然后通过索引初始化
+			
+				int[10] memory arr;  // length 为 10
+
+				arr[0] = 1;
+				arr[2] = 2;
+				arr[arr.length - 1] = 0xff;
 
 		T[]	 // 动态大小，类型是 T
 			* 使用 new 操作符创建动态长度数组，注意，不能调整大小（只是初始化的长度值可以是变量、动态的）
@@ -51,7 +58,7 @@
 			uint[3] memory arr = [uint(1), 2, 3, 4]; // 无效，长度不匹配
 		
 		* 固定大小的内存数据，不能赋值给动态大小的数组
-			uint[] arr = [1, 2, 3];
+			uint[] memory arr = [1, 2, 3]; // 异常：TypeError: Type uint8[3] memory is not implicitly convertible to expected type uint256[] memory.
 		
 		* 二维数组字面量，必须显式指定一个共同的基本类型
 
