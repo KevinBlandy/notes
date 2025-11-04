@@ -1,10 +1,10 @@
 ---------------------
 list
 ---------------------
-	# Ë«ÏòÁ´±í
+	# åŒå‘é“¾è¡¨
 
 ---------------------
-±äÁ¿
+å˜é‡
 ---------------------
 
 ---------------------
@@ -14,32 +14,32 @@ type
 			Value interface{} // contains filtered or unexported fields
 		}
 		
-		* Á´±íÖĞµÄ½Úµã
+		* é“¾è¡¨ä¸­çš„èŠ‚ç‚¹
 
 		func (e *Element) Next() *Element
 		func (e *Element) Prev() *Element
 
 	# type List struct
 		
-		* Á´±í
+		* é“¾è¡¨
 
 		func New() *List
 
 		func (l *List) Back() *Element
 		func (l *List) Front() *Element
-			* ·µ»ØÎ²/Í·½áµã
+			* è¿”å›å°¾/å¤´ç»“ç‚¹
 
 		func (l *List) Init() *List
-			*  Çå¿ÕÒ»¸öÏÖÓĞµÄÁ´±í»òÕß³õÊ¼»¯Ò»¸öĞÂµÄÁ´±í¡£
+			*  æ¸…ç©ºä¸€ä¸ªç°æœ‰çš„é“¾è¡¨æˆ–è€…åˆå§‹åŒ–ä¸€ä¸ªæ–°çš„é“¾è¡¨ã€‚
 
 		func (l *List) InsertAfter(v interface{}, mark *Element) *Element
-			* ÔÚÖ¸¶¨µÄ½Úµãºó£¬²åÈëÊı¾İ
+			* åœ¨æŒ‡å®šçš„èŠ‚ç‚¹åï¼Œæ’å…¥æ•°æ®
 
 		func (l *List) InsertBefore(v interface{}, mark *Element) *Element
-			* ÔÚÖ¸¶¨µÄ½ÚµãÇ°£¬²åÈëÊı¾İ
+			* åœ¨æŒ‡å®šçš„èŠ‚ç‚¹å‰ï¼Œæ’å…¥æ•°æ®
 
 		func (l *List) Len() int
-			* ·µ»Ø³¤¶È
+			* è¿”å›é•¿åº¦
 
 		func (l *List) MoveAfter(e, mark *Element)
 		func (l *List) MoveBefore(e, mark *Element)
@@ -47,11 +47,11 @@ type
 		func (l *List) MoveToFront(e *Element)
 		func (l *List) PushBack(v interface{}) *Element
 		func (l *List) PushBackList(other *List)
-			* ÔÚÁ´±íÎ²²¿²åÈë¶ÔÏó
+			* åœ¨é“¾è¡¨å°¾éƒ¨æ’å…¥å¯¹è±¡
 
 		func (l *List) PushFront(v interface{}) *Element
 		func (l *List) PushFrontList(other *List)
-			* ÔÚÁ´±íÍ·²¿²åÈë¶ÔÏó£¬·µ»ØµÄÊı¾İ
+			* åœ¨é“¾è¡¨å¤´éƒ¨æ’å…¥å¯¹è±¡ï¼Œè¿”å›çš„æ•°æ®
 		
 		func (l *List) Remove(e *Element) interface{}
 
@@ -64,31 +64,31 @@ func
 ---------------------
 demo
 ---------------------
-	# ¶ÓÁĞµÄÊ¹ÓÃ
+	# é˜Ÿåˆ—çš„ä½¿ç”¨
 		queue := list.New()
 
-		// Ìí¼ÓÔªËØµ½Î²²¿
+		// æ·»åŠ å…ƒç´ åˆ°å°¾éƒ¨
 		queue.PushBack("1")
 		queue.PushBack("2")
 		queue.PushBack("3")
 
 		for queue.Len() > 0{
 
-			// »ñÈ¡Í·²¿½Úµã
+			// è·å–å¤´éƒ¨èŠ‚ç‚¹
 			var element = queue.Front()
 			fmt.Println(element.Value)
 
-			// ÒÆ³ıÍ·²¿½Úµã
+			// ç§»é™¤å¤´éƒ¨èŠ‚ç‚¹
 			queue.Remove(element)
 		}
 
-		// Êä³ö ---------------
+		// è¾“å‡º ---------------
 		1
 		2
 		3
 	
-	# Ê¹ÓÃ¶ÓÁĞµü´úHTMLÎÄµµµÄÀı×Ó
-		// Preview ´ÓHTMLÎÄ±¾ÖĞ½âÎö³öÎÄ×ÖÄÚÈİ
+	# ä½¿ç”¨é˜Ÿåˆ—è¿­ä»£HTMLæ–‡æ¡£çš„ä¾‹å­
+		// Preview ä»HTMLæ–‡æœ¬ä¸­è§£æå‡ºæ–‡å­—å†…å®¹
 		func Preview(content string, size int) (string, error) {
 			if content == "" {
 				return "", nil
@@ -98,21 +98,21 @@ demo
 				return "", err
 			}
 
-			// ÒÑ¾­¶ÁÈ¡µ½µÄ×Ö·ûÊıÁ¿
+			// å·²ç»è¯»å–åˆ°çš„å­—ç¬¦æ•°é‡
 			var ret string
 
-			// ¶ÓÁĞ±éÀú
+			// é˜Ÿåˆ—éå†
 			queue := list.New()
 			queue.PushBack(document)
 
 			for queue.Len() > 0 {
-				// ÒÆ³ıµ±Ç°½Úµã
+				// ç§»é™¤å½“å‰èŠ‚ç‚¹
 				item := queue.Remove(queue.Back())
 
-				// ±éÀúÃ¿Ò»¸ö½Úµã
+				// éå†æ¯ä¸€ä¸ªèŠ‚ç‚¹
 				node := item.(*html.Node)
 
-				// ÎÄ±¾½Úµã
+				// æ–‡æœ¬èŠ‚ç‚¹
 				if node.Type == html.TextNode {
 					text := strings.TrimSpace(node.Data)
 					if text != "" {
@@ -127,12 +127,12 @@ demo
 					}
 				}
 
-				// ÏÂÒ»¸öĞÖµÜ½Úµã
+				// ä¸‹ä¸€ä¸ªå…„å¼ŸèŠ‚ç‚¹
 				if node.NextSibling != nil {
 					queue.PushBack(node.NextSibling)
 				}
 
-				// ÏÂÒ»¸ö×Ó½Úµã
+				// ä¸‹ä¸€ä¸ªå­èŠ‚ç‚¹
 				if node.FirstChild != nil {
 					queue.PushBack(node.FirstChild)
 				}
