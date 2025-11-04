@@ -132,6 +132,8 @@ type
 		func (z *Float) SetFloat64(x float64) *Float
 		func (z *Float) SetInf(signbit bool) *Float
 		func (z *Float) SetInt(x *Int) *Float
+			* 设置为 *big.Int 的值
+
 		func (z *Float) SetInt64(x int64) *Float
 		func (z *Float) SetMantExp(mant *Float, exp int) *Float
 		func (z *Float) SetMode(mode RoundingMode) *Float
