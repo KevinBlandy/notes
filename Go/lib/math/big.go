@@ -1,24 +1,24 @@
 ---------------------------
 big
 ---------------------------
-	# ÊµÏÖÁËÈÎÒâ¾«¶ÈËãÊõ(³¬´óÊý)Ö§³ÖÒÔÏÂÊý×ÖÀàÐÍ:
-		Float	Ä¬ÈÏÖµ0£¬¸¡µãÊý
+	# å®žçŽ°äº†ä»»æ„ç²¾åº¦ç®—æœ¯(è¶…å¤§æ•°)æ”¯æŒä»¥ä¸‹æ•°å­—ç±»åž‹:
+		Float	é»˜è®¤å€¼0ï¼Œæµ®ç‚¹æ•°
 			
-		Int		Ä¬ÈÏÖµ0£¬ÕûÊý
-		Rat		Ä¬ÈÏÖµ0/1£¬ÓÐÀíÊý£¨·ÖÊý£©
+		Int		é»˜è®¤å€¼0ï¼Œæ•´æ•°
+		Rat		é»˜è®¤å€¼0/1ï¼Œæœ‰ç†æ•°ï¼ˆåˆ†æ•°ï¼‰
 	
-	# ³õÊ¼»¯ÖµµÄ¼¸ÖÖ·½Ê½
-		// Ê¹ÓÃ¹¤³§·½·¨½øÐÐ³õÊ¼»¯£¬ÐèÒªÖ¸¶¨ int / float Êý¾Ý
+	# åˆå§‹åŒ–å€¼çš„å‡ ç§æ–¹å¼
+		// ä½¿ç”¨å·¥åŽ‚æ–¹æ³•è¿›è¡Œåˆå§‹åŒ–ï¼Œéœ€è¦æŒ‡å®š int / float æ•°æ®
 		number := big.NewInt(21321)
 		
-		// ÊÖ¶¯´´½¨¶ÔÏóºó£¬Ê¹ÓÃ×Ö·û´®µ÷ÓÃÁ´Ê½·½·¨³õÊ¼»¯
-		// ÕâÖÖ·½Ê½ÐèÒª¸ù¾Ý·µ»ØÖµÅÐ¶ÏÊÇ·ñOk
+		// æ‰‹åŠ¨åˆ›å»ºå¯¹è±¡åŽï¼Œä½¿ç”¨å­—ç¬¦ä¸²è°ƒç”¨é“¾å¼æ–¹æ³•åˆå§‹åŒ–
+		// è¿™ç§æ–¹å¼éœ€è¦æ ¹æ®è¿”å›žå€¼åˆ¤æ–­æ˜¯å¦Ok
 		number, ok := new(big.Int).SetString("1999321392131221423432432532", 10)
 	
-	# JSON ÐòÁÐ»¯ºÍ·´ÐòÁÐ»¯
+	# JSON åºåˆ—åŒ–å’Œååºåˆ—åŒ–
 
-		* Int Ä¬ÈÏÐòÁÐ»¯Îª int
-		* Float Ä¬ÈÏÐòÁÐ»¯Îª string
+		* Int é»˜è®¤åºåˆ—åŒ–ä¸º int
+		* Float é»˜è®¤åºåˆ—åŒ–ä¸º string
 
 		type Foo struct {
 			Amount  *big.Int   `json:"amount"`
@@ -39,16 +39,16 @@ big
 
 
 ---------------------------
-±äÁ¿
+å˜é‡
 ---------------------------
 	const (
-		MaxExp  = math.MaxInt32  // ×î´óÖ§³ÖÖ¸Êý
-		MinExp  = math.MinInt32  // ×îÐ¡Ö§³ÖÖ¸Êý
-		MaxPrec = math.MaxUint32 // ×î´ó£¨ÀíÂÛÉÏ£©Ö§³Ö¾«¶È£»¿ÉÄÜÊÜÄÚ´æÏÞÖÆ 4294967295
+		MaxExp  = math.MaxInt32  // æœ€å¤§æ”¯æŒæŒ‡æ•°
+		MinExp  = math.MinInt32  // æœ€å°æ”¯æŒæŒ‡æ•°
+		MaxPrec = math.MaxUint32 // æœ€å¤§ï¼ˆç†è®ºä¸Šï¼‰æ”¯æŒç²¾åº¦ï¼›å¯èƒ½å—å†…å­˜é™åˆ¶ 4294967295
 	)
 
 	const MaxBase = 10 + ('z' - 'a' + 1) + ('Z' - 'A' + 1)
-		* ×Ö·û´®×ª»»º¯Êý½ÓÊÜµÄ×î´ó½øÖÆ
+		* å­—ç¬¦ä¸²è½¬æ¢å‡½æ•°æŽ¥å—çš„æœ€å¤§è¿›åˆ¶
 
 
 
@@ -59,35 +59,35 @@ type
 		func (i Accuracy) String() string
 
 
-		* ÃèÊöÁË×î½üÒ»´ÎÉú³É¸¡µãÊýÖµµÄ²Ù×÷Ïà¶ÔÓÚ¾«È·ÊýÖµËù²úÉúµÄÉáÈëÎó²î¡£
+		* æè¿°äº†æœ€è¿‘ä¸€æ¬¡ç”Ÿæˆæµ®ç‚¹æ•°å€¼çš„æ“ä½œç›¸å¯¹äºŽç²¾ç¡®æ•°å€¼æ‰€äº§ç”Ÿçš„èˆå…¥è¯¯å·®ã€‚
 		
-		* Ô¤¶¨Òå³£Á¿
+		* é¢„å®šä¹‰å¸¸é‡
 			const (
-				Below Accuracy = -1		// ½á¹ûÐ¡ÓÚÕæÊµÖµ£¨±»½Ø¶Ï»òÏòÏÂÉáÈë£©
-				Exact Accuracy = 0		// ½á¹ûÊÇ¾«È·µÄ
-				Above Accuracy = +1		// ½á¹û´óÓÚÕæÊµÖµ£¨±»ÏòÉÏÉáÈë£©
+				Below Accuracy = -1		// ç»“æžœå°äºŽçœŸå®žå€¼ï¼ˆè¢«æˆªæ–­æˆ–å‘ä¸‹èˆå…¥ï¼‰
+				Exact Accuracy = 0		// ç»“æžœæ˜¯ç²¾ç¡®çš„
+				Above Accuracy = +1		// ç»“æžœå¤§äºŽçœŸå®žå€¼ï¼ˆè¢«å‘ä¸Šèˆå…¥ï¼‰
 			)
 		
 	# type ErrNaN struct
 		func (err ErrNaN) Error() string
 
-		* ·ÇÊý×Ö´íÎó
+		* éžæ•°å­—é”™è¯¯
 	
 	# type Float struct
 
 		func NewFloat(x float64) *Float
 		func ParseFloat(s string, base int, prec uint, mode RoundingMode) (f *Float, b int, err error)
-			* ÀàËÆÓÚ f.Parse(s,base)£¬f ÉèÖÃÎª¸ø¶¨¾«¶ÈºÍËÄÉáÎåÈëÄ£Ê½¡£
+			* ç±»ä¼¼äºŽ f.Parse(s,base)ï¼Œf è®¾ç½®ä¸ºç»™å®šç²¾åº¦å’Œå››èˆäº”å…¥æ¨¡å¼ã€‚
 
 		func (z *Float) Abs(x *Float) *Float
 		func (x *Float) Acc() Accuracy
 		func (z *Float) Add(x, y *Float) *Float
 		func (x *Float) Append(buf []byte, fmt byte, prec int) []byte
 		func (x *Float) Cmp(y *Float) int
-			* ±È½Ï x ºÍ y µÄ´óÐ¡
-				x > y ·µ»Ø 1
-				x < y ·µ»Ø -1
-				x = y ·µ»Ø 0
+			* æ¯”è¾ƒ x å’Œ y çš„å¤§å°
+				x > y è¿”å›ž 1
+				x < y è¿”å›ž -1
+				x = y è¿”å›ž 0
 
 		func (z *Float) Copy(x *Float) *Float
 		func (x *Float) Float32() (float32, Accuracy)
@@ -96,23 +96,23 @@ type
 		func (z *Float) GobDecode(buf []byte) error
 		func (x *Float) GobEncode() ([]byte, error)
 		func (x *Float) Int(z *Int) (*Int, Accuracy)
-			* ½Ø¶Ï x µÄÐ¡Êý²¿·Ö£¨ÏòÁãÈ¡Õû£©£¬Èç¹û x ÊÇÎÞÇî´ó£¬Ôò·µ»Ø nil¡£
-			* ¸ù¾Ý·µ»ØµÄ Accuracy ¿ÉÒÔÅÐ¶Ï½Ø¶ÏºóµÄÖµÊÇÍùÏÂ¡¢ÉÏ½Ø¶ÏÁË£¬»¹ÊÇºÍÔ­Ê¼ÖµÒ»Ñù¡£
-			* ²ÎÊý¿ÉÒÔ´«µÝ nil£¬¸Ä·½·¨»á×Ô¶¯´´½¨ÐÂµÄÊµÀý·µ»Ø
-				// Ô¤¶¨ÒåÕûÊý
+			* æˆªæ–­ x çš„å°æ•°éƒ¨åˆ†ï¼ˆå‘é›¶å–æ•´ï¼‰ï¼Œå¦‚æžœ x æ˜¯æ— ç©·å¤§ï¼Œåˆ™è¿”å›ž nilã€‚
+			* æ ¹æ®è¿”å›žçš„ Accuracy å¯ä»¥åˆ¤æ–­æˆªæ–­åŽçš„å€¼æ˜¯å¾€ä¸‹ã€ä¸Šæˆªæ–­äº†ï¼Œè¿˜æ˜¯å’ŒåŽŸå§‹å€¼ä¸€æ ·ã€‚
+			* å‚æ•°å¯ä»¥ä¼ é€’ nilï¼Œæ”¹æ–¹æ³•ä¼šè‡ªåŠ¨åˆ›å»ºæ–°çš„å®žä¾‹è¿”å›ž
+				// é¢„å®šä¹‰æ•´æ•°
 				var number = &big.Int{}
-				// ÉáÆúÐ¡Êý£¬·µ»ØÕûÊý
+				// èˆå¼ƒå°æ•°ï¼Œè¿”å›žæ•´æ•°
 				result, accuracy := new(big.Float).SetFloat64(9.99999).Int(number)
-				// ¸ù¾Ý accuracy ÅÐ¶Ï½Ø¶ÏºóµÄÖµºÍÔ­Ê¼ÖµµÄ´óÐ¡
+				// æ ¹æ® accuracy åˆ¤æ–­æˆªæ–­åŽçš„å€¼å’ŒåŽŸå§‹å€¼çš„å¤§å°
 				fmt.Println(result, accuracy) // 9 Below
-				// ·µ»ØµÄÕûÊý¾ÍÊÇ´«ÈëµÄ²ÎÊý
+				// è¿”å›žçš„æ•´æ•°å°±æ˜¯ä¼ å…¥çš„å‚æ•°
 				fmt.Println(result == number) // true
 
 
 		func (x *Float) Int64() (int64, Accuracy)
 		func (x *Float) IsInf() bool
 		func (x *Float) IsInt() bool
-			* ±¨¸æ x ÊÇ·ñÎªÕûÊý¡£
+			* æŠ¥å‘Š x æ˜¯å¦ä¸ºæ•´æ•°ã€‚
 
 		func (x *Float) MantExp(mant *Float) (exp int)
 		func (x *Float) MarshalText() (text []byte, err error)
@@ -123,7 +123,7 @@ type
 		func (z *Float) Parse(s string, base int) (f *Float, b int, err error)
 		func (x *Float) Prec() uint
 		func (z *Float) Quo(x, y *Float) *Float
-			* ³ý·¨
+			* é™¤æ³•
 
 		func (x *Float) Rat(z *Rat) (*Rat, Accuracy)
 		func (z *Float) Scan(s fmt.ScanState, ch rune) error
@@ -136,15 +136,15 @@ type
 		func (z *Float) SetMantExp(mant *Float, exp int) *Float
 		func (z *Float) SetMode(mode RoundingMode) *Float
 		func (z *Float) SetPrec(prec uint) *Float
-			* ÉèÖÃ¸¡µãÊý¼ÆËãµÄ¾«¶È¡£ËüÓÃÓÚÖ¸¶¨ big.Float ÀàÐÍ¶ÔÏóÔÚ¼ÆËãÊ±Ê¹ÓÃµÄ¶þ½øÖÆ¾«¶È£¨ÒÔÎ»Îªµ¥Î»£©¡£
-			* Ä¬ÈÏ¾«¶ÈÖµÔÚ Go ÖÐÊÇ 64 Î»¶þ½øÖÆ¾«¶È¡£ÕâÏàµ±ÓÚ±ê×¼µÄ float64 µÄ¾«¶È£¨Ô¼Îª 16 Î»Ê®½øÖÆÓÐÐ§Êý×Ö£©¡£
-			* SetPrec(0) ½«ËùÓÐÓÐÏÞÖµÓ³ÉäÎª ¡À0£»ÎÞÏÞÖµ±£³Ö²»±ä¡£Èç¹û prec > MaxPrec£¬ÔòÉèÖÃÎª MaxPrec¡£
+			* è®¾ç½®æµ®ç‚¹æ•°è®¡ç®—çš„ç²¾åº¦ã€‚å®ƒç”¨äºŽæŒ‡å®š big.Float ç±»åž‹å¯¹è±¡åœ¨è®¡ç®—æ—¶ä½¿ç”¨çš„äºŒè¿›åˆ¶ç²¾åº¦ï¼ˆä»¥ä½ä¸ºå•ä½ï¼‰ã€‚
+			* é»˜è®¤ç²¾åº¦å€¼åœ¨ Go ä¸­æ˜¯ 64 ä½äºŒè¿›åˆ¶ç²¾åº¦ã€‚è¿™ç›¸å½“äºŽæ ‡å‡†çš„ float64 çš„ç²¾åº¦ï¼ˆçº¦ä¸º 16 ä½åè¿›åˆ¶æœ‰æ•ˆæ•°å­—ï¼‰ã€‚
+			* SetPrec(0) å°†æ‰€æœ‰æœ‰é™å€¼æ˜ å°„ä¸º Â±0ï¼›æ— é™å€¼ä¿æŒä¸å˜ã€‚å¦‚æžœ prec > MaxPrecï¼Œåˆ™è®¾ç½®ä¸º MaxPrecã€‚
 
 			
 		func (z *Float) SetRat(x *Rat) *Float
 		func (z *Float) SetString(s string) (*Float, bool)
 		func (z *Float) SetUint64(x uint64) *Float
-			* ÉèÖÃÖµ
+			* è®¾ç½®å€¼
 
 		func (x *Float) Sign() int
 		func (x *Float) Signbit() bool
@@ -152,17 +152,17 @@ type
 		func (x *Float) String() string
 		func (z *Float) Sub(x, y *Float) *Float
 		func (x *Float) Text(format byte, prec int) string
-			* ¸ñÊ½»¯Îª×Ö·û´®
+			* æ ¼å¼åŒ–ä¸ºå­—ç¬¦ä¸²
 
-				format Ö¸¶¨¸ñÊ½
-					'f' ÎÞÖ¸Êý
+				format æŒ‡å®šæ ¼å¼
+					'f' æ— æŒ‡æ•°
 				
-				prec Ö¸¶¨¾«¶È£¬¸ù¾Ý format ²»Í¬ÒâÒå²»Í¬
-					¶ÔÓÚ 'e'¡¢'E'¡¢'f' ºÍ 'x'£¬ËüÊÇÐ¡ÊýµãºóµÄÎ»Êý
-					¶ÔÓÚ 'g'¡¢'G'£¬ÔòÊÇ×ÜÎ»Êý¡£
+				prec æŒ‡å®šç²¾åº¦ï¼Œæ ¹æ® format ä¸åŒæ„ä¹‰ä¸åŒ
+					å¯¹äºŽ 'e'ã€'E'ã€'f' å’Œ 'x'ï¼Œå®ƒæ˜¯å°æ•°ç‚¹åŽçš„ä½æ•°
+					å¯¹äºŽ 'g'ã€'G'ï¼Œåˆ™æ˜¯æ€»ä½æ•°ã€‚
 			
 			* demo
-				f.Text('f', 100) // Êä³öÎª×Ö·û´®£¬±£Áô 100 Î»Ð¡Êý£¬²»×ãµÄ»°ºóÃæ²¹ 0
+				f.Text('f', 100) // è¾“å‡ºä¸ºå­—ç¬¦ä¸²ï¼Œä¿ç•™ 100 ä½å°æ•°ï¼Œä¸è¶³çš„è¯åŽé¢è¡¥ 0
 			
 		func (x *Float) Uint64() (uint64, Accuracy)
 		func (z *Float) UnmarshalText(text []byte) error
@@ -179,21 +179,21 @@ type
 		func (x *Int) BitLen() int
 		func (x *Int) Bits() []Word
 		func (x *Int) Bytes() []byte
-			* ·µ»Ø´óÊý¶ÔÓ¦µÄ¶þ½øÖÆÊý×é
+			* è¿”å›žå¤§æ•°å¯¹åº”çš„äºŒè¿›åˆ¶æ•°ç»„
 
 		func (x *Int) Cmp(y *Int) (r int)
 		func (x *Int) CmpAbs(y *Int) int
 		func (z *Int) Div(x, y *Int) *Int
 		func (z *Int) DivMod(x, y, m *Int) (*Int, *Int)
 		func (z *Int) Exp(x, y, m *Int) *Int
-			* Ö¸Êý¼ÆËã£¬¼ÆËã x µÄ y ´Î·½ÊÇ¶àÉÙ
-			* Exp º¯Êý¼ÆËã z = x**y mod |m|£¨ºöÂÔ m µÄ·ûºÅ£©²¢·µ»Ø z¡£Æä¾ßÌåÐÐÎªÈçÏÂ£º
-			* µ± m == nil »ò m == 0 Ê±£º
-				Èô y > 0 Ôò z = x**y
-				Èô y <= 0 Ôò z = 1
-			* µ± m != 0 ÇÒ y < 0 Ê±£º
-				* Èô x Óë m »¥ÖÊÔòÕý³£¼ÆËã
-				* Èô·Ç»¥ÖÊÔò±£³Ö z ²»±ä²¢·µ»Ø nil
+			* æŒ‡æ•°è®¡ç®—ï¼Œè®¡ç®— x çš„ y æ¬¡æ–¹æ˜¯å¤šå°‘
+			* Exp å‡½æ•°è®¡ç®— z = x**y mod |m|ï¼ˆå¿½ç•¥ m çš„ç¬¦å·ï¼‰å¹¶è¿”å›ž zã€‚å…¶å…·ä½“è¡Œä¸ºå¦‚ä¸‹ï¼š
+			* å½“ m == nil æˆ– m == 0 æ—¶ï¼š
+				è‹¥ y > 0 åˆ™ z = x**y
+				è‹¥ y <= 0 åˆ™ z = 1
+			* å½“ m != 0 ä¸” y < 0 æ—¶ï¼š
+				* è‹¥ x ä¸Ž m äº’è´¨åˆ™æ­£å¸¸è®¡ç®—
+				* è‹¥éžäº’è´¨åˆ™ä¿æŒ z ä¸å˜å¹¶è¿”å›ž nil
 
 
 		func (x *Int) FillBytes(buf []byte) []byte
@@ -227,7 +227,7 @@ type
 		func (z *Int) SetBit(x *Int, i int, b uint) *Int
 		func (z *Int) SetBits(abs []Word) *Int
 		func (z *Int) SetBytes(buf []byte) *Int
-			* ÉèÖÃ¶þ½øÖÆÐÎÊ½±íÊ¾µÄ´óÊý
+			* è®¾ç½®äºŒè¿›åˆ¶å½¢å¼è¡¨ç¤ºçš„å¤§æ•°
 
 		func (z *Int) SetInt64(x int64) *Int
 		func (z *Int) SetString(s string, base int) (*Int, bool)
@@ -245,8 +245,8 @@ type
 	
 	# type Rat struct
 		func NewRat(a, b int64) *Rat
-			* Ê¹ÓÃ·Ö×ÓaºÍ·ÖÄ¸b´´½¨Ò»¸öRat
-			* ÓÐÀíÊý
+			* ä½¿ç”¨åˆ†å­aå’Œåˆ†æ¯båˆ›å»ºä¸€ä¸ªRat
+			* æœ‰ç†æ•°
 
 		func (z *Rat) Abs(x *Rat) *Rat
 		func (z *Rat) Add(x, y *Rat) *Rat
@@ -282,23 +282,23 @@ type
 	
 	# type RoundingMode byte
 
-		* ÉáÈëÄ£Ê½
+		* èˆå…¥æ¨¡å¼
 
 		func (i RoundingMode) String() string
 
-		* Ô¤¶¨Òå
+		* é¢„å®šä¹‰
 			const (
 				ToNearestEven RoundingMode = iota // == IEEE 754-2008 roundTiesToEven
 				ToNearestAway                     // == IEEE 754-2008 roundTiesToAway
 				ToZero                            // == IEEE 754-2008 roundTowardZero
-					* Ö±½Ó¶ªÆú¶àÓàµÄÎ»
+					* ç›´æŽ¥ä¸¢å¼ƒå¤šä½™çš„ä½
 
 				AwayFromZero                      // no IEEE 754-2008 equivalent
 				ToNegativeInf                     // == IEEE 754-2008 roundTowardNegative
 				ToPositiveInf                     // == IEEE 754-2008 roundTowardPositive
 			)
 		
-		* ÉáÈëÈçÏÂ
+		* èˆå…¥å¦‚ä¸‹
 
 			   x  ToNearestEven  ToNearestAway  ToZero  AwayFromZero  ToNegativeInf  ToPositiveInf
 			 2.6              3              3       2             3              2              3
@@ -309,35 +309,35 @@ type
 			-2.6             -3             -3      -2            -3             -3             -2
 
 	# type Word uint
-		* ´ú±íÒ»¸ö¶à¾«¶ÈÎÞ·ûºÅÕûÊýµÄµ¥¸öÊý×Ö
+		* ä»£è¡¨ä¸€ä¸ªå¤šç²¾åº¦æ— ç¬¦å·æ•´æ•°çš„å•ä¸ªæ•°å­—
 
 ---------------------------
-·½·¨
+æ–¹æ³•
 ---------------------------
 	func Jacobi(x, y *Int) int
 
 ---------------------------
 demo
 ---------------------------
-	# Á½ÊýÏà³ý£¬½Ø¶ÏÖ¸¶¨µÄÐ¡ÊýÎ»
+	# ä¸¤æ•°ç›¸é™¤ï¼Œæˆªæ–­æŒ‡å®šçš„å°æ•°ä½
 		func TruncateToTwoDecimals(a, b string, precision uint) *big.Float {
-			// ÉèÖÃ³õÊ¼Öµ
+			// è®¾ç½®åˆå§‹å€¼
 			f1, _, _ := big.ParseFloat(a, 10, 256, big.ToZero)
 			f2, _, _ := big.ParseFloat(b, 10, 256, big.ToZero)
 
-			// 10 ½øÖÆÏÂµÄ¾«¶ÈÎ»Êý
+			// 10 è¿›åˆ¶ä¸‹çš„ç²¾åº¦ä½æ•°
 			precisionFloat := big.NewFloat(math.Pow(10, float64(precision)))
 
-			// Ïà³ý
+			// ç›¸é™¤
 			result := new(big.Float).Quo(f1, f2)
 
-			// ½«½á¹û x ÒÔÖ¸¶¨µÄ¾«¶È
+			// å°†ç»“æžœ x ä»¥æŒ‡å®šçš„ç²¾åº¦
 			result.Mul(result, precisionFloat)
 
-			// ÏòÏÂÈ¡Õû
+			// å‘ä¸‹å–æ•´
 			intPart, _ := result.Int(nil)
 
-			// ×ª»»Îª float ÔÙ³ýÒÔ¾«¶È
+			// è½¬æ¢ä¸º float å†é™¤ä»¥ç²¾åº¦
 			truncated := new(big.Float).Quo(new(big.Float).SetInt(intPart), precisionFloat)
 
 			return truncated
