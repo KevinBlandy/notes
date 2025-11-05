@@ -3,7 +3,7 @@ signal
 ------------------------
 
 ------------------------
-±‰¡ø
+ÂèòÈáè
 ------------------------
 
 ------------------------
@@ -16,21 +16,21 @@ func
 	func Ignore(sig ...os.Signal)
 	func Ignored(sig os.Signal) bool
 	func Notify(c chan<- os.Signal, sig ...os.Signal)
-		* ∞—–≈∫≈sig¥´µ›∏¯c£¨»Áπ˚≤ª÷∏∂®sig£¨‘ÚÀ˘”–µƒ–≈∫≈∂ºª·±ª¥´µ›
-		* “ª∞„ c µƒª∫≥Â«¯¥Û–°…Ë÷√Œ™1£¨◊„πª
+		* Êää‰ø°Âè∑sig‰º†ÈÄíÁªôcÔºåÂ¶ÇÊûú‰∏çÊåáÂÆösigÔºåÂàôÊâÄÊúâÁöÑ‰ø°Âè∑ÈÉΩ‰ºöË¢´‰º†ÈÄí
+		* ‰∏ÄËà¨ c ÁöÑÁºìÂÜ≤Âå∫Â§ßÂ∞èËÆæÁΩÆ‰∏∫1ÔºåË∂≥Â§ü
 
 	func Reset(sig ...os.Signal)
 	func Stop(c chan<- os.Signal)
 
 	func NotifyContext(parent context.Context, signals ...os.Signal) (ctx context.Context, stop context.CancelFunc)
-		* ’‚∏ˆ∑Ω∑®∑µªÿ“ª∏ˆ ctx
-		* ‘⁄parent÷¥––¡À cancel(), ªÚ’ﬂ «‘⁄ ’µΩ sinals »Œ“‚–≈∫≈µƒ ±∫Ú£¨ª·◊‘∂Ø÷¥––∑µªÿ ctx µƒ cancel
+		* Ëøô‰∏™ÊñπÊ≥ïËøîÂõû‰∏Ä‰∏™ ctx
+		* Âú®parentÊâßË°å‰∫Ü cancel(), ÊàñËÄÖÊòØÂú®Êî∂Âà∞ sinals ‰ªªÊÑè‰ø°Âè∑ÁöÑÊó∂ÂÄôÔºå‰ºöËá™Âä®ÊâßË°åËøîÂõû ctx ÁöÑ cancel
 
 
 ------------------------
 Demo
 ------------------------
-	# ¥¶¿Ì2÷÷–≈∫≈
+	# Â§ÑÁêÜ2Áßç‰ø°Âè∑
 		import (
 			"fmt"
 			"os"
@@ -39,20 +39,20 @@ Demo
 		)
 
 		func main(){
-			// ¥¥Ω®–≈∫≈Õ®µ¿
+			// ÂàõÂª∫‰ø°Âè∑ÈÄöÈÅì
 			signalChan := make(chan os.Signal, 1)
-			// ◊¢≤·Õ®µ¿£¨∞Û∂®“™º‡Ã˝µƒ–≈∫≈
+			// Ê≥®ÂÜåÈÄöÈÅìÔºåÁªëÂÆöË¶ÅÁõëÂê¨ÁöÑ‰ø°Âè∑
 			signal.Notify(signalChan, os.Interrupt, os.Kill)
-			// º‡Ã˝–≈∫≈ ¬º˛
+			// ÁõëÂê¨‰ø°Âè∑‰∫ã‰ª∂
 			go func() {
 				for {
 					sig := <- signalChan
 					switch sig {
 						case os.Interrupt: {
-							fmt.Println("±ªInterrupt")
+							fmt.Println("Ë¢´Interrupt")
 						}
 						case os.Kill: {
-							fmt.Println("±ªKill")
+							fmt.Println("Ë¢´Kill")
 						}
 					}
 				}
@@ -65,17 +65,17 @@ Demo
 		}
 
 	
-	#  π”√NotifyContext◊‘∂Øcancel
+	# ‰ΩøÁî®NotifyContextËá™Âä®cancel
 		func Work (ctx context.Context){
 			for {
 				select {
 					case <- ctx.Done(): {
-						fmt.Println("∑˛ŒÒÕÀ≥ˆ...")
+						fmt.Println("ÊúçÂä°ÈÄÄÂá∫...")
 						return
 					}
 					default: {
 						time.Sleep(time.Second * 1)
-						fmt.Println("‘À––÷–...")
+						fmt.Println("ËøêË°å‰∏≠...")
 					}
 				}
 			}
@@ -84,7 +84,7 @@ Demo
 			ctx, cancel := signal.NotifyContext(context.Background(), os.Kill, os.Interrupt)
 			defer func() {
 				cancel()
-				fmt.Println("cancel ÷¥––")
+				fmt.Println("cancel ÊâßË°å")
 			}()
 			Work(ctx)
 			fmt.Println("bye")
