@@ -57,16 +57,16 @@ Address
 	
 	# 成员
 		
-		balance 
+		balance (uint256)
 			* 查询地址的余额
 			* 合约可以转换为 address 类型，可以使用 address(this).balance 查询当前合约的余额。
 		
-		transfer(int amount)
+		transfer(uint256 amount)
 			* 向可支付地址发送以太币（以 wei 为单位）
 			* 如果当前合约的余额不足，或者以太币转账被接收账户拒绝，则 transfer 函数会失败。
 			* transfer 函数在失败时会回退。
 		
-		send
+		send(uint256 amount) returns (bool)
 			* transfer 对应的低级函数。
 			* 如果执行失败，当前合约不会以异常停止，只是 send 将返回 false。
 			* 注意，如果调用栈深度达到 1024，则转账失败（这总是可以被调用者强制），如果接收者耗尽 gas 也会失败。
@@ -87,10 +87,10 @@ Address
 			* 基本上与 call 相同，但如果被调用的函数以任何方式修改状态，则会回退。
 			* 支持使用 gas modifier
 
-		code
+		code (bytes memory)
 			* 获取 EVM 字节码作为 bytes memory，这可能是空的。
 			
-		codehash
+		codehash (bytes32)
 			* 获取该代码的 Keccak-256 哈希（作为 bytes32）。
 			* 该属性比使用 keccak256(addr.code) 更便宜。
 			

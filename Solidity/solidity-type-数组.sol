@@ -194,9 +194,17 @@
 			2. 长布局（long layout）
 				* 当 bytes.length > 31 时，Solidity 会将实际字节数据存储在一个单独的存储区（类似动态数组 T[] 的方式），并在主槽中仅保存一个指针（或偏移信息）。
 
+		bytes.concat(...) returns (bytes memory): 
+			* 将可变数量的 bytes 和 bytes1, …, bytes32 参数连接成一个字节数组
+		
 
 	# string 
 		* 等同于 bytes, 但是不允许索引访问和访问长度
 		* string 是动态字节数组 (bytes) 的 UTF-8 编码表示
+
+		string.concat(...) returns (string memory)
+			* 将可变数量的字符串参数连接成一个字符串数组
+
+
 	
 

@@ -21,8 +21,16 @@ mapping
         
             // 定义 
             mapping(address account => uint balanace) public balanceMap;
+            // 生成的方法，不需要手动声明
+            function balanceMap(address account) public view returns (uint balance){
+                return balanceMap[account];
+            }
             // 外部访问
             balanaceMap(0x5B38Da6a701c568545dCfcB03FcB875f56beddC4);
+        
+        * 如果 mapping 的 value 类型是 mapping 或数组，getter 方法会递归地传入参数
+
+        
         
         
 
