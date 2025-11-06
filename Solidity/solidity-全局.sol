@@ -147,6 +147,35 @@ ABI 相关
 
         * ecrecover 返回的是地址，而非可支付地址。若需向恢复的地址转账，需要进行转换
 
+--------------------------
+type
+--------------------------
 
-        
+    # 表达式 type(x) 用于检索 x 类型有关的信息
+        * 目前只支持合约、枚举、integer 类型
+
+    type(C).name
+        * 返回合约的名称
+            contract Demo  {
+                function contractName() public pure returns(string memory){
+                    return type(Demo).name;
+                } 
+            }
+
+    type(C).creationCode
+        * 包含合约创建字节码的内存字节数组。
+
+    type(C).runtimeCode
+        * 包含合约运行时字节码的内存字节数组。
+
+    type(I).interfaceId
+        * bytes4 包含给定接口的EIP-165接口标识符的值I。该标识符定义为XOR接口本身定义的所有函数选择器的总和，不包括所有继承的函数。
+
+    type(T).min
+        * 该类型可表示的最小值 T。
+    
+    type(T).max
+        * 该类型可表示的最大值 T。
+
+
 

@@ -5,7 +5,12 @@ function
 
 		function name(<parameter types>) <visibility> <stateMutability> [returns (<return types>) 
 
-		
+		parameter
+			* 参数的名称可以省略，值仍然存在于栈上，只是说不能通过名称访问
+				function demo(uint, uint foo) public pure  returns (uint){
+					return foo;
+				}
+
 		visibility
 
 			private
@@ -83,7 +88,40 @@ function
 		* 内部调用：在编译期直接跳转，编译器直接生成内部 JUMP 指令（不通过 ABI 编码），msg.sender 不变，读写当前合约状态。
 		* 外部调用：通过消息调用（Message Call），即发送 calldata 到合约地址，msg.sender 变为调用者，触发 fallback 时也可执行其他逻辑。
 
+------------------------
+函数调用
+------------------------
+    # 内部函数调用
+        * 只有同一个合约实例的函数可以被内部调用
+        * 直接声明函数调用即可，这些调用会被转换为 EVM 内部的简单跳转
+        * 要避免过度递归，每个内部函数调用至少使用一个栈槽、最多可用的栈槽只有 1024 个
 
-	
+    
+    # 外部函数调用
 
+        * 使用 this.<func>(<args>); 或者是 <instance>.<func>(<args>); 语法
+        * 外部调用不是普通的跳转，而是 Message Call，被调用的合约本身抛出异常或耗尽 gas，函数调用也会导致异常。
+        * 注意在构造函数中不能使用 this，因为这个时候合约还未创建完毕
+        * 合约调用其他合约，并不会创建额外的交易
+        * 在调用其他合约的时候，可以指定特殊的 modifier
+            * gas: 不建议指定，未来可能会发生变化
+            * value: 目标函数需要使用 payable 修饰，否则此选项不可用
+        * EVM 默认认为调用一个地址不会出错，不管该地址是否指向一个实际存在的合约
+            * 为了避免调用不存在的合约 SOL 会在调用前使用 extcodesize 操作码来检测目标地址是否是一个合约，如果不是就会抛出异常
+            * 如果调用后需要解码返回的数据，SOL 就会跳过这个检查，例如使用 call、delegatecall、staticcall 等。
+            * 要当心 “预编译合约”，SOL 的检查会认为它不存在，尽管它可以执行并返回数据。
+
+    # 具名参数的调用 
+
+        * 使用 {} 声明函数名称即可，顺序任意
+
+        mapping(address => uint) balance;
+
+        function set(address account, uint position)public {
+            balance[account] = position;
+        }
+        function setBalanace()public {
+            set({account: msg.sender, position: 10000});
+        }
+        
 
