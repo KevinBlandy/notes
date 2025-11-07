@@ -1,5 +1,5 @@
 -----------------
-Ä£¿é³£Á¿
+æ¨¡å—å¸¸é‡
 -----------------
 	const Compiler = "gc"
 	const GOARCH string = sys.GOARCH
@@ -9,11 +9,11 @@
 
 
 -----------------
-½á¹¹Ìå
+ç»“æ„ä½“
 -----------------
 
 -----------------
-×Ô¶¨ÒåÀàĞÍ
+è‡ªå®šä¹‰ç±»å‹
 -----------------
 	# type BlockProfileRecord struct {
 			Count  int64
@@ -25,7 +25,7 @@
 			// contains filtered or unexported fields
 		}
 		
-		* Õë¶ÔÌØ¶¨¶ÔÏóµÄÇåÀíµ÷ÓÃ¾ä±ú¡£
+		* é’ˆå¯¹ç‰¹å®šå¯¹è±¡çš„æ¸…ç†è°ƒç”¨å¥æŸ„ã€‚
 
 		func AddCleanup[T, S any](ptr *T, cleanup func(S), arg S) Cleanup
 		func (c Cleanup) Stop()
@@ -38,19 +38,19 @@
 	
 	# type Frame struct {
 			PC uintptr
-			Func *Func			// Ö´ĞĞ·½·¨
-			Function string		// Ä£¿é.·½·¨
-			File string			// ËùÔÚÎÄ¼ş
-			Line int			// ËùÔÚĞĞºÅ
+			Func *Func			// æ‰§è¡Œæ–¹æ³•
+			Function string		// æ¨¡å—.æ–¹æ³•
+			File string			// æ‰€åœ¨æ–‡ä»¶
+			Line int			// æ‰€åœ¨è¡Œå·
 			Entry uintptr		
 		}
 
-		* Õ»Ö¡ĞÅÏ¢
+		* æ ˆå¸§ä¿¡æ¯
 	
 	# type Frames struct {
 		}
 
-		* ³ÌĞòµ÷ÓÃÕ»ĞÅÏ¢
+		* ç¨‹åºè°ƒç”¨æ ˆä¿¡æ¯
 
 		func CallersFrames(callers []uintptr) *Frames
 		func (ci *Frames) Next() (frame Frame, more bool)
@@ -58,15 +58,15 @@
 	# type Func struct {
 		}
 
-		* Ö´ĞĞº¯Êı
+		* æ‰§è¡Œå‡½æ•°
 
 		func FuncForPC(pc uintptr) *Func
-			* ¸ù¾İpc·µ»ØfancĞÅÏ¢
+			* æ ¹æ®pcè¿”å›fancä¿¡æ¯
 
 		func (f *Func) Entry() uintptr
 		func (f *Func) FileLine(pc uintptr) (file string, line int)
 		func (f *Func) Name() string
-			* ·µ»Øº¯ÊıµÄÃû³Æ
+			* è¿”å›å‡½æ•°çš„åç§°
 
 	# type MemProfileRecord struct {
 			AllocBytes, FreeBytes     int64       // number of bytes allocated, freed
@@ -131,24 +131,24 @@
 
 
 -----------------
-·½·¨
+æ–¹æ³•
 -----------------
 	func BlockProfile(p []BlockProfileRecord) (n int, ok bool)
 	func Breakpoint()
 	func CPUProfile() []byte
 	func Caller(skip int) (pc uintptr, file string, line int, ok bool)
-		* ·µ»ØÖ¸¶¨µÄµ÷ÓÃÕ»µÄÖ¸Õë£¬ÎÄ¼şÃû³Æ£¬ĞĞºÅ£¬ÊÇ·ñ»ñÈ¡³É¹¦
-		* 0±íÊ¾µ±Ç°·½·¨£¬1±íÊ¾ÉÏ¼¶µ÷ÓÃ
+		* è¿”å›æŒ‡å®šçš„è°ƒç”¨æ ˆçš„æŒ‡é’ˆï¼Œæ–‡ä»¶åç§°ï¼Œè¡Œå·ï¼Œæ˜¯å¦è·å–æˆåŠŸ
+		* 0è¡¨ç¤ºå½“å‰æ–¹æ³•ï¼Œ1è¡¨ç¤ºä¸Šçº§è°ƒç”¨
 
 	func Callers(skip int, pc []uintptr) int
-		* »ñÈ¡µ÷ÓÃÕ»£¬Ğ´Èëµ½ pc
-		* ¿ÉÒÔÍ¨¹ı skip Ìø¹ı¶àÉÙÖ¡£¬0 ±íÊ¾ Callers ±¾ÉíµÄÕ»Ö¡£¬1 ±íÊ¾ Callers µÄµ÷ÓÃÕß
+		* è·å–è°ƒç”¨æ ˆï¼Œå†™å…¥åˆ° pc
+		* å¯ä»¥é€šè¿‡ skip è·³è¿‡å¤šå°‘å¸§ï¼Œ0 è¡¨ç¤º Callers æœ¬èº«çš„æ ˆå¸§ï¼Œ1 è¡¨ç¤º Callers çš„è°ƒç”¨è€…
 
 	func GC()
 	func GOMAXPROCS(n int) int
-		* ÉèÖÃ¿ÉÒÔÍ¬Ê±Ö´ĞĞµÄ×î´óCPUÊı£¬²¢·µ»ØÒÔÇ°µÄÉèÖÃ¡£Èç¹ûn <1£¬Ôò²»»á¸ü¸Äµ±Ç°ÉèÖÃ¡£
-		* ¿ÉÒÔÊ¹ÓÃNumCPU²éÑ¯±¾µØ¼ÆËã»úÉÏµÄÂß¼­CPUÊıÁ¿¡£
-		* Êµ¼ÊÏß³ÌÊıÒª±ÈÄãÉèÖÃµÄÕâ¸öÊıÒª´ó£¬ÓĞÊ±ºòÉõÖÁÔ¶Ô¶´óÓÚÉèÖÃµÄÊıÖµ
+		* è®¾ç½®å¯ä»¥åŒæ—¶æ‰§è¡Œçš„æœ€å¤§CPUæ•°ï¼Œå¹¶è¿”å›ä»¥å‰çš„è®¾ç½®ã€‚å¦‚æœn <1ï¼Œåˆ™ä¸ä¼šæ›´æ”¹å½“å‰è®¾ç½®ã€‚
+		* å¯ä»¥ä½¿ç”¨NumCPUæŸ¥è¯¢æœ¬åœ°è®¡ç®—æœºä¸Šçš„é€»è¾‘CPUæ•°é‡ã€‚
+		* å®é™…çº¿ç¨‹æ•°è¦æ¯”ä½ è®¾ç½®çš„è¿™ä¸ªæ•°è¦å¤§ï¼Œæœ‰æ—¶å€™ç”šè‡³è¿œè¿œå¤§äºè®¾ç½®çš„æ•°å€¼
 
 	func GOROOT() string
 	func Goexit()
@@ -158,18 +158,18 @@
 
 	func UnlockOSThread()
 	func LockOSThread()
-		* »á°Ñµ±Ç°goroutine°ó¶¨ÔÚµ±Ç°µÄÏµÍ³Ïß³ÌÉÏ£¬Õâ¸ögoroutine×ÜÊÇÔÚÕâ¸öÏß³ÌÖĞÖ´ĞĞ£¬¶øÇÒÒ²²»»áÓĞÆäËügoroutineÔÚÕâ¸öÏß³ÌÖĞÖ´ĞĞ¡£
-		* Ö»ÓĞÕâ¸ögoroutineµ÷ÓÃÁËÏàÍ¬´ÎÊıµÄ UnlockOSThread º¯ÊıÖ®ºó£¬²Å»á½øĞĞ½â°ó¡£
-		* Èç¹ûgoroutineÔÚÍË³öµÄÊ±ºòÃ»ÓĞunlockÕâ¸öÏß³Ì£¬ÄÇÃ´Õâ¸öÏß³Ì»á±»ÖÕÖ¹¡£
+		* ä¼šæŠŠå½“å‰goroutineç»‘å®šåœ¨å½“å‰çš„ç³»ç»Ÿçº¿ç¨‹ä¸Šï¼Œè¿™ä¸ªgoroutineæ€»æ˜¯åœ¨è¿™ä¸ªçº¿ç¨‹ä¸­æ‰§è¡Œï¼Œè€Œä¸”ä¹Ÿä¸ä¼šæœ‰å…¶å®ƒgoroutineåœ¨è¿™ä¸ªçº¿ç¨‹ä¸­æ‰§è¡Œã€‚
+		* åªæœ‰è¿™ä¸ªgoroutineè°ƒç”¨äº†ç›¸åŒæ¬¡æ•°çš„ UnlockOSThread å‡½æ•°ä¹‹åï¼Œæ‰ä¼šè¿›è¡Œè§£ç»‘ã€‚
+		* å¦‚æœgoroutineåœ¨é€€å‡ºçš„æ—¶å€™æ²¡æœ‰unlockè¿™ä¸ªçº¿ç¨‹ï¼Œé‚£ä¹ˆè¿™ä¸ªçº¿ç¨‹ä¼šè¢«ç»ˆæ­¢ã€‚
 
 	func MemProfile(p []MemProfileRecord, inuseZero bool) (n int, ok bool)
 	func MutexProfile(p []BlockProfileRecord) (n int, ok bool)
 	func NumCPU() int
-		* »ñÈ¡CPUÄÚºËµÄÊıÁ¿
+		* è·å–CPUå†…æ ¸çš„æ•°é‡
 
 	func NumCgoCall() int64
 	func NumGoroutine() int
-		* »ñÈ¡ÕıÔÚÔËĞĞµÄĞ­³ÌÊıÁ¿
+		* è·å–æ­£åœ¨è¿è¡Œçš„åç¨‹æ•°é‡
 
 	func ReadMemStats(m *MemStats)
 	func ReadTrace() []byte
@@ -179,36 +179,36 @@
 	func SetFinalizer(obj interface{}, finalizer interface{})
 	func SetMutexProfileFraction(rate int) int
 	func Stack(buf []byte, all bool) int
-		* Ğ´Èëµ÷ÓÃÕ»ĞÅÏ¢µ½buf
+		* å†™å…¥è°ƒç”¨æ ˆä¿¡æ¯åˆ°buf
 	
 	func StartTrace() error
 	func StopTrace()
 	func ThreadCreateProfile(p []StackRecord) (n int, ok bool)
 	
 	func Version() string
-		* ·µ»ØGoµÄ°æ±¾
+		* è¿”å›Goçš„ç‰ˆæœ¬
 
 
 -----------------
 Demo
 -----------------
-	# »ñÈ¡µ÷ÓÃ·½·¨µÄÃû³Æ
+	# è·å–è°ƒç”¨æ–¹æ³•çš„åç§°
 		func printMyName() string {
 			pc, _, _, _ := runtime.Caller(1)
 			return runtime.FuncForPC(pc).Name()
 		}
 	
-	# »ñÈ¡µ÷ÓÃÕ»ĞÅÏ¢
+	# è·å–è°ƒç”¨æ ˆä¿¡æ¯
 		import (
 			"fmt"
 			"runtime"
 			"strings"
 		)
 
-		// StackFrameLines µ÷ÓÃÕ»
+		// StackFrameLines è°ƒç”¨æ ˆ
 		func StackFrameLines(skip int) []string {
 			var ret []string
-			// ´Óµ÷ÓÃÕ»µÄµ±Ç°Ö¡¿ªÊ¼£¬Ìø¹ıÖ¸¶¨µÄ²ãÊı
+			// ä»è°ƒç”¨æ ˆçš„å½“å‰å¸§å¼€å§‹ï¼Œè·³è¿‡æŒ‡å®šçš„å±‚æ•°
 			for i := skip; ; i++ {
 				pc, file, line, ok := runtime.Caller(i)
 				if !ok {
@@ -221,7 +221,7 @@ Demo
 					fnName = "unknown"
 				} else {
 					fnName = fn.Name()
-					// È¥µô°üÃûÇ°×º
+					// å»æ‰åŒ…åå‰ç¼€
 					if idx := strings.LastIndex(fnName, "/"); idx >= 0 {
 						fnName = fnName[idx+1:]
 					}
@@ -229,7 +229,7 @@ Demo
 						fnName = fnName[idx+1:]
 					}
 				}
-				// ÎÄ¼ş ·½·¨Ãû³Æ ĞĞºÅ
+				// æ–‡ä»¶ æ–¹æ³•åç§° è¡Œå·
 				ret = append(ret, fmt.Sprintf("%s %s %d", file, fnName, line))
 			}
 

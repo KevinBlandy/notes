@@ -1,13 +1,13 @@
 -----------------------
 Maven-Linux				|
 -----------------------
-	1,下载
+	1,涓嬭浇
 		wget http://211.162.213.120:9011/mirrors.hust.edu.cn/c3pr90ntc0td/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
 
 		wget http://www-eu.apache.org/dist/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
-	2,解压
+	2,瑙ｅ帇
 		tar -xvf ...
-	3,编辑环境变量文件
+	3,缂栬緫鐜鍙橀噺鏂囦欢
 		vim /etc/profile
 	
 export MAVEN_HOME=/usr/maven/apache-maven-3.9.9

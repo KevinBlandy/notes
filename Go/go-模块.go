@@ -1,112 +1,112 @@
 ---------------------------
-ģ��
+模块
 ---------------------------
-	# ģ��
+	# 模块
 		https://blog.golang.org/using-go-modules
 	
-	# �鿴�������
+	# 查看命令帮助
 		go help mod
 		go help modules
 		go help module-ge
 
-	# ����
-		* ���û�������
+	# 开启
+		* 设置环境变量
 			GO111MODULE=on
 
-	# �ֿ����
-		* ���û�������
+	# 仓库代理
+		* 设置环境变量
 			export GOPROXY=https://goproxy.io
 		
-		* ͨ����������
+		* 通过命令设置
 			go env -w GOPROXY=https://goproxy.io,direct
 	
-	# ��ʼ��һ��go mod
+	# 初始化一个go mod
 		go mod init [module]
 			module
-					* ָ��ģ�����ƣ������Ǵ�·����
+					* 指定模块名称，可以是带路径的
 	
-	# �鿴ģ�������
+	# 查看模块的依赖
 		go list -m all
 			-m 
-				* ����ָ��ֻ�鿴ָ����������Ϣ��
+				* 可以指定只查看指定的依赖信息，
 			
 			all
-				* ��ʾ�鿴����
+				* 表示查看所有
 			main
-				* ��ִ�г���Ķ����
+				* 可执行程序的顶层包
 			std
-				* ��׼��İ�
+				* 标准库的包
 			cmd
-				* go�ֿ���������й��ߺ����ǵ��ڲ���
+				* go仓库里的命令行工具和它们的内部库
 
 			-versions
-				* �г������İ汾���б�
+				* 列出依赖的版本号列表
 			
 			-json
-				* ָ����ʽ�����ΪJSON
+				* 指定格式化输出为JSON
 			
 			-deps
-				* �г���������
+				* 列出传递依赖
 
 			
 		
-	# ͨ�������޸������汾
+	# 通过命令修改依赖版本
 		go get [module]@[version]
 			module
-				* ָ��ģ��
+				* 指定模块
 			version
-				* ָ���汾
+				* 指定版本
 
 			-u
-				* ���صĿ�ʹ�����µ�minor �� patch���°�
+				* 下载的库使用最新的minor 或 patch最新版
 	
-	# ͨ���޸�go.mod�ļ��޸������汾
+	# 通过修改go.mod文件修改依赖版本
 		go mod edit -require="[module]@[version]"
 			module
-				* ָ��ģ��
+				* 指定模块
 			version
-				* ָ���汾
-	# ����������Ϣ
+				* 指定版本
+	# 更新依赖信息
 		go mod tidy
-			* ���ظ�������
-			* ���Զ�����������Ҫ�������ͬʱ���Խ���������µ���ǰ�汾
+			* 下载更新依赖
+			* 会自动清理掉不需要的依赖项，同时可以将依赖项更新到当前版本
 	
-	# ����
-		* ģ����ȡ�Ľ�������� $GOPATH/pkg/mod �� $GOPATH/pkg/sumdb Ŀ¼�£����� mod Ŀ¼�»��� github.com/foo/bar �ĸ�ʽ���д�ţ����£�
+	# 缓存
+		* 模块拉取的结果缓存在 $GOPATH/pkg/mod 和 $GOPATH/pkg/sumdb 目录下，而在 mod 目录下会以 github.com/foo/bar 的格式进行存放，如下：
 			mod
-			������ cache
-			������ github.com
-			������ golang.org
-			������ google.golang.org
-			������ gopkg.in
+			├── cache
+			├── github.com
+			├── golang.org
+			├── google.golang.org
+			├── gopkg.in
 			...
-		* �������������
+		* 清理缓存的命令
 			go clean -modcach
 
 ---------------------------
-����
+命令
 ---------------------------
 	#  go mod <command> [arguments]
 	
 	# command
 		download    
-			* �������������ػ���
-			* Ĭ�ϻ����� $GOPATH/pkg/mod
+			* 下载依赖到本地缓存
+			* 默认缓存在 $GOPATH/pkg/mod
 			
         edit        edit go.mod from tools or scripts
-			* �༭go.mod�ļ�
+			* 编辑go.mod文件
         graph       
-			* �������
+			* 输出依赖
         init        
-			* �ڵ�ǰĿ¼��ʼ��һ��mod
+			* 在当前目录初始化一个mod
         tidy        
-			* ��������Ϣ�����һ�ɾ��ûʹ�õ�������
+			* 更依赖信息，并且会删除没使用到的依赖
         vendor      
-			* ����������ϵ�Ŀ���
+			* 创建依赖关系的拷贝
         verify     
-			* ��֤������ϵ������
+			* 验证依赖关系的内容
         why         
-			* ����Ϊʲô��Ҫgo mod
+			* 解释为什么需要go mod
 	
 ---------------------------
 go.mod
@@ -130,13 +130,13 @@ exclude example.com/banana v1.2.4
 
 
 replace
-	* �����滻�����İ����൱����д
-	* ��һЩû�����ص�����£������滻�ɿ��Է��ʵ�������
+	* 用于替换依赖的包，相当于重写
+	* 在一些没法下载的情况下，可以替换成可以访问到的网络
 		golang.org/x/text v0.3.0 => github.com/golang/text v0.3.0
 
 require
-	* �����Ͱ汾����
-	* ����� indirect ��ʾ�������
+	* 依赖和版本设置
+	* 后面的 indirect 表示间接引用
 
 exclude
-	* ���ڴ�ʹ�����ų�һ���ض���ģ��汾��
+	* 用于从使用中排除一个特定的模块版本。
