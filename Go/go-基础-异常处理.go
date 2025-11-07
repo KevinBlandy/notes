@@ -1,20 +1,20 @@
 -------------------------
-Òì³£´¦Àí
+å¼‚å¸¸å¤„ç†
 -------------------------
-	# GoµÄÉè¼ÆÖĞ£¬°ÑËùÓĞµÄ´íÎó£¬¶¼µ±×÷ÖµÀ´½øĞĞ´¦Àí£¬Ä¿Ç°(V1.12)Ã»ÓĞÒì³£´¦Àí»úÖÆ
+	# Goçš„è®¾è®¡ä¸­ï¼ŒæŠŠæ‰€æœ‰çš„é”™è¯¯ï¼Œéƒ½å½“ä½œå€¼æ¥è¿›è¡Œå¤„ç†ï¼Œç›®å‰(V1.12)æ²¡æœ‰å¼‚å¸¸å¤„ç†æœºåˆ¶
 
-	#Ò»°ãÊ¹ÓÃpanic/recover Ä£Ê½À´´¦ÀíÒì³£
+	#ä¸€èˆ¬ä½¿ç”¨panic/recover æ¨¡å¼æ¥å¤„ç†å¼‚å¸¸
 		func panic(v interface{})
-			* ÓÃÓÚÅ×³öÒì³££¬¿ÉÒÔÔÚÈÎºÎµØ·½´¥·¢
-			* Òì³£Å×³öºó£¬³ÌĞò²»»áÍùÏÂÖ´ĞĞ
+			* ç”¨äºæŠ›å‡ºå¼‚å¸¸ï¼Œå¯ä»¥åœ¨ä»»ä½•åœ°æ–¹è§¦å‘
+			* å¼‚å¸¸æŠ›å‡ºåï¼Œç¨‹åºä¸ä¼šå¾€ä¸‹æ‰§è¡Œ
 				func main() {
 					fmt.Println("start")
-					panic("Òì³£ÁË")
-					// ºóÃæµÄ´úÂë²»»áÖ´ĞĞ
+					panic("å¼‚å¸¸äº†")
+					// åé¢çš„ä»£ç ä¸ä¼šæ‰§è¡Œ
 				}
 				// -----------
 				start
-				panic: Òì³£ÁË
+				panic: å¼‚å¸¸äº†
 
 				goroutine 1 [running]:
 				main.main()
@@ -23,8 +23,8 @@
 
 		
 		func recover() interface{}
-			* Õâ¸ö·½·¨ÓÃÀ´³¢ÊÔ»ñÈ¡panicÅ×³öµÄÒì³£ĞÅÏ¢
-			* Ö»ÄÜÔÚ defer µ÷ÓÃµÄº¯ÊıÖĞÓĞĞ§£¬²¢ÇÒÒª¶¨ÒåÔÚ¿ÉÄÜÒı·¢ panic µÄÓï¾äÖ®Ç°
+			* è¿™ä¸ªæ–¹æ³•ç”¨æ¥å°è¯•è·å–panicæŠ›å‡ºçš„å¼‚å¸¸ä¿¡æ¯
+			* åªèƒ½åœ¨ defer è°ƒç”¨çš„å‡½æ•°ä¸­æœ‰æ•ˆï¼Œå¹¶ä¸”è¦å®šä¹‰åœ¨å¯èƒ½å¼•å‘ panic çš„è¯­å¥ä¹‹å‰
 			
 				func main() {
 					fmt.Println("start")
@@ -35,32 +35,32 @@
 							fmt.Printf("%T\n", err)
 						}
 					}()
-					panic("Òì³£ÁË")
-					// ºóÃæµÄ´úÂë²»»áÖ´ĞĞ
+					panic("å¼‚å¸¸äº†")
+					// åé¢çš„ä»£ç ä¸ä¼šæ‰§è¡Œ
 				}
 				// -------------
 				start
-				Òì³£ÁË
+				å¼‚å¸¸äº†
 				string
 			
-			* ¿ÉÒÔÓÃÓÚĞŞ¸ÄÒì³£µÄ·µ»ØÖµ
+			* å¯ä»¥ç”¨äºä¿®æ”¹å¼‚å¸¸çš„è¿”å›å€¼
 				func foo() (err error) {
 					defer func (){
 						if p := recover(); p != nil{
-							// ·â×°Òì³£ĞÅÏ¢¸ø·µ»ØÖµ
-							err = fmt.Errorf("Òì³£ÁË£º%v", p)
+							// å°è£…å¼‚å¸¸ä¿¡æ¯ç»™è¿”å›å€¼
+							err = fmt.Errorf("å¼‚å¸¸äº†ï¼š%v", p)
 						}
 					}()
-					// ÏÂÃæÖ´ĞĞ¿ÉÄÜ»áÒì³£µÄ´úÂë
+					// ä¸‹é¢æ‰§è¡Œå¯èƒ½ä¼šå¼‚å¸¸çš„ä»£ç 
 				}
 
-			* Ò»¸öpanic¶ÔÓ¦Ò»¸örecover
-			* Ò»¸öpanicÖ»»á±»×Ô¼ºÉÏÃæ×î½üµÄÒ»¸örecover²¶»ñµ½
-			* ÔÚÇ¶Ì×µÄdeferº¯ÊıÖĞµ÷ÓÃrecoverÒ²½«µ¼ÖÂÎŞ·¨²¶»ñÒì³£
+			* ä¸€ä¸ªpanicå¯¹åº”ä¸€ä¸ªrecover
+			* ä¸€ä¸ªpanicåªä¼šè¢«è‡ªå·±ä¸Šé¢æœ€è¿‘çš„ä¸€ä¸ªrecoveræ•è·åˆ°
+			* åœ¨åµŒå¥—çš„deferå‡½æ•°ä¸­è°ƒç”¨recoverä¹Ÿå°†å¯¼è‡´æ— æ³•æ•è·å¼‚å¸¸
 				func main() {
 					defer func() {
 						defer func() {
-							// ÎŞ·¨²¶»ñÒì³£
+							// æ— æ³•æ•è·å¼‚å¸¸
 							if r := recover(); r != nil {
 								fmt.Println(r)
 							}
@@ -68,10 +68,10 @@
 					}()
 					panic(1)
 				}
-			* deferÖĞµ÷ÓÃµÄÊÇrecoverº¯ÊıµÄ°ü×°º¯ÊıµÄ»°£¬Òì³£µÄ²¶»ñ¹¤×÷½«Ê§°Ü
+			* deferä¸­è°ƒç”¨çš„æ˜¯recoverå‡½æ•°çš„åŒ…è£…å‡½æ•°çš„è¯ï¼Œå¼‚å¸¸çš„æ•è·å·¥ä½œå°†å¤±è´¥
 				func main() {
 					defer func() {
-						// ÎŞ·¨²¶»ñÒì³£
+						// æ— æ³•æ•è·å¼‚å¸¸
 						if r := MyRecover(); r != nil {
 							fmt.Println(r)
 						}
@@ -83,14 +83,14 @@
 					log.Println("trace...")
 						return recover()
 				}
-			* ±ØĞëÒªºÍÓĞÒì³£µÄÕ»Ö¡Ö»¸ôÒ»¸öÕ»Ö¡£¬recoverº¯Êı²ÅÄÜÕı³£²¶»ñÒì³£
-			* Ò²¿ÉÒÔÔÚdeferÖĞ¼ÌĞøpanic£¬ÄÇÃ´Õâ¸öpanicÒ²ÊÇÖ»»á±»×Ô¼ºÉÏÃæ×î½üµÄÒ»¸örecover²¶»ñµ½
+			* å¿…é¡»è¦å’Œæœ‰å¼‚å¸¸çš„æ ˆå¸§åªéš”ä¸€ä¸ªæ ˆå¸§ï¼Œrecoverå‡½æ•°æ‰èƒ½æ­£å¸¸æ•è·å¼‚å¸¸
+			* ä¹Ÿå¯ä»¥åœ¨deferä¸­ç»§ç»­panicï¼Œé‚£ä¹ˆè¿™ä¸ªpanicä¹Ÿæ˜¯åªä¼šè¢«è‡ªå·±ä¸Šé¢æœ€è¿‘çš„ä¸€ä¸ªrecoveræ•è·åˆ°
 	
-	# ²¢²»ÊÇËùÓĞµÄÒì³£¶¼ÄÜ±» recover()
-		* Èç¹ûÊÇ runtime.panic() Å×³öµÄÒì³£¿ÉÒÔ±» recover()
-		* Èç¹ûÊÇ runtime.throw() / runtime.fatal() Å×³öµÄÒì³££¬²»ÄÜ±» recover() ²¶»ñ
+	# å¹¶ä¸æ˜¯æ‰€æœ‰çš„å¼‚å¸¸éƒ½èƒ½è¢« recover()
+		* å¦‚æœæ˜¯ runtime.panic() æŠ›å‡ºçš„å¼‚å¸¸å¯ä»¥è¢« recover()
+		* å¦‚æœæ˜¯ runtime.throw() / runtime.fatal() æŠ›å‡ºçš„å¼‚å¸¸ï¼Œä¸èƒ½è¢« recover() æ•è·
 	
-	# Èç¹ûÍùpanic´« nil£¬Ôò»áÔÚ recover ÖĞÊÕµ½ PanicNilError 
+	# å¦‚æœå¾€panicä¼  nilï¼Œåˆ™ä¼šåœ¨ recover ä¸­æ”¶åˆ° PanicNilError 
 		type PanicNilError struct {
 		 _ [0]*PanicNilError
 		}
@@ -100,16 +100,16 @@
 	
 
 -------------------------
-error ½Ó¿Ú
+error æ¥å£
 -------------------------
-	# GoÓïÑÔÖĞ¶¨ÒåµÄError½Ó¿Ú
+	# Goè¯­è¨€ä¸­å®šä¹‰çš„Erroræ¥å£
 		type error interface {
 			Error() string
 		}
 
-	# ÏµÍ³ÔÚerrors°üÔ¤¶¨ÒåÁËÒ»Ğ©Òì³£Ïà¹ØµÄ·½·¨
+	# ç³»ç»Ÿåœ¨errorsåŒ…é¢„å®šä¹‰äº†ä¸€äº›å¼‚å¸¸ç›¸å…³çš„æ–¹æ³•
 		func New(text string) error 
-			* ±¾ÖÊÉÏÊÇÏµÍ³Ìá¹©µÄÒ»¸öerrorÊµÏÖ
+			* æœ¬è´¨ä¸Šæ˜¯ç³»ç»Ÿæä¾›çš„ä¸€ä¸ªerrorå®ç°
 				type errorString struct {
 					s string
 				}
@@ -118,18 +118,18 @@ error ½Ó¿Ú
 				}
 
 		func As(err error, target interface{}) bool
-			* target ²»ÄÜÎªnil£¬²¢ÇÒ±ØĞëÊÇÊµÏÖÁËerrorµÄ½Ó¿Ú
+			* target ä¸èƒ½ä¸ºnilï¼Œå¹¶ä¸”å¿…é¡»æ˜¯å®ç°äº†errorçš„æ¥å£
 
 		func Is(err, target error) bool
-			* ·µ»Ø targer µÄÒì³£Á´ÖĞ£¬ÊÇ·ñÓĞerr´íÎó
-			* Èç¹ûtargetÊµÏÖÁË Is ·½·¨£¬»áÍ¨¹ıÕâ¸ö½Ó¿ÚÅĞ¶Ï£¬Èç¹ûtargetÊµÏÖÁËUnwrap·½·¨£¬»á²»¶Ï°şÀë³ö°ü×°µÄÒì³£½øĞĞ±È½Ï
+			* è¿”å› targer çš„å¼‚å¸¸é“¾ä¸­ï¼Œæ˜¯å¦æœ‰erré”™è¯¯
+			* å¦‚æœtargetå®ç°äº† Is æ–¹æ³•ï¼Œä¼šé€šè¿‡è¿™ä¸ªæ¥å£åˆ¤æ–­ï¼Œå¦‚æœtargetå®ç°äº†Unwrapæ–¹æ³•ï¼Œä¼šä¸æ–­å‰¥ç¦»å‡ºåŒ…è£…çš„å¼‚å¸¸è¿›è¡Œæ¯”è¾ƒ
 
 		func Unwrap(err error) error
-			* Èç¹ûÒì³£ÊÇÒ»¸ö°ü×°Òì³££¬Ò²¾ÍÊÇÊµÏÖÁË: Unwrap() error 
-			* ÄÇÃ´¾Í»á·µ»Ø°ü×°µÄÒì³££¬·ñÔò·µ»Ønil
+			* å¦‚æœå¼‚å¸¸æ˜¯ä¸€ä¸ªåŒ…è£…å¼‚å¸¸ï¼Œä¹Ÿå°±æ˜¯å®ç°äº†: Unwrap() error 
+			* é‚£ä¹ˆå°±ä¼šè¿”å›åŒ…è£…çš„å¼‚å¸¸ï¼Œå¦åˆ™è¿”å›nil
 
 	
-	# Í¨¹ı fmtµÄErrorf¸ñÊ½»¯Ò»¸öerror¶ÔÏó
+	# é€šè¿‡ fmtçš„Errorfæ ¼å¼åŒ–ä¸€ä¸ªerrorå¯¹è±¡
 		func Errorf(format string, a ...interface{}) error {
 			p := newPrinter()
 			p.wrapErrs = true
@@ -158,20 +158,20 @@ error ½Ó¿Ú
 		}
 
 
-	# ÔËĞĞÊ±Òì³££¬¶¨ÒåÔÚ rumtime °ü
+	# è¿è¡Œæ—¶å¼‚å¸¸ï¼Œå®šä¹‰åœ¨ rumtime åŒ…
 		type Error interface {
 			error
 			RuntimeError()
 		}
 	
-	# °ü×°Òì³£
-		// Ô­Ê¼Òì³£
-		e1 := errors.New("ÎÒÊÇÔ­Ê¼Òì³£")
-		// Í¨¹ı %w ¶ÔÒì³£½øĞĞ°ü×°
-		we := fmt.Errorf("ÎÒÊÇ°ü×°Òì³££¬ÎÒ²¶»ñÁË: %w", e1)
-		fmt.Println(we.Error())		// ÎÒÊÇ°ü×°Òì³££¬ÎÒ²¶»ñÁË:ÎÒÊÇÔ­Ê¼Òì³£
+	# åŒ…è£…å¼‚å¸¸
+		// åŸå§‹å¼‚å¸¸
+		e1 := errors.New("æˆ‘æ˜¯åŸå§‹å¼‚å¸¸")
+		// é€šè¿‡ %w å¯¹å¼‚å¸¸è¿›è¡ŒåŒ…è£…
+		we := fmt.Errorf("æˆ‘æ˜¯åŒ…è£…å¼‚å¸¸ï¼Œæˆ‘æ•è·äº†: %w", e1)
+		fmt.Println(we.Error())		// æˆ‘æ˜¯åŒ…è£…å¼‚å¸¸ï¼Œæˆ‘æ•è·äº†:æˆ‘æ˜¯åŸå§‹å¼‚å¸¸
 
-		r := errors.Unwrap(we)		// ÎÒÊÇÔ­Ê¼Òì³£
+		r := errors.Unwrap(we)		// æˆ‘æ˜¯åŸå§‹å¼‚å¸¸
 		fmt.Println(r == e1)		// true
 
 		fmt.Println(errors.Is(we, e1))	// true
@@ -179,8 +179,8 @@ error ½Ó¿Ú
 		fmt.Println(errors.As(we, e1))	// panic: errors: *target must be interface or implement error ???
 
 
-	# ½â¾ö¹ı¶àµÄif else ÎÊÌâ
-		* ±ÀÀ£µÄ´úÂë
+	# è§£å†³è¿‡å¤šçš„if else é—®é¢˜
+		* å´©æºƒçš„ä»£ç 
 			func parse(r io.Reader) (*Point, error) {
 
 				var p Point
@@ -202,7 +202,7 @@ error ½Ó¿Ú
 				}
 			}
 		
-		* ÓÃº¯ÊıÊ½±à³ÌµÄ·½Ê½
+		* ç”¨å‡½æ•°å¼ç¼–ç¨‹çš„æ–¹å¼
 			func parse(r io.Reader) (*Point, error) {
 				var p Point
 				var err error
@@ -225,7 +225,7 @@ error ½Ó¿Ú
 				return &p, nil
 			}
 		
-		* ÓÃ½á¹¹ÌåµÄ·½Ê½
+		* ç”¨ç»“æ„ä½“çš„æ–¹å¼
 			type Reader struct {
 				r   io.Reader
 				err error
@@ -254,7 +254,7 @@ error ½Ó¿Ú
 				return &p, nil
 			}
 
-			* buffio.Scanner µ×²ãÒ²ÊÇÕâ¸ö·½·¨
+			* buffio.Scanner åº•å±‚ä¹Ÿæ˜¯è¿™ä¸ªæ–¹æ³•
 				scanner := bufio.NewScanner(input)
 
 				for scanner.Scan() {

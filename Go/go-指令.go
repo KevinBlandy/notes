@@ -1,40 +1,40 @@
 -----------------------
-Go ָ��
+Go 指令
 -----------------------
 	go help
-		* �鿴����
+		* 查看帮助
 
 	go version
-		* �鿴�汾��
+		* 查看版本号
 			go version go1.15.3 windows/amd64
 	
 	go run [file...]
-		* ��һ�����߶��.goԴ�ļ����б��룬���ӣ�Ȼ������
+		* 对一个或者多个.go源文件进行编译，链接，然后运行
 	
 	go build [file...]
-		* ��runһ����������ִ�У���ֻ�����ɿ�ִ���ļ�
-		* file �������ļ���Ҳ������ĳ��Ŀ¼�����Ŀ¼�����·�������$GOPATHȥ��
-		* file �����Բ�д��Ĭ���ǵ�ǰĿ¼
+		* 跟run一样，它不会执行，而只是生成可执行文件
+		* file 可以是文件，也可以是某个目录，如果目录是相对路径，则从$GOPATH去找
+		* file 不可以不写，默认是当前目录
 		
 		-o
-			* ָ������Ŀ�ִ���ļ�����
+			* 指定输出的可执行文件名称
 	
 	go install
-		* �ȱ��룬�ٰѱ����ĳ���copy�� $GOPATH �µ�binĿ¼
+		* 先编译，再把编译后的程序copy到 $GOPATH 下的bin目录
 
 	go env
-		* �鿴go�Ļ�����Ϣ
+		* 查看go的环境信息
 	
 	
-	go doc [����]
-		* �鿴ָ�������ĵ�
+	go doc [方法]
+		* 查看指定方法文档
 
 	
 
 
 
 -----------------------
-Go ָ�� helpe
+Go 指令 helpe
 -----------------------
 Go is a tool for managing Go source code.
 

@@ -1,6 +1,6 @@
 
 -------------------------
-Ìõ¼þ
+æ¡ä»¶
 -------------------------
 	# if
 		if [codifion] {
@@ -14,7 +14,7 @@
 
 		}
 
-	# ÔÊÐíÔÚifÓï¾äÖÐ´æÔÚ2¸ö´úÂë¿é£¬µÚÒ»¸öÓÃÓÚ³õÊ¼»¯»òÕß¼ÆËã£¬µÚ¶þ¸ö´úÂë¿é½á¹ûÒªÊÇbooleanÖµ
+	# å…è®¸åœ¨ifè¯­å¥ä¸­å­˜åœ¨2ä¸ªä»£ç å—ï¼Œç¬¬ä¸€ä¸ªç”¨äºŽåˆå§‹åŒ–æˆ–è€…è®¡ç®—ï¼Œç¬¬äºŒä¸ªä»£ç å—ç»“æžœè¦æ˜¯booleanå€¼
 		if age := 23; age > 10 {
 			fmt.Println("23")
 		} else {
@@ -24,32 +24,32 @@
 
 		v := 5;
 		if v ++; v > 5 {
-			fmt.Println("´óÓÚ5") // ´óÓÚ5
+			fmt.Println("å¤§äºŽ5") // å¤§äºŽ5
 		}
 		fmt.Println(v) // 6
 				
-		* ifÓï¾äÖÐµÄ±äÁ¿£¬Ö»ÓÐÔÚËüµÄ´úÂë¿éÖÐÓÐÐ§
+		* ifè¯­å¥ä¸­çš„å˜é‡ï¼Œåªæœ‰åœ¨å®ƒçš„ä»£ç å—ä¸­æœ‰æ•ˆ
 	
-	# °Ñifµ±×÷caseÓÃ
+	# æŠŠifå½“ä½œcaseç”¨
 		
 	
 	
 -------------------------
-ÔËËã
+è¿ç®—
 -------------------------
-	# »ù±¾µÄÔËËã
+	# åŸºæœ¬çš„è¿ç®—
 		+,-,*,/,%
 
 		x := 2
 		x *= 5 // x = x * 5
 
-	# ×ÔÔö/¼õÓï·¨£¬½ö½öÖ§³Öºó×º£¬²»Ö§³ÖÇ°×º
+	# è‡ªå¢ž/å‡è¯­æ³•ï¼Œä»…ä»…æ”¯æŒåŽç¼€ï¼Œä¸æ”¯æŒå‰ç¼€
 		i ++ // ok
 		i -- // ok
 		++ i // error
 	
 	
-	# ¹ØÏµ/Âß¼­ÔËËã
+	# å…³ç³»/é€»è¾‘è¿ç®—
 		||
 		&&
 		!
@@ -57,49 +57,49 @@
 		>, >=
 		<, <=
 	
-	# Î»ÔËËã
-		x << y		×óÒÆ
-		x >> y		ÓÒÒÆ
-		x & y		and Óë
-		x | y		or	»ò
-		x ^ y		xor	Òì»ò
-		^x			not	È¡·´
-		&^			Î»Çå¿Õ
+	# ä½è¿ç®—
+		x << y		å·¦ç§»
+		x >> y		å³ç§»
+		x & y		and ä¸Ž
+		x | y		or	æˆ–
+		x ^ y		xor	å¼‚æˆ–
+		^x			not	å–å
+		&^			ä½æ¸…ç©º
 	
 	
 	
 -------------------------
-Ñ­»·
+å¾ªçŽ¯
 -------------------------
-	# Î¨Ò»µÄÑ­»·
+	# å”¯ä¸€çš„å¾ªçŽ¯
 		for [initialization]; [conditon]; [post] {
 			// TODO
 		}
 
-		* initialization£¬³õÊ¼»¯ÔÚÑ­»·¿ªÊ¼Ö®Ç°Ö´ÐÐ£¬¿ÉÒÔÊÇ¸³ÖµÓï¾ä£¬º¯Êýµ÷ÓÃ
-		* conditon£¬²¼¶û±í´ïÊ½£¬ÓÃÓÚÈ·¶¨ÊÇ·ñÒªÖ´ÐÐÑ­»·
-		* post£¬Ñ­»·Ìå±»Ö´ÐÐºó£¬Ö´ÐÐ
+		* initializationï¼Œåˆå§‹åŒ–åœ¨å¾ªçŽ¯å¼€å§‹ä¹‹å‰æ‰§è¡Œï¼Œå¯ä»¥æ˜¯èµ‹å€¼è¯­å¥ï¼Œå‡½æ•°è°ƒç”¨
+		* conditonï¼Œå¸ƒå°”è¡¨è¾¾å¼ï¼Œç”¨äºŽç¡®å®šæ˜¯å¦è¦æ‰§è¡Œå¾ªçŽ¯
+		* postï¼Œå¾ªçŽ¯ä½“è¢«æ‰§è¡ŒåŽï¼Œæ‰§è¡Œ
 
-		* ×ó´óÀ¨ºÅ '{'£¬ ±ØÐë¸úÔÚµÚÒ»ÐÐºóÃæ
+		* å·¦å¤§æ‹¬å· '{'ï¼Œ å¿…é¡»è·Ÿåœ¨ç¬¬ä¸€è¡ŒåŽé¢
 	
-	# Ö»Òª conditon£¬¾Í³ÉÁË while Ñ­»·
+	# åªè¦ conditonï¼Œå°±æˆäº† while å¾ªçŽ¯
 		for [conditon] {
 			// TODO
 		}
 
-	# Èý¸ö²¿·Ö¶¼ÊÇ¿ÉÒÔÊ¡ÂÔµÄ
+	# ä¸‰ä¸ªéƒ¨åˆ†éƒ½æ˜¯å¯ä»¥çœç•¥çš„
 		for {
-			// ÎÞÏÞÑ­»·
+			// æ— é™å¾ªçŽ¯
 		}
 	
-	# ¼ÌÐøÓëÖÕÖ¹µ±Ç°µÄÑ­»·
+	# ç»§ç»­ä¸Žç»ˆæ­¢å½“å‰çš„å¾ªçŽ¯
 		continue / break
 	
-	# Ê¹ÓÃgotoÓï·¨£¬Ìø³öÖ±½Ó¶à²ãÑ­»·
-		outer: for i := 0; i < 10; i ++ {		// ÉèÖÃÍâ²ãÑ­»·µÄ label Îª outer
+	# ä½¿ç”¨gotoè¯­æ³•ï¼Œè·³å‡ºç›´æŽ¥å¤šå±‚å¾ªçŽ¯
+		outer: for i := 0; i < 10; i ++ {		// è®¾ç½®å¤–å±‚å¾ªçŽ¯çš„ label ä¸º outer
 			for j := 0; j < 10; j++ {
 				if (j == 5 && i == 4) {
-					break outer					// Ìø³ö Ö¸¶¨µÄ label
+					break outer					// è·³å‡º æŒ‡å®šçš„ label
 				}
 				fmt.Printf("i=%d, j=%d \n", i,  j)
 			}
@@ -108,30 +108,30 @@
 
 	
 	
-	# for range Ñ­»·
-		* ¿ÉÒÔ±éÀúÊý×é£¬map£¬ÇÐÆ¬£¬Í¨µÀ£¬×Ö·û´®
-		* ·µ»ØË÷Òý/Öµ£¬key/value£¬Í¨µÀÖ»·µ»ØÖµ: _,v : range ch
+	# for range å¾ªçŽ¯
+		* å¯ä»¥éåŽ†æ•°ç»„ï¼Œmapï¼Œåˆ‡ç‰‡ï¼Œé€šé“ï¼Œå­—ç¬¦ä¸²
+		* è¿”å›žç´¢å¼•/å€¼ï¼Œkey/valueï¼Œé€šé“åªè¿”å›žå€¼: _,v : range ch
 			name := "Hello Go"
 			for i, v := range name{
 				fmt.Println(i, v)
 			}
 	
 		
-	# for range ¿ÉÒÔÖ±½Ó±éÀúÊýÖµ
+	# for range å¯ä»¥ç›´æŽ¥éåŽ†æ•°å€¼
 		for i := range 5 {
-			fmt.Println(i) // Êä³ö 0 - 4
+			fmt.Println(i) // è¾“å‡º 0 - 4
 		}
 
-		* Èç¹û range µÄÖµ <= 0 Ôò²»»á½øÐÐÈÎºÎµü´ú
-		* ±¾ÖÊÉÏÊÇÏÂÃæÑ­»·µÄÓï·¨ÌÇ
+		* å¦‚æžœ range çš„å€¼ <= 0 åˆ™ä¸ä¼šè¿›è¡Œä»»ä½•è¿­ä»£
+		* æœ¬è´¨ä¸Šæ˜¯ä¸‹é¢å¾ªçŽ¯çš„è¯­æ³•ç³–
 			for i := 0; i < 5; i++ {
 			    fmt.Println(i)
 			}
 		
-		* Èç¹û²»ÐèÒªÑ­»·±äÁ¿£¬¿ÉÒÔÖ±½ÓÊ¡ÂÔ
+		* å¦‚æžœä¸éœ€è¦å¾ªçŽ¯å˜é‡ï¼Œå¯ä»¥ç›´æŽ¥çœç•¥
 
 			for range 10 {
-				// TODO Ñ­»·Ê®´Î
+				// TODO å¾ªçŽ¯åæ¬¡
 			}
 
 	
@@ -139,7 +139,7 @@
 -------------------------
 switch
 -------------------------
-	# »ù±¾µÄÓï·¨
+	# åŸºæœ¬çš„è¯­æ³•
 		switch [param] {
 			case [val]: {
 			}
@@ -152,7 +152,7 @@ switch
 		
 		name  := '-'
 		switch name {
-			case 'Óà':
+			case 'ä½™':
 				fmt.Println("1")
 			case ' ' :
 				fmt.Println("2")
@@ -175,13 +175,13 @@ switch
 				fmt.Println("456")
 		}
 
-		* param ¿ÉÒÔÓÐ2¸ö´úÂë¿é£¬µÚÒ»¸ö¿ÉÒÔÓÃÀ´³õÊ¼»¯±äÁ¿£¬µÚ¶þ¸öÊÇÉùÃ÷ÓÃÀ´Ö´ÐÐswitchµÄ±äÁ¿£¬Õâ¸ö±äÁ¿Ö»ÔÚµ±Ç°switchÖÐÉúÐ§
-		* ²»ÐèÒªÐ´break£¬×Ô¶¯Ñ¡ÔñÖ´ÐÐÈ»ºóÌø³ö
-		* val ¿ÉÒÔÓÐ¶à¸ö£¬Ê¹ÓÃ¶ººÅ·Ö¸ô£¬¹ØÏµÊÇ |£¬Ö»ÒªÆ¥ÅäÆäÖÐÒ»¸ö£¬¾Í»áÖ´ÐÐ
-		* case ÖÐ val µÄÊý¾Ý²»ÄÜÖØ¸´£¬·ñÔò»á¸øÒì³£
-		* default ²»ÊÇ±ØÐëµÄ
+		* param å¯ä»¥æœ‰2ä¸ªä»£ç å—ï¼Œç¬¬ä¸€ä¸ªå¯ä»¥ç”¨æ¥åˆå§‹åŒ–å˜é‡ï¼Œç¬¬äºŒä¸ªæ˜¯å£°æ˜Žç”¨æ¥æ‰§è¡Œswitchçš„å˜é‡ï¼Œè¿™ä¸ªå˜é‡åªåœ¨å½“å‰switchä¸­ç”Ÿæ•ˆ
+		* ä¸éœ€è¦å†™breakï¼Œè‡ªåŠ¨é€‰æ‹©æ‰§è¡Œç„¶åŽè·³å‡º
+		* val å¯ä»¥æœ‰å¤šä¸ªï¼Œä½¿ç”¨é€—å·åˆ†éš”ï¼Œå…³ç³»æ˜¯ |ï¼Œåªè¦åŒ¹é…å…¶ä¸­ä¸€ä¸ªï¼Œå°±ä¼šæ‰§è¡Œ
+		* case ä¸­ val çš„æ•°æ®ä¸èƒ½é‡å¤ï¼Œå¦åˆ™ä¼šç»™å¼‚å¸¸
+		* default ä¸æ˜¯å¿…é¡»çš„
 		
-	# ²»ÐèÒª²Ù×÷Êý
+	# ä¸éœ€è¦æ“ä½œæ•°
 		switch {
 			case [val]: {
 			}
@@ -192,71 +192,71 @@ switch
 			}
 		}
 
-		* Ã¿ÌõcaseÓï¾ä£¬¶¼ÊÇÒ»¸ö²¼¶û±í´ïÊ½£¬Èç¹û²»ÊÇ²¼¶û±í´ïÊ½»áÒì³£
-		* ÕâÖÖ³ÆÎªÎÞ±êÇ©Ñ¡Ôñ£¬µÈ¼ÛÓÚ switch true 
+		* æ¯æ¡caseè¯­å¥ï¼Œéƒ½æ˜¯ä¸€ä¸ªå¸ƒå°”è¡¨è¾¾å¼ï¼Œå¦‚æžœä¸æ˜¯å¸ƒå°”è¡¨è¾¾å¼ä¼šå¼‚å¸¸
+		* è¿™ç§ç§°ä¸ºæ— æ ‡ç­¾é€‰æ‹©ï¼Œç­‰ä»·äºŽ switch true 
 	
 	# fallthrough
-		* ÕâÊÇÎªÁË¼æÈÝCÉè¼ÆµÄ¶«Î÷£¬Ò»°ã²»ÓÃ
-		* ¸Ã¹Ø¼ü×ÖµÄÒâË¼ÊÇ£¬Ç¿ÐÐÖ´ÐÐµ±Ç°Âú×ãÌõ¼þcaseÏÂµÄÏÂÒ»¸öcase
+		* è¿™æ˜¯ä¸ºäº†å…¼å®¹Cè®¾è®¡çš„ä¸œè¥¿ï¼Œä¸€èˆ¬ä¸ç”¨
+		* è¯¥å…³é”®å­—çš„æ„æ€æ˜¯ï¼Œå¼ºè¡Œæ‰§è¡Œå½“å‰æ»¡è¶³æ¡ä»¶caseä¸‹çš„ä¸‹ä¸€ä¸ªcase
 			
 		switch val := 5;  val {
 			case 5:
-				fmt.Println("5")		// Ö´ÐÐ
+				fmt.Println("5")		// æ‰§è¡Œ
 				fallthrough
 			case 6:
-				fmt.Println("6")		// Ö´ÐÐ
+				fmt.Println("6")		// æ‰§è¡Œ
 			case 7:
 				fmt.Println("7")
 			default: 
 				fmt.Println("nil")
 		}
 	
-	# ÔÚswitchÖÐ¶ÔinterfaceÊ¹ÓÃÀàÐÍÅÐ¶Ï£¬¿ÉÒÔÍ¨¹ý .(type) ²Ù×÷»ñÈ¡µ½ interface/ÊµÀý µÄÀàÐÍ
+	# åœ¨switchä¸­å¯¹interfaceä½¿ç”¨ç±»åž‹åˆ¤æ–­ï¼Œå¯ä»¥é€šè¿‡ .(type) æ“ä½œèŽ·å–åˆ° interface/å®žä¾‹ çš„ç±»åž‹
 		func main() {
 			var x interface{} = int(1)
 			fmt.Println(x.(type))  // use of .(type) outside type switch
 
-			out(1)			// ÊÇint
-			out("h")		// ÊÇ×Ö·û´®
-			out(nil)		// ÊÇnull
-			out(666.33)		// ¶¼²»ÊÇ
+			out(1)			// æ˜¯int
+			out("h")		// æ˜¯å­—ç¬¦ä¸²
+			out(nil)		// æ˜¯null
+			out(666.33)		// éƒ½ä¸æ˜¯
 		}	
 		func out(param interface{}){
 			switch param.(type) {
 				case int: {
-					fmt.Println("ÊÇint")
+					fmt.Println("æ˜¯int")
 				}
 				case string: {
-					fmt.Println("ÊÇ×Ö·û´®")
+					fmt.Println("æ˜¯å­—ç¬¦ä¸²")
 				} 
 				case nil: {
-					fmt.Println("ÊÇnull")
+					fmt.Println("æ˜¯null")
 				}
 				default: {
-					fmt.Println("¶¼²»ÊÇ")
+					fmt.Println("éƒ½ä¸æ˜¯")
 				}
 			}
 		}
 
-		* .(type) Ö»ÄÜ±» interfacce £¬½Ó¿Ú²Ù×÷
-		* .(type) ²¢ÇÒÖ»ÄÜÔÚ switch Óï¾äÖÐÊ¹ÓÃ
-		* .(type) »¹»á·µ»ØÇ¿ÖÆ×ª»»ºóµÄ¶ÔÏó£¬¿ÉÒÔÔÚswitch´úÂë¿éÖÐÊ¹ÓÃ
+		* .(type) åªèƒ½è¢« interfacce ï¼ŒæŽ¥å£æ“ä½œ
+		* .(type) å¹¶ä¸”åªèƒ½åœ¨ switch è¯­å¥ä¸­ä½¿ç”¨
+		* .(type) è¿˜ä¼šè¿”å›žå¼ºåˆ¶è½¬æ¢åŽçš„å¯¹è±¡ï¼Œå¯ä»¥åœ¨switchä»£ç å—ä¸­ä½¿ç”¨
 			switch v2 := v.(type) {
 				case string:
 					fmt.Println("is string", v2)
 			}
 
-		* Òª×¢ÒâÊµÀýºÍÖ¸Õë£¬ÊÇ²»Í¬µÄ
+		* è¦æ³¨æ„å®žä¾‹å’ŒæŒ‡é’ˆï¼Œæ˜¯ä¸åŒçš„
 			type Foo struct {}
 			type Bar interface {}
 			func main(){
 				var bar Bar = &Foo{}
 				switch bar.(type) {
 					case *Foo: {
-						fmt.Println("ÎÒÊÇFOOÖ¸Õë")
+						fmt.Println("æˆ‘æ˜¯FOOæŒ‡é’ˆ")
 					}
 					case Foo: {
-						fmt.Println("ÎÒÊÇFOOÊµÀý") // ÕâÀïÀëÖ°£¬ÕâÀï²»»áÖ´ÐÐ
+						fmt.Println("æˆ‘æ˜¯FOOå®žä¾‹") // è¿™é‡Œç¦»èŒï¼Œè¿™é‡Œä¸ä¼šæ‰§è¡Œ
 					}
 				}
 			}
@@ -265,17 +265,17 @@ switch
 -------------------------
 goto
 -------------------------
-	# ¿ìËÙÌøµ½Ä³¸öÎ»ÖÃÖ´ÐÐ£¬±ðÓÃÕâÍæÒâ¶ù
+	# å¿«é€Ÿè·³åˆ°æŸä¸ªä½ç½®æ‰§è¡Œï¼Œåˆ«ç”¨è¿™çŽ©æ„å„¿
 		for i := 0; i < 10; i ++ {
 			for j := 0; j < 10; j++ {
 				if (j == 5 && i == 4) {
-					goto outer  // Ìø×ªµ½Ö¸¶¨µÄlabel´úÂë¿éÖ´ÐÐ
+					goto outer  // è·³è½¬åˆ°æŒ‡å®šçš„labelä»£ç å—æ‰§è¡Œ
 				}
 				fmt.Printf("i=%d, j=%d \n", i,  j)
 			}
 		}
-		// ¶¨ÒåÁËÒ»¸ö label ´úÂë¿é£¬È¡Ãû outer
+		// å®šä¹‰äº†ä¸€ä¸ª label ä»£ç å—ï¼Œå–å outer
 		outer: {
-			fmt.Printf("Ö´ÐÐÍê±ÏÁË")
+			fmt.Printf("æ‰§è¡Œå®Œæ¯•äº†")
 		}
 	

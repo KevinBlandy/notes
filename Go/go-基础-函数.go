@@ -1,43 +1,43 @@
 ------------------------
-º¯Êý
+å‡½æ•°
 ------------------------
-	# º¯ÊýµÄ¶¨Òå
-		func [º¯ÊýÃû³Æ]([²ÎÊýÁÐ±í]) ([·µ»ØÖµ]) {
+	# å‡½æ•°çš„å®šä¹‰
+		func [å‡½æ•°åç§°]([å‚æ•°åˆ—è¡¨]) ([è¿”å›žå€¼]) {
 
 		}
 	
-		* º¯ÊýÃû³Æ²»ÄÜÖØ¸´
-		* ÐÎ²Î£ºÐÎ²ÎÃû³Æ£¬ÐÎ²ÎÀàÐÍ×é³É£¬¶à¸ö²ÎÊýÊ¹ÓÃ¶ººÅ·Ö¸ô£¬¿ÉÒÔÊ¡ÂÔ
-		* ·µ»ØÖµ£ºÈç¹ûÓÐ¶à¸ö£¬Ê¹ÓÃÐ¡À¨ºÅ°ü¹ü£¬²¢ÇÒÊ¹ÓÃ¶ººÅ·Ö¸ô£¬¿ÉÒÔÊ¡ÂÔ£¬±íÊ¾ÎÞ·µ»ØÖµ£¬Èç¹ûÓÐ·µ»ØÖµ£¬±ØÐëÒªÐ´ return ¹Ø¼ü×Ö
+		* å‡½æ•°åç§°ä¸èƒ½é‡å¤
+		* å½¢å‚ï¼šå½¢å‚åç§°ï¼Œå½¢å‚ç±»åž‹ç»„æˆï¼Œå¤šä¸ªå‚æ•°ä½¿ç”¨é€—å·åˆ†éš”ï¼Œå¯ä»¥çœç•¥
+		* è¿”å›žå€¼ï¼šå¦‚æžœæœ‰å¤šä¸ªï¼Œä½¿ç”¨å°æ‹¬å·åŒ…è£¹ï¼Œå¹¶ä¸”ä½¿ç”¨é€—å·åˆ†éš”ï¼Œå¯ä»¥çœç•¥ï¼Œè¡¨ç¤ºæ— è¿”å›žå€¼ï¼Œå¦‚æžœæœ‰è¿”å›žå€¼ï¼Œå¿…é¡»è¦å†™ return å…³é”®å­—
 	
 		func test(name string, age int)(int, string){
 			return age, name
 		}
 	
-	# ÃüÃû·µ»ØÖµ±äÁ¿
-		func sum(p1 int, p2 int)(ret1 int, ret2 int){ // ·µ»ØÖµ±äÁ¿ÃüÃû
-			// ²Ù×÷±äÁ¿
+	# å‘½åè¿”å›žå€¼å˜é‡
+		func sum(p1 int, p2 int)(ret1 int, ret2 int){ // è¿”å›žå€¼å˜é‡å‘½å
+			// æ“ä½œå˜é‡
 			ret1 = 1
 			ret2 = 2
-			// Ö±½ÓÐ´return£¬²»ÓÃÖ¸¶¨Òª·µ»ØµÄ±äÁ¿£¨Ö¸¶¨Ò²²»»á´í£ºreturn ret1, ret2£©
+			// ç›´æŽ¥å†™returnï¼Œä¸ç”¨æŒ‡å®šè¦è¿”å›žçš„å˜é‡ï¼ˆæŒ‡å®šä¹Ÿä¸ä¼šé”™ï¼šreturn ret1, ret2ï¼‰
 			return 
 		}
 		
-		* Ïàµ±ÓÚÔÚº¯ÊýÖÐÉùÃ÷ÁËÒ»¸ö£¬¶à¸ö±äÁ¿ 
-		* ¿ÉÒÔÔÚº¯ÊýÄÚ²¿Ê¹ÓÃ£¬º¯ÊýÖ´ÐÐÍê±Ïºó£¬Õâ¸ö±äÁ¿¾Í»á×÷Îª·µ»ØÖµ
-		* ¶ÔÓÚ¶à¸ö·µ»ØÖµ£¬ÒªÃ´¶¼ÃüÃû£¬ÒªÃ´¶¼²»ÃüÃû
+		* ç›¸å½“äºŽåœ¨å‡½æ•°ä¸­å£°æ˜Žäº†ä¸€ä¸ªï¼Œå¤šä¸ªå˜é‡ 
+		* å¯ä»¥åœ¨å‡½æ•°å†…éƒ¨ä½¿ç”¨ï¼Œå‡½æ•°æ‰§è¡Œå®Œæ¯•åŽï¼Œè¿™ä¸ªå˜é‡å°±ä¼šä½œä¸ºè¿”å›žå€¼
+		* å¯¹äºŽå¤šä¸ªè¿”å›žå€¼ï¼Œè¦ä¹ˆéƒ½å‘½åï¼Œè¦ä¹ˆéƒ½ä¸å‘½å
 
-		* ·µ»ØÖµ±äÁ¿£¬Ò²¿ÉÒÔºöÂÔµô²»Ê¹ÓÃ£¬·µ»ØµÄÊ±ºò£¬·µ»ØÏàÍ¬ÀàÐÍµÄ±äÁ¿Ò²¿ÉÒÔ
+		* è¿”å›žå€¼å˜é‡ï¼Œä¹Ÿå¯ä»¥å¿½ç•¥æŽ‰ä¸ä½¿ç”¨ï¼Œè¿”å›žçš„æ—¶å€™ï¼Œè¿”å›žç›¸åŒç±»åž‹çš„å˜é‡ä¹Ÿå¯ä»¥
 			func main() {
 				r := test()
 				fmt.Println(r)  // 1
 			}
-			func test() (y int) { // ÕâÀïÉùÃ÷ÁËy£¬µ«ÊÇºöÂÔÁËÕâ¸ö±äÁ¿£¬Ã»Ê¹ÓÃ
+			func test() (y int) { // è¿™é‡Œå£°æ˜Žäº†yï¼Œä½†æ˜¯å¿½ç•¥äº†è¿™ä¸ªå˜é‡ï¼Œæ²¡ä½¿ç”¨
 				x := 1
 				return x
 			}
 		
-		* ÔÚº¯Êý·µ»ØµÄÊ±ºò£¬Ã»ÓÐÃ÷È·¸³ÖµµÄ·µ»ØÖµ¶¼»á±»ÉèÖÃÎªÄ¬ÈÏÖµ
+		* åœ¨å‡½æ•°è¿”å›žçš„æ—¶å€™ï¼Œæ²¡æœ‰æ˜Žç¡®èµ‹å€¼çš„è¿”å›žå€¼éƒ½ä¼šè¢«è®¾ç½®ä¸ºé»˜è®¤å€¼
 			func foo() (result int, err error) {
 				return 
 			}
@@ -46,14 +46,14 @@
 				fmt.Println(result, err) // 0 <nil>
 			}
 		
-		* ¶à¸öÃüÃû·µ»ØÖµ´æÔÚµÄÊ±ºò£¬returnµÄÊý¾Ý±ØÐëÒª¸úÉùÃ÷µÄÊý¾ÝÒ»Ñù
-			// ÉùÃ÷ÁËÁ©£¬·µ»ØÁËÒ»¸ö
+		* å¤šä¸ªå‘½åè¿”å›žå€¼å­˜åœ¨çš„æ—¶å€™ï¼Œreturnçš„æ•°æ®å¿…é¡»è¦è·Ÿå£°æ˜Žçš„æ•°æ®ä¸€æ ·
+			// å£°æ˜Žäº†ä¿©ï¼Œè¿”å›žäº†ä¸€ä¸ª
 			func foo() (result int, err error) {
 				return 1 // not enough arguments to return
 			}
 
 
-	# ¶à¸ö²ÎÊýÀàÀàÐÍÏàÍ¬Ê±£¬¿ÉÒÔ¼òÐ´
+	# å¤šä¸ªå‚æ•°ç±»ç±»åž‹ç›¸åŒæ—¶ï¼Œå¯ä»¥ç®€å†™
 		func main() {
 			r1, r2, r3, r4 := f1(1, 2, "3", "4")
 			fmt.Println(r1, r2, r3, r4)
@@ -67,31 +67,31 @@
 			return 
 		}
 				
-		* ²ÎÊýÖ®¼äÊ¹ÓÃ¶ººÅ·Ö¸ô£¬×îºóÉùÃ÷²ÎÊýÀàÐÍ
-		* ¶ÔÓÚ·µ»Ø²ÎÊýÁÐ±íÒ²Í¬ÑùÊ¹ÓÃ
+		* å‚æ•°ä¹‹é—´ä½¿ç”¨é€—å·åˆ†éš”ï¼Œæœ€åŽå£°æ˜Žå‚æ•°ç±»åž‹
+		* å¯¹äºŽè¿”å›žå‚æ•°åˆ—è¡¨ä¹ŸåŒæ ·ä½¿ç”¨
 	
 	
-	# ¿É±ä³¤²ÎÊý
+	# å¯å˜é•¿å‚æ•°
 		func f1(a, b int, c ...string) {
 			fmt.Println(a, b)		// 1 2
 			fmt.Printf("%T\n",  c)  // []string
 		}
 
-		* ±ä³¤²ÎÊýÖ»ÄÜÊÇ×îºóÒ»¸ö£¬ÔÚÀàÐÍÇ°Ê¹ÓÃÈý¸ö.ÉùÃ÷
-		* ËüÔÚº¯ÊýÖÐ£¬Êµ¼Ê»á±»·â×°³ÉÒ»¸ö£ºÇÐÆ¬
-		* ±ä³¤²ÎÊý£¬Èç¹ûµ÷ÓÃÃ»¸øÖµ£¬ÔòÊÇ¿ÕÇÐÆ¬
+		* å˜é•¿å‚æ•°åªèƒ½æ˜¯æœ€åŽä¸€ä¸ªï¼Œåœ¨ç±»åž‹å‰ä½¿ç”¨ä¸‰ä¸ª.å£°æ˜Ž
+		* å®ƒåœ¨å‡½æ•°ä¸­ï¼Œå®žé™…ä¼šè¢«å°è£…æˆä¸€ä¸ªï¼šåˆ‡ç‰‡
+		* å˜é•¿å‚æ•°ï¼Œå¦‚æžœè°ƒç”¨æ²¡ç»™å€¼ï¼Œåˆ™æ˜¯ç©ºåˆ‡ç‰‡
 		
-		* µ÷ÓÃµÄÊ±ºò£¬ÒªÊ¹ÓÃ ...½â¹¹¸³ÖµÇÐÆ¬£¬Ö»ÄÜÊÇÇÐÆ¬
+		* è°ƒç”¨çš„æ—¶å€™ï¼Œè¦ä½¿ç”¨ ...è§£æž„èµ‹å€¼åˆ‡ç‰‡ï¼Œåªèƒ½æ˜¯åˆ‡ç‰‡
 			func foo(val ...int){
 				fmt.Println(val)
 			}
 			
-			foo([]int{1, 2, 3}...)		// Ö±½ÓÐ´ÇÐÆ¬
+			foo([]int{1, 2, 3}...)		// ç›´æŽ¥å†™åˆ‡ç‰‡
 			arr := [...]int {1, 2}
-			// foo(arr...) // ²»ÄÜÓÃÊý×écannot use arr (type [2]int) as type []int in argument to foo
-			foo(arr[:]...)		// °ÑÊý×é×ª»»ÎªÇÐÆ¬
+			// foo(arr...) // ä¸èƒ½ç”¨æ•°ç»„cannot use arr (type [2]int) as type []int in argument to foo
+			foo(arr[:]...)		// æŠŠæ•°ç»„è½¬æ¢ä¸ºåˆ‡ç‰‡
 		
-		* ²ÎÊýÒ²ÊÇÇÐÆ¬µÄÊ±£¬Òª×¢ÒâÊ¹ÓÃ½â¹¹±í´ïÊ½
+		* å‚æ•°ä¹Ÿæ˜¯åˆ‡ç‰‡çš„æ—¶ï¼Œè¦æ³¨æ„ä½¿ç”¨è§£æž„è¡¨è¾¾å¼
 			func main(){
 				val := []interface {}{1, 2, 3}
 				foo(val)			// [[1 2 3]]
@@ -102,22 +102,22 @@
 			}
 
 	
-	# ×÷ÓÃÓò
-		* È«¾Ö×÷ÓÃÓò
-			* º¯ÊýÍâ²¿¶¨ÒåµÄ±äÁ¿£¬ËùÓÐº¯Êý¶¼ÄÜ·ÃÎÊ£¬ÕâÊÇÈ«¾Ö
+	# ä½œç”¨åŸŸ
+		* å…¨å±€ä½œç”¨åŸŸ
+			* å‡½æ•°å¤–éƒ¨å®šä¹‰çš„å˜é‡ï¼Œæ‰€æœ‰å‡½æ•°éƒ½èƒ½è®¿é—®ï¼Œè¿™æ˜¯å…¨å±€
 
-		* ¾Ö²¿×÷ÓÃÓò
-			* º¯Êý/´óÀ¨ºÅÖÐ¶¨ÒåµÄ±äÁ¿£¬Ö»ÄÜÔÚµ±Ç°º¯Êý/´óÀ¨ºÅÖÐ·ÃÎÊ£¬ÕâÊÇ¾Ö²¿
-			* º¯Êý/´óÀ¨ºÅÖÐ²Ù×÷±äÁ¿£¬ÓÅÏÈ²éÕÒ¾Ö²¿£¬¾Ö²¿Ã»ÕÒµ½¾ÍÍùÍâ£¬Ò»Ö±ÕÒµ½È«¾Ö
+		* å±€éƒ¨ä½œç”¨åŸŸ
+			* å‡½æ•°/å¤§æ‹¬å·ä¸­å®šä¹‰çš„å˜é‡ï¼Œåªèƒ½åœ¨å½“å‰å‡½æ•°/å¤§æ‹¬å·ä¸­è®¿é—®ï¼Œè¿™æ˜¯å±€éƒ¨
+			* å‡½æ•°/å¤§æ‹¬å·ä¸­æ“ä½œå˜é‡ï¼Œä¼˜å…ˆæŸ¥æ‰¾å±€éƒ¨ï¼Œå±€éƒ¨æ²¡æ‰¾åˆ°å°±å¾€å¤–ï¼Œä¸€ç›´æ‰¾åˆ°å…¨å±€
 	
 ------------------------
-defer Óï¾ä
+defer è¯­å¥
 ------------------------
-	# defer Óï¾ä£¬¾ÍÏñÊÇjavaÖÐµÄ finally ´úÂë¿éÒ»Ñù
-		* º¯ÊýÖÐ defer ºóÃæµÄÓï¾ä²¢²»»áÁ¢¼´Ö´ÐÐ£¬¶øÊÇ»á¡°±»Ìí¼Óµ½Ò»¸ö¶ÓÁÐ¡±£¨ÀàËÆÓÚFILOµÄÕ»£©
-		* µ±º¯ÊýÔÚ return Ç°£¬»á¶ÔÕâ¸ö¶ÓÁÐÖÐµÄÓï¾ä£¬°¤¸öÖ´ÐÐ£¬×îºódeferµÄÓï¾ä£¬×îÏÈÖ´ÐÐ
+	# defer è¯­å¥ï¼Œå°±åƒæ˜¯javaä¸­çš„ finally ä»£ç å—ä¸€æ ·
+		* å‡½æ•°ä¸­ defer åŽé¢çš„è¯­å¥å¹¶ä¸ä¼šç«‹å³æ‰§è¡Œï¼Œè€Œæ˜¯ä¼šâ€œè¢«æ·»åŠ åˆ°ä¸€ä¸ªé˜Ÿåˆ—â€ï¼ˆç±»ä¼¼äºŽFILOçš„æ ˆï¼‰
+		* å½“å‡½æ•°åœ¨ return å‰ï¼Œä¼šå¯¹è¿™ä¸ªé˜Ÿåˆ—ä¸­çš„è¯­å¥ï¼ŒæŒ¨ä¸ªæ‰§è¡Œï¼Œæœ€åŽdeferçš„è¯­å¥ï¼Œæœ€å…ˆæ‰§è¡Œ
 		
-			// º¯Êý¶¨Òå
+			// å‡½æ•°å®šä¹‰
 			func test(){
 				fmt.Println("start")
 				defer fmt.Println("1")
@@ -126,35 +126,35 @@ defer Óï¾ä
 				fmt.Println("end")
 			}
 
-			// Êä³ö½á¹û
+			// è¾“å‡ºç»“æžœ
 			start
 			end
 			3
 			2
 			1
 		
-		* ¿ÉÒÔÓÃÀ´¹Ø±Õ×ÊÔ´
-		* Èç¹ûÓï¾ä±È½Ï¸´ÔÓ£¬¿ÉÒÔÊ¹ÓÃÄäÃûÁ¢¼´Ö´ÐÐº¯Êý
+		* å¯ä»¥ç”¨æ¥å…³é—­èµ„æº
+		* å¦‚æžœè¯­å¥æ¯”è¾ƒå¤æ‚ï¼Œå¯ä»¥ä½¿ç”¨åŒ¿åç«‹å³æ‰§è¡Œå‡½æ•°
 			func test()  {
-				fmt.Println("¿ªÊ¼")
+				fmt.Println("å¼€å§‹")
 				defer  func(){
-					fmt.Println("defer1 Ö´ÐÐ")
+					fmt.Println("defer1 æ‰§è¡Œ")
 				}()
 				defer  func(){
-					fmt.Println("defer2 Ö´ÐÐ")
+					fmt.Println("defer2 æ‰§è¡Œ")
 				}()
-				fmt.Println("½áÊø")
+				fmt.Println("ç»“æŸ")
 				return
 			}
 	
-	# defer µÄÖ´ÐÐÊ±»ú
-		* ÔÚgoÖÐ£¬º¯ÊýµÄ return£¬µ×²ã²¢²»ÊÇÒ»¸öÔ­×Ó²Ù×÷£¬¶øÊÇ·ÖÎªÁË2²½
-			1. ¸ø·µ»ØÖµ£¬¸³Öµ
-			2. Ö´ÐÐRETÖ¸Áî£¬·µ»ØÖµ
+	# defer çš„æ‰§è¡Œæ—¶æœº
+		* åœ¨goä¸­ï¼Œå‡½æ•°çš„ returnï¼Œåº•å±‚å¹¶ä¸æ˜¯ä¸€ä¸ªåŽŸå­æ“ä½œï¼Œè€Œæ˜¯åˆ†ä¸ºäº†2æ­¥
+			1. ç»™è¿”å›žå€¼ï¼Œèµ‹å€¼
+			2. æ‰§è¡ŒRETæŒ‡ä»¤ï¼Œè¿”å›žå€¼
 		
-		*  deferµÄÖ´ÐÐÊ±»ú£¬¾ÍÊÇÔÚ¸ø·µ»ØÖµ¸³Öµºó£¬RETÖ¸ÁîÖ´ÐÐÖ®Ç°
+		*  deferçš„æ‰§è¡Œæ—¶æœºï¼Œå°±æ˜¯åœ¨ç»™è¿”å›žå€¼èµ‹å€¼åŽï¼ŒRETæŒ‡ä»¤æ‰§è¡Œä¹‹å‰
 	
-		* ·ÇÃüÃûº¯Êý£¬²»»áÓ°Ïì½á¹û
+		* éžå‘½åå‡½æ•°ï¼Œä¸ä¼šå½±å“ç»“æžœ
 			func main() {
 				r := test()
 				fmt.Println(r) // 1
@@ -167,7 +167,7 @@ defer Óï¾ä
 				return val
 			}
 
-		* ÃüÃûº¯Êý£¬¿ÉÄÜ»áÓ°Ïì½á¹û
+		* å‘½åå‡½æ•°ï¼Œå¯èƒ½ä¼šå½±å“ç»“æžœ
 			func main() {
 				r := test()
 				fmt.Println(r) // 2
@@ -181,7 +181,7 @@ defer Óï¾ä
 				return
 			}
 
-	# º¯Êý·µ»Ø¾Ö²¿±äÁ¿Ö¸Õë£¬²»ÓÃµ£ÐÄ±äÁ¿ÄÚ´æ±»ÊÍ·Å
+	# å‡½æ•°è¿”å›žå±€éƒ¨å˜é‡æŒ‡é’ˆï¼Œä¸ç”¨æ‹…å¿ƒå˜é‡å†…å­˜è¢«é‡Šæ”¾
 		func main(){
 			fmt.Printf("%p\n", foo())	// 0xc00009c058
 			fmt.Printf("%p\n", foo())	// 0xc00009c090
@@ -191,21 +191,21 @@ defer Óï¾ä
 			return &retVal
 		}
 
-		* ÒòÎªÓÐÖ¸ÕëÖ¸ÏòÕâ¸ö±äÁ¿£¬ËùÒÔËü²»»á±»»ØÊÕ
-		* ±àÒëÆ÷»á×Ô¶¯Ñ¡ÔñÔÚÕ»ÉÏ»¹ÊÇÔÚ¶ÑÉÏ·ÖÅä¾Ö²¿±äÁ¿µÄ´æ´¢¿Õ¼ä
+		* å› ä¸ºæœ‰æŒ‡é’ˆæŒ‡å‘è¿™ä¸ªå˜é‡ï¼Œæ‰€ä»¥å®ƒä¸ä¼šè¢«å›žæ”¶
+		* ç¼–è¯‘å™¨ä¼šè‡ªåŠ¨é€‰æ‹©åœ¨æ ˆä¸Šè¿˜æ˜¯åœ¨å †ä¸Šåˆ†é…å±€éƒ¨å˜é‡çš„å­˜å‚¨ç©ºé—´
 	
-	# ²»ÄÜÖ±½Ó»ñÈ¡·½·¨µÄÖ¸Õë£¬µ«ÊÇ·½·¨ÀàÐÍµÄ±äÁ¿¿ÉÒÔ
+	# ä¸èƒ½ç›´æŽ¥èŽ·å–æ–¹æ³•çš„æŒ‡é’ˆï¼Œä½†æ˜¯æ–¹æ³•ç±»åž‹çš„å˜é‡å¯ä»¥
 		func main(){
 			var call func(string) int = foo
 			_ = call("Hello")	// Hello
 
-			// »ñÈ¡µ½±äÁ¿Ö¸Õë
+			// èŽ·å–åˆ°å˜é‡æŒ‡é’ˆ
 			var p *func(string) int = &call
 			fmt.Printf("%T\n", p)  // *func(string) int
-			// Í¨¹ýÖ¸Õë£¬Ö´ÐÐ·½·¨
+			// é€šè¿‡æŒ‡é’ˆï¼Œæ‰§è¡Œæ–¹æ³•
 			(*p)("Hi")				// Hi
 
-			// ²»ÄÜÖ±½Ó»ñÈ¡·½·¨µÄÖ¸Õë
+			// ä¸èƒ½ç›´æŽ¥èŽ·å–æ–¹æ³•çš„æŒ‡é’ˆ
 			// fmt.Println(&foo)  // cannot take the address of foo
 		}
 		func foo (val string) int {
@@ -213,10 +213,10 @@ defer Óï¾ä
 			return 5
 		}
 	
-	# º¯Êý·µ»ØµÄÊÇÖµ£¬²»ÊÇ±äÁ¿£¬²»ÄÜ»ñÈ¡ËüµÄÖ¸Õë
+	# å‡½æ•°è¿”å›žçš„æ˜¯å€¼ï¼Œä¸æ˜¯å˜é‡ï¼Œä¸èƒ½èŽ·å–å®ƒçš„æŒ‡é’ˆ
 
 	
-	# ÔÚÊÍ·Å×ÊÔ´µÄÊ±ºò£¬Èç¹û×ÊÔ´»á±»ÖØÐÂ³õÊ¼»¯ÐèÒª×¢Òâ×ÊÔ´Ð¹Â¶ÎÊÌâ
+	# åœ¨é‡Šæ”¾èµ„æºçš„æ—¶å€™ï¼Œå¦‚æžœèµ„æºä¼šè¢«é‡æ–°åˆå§‹åŒ–éœ€è¦æ³¨æ„èµ„æºæ³„éœ²é—®é¢˜
 
 		package main
 
@@ -231,7 +231,7 @@ defer Óï¾ä
 		}
 
 		func main() {
-			// ³õÊ¼»¯ b1 ×ÊÔ´
+			// åˆå§‹åŒ– b1 èµ„æº
 			b1 := &Bar{Name: "b1"}
 
 			defer func(b *Bar) {
@@ -239,20 +239,20 @@ defer Óï¾ä
 			}(b1)
 
 			defer func() {
-				b1.Close() // b2 close£¬×ÊÔ´Ð¹Â¶£¬ÕâÖÖ·½Ê½¹Ø±ÕµÄÊÇ×îºó³õÊ¼»¯µÄ b2 ×ÊÔ´£¬×î¿ªÊ¼µÄ b1 ×ÊÔ´Ð¹Â¶
+				b1.Close() // b2 closeï¼Œèµ„æºæ³„éœ²ï¼Œè¿™ç§æ–¹å¼å…³é—­çš„æ˜¯æœ€åŽåˆå§‹åŒ–çš„ b2 èµ„æºï¼Œæœ€å¼€å§‹çš„ b1 èµ„æºæ³„éœ²
 			}()
 
 			defer b1.Close() //b1 close
 
-			// ÐÞ¸Ä b1 Îª b2
+			// ä¿®æ”¹ b1 ä¸º b2
 			b1 = &Bar{Name: "b2"}
 		}
 
 
 ------------------------
-º¯ÊýÀàÐÍ
+å‡½æ•°ç±»åž‹
 ------------------------
-	# º¯ÊýÒ²ÊÇÓÐÀàÐÍµÄ¸ÅÄî£¬ºËÐÄµÄÔªËØ¾ÍÊÇ£»ÐÎ²ÎÀàÐÍ£¬·µ»ØÖµÀàÐÍ
+	# å‡½æ•°ä¹Ÿæ˜¯æœ‰ç±»åž‹çš„æ¦‚å¿µï¼Œæ ¸å¿ƒçš„å…ƒç´ å°±æ˜¯ï¼›å½¢å‚ç±»åž‹ï¼Œè¿”å›žå€¼ç±»åž‹
 		func func1(){
 			fmt.Println("Hello")
 		}
@@ -274,12 +274,12 @@ defer Óï¾ä
 			fmt.Printf("%T\n", f3) // func(...int) []int
 		}
 
-		* º¯ÊýÀàÐÍÄ¬ÈÏÖµÎªnil£¬²¢ÇÒËüÖ»ÄÜºÍnil½øÐÐ == ±È½Ï
-		* ¾ßÓÐÏàÍ¬²ÎÊý£¬ÏàÍ¬·µ»ØÖµµÄº¯Êý£¬ÊÓÎªÏàÍ¬ÀàÐÍµÄº¯Êý
-		* ²»Í¬ÀàÐÍµÄº¯Êý£¬²»ÄÜÏà»¥¸³Öµ
-		* func(val ...int) ºÍ func(val []int)£¬²¢²»ÊÇÍ¬Ò»¸öÀàÐÍ£¬²»ÄÜÏà»¥¸³Öµ
+		* å‡½æ•°ç±»åž‹é»˜è®¤å€¼ä¸ºnilï¼Œå¹¶ä¸”å®ƒåªèƒ½å’Œnilè¿›è¡Œ == æ¯”è¾ƒ
+		* å…·æœ‰ç›¸åŒå‚æ•°ï¼Œç›¸åŒè¿”å›žå€¼çš„å‡½æ•°ï¼Œè§†ä¸ºç›¸åŒç±»åž‹çš„å‡½æ•°
+		* ä¸åŒç±»åž‹çš„å‡½æ•°ï¼Œä¸èƒ½ç›¸äº’èµ‹å€¼
+		* func(val ...int) å’Œ func(val []int)ï¼Œå¹¶ä¸æ˜¯åŒä¸€ä¸ªç±»åž‹ï¼Œä¸èƒ½ç›¸äº’èµ‹å€¼
 
-	# º¯Êý×÷Îª²ÎÊý
+	# å‡½æ•°ä½œä¸ºå‚æ•°
 		func call(v1, v2 int, v3 string){
 			fmt.Println(v1,  v2, v3)
 		}
@@ -290,24 +290,24 @@ defer Óï¾ä
 			test(call)
 		}
 	
-	# º¯Êý×÷Îª·µ»ØÖµ
-		* º¯ÊýÄÚ²¿²»ÄÜÊ¹ÓÃfuncÔÙ´Î¶¨ÒåÃüÃûº¯Êý
+	# å‡½æ•°ä½œä¸ºè¿”å›žå€¼
+		* å‡½æ•°å†…éƒ¨ä¸èƒ½ä½¿ç”¨funcå†æ¬¡å®šä¹‰å‘½åå‡½æ•°
 			func bar(){
 				func foo(){  // unexpected foo, expecting (
 				}
 			}
 		
-		* º¯Êý·µ»Øº¯Êý£¬Ö»ÄÜ·µ»ØÍâ²¿ÒÑ¾­ÉùÃ÷ÁËµÄÃüÃûº¯Êý£¬»òÕßÊÇÄÚ²¿´´½¨µÄÄäÃûº¯Êý
+		* å‡½æ•°è¿”å›žå‡½æ•°ï¼Œåªèƒ½è¿”å›žå¤–éƒ¨å·²ç»å£°æ˜Žäº†çš„å‘½åå‡½æ•°ï¼Œæˆ–è€…æ˜¯å†…éƒ¨åˆ›å»ºçš„åŒ¿åå‡½æ•°
 	
-	# Á¢¼´Ö´ÐÐº¯Êý
-		* ÄäÃûº¯Êý¶¨ÒåÍê³ÉºóÁ¢¼´¼ÓÀ¨ºÅ£¬¾Í±íÊ¾Ö±½Óµ÷ÓÃ
+	# ç«‹å³æ‰§è¡Œå‡½æ•°
+		* åŒ¿åå‡½æ•°å®šä¹‰å®ŒæˆåŽç«‹å³åŠ æ‹¬å·ï¼Œå°±è¡¨ç¤ºç›´æŽ¥è°ƒç”¨
 			func main() {
 				func(){
 					fmt.Println("Hello")
 				}()
 			}
 		
-		* ¿ÉÒÔÓÐ·µ»ØÖµºÍ²ÎÊý
+		* å¯ä»¥æœ‰è¿”å›žå€¼å’Œå‚æ•°
 			func main() {
 				retVal := func(val string) string {
 					return "Hello" + val
@@ -316,9 +316,9 @@ defer Óï¾ä
 			}
 		
 
-	# ÄäÃûº¯Êý
-		* ¾ÍÊÇÃ»Ãû×ÖµÄº¯Êý£¬¿ÉÒÔÊ¹ÓÃ±äÁ¿ÒýÓÃ
-		* È»ºó¿ÉÒÔ´«µÝ¸Ã±äÁ¿
+	# åŒ¿åå‡½æ•°
+		* å°±æ˜¯æ²¡åå­—çš„å‡½æ•°ï¼Œå¯ä»¥ä½¿ç”¨å˜é‡å¼•ç”¨
+		* ç„¶åŽå¯ä»¥ä¼ é€’è¯¥å˜é‡
 			var fun = func (){
 				fmt.Println("Hello")
 			}
@@ -326,7 +326,7 @@ defer Óï¾ä
 
 				fun()
 				
-				// ÍêÕûµÄÉùÃ÷³öÀàÐÍ
+				// å®Œæ•´çš„å£°æ˜Žå‡ºç±»åž‹
 				var sum func(int, int) int = func(p1, p2 int)(int){
 					return p1 + p2
 				}
@@ -335,7 +335,7 @@ defer Óï¾ä
 
 			
 	
-		* ÕâÖÖÄäÃûº¯Êý¿ÉÒÔÔÚº¯ÊýÄÚ²¿¶¨Òå
+		* è¿™ç§åŒ¿åå‡½æ•°å¯ä»¥åœ¨å‡½æ•°å†…éƒ¨å®šä¹‰
 			func main() {
 				var f = func() string {
 					fmt.Println("Hello")
@@ -344,11 +344,11 @@ defer Óï¾ä
 				fmt.Println(f)
 			}
 		
-		* ÄäÃûÒ»°ã¶¼ÊÇÓÃÔÚº¯ÊýÄÚ²¿µÄ
+		* åŒ¿åä¸€èˆ¬éƒ½æ˜¯ç”¨åœ¨å‡½æ•°å†…éƒ¨çš„
 
 
-	# ±Õ°ü
-		* º¯ÊýÄÚ²¿Ç¶Ì×º¯Êý£¬±£»¤¾Ö²¿±äÁ¿
+	# é—­åŒ…
+		* å‡½æ•°å†…éƒ¨åµŒå¥—å‡½æ•°ï¼Œä¿æŠ¤å±€éƒ¨å˜é‡
 			func outter() func() int {
 				val := 0
 				return func () int {
@@ -364,34 +364,34 @@ defer Óï¾ä
 				fmt.Println(call())	// 3
 			}
 
-		* ÄÚ²¿º¯Êý£¬¾ÍÊÇÒª×¢ÒâÒ»¸ö×÷ÓÃÓòµÄÎÊÌâ
+		* å†…éƒ¨å‡½æ•°ï¼Œå°±æ˜¯è¦æ³¨æ„ä¸€ä¸ªä½œç”¨åŸŸçš„é—®é¢˜
 			var arr []func()
 			for _, v := range []int {1, 2, 3} {
-				// v := v Ã»ÓÐÕâÐÐ´úÂë£¬½á¹ûÊä³öÈ«²¿ÊÇ3
+				// v := v æ²¡æœ‰è¿™è¡Œä»£ç ï¼Œç»“æžœè¾“å‡ºå…¨éƒ¨æ˜¯3
 				arr = append(arr, func(){
 					fmt.Println(v)
 				})
 			}
 			for _, f := range arr {
-				f() // Êä³öÈ«²¿ÊÇ3
+				f() // è¾“å‡ºå…¨éƒ¨æ˜¯3
 			}
 		
 ------------------------
-º¯Êý
+å‡½æ•°
 ------------------------
-	# Ê¹ÓÃdefer£¬Í³¼Æº¯ÊýÖ´ÐÐÊ±¼ä
+	# ä½¿ç”¨deferï¼Œç»Ÿè®¡å‡½æ•°æ‰§è¡Œæ—¶é—´
 		func foo() {
 			defer bar()()
-			// Ä£ÄâÑÓ³Ù
+			// æ¨¡æ‹Ÿå»¶è¿Ÿ
 			time.Sleep(2 * time.Second)
 		}
 
 		func bar () func() {
 			start := time.Now()
-			fmt.Printf("¿ªÊ¼Ö´ÐÐ£º%v\n", start)
+			fmt.Printf("å¼€å§‹æ‰§è¡Œï¼š%v\n", start)
 			return func(){
-				fmt.Printf("Ö´ÐÐÍê±Ï£º%v\n", time.Now())
+				fmt.Printf("æ‰§è¡Œå®Œæ¯•ï¼š%v\n", time.Now())
 			}
 		}
-		// ¿ªÊ¼Ö´ÐÐ£º2020-12-10 20:19:41.6448597 +0800 CST m=+0.007009001
-		// Ö´ÐÐÍê±Ï£º2020-12-10 20:19:43.6709946 +0800 CST m=+2.033143901
+		// å¼€å§‹æ‰§è¡Œï¼š2020-12-10 20:19:41.6448597 +0800 CST m=+0.007009001
+		// æ‰§è¡Œå®Œæ¯•ï¼š2020-12-10 20:19:43.6709946 +0800 CST m=+2.033143901

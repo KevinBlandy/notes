@@ -1,20 +1,20 @@
 --------------------
 map
 --------------------
-	# Hash±í£¬ÎŞĞòµÄ£¬key/value½á¹¹£¬ÊÇÒıÓÃÀàĞÍ£¬¿ÉÒÔ×Ô¶¯À©Èİ
+	# Hashè¡¨ï¼Œæ— åºçš„ï¼Œkey/valueç»“æ„ï¼Œæ˜¯å¼•ç”¨ç±»å‹ï¼Œå¯ä»¥è‡ªåŠ¨æ‰©å®¹
 		map[keyType]valueType
 	
-	# MapµÄkey£¬±ØĞëÊÇ¿ÉhashµÄÊı¾İµÄÀàĞÍ
+	# Mapçš„keyï¼Œå¿…é¡»æ˜¯å¯hashçš„æ•°æ®çš„ç±»å‹
 		config := map[interface{}]interface{}{
 			"":" ",
-			// ³¢ÊÔ°ÑÇĞÆ¬×÷Îªkey£¬Òì³£
+			// å°è¯•æŠŠåˆ‡ç‰‡ä½œä¸ºkeyï¼Œå¼‚å¸¸
 			[]int {1, 2}: "",  // panic: runtime error: hash of unhashable type []int
 		}
 		fmt.Println(config)
 
-		* key±ØĞëÊÇ£¬¿ÉÒÔÓÃ==²Ù×÷µÄÀàĞÍ£¬¿ÉÒÔÀ©ÈİµÄ£¬¶¼²»ĞĞ
+		* keyå¿…é¡»æ˜¯ï¼Œå¯ä»¥ç”¨==æ“ä½œçš„ç±»å‹ï¼Œå¯ä»¥æ‰©å®¹çš„ï¼Œéƒ½ä¸è¡Œ
 	
-	# Map µÄ Value Ò²ÊÇĞèÒª±£Ö¤ÊÇ²»¿É±äÀàĞÍ
+	# Map çš„ Value ä¹Ÿæ˜¯éœ€è¦ä¿è¯æ˜¯ä¸å¯å˜ç±»å‹
 		type Foo struct {
 			Name string
 		}
@@ -27,79 +27,79 @@ map
 
 		dict["k1"] = foo
 
-		// ³¢ÊÔÖ±½ÓĞŞ¸Ä Map ÖĞ ¡°k1¡± µÄÖµ»áµ¼ÖÂ Value ·¢Éú¸Ä±ä£¬»áÅ×³öÒì³££º
+		// å°è¯•ç›´æ¥ä¿®æ”¹ Map ä¸­ â€œk1â€ çš„å€¼ä¼šå¯¼è‡´ Value å‘ç”Ÿæ”¹å˜ï¼Œä¼šæŠ›å‡ºå¼‚å¸¸ï¼š
 		// cannot assign to struct field dict["k1"].Name in map
 		dict["k1"].Name = "Hi"
 
-		* ½â¾ö°ì·¨£¬ÏÈ¶ÁºóĞ´
+		* è§£å†³åŠæ³•ï¼Œå…ˆè¯»åå†™
 			v := dict["k1"]
 			v.Name = "Hi"
 			dict["k1"] = v
 		
-		* »òÕßÊ¹ÓÃÖ¸Õë
+		* æˆ–è€…ä½¿ç”¨æŒ‡é’ˆ
 			dict := make(map[string]*Foo)
 
-	# map³õÊ¼»¯£¬Óë´´½¨
-		* ×ÖÃæÁ¿ĞÎÊ½µÄ³õÊ¼»¯
+	# mapåˆå§‹åŒ–ï¼Œä¸åˆ›å»º
+		* å­—é¢é‡å½¢å¼çš„åˆå§‹åŒ–
 			config := map[string]string {
 				"name": "Vin",
 				"lang": "Java",
 			}
 		
-		* Ê¹ÓÃ make º¯Êı³õÊ¼»¯£¬¿ÉÒÔÍ¨¹ımakeµÄµÚÈı¸ö²ÎÊı£¬Ö¸¶¨hash±íµÄ³õÊ¼»¯³¤¶È
+		* ä½¿ç”¨ make å‡½æ•°åˆå§‹åŒ–ï¼Œå¯ä»¥é€šè¿‡makeçš„ç¬¬ä¸‰ä¸ªå‚æ•°ï¼ŒæŒ‡å®šhashè¡¨çš„åˆå§‹åŒ–é•¿åº¦
 			config := make(map[string]int)
 			var config map[string]int = make(map[string]int, 16)
 
-	# ×ÖÃæÁ¿ĞÎÊ½³õÊ¼»¯µÄÓï·¨ÌÇ
-		* value£¬¿ÉÒÔ±»ÍÆ¶Ï³öÀ´£¬ËùÒÔvalue³õÊ¼»¯µÄÊ±ºò²»ĞèÒªÈ¥ÉùÃ÷±äÁ¿ÁË 
+	# å­—é¢é‡å½¢å¼åˆå§‹åŒ–çš„è¯­æ³•ç³–
+		* valueï¼Œå¯ä»¥è¢«æ¨æ–­å‡ºæ¥ï¼Œæ‰€ä»¥valueåˆå§‹åŒ–çš„æ—¶å€™ä¸éœ€è¦å»å£°æ˜å˜é‡äº† 
 
 		type User struct {
 			name string
 		}
 		func test(){
 			config1 := map[string] [2]string {
-				"1": {"1", "2"},	// Ö±½Ó³õÊ¼»¯Êı×é
-				"2": [2]string {"1", "2"},	// ÉùÃ÷³õÊ¼»¯
-				"3": [...]string {"1", "2"},	// ÉùÃ÷³õÊ¼»¯
+				"1": {"1", "2"},	// ç›´æ¥åˆå§‹åŒ–æ•°ç»„
+				"2": [2]string {"1", "2"},	// å£°æ˜åˆå§‹åŒ–
+				"3": [...]string {"1", "2"},	// å£°æ˜åˆå§‹åŒ–
 			}
 			fmt.Println(config1)
 
 			config2 := map[string] []string {
-				"1": {"1", "2"},	// Ö±½Ó³õÊ¼»¯ÇĞÆ¬
-				"2": []string{"1", "2"},	// ÉùÃ÷³õÊ¼»¯ÇĞÆ¬
+				"1": {"1", "2"},	// ç›´æ¥åˆå§‹åŒ–åˆ‡ç‰‡
+				"2": []string{"1", "2"},	// å£°æ˜åˆå§‹åŒ–åˆ‡ç‰‡
 			}
 			fmt.Println(config2)
 
 			config3 := map[string] User {
-				"1": {"hh"},		// Ö±½Ó³õÊ¼»¯¶ÔÏó
-				"2": User{"hh"},	// ÉùÃ÷³õÊ¼»¯¶ÔÏó
+				"1": {"hh"},		// ç›´æ¥åˆå§‹åŒ–å¯¹è±¡
+				"2": User{"hh"},	// å£°æ˜åˆå§‹åŒ–å¯¹è±¡
 			}
 			fmt.Println(config3)
 
 			config4 := map[string] *User {
 				// "1": User{"hh"},	// cannot use User literal (type User) as type *User in map value
-				"1": {"hh"},		// Ö±½Ó³õÊ¼»¯Ö¸Õë
-				"2": &User{"hh"},	// ÉùÃ÷£¬³õÊ¼»¯£¬ÔÙÈ¡Ö¸ÕëÒ²ÊÇOK
+				"1": {"hh"},		// ç›´æ¥åˆå§‹åŒ–æŒ‡é’ˆ
+				"2": &User{"hh"},	// å£°æ˜ï¼Œåˆå§‹åŒ–ï¼Œå†å–æŒ‡é’ˆä¹Ÿæ˜¯OK
 			}
 			fmt.Println(config4)
 		}
 
 	
 	
-	# ¶Á/Ğ´
+	# è¯»/å†™
 		config := make(map[string]string, 16)
 		
-		* Ê¹ÓÃ[]½øĞĞkey/valueµÄ¶ÁĞ´
-			// Ğ´Èë
+		* ä½¿ç”¨[]è¿›è¡Œkey/valueçš„è¯»å†™
+			// å†™å…¥
 			config["name"] = "Helllo"
-			// ¶ÁÈ¡
+			// è¯»å–
 			name := config["name"]
 		
-		* »ñÈ¡Ê±ÅĞ¶ÏÊÇ·ñ´æÔÚ£¬·µ»Ø2¸ö²ÎÊı£¬µÚ1¸ö²ÎÊıÊÇÖµ£¬µÚ2¸ö²ÎÊıÊÇbool±íÊ¾£¬ÊÇ·ñ´æÔÚ
+		* è·å–æ—¶åˆ¤æ–­æ˜¯å¦å­˜åœ¨ï¼Œè¿”å›2ä¸ªå‚æ•°ï¼Œç¬¬1ä¸ªå‚æ•°æ˜¯å€¼ï¼Œç¬¬2ä¸ªå‚æ•°æ˜¯boolè¡¨ç¤ºï¼Œæ˜¯å¦å­˜åœ¨
 			val, exists := config["foo"]
 			fmt.Println(val, exists) // false
 	
-		* Èç¹ûvalue²»´æÔÚ£¬»òÕßmapÊÇnil£¬ÄÇÃ´·µ»ØµÄÊÇvalueµÄÄ¬ÈÏÊı¾İÀàĞÍ
+		* å¦‚æœvalueä¸å­˜åœ¨ï¼Œæˆ–è€…mapæ˜¯nilï¼Œé‚£ä¹ˆè¿”å›çš„æ˜¯valueçš„é»˜è®¤æ•°æ®ç±»å‹
 			config := map[string]int {"name": 1,}
 			fmt.Println(config["foo"]) // 0
 
@@ -107,53 +107,53 @@ map
 			fmt.Println(m == nil)		// true
 			fmt.Println(m[0])			// 0
 		
-		* Ğ´ÈëµÄÊ±ºò£¬map²»ÄÜÎªnil
+		* å†™å…¥çš„æ—¶å€™ï¼Œmapä¸èƒ½ä¸ºnil
 			var m map[int]int
 			m[0] = 10		// panic: assignment to entry in nil map
 			fmt.Println(m)
 
 		
-	# É¾³ıÔªËØ
-		* Ê¹ÓÃÄÚÖÃº¯Êı delete Íê³É
+	# åˆ é™¤å…ƒç´ 
+		* ä½¿ç”¨å†…ç½®å‡½æ•° delete å®Œæˆ
 			delete(map, key)
 			
-		* Èç¹ûÉ¾³ıµÄÔªËØ²»´æÔÚ£¬»òÕßkeyÊÇ nil£¬²»»á±¨´í
-		* map²»ÄÜÊÇnil£¬·ñÔò±¨´í
+		* å¦‚æœåˆ é™¤çš„å…ƒç´ ä¸å­˜åœ¨ï¼Œæˆ–è€…keyæ˜¯ nilï¼Œä¸ä¼šæŠ¥é”™
+		* mapä¸èƒ½æ˜¯nilï¼Œå¦åˆ™æŠ¥é”™
 			delete(nil, "name") // first argument to delete must be map; have nil
 		
 
-	# ±éÀú
-		* Ê¹ÓÃ range ±éÀú key ºÍ value
+	# éå†
+		* ä½¿ç”¨ range éå† key å’Œ value
 			for key, value := range config {
 				fmt.Printf("key=%s value=%s \n", key, value)
 			}
 		
-		* Ê¹ÓÃ range ½ö½ö±éÀúkey»òÕßvalue
+		* ä½¿ç”¨ range ä»…ä»…éå†keyæˆ–è€…value
 			for key := range config {
 				fmt.Printf("key=%s \n", key)
 			}
 		
-			* Èç¹û½ö½öĞèÒª±éÀúvalue£¬ÄÇÃ´Ê¹ÓÃÄäÃû±äÁ¿£º for _, value := range config
+			* å¦‚æœä»…ä»…éœ€è¦éå†valueï¼Œé‚£ä¹ˆä½¿ç”¨åŒ¿åå˜é‡ï¼š for _, value := range config
 				
 	
-	# MapµÄ±È½ÏºÍ¸³Öµ
-		* Ö»ÄÜ¸únil½øĞĞ==±È½Ï
+	# Mapçš„æ¯”è¾ƒå’Œèµ‹å€¼
+		* åªèƒ½è·Ÿnilè¿›è¡Œ==æ¯”è¾ƒ
 			fmt.Println(make(map[int]int) == make(map[int]int)) // invalid operation: (make(map[int]int)) == (make(map[int]int)) (map can only be compared to nil)
 		
-		* ÏàÍ¬Key/valuÀàĞÍµÄmap¿ÉÒÔÏà»¥¸³Öµ
+		* ç›¸åŒKey/valuç±»å‹çš„mapå¯ä»¥ç›¸äº’èµ‹å€¼
 			m1 := make(map[int]int)
 			m2 := make(map[int]int)
 			m2 = m1
 			fmt.Println(m1, m2)
 	
-	# mapÖĞµÄÔªËØ²»ÊÇ±äÁ¿£¬²»ÄÜ»ñÈ¡ËüÃÇµÄÖ¸Õë
+	# mapä¸­çš„å…ƒç´ ä¸æ˜¯å˜é‡ï¼Œä¸èƒ½è·å–å®ƒä»¬çš„æŒ‡é’ˆ
 		m := make(map[int]int)
 		fmt.Println(&m[1]) // cannot take the address of m[1]
 
 --------------------
-map - ·½·¨
+map - æ–¹æ³•
 --------------------
-	# ±È½Ï2¸ömapÊÇ·ñÏàµÈ
+	# æ¯”è¾ƒ2ä¸ªmapæ˜¯å¦ç›¸ç­‰
 		func equals(x, y map[interface{}] interface{}) bool {
 			if len(x) != len(y) {
 				return false
