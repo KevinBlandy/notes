@@ -1,0 +1,173 @@
+---------------------
+合约
+---------------------
+    # 合约 Contract 
+        * 类似于 OOP 中的类，包含了状态和行为
+        * 状态只能通过函数进行修改
+        * 合约方法只能是通过交易被动调用，不能主动执行，所有没有 cron 之类的定时执行机制
+    
+
+    # 合约的创建
+        * 合约创建的时候，构造函数会执行，合约只能有一个构造函数，没有重载
+        * 构造函数执行完毕后，合约的最终代码就会被存储在区块链上：
+            * 包括：合约中所有的公共函数，外部函数，以及函数调用到的其他函数
+            * 不包括：构造函数，以及仅仅会被构造函数调用到的函数
+        * 不允许循环创建合约，因为创建合约的时候，创建方必须知道被创建合约的源码以及二进制代码
+    
+    # 状态变量的可见性
+        public
+            * 所有人都可以访问，并且还会生成 getter 方法
+
+        internal
+            * 合约内部和子合约可见
+
+        private
+            * 仅合约内部可见
+
+        * 声明在类型只之后，变量名称之前
+        * 可见性，只是对于合约调用的读写而言，区块链上一切透明，任何人都可以查看任何数据
+
+    # getter 函数
+        * 编译器会自动为 public 状态生成 getter 函数，自动标记为 view。
+        * public 状态有两种访问方式：
+            * 内部访问，直接访问变量
+            * 外部访问，通过 this，以方法形式访问
+        
+            contract Demo  {
+                uint public id;
+
+                function foo () public view returns(uint){
+                    // 外部，即通过 this 形式的 getter 访问
+                    uint x = this.id();
+                    // 直接访问
+                    return id * x;
+                }
+            }
+
+        * 数组 getter，参数是索引，只能返回的是单个元素
+
+            uint[] public ids;
+            // 生成的 getter 函数签名为 function ids(uint index) public view returns(uint);
+            function foo (uint index)public view returns(uint){
+                // 访问getter
+                return this.ids(index);
+            }
+        
+        * mapping getter，参数就是 key，返回单个元素
+
+            mapping(address => uint) public balance;
+            function foo() public view returns(uint) {
+                return this.balance(msg.sender);
+            }
+        
+        * 结构体 getter，无参数，返回的是结构体的解构参数
+
+            struct Member {
+                uint id;
+                string name;
+                string[] hobbys;
+                mapping (address => uint) balance;
+                bool status;
+            }
+            contract Demo  {
+
+                Member public memeber;
+                
+                function foo() public view returns(uint, string memory) {
+                    // 解构出所有可解构的字段，省略了最后一个 bool
+                    (uint id, string memory name, ) = this.memeber();
+                    return  (id, name);
+                }
+            }
+
+            * 结构体中的数组和 mapping 不能被解构出来
+    
+        * 复杂的结构，getter 允许有多个参数，本质上就是逐层解析
+
+            struct Member {
+                uint id;
+                string name;
+                string[] hobbys;
+                mapping (address => uint) balancel;
+                bool status;
+            }
+            contract Demo  {
+
+                // Map<Address, Map<Uint, Member>>[]
+                mapping (address => mapping (uint => Member))[] public memeber;
+                
+                function foo() public view returns(uint, string memory) {
+                    // 第一个参数表示数组索引
+                    // 第二个参数表示外层 mapping 的 key
+                    // 第三个参数表示内存 mapping 的 key
+                    // 最终结解构出来的内容，就是内层 mapping 的 value 值
+                    (uint id, string memory name, ) = this.memeber(0, msg.sender, 1);
+                    return (id, name);
+                }
+            }
+        
+
+
+    # modifier 
+        * 类似于装饰器设计模式，可以在函数执行前后，执行一些逻辑、校验
+            modifier mustOwner {
+                require(msg.sender == owner);
+                _;
+            }
+        
+        * 可以定义参数
+            
+            // 定义俩参数
+            modifier minValue(uint min,uint max) {
+                uint unused = 0; // 函数中不能访问到 modifier 中的局部变量
+                require(min < max);
+                _;
+            }
+
+            // 声明的时候，可以访问函数的参数作为参数传递
+            function foo(uint x, uint y) public payable  minValue(x, y){}
+        
+
+        * 多个 modifier 用分号隔开，依次执行。
+        * modifier 中的 _; 是必须的，表示被 wrap 的函数，可以多次声明 _; 表示多次调用，最后一次调用的返回值为最终的返回值。
+    
+    # transient 瞬时存储
+
+        * 类似于 storage, 但是在每次调用后都会重置，可以理解为每次调用的 ThreadLocal，当前调用的所有帧，访问到的都是同一个瞬时存储
+        * 目前只支持基本的值类型，不支持数组、mapping、结构体
+        * 声明时不能初始化值，只能是默认值，且不能是 constant 或 immutable 的。
+        * transient 的顺序不会影响到合约的内存布局
+            // 声明一个 bool 的瞬时存储
+            bool transient locked;
+
+        * transient 也支持权限修饰符，public 权限也会生成 getter 
+        * 瞬时存储的读写操作和持久存储一样，遵循可变性规则，因此读不能在 pure，写不能 view 函数中进行。
+        * 若帧发生回滚，则在进入该帧至返回期间对临时存储的所有写入操作均将被撤销，包括在内部调用中发生的写入，可以在外部通过 try/catch 来阻止   
+        * DELEGATECALL 场景中，由于当前不支持引用临时存储变量，因此无法将此类变量传递至库调用。
+            * ELEGATECALL 调用会把上下文转移到调用合约中，而瞬时变量是特定于合约的，所以瞬时存储不能被传递
+            * 例如：合约 A 使用 ELEGATECALL 调用 B，如果试图传递瞬时存储，就可能会遇到问题。因为 B 的瞬时存储在 ELEGATECALL 不能访问
+
+        * 在库中访问临时存储仅可通过内联汇编实现。
+        
+    # constant 和 immutable 状态变量
+
+        * constant
+            * 必须在编译时初始化，编译时内联
+                bool constant public ok = !false;
+
+            * 赋值给它的表达式会被复制到所有访问它的地方，并且每次访问都会重新求值。
+        
+        * immutable
+            * 可以在构造函数中进行初始话，也可以在声明时直接初始化
+                bool immutable public ok;
+                constructor(){
+                    ok = true;
+                    ok = false; // 在构造时可以被赋值多次
+                }
+
+            * 甚至是不初始化也可以，那么值就是类型的默认值
+            * 在构造时只求值一次，其值会被复制到代码中所有访问它的地方
+            * 即使这些值可以用更少的字节容纳，也会为它们预留 32 字节
+
+        * 在源代码中，每次出现这样的变量时，它都会被替换为其底层值，并且编译器不会为其分配存储槽（storage slot）。
+        * 目前仅支持字符串（仅限 constant）和值类型。

@@ -69,9 +69,9 @@
             try this.bar() returns(uint v) {
                 // TODO 在这里获取到返回值 v ，进行业务处理
             } catch Error(string memory reason){
-                // 捕获 revert/require 
+                // 捕获 revert/require，类似于 go 的 Error
             } catch Panic(uint errorCode){
-                // 捕获 assert 
+                // 捕获 assert / 除 0 等异常，类似于 go 的 panic
             } catch (bytes memory lowLevelData) {
                 // 捕获最低级的字节码，通用的
             } catch {
@@ -94,8 +94,12 @@
                 // 例如，如果 foo 返回的是 string，这里确写的 uint，则会异常而不会被捕获
             }
         
-        * catch 中的参数，如果解码失败，则会尝试进入 catch {} 代码块，即低级的 catch 代码块
+        * catch 中的参数，如果解码失败，则会尝试进入 catch {} 代码块，即低级的 catch/catch(bytes memory raw) 代码块
             catch Error(string memory reason) {
-                // 解码 reason 异常，会尝试进入 catch {} 
+                // 解码 reason 异常，会尝试进入更低级的catcha块 
             }
         
+        * 一旦进入了 catch 块，则表示 try 调用已经回滚了状态，如果没有匹配的 catch 块来处理异常，那么整个 try/catch 都会回滚
+        * catch 到的异常也不一定是来自于目标合约，也可能来自于目标合约的下游调用
+        * 出现异常，也不一定就是程序抛出的，也可能是 gas 耗尽，调用方在执行外部调用的时候，EVM 通常会保留 1/64 的 gas，来保证出现异常后 catch 块可以被执行
+

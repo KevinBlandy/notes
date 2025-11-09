@@ -20,7 +20,7 @@ function
 				* 只能内部调用，或者派生合约调用
 				* 函数类型定义（比如类型声明或变量声明时）的时候，internal 是默认的，可以省略。
 					function ()  x ; // 声明变量，省略 internal|external
-			
+
 			external
 				* 只能外部调用，当前合约调用需要用 this （外部调用的形式）
 
@@ -32,11 +32,14 @@ function
 				* 函数是 public 或 external，参数和返回值都必须是可 ABI 编码的类型（external type）。
 				* 内部类型（如 mapping、storage 引用、internal function）只能用于 internal 或 private 函数中。
 				* 内部类型（internal type）”，这些类型不能跨合约边界使用，因为 ABI（Application Binary Interface）无法编码或解码它们。
-				* 典型的 internal types 包括：mapping、struct、function internal、storage、某些复杂动态类型（如 bytes storage）、含有 internal 成员的 struct
+				* 典型的 internal types 包括：mapping、function internal、storage、某些复杂动态类型（如 bytes storage）、含有 internal 成员的 struct
+			
+			* 此限制不适用于库函数，因为它们具有不同的内部 ABI。
 
 		stateMutability
 			pure
 				* 纯函数，不能读写区块链状态（不能访问 state 变量、block、msg 等）。
+				* 可以读取 msg.data 和 msg.sig。
 				* 不消耗 gas。
 
 			view
@@ -50,7 +53,13 @@ function
 
 		[returns (<return types>)]
 			* 返回值类型，如果无返回值，则删除整个 return 语句
-	
+			* 返回参数，也可以声明变量名称，这样的话返回值就有初始化值了，可以省略 return 语句
+			* 如果要声明 return 语句，那么必须要 return 和返回值参数一样的数量的值
+			* return 返回的值也支持隐式转换
+				function foo()external  pure returns(bytes16 ) {
+					return "??";
+				}
+					
 	# 函数本身也是一个类型
 		* 可以作为变量、函数参数和函数返回值
 		* 函数类型的变量必须先要初始化后才能调用，否则异常
@@ -87,6 +96,18 @@ function
 	# 调用方式
 		* 内部调用：在编译期直接跳转，编译器直接生成内部 JUMP 指令（不通过 ABI 编码），msg.sender 不变，读写当前合约状态。
 		* 外部调用：通过消息调用（Message Call），即发送 calldata 到合约地址，msg.sender 变为调用者，触发 fallback 时也可执行其他逻辑。
+
+
+	# 合约外部的函数，即自由函数
+		* 函数可以定义在合约的外部，始终具有隐式 internal 可见性（不能声明可见性）。
+		* 其代码会被包含在所有调用它们的合约中，类似于内部库函数的行为。
+
+			function test ()  pure returns(string memory s){
+				s = "hello";
+			}
+
+		* 自由函数始终在合约上下文中执行。它们仍可调用其他合约、向其发送以太币，并终止调用它们的合约等。
+		* 与合约内部定义的函数主要区别在于：自由函数无法直接访问变量 this、storage 变量及其作用域外的函数。
 
 ------------------------
 函数调用

@@ -53,7 +53,7 @@ Struct
     # 包含 mapping 的结构体
         * 在 Solidity 0.6.x 版本之前，允许创建包含 mapping 的结构体，并且可以当作内存结构体来使用
         * 但是，在把这种结构体赋值给变量的时候，编译器会跳过对 mapping 成员的初始化，可能会导致意外
-        * Solidity 0.7.0 开始，如果结构体包含了 mapping 则不允许把它作为内存结构体来使用，会报错
+        * Solidity 0.7.0 开始，如果结构体包含了 mapping 则不允许把它作为 memory 结构体来使用，会报错
 
             contract Demo  {
                 struct Foo {
