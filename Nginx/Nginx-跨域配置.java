@@ -1,31 +1,31 @@
 -----------------------------
-Nginx cors¿çÓòÅäÖÃ
+Nginx corsè·¨åŸŸé…ç½®
 -----------------------------
 
 server {
     listen 80;
     server_name localhost 127.0.0.1;
 	location / {
-		# ÔÊĞí¿çÓòÇëÇóµÄ¡°Óò¡±
+		# å…è®¸è·¨åŸŸè¯·æ±‚çš„â€œåŸŸâ€
 		add_header 'Access-Control-Allow-Origin' $http_origin;
-		# ÔÊĞí¿Í»§¶ËÌá½»Cookie
+		# å…è®¸å®¢æˆ·ç«¯æäº¤Cookie
 		add_header 'Access-Control-Allow-Credentials' 'true';
-		# ÔÊĞí¿Í»§¶ËµÄÇëÇó·½·¨
+		# å…è®¸å®¢æˆ·ç«¯çš„è¯·æ±‚æ–¹æ³•
 		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT';
-		# ÔÊĞí¿Í»§¶ËÌá½»µÄµÄÇëÇóÍ·
+		# å…è®¸å®¢æˆ·ç«¯æäº¤çš„çš„è¯·æ±‚å¤´
 		add_header 'Access-Control-Allow-Headers' 'Origin, x-requested-with, Content-Type, Accept, Authorization';
-		# ÔÊĞí¿Í»§¶Ë·ÃÎÊµÄÏìÓ¦Í·
+		# å…è®¸å®¢æˆ·ç«¯è®¿é—®çš„å“åº”å¤´
 		add_header 'Access-Control-Expose-Headers' 'Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma';
-		# ´¦ÀíÔ¤¼ìÇëÇó
+		# å¤„ç†é¢„æ£€è¯·æ±‚
 		if ($request_method = 'OPTIONS') {
-			# Ô¤¼ìÇëÇó»º´æÊ±¼ä
+			# é¢„æ£€è¯·æ±‚ç¼“å­˜æ—¶é—´
 			add_header 'Access-Control-Max-Age' 1728000;
 			add_header 'Content-Type' 'text/plain; charset=utf-8';
 			add_header 'Content-Length' 0;
 			return 204;
 		}
 		
-		# SpringBoot Ó¦ÓÃ·ÃÎÊÂ·¾¶
+		# SpringBoot åº”ç”¨è®¿é—®è·¯å¾„
 		proxy_pass http://127.0.0.1:8080;
 		
 		proxy_set_header Host $host;

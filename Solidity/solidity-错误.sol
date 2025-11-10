@@ -5,6 +5,7 @@
         * SOL 使用状态回滚来处理异常，这会撤销当前调用，以及所有子调用的状态更改，并给调用方返回错误
         * 千万要注意的是低级调用：call、delegatecall 和 staticcall 如果出现异常只是返回 false 而不会抛出异常（目标地址不存在，也会返回 true）
         * 异常可以包含一个描述错误信息的实例，有两个内置的异常，由特殊函数使用：
+
             Error(string) 用于处理 “常规” 错误情况
             Panic(uint256) 用于处理在无错误代码中不应出现的错误。
 
@@ -37,6 +38,7 @@
         
         * require 的参数始终都会执行
             require(<condition>, foo()); // 无论 condition 的结果是什么， foo 都会执行
+
         
         * 在以下情况，编译器会生成一个 Error(string) 异常
 
@@ -102,4 +104,34 @@
         * 一旦进入了 catch 块，则表示 try 调用已经回滚了状态，如果没有匹配的 catch 块来处理异常，那么整个 try/catch 都会回滚
         * catch 到的异常也不一定是来自于目标合约，也可能来自于目标合约的下游调用
         * 出现异常，也不一定就是程序抛出的，也可能是 gas 耗尽，调用方在执行外部调用的时候，EVM 通常会保留 1/64 的 gas，来保证出现异常后 catch 块可以被执行
+    
+    # 自定义 error
+        * 使用 error 关键字定义，可以包含多个参数
+
+            /// 转账余额不足。需要 `required` 但只有 `available` 可用。
+            /// @param available 可用余额。
+            /// @param required 请求转账的金额。
+            error InsufficientBalance(uint256 available, uint256 required);
+        
+        * 不支持重载，不支持覆写，支持继承
+
+        * 必须和 require 或 revert 一起使用，返回错误信息给调用者，并且回滚
+
+            // condition 为 false, 抛出异常
+            require(<condition>, InsufficientBalance(100, 1000));
+
+            // 直接抛出异常
+            revert InsufficientBalance(100, 1000);
+        
+        
+        * 错误数据
+            * 前 4 字节是签名，如果不提供错误参数，那么错误信息只占 4 字节。
+            * 自定义错误和函数使用相同的 ABI 机制，但是数据不会上链。
+
+    
+    # 成员
+        selector
+            * 返回错误的签名，bytes4
+            * 但是代码里面没法访问？
+
 

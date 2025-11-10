@@ -1,209 +1,209 @@
 -------------------------
-Event-�¼�				 |
+Event-事件				 |
 -------------------------
-	# ����¼�
+	# 鼠标事件
 		onclick	
-			* ���û����ĳ������ʱ���õ��¼������	
+			* 当用户点击某个对象时调用的事件句柄。	
 		oncontextmenu	
-			* ���û��������Ҽ��������Ĳ˵�ʱ����	 
+			* 在用户点击鼠标右键打开上下文菜单时触发	 
 		ondblclick	
-			* ���û�˫��ĳ������ʱ���õ��¼������	
+			* 当用户双击某个对象时调用的事件句柄。	
 		onmousedown	
-			* ��갴ť�����¡�	
+			* 鼠标按钮被按下。	
 		onmouseenter	
-			*�����ָ���ƶ���Ԫ����ʱ������	
+			*当鼠标指针移动到元素上时触发。	
 		onmouseleave	
-			*�������ָ���Ƴ�Ԫ��ʱ����	
+			*　当鼠标指针移出元素时触发	
 		onmousemove	
-			* ��걻�ƶ���	
+			* 鼠标被移动。	
 		onmouseover	
-			* ����Ƶ�ĳԪ��֮�ϡ�	
+			* 鼠标移到某元素之上。	
 		onmouseout	
-			* ����ĳԪ���ƿ���	
+			* 鼠标从某元素移开。	
 		onmouseup	
-			* ��갴�����ɿ���	
+			* 鼠标按键被松开。	
 	
-	# �����¼�
+	# 键盘事件
 		onkeydown	
-			* ĳ�����̰��������¡�	
+			* 某个键盘按键被按下。	
 		onkeypress	
-			* ĳ�����̰��������²��ɿ���	
+			* 某个键盘按键被按下并松开。	
 		onkeyup	
-			* ĳ�����̰������ɿ���
+			* 某个键盘按键被松开。
 
-	# �����¼�
+	# 表单事件
 		onblur	
-			* Ԫ��ʧȥ����ʱ����	
+			* 元素失去焦点时触发	
 		onchange	
-			* ���¼��ڱ���Ԫ�ص����ݸı�ʱ����( <input>, <keygen>, <select>, �� <textarea>)	
+			* 该事件在表单元素的内容改变时触发( <input>, <keygen>, <select>, 和 <textarea>)	
 		onfocus	
-			* Ԫ�ػ�ȡ����ʱ����	
+			* 元素获取焦点时触发	
 		onfocusin	
-			* Ԫ�ؼ�����ȡ����ʱ����	
+			* 元素即将获取焦点时触发	
 		onfocusout	
-			* Ԫ�ؼ���ʧȥ����ʱ����	
+			* 元素即将失去焦点时触发	
 		oninput	
-			* Ԫ�ػ�ȡ�û�����ʱ����	
+			* 元素获取用户输入时触发	
 		onreset	
-			* ��������ʱ����	
+			* 表单重置时触发	
 		onsearch	
-			* �û��������������ı�ʱ���� ( <input="search">)	 
+			* 用户向搜索域输入文本时触发 ( <input="search">)	 
 		onselect	
-			* �û�ѡȡ�ı�ʱ���� ( <input> �� <textarea>)	
+			* 用户选取文本时触发 ( <input> 和 <textarea>)	
 		onsubmit	
-			* �����ύʱ����	
+			* 表单提交时触发	
 	
-	# ���/����Frame/Object���¼�
+	# 框架/对象（Frame/Object）事件
 		onabort	
-			* ͼ��ļ��ر��жϡ� ( <object>)	
+			* 图像的加载被中断。 ( <object>)	
 		onbeforeunload	
-			* ���¼��ڼ����뿪ҳ�棨ˢ�»�رգ�ʱ����	
+			* 该事件在即将离开页面（刷新或关闭）时触发	
 		onerror	
-			* �ڼ����ĵ���ͼ��ʱ�������� ( <object>,<body>�� <frameset>)	 
+			* 在加载文档或图像时发生错误。 ( <object>,<body>和 <frameset>)	 
 		onhashchange	
-			* ���¼��ڵ�ǰ URL ��ê���ַ����޸�ʱ������	 
+			* 该事件在当前 URL 的锚部分发生修改时触发。	 
 		onload	
-			* һ��ҳ���һ��ͼ����ɼ��ء�	
+			* 一张页面或一幅图像完成加载。	
 		onpageshow	
-			* ���¼����û�����ҳ��ʱ����	 
+			* 该事件在用户访问页面时触发	 
 		onpagehide	
-			* ���¼����û��뿪��ǰ��ҳ��ת������һ��ҳ��ʱ����	 
+			* 该事件在用户离开当前网页跳转到另外一个页面时触发	 
 		onresize	
-			* ���ڻ��ܱ����µ�����С��	
+			* 窗口或框架被重新调整大小。	
 		onscroll	
-			* ���ĵ�������ʱ�������¼���	
+			* 当文档被滚动时发生的事件。	
 		onunload	
-			* �û��˳�ҳ�档 (<body> �� <frameset>)
+			* 用户退出页面。 (<body> 和 <frameset>)
 
 -------------------------
-Event-����ȡ��		 |
+Event-绑定与取消		 |
 -------------------------
-	# ��һ���¼�
+	# 绑定一级事件
 		<button onclick="test()"/>
 	
-	# ȡ����һ���¼�
+	# 取消绑定一级事件
 		document.getElementByTagName("button")[0].onclick = null;
 
-	# �󶨶����¼�
-		* ����Ϊһ���¼���N��ִ�з���,������ִ��
-		* ����ΪN���¼���N��ִ�з���
+	# 绑定二级事件
+		* 可以为一种事件绑定N个执行方法,会依次执行
+		* 可以为N种事件绑定N个执行方法
 
-		Node.�¼� = function(event){
+		Node.事件 = function(event){
 
 		};
 
-		Node.addEventListener('�¼�',function(event){
+		Node.addEventListener('事件',function(event){
 
 		},useCapture);
 
-		* �˴����¼���������Ҫɾ��'on'ǰ׺
-		* useCapture Ĭ��ֵΪ false, ��ð�ݴ��ݣ���ֵΪ true ʱ, �¼�ʹ�ò��񴫵ݡ�
-		* �� ð�� ��,�ڲ�Ԫ�ص��¼����ȱ�������Ȼ���ٴ����ⲿԪ�ء�
-		* �� ���� ��,�ⲿԪ�ص��¼����ȱ�������Ȼ��Żᴥ���ڲ�Ԫ�ص��¼�
+		* 此处的事件的名称需要删除'on'前缀
+		* useCapture 默认值为 false, 即冒泡传递，当值为 true 时, 事件使用捕获传递。
+		* 在 冒泡 中,内部元素的事件会先被触发，然后再触发外部元素。
+		* 在 捕获 中,外部元素的事件会先被触发，然后才会触发内部元素的事件
 
 
-	# ȡ���󶨶����¼�
-		Node.removeEventListener('�¼�',fun);
+	# 取消绑定二级事件
+		Node.removeEventListener('事件',fun);
 		
 
 ------------------------
-Event-����				|
+Event-属性				|
 ------------------------
-	# ��ϰ������
+	# 组合按键相关
 		altKey	
-			* ���ص��¼�������ʱ��"ALT" �Ƿ񱻰��¡�
+			* 返回当事件被触发时，"ALT" 是否被按下。
 		shiftKey	
-			* ���ص��¼�������ʱ��"SHIFT" ���Ƿ񱻰��¡�
+			* 返回当事件被触发时，"SHIFT" 键是否被按下。
 		ctrlKey	
-			* ���ص��¼�������ʱ��"CTRL" ���Ƿ񱻰��¡�
+			* 返回当事件被触发时，"CTRL" 键是否被按下。
 		metaKey	
-			* ���ص��¼�������ʱ��"meta" ���Ƿ񱻰��¡�
+			* 返回当事件被触发时，"meta" 键是否被按下。
 	
 	
-	# �����¼����
+	# 键盘事件相关
 		keyCode	
-			* ���� keypress �¼��������������˱��û��ļ����ɵ� Unicode �ַ��롣
-			* ���� keydown �� keyup �¼�����ָ���˱��û��ļ�����������롣�����������ܺ�ʹ�õļ��̵Ĳ�����ء�
+			* 对于 keypress 事件，该属性声明了被敲击的键生成的 Unicode 字符码。
+			* 对于 keydown 和 keyup 事件，它指定了被敲击的键的虚拟键盘码。虚拟键盘码可能和使用的键盘的布局相关。
 		key	
-			* �ڰ��°���ʱ���ذ����ı�ʶ����
-			* ���Ǽ�������
+			* 在按下按键时返回按键的标识符。
+			* 就是键的名称
 	
-	# ����¼����
+	# 鼠标事件相关
 		clientX	
 		clientY	
-			* ������������ҳ�������
-			* �����ǿ��Կ�����ҳ��,���ӹ������ľ���.�������ڴ�С�޸ĵ�ʱ��,��ֵҲ���޸�
+			* 鼠标相对于整个页面的坐标
+			* 仅仅是可以看到的页面,无视滚动条的距离.览器窗口大小修改的时候,该值也会修改
 
 		screenX	
 		screenY	
-			* ����������Ļ�����ꡣ
+			* 鼠标相对于屏幕的坐标。
 		
 		pageX
 		pageY
-			* ������������ҳ�������
-			* �����������ĸ߶�
+			* 鼠标相对于整个页面的坐标
+			* 会计算滚动条的高度
 		
 		offsetX
 		offsetY	
-			* ����ĵط�,��Ԫ�ص��ڲ�����
-			* ˵����,���������Ԫ����(�¼�Դ),������Ķ�?
+			* 点击的地方,在元素的内部坐标
+			* 说白了,相对于整个元素体(事件源),你戳的哪儿?
 
-	# �ڵ����
+	# 节点相关
 		relatedTarget	
-			* �������¼���Ŀ��ڵ���صĽڵ㡣
+			* 返回与事件的目标节点相关的节点。
 		button	
-			* ���ص��¼�������ʱ���ĸ���갴ť�������
+			* 返回当事件被触发时，哪个鼠标按钮被点击。
 		target	
-			* ���ش������¼���Ԫ�أ��¼���Ŀ��ڵ㣩��
+			* 返回触发此事件的元素（事件的目标节点）。
 		currentTarget	
-			* �������¼��������������¼���Ԫ�ء�
+			* 返回其事件监听器触发该事件的元素。
 		
 
-	# ����
+	# 其他
 		cancelBubble	
-			* ����¼��������ֹ�¼����������ݶ��󣬱���Ѹ�������Ϊ true��
+			* 如果事件句柄想阻止事件传播到包容对象，必须把该属性设为 true。
 		fromElement	
-			* ���� mouseover �� mouseout �¼���fromElement �����Ƴ�����Ԫ�ء�
+			* 对于 mouseover 和 mouseout 事件，fromElement 引用移出鼠标的元素。
 		
 
 		returnValue	
-			*����������˸����ԣ�����ֵ���¼�����ķ���ֵ���ȼ��ߡ��������������Ϊ fasle������ȡ�������¼���ԴԪ�ص�Ĭ�϶�����
+			*　如果设置了该属性，它的值比事件句柄的返回值优先级高。把这个属性设置为 fasle，可以取消发生事件的源元素的默认动作。
 
 		srcElement	
-			* ���������¼��� Window ����Document ����� Element ��������á�
+			* 对于生成事件的 Window 对象、Document 对象或 Element 对象的引用。
 
 		toElement	
-			* ���� mouseover �� mouseout �¼���������������������Ԫ�ء�
+			* 对于 mouseover 和 mouseout 事件，该属性引用移入鼠标的元素。
 		x
 		y	
-			* �¼�������λ�õ� x ����� y ���꣬�����������CSS��̬��λ�����ڲ����Ԫ�ء�
+			* 事件发生的位置的 x 坐标和 y 坐标，它们相对于用CSS动态定位的最内层包容元素。
 	
 		bubbles	
-			* ���ز���ֵ��ָʾ�¼��Ƿ��������¼����͡�
+			* 返回布尔值，指示事件是否是起泡事件类型。
 		cancelable	
-			* ���ز���ֵ��ָʾ�¼��Ƿ��ӵ��ȡ����Ĭ�϶�����
+			* 返回布尔值，指示事件是否可拥可取消的默认动作。
 		
 		eventPhase	
-			* �����¼������ĵ�ǰ�׶Ρ�
+			* 返回事件传播的当前阶段。
 		
 		timeStamp	
-			* �����¼����ɵ����ں�ʱ�䡣
+			* 返回事件生成的日期和时间。
 		type	
-			* ���ص�ǰ Event �����ʾ���¼������ơ�
+			* 返回当前 Event 对象表示的事件的名称。
 
 ------------------------
-Event-����				|
+Event-方法				|
 ------------------------
 		initEvent()			
-			* ��ʼ���´����� Event ��������ԡ�
+			* 初始化新创建的 Event 对象的属性。
 
 		preventDefault()	
-			* ֪ͨ�������Ҫִ�����¼�������Ĭ�϶�����
-			* ����:form�����submit input,����ͻ�ִ���ύ
+			* 通知浏览器不要执行与事件关联的默认动作。
+			* 例如:form里面的submit input,点击就会执行提交
 
 		stopPropagation()	
-			* ��ֹ�¼����Ĳ���
-			* ����ִ�е�ǰ���¼�,��ִ�и���Ԫ�ص��¼�
-			* ð��,��׽�ε��¼�����������ֹ
-			* һ��ֻ����ð��(��ִ��С��,��ִ�д��)
+			* 阻止事件流的产生
+			* 仅仅执行当前的事件,不执行父级元素的事件
+			* 冒泡,捕捉形的事件流都可以阻止
+			* 一般只考虑冒泡(先执行小的,再执行大的)
 		

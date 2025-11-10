@@ -1,7 +1,7 @@
 ---------------------
 httputil
 ---------------------
-	# httpÏà¹ØµÄ¹¤¾ßÀà
+	# httpç›¸å…³çš„å·¥å…·ç±»
 
 ---------------------
 var
@@ -24,22 +24,22 @@ type
 
 	# type ProxyRequest struct {
 			In *http.Request
-				* In ÊÇ´úÀí½ÓÊÕµ½µÄÇëÇó¡£ÖØĞ´º¯Êı²»µÃĞŞ¸Ä In¡£
+				* In æ˜¯ä»£ç†æ¥æ”¶åˆ°çš„è¯·æ±‚ã€‚é‡å†™å‡½æ•°ä¸å¾—ä¿®æ”¹ Inã€‚
 			Out *http.Request
-				* Out ÊÇ´úÀí½«·¢ËÍµÄÇëÇó¡£Rewrite º¯Êı¿ÉÒÔĞŞ¸Ä»òÌæ»»¸ÃÇëÇó¡£ÔÚµ÷ÓÃ Rewrite Ö®Ç°£¬»á´Ó¸ÃÇëÇóÖĞÉ¾³ı ¡°Öğ¼¶Ìø×ªµÄÍø¹Ø¡± ĞÅÏ¢¡£
+				* Out æ˜¯ä»£ç†å°†å‘é€çš„è¯·æ±‚ã€‚Rewrite å‡½æ•°å¯ä»¥ä¿®æ”¹æˆ–æ›¿æ¢è¯¥è¯·æ±‚ã€‚åœ¨è°ƒç”¨ Rewrite ä¹‹å‰ï¼Œä¼šä»è¯¥è¯·æ±‚ä¸­åˆ é™¤ â€œé€çº§è·³è½¬çš„ç½‘å…³â€ ä¿¡æ¯ã€‚
 		}
 		func (r *ProxyRequest) SetURL(target *url.URL)
-			* ÉèÖÃÒª´úÀíµÄÇëÇóµØÖ·
-			* »áÊ¹ÓÃ target ÖĞµÄÊı¾İ£¬ÖØĞ´ outReq
-			* ²¢ÇÒ°Ñ out µÄ Host ×Ö¶ÎÉèÖÃÎª ""£¬¼´ÖØĞ´³öÕ¾ Host Í·ĞÅÏ¢£¬Ê¹ÆäÓëÄ¿±êÖ÷»úÏàÆ¥Åä¡£
+			* è®¾ç½®è¦ä»£ç†çš„è¯·æ±‚åœ°å€
+			* ä¼šä½¿ç”¨ target ä¸­çš„æ•°æ®ï¼Œé‡å†™ outReq
+			* å¹¶ä¸”æŠŠ out çš„ Host å­—æ®µè®¾ç½®ä¸º ""ï¼Œå³é‡å†™å‡ºç«™ Host å¤´ä¿¡æ¯ï¼Œä½¿å…¶ä¸ç›®æ ‡ä¸»æœºç›¸åŒ¹é…ã€‚
 
 		func (r *ProxyRequest) SetXForwarded()
-			* ÉèÖÃ´úÀíÍ·
+			* è®¾ç½®ä»£ç†å¤´
 	
 	# type ClientConn struct {
 		}
 		
-		* ÒÑ¹ıÆÚ
+		* å·²è¿‡æœŸ
 
 		func NewClientConn(c net.Conn, r *bufio.Reader) *ClientConn
 		func NewProxyClientConn(c net.Conn, r *bufio.Reader) *ClientConn
@@ -52,54 +52,54 @@ type
 	
 	# type ReverseProxy struct {
 			Rewrite func(*ProxyRequest)
-				* È¡´úÁË Director ¹³×Ó
-				* Ê¾Àı
+				* å–ä»£äº† Director é’©å­
+				* ç¤ºä¾‹
 					proxyHandler := &httputil.ReverseProxy{ 
 					  Rewrite: func(r *httputil.ProxyRequest) { 
-						r.SetURL(outboundURL) // ½«ÇëÇó×ª·¢µ½ outboundURL¡£
-						r.SetXForwarded() // ÉèÖÃ X-Forwarded-* ±êÍ·¡£
-						r.Out.Header.Set("X-Additional-Header", "´úÀíÉèÖÃµÄÍ·²¿") 
+						r.SetURL(outboundURL) // å°†è¯·æ±‚è½¬å‘åˆ° outboundURLã€‚
+						r.SetXForwarded() // è®¾ç½® X-Forwarded-* æ ‡å¤´ã€‚
+						r.Out.Header.Set("X-Additional-Header", "ä»£ç†è®¾ç½®çš„å¤´éƒ¨") 
 					  }, 
 					}
 				
 			Director func(*http.Request)
-				* Õâ¸ö·½·¨»á°Ñµ±Ç°ÇëÇóĞŞ¸Ä³É´úÀíÇëÇó
-				* Rewrite ºÍ Director Ö»ÄÜÉèÖÃÒ»¸ö
+				* è¿™ä¸ªæ–¹æ³•ä¼šæŠŠå½“å‰è¯·æ±‚ä¿®æ”¹æˆä»£ç†è¯·æ±‚
+				* Rewrite å’Œ Director åªèƒ½è®¾ç½®ä¸€ä¸ª
 
 			Transport http.RoundTripper
-				* HTTPÖ´ĞĞÆ÷
+				* HTTPæ‰§è¡Œå™¨
 
 			FlushInterval time.Duration
 
 			ErrorLog *log.Logger
-				* Òì³£ logger
+				* å¼‚å¸¸ logger
 
 			BufferPool BufferPool
 
 			ModifyResponse func(*http.Response) error
-				* ¿ÉÑ¡µÄ£¬ÓÃÓÚ´úÀí·şÎñÆ÷µÄÏìÓ¦
-				* Ö»ÓĞ´úÀí·şÎñÆ÷·µ»ØÁË HTTP ×´Ì¬Âë£¬²Å»áµ÷ÓÃ£¬»»¾ä»°Ëµ£¬Èç¹û´úÀí·şÎñÆ÷Ã»ÏìÓ¦£¬Ôò²»»áµ÷ÓÃÕâ¸ö·½·¨£¬¶ø»áµ÷ÓÃ ErrorHandler
-				* Èç¹ûÕâ¸ö·½·¨·µ»Ø error Ò²»áµ÷ÓÃ ErrorHandler
+				* å¯é€‰çš„ï¼Œç”¨äºä»£ç†æœåŠ¡å™¨çš„å“åº”
+				* åªæœ‰ä»£ç†æœåŠ¡å™¨è¿”å›äº† HTTP çŠ¶æ€ç ï¼Œæ‰ä¼šè°ƒç”¨ï¼Œæ¢å¥è¯è¯´ï¼Œå¦‚æœä»£ç†æœåŠ¡å™¨æ²¡å“åº”ï¼Œåˆ™ä¸ä¼šè°ƒç”¨è¿™ä¸ªæ–¹æ³•ï¼Œè€Œä¼šè°ƒç”¨ ErrorHandler
+				* å¦‚æœè¿™ä¸ªæ–¹æ³•è¿”å› error ä¹Ÿä¼šè°ƒç”¨ ErrorHandler
 
 			ErrorHandler func(http.ResponseWriter, *http.Request, error)
-				* Òì³£´¦Àí£¬ÓÃÓÚ´¦Àí´úÀíºó¶Ë·şÎñµÄ´íÎó»òÀ´×Ô ModifyResponse µÄ´íÎó¡£
-				* Èç¹ûÎª¿Õ£¬Ôò»áÊ¹ÓÃÄ¬ÈÏµÄÊµÏÖ£¬Ä¬ÈÏÇé¿öÏÂ»áÔÚ logger Êä³öËùÌá¹©µÄ´íÎó²¢·µ»Ø 502 Status Bad Gateway ÏìÓ¦¡£
+				* å¼‚å¸¸å¤„ç†ï¼Œç”¨äºå¤„ç†ä»£ç†åç«¯æœåŠ¡çš„é”™è¯¯æˆ–æ¥è‡ª ModifyResponse çš„é”™è¯¯ã€‚
+				* å¦‚æœä¸ºç©ºï¼Œåˆ™ä¼šä½¿ç”¨é»˜è®¤çš„å®ç°ï¼Œé»˜è®¤æƒ…å†µä¸‹ä¼šåœ¨ logger è¾“å‡ºæ‰€æä¾›çš„é”™è¯¯å¹¶è¿”å› 502 Status Bad Gateway å“åº”ã€‚
 		}
 		
-		* ¼òµ¥¶øÓÖÇ¿´óµÄ´úÀí·şÎñÆ÷
+		* ç®€å•è€Œåˆå¼ºå¤§çš„ä»£ç†æœåŠ¡å™¨
 
 		func NewSingleHostReverseProxy(target *url.URL) *ReverseProxy
-			* ´´½¨ĞÂµÄ´úÀí·şÎñÆ÷£¬Ö¸¶¨Òª´úÀíµÄURLµØÖ·
-			* ¸Ã´úÀí»á¸ù¾İ target ÖĞÌá¹©µÄ schema¡¢host ºÍ base path Â·ÓÉ URL¡£Èç¹ûÄ¿±êÂ·¾¶ÊÇ ¡°/base¡±£¬¶ø´«ÈëÇëÇóÊÇ ¡°/dir¡±£¬ÔòÄ¿±êÇëÇó½«ÊÇ /base/dir¡£
-			* NewSingleHostReverseProxy ²»»áÖØĞ´ Host Í·ĞÅÏ¢¡£
+			* åˆ›å»ºæ–°çš„ä»£ç†æœåŠ¡å™¨ï¼ŒæŒ‡å®šè¦ä»£ç†çš„URLåœ°å€
+			* è¯¥ä»£ç†ä¼šæ ¹æ® target ä¸­æä¾›çš„ schemaã€host å’Œ base path è·¯ç”± URLã€‚å¦‚æœç›®æ ‡è·¯å¾„æ˜¯ â€œ/baseâ€ï¼Œè€Œä¼ å…¥è¯·æ±‚æ˜¯ â€œ/dirâ€ï¼Œåˆ™ç›®æ ‡è¯·æ±‚å°†æ˜¯ /base/dirã€‚
+			* NewSingleHostReverseProxy ä¸ä¼šé‡å†™ Host å¤´ä¿¡æ¯ã€‚
 
 		func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request)
-			* Ö´ĞĞ´úÀíÇëÇó
+			* æ‰§è¡Œä»£ç†è¯·æ±‚
 	
 	# type ServerConn struct {
 		}
 		
-		* ÒÑ¹ıÆÚ
+		* å·²è¿‡æœŸ
 
 		func NewServerConn(c net.Conn, r *bufio.Reader) *ServerConn
 		func (sc *ServerConn) Close() error
@@ -123,7 +123,7 @@ fauc
 ---------------------
 Demo
 ---------------------
-	# Ò»¸ö´úÀí·şÎñÆ÷
+	# ä¸€ä¸ªä»£ç†æœåŠ¡å™¨
 
 		package main
 
@@ -157,18 +157,18 @@ Demo
 			}
 			proxy := httputil.ReverseProxy{
 				Rewrite: func(request *httputil.ProxyRequest) {
-					// ¸ù¾İÇëÇóÉèÖÃÒª´úÀíµÄ URL
+					// æ ¹æ®è¯·æ±‚è®¾ç½®è¦ä»£ç†çš„ URL
 					request.SetURL(targetUrl)
-					// ÖØÖÃ Out Req µÄ Host Îª In Req µÄ Host
+					// é‡ç½® Out Req çš„ Host ä¸º In Req çš„ Host
 					request.Out.Host = request.In.Host
-					// ÉèÖÃ´úÀí Header
+					// è®¾ç½®ä»£ç† Header
 					request.SetXForwarded()
 				},
-				// Òì³£´¦ÀíÆ÷
+				// å¼‚å¸¸å¤„ç†å™¨
 				ErrorHandler: func(writer http.ResponseWriter, request *http.Request, err error) {
 					slog.Error("Service Error", slog.String("err", err.Error()))
 				},
-				// Òì³£ÈÕÖ¾Êä³ö
+				// å¼‚å¸¸æ—¥å¿—è¾“å‡º
 				ErrorLog: slog.NewLogLogger(slog.Default().Handler(), slog.LevelDebug),
 			}
 			proxy.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest("GET", "/", nil))

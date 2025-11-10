@@ -171,3 +171,57 @@
 
         * 在源代码中，每次出现这样的变量时，它都会被替换为其底层值，并且编译器不会为其分配存储槽（storage slot）。
         * 目前仅支持字符串（仅限 constant）和值类型。
+
+    # receive () external  payable {} 函数
+
+        * 不需要 function 关键字，不能有参数，不能有返回值，必须是 external payable 的。
+        * 可以是虚函数，可以被重写，可以添加 modifier，一个合约最多只能声明一个。
+        * 当合约被调用且 calldata 为空时，receive 函数将被执行，该函数用于处理纯以太坊转账（如通过 .send() 或 .transfer() 调用）。
+        * 若未声明 receive 函数但存在可支付 payable fallback 函数，则纯转账时将调用 fallback 函数。
+        * 若同时缺失 receive 函数和 payable fallback 函数，合约将无法通过非 payable 函数调用的交易接收以太坊，并抛出异常、退款。
+        * receive 函数只有 2300 gas 额度，除基本日志记录外几乎无法执行其他操作。
+
+            // 声明日志事件
+            event Received(address, uint);
+
+            receive() external payable {
+                // 一般只能发布个日志
+                emit Received(msg.sender, msg.value);
+            }
+        
+        * 注意，合约无法拒绝 coinbase 交易，就算是没 receive 函数，也会入账。
+
+    # fallback 函数
+        * 支持多种声明形式
+            fallback () external [payable]
+            fallback (bytes calldata input) external [payable] returns (bytes memory output)
+
+            * 不需要 function 关键字，必须是 external 的，payable 可选。
+            * 可以有 bytes 参数，可以有 bytes 返回值。可以是虚函数，可以被重写，可以添加 modifier，一个合约最多只能声明一个。
+            * input 参数等同于 msg.data，返回的 output 就是原样返回，不会进行 ABI 编码（甚至都不会填充）。
+        
+        * 当调用合约时，找不到匹配的方法，或 calldata 为空且无 receive 函数，则执行 fallback 函数。
+        * 若需接收以太币，必须标记为 payable。
+        * 若使用带参数的版本，input将包含发送至合约的完整数据（等同于msg.data），并可在output中返回数据。返回的数据不会进行ABI编码，而是原样返回（甚至不添加填充）。
+        * gas 限制的问题
+            * 如果是通过 .send() 或 .transfer() 调用到 fallback 时（未定义 receive 函数），由于 2300 gas 限制，只能执行非常简单的操作（发个日志）。
+            * 如果通过其他方法调用回退函数并提供更多的 gas，它可以执行更复杂的操作。
+
+
+    
+    # 重载
+        * 支持函数重载，参数个数、类型不同即可，和返回值无关，支持重载继承的函数。
+        * 需要考虑外部类型，如果外部类型相同，会重载失败。
+        
+            // 看似参数不不一样，其实在外部，都是地址类型，所以，重载失败
+            function f(B value);            // 合约类型，本质上就是地址类型
+            function f(address value);      // 地址类型
+
+        * 也要考虑到隐式转换的问题，如果调用参数可以隐式转换为多个方法的参数，也会重载失败
+
+            // 使用 f(40) 调用，就会异常，因为 40 可以转换为 uint8 或是 uint256
+            // 使用 f(256) 调用，就可以，因为 256 可以隐式转换为 uint256，不能隐式转换为 uint8
+            function f(uint8 val) public pure returns (uint8 out) 
+            function f(uint256 val) public pure returns (uint256 out) 
+    
+
