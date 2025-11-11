@@ -1,5 +1,5 @@
 ----------------------
-±äÁ¿
+å˜é‡
 ----------------------
 		
 	
@@ -9,103 +9,103 @@ type
 ----------------------
 	# type Type interface
 		Align() int
-			* ·µ»Øµ±´ÓÄÚ´æÖÐÉêÇëÒ»¸ö¸ÃÀàÐÍÖµÊ±£¬»á¶ÔÆëµÄ×Ö½ÚÊý
+			* è¿”å›žå½“ä»Žå†…å­˜ä¸­ç”³è¯·ä¸€ä¸ªè¯¥ç±»åž‹å€¼æ—¶ï¼Œä¼šå¯¹é½çš„å­—èŠ‚æ•°
 
 		FieldAlign() int
-			* ·µ»Øµ±¸ÃÀàÐÍ×÷Îª½á¹¹ÌåµÄ×Ö¶ÎÊ±£¬»á¶ÔÆëµÄ×Ö½ÚÊý
+			* è¿”å›žå½“è¯¥ç±»åž‹ä½œä¸ºç»“æž„ä½“çš„å­—æ®µæ—¶ï¼Œä¼šå¯¹é½çš„å­—èŠ‚æ•°
 
 		Method(int) Method
-			* ·µ»Ø¸ÃÀàÐÍ·½·¨¼¯ÖÐµÄµÚi¸ö·½·¨£¬i²»ÔÚ[0, NumMethod())·¶Î§ÄÚÊ±£¬½«µ¼ÖÂpanic
-			* ¶Ô·Ç½Ó¿ÚÀàÐÍT»ò*T£¬·µ»ØÖµµÄType×Ö¶ÎºÍFunc×Ö¶ÎÃèÊö·½·¨µÄÎ´°ó¶¨º¯Êý×´Ì¬
-			* ¶Ô½Ó¿ÚÀàÐÍ£¬·µ»ØÖµµÄType×Ö¶ÎÃèÊö·½·¨µÄÇ©Ãû£¬Func×Ö¶ÎÎªnil
+			* è¿”å›žè¯¥ç±»åž‹æ–¹æ³•é›†ä¸­çš„ç¬¬iä¸ªæ–¹æ³•ï¼Œiä¸åœ¨[0, NumMethod())èŒƒå›´å†…æ—¶ï¼Œå°†å¯¼è‡´panic
+			* å¯¹éžæŽ¥å£ç±»åž‹Tæˆ–*Tï¼Œè¿”å›žå€¼çš„Typeå­—æ®µå’ŒFuncå­—æ®µæè¿°æ–¹æ³•çš„æœªç»‘å®šå‡½æ•°çŠ¶æ€
+			* å¯¹æŽ¥å£ç±»åž‹ï¼Œè¿”å›žå€¼çš„Typeå­—æ®µæè¿°æ–¹æ³•çš„ç­¾åï¼ŒFuncå­—æ®µä¸ºnil
 
 		MethodByName(string) (Method, bool)
-			* ¸ù¾Ý·½·¨Ãû·µ»Ø¸ÃÀàÐÍ·½·¨¼¯ÖÐµÄ·½·¨£¬Ê¹ÓÃÒ»¸ö²¼¶ûÖµËµÃ÷ÊÇ·ñ·¢ÏÖ¸Ã·½·¨
-			* ¶Ô·Ç½Ó¿ÚÀàÐÍT»ò*T£¬·µ»ØÖµµÄType×Ö¶ÎºÍFunc×Ö¶ÎÃèÊö·½·¨µÄÎ´°ó¶¨º¯Êý×´Ì¬
-			* ¶Ô½Ó¿ÚÀàÐÍ£¬·µ»ØÖµµÄType×Ö¶ÎÃèÊö·½·¨µÄÇ©Ãû£¬Func×Ö¶ÎÎªnil
+			* æ ¹æ®æ–¹æ³•åè¿”å›žè¯¥ç±»åž‹æ–¹æ³•é›†ä¸­çš„æ–¹æ³•ï¼Œä½¿ç”¨ä¸€ä¸ªå¸ƒå°”å€¼è¯´æ˜Žæ˜¯å¦å‘çŽ°è¯¥æ–¹æ³•
+			* å¯¹éžæŽ¥å£ç±»åž‹Tæˆ–*Tï¼Œè¿”å›žå€¼çš„Typeå­—æ®µå’ŒFuncå­—æ®µæè¿°æ–¹æ³•çš„æœªç»‘å®šå‡½æ•°çŠ¶æ€
+			* å¯¹æŽ¥å£ç±»åž‹ï¼Œè¿”å›žå€¼çš„Typeå­—æ®µæè¿°æ–¹æ³•çš„ç­¾åï¼ŒFuncå­—æ®µä¸ºnil
 
 		NumMethod() int
-			* ·µ»Ø¸ÃÀàÐÍµÄ·½·¨¼¯ÖÐ·½·¨µÄÊýÄ¿
-			* ÄäÃû×Ö¶ÎµÄ·½·¨»á±»¼ÆËã£»Ö÷ÌåÀàÐÍµÄ·½·¨»áÆÁ±ÎÄäÃû×Ö¶ÎµÄÍ¬Ãû·½·¨£»
-			* ÄäÃû×Ö¶Îµ¼ÖÂµÄÆçÒå·½·¨»áÂË³ý
+			* è¿”å›žè¯¥ç±»åž‹çš„æ–¹æ³•é›†ä¸­æ–¹æ³•çš„æ•°ç›®
+			* åŒ¿åå­—æ®µçš„æ–¹æ³•ä¼šè¢«è®¡ç®—ï¼›ä¸»ä½“ç±»åž‹çš„æ–¹æ³•ä¼šå±è”½åŒ¿åå­—æ®µçš„åŒåæ–¹æ³•ï¼›
+			* åŒ¿åå­—æ®µå¯¼è‡´çš„æ­§ä¹‰æ–¹æ³•ä¼šæ»¤é™¤
 
 		Name() string
-			* ·µ»Ø¸ÃÀàÐÍÔÚ×ÔÉí°üÄÚµÄÀàÐÍÃû£¬Èç¹ûÊÇÎ´ÃüÃûÀàÐÍ»á·µ»Ø""
+			* è¿”å›žè¯¥ç±»åž‹åœ¨è‡ªèº«åŒ…å†…çš„ç±»åž‹åï¼Œå¦‚æžœæ˜¯æœªå‘½åç±»åž‹ä¼šè¿”å›ž""
 
 		PkgPath() string
-			* PkgPath·µ»ØÀàÐÍµÄ°üÂ·¾¶£¬¼´Ã÷È·Ö¸¶¨°üµÄimportÂ·¾¶£¬Èç"encoding/base64"
-			* Èç¹ûÀàÐÍÎªÄÚ½¨ÀàÐÍ(string, error)»òÎ´ÃüÃûÀàÐÍ(*T, struct{}, []int)£¬»á·µ»Ø""
+			* PkgPathè¿”å›žç±»åž‹çš„åŒ…è·¯å¾„ï¼Œå³æ˜Žç¡®æŒ‡å®šåŒ…çš„importè·¯å¾„ï¼Œå¦‚"encoding/base64"
+			* å¦‚æžœç±»åž‹ä¸ºå†…å»ºç±»åž‹(string, error)æˆ–æœªå‘½åç±»åž‹(*T, struct{}, []int)ï¼Œä¼šè¿”å›ž""
 
 		Size() uintptr
-			* ·µ»ØÒª±£´æÒ»¸ö¸ÃÀàÐÍµÄÖµÐèÒª¶àÉÙ×Ö½Ú£»ÀàËÆunsafe.Sizeof
+			* è¿”å›žè¦ä¿å­˜ä¸€ä¸ªè¯¥ç±»åž‹çš„å€¼éœ€è¦å¤šå°‘å­—èŠ‚ï¼›ç±»ä¼¼unsafe.Sizeof
 
 		String() string
-			* ·µ»ØÀàÐÍµÄ×Ö·û´®±íÊ¾¡£¸Ã×Ö·û´®¿ÉÄÜ»áÊ¹ÓÃ¶Ì°üÃû£¨ÈçÓÃbase64´úÌæ"encoding/base64"£©
-			* Ò²²»±£Ö¤Ã¿¸öÀàÐÍµÄ×Ö·û´®±íÊ¾²»Í¬¡£Èç¹ûÒª±È½ÏÁ½¸öÀàÐÍÊÇ·ñÏàµÈ£¬ÇëÖ±½ÓÓÃTypeÀàÐÍ±È½Ï¡£
+			* è¿”å›žç±»åž‹çš„å­—ç¬¦ä¸²è¡¨ç¤ºã€‚è¯¥å­—ç¬¦ä¸²å¯èƒ½ä¼šä½¿ç”¨çŸ­åŒ…åï¼ˆå¦‚ç”¨base64ä»£æ›¿"encoding/base64"ï¼‰
+			* ä¹Ÿä¸ä¿è¯æ¯ä¸ªç±»åž‹çš„å­—ç¬¦ä¸²è¡¨ç¤ºä¸åŒã€‚å¦‚æžœè¦æ¯”è¾ƒä¸¤ä¸ªç±»åž‹æ˜¯å¦ç›¸ç­‰ï¼Œè¯·ç›´æŽ¥ç”¨Typeç±»åž‹æ¯”è¾ƒã€‚
 
 		Kind() Kind
-			*  Kind·µ»Ø¸Ã½Ó¿ÚµÄ¾ßÌå·ÖÀà
+			*  Kindè¿”å›žè¯¥æŽ¥å£çš„å…·ä½“åˆ†ç±»
 
 		Implements(u Type) bool
-			* Èç¹û¸ÃÀàÐÍÊµÏÖÁËu´ú±íµÄ½Ó¿Ú£¬»á·µ»ØÕæ
+			* å¦‚æžœè¯¥ç±»åž‹å®žçŽ°äº†uä»£è¡¨çš„æŽ¥å£ï¼Œä¼šè¿”å›žçœŸ
 		
 		AssignableTo(u Type) bool
-			* Èç¹û¸ÃÀàÐÍµÄÖµ¿ÉÒÔÖ±½Ó¸³Öµ¸øu´ú±íµÄÀàÐÍ£¬·µ»ØÕæ
+			* å¦‚æžœè¯¥ç±»åž‹çš„å€¼å¯ä»¥ç›´æŽ¥èµ‹å€¼ç»™uä»£è¡¨çš„ç±»åž‹ï¼Œè¿”å›žçœŸ
 		
 		ConvertibleTo(u Type) bool
-			* Èç¸ÃÀàÐÍµÄÖµ¿ÉÒÔ×ª»»Îªu´ú±íµÄÀàÐÍ£¬·µ»ØÕæ
+			* å¦‚è¯¥ç±»åž‹çš„å€¼å¯ä»¥è½¬æ¢ä¸ºuä»£è¡¨çš„ç±»åž‹ï¼Œè¿”å›žçœŸ
 		
 		Comparable() bool
-			* µ±Ç°ÀàÐÍÊÇ·ñ¿ÉÒÔºÍµ±Ç°ÀàÐÍ½øÐÐ == ±È½Ï
+			* å½“å‰ç±»åž‹æ˜¯å¦å¯ä»¥å’Œå½“å‰ç±»åž‹è¿›è¡Œ == æ¯”è¾ƒ
 
 		Bits() int
-			* ·µ»Ø¸ÃÀàÐÍµÄ×ÖÎ»Êý¡£Èç¹û¸ÃÀàÐÍµÄKind²»ÊÇInt¡¢Uint¡¢Float»òComplex£¬»ápanic
+			* è¿”å›žè¯¥ç±»åž‹çš„å­—ä½æ•°ã€‚å¦‚æžœè¯¥ç±»åž‹çš„Kindä¸æ˜¯Intã€Uintã€Floatæˆ–Complexï¼Œä¼španic
 		
 		ChanDir() ChanDir
-			* ·µ»ØÒ»¸öchannelÀàÐÍµÄ·½Ïò£¬Èç·ÇÍ¨µÀÀàÐÍ½«»ápanic
+			* è¿”å›žä¸€ä¸ªchannelç±»åž‹çš„æ–¹å‘ï¼Œå¦‚éžé€šé“ç±»åž‹å°†ä¼španic
 		
 		IsVariadic() bool
-			* Èç¹ûº¯ÊýÀàÐÍµÄ×îºóÒ»¸öÊäÈë²ÎÊýÊÇ"..."ÐÎÊ½µÄ²ÎÊý£¬IsVariadic·µ»ØÕæ
-			* Èç·Çº¯ÊýÀàÐÍ½«panic
+			* å¦‚æžœå‡½æ•°ç±»åž‹çš„æœ€åŽä¸€ä¸ªè¾“å…¥å‚æ•°æ˜¯"..."å½¢å¼çš„å‚æ•°ï¼ŒIsVariadicè¿”å›žçœŸ
+			* å¦‚éžå‡½æ•°ç±»åž‹å°†panic
 		
 		Elem() Type
-			* ·µ»Ø¸ÃÀàÐÍµÄÔªËØÀàÐÍ£¬Èç¹û¸ÃÀàÐÍµÄKind²»ÊÇArray¡¢Chan¡¢Map¡¢Ptr»òSlice£¬»ápanic
+			* è¿”å›žè¯¥ç±»åž‹çš„å…ƒç´ ç±»åž‹ï¼Œå¦‚æžœè¯¥ç±»åž‹çš„Kindä¸æ˜¯Arrayã€Chanã€Mapã€Ptræˆ–Sliceï¼Œä¼španic
 		
 		Field(i int) StructField
-			* ·µ»ØstructÀàÐÍµÄµÚi¸ö×Ö¶ÎµÄÀàÐÍ£¬Èç·Ç½á¹¹Ìå»òÕßi²»ÔÚ[0, NumField())ÄÚ½«»ápanic
+			* è¿”å›žstructç±»åž‹çš„ç¬¬iä¸ªå­—æ®µçš„ç±»åž‹ï¼Œå¦‚éžç»“æž„ä½“æˆ–è€…iä¸åœ¨[0, NumField())å†…å°†ä¼španic
 
 		FieldByIndex(index []int) StructField	
-			* ·µ»ØË÷ÒýÐòÁÐÖ¸¶¨µÄÇ¶Ì××Ö¶ÎµÄÀàÐÍ£¬
-			* µÈ¼ÛÓÚÓÃË÷ÒýÖÐÃ¿¸öÖµÁ´Ê½µ÷ÓÃ±¾·½·¨£¬Èç·Ç½á¹¹Ìå½«»ápanic
-			* ÔÚ½á¹¹ÌåAÖÐÕÒindex[0]ÊôÐÔ£¬ÔÙ´ÓÕâ¸öÊôÐÔÖÐÕÒindex[1]ÊôÐÔ...
+			* è¿”å›žç´¢å¼•åºåˆ—æŒ‡å®šçš„åµŒå¥—å­—æ®µçš„ç±»åž‹ï¼Œ
+			* ç­‰ä»·äºŽç”¨ç´¢å¼•ä¸­æ¯ä¸ªå€¼é“¾å¼è°ƒç”¨æœ¬æ–¹æ³•ï¼Œå¦‚éžç»“æž„ä½“å°†ä¼španic
+			* åœ¨ç»“æž„ä½“Aä¸­æ‰¾index[0]å±žæ€§ï¼Œå†ä»Žè¿™ä¸ªå±žæ€§ä¸­æ‰¾index[1]å±žæ€§...
 
 		FieldByName(name string) (StructField, bool)
-			* ·µ»Ø¸ÃÀàÐÍÃûÎªnameµÄ×Ö¶Î£¨»á²éÕÒÄäÃû×Ö¶Î¼°Æä×Ó×Ö¶Î£©£¬
-			* ²¼¶ûÖµËµÃ÷ÊÇ·ñÕÒµ½£¬Èç·Ç½á¹¹Ìå½«panic
+			* è¿”å›žè¯¥ç±»åž‹åä¸ºnameçš„å­—æ®µï¼ˆä¼šæŸ¥æ‰¾åŒ¿åå­—æ®µåŠå…¶å­å­—æ®µï¼‰ï¼Œ
+			* å¸ƒå°”å€¼è¯´æ˜Žæ˜¯å¦æ‰¾åˆ°ï¼Œå¦‚éžç»“æž„ä½“å°†panic
 		
 		FieldByNameFunc(match func(string) bool) (StructField, bool)
-			* ·µ»Ø¸ÃÀàÐÍµÚÒ»¸ö×Ö¶ÎÃûÂú×ãº¯ÊýmatchµÄ×Ö¶Î£¬²¼¶ûÖµËµÃ÷ÊÇ·ñÕÒµ½£¬Èç·Ç½á¹¹Ìå½«»ápanic
+			* è¿”å›žè¯¥ç±»åž‹ç¬¬ä¸€ä¸ªå­—æ®µåæ»¡è¶³å‡½æ•°matchçš„å­—æ®µï¼Œå¸ƒå°”å€¼è¯´æ˜Žæ˜¯å¦æ‰¾åˆ°ï¼Œå¦‚éžç»“æž„ä½“å°†ä¼španic
 
 		In(i int) Type
-			* ·µ»ØfuncÀàÐÍµÄµÚi¸ö²ÎÊýµÄÀàÐÍ£¬Èç·Çº¯Êý»òÕßi²»ÔÚ[0, NumIn())ÄÚ½«»ápanic
+			* è¿”å›žfuncç±»åž‹çš„ç¬¬iä¸ªå‚æ•°çš„ç±»åž‹ï¼Œå¦‚éžå‡½æ•°æˆ–è€…iä¸åœ¨[0, NumIn())å†…å°†ä¼španic
 		
 		Key() Type
-			* ·µ»ØmapÀàÐÍµÄ¼üµÄÀàÐÍ¡£Èç·ÇÓ³ÉäÀàÐÍ½«panic
+			* è¿”å›žmapç±»åž‹çš„é”®çš„ç±»åž‹ã€‚å¦‚éžæ˜ å°„ç±»åž‹å°†panic
 		
 		Len() int
-			* »ØarrayÀàÐÍµÄ³¤¶È£¬Èç·ÇÊý×éÀàÐÍ½«panic
+			* å›žarrayç±»åž‹çš„é•¿åº¦ï¼Œå¦‚éžæ•°ç»„ç±»åž‹å°†panic
 		
 		NumField() int
-			* ·µ»ØstructÀàÐÍµÄ×Ö¶ÎÊý£¨ÄäÃû×Ö¶ÎËã×÷Ò»¸ö×Ö¶Î£©£¬Èç·Ç½á¹¹ÌåÀàÐÍ½«panic
+			* è¿”å›žstructç±»åž‹çš„å­—æ®µæ•°ï¼ˆåŒ¿åå­—æ®µç®—ä½œä¸€ä¸ªå­—æ®µï¼‰ï¼Œå¦‚éžç»“æž„ä½“ç±»åž‹å°†panic
 
 		NumIn() int
-			* ·µ»ØfuncÀàÐÍµÄ²ÎÊý¸öÊý£¬Èç¹û²»ÊÇº¯Êý£¬½«»ápanic
+			* è¿”å›žfuncç±»åž‹çš„å‚æ•°ä¸ªæ•°ï¼Œå¦‚æžœä¸æ˜¯å‡½æ•°ï¼Œå°†ä¼španic
 
 		NumOut() int
-			* ·µ»ØfuncÀàÐÍµÄ·µ»ØÖµ¸öÊý£¬Èç¹û²»ÊÇº¯Êý£¬½«»ápanic
+			* è¿”å›žfuncç±»åž‹çš„è¿”å›žå€¼ä¸ªæ•°ï¼Œå¦‚æžœä¸æ˜¯å‡½æ•°ï¼Œå°†ä¼španic
 		
 		Out(i int) Type
-			* ·µ»ØfuncÀàÐÍµÄµÚi¸ö·µ»ØÖµµÄÀàÐÍ£¬Èç·Çº¯Êý»òÕßi²»ÔÚ[0, NumOut())ÄÚ½«»ápanic
+			* è¿”å›žfuncç±»åž‹çš„ç¬¬iä¸ªè¿”å›žå€¼çš„ç±»åž‹ï¼Œå¦‚éžå‡½æ•°æˆ–è€…iä¸åœ¨[0, NumOut())å†…å°†ä¼španic
 	
 	# type Method struct {
 			Name    string
@@ -116,14 +116,14 @@ type
 			Index int 
 		}
 
-		* ·½·¨¶ÔÏó
+		* æ–¹æ³•å¯¹è±¡
 	
 	
 	# type Kind uint
-		* Êý¾ÝÀàÐÍ±êÊ¶
-		* Ô¤¶¨ÒåÁËµÄ±äÁ¿
+		* æ•°æ®ç±»åž‹æ ‡è¯†
+		* é¢„å®šä¹‰äº†çš„å˜é‡
 			const (
-				Invalid Kind = iota	¿ÕÖµ
+				Invalid Kind = iota	ç©ºå€¼
 				Bool
 				Int
 				Int8
@@ -142,8 +142,8 @@ type
 				Complex128
 				Array
 				Chan				Channel
-				Func				º¯Êý
-				Interface			½Ó¿Ú
+				Func				å‡½æ•°
+				Interface			æŽ¥å£
 				Map
 				Ptr
 				Slice
@@ -155,20 +155,20 @@ type
 		func (k Kind) String() string
 
 	# type ChanDir int
-		* ±êÊ¶Í¨µÀÀàÐÍµÄ·½Ïò
+		* æ ‡è¯†é€šé“ç±»åž‹çš„æ–¹å‘
 
 	# type StructField struct 
 		PkgPath string
-		Type      Type			×Ö¶ÎÀàÐÍ
-		Tag       StructTag		×Ö¶ÎÉÏÃæµÄtag
+		Type      Type			å­—æ®µç±»åž‹
+		Tag       StructTag		å­—æ®µä¸Šé¢çš„tag
 		Offset    uintptr 
 		Index     []int			
-		Anonymous bool			ÊÇ·ñÊÇÄäÃûµÄ
+		Anonymous bool			æ˜¯å¦æ˜¯åŒ¿åçš„
 
-		* ½á¹¹Ìå×Ö¶Î
+		* ç»“æž„ä½“å­—æ®µ
 	
 	# type StructTag string
-		* ½á¹¹ÌåÉÏµÄ±êÊ¶
+		* ç»“æž„ä½“ä¸Šçš„æ ‡è¯†
 
 		func (tag StructTag) Get(key string) string 
 		func (tag StructTag) Lookup(key string) (value string, ok bool)
@@ -178,7 +178,7 @@ type
 
 
 ----------------------
-·½·¨
+æ–¹æ³•
 ----------------------
 	func DeepEqual(x, y interface{}) bool
 	func MakeFunc(typ Type, fn func(args []Value) (results []Value)) Value 
@@ -188,7 +188,7 @@ type
 	func PtrTo(t Type) Type 
 
 	func TypeOf(i interface{}) Type
-		* ·µ»ØÖ¸¶¨Êý¾ÝµÄType£¬Ëü·µ»ØµÄÊÇÊµ¼ÊµÄÀàÐÍ
+		* è¿”å›žæŒ‡å®šæ•°æ®çš„Typeï¼Œå®ƒè¿”å›žçš„æ˜¯å®žé™…çš„ç±»åž‹
 			var w, _ = os.Open("C:\\temp.txt")
 			var t = reflect.TypeOf(w) // *os.File
 

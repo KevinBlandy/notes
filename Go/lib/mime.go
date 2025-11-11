@@ -1,8 +1,8 @@
 -----------------------
 mime
 -----------------------
-	# ContentTypeÀàĞÍµÄ°ü
-	# Ô¤¶¨ÒåµÄºó×ººÍÀàĞÍ
+	# ContentTypeç±»å‹çš„åŒ…
+	# é¢„å®šä¹‰çš„åç¼€å’Œç±»å‹
 		".css":  "text/css; charset=utf-8",
 		".gif":  "image/gif",
 		".htm":  "text/html; charset=utf-8",
@@ -39,35 +39,35 @@ type
 func
 -----------------------
 	func AddExtensionType(ext, typ string) error
-		* Ìí¼ÓÎÄ¼şºó×ººÍcontent-TypeÓ³Éäµ½ÏµÍ³
+		* æ·»åŠ æ–‡ä»¶åç¼€å’Œcontent-Typeæ˜ å°„åˆ°ç³»ç»Ÿ
 			mime.AddExtensionType(".foo", "application/foo")
-		* ºó×º£¬±ØĞëÒÔ.¿ªÍ·£¬·ñÔòÒì³£
+		* åç¼€ï¼Œå¿…é¡»ä»¥.å¼€å¤´ï¼Œå¦åˆ™å¼‚å¸¸
 
 	func ExtensionsByType(typ string) ([]string, error)
-		* ¸ù¾İContentType»ñÈ¡Õâ¸öÀàĞÍÏÂµÄËùÓĞÎÄ¼şºó×º
+		* æ ¹æ®ContentTypeè·å–è¿™ä¸ªç±»å‹ä¸‹çš„æ‰€æœ‰æ–‡ä»¶åç¼€
 
 	func FormatMediaType(t string, param map[string]string) string
-		* ¶ÔcontentType t½øĞĞ¸ñÊ½»¯£¬°´ÕÕ¹æ·¶Ìí¼Ó²ÎÊıparam
+		* å¯¹contentType tè¿›è¡Œæ ¼å¼åŒ–ï¼ŒæŒ‰ç…§è§„èŒƒæ·»åŠ å‚æ•°param
 			var val = mime.FormatMediaType("application/json", map[string]string{
 				"charset": "utf-8",
 			})
 			fmt.Println(val)  // application/json; charset=utf-8
 		
-		* Ëü¿ÉÒÔÕıÈ·µÄ½âÎö attachment
-			mediaType := mime.FormatMediaType("attachment", map[string]string{"filename": "½ğÆ¿Ã·.pdf"})
+		* å®ƒå¯ä»¥æ­£ç¡®çš„è§£æ attachment
+			mediaType := mime.FormatMediaType("attachment", map[string]string{"filename": "é‡‘ç“¶æ¢….pdf"})
 			log.Println(mediaType) 
 			// attachment; filename*=utf-8''%E9%87%91%E7%93%B6%E6%A2%85.pdf
 			
 
-			// ÓÃÓÚÏÂÔØ
+			// ç”¨äºä¸‹è½½
 			ctx.Header("Content-Disposition", mime.FormatMediaType("attachment", map[string]string{"filename": stat.Name()}))
 
-			// ÀàËÆÓÚ
+			// ç±»ä¼¼äº
 			c.Writer.Header().Set("Content-Disposition", `attachment; filename*=UTF-8''`+url.QueryEscape(filename))
 			
 
 	func ParseMediaType(v string) (mediatype string, params map[string]string, err error)
-		* ½âÎöContentType£¬·µ»ØContentType£¬²ÎÊı£¬Òì³£
+		* è§£æContentTypeï¼Œè¿”å›ContentTypeï¼Œå‚æ•°ï¼Œå¼‚å¸¸
 
 	func TypeByExtension(ext string) string
-		* ¸ù¾İÎÄ¼şºó×º£¬·µ»ØContentType
+		* æ ¹æ®æ–‡ä»¶åç¼€ï¼Œè¿”å›ContentType

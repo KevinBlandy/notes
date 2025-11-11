@@ -1,5 +1,5 @@
 -----------------
-Ä£¿é³£Á¿
+æ¨¡å—å¸¸é‡
 -----------------
 
 -----------------
@@ -12,51 +12,51 @@ type
 			Swap(i, j int)
 		}
 
-		* ÅÅĞò½Ó¿Ú£¬ÊµÏÖÁËÕâ¸ö½Ó¿Úºó£¬¾Í¾ß±¸ÁË¡°¿ÉÅÅĞòĞÔ¡±
+		* æ’åºæ¥å£ï¼Œå®ç°äº†è¿™ä¸ªæ¥å£åï¼Œå°±å…·å¤‡äº†â€œå¯æ’åºæ€§â€
 
 	# type StringSlice []string
 	# type Float64Slice []float64
 	# type IntSlice []int
-		* ÕâĞ©ÀàĞÍ¶¼ÊµÏÖÁË sort.Interface ÅÅĞò½Ó¿Ú£¬·½±ãÓÃÓÚÅÅĞò
+		* è¿™äº›ç±»å‹éƒ½å®ç°äº† sort.Interface æ’åºæ¥å£ï¼Œæ–¹ä¾¿ç”¨äºæ’åº
 
 
 -----------------
-·½·¨
+æ–¹æ³•
 -----------------
 	func Sort(data Interface)
-		* ¶ÔÖ¸¶¨µÄÊı¾İ½øĞĞÅÅĞò
+		* å¯¹æŒ‡å®šçš„æ•°æ®è¿›è¡Œæ’åº
 	func Reverse(data Interface) Interface 
-		* ·´×ªÅÅĞò
+		* åè½¬æ’åº
 	func IsSorted(data Interface) bool
-		* ÅĞ¶ÏÊÇ·ñÊÇÓĞĞòµÄ
+		* åˆ¤æ–­æ˜¯å¦æ˜¯æœ‰åºçš„
 	
 	func Search(n int, f func(int) bool) int 
-		* 2·ÖËÑË÷µÄÊµÏÖ£¬ ÏÂ±ê·¶Î§ÊÇ 0 - n£¬Í¨¹ı f ÅĞ¶ÏÊÇ·ñÃüÖĞ£¬·µ»Ø¾ÍÊÇÏÂ±ê
+		* 2åˆ†æœç´¢çš„å®ç°ï¼Œ ä¸‹æ ‡èŒƒå›´æ˜¯ 0 - nï¼Œé€šè¿‡ f åˆ¤æ–­æ˜¯å¦å‘½ä¸­ï¼Œè¿”å›å°±æ˜¯ä¸‹æ ‡
 	
 	func Find(n int, cmp func(int) int) (i int, found bool)
-		* ÀàËÆÓÚSearch£¬µ«ÊÇ¸üºÃÓÃ£¬Ëü·µ»ØÒ»¸ö¶îÍâµÄ²¼¶ûÖµ£¬±¨¸æÊÇ·ñÕÒµ½ÏàµÈµÄÖµ¡£
+		* ç±»ä¼¼äºSearchï¼Œä½†æ˜¯æ›´å¥½ç”¨ï¼Œå®ƒè¿”å›ä¸€ä¸ªé¢å¤–çš„å¸ƒå°”å€¼ï¼ŒæŠ¥å‘Šæ˜¯å¦æ‰¾åˆ°ç›¸ç­‰çš„å€¼ã€‚
 		
 	func SearchInts(a []int, x int) int 
 	func SearchFloat64s(a []float64, x float64) int 
 	func SearchStrings(a []string, x string) int 
 	
 	func Slice(slice interface{}, less func(i, j int) bool) 
-		* ¶ÔÖ¸¶¨µÄÇĞÆ¬½øĞĞÅÅĞò£¬²»±£Ö¤ÅÅĞòµÄÎÈ¶¨ĞÔ¡£
+		* å¯¹æŒ‡å®šçš„åˆ‡ç‰‡è¿›è¡Œæ’åºï¼Œä¸ä¿è¯æ’åºçš„ç¨³å®šæ€§ã€‚
 
 	func SliceStable(slice interface{}, less func(i, j int) bool)
-		* ¶ÔÖ¸¶¨µÄÇĞÆ¬½øĞĞÅÅĞò£¬±£Ö¤ÅÅĞòµÄÎÈ¶¨ĞÔ
+		* å¯¹æŒ‡å®šçš„åˆ‡ç‰‡è¿›è¡Œæ’åºï¼Œä¿è¯æ’åºçš„ç¨³å®šæ€§
 
 	func SliceIsSorted(slice interface{}, less func(i, j int) bool) bool
-		* ²âÊÔÇĞÆ¬ÊÇ·ñÊÇÓĞĞòµÄ£¬Èç¹ûslice²»ÊÇ¸øµÄÇĞÆ¬²ÎÊı£¬Å×³öÒì³£
+		* æµ‹è¯•åˆ‡ç‰‡æ˜¯å¦æ˜¯æœ‰åºçš„ï¼Œå¦‚æœsliceä¸æ˜¯ç»™çš„åˆ‡ç‰‡å‚æ•°ï¼ŒæŠ›å‡ºå¼‚å¸¸
 
 	func Ints(a []int)
 	func Float64s(a []float64) 
 	func Strings(a []string)
-		* ¶ÔÖ¸¶¨µÄÇĞÆ¬½øĞĞÅÅĞò
+		* å¯¹æŒ‡å®šçš„åˆ‡ç‰‡è¿›è¡Œæ’åº
 
 	func IntsAreSorted(a []int) bool 
 	func Float64sAreSorted(a []float64) bool 
 	func StringsAreSorted(a []string) bool 
-		* ÅĞ¶ÏÖ¸¶¨µÄÇĞÆ¬£¬ÊÇ·ñÊÇÓĞĞòµÄ
+		* åˆ¤æ–­æŒ‡å®šçš„åˆ‡ç‰‡ï¼Œæ˜¯å¦æ˜¯æœ‰åºçš„
 	
 	

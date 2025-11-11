@@ -1,25 +1,25 @@
 --------------------------
 io
 --------------------------
-	# ´ó¶¼ÊÇIO½Ó¿ÚµÄ¶¨Òå
+	# å¤§éƒ½æ˜¯IOæ¥å£çš„å®šä¹‰
 
 --------------------------
-±äÁ¿
+å˜é‡
 --------------------------
 	* /dev/null
 		var Discard Writer = discard{}
 	
-	* ÒÆ¶¯µÄÏà¶ÔÎ»ÖÃ
+	* ç§»åŠ¨çš„ç›¸å¯¹ä½ç½®
 		const (
 			SeekStart   = 0 // seek relative to the origin of the file
 			SeekCurrent = 1 // seek relative to the current offset
 			SeekEnd     = 2 // seek relative to the end
 		)
 	
-	* ½áÊø·û
+	* ç»“æŸç¬¦
 		var EOF = errors.New("EOF")
 	
-	* Òì³£ĞÅÏ¢
+	* å¼‚å¸¸ä¿¡æ¯
 		var ErrClosedPipe = errors.New("io: read/write on closed pipe")
 		var ErrNoProgress = errors.New("multiple Read calls return no data or error")
 		var ErrShortBuffer = errors.New("short buffer")
@@ -74,7 +74,7 @@ type
 		}
 		func NopCloser(r Reader) ReadCloser
 
-		* °ÑReader°ü×°³ÉÒ»¸öReadClose£¬¶ÔClose()µÄ½øĞĞ¿ÕÊµÏÖ
+		* æŠŠReaderåŒ…è£…æˆä¸€ä¸ªReadCloseï¼Œå¯¹Close()çš„è¿›è¡Œç©ºå®ç°
 	
 	# type ReadSeekCloser interface {
 			Reader
@@ -107,12 +107,12 @@ type
 	
 		func LimitReader(r Reader, n int64) Reader
 		func MultiReader(readers ...Reader) Reader
-			* Á¬½Ó¶à¸öReader£¬ËùÓĞReader¶¼¶ÁÈ¡Íê±Ï²Å»á·µ»Ø EOF
-			* Èç¹ûÈÎºÎÒ»¸öReader£¬·µ»ØÒ»¸ö·Çnil¡¢·ÇEOFµÄ´íÎó£¬Read½«·µ»Ø¸Ã´íÎó
+			* è¿æ¥å¤šä¸ªReaderï¼Œæ‰€æœ‰Readeréƒ½è¯»å–å®Œæ¯•æ‰ä¼šè¿”å› EOF
+			* å¦‚æœä»»ä½•ä¸€ä¸ªReaderï¼Œè¿”å›ä¸€ä¸ªénilã€éEOFçš„é”™è¯¯ï¼ŒReadå°†è¿”å›è¯¥é”™è¯¯
 
 		func TeeReader(r Reader, w Writer) Reader
-			* ·µ»ØÒ»¸öreader£¬¶ÁÕâ¸öreader£¬¾ÍÊÇÏàµ±ÓÚ´Ó r ¶ÁÈ¡Êı¾İ
-			* ²¢ÇÒ¶ÁÈ¡³öÀ´µÄÊı¾İ£¬»¹»á±»×Ô¶¯Ğ´Èëµ½w
+			* è¿”å›ä¸€ä¸ªreaderï¼Œè¯»è¿™ä¸ªreaderï¼Œå°±æ˜¯ç›¸å½“äºä» r è¯»å–æ•°æ®
+			* å¹¶ä¸”è¯»å–å‡ºæ¥çš„æ•°æ®ï¼Œè¿˜ä¼šè¢«è‡ªåŠ¨å†™å…¥åˆ°w
 	
 	# type ReaderAt interface {
 			ReadAt(p []byte, off int64) (n int, err error)
@@ -122,7 +122,7 @@ type
 			ReadFrom(r Reader) (n int64, err error)
 		}
 		
-		* µ×²ã¿ÉÄÜÊ¹ÓÃÁã¿½±´¼¼Êõ
+		* åº•å±‚å¯èƒ½ä½¿ç”¨é›¶æ‹·è´æŠ€æœ¯
 
 	# type RuneReader interface {
 			ReadRune() (r rune, size int, err error)
@@ -135,7 +135,7 @@ type
 
 		func NewSectionReader(r ReaderAt, off int64, n int64) *SectionReader
 		
-		* Çø¼ä¶ÁĞ´
+		* åŒºé—´è¯»å†™
 		
 		func (s *SectionReader) Outer() (r ReaderAt, off int64, n int64)
 		func (s *SectionReader) Read(p []byte) (n int, err error)
@@ -163,9 +163,9 @@ type
 		}
 		
 		func MultiWriter(writers ...Writer) Writer
-			* °Ñ¶à¸öwriter°ó¶¨µ½Ò»¸öwriter·µ»Ø
-			* Íù·µ»ØwriterĞ´ÈëÊı¾İµÄÊ±ºò£¬»á¸´ÖÆµ½ËùÓĞµÄWriterÖĞ£¬ÀàËÆÓÚ Unix µÄ tee(1) ÃüÁî
-			* Èç¹ûÈÎºÎÒ»¸öWriterĞ´ÈëÒì³££¬¾Í»áÁ¢¼´Í£Ö¹²¢ÇÒ·µ»Ø
+			* æŠŠå¤šä¸ªwriterç»‘å®šåˆ°ä¸€ä¸ªwriterè¿”å›
+			* å¾€è¿”å›writerå†™å…¥æ•°æ®çš„æ—¶å€™ï¼Œä¼šå¤åˆ¶åˆ°æ‰€æœ‰çš„Writerä¸­ï¼Œç±»ä¼¼äº Unix çš„ tee(1) å‘½ä»¤
+			* å¦‚æœä»»ä½•ä¸€ä¸ªWriterå†™å…¥å¼‚å¸¸ï¼Œå°±ä¼šç«‹å³åœæ­¢å¹¶ä¸”è¿”å›
 
 	
 	# type WriterAt interface {
@@ -176,35 +176,35 @@ type
 			WriteTo(w Writer) (n int64, err error)
 		}
 
-		* µ×²ã¿ÉÄÜÊ¹ÓÃÁã¿½±´¼¼Êõ
+		* åº•å±‚å¯èƒ½ä½¿ç”¨é›¶æ‹·è´æŠ€æœ¯
 	
 
 --------------------------
-·½·¨
+æ–¹æ³•
 --------------------------
 	func CopyBuffer(dst Writer, src Reader, buf []byte) (written int64, err error)
-		* Óëcopy·½·¨Ò»Ñù£¬µ«ÊÇÕâÀïÊÇÍ¬×ø×Ô¼ºÌá¹©ÁËµÄ»º³åÇø½øĞĞ¸´ÖÆµÄ
-		* Èç¹ûbufÊÇnilµÄ»°£¬ÏµÍ³»á×Ô¼º´´½¨Ò»¸ö£¬·´Ö®Èç¹ûbufµÄlenÊÇ0£¬Ôò»áÅ×³öÒì³£
+		* ä¸copyæ–¹æ³•ä¸€æ ·ï¼Œä½†æ˜¯è¿™é‡Œæ˜¯åŒåè‡ªå·±æä¾›äº†çš„ç¼“å†²åŒºè¿›è¡Œå¤åˆ¶çš„
+		* å¦‚æœbufæ˜¯nilçš„è¯ï¼Œç³»ç»Ÿä¼šè‡ªå·±åˆ›å»ºä¸€ä¸ªï¼Œåä¹‹å¦‚æœbufçš„lenæ˜¯0ï¼Œåˆ™ä¼šæŠ›å‡ºå¼‚å¸¸
 
 	func CopyN(dst Writer, src Reader, n int64) (written int64, err error)
-		* ¸´ÖÆ£¬ÏŞÖÆ¸´ÖÆµÄ´óĞ¡
+		* å¤åˆ¶ï¼Œé™åˆ¶å¤åˆ¶çš„å¤§å°
 
 	func Pipe() (*PipeReader, *PipeWriter)
-		* ·µ»ØpipeÁ¬½ÓÍ¨µÀ£¬¹ÜµÀÁ÷
+		* è¿”å›pipeè¿æ¥é€šé“ï¼Œç®¡é“æµ
 
 	func ReadAtLeast(r Reader, buf []byte, min int) (n int, err error)
-		* ´ÓrÖĞ×îÉÙ¶ÁÈ¡N¸ö×Ö½Úµ½buf
-		* ÔÚ²»ÄÜµÃµ½×îĞ¡µÄ×Ö½ÚµÄÊ±ºò»á·µ»Ø´íÎó£¬µ«»á°ÑÒÑ¶ÁµÄÎÄ¼ş±£Áô
+		* ä»rä¸­æœ€å°‘è¯»å–Nä¸ªå­—èŠ‚åˆ°buf
+		* åœ¨ä¸èƒ½å¾—åˆ°æœ€å°çš„å­—èŠ‚çš„æ—¶å€™ä¼šè¿”å›é”™è¯¯ï¼Œä½†ä¼šæŠŠå·²è¯»çš„æ–‡ä»¶ä¿ç•™
 
 	func ReadFull(r Reader, buf []byte) (n int, err error)
-		* ´Ór¶ÁÈ¡Êı¾İ´æ´¢µ½buf
-		* ÔÚÎÄ¼şr×Ö½ÚÊıĞ¡ÓÚbuf×Ö½ÚÊıµÄÊ±ºò»á·µ»Ø´íÎó
-		* ÊµÏÖ
+		* ä»rè¯»å–æ•°æ®å­˜å‚¨åˆ°buf
+		* åœ¨æ–‡ä»¶rå­—èŠ‚æ•°å°äºbufå­—èŠ‚æ•°çš„æ—¶å€™ä¼šè¿”å›é”™è¯¯
+		* å®ç°
 			return ReadAtLeast(r, buf, len(buf))
 	
 	func ReadAll(r Reader) ([]byte, error)
-		* ¶ÁÈ¡ËùÓĞÊı¾İ
+		* è¯»å–æ‰€æœ‰æ•°æ®
 
 	func WriteString(w Writer, s string) (n int, err error)
-		* °Ñ×Ö·û´®Ğ´Èëwriter£¬ÄÚ²¿×öÁËÅĞ¶ÏÓÅ»¯£¬Èç¹ûÊµÏÖÁË StringWriterÔò»á×ª»»ºóÔÙÖ´ĞĞ£¬±ÜÃâÄÚ´æcopy
+		* æŠŠå­—ç¬¦ä¸²å†™å…¥writerï¼Œå†…éƒ¨åšäº†åˆ¤æ–­ä¼˜åŒ–ï¼Œå¦‚æœå®ç°äº† StringWriteråˆ™ä¼šè½¬æ¢åå†æ‰§è¡Œï¼Œé¿å…å†…å­˜copy
 	

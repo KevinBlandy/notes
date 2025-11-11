@@ -1,5 +1,5 @@
 ----------------------
-±äÁ¿
+å˜é‡
 ----------------------
 
 
@@ -7,15 +7,15 @@
 type
 ----------------------
 	# type Value struct
-		* ÕâstructÒş²ØËùÓĞµÄ×Ö¶ÎÏ¸½Ú£¬±©Â¶ÁËºÜ¶à·½·¨
+		* è¿™structéšè—æ‰€æœ‰çš„å­—æ®µç»†èŠ‚ï¼Œæš´éœ²äº†å¾ˆå¤šæ–¹æ³•
 
 		func (v Value) Addr() Value 
-			* ·µ»Ø±äÁ¿µÄµØÖ·£¬Ö¸Õë
+			* è¿”å›å˜é‡çš„åœ°å€ï¼ŒæŒ‡é’ˆ
 
 		func (v Value) Bool() bool
 		func (v Value) Bytes() []byte
 		func (v Value) CanAddr() bool
-			* ÖµÊÇ·ñ¿ÉÒÔÈ¡µØÖ·
+			* å€¼æ˜¯å¦å¯ä»¥å–åœ°å€
 				fmt.Println(reflect.ValueOf(1).CanAddr())			// false
 				val := 1
 				fmt.Println(reflect.ValueOf(val).CanAddr())			// false
@@ -24,69 +24,69 @@ type
 
 
 		func (v Value) CanSet() bool
-			* ÊÇ·ñÊÇ¿ÉÒÔÈ¡µØÖ·£¬²¢ÇÒ¿ÉÒÔĞŞ¸ÄµÄ
+			* æ˜¯å¦æ˜¯å¯ä»¥å–åœ°å€ï¼Œå¹¶ä¸”å¯ä»¥ä¿®æ”¹çš„
 
 		func (v Value) Call(in []Value) []Value
-			* Ö´ĞĞÕâ¸öÖµ£¬Èç¹ûÖµ²»ÊÇ¿ÉÖ´ĞĞ¶ÔÏó£¬Å×³öÒì³£
-			* Èç¹ûÊÇÎŞ²ÎµÄº¯Êı£¬¿ÉÒÔ´«µİ¿ÕÇĞÆ¬£ºmake([]reflect.Value, 0)
+			* æ‰§è¡Œè¿™ä¸ªå€¼ï¼Œå¦‚æœå€¼ä¸æ˜¯å¯æ‰§è¡Œå¯¹è±¡ï¼ŒæŠ›å‡ºå¼‚å¸¸
+			* å¦‚æœæ˜¯æ— å‚çš„å‡½æ•°ï¼Œå¯ä»¥ä¼ é€’ç©ºåˆ‡ç‰‡ï¼šmake([]reflect.Value, 0)
 
 		func (v Value) CallSlice(in []Value) []Value 
 		func (v Value) Cap() int 
 		func (v Value) Close() 
 		func (v Value) Complex() complex128
 		func (v Value) Elem() Value 
-			* Èç¹ûÊÇÖ¸Õë£¬Ôò·µ»ØÖ¸ÕëÖ¸ÏòµÄ±äÁ¿
-			* ·µ»ØµÄÒ²ÊÇ¸Ã±äÁ¿µÄValue
+			* å¦‚æœæ˜¯æŒ‡é’ˆï¼Œåˆ™è¿”å›æŒ‡é’ˆæŒ‡å‘çš„å˜é‡
+			* è¿”å›çš„ä¹Ÿæ˜¯è¯¥å˜é‡çš„Value
 
 		func (v Value) Field(i int) Value 
 		func (v Value) FieldByIndex(index []int) Value
 		func (v Value) FieldByName(name string) Value
 		func (v Value) FieldByNameFunc(match func(string) bool) Value
-			* ³¢ÊÔ»ñÈ¡µ½×Ö¶Î
+			* å°è¯•è·å–åˆ°å­—æ®µ
 
 		func (v Value) Float() float64 
 		func (v Value) Index(i int) Value
-			* ·µ»ØÖ¸¶¨ÏÂ±êµÄÊı¾İ£¬Èç¹û²»ÊÇ¿É·ÃÎÊµÄÀàĞÍ£¬Å×³öÒì³£
+			* è¿”å›æŒ‡å®šä¸‹æ ‡çš„æ•°æ®ï¼Œå¦‚æœä¸æ˜¯å¯è®¿é—®çš„ç±»å‹ï¼ŒæŠ›å‡ºå¼‚å¸¸
 
 		func (v Value) Int() int64 
 		func (v Value) CanInterface() bool 
-			* ÊÇ·ñÄÜ×ª»»Îªinterface{}
+			* æ˜¯å¦èƒ½è½¬æ¢ä¸ºinterface{}
 
 		func (v Value) Interface() (i interface{})
-			* °ÑÖµ×÷Îª interface{} ·µ»Ø£¬Ò»°ãÓÃÓÚÇ¿×ª
+			* æŠŠå€¼ä½œä¸º interface{} è¿”å›ï¼Œä¸€èˆ¬ç”¨äºå¼ºè½¬
 				val := reflect.ValueOf("H")
 				var str string = val.Interface().(string)  // H
 			
-			* Èç¹û×ª»»µÄÀàĞÍ²»ÍêÈ«·ûºÏ£¬ÔòÖ±½Ópanic£¬ÀàĞÍÒªÇó¼«ÆäÑÏ¸ñ£¬ĞèÒªÇø·ÖÖ¸Õë»¹ÊÇÖµ
+			* å¦‚æœè½¬æ¢çš„ç±»å‹ä¸å®Œå…¨ç¬¦åˆï¼Œåˆ™ç›´æ¥panicï¼Œç±»å‹è¦æ±‚æå…¶ä¸¥æ ¼ï¼Œéœ€è¦åŒºåˆ†æŒ‡é’ˆè¿˜æ˜¯å€¼
 
 		func (v Value) InterfaceData() [2]uintptr 
 		func (v Value) IsNil() bool
-			* ÅĞ¶ÏÀàĞÍÊÇ·ñÊÇnil
+			* åˆ¤æ–­ç±»å‹æ˜¯å¦æ˜¯nil
 
 		func (v Value) IsValid() bool 
 		func (v Value) IsZero() bool 
 		func (v Value) Kind() Kind 
-			* ·µ»ØÖµµÄÀàĞÍ
+			* è¿”å›å€¼çš„ç±»å‹
 		
 		func (v Value) Len() int 
-			* ·µ»ØÊı¾İµÄLength³¤¶È£¬±¾ÖÊÉÏ¾ÍÊÇÖ´ĞĞ len
-			* Èç¹ûÊı¾İ²»ÊÇÕâ¼¸¸ö£¬Å×³öÒì³££ºArray, Chan, Map, Slice, or String
+			* è¿”å›æ•°æ®çš„Lengthé•¿åº¦ï¼Œæœ¬è´¨ä¸Šå°±æ˜¯æ‰§è¡Œ len
+			* å¦‚æœæ•°æ®ä¸æ˜¯è¿™å‡ ä¸ªï¼ŒæŠ›å‡ºå¼‚å¸¸ï¼šArray, Chan, Map, Slice, or String
 
 		func (v Value) MapIndex(key Value) Value 
 		func (v Value) MapKeys() []Value 
 
 		func (v Value) Method(i int) Value 
-			* »ñÈ¡Ö¸¶¨µÄ·½·¨
+			* è·å–æŒ‡å®šçš„æ–¹æ³•
 		func (v Value) NumMethod() int 
-			* »ñÈ¡structµÄ·½·¨ÊıÁ¿
+			* è·å–structçš„æ–¹æ³•æ•°é‡
 		func (v Value) MethodByName(name string) Value 
-			* »ñÈ¡Ö¸¶¨·½·¨µÄValue
+			* è·å–æŒ‡å®šæ–¹æ³•çš„Value
 		
 		func (v Value) MapRange() *MapIter 
-			* »ñÈ¡µ½MapIter
+			* è·å–åˆ°MapIter
 
 		func (v Value) NumField() int 
-			* ·µ»ØstructµÄ×Ö¶ÎÊıÁ¿
+			* è¿”å›structçš„å­—æ®µæ•°é‡
 			
 		func (v Value) OverflowComplex(x complex128) bool 
 		func (v Value) OverflowFloat(x float64) bool 
@@ -96,10 +96,10 @@ type
 
 		func (v Value) Recv() (x Value, ok bool)
 		func (v Value) Send(x Value) 
-			* Èç¹ûÊÇÍ¨µÀÀàĞÍ£¬¿ÉÒÔ½øĞĞ½ÓÊÕºÍ·¢ËÍ
+			* å¦‚æœæ˜¯é€šé“ç±»å‹ï¼Œå¯ä»¥è¿›è¡Œæ¥æ”¶å’Œå‘é€
 
 		func (v Value) Set(x Value)
-			* ¸üĞÂÖµ£¬Èç¹ûÖµ²»Æ¥Åä»òÕßÊÇµØÖ·²»¿ÉÈ¡£¬Å×³öÒì³£
+			* æ›´æ–°å€¼ï¼Œå¦‚æœå€¼ä¸åŒ¹é…æˆ–è€…æ˜¯åœ°å€ä¸å¯å–ï¼ŒæŠ›å‡ºå¼‚å¸¸
 
 		func (v Value) SetBool(x bool)
 		func (v Value) SetBytes(x []byte)
@@ -118,7 +118,7 @@ type
 		func (v Value) TryRecv() (x Value, ok bool)
 		func (v Value) TrySend(x Value) bool
 		func (v Value) Type() Type
-			* ·µ»ØËûµÄTypeÀàĞÍ
+			* è¿”å›ä»–çš„Typeç±»å‹
 
 		func (v Value) Uint() uint64 
 		func (v Value) UnsafeAddr() uintptr 
@@ -159,7 +159,7 @@ type
 		func Select(cases []SelectCase) (chosen int, recv Value, recvOK bool) 
 	
 	# type SelectDir int
-		* Ô¤¶¨ÒåµÄ±äÁ¿
+		* é¢„å®šä¹‰çš„å˜é‡
 			const (
 				_             SelectDir = iota
 				SelectSend              // case Chan <- Send
@@ -169,7 +169,7 @@ type
 
 
 ----------------------
-·½·¨
+æ–¹æ³•
 ----------------------
 	func Append(s Value, x ...Value) Value 
 	func AppendSlice(s, t Value) Value 
@@ -182,7 +182,7 @@ type
 
 	func Indirect(v Value) Value
 	func ValueOf(i interface{}) Value 
-		* °ÑÖ¸¶¨µÄ¶ÁÈ¡ÎªValue£¬Ëü·µ»ØµÄÊÇ¾ßÌåµÄÀàĞÍ
+		* æŠŠæŒ‡å®šçš„è¯»å–ä¸ºValueï¼Œå®ƒè¿”å›çš„æ˜¯å…·ä½“çš„ç±»å‹
 
 
 	func Zero(typ Type) Value 

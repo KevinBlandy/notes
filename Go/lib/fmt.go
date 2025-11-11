@@ -1,5 +1,5 @@
 ----------------------
-±äÁ¿
+å˜é‡
 ----------------------
 
 ----------------------
@@ -33,10 +33,10 @@ type
 		}
 
 ----------------------
-·½·¨
+æ–¹æ³•
 ----------------------
 	func Errorf(format string, a ...interface{}) error
-		* ´´½¨Ò»¸öÒì³£ĞÅÏ¢£¬¿ÉÒÔ¶ÔÒì³£ĞÅÏ¢½øĞĞ·â×°£¬Ê¹ÓÃ£º %w
+		* åˆ›å»ºä¸€ä¸ªå¼‚å¸¸ä¿¡æ¯ï¼Œå¯ä»¥å¯¹å¼‚å¸¸ä¿¡æ¯è¿›è¡Œå°è£…ï¼Œä½¿ç”¨ï¼š %w
 			err1 := errors.New("error1")
 			err3 := fmt.Errorf("catch err [%w]", err1)
 			
@@ -44,27 +44,27 @@ type
 	func Fprint(w io.Writer, a ...interface{}) (n int, err error)
 	func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error)
 	func Fprintln(w io.Writer, a ...interface{}) (n int, err error)
-		* Êä³öµ½Ö¸¶¨µÄWriter
+		* è¾“å‡ºåˆ°æŒ‡å®šçš„Writer
 
 	func Fscan(r io.Reader, a ...interface{}) (n int, err error)
 	func Fscanf(r io.Reader, format string, a ...interface{}) (n int, err error)
 	func Fscanln(r io.Reader, a ...interface{}) (n int, err error)
-		* ´ÓÖ¸¶¨µÄReader¶ÁÈ¡
+		* ä»æŒ‡å®šçš„Readerè¯»å–
 
 	func Print(a ...interface{}) (n int, err error)
 	func Printf(format string, a ...interface{}) (n int, err error)
 	func Println(a ...interface{}) (n int, err error)
-		* Êä³öµ½±ê×¼Êä³öÁ÷
+		* è¾“å‡ºåˆ°æ ‡å‡†è¾“å‡ºæµ
 
 	func Scan(a ...interface{}) (n int, err error)
 	func Scanf(format string, a ...interface{}) (n int, err error)
 	func Scanln(a ...interface{}) (n int, err error)
-		* ´Ó±ê×¼ÊäÈëÁ÷¶ÁÈ¡
+		* ä»æ ‡å‡†è¾“å…¥æµè¯»å–
 
 	func Sprint(a ...interface{}) string
 	func Sprintf(format string, a ...interface{}) string
 	func Sprintln(a ...interface{}) string
-		* ²»Êä³ö£¬ÒÔ×Ö·û´®ĞÎÊ½·µ»Ø
+		* ä¸è¾“å‡ºï¼Œä»¥å­—ç¬¦ä¸²å½¢å¼è¿”å›
 
 	func Sscan(str string, a ...interface{}) (n int, err error)
 	func Sscanf(str string, format string, a ...interface{}) (n int, err error)

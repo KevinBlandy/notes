@@ -14,19 +14,19 @@ type
 	# type Hash interface {
 			io.Writer
 			Sum(b []byte) []byte
-				* ¼ÆËã³ö×îÖÕµÄhash£¬»á°Ñ½á¹ûappendµ½b
+				* è®¡ç®—å‡ºæœ€ç»ˆçš„hashï¼Œä¼šæŠŠç»“æœappendåˆ°b
 
 			Reset()
-				* ÖØÖÃ
+				* é‡ç½®
 
 			Size() int
-				* hash½á¹ûµÄ×Ö½Ú³¤¶È
+				* hashç»“æœçš„å­—èŠ‚é•¿åº¦
 
 			BlockSize() int
-				* ·µ»Ø¹şÏ£µÄµ×²ã¿é´óĞ¡
+				* è¿”å›å“ˆå¸Œçš„åº•å±‚å—å¤§å°
 		}
 
-		* HashËã·¨µÄ½Ó¿Ú
+		* Hashç®—æ³•çš„æ¥å£
 	
 	# type Hash32 interface {
 			Hash
@@ -43,7 +43,7 @@ func
 -----------------------------
 
 -----------------------------
-hash¼ÆËã
+hashè®¡ç®—
 -----------------------------
 	# md5
 		import (
@@ -52,21 +52,21 @@ hash¼ÆËã
 		)
 
 		func main(){
-			// ´´½¨hashÊµÀı£¬¾ÍÊÇ hash.Hash ½Ó¿ÚÊµÏÖ
+			// åˆ›å»ºhashå®ä¾‹ï¼Œå°±æ˜¯ hash.Hash æ¥å£å®ç°
 			md5 := md5.New()
-			// Ğ´ÈëÊı¾İ
+			// å†™å…¥æ•°æ®
 			md5.Write([]byte("123"))
 			md5.Write([]byte("456"))
 
-			// ¼ÆËã½á¹û£¬appendµ½ÇĞÆ¬ÖĞ
+			// è®¡ç®—ç»“æœï¼Œappendåˆ°åˆ‡ç‰‡ä¸­
 			buffer := md5.Sum(make([]byte, 0))
-			// ×ª»»Îª16½øÖÆ×Ö·û´®
+			// è½¬æ¢ä¸º16è¿›åˆ¶å­—ç¬¦ä¸²
 			hex := fmt.Sprintf("%x", buffer)
 			fmt.Println(hex) // e10adc3949ba59abbe56e057f20f883e
 		}
 
-		* sha256/sha512 ¶¼Ò»Ñù£¬Ö»ÊÇ¿â²»Í¬
-		* md5/sha256/sha512 ¶¼Ìá¹©ÁËÄ£¿é¼¶±ğµÄ¿ì½İ¼ÆËãhash·½·¨
+		* sha256/sha512 éƒ½ä¸€æ ·ï¼Œåªæ˜¯åº“ä¸åŒ
+		* md5/sha256/sha512 éƒ½æä¾›äº†æ¨¡å—çº§åˆ«çš„å¿«æ·è®¡ç®—hashæ–¹æ³•
 			import (
 				"crypto/md5"
 				"encoding/hex"

@@ -7,7 +7,7 @@ errors
 var
 ------------------------
 	var ErrUnsupported = New("unsupported operation")
-		* ²»Ö§³ÖµÄ²Ù×÷Òì³£
+		* ä¸æ”¯æŒçš„æ“ä½œå¼‚å¸¸
 
 ------------------------
 type
@@ -18,38 +18,38 @@ type
 func
 ------------------------
     func As(err error, target interface{}) bool
-		* target ±ØĞëÊÇÖ¸Õë£¬²»ÄÜÎªnil£¬²¢ÇÒ±ØĞëÊÇÊµÏÖÁËerrorµÄ½Ó¿Ú
-		* ÅĞ¶Ï err ÊÇ²»ÊÇÊôÓÚtargetÀàĞÍ
-			// Òì³£ÊµÀı
+		* target å¿…é¡»æ˜¯æŒ‡é’ˆï¼Œä¸èƒ½ä¸ºnilï¼Œå¹¶ä¸”å¿…é¡»æ˜¯å®ç°äº†errorçš„æ¥å£
+		* åˆ¤æ–­ err æ˜¯ä¸æ˜¯å±äºtargetç±»å‹
+			// å¼‚å¸¸å®ä¾‹
 			var err = &http.MaxBytesError{}
-			// Òì³£ÀàĞÍÖ¸Õë
+			// å¼‚å¸¸ç±»å‹æŒ‡é’ˆ
 			var errType *http.MaxBytesError
-			// ½á¹û
+			// ç»“æœ
 			fmt.Println(errors.As(err, &errType))
 
     func Is(err, target error) bool
-		* ·µ»Ø targer µÄÒì³£Á´ÖĞ£¬ÊÇ·ñÓĞerr´íÎó
-		* Èç¹ûtargetÊµÏÖÁË Is ·½·¨£¬»áÍ¨¹ıÕâ¸ö½Ó¿ÚÅĞ¶Ï£¬Èç¹ûtargetÊµÏÖÁËUnwrap·½·¨£¬»á²»¶Ï°şÀë³ö°ü×°µÄÒì³£½øĞĞ±È½Ï
-		* »á²ÉÓÃÉî¶ÈÓÅÏÈµÄ·½Ê½½øĞĞ±éÀú¼ì²é£¬Ñ°ÕÒÄ¿±êerror¡£
+		* è¿”å› targer çš„å¼‚å¸¸é“¾ä¸­ï¼Œæ˜¯å¦æœ‰erré”™è¯¯
+		* å¦‚æœtargetå®ç°äº† Is æ–¹æ³•ï¼Œä¼šé€šè¿‡è¿™ä¸ªæ¥å£åˆ¤æ–­ï¼Œå¦‚æœtargetå®ç°äº†Unwrapæ–¹æ³•ï¼Œä¼šä¸æ–­å‰¥ç¦»å‡ºåŒ…è£…çš„å¼‚å¸¸è¿›è¡Œæ¯”è¾ƒ
+		* ä¼šé‡‡ç”¨æ·±åº¦ä¼˜å…ˆçš„æ–¹å¼è¿›è¡Œéå†æ£€æŸ¥ï¼Œå¯»æ‰¾ç›®æ ‡errorã€‚
 
-		* ÅĞ¶ÏerrÊÇ²»ÊÇµÈÓÚ target£¬Isº¯ÊıÆäÊµ½Ğ×ö Has º¯Êı¸üÌùÇĞĞ©¡£
+		* åˆ¤æ–­erræ˜¯ä¸æ˜¯ç­‰äº targetï¼ŒIså‡½æ•°å…¶å®å«åš Has å‡½æ•°æ›´è´´åˆ‡äº›ã€‚
 
 
     func New(text string) error
-		* ¸ù¾İtext·µ»ØÒ»¸öÒì³£
+		* æ ¹æ®textè¿”å›ä¸€ä¸ªå¼‚å¸¸
 
     func Unwrap(err error) error
-		* Èç¹ûÒì³£ÊÇÒ»¸ö°ü×°Òì³££¬Ò²¾ÍÊÇÊµÏÖÁË: Unwrap() error 
-		* ÄÇÃ´¾Í»á·µ»Ø°ü×°µÄÒì³££¬·ñÔò·µ»Ønil
+		* å¦‚æœå¼‚å¸¸æ˜¯ä¸€ä¸ªåŒ…è£…å¼‚å¸¸ï¼Œä¹Ÿå°±æ˜¯å®ç°äº†: Unwrap() error 
+		* é‚£ä¹ˆå°±ä¼šè¿”å›åŒ…è£…çš„å¼‚å¸¸ï¼Œå¦åˆ™è¿”å›nil
 	
 	func Join(errs ...error) error
-		* Ò»´ÎĞÔ°Ñ¶à¸ö error ·â×°Îª error
+		* ä¸€æ¬¡æ€§æŠŠå¤šä¸ª error å°è£…ä¸º error
 		
 
 ------------------------
 demo
 ------------------------
-	# AsµÄÊ¹ÓÃ
+	# Asçš„ä½¿ç”¨
 		type MyError struct {
 			Message string
 			Err error
@@ -64,16 +64,16 @@ demo
 
 		func main(){
 			err1 := errors.New("error1")
-			err2 := fmt.Errorf("catch err [%w]", &MyError{  // ÕâÀï´´½¨µÄÊÇ MyErrorµÄÖ¸Õë£¬¿ÉÒÔ´´½¨¶ÔÏó
-				Message: "ÎÒÊÇMyError",
+			err2 := fmt.Errorf("catch err [%w]", &MyError{  // è¿™é‡Œåˆ›å»ºçš„æ˜¯ MyErrorçš„æŒ‡é’ˆï¼Œå¯ä»¥åˆ›å»ºå¯¹è±¡
+				Message: "æˆ‘æ˜¯MyError",
 				Err:     err1,
 			})
 			err3 := fmt.Errorf("catch err [%w]", err2)
-			var x *MyError  // ÕâÀïÉùÃ÷µÄÊÇMyErrorµÄÖ¸Õë£¬¿ÉÒÔÉùÃ÷¶ÔÏó
-			fmt.Println(errors.As(err3, &x)) // ´«µİ¸øAsµÄÊÇÖ¸ÕëµÄÖ¸Õë£¬¿ÉÒÔ´«µİ¶ÔÏóµÄÖ¸Õë
+			var x *MyError  // è¿™é‡Œå£°æ˜çš„æ˜¯MyErrorçš„æŒ‡é’ˆï¼Œå¯ä»¥å£°æ˜å¯¹è±¡
+			fmt.Println(errors.As(err3, &x)) // ä¼ é€’ç»™Asçš„æ˜¯æŒ‡é’ˆçš„æŒ‡é’ˆï¼Œå¯ä»¥ä¼ é€’å¯¹è±¡çš„æŒ‡é’ˆ
 		}
 
-		* ¿ÉÒÔÊ¹ÓÃ·ºĞÍ£¬ÒÔ±ÜÃâÉùÃ÷±äÁ¿
+		* å¯ä»¥ä½¿ç”¨æ³›å‹ï¼Œä»¥é¿å…å£°æ˜å˜é‡
 			func AsA[T any](err error) (T, bool) {
 				var t T
 				if errors.As(err, &t) {

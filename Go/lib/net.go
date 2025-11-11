@@ -3,7 +3,7 @@ net
 ----------------
 
 ----------------
-±äÁ¿
+å˜é‡
 ----------------
 	var (
 		IPv4bcast     = IPv4(255, 255, 255, 255) // limited broadcast
@@ -24,9 +24,9 @@ net
 	var DefaultResolver = &Resolver{}
 	
 	var ErrClosed = errClosed
-		* ÍøÂçÁ¬½ÓÉÏµÄI/Oµ÷ÓÃ·µ»ØµÄ´íÎó£¬¸ÃÁ¬½ÓÒÑ¾­±»¹Ø±Õ£¬»òÕßÔÚI/OÍê³ÉÖ®Ç°±»ÁíÒ»¸ögoroutine¹Ø±Õ
-		* Õâ¿ÉÄÜ±»°ü×°ÔÚÁíÒ»¸ö´íÎóÖĞ£¬Í¨³£Ó¦¸ÃÊ¹ÓÃ errors.Is(err, net.ErrClosed)À´²âÊÔ¡£
-		* Close Listener µÄÊ±ºò£¬Accept ×èÈû·½·¨¾Í»á·µ»Ø ErrClosed ´íÎó
+		* ç½‘ç»œè¿æ¥ä¸Šçš„I/Oè°ƒç”¨è¿”å›çš„é”™è¯¯ï¼Œè¯¥è¿æ¥å·²ç»è¢«å…³é—­ï¼Œæˆ–è€…åœ¨I/Oå®Œæˆä¹‹å‰è¢«å¦ä¸€ä¸ªgoroutineå…³é—­
+		* è¿™å¯èƒ½è¢«åŒ…è£…åœ¨å¦ä¸€ä¸ªé”™è¯¯ä¸­ï¼Œé€šå¸¸åº”è¯¥ä½¿ç”¨ errors.Is(err, net.ErrClosed)æ¥æµ‹è¯•ã€‚
+		* Close Listener çš„æ—¶å€™ï¼ŒAccept é˜»å¡æ–¹æ³•å°±ä¼šè¿”å› ErrClosed é”™è¯¯
 
 	var (
 		ErrWriteToConnected = errors.New("use of WriteTo with pre-connected connection")
@@ -67,7 +67,7 @@ type
 		}
 		func Dial(network, address string) (Conn, error)
 		func DialTimeout(network, address string, timeout time.Duration) (Conn, error)
-			* ´´½¨Ò»¸öÁ¬½Ó£¬ÉèÖÃÁ´½Ó³¬Ê±
+			* åˆ›å»ºä¸€ä¸ªè¿æ¥ï¼Œè®¾ç½®é“¾æ¥è¶…æ—¶
 
 		func FileConn(f *os.File) (c Conn, err error)
 	
@@ -107,20 +107,20 @@ type
 		func (d *Dialer) DialContext(ctx context.Context, network, address string) (Conn, error)
 		func (d *Dialer) MultipathTCP() bool
 		func (d *Dialer) SetMultipathTCP(use bool)
-			* ¿ªÆô MultipathTCP 
-			* ĞèÒªÔÚµ÷ÓÃ Dialer.Dial »ò Dialer.DialContext ·½·¨Ö®Ç°µ÷ÓÃ Dialer.SetMultipathTCP ·½·¨
+			* å¼€å¯ MultipathTCP 
+			* éœ€è¦åœ¨è°ƒç”¨ Dialer.Dial æˆ– Dialer.DialContext æ–¹æ³•ä¹‹å‰è°ƒç”¨ Dialer.SetMultipathTCP æ–¹æ³•
 	
 	# type Error interface {
 			error
 			Timeout() bool   // Is the error a timeout?
-				* ÊÇ·ñÊÇ³¬Ê±Òì³££¨Á¬½Ó¡¢¶Á¡¢Ğ´£©
+				* æ˜¯å¦æ˜¯è¶…æ—¶å¼‚å¸¸ï¼ˆè¿æ¥ã€è¯»ã€å†™ï¼‰
 			Temporary() bool // Is the error temporary?
-				* ÊÇ·ñÊÇÁÙÊ±Òì³£
-				* ÒÑ·ÏÆú£ºÁÙÊ±´íÎóÃ»ÓĞÃ÷È·¶¨Òå¡£´ó¶àÊı ¡°ÁÙÊ± ¡±´íÎó¶¼ÊÇ³¬Ê±£¬ÉÙÊıÀıÍâÇé¿ö»áÁîÈË³Ô¾ª¡£
-				* ÇëÎğÊ¹ÓÃ´Ë·½·¨¡£
+				* æ˜¯å¦æ˜¯ä¸´æ—¶å¼‚å¸¸
+				* å·²åºŸå¼ƒï¼šä¸´æ—¶é”™è¯¯æ²¡æœ‰æ˜ç¡®å®šä¹‰ã€‚å¤§å¤šæ•° â€œä¸´æ—¶ â€é”™è¯¯éƒ½æ˜¯è¶…æ—¶ï¼Œå°‘æ•°ä¾‹å¤–æƒ…å†µä¼šä»¤äººåƒæƒŠã€‚
+				* è¯·å‹¿ä½¿ç”¨æ­¤æ–¹æ³•ã€‚
 		}
 
-		* NET Ïà¹ØµÄÒì³£
+		* NET ç›¸å…³çš„å¼‚å¸¸
 	
 	# type Flags uint
 		const (
@@ -140,7 +140,7 @@ type
 		func IPv4(a, b, c, d byte) IP
 		func LookupIP(host string) ([]IP, error)
 		func ParseIP(s string) IP
-			* Èç¹ûIPµØÖ··Ç·¨£¬Ôò·µ»Ø nill
+			* å¦‚æœIPåœ°å€éæ³•ï¼Œåˆ™è¿”å› nill
 		func (ip IP) AppendText(b []byte) ([]byte, error)
 		func (ip IP) DefaultMask() IPMask
 		func (ip IP) Equal(x IP) bool
@@ -158,8 +158,8 @@ type
 		func (ip IP) To4() IP
 		func (ip *IP) UnmarshalText(text []byte) error
 		func (ip IP) IsPrivate() bool 
-			* ÊÇ·ñÊÇ¾ÖÓòÍøIP
-			* ÅĞ¶ÏÒ»¸öµØÖ·ÊÇ·ñÎªRFC 1918¹æ¶¨µÄË½ÓĞIPv4µØÖ·»òRFC 4193¹æ¶¨µÄ±¾µØIPv6µØÖ·¡£
+			* æ˜¯å¦æ˜¯å±€åŸŸç½‘IP
+			* åˆ¤æ–­ä¸€ä¸ªåœ°å€æ˜¯å¦ä¸ºRFC 1918è§„å®šçš„ç§æœ‰IPv4åœ°å€æˆ–RFC 4193è§„å®šçš„æœ¬åœ°IPv6åœ°å€ã€‚
 	
 	# type IPAddr struct {
 			IP   IP
@@ -183,7 +183,7 @@ type
 		func (c *IPConn) ReadMsgIP(b, oob []byte) (n, oobn, flags int, addr *IPAddr, err error)
 		func (c *IPConn) RemoteAddr() Addr
 		func (c *IPConn) SetDeadline(t time.Time) error
-			* ÉèÖÃ·¢ËÍ½ÓÊÜÊı¾İ³¬Ê±
+			* è®¾ç½®å‘é€æ¥å—æ•°æ®è¶…æ—¶
 
 		func (c *IPConn) SetReadBuffer(bytes int) error
 		func (c *IPConn) SetReadDeadline(t time.Time) error
@@ -217,18 +217,18 @@ type
 			Flags        Flags        // e.g., FlagUp, FlagLoopback, FlagMulticast
 		}
 		
-		* ÍøÂç½Ó¿ÚĞÅÏ¢
+		* ç½‘ç»œæ¥å£ä¿¡æ¯
 
 		func InterfaceByIndex(index int) (*Interface, error)
 		func InterfaceByName(name string) (*Interface, error)
 		func Interfaces() ([]Interface, error)
-			* ¸ù¾İÏÂ±ê£¬Ãû³Æ£¬·µ»Ø±¾µØµÄÍøÂç½Ó¿ÚĞÅÏ¢
+			* æ ¹æ®ä¸‹æ ‡ï¼Œåç§°ï¼Œè¿”å›æœ¬åœ°çš„ç½‘ç»œæ¥å£ä¿¡æ¯
 
 		func (ifi *Interface) Addrs() ([]Addr, error)
-			* ·µ»ØµØÖ·ĞÅÏ¢
+			* è¿”å›åœ°å€ä¿¡æ¯
 
 		func (ifi *Interface) MulticastAddrs() ([]Addr, error)
-			* ·µ»Ø¹ã²¥µØÖ·
+			* è¿”å›å¹¿æ’­åœ°å€
 	
 	# type InvalidAddrError string
 		func (e InvalidAddrError) Error() string
@@ -242,7 +242,7 @@ type
 			Count int
 		}
 
-		* °üº¬ TCP ±£³ÖÁ¬½ÓÑ¡Ïî¡£
+		* åŒ…å« TCP ä¿æŒè¿æ¥é€‰é¡¹ã€‚
 	
 	# type ListenConfig struct {
 			Control func(network, address string, c syscall.RawConn) error
@@ -253,7 +253,7 @@ type
 		func (lc *ListenConfig) ListenPacket(ctx context.Context, network, address string) (PacketConn, error)
 		func (lc *ListenConfig) MultipathTCP() bool
 		func (lc *ListenConfig) SetMultipathTCP(use bool)
-			* ÒªÔÚ Server ÉÏÊ¹ÓÃMultipathTCP£¬ÔÚµ÷ÓÃ ListenConfig.Listen ·½·¨Ö®Ç°µ÷ÓÃ ListenConfig.SetMultipathTCP ·½·¨¡£
+			* è¦åœ¨ Server ä¸Šä½¿ç”¨MultipathTCPï¼Œåœ¨è°ƒç”¨ ListenConfig.Listen æ–¹æ³•ä¹‹å‰è°ƒç”¨ ListenConfig.SetMultipathTCP æ–¹æ³•ã€‚
 	
 	# type Listener interface {
 			Accept() (Conn, error)
@@ -268,7 +268,7 @@ type
 			Pref uint16
 		}
 		
-		* »ñÈ¡ÓòÃûµÄMX(ÓÊ¼ş)¼ÇÂ¼
+		* è·å–åŸŸåçš„MX(é‚®ä»¶)è®°å½•
 
 		func LookupMX(name string) ([]*MX, error)
 	
@@ -276,7 +276,7 @@ type
 			Host string
 		}
 		
-		* ÓòÃûµÄDNS·şÎñÆ÷µØÖ·ĞÅÏ¢
+		* åŸŸåçš„DNSæœåŠ¡å™¨åœ°å€ä¿¡æ¯
 
 		func LookupNS(name string) ([]*NS, error)
 
@@ -289,15 +289,15 @@ type
 			Err error
 		}
 
-		* OpError ÊÇ net °üÖĞµÄº¯ÊıÍ¨³£·µ»ØµÄ´íÎóÀàĞÍ¡£ËüÃèÊöÁË²Ù×÷¡¢ÍøÂçÀàĞÍºÍ´íÎóµØÖ·¡£
+		* OpError æ˜¯ net åŒ…ä¸­çš„å‡½æ•°é€šå¸¸è¿”å›çš„é”™è¯¯ç±»å‹ã€‚å®ƒæè¿°äº†æ“ä½œã€ç½‘ç»œç±»å‹å’Œé”™è¯¯åœ°å€ã€‚
 
 		func (e *OpError) Error() string
 		func (e *OpError) Temporary() bool
 		func (e *OpError) Timeout() bool
-			* ÊÇ·ñÊÇ³¬Ê±Òì³£
+			* æ˜¯å¦æ˜¯è¶…æ—¶å¼‚å¸¸
 
 		func (e *OpError) Unwrap() error
-			* µ×²ãÒì³££¬¼´ Err
+			* åº•å±‚å¼‚å¸¸ï¼Œå³ Err
 	
 	# type PacketConn interface {
 			ReadFrom(p []byte) (n int, addr Addr, err error)
@@ -305,7 +305,7 @@ type
 			Close() error
 			LocalAddr() Addr
 			SetDeadline(t time.Time) error
-				* ÉèÖÃ·¢ËÍ½ÓÊÜÊı¾İ³¬Ê±
+				* è®¾ç½®å‘é€æ¥å—æ•°æ®è¶…æ—¶
 			SetReadDeadline(t time.Time) error
 			SetWriteDeadline(t time.Time) error
 		}
@@ -367,7 +367,7 @@ type
 		func (c *TCPConn) ReadFrom(r io.Reader) (int64, error)
 		func (c *TCPConn) RemoteAddr() Addr
 		func (c *TCPConn) SetDeadline(t time.Time) error
-			* ÉèÖÃ·¢ËÍ½ÓÊÜÊı¾İ³¬Ê±
+			* è®¾ç½®å‘é€æ¥å—æ•°æ®è¶…æ—¶
 
 		func (c *TCPConn) SetKeepAlive(keepalive bool) error
 		func (c *TCPConn) SetKeepAliveConfig(config KeepAliveConfig) error
@@ -381,23 +381,23 @@ type
 		func (c *TCPConn) SyscallConn() (syscall.RawConn, error)
 		func (c *TCPConn) Write(b []byte) (int, error)
 		func (c *TCPConn) MultipathTCP() (bool, error)
-			* ¼ì²âÊÇ·ñÖ§³Ö MultipathTCP
+			* æ£€æµ‹æ˜¯å¦æ”¯æŒ MultipathTCP
 	
 	# type TCPListener struct {
 
 		}
 		
-		* TCP ¼àÌı
+		* TCP ç›‘å¬
 
 		func ListenTCP(network string, laddr *TCPAddr) (*TCPListener, error)
 		func (l *TCPListener) Accept() (Conn, error)
 		func (l *TCPListener) AcceptTCP() (*TCPConn, error)
-			* ×èÈû£¬»ñÈ¡Á¬½Ó¡£µ±µ÷ÓÃ Listener µÄ Close ·½·¨Ê±£¬»á·µ»Ø error
-			* ¿ÉÒÔÓÃ errors.Is(err, net.ErrClosed) À´ÅĞ¶Ï£¬ÊÇ·ñÊÇÕı³£µÄ Close ´íÎó¡£ 
+			* é˜»å¡ï¼Œè·å–è¿æ¥ã€‚å½“è°ƒç”¨ Listener çš„ Close æ–¹æ³•æ—¶ï¼Œä¼šè¿”å› error
+			* å¯ä»¥ç”¨ errors.Is(err, net.ErrClosed) æ¥åˆ¤æ–­ï¼Œæ˜¯å¦æ˜¯æ­£å¸¸çš„ Close é”™è¯¯ã€‚ 
 			
 		func (l *TCPListener) Addr() Addr
 		func (l *TCPListener) Close() error
-			* ¹Ø±Õ¼àÌı£¬×¢Òâ²»»á¹Ø±ÕÒÑ´´½¨µÄÁ¬½Ó¡£
+			* å…³é—­ç›‘å¬ï¼Œæ³¨æ„ä¸ä¼šå…³é—­å·²åˆ›å»ºçš„è¿æ¥ã€‚
 
 		func (l *TCPListener) File() (f *os.File, err error)
 		func (l *TCPListener) SetDeadline(t time.Time) error
@@ -409,7 +409,7 @@ type
 			Zone string // IPv6 scoped addressing zone
 		}
 
-		* UDP AddrµØÖ·
+		* UDP Addråœ°å€
 
 		func ResolveUDPAddr(network, address string) (*UDPAddr, error)
 		func UDPAddrFromAddrPort(addr netip.AddrPort) *UDPAddr
@@ -497,22 +497,22 @@ type
 		func (e UnknownNetworkError) Timeout() bool
 	
 ----------------
-·½·¨
+æ–¹æ³•
 ----------------
 	func JoinHostPort(host, port string) string
 	func LookupAddr(addr string) (names []string, err error)
-		* ¸ù¾İIP£¬¼ìË÷ÆäÖ÷»úĞÅÏ¢
+		* æ ¹æ®IPï¼Œæ£€ç´¢å…¶ä¸»æœºä¿¡æ¯
 
 	func LookupCNAME(host string) (cname string, err error)
 	func LookupHost(host string) (addrs []string, err error)
-		* ¸ù¾İÖ÷»úĞÅÏ¢£¬·µ»ØIPĞÅÏ¢
+		* æ ¹æ®ä¸»æœºä¿¡æ¯ï¼Œè¿”å›IPä¿¡æ¯
 
 	func LookupPort(network, service string) (port int, err error)
 	func LookupTXT(name string) ([]string, error)
 	func ParseCIDR(s string) (IP, *IPNet, error)
 	func Pipe() (Conn, Conn)
 	func SplitHostPort(hostport string) (host, port string, err error)
-		* ·ÖÀë³öÇëÇóµØÖ·ÖĞµÄHOSTºÍ¶Ë¿Ú
+		* åˆ†ç¦»å‡ºè¯·æ±‚åœ°å€ä¸­çš„HOSTå’Œç«¯å£
 			if clientIP, port, err := net.SplitHostPort(req.RemoteAddr); err == nil {
 				...
 			}
@@ -523,7 +523,7 @@ type
 ----------------
 Demo
 ----------------
-	# »ñÈ¡±¾»ú IP
+	# è·å–æœ¬æœº IP
 		func host() []string {
 			interfaces, err := net.InterfaceAddrs()
 			if err != nil {
@@ -536,11 +536,11 @@ Demo
 				if ipNet, ok := v.(*net.IPNet); ok {
 
 					if ipNet.IP.IsLoopback() {
-						// ±¾µØ»Ø»·µØÖ·
+						// æœ¬åœ°å›ç¯åœ°å€
 						continue
 					}
 
-					// Ö»Òª±¾µØ¾ÖÓòÍøµØÖ·
+					// åªè¦æœ¬åœ°å±€åŸŸç½‘åœ°å€
 					if ipv4 := ipNet.IP.To4(); ipv4 != nil && ipv4.IsPrivate() {
 						ipSlice = append(ipSlice, ipNet.IP.To4().String())
 					}

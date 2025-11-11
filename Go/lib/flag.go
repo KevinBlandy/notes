@@ -1,60 +1,60 @@
 ---------------------------------------
 flag
 ---------------------------------------
-	# Ö§³ÖµÄÃüÁî¸ñÊ½
-		-flag xxx £¨Ê¹ÓÃ¿Õ¸ñ£¬Ò»¸ö-·ûºÅ£©
-		--flag xxx £¨Ê¹ÓÃ¿Õ¸ñ£¬Á½¸ö-·ûºÅ£©
-		-flag=xxx £¨Ê¹ÓÃµÈºÅ£¬Ò»¸ö-·ûºÅ£©
-		--flag=xxx £¨Ê¹ÓÃµÈºÅ£¬Á½¸ö-·ûºÅ£©
+	# æ”¯æŒçš„å‘½ä»¤æ ¼å¼
+		-flag xxx ï¼ˆä½¿ç”¨ç©ºæ ¼ï¼Œä¸€ä¸ª-ç¬¦å·ï¼‰
+		--flag xxx ï¼ˆä½¿ç”¨ç©ºæ ¼ï¼Œä¸¤ä¸ª-ç¬¦å·ï¼‰
+		-flag=xxx ï¼ˆä½¿ç”¨ç­‰å·ï¼Œä¸€ä¸ª-ç¬¦å·ï¼‰
+		--flag=xxx ï¼ˆä½¿ç”¨ç­‰å·ï¼Œä¸¤ä¸ª-ç¬¦å·ï¼‰
 	
-	# Flag½âÎöÔÚµÚÒ»¸ö·Çflag²ÎÊı£¨µ¥¸ö¡±-¡°²»ÊÇflag²ÎÊı£©Ö®Ç°Í£Ö¹£¬»òÕßÔÚÖÕÖ¹·û¡±¨C¡°Ö®ºóÍ£Ö¹¡£
+	# Flagè§£æåœ¨ç¬¬ä¸€ä¸ªéflagå‚æ•°ï¼ˆå•ä¸ªâ€-â€œä¸æ˜¯flagå‚æ•°ï¼‰ä¹‹å‰åœæ­¢ï¼Œæˆ–è€…åœ¨ç»ˆæ­¢ç¬¦â€â€“â€œä¹‹ååœæ­¢ã€‚
 
-	# Èç¹ûÒì³£´¦ÀíÊÇ²»ÊÇ£ºContinueOnError
-		* ²ÎÊı±ØĞëÒªÏÈ¡°¶¨Òå¡±£¬È»ºó²Å½âÎö£¬²»È»»áÒì³£
-			flag provided but not defined: [²ÎÊıÃû³Æ]
+	# å¦‚æœå¼‚å¸¸å¤„ç†æ˜¯ä¸æ˜¯ï¼šContinueOnError
+		* å‚æ•°å¿…é¡»è¦å…ˆâ€œå®šä¹‰â€ï¼Œç„¶åæ‰è§£æï¼Œä¸ç„¶ä¼šå¼‚å¸¸
+			flag provided but not defined: [å‚æ•°åç§°]
 
 ---------------------------------------
-±äÁ¿
+å˜é‡
 ---------------------------------------
 	var CommandLine = NewFlagSet(os.Args[0], ExitOnError)
-		* Ä¬ÈÏµÄ£¬¾ÍÊÇÃüÁîĞĞ²ÎÊı
+		* é»˜è®¤çš„ï¼Œå°±æ˜¯å‘½ä»¤è¡Œå‚æ•°
 
 	var ErrHelp = errors.New("flag: help requested")
-		* helpĞÅÏ¢ÊÇ±ØĞëµÄ
+		* helpä¿¡æ¯æ˜¯å¿…é¡»çš„
 	
 	var Usage = func() {
 		fmt.Fprintf(CommandLine.Output(), "Usage of %s:\n", os.Args[0])
 		PrintDefaults()
 	}
-		* Ä¬ÈÏµÄËµÃ÷·½·¨
+		* é»˜è®¤çš„è¯´æ˜æ–¹æ³•
 
 ---------------------------------------
 type
 ---------------------------------------
 	# type Flag struct {
-			Name     string //²ÎÊıÃû³Æ
-			Usage    string // °ïÖúĞÅÏ¢
-			Value    Value  // ÖµÁĞ±í
-			DefValue string // Ä¬ÈÏÖµ
+			Name     string //å‚æ•°åç§°
+			Usage    string // å¸®åŠ©ä¿¡æ¯
+			Value    Value  // å€¼åˆ—è¡¨
+			DefValue string // é»˜è®¤å€¼
 		}
 		func Lookup(name string) *Flag
-			* ¸ù¾İ²ÎÊı£¬¼ìË÷Ö¸¶¨µÄÖµFlag
+			* æ ¹æ®å‚æ•°ï¼Œæ£€ç´¢æŒ‡å®šçš„å€¼Flag
 	
 	# type ErrorHandling int
 			const (
-			ContinueOnError ErrorHandling = iota // Òì³£µÄÊ±ºò¼ÌĞøÖ´ĞĞ
-			ExitOnError                          // Ö´ĞĞÏµÍ³ÍË³ö os.Exit(2) »òÕß for -h/-help Exit(0).
+			ContinueOnError ErrorHandling = iota // å¼‚å¸¸çš„æ—¶å€™ç»§ç»­æ‰§è¡Œ
+			ExitOnError                          // æ‰§è¡Œç³»ç»Ÿé€€å‡º os.Exit(2) æˆ–è€… for -h/-help Exit(0).
 			PanicOnError                         // panic
 		)
 
-		* Òì³£´¦ÀíÃ¶¾Ù
+		* å¼‚å¸¸å¤„ç†æšä¸¾
 		
 
 	# type FlagSet struct {
-			Usage func()		// ²ÎÊıËµÃ÷Êä³öÎÄµµ
+			Usage func()		// å‚æ•°è¯´æ˜è¾“å‡ºæ–‡æ¡£
 		}
 
-		* ±£´æÁËËùÓĞµÄ²ÎÊı
+		* ä¿å­˜äº†æ‰€æœ‰çš„å‚æ•°
 		
 		func NewFlagSet(name string, errorHandling ErrorHandling) *FlagSet
 
@@ -78,7 +78,7 @@ type
 		func (f *FlagSet) Name() string
 		func (f *FlagSet) Output() io.Writer
 		func (f *FlagSet) Parse(arguments []string) error
-			* ½âÎö²ÎÊı
+			* è§£æå‚æ•°
 		
 		func (f *FlagSet) Parsed() bool
 		func (f *FlagSet) PrintDefaults()
@@ -99,48 +99,48 @@ type
 			Get() interface{}
 		}
 
-		* ²ÎÊıÖµµÄ×ª»»½Ó¿Ú£¬¿ÉÒÔ°Ñ²ÎÊıÖµ×ª»»Îª ÆäËûÀàĞÍ
-		* ËüÊµÏÖÁË Value ½Ó¿Ú
+		* å‚æ•°å€¼çš„è½¬æ¢æ¥å£ï¼Œå¯ä»¥æŠŠå‚æ•°å€¼è½¬æ¢ä¸º å…¶ä»–ç±»å‹
+		* å®ƒå®ç°äº† Value æ¥å£
 	
 	# type Value interface {
-			String() string			// ·µ»ØÖµ
-			Set(string) error		// ÖØĞÂÉèÖÃÖµ
+			String() string			// è¿”å›å€¼
+			Set(string) error		// é‡æ–°è®¾ç½®å€¼
 		}
 
-		* ²ÎÊıÖµµÄ½Ó¿Ú
+		* å‚æ•°å€¼çš„æ¥å£
 
 
 ---------------------------------------
-·½·¨
+æ–¹æ³•
 ---------------------------------------
 	func Arg(i int) string
 	func Args() []string
-		* ·µ»ØÎ´¶¨ÒåµÄ²ÎÊıÁĞ±í
+		* è¿”å›æœªå®šä¹‰çš„å‚æ•°åˆ—è¡¨
 
 	func Bool(name string, value bool, usage string) *bool
 	func Duration(name string, value time.Duration, usage string) *time.Duration
 	func Float64(name string, value float64, usage string) *float64
 	func Int64(name string, value int64, usage string) *int64
 	func Int(name string, value int, usage string) *int
-		* ²ÎÊıÃû³ÆÎªname£¬Ä¬ÈÏÖµÎªvalue£¬usageÊÇÌáÊ¾ĞÅÏ¢
-		* ·µ»ØµÄÕâ¸ö²ÎÊıÖµµÄÖ¸Õë
-		* Ê±¼äµÄ½âÎö¿ÉÒÔÊÇ£º 1m/1s/1h/2h45m µÈµÈ
+		* å‚æ•°åç§°ä¸ºnameï¼Œé»˜è®¤å€¼ä¸ºvalueï¼Œusageæ˜¯æç¤ºä¿¡æ¯
+		* è¿”å›çš„è¿™ä¸ªå‚æ•°å€¼çš„æŒ‡é’ˆ
+		* æ—¶é—´çš„è§£æå¯ä»¥æ˜¯ï¼š 1m/1s/1h/2h45m ç­‰ç­‰
 
 	func BoolVar(p *bool, name string, value bool, usage string)
 	func DurationVar(p *time.Duration, name string, value time.Duration, usage string)
 	func Float64Var(p *float64, name string, value float64, usage string)
 	func Int64Var(p *int64, name string, value int64, usage string)
 	func IntVar(p *int, name string, value int, usage string)
-		* ×Ô¼ºÉèÖÃÖµµÄÖ¸Õë
+		* è‡ªå·±è®¾ç½®å€¼çš„æŒ‡é’ˆ
 
 	func NArg() int
 	func NFlag() int
 
 	func Parse()
-		* Í¨³££¬ÔÚ¶¨ÒåÁËÃüÁîĞĞÑ¡Ïîºó£¬ĞèÒªµ÷ÓÃflag.Parse()¡£
+		* é€šå¸¸ï¼Œåœ¨å®šä¹‰äº†å‘½ä»¤è¡Œé€‰é¡¹åï¼Œéœ€è¦è°ƒç”¨flag.Parse()ã€‚
 
 	func Parsed() bool
-		* ·µ»Ø£¬ÊÇ·ñÒÑ¾­½âÎöÁË²ÎÊı
+		* è¿”å›ï¼Œæ˜¯å¦å·²ç»è§£æäº†å‚æ•°
 
 	func PrintDefaults()
 
@@ -154,7 +154,7 @@ type
 	func UnquoteUsage(flag *Flag) (name string, usage string)
 
 	func Var(value Value, name string, usage string)
-		* °Ñname²ÎÊı£¬ÉèÖÃ¸øvalue½Ó¿Ú
+		* æŠŠnameå‚æ•°ï¼Œè®¾ç½®ç»™valueæ¥å£
 		
 	func Visit(fn func(*Flag))
 	func VisitAll(fn func(*Flag))
@@ -163,15 +163,15 @@ type
 ---------------------------------------
 Demo
 ---------------------------------------
-	# ½âÎö³ÌĞòÃüÁî²ÎÊı
+	# è§£æç¨‹åºå‘½ä»¤å‚æ•°
 		import (
 			"flag"
 			"fmt"
 		)
 		func main(){
-			var epoll = flag.Bool("epoll", false, "±íÊ¾ÒªÊ¹ÓÃEpoll")
-			var port = flag.Int("port", 80, "Ê¹ÓÃµÄ¶Ë¿Ú")
-			var host = flag.String("host", "0.0.0.0", "°ó¶¨Íø¿¨")
+			var epoll = flag.Bool("epoll", false, "è¡¨ç¤ºè¦ä½¿ç”¨Epoll")
+			var port = flag.Int("port", 80, "ä½¿ç”¨çš„ç«¯å£")
+			var host = flag.String("host", "0.0.0.0", "ç»‘å®šç½‘å¡")
 			flag.Parse()
 			fmt.Printf("epoll=%v, port=%v, host=%v\n", *epoll, *port, *host)
 		}
@@ -179,21 +179,21 @@ Demo
 		// epoll=true, port=8080, host=192.168.0.152
 	
 
-	# ½âÎö×Ô¶¨ÒåµÄ²ÎÊı
+	# è§£æè‡ªå®šä¹‰çš„å‚æ•°
 		import (
 			"flag"
 			"log"
 			"time"
 		)
 		func main() {
-			var flagSet = flag.NewFlagSet("appÆô¶¯²ÎÊı", flag.ExitOnError)
+			var flagSet = flag.NewFlagSet("appå¯åŠ¨å‚æ•°", flag.ExitOnError)
 
-			// Ô¤¶¨ÒåÒª¶ÁÈ¡µÄ²ÎÊı
-			var name = flagSet.String("name", "", "Ãû×Ö")
-			var age = flagSet.Int("age", 0, "ÄêÁä")
-			var expire = flagSet.Duration("expire", time.Second * 0, "vip¹ıÆÚÊ±¼ä")
+			// é¢„å®šä¹‰è¦è¯»å–çš„å‚æ•°
+			var name = flagSet.String("name", "", "åå­—")
+			var age = flagSet.Int("age", 0, "å¹´é¾„")
+			var expire = flagSet.Duration("expire", time.Second * 0, "vipè¿‡æœŸæ—¶é—´")
 
-			// ½âÎö²ÎÊı
+			// è§£æå‚æ•°
 			var err = flagSet.Parse([]string{"-name=Vin", "-age=28", "-expire=2h45m"})
 			// var err = flagSet.Parse([]string{"-name=Vin -age=28 expire=2h45m"})
 
@@ -201,7 +201,7 @@ Demo
 				log.Println(err)
 			}
 
-			// ±éÀúËùÓĞÔ¤¶¨Òå²ÎÊı
+			// éå†æ‰€æœ‰é¢„å®šä¹‰å‚æ•°
 			flagSet.VisitAll(func(f *flag.Flag) {
 				log.Printf("name=%s, value=%s\n", f.Name, f.Value.String())
 			})

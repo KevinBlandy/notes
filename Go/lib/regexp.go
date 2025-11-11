@@ -2,26 +2,26 @@
 regexp
 -------------
 -------------
-±äÁ¿
+å˜é‡
 -------------
 -------------
 type
 -------------
 	# type Regexp struct 
 
-		* ÕıÔò±í´ïÊ½µÄ½á¹¹Ìå
+		* æ­£åˆ™è¡¨è¾¾å¼çš„ç»“æ„ä½“
 
 		func Compile(expr string) (*Regexp, error)
 		func CompilePOSIX(expr string) (*Regexp, error)
-			* CompilePOSIX ºÍ Compile µÄ²»Í¬µãÔÚÓÚ POSIX ±ØĞëÊ¹ÓÃ POSIX Óï·¨£¬ËüÊ¹ÓÃ×î×ó×î³¤·½Ê½ËÑË÷
-			* ¶ø Compile ÊÇ²ÉÓÃµÄÔòÖ»²ÉÓÃ×î×ó·½Ê½ËÑË÷ 
+			* CompilePOSIX å’Œ Compile çš„ä¸åŒç‚¹åœ¨äº POSIX å¿…é¡»ä½¿ç”¨ POSIX è¯­æ³•ï¼Œå®ƒä½¿ç”¨æœ€å·¦æœ€é•¿æ–¹å¼æœç´¢
+			* è€Œ Compile æ˜¯é‡‡ç”¨çš„åˆ™åªé‡‡ç”¨æœ€å·¦æ–¹å¼æœç´¢ 
 			
-			* ÀıÈç [a-z]{2,4} ÕâÑùÒ»¸öÕıÔò±í´ïÊ½£¬Ó¦ÓÃÓÚ "aa09aaa88aaaa" Õâ¸öÎÄ±¾´®Ê±£¬CompilePOSIX ·µ»ØÁË aaaa£¬¶ø Compile µÄ·µ»ØµÄÊÇ aa
+			* ä¾‹å¦‚ [a-z]{2,4} è¿™æ ·ä¸€ä¸ªæ­£åˆ™è¡¨è¾¾å¼ï¼Œåº”ç”¨äº "aa09aaa88aaaa" è¿™ä¸ªæ–‡æœ¬ä¸²æ—¶ï¼ŒCompilePOSIX è¿”å›äº† aaaaï¼Œè€Œ Compile çš„è¿”å›çš„æ˜¯ aa
 
 
 		func MustCompile(str string) *Regexp
 		func MustCompilePOSIX(str string) *Regexp
-			* Í¬ÉÏ£¬Èç¹ûÕıÔò±àÒë²»¹ı£¬Ôò»áÒì³£
+			* åŒä¸Šï¼Œå¦‚æœæ­£åˆ™ç¼–è¯‘ä¸è¿‡ï¼Œåˆ™ä¼šå¼‚å¸¸
 
 		func (re *Regexp) Copy() *Regexp
 		func (re *Regexp) Expand(dst []byte, template []byte, src []byte, match []int) []byte
@@ -30,11 +30,11 @@ type
 		func (re *Regexp) FindAll(b []byte, n int) [][]byte
 		func (re *Regexp) FindAllIndex(b []byte, n int) [][]int
 		func (re *Regexp) FindAllString(s string, n int) []string
-			* FindString µÄÅúÁ¿°æ±¾£¬²ÎÊı n£¬´ú±íÖ»²éÕÒÇ°n´ÎÆ¥Åä£¬Ö¸¶¨ -1 µÄ»°£¬Ôò¼ìË÷³ö s ×Ö·û´®ÖĞËùÓĞ·ûºÏ±í´ïÊ½µÄ×Ó´®
+			* FindString çš„æ‰¹é‡ç‰ˆæœ¬ï¼Œå‚æ•° nï¼Œä»£è¡¨åªæŸ¥æ‰¾å‰næ¬¡åŒ¹é…ï¼ŒæŒ‡å®š -1 çš„è¯ï¼Œåˆ™æ£€ç´¢å‡º s å­—ç¬¦ä¸²ä¸­æ‰€æœ‰ç¬¦åˆè¡¨è¾¾å¼çš„å­ä¸²
 		
 		func (re *Regexp) FindAllStringIndex(s string, n int) [][]int
-			* FindStringIndex µÄÅúÁ¿°æ±¾£¬²ÎÊı n£¬´ú±íÖ»²éÕÒÇ°n´ÎÆ¥Åä£¬Ö¸¶¨ -1 µÄ»°£¬Ôò¼ìË÷³ö s ×Ö·û´®ÖĞËùÓĞ·ûºÏ±í´ïÊ½µÄÏÂ±ê
-			* Èç¹û²»´æÔÚ£¬Ôò·µ»Ø nill
+			* FindStringIndex çš„æ‰¹é‡ç‰ˆæœ¬ï¼Œå‚æ•° nï¼Œä»£è¡¨åªæŸ¥æ‰¾å‰næ¬¡åŒ¹é…ï¼ŒæŒ‡å®š -1 çš„è¯ï¼Œåˆ™æ£€ç´¢å‡º s å­—ç¬¦ä¸²ä¸­æ‰€æœ‰ç¬¦åˆè¡¨è¾¾å¼çš„ä¸‹æ ‡
+			* å¦‚æœä¸å­˜åœ¨ï¼Œåˆ™è¿”å› nill
 
 		func (re *Regexp) FindAllStringSubmatch(s string, n int) [][]string
 		func (re *Regexp) FindAllStringSubmatchIndex(s string, n int) [][]int
@@ -45,11 +45,11 @@ type
 		func (re *Regexp) FindReaderSubmatchIndex(r io.RuneReader) []int
 
 		func (re *Regexp) FindString(s string) string
-			* »ñÈ¡ s ÖĞ·ûºÏ±í´ïÊ½µÄ×Ó´®
+			* è·å– s ä¸­ç¬¦åˆè¡¨è¾¾å¼çš„å­ä¸²
 
 		func (re *Regexp) FindStringIndex(s string) (loc []int)
-			* ÓÃÓÚÔÚÎÄ±¾±äÁ¿ s ÖĞ½øĞĞÆ¥Åä²éÕÒ£¬²¢ÔÚµÚÒ»´ÎÆ¥Åä³É¹¦Ê±·µ»ØÆ¥ÅäÎ»ÖÃ£¨ÆğÊ¼ºÍ½áÊøÎ»ÖÃ£©¡£
-			* Èç¹û²»´æÔÚ£¬Ôò·µ»Ø nill
+			* ç”¨äºåœ¨æ–‡æœ¬å˜é‡ s ä¸­è¿›è¡ŒåŒ¹é…æŸ¥æ‰¾ï¼Œå¹¶åœ¨ç¬¬ä¸€æ¬¡åŒ¹é…æˆåŠŸæ—¶è¿”å›åŒ¹é…ä½ç½®ï¼ˆèµ·å§‹å’Œç»“æŸä½ç½®ï¼‰ã€‚
+			* å¦‚æœä¸å­˜åœ¨ï¼Œåˆ™è¿”å› nill
 
 		func (re *Regexp) FindStringSubmatch(s string) []string
 
@@ -64,7 +64,7 @@ type
 		func (re *Regexp) Match(b []byte) bool
 		func (re *Regexp) MatchReader(r io.RuneReader) bool
 		func (re *Regexp) MatchString(s string) bool
-			* ÊÇ·ñ¿ÉÒÔÆ¥ÅäÖ¸¶¨µÄ×Ö½ÚÊı×é/Reader/×Ö·û´®
+			* æ˜¯å¦å¯ä»¥åŒ¹é…æŒ‡å®šçš„å­—èŠ‚æ•°ç»„/Reader/å­—ç¬¦ä¸²
 
 		func (re *Regexp) NumSubexp() int
 		func (re *Regexp) ReplaceAll(src, repl []byte) []byte
@@ -73,7 +73,7 @@ type
 		func (re *Regexp) ReplaceAllLiteralString(src, repl string) string
 		func (re *Regexp) ReplaceAllString(src, repl string) string
 		func (re *Regexp) ReplaceAllStringFunc(src string, repl func(string) string) string
-			* °ÑsrcÖĞ·ûºÏthis¹æÔòµÄ×Ö·û´®¡£¶¼ÒÔfunc¼ÆËã½á¹û½øĞĞÌæ»»
+			* æŠŠsrcä¸­ç¬¦åˆthisè§„åˆ™çš„å­—ç¬¦ä¸²ã€‚éƒ½ä»¥funcè®¡ç®—ç»“æœè¿›è¡Œæ›¿æ¢
 
 		func (re *Regexp) Split(s string, n int) []string
 		func (re *Regexp) String() string
@@ -82,17 +82,17 @@ type
 		func (re *Regexp) UnmarshalText(text []byte) error
 	
 -------------
-·½·¨
+æ–¹æ³•
 -------------
 	func Match(pattern string, b []byte) (matched bool, err error)
 	func MatchReader(pattern string, r io.RuneReader) (matched bool, err error)
 	func MatchString(pattern string, s string) (matched bool, err error)
-		* ÅĞ¶ÏÖ¸¶¨µÄ×Ö½ÚÊı×é/Reader/×Ö·û´® ÊÇ·ñ·ûºÏ±í´ïÊ½
+		* åˆ¤æ–­æŒ‡å®šçš„å­—èŠ‚æ•°ç»„/Reader/å­—ç¬¦ä¸² æ˜¯å¦ç¬¦åˆè¡¨è¾¾å¼
 
 	func QuoteMeta(s string) string
 
 ----------------------
-Ê¾Àı
+ç¤ºä¾‹
 ----------------------
 	package main
 
@@ -105,19 +105,19 @@ type
 		text := "Hello123World456"
 		reg := regexp.MustCompile("\\d{3}")
 
-		// »ñÈ¡Æ¥Åäµ½µÄ×Ö´®¿ªÊ¼¡¢½áÊøÎ»ÖÃ
+		// è·å–åŒ¹é…åˆ°çš„å­—ä¸²å¼€å§‹ã€ç»“æŸä½ç½®
 		// [5 8]
 		fmt.Println(reg.FindStringIndex(text))
 		// [[5 8] [13 16]]
 		fmt.Println(reg.FindAllStringIndex(text, -1))
 
-		// »ñÈ¡Æ¥Åäµ½µÄ×Ö´®
+		// è·å–åŒ¹é…åˆ°çš„å­—ä¸²
 		// 123
 		fmt.Println(reg.FindString(text))
 		// [123 456]
 		fmt.Println(reg.FindAllString(text, -1))
 
-		// ¶ÔÆ¥Åäµ½µÄ×Ó´®½øĞĞÌæ»»
+		// å¯¹åŒ¹é…åˆ°çš„å­ä¸²è¿›è¡Œæ›¿æ¢
 		ret := reg.ReplaceAllStringFunc(text, func(s string) string {
 			return "[" + s + "]"
 		})

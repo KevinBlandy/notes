@@ -3,7 +3,7 @@ reflect
 ---------------------
 
 ---------------------
-±äÁ¿
+å˜é‡
 ---------------------
 
 ---------------------
@@ -11,12 +11,12 @@ type
 ---------------------
 	# type ChanDir int
 		const (
-			RecvDir ChanDir             = 1 << iota // Ö»Ð´Í¨µÀ
-			SendDir                                 // Ö»¶ÁÍ¨µÀ
-			BothDir = RecvDir | SendDir             // ¶ÁÐ´Í¨µÀ
+			RecvDir ChanDir             = 1 << iota // åªå†™é€šé“
+			SendDir                                 // åªè¯»é€šé“
+			BothDir = RecvDir | SendDir             // è¯»å†™é€šé“
 		)
 
-		* Í¨µÀµÄÀàÐÍ
+		* é€šé“çš„ç±»åž‹
 
 		func (d ChanDir) String() string
 	
@@ -51,7 +51,7 @@ type
 			UnsafePointer
 		)
 
-		* Àà±ð£¬Àà±ðÊÇÖ¸Õâ¸öÊý¾ÝÊÇÊ²Ã´ÀàÐÍµÄÊý¾Ý
+		* ç±»åˆ«ï¼Œç±»åˆ«æ˜¯æŒ‡è¿™ä¸ªæ•°æ®æ˜¯ä»€ä¹ˆç±»åž‹çš„æ•°æ®
 
 		func (k Kind) String() string
 	
@@ -90,148 +90,148 @@ type
 			Len  int
 			Cap  int
 		}
-		* ÇÐÆ¬µÄµØ²ã½á¹¹
+		* åˆ‡ç‰‡çš„åœ°å±‚ç»“æž„
 
 	# type StringHeader struct {
 			Data uintptr
 			Len  int
 		}
 
-		* ×Ö·û´®µÄµÄµ×²ã½á¹¹£¬Ò»¸öÖ¸Õë£¬Ò»¸ö³¤¶È
+		* å­—ç¬¦ä¸²çš„çš„åº•å±‚ç»“æž„ï¼Œä¸€ä¸ªæŒ‡é’ˆï¼Œä¸€ä¸ªé•¿åº¦
 	
 	# type StructField struct {
 			Name string
 			PkgPath string
 			Type      Type      // field type
-				* ÀàÐÍ
+				* ç±»åž‹
 			Tag       StructTag // field tag string
-				* tag£¬ÀàËÆÓÚJavaÖÐµÄ×¢½â
+				* tagï¼Œç±»ä¼¼äºŽJavaä¸­çš„æ³¨è§£
 			
 			Offset    uintptr   // offset within struct, in bytes
 			Index     []int     // index sequence for Type.FieldByIndex
 			Anonymous bool      // is an embedded field
 		}
 		
-		* ½á¹¹ÌåµÄ×Ö¶Î
+		* ç»“æž„ä½“çš„å­—æ®µ
 
 		func (tag StructTag) Get(key string) string
-			* »ñÈ¡×¢½â£¬Èç¹û²»´æÔÚ·µ»Ø ""
+			* èŽ·å–æ³¨è§£ï¼Œå¦‚æžœä¸å­˜åœ¨è¿”å›ž ""
 				v, _ := tag.Lookup(key)
 				return v
 			
 		func (tag StructTag) Lookup(key string) (value string, ok bool)
-			* »ñÈ¡×¢½â
+			* èŽ·å–æ³¨è§£
 		
 		func (f StructField) IsExported() bool
-			* ÊÇ·ñÊÇµ¼³öµÄ×Ö¶Î
+			* æ˜¯å¦æ˜¯å¯¼å‡ºçš„å­—æ®µ
 	
 	# type StructTag string
-		* ½á¹¹ÌåµÄ×Ö¶Î×¢½â
+		* ç»“æž„ä½“çš„å­—æ®µæ³¨è§£
 	
 	# type Type interface {
 			Align() int
-				* ·µ»Øµ±´ÓÄÚ´æÖÐÉêÇëÒ»¸ö¸ÃÀàÐÍÖµÊ±£¬»á¶ÔÆëµÄ×Ö½ÚÊý
+				* è¿”å›žå½“ä»Žå†…å­˜ä¸­ç”³è¯·ä¸€ä¸ªè¯¥ç±»åž‹å€¼æ—¶ï¼Œä¼šå¯¹é½çš„å­—èŠ‚æ•°
 
 			FieldAlign() int
-				* ·µ»Øµ±¸ÃÀàÐÍ×÷Îª½á¹¹ÌåµÄ×Ö¶ÎÊ±£¬»á¶ÔÆëµÄ×Ö½ÚÊý
+				* è¿”å›žå½“è¯¥ç±»åž‹ä½œä¸ºç»“æž„ä½“çš„å­—æ®µæ—¶ï¼Œä¼šå¯¹é½çš„å­—èŠ‚æ•°
 
 			Method(int) Method
-				* ·µ»Ø¸ÃÀàÐÍ·½·¨¼¯ÖÐµÄµÚi¸ö·½·¨£¬i²»ÔÚ[0, NumMethod())·¶Î§ÄÚÊ±£¬½«µ¼ÖÂpanic
-				* ¶Ô·Ç½Ó¿ÚÀàÐÍT»ò*T£¬·µ»ØÖµµÄType×Ö¶ÎºÍFunc×Ö¶ÎÃèÊö·½·¨µÄÎ´°ó¶¨º¯Êý×´Ì¬
-				* ¶Ô½Ó¿ÚÀàÐÍ£¬·µ»ØÖµµÄType×Ö¶ÎÃèÊö·½·¨µÄÇ©Ãû£¬Func×Ö¶ÎÎªnil
+				* è¿”å›žè¯¥ç±»åž‹æ–¹æ³•é›†ä¸­çš„ç¬¬iä¸ªæ–¹æ³•ï¼Œiä¸åœ¨[0, NumMethod())èŒƒå›´å†…æ—¶ï¼Œå°†å¯¼è‡´panic
+				* å¯¹éžæŽ¥å£ç±»åž‹Tæˆ–*Tï¼Œè¿”å›žå€¼çš„Typeå­—æ®µå’ŒFuncå­—æ®µæè¿°æ–¹æ³•çš„æœªç»‘å®šå‡½æ•°çŠ¶æ€
+				* å¯¹æŽ¥å£ç±»åž‹ï¼Œè¿”å›žå€¼çš„Typeå­—æ®µæè¿°æ–¹æ³•çš„ç­¾åï¼ŒFuncå­—æ®µä¸ºnil
 
 			MethodByName(string) (Method, bool)
-				* ¸ù¾Ý·½·¨Ãû·µ»Ø¸ÃÀàÐÍ·½·¨¼¯ÖÐµÄ·½·¨£¬Ê¹ÓÃÒ»¸ö²¼¶ûÖµËµÃ÷ÊÇ·ñ·¢ÏÖ¸Ã·½·¨
-				* ¶Ô·Ç½Ó¿ÚÀàÐÍT»ò*T£¬·µ»ØÖµµÄType×Ö¶ÎºÍFunc×Ö¶ÎÃèÊö·½·¨µÄÎ´°ó¶¨º¯Êý×´Ì¬
-				* ¶Ô½Ó¿ÚÀàÐÍ£¬·µ»ØÖµµÄType×Ö¶ÎÃèÊö·½·¨µÄÇ©Ãû£¬Func×Ö¶ÎÎªnil
+				* æ ¹æ®æ–¹æ³•åè¿”å›žè¯¥ç±»åž‹æ–¹æ³•é›†ä¸­çš„æ–¹æ³•ï¼Œä½¿ç”¨ä¸€ä¸ªå¸ƒå°”å€¼è¯´æ˜Žæ˜¯å¦å‘çŽ°è¯¥æ–¹æ³•
+				* å¯¹éžæŽ¥å£ç±»åž‹Tæˆ–*Tï¼Œè¿”å›žå€¼çš„Typeå­—æ®µå’ŒFuncå­—æ®µæè¿°æ–¹æ³•çš„æœªç»‘å®šå‡½æ•°çŠ¶æ€
+				* å¯¹æŽ¥å£ç±»åž‹ï¼Œè¿”å›žå€¼çš„Typeå­—æ®µæè¿°æ–¹æ³•çš„ç­¾åï¼ŒFuncå­—æ®µä¸ºnil
 
 			NumMethod() int
-				* ·µ»Ø¸ÃÀàÐÍµÄ·½·¨¼¯ÖÐ·½·¨µÄÊýÄ¿
-				* ÄäÃû×Ö¶ÎµÄ·½·¨»á±»¼ÆËã£»Ö÷ÌåÀàÐÍµÄ·½·¨»áÆÁ±ÎÄäÃû×Ö¶ÎµÄÍ¬Ãû·½·¨£¨¸²Ð´µÄ·½·¨£¬Ö»ËãÒ»¸ö£©
-				* ÄäÃû×Ö¶Îµ¼ÖÂµÄÆçÒå·½·¨»áÂË³ý
+				* è¿”å›žè¯¥ç±»åž‹çš„æ–¹æ³•é›†ä¸­æ–¹æ³•çš„æ•°ç›®
+				* åŒ¿åå­—æ®µçš„æ–¹æ³•ä¼šè¢«è®¡ç®—ï¼›ä¸»ä½“ç±»åž‹çš„æ–¹æ³•ä¼šå±è”½åŒ¿åå­—æ®µçš„åŒåæ–¹æ³•ï¼ˆè¦†å†™çš„æ–¹æ³•ï¼Œåªç®—ä¸€ä¸ªï¼‰
+				* åŒ¿åå­—æ®µå¯¼è‡´çš„æ­§ä¹‰æ–¹æ³•ä¼šæ»¤é™¤
 
 			Name() string
-				* ·µ»Ø¸ÃÀàÐÍÔÚ×ÔÉí°üÄÚµÄÀàÐÍÃû£¬Èç¹ûÊÇÎ´ÃüÃûÀàÐÍ»á·µ»Ø""
+				* è¿”å›žè¯¥ç±»åž‹åœ¨è‡ªèº«åŒ…å†…çš„ç±»åž‹åï¼Œå¦‚æžœæ˜¯æœªå‘½åç±»åž‹ä¼šè¿”å›ž""
 
 			PkgPath() string
-				* PkgPath·µ»ØÀàÐÍµÄ°üÂ·¾¶£¬¼´Ã÷È·Ö¸¶¨°üµÄimportÂ·¾¶£¬Èç"encoding/base64"
-				* Èç¹ûÀàÐÍÎªÄÚ½¨ÀàÐÍ(string, error)»òÎ´ÃüÃûÀàÐÍ(*T, struct{}, []int)£¬»á·µ»Ø""
+				* PkgPathè¿”å›žç±»åž‹çš„åŒ…è·¯å¾„ï¼Œå³æ˜Žç¡®æŒ‡å®šåŒ…çš„importè·¯å¾„ï¼Œå¦‚"encoding/base64"
+				* å¦‚æžœç±»åž‹ä¸ºå†…å»ºç±»åž‹(string, error)æˆ–æœªå‘½åç±»åž‹(*T, struct{}, []int)ï¼Œä¼šè¿”å›ž""
 
 			Size() uintptr
-				* ·µ»ØÒª±£´æÒ»¸ö¸ÃÀàÐÍµÄÖµÐèÒª¶àÉÙ×Ö½Ú£»ÀàËÆunsafe.Sizeof
+				* è¿”å›žè¦ä¿å­˜ä¸€ä¸ªè¯¥ç±»åž‹çš„å€¼éœ€è¦å¤šå°‘å­—èŠ‚ï¼›ç±»ä¼¼unsafe.Sizeof
 
 			String() string
-				* ·µ»ØÀàÐÍµÄ×Ö·û´®±íÊ¾¡£¸Ã×Ö·û´®¿ÉÄÜ»áÊ¹ÓÃ¶Ì°üÃû£¨ÈçÓÃbase64´úÌæ"encoding/base64"£©
-				* Ò²²»±£Ö¤Ã¿¸öÀàÐÍµÄ×Ö·û´®±íÊ¾²»Í¬¡£Èç¹ûÒª±È½ÏÁ½¸öÀàÐÍÊÇ·ñÏàµÈ£¬ÇëÖ±½ÓÓÃTypeÀàÐÍ±È½Ï¡£
+				* è¿”å›žç±»åž‹çš„å­—ç¬¦ä¸²è¡¨ç¤ºã€‚è¯¥å­—ç¬¦ä¸²å¯èƒ½ä¼šä½¿ç”¨çŸ­åŒ…åï¼ˆå¦‚ç”¨base64ä»£æ›¿"encoding/base64"ï¼‰
+				* ä¹Ÿä¸ä¿è¯æ¯ä¸ªç±»åž‹çš„å­—ç¬¦ä¸²è¡¨ç¤ºä¸åŒã€‚å¦‚æžœè¦æ¯”è¾ƒä¸¤ä¸ªç±»åž‹æ˜¯å¦ç›¸ç­‰ï¼Œè¯·ç›´æŽ¥ç”¨Typeç±»åž‹æ¯”è¾ƒã€‚
 
 			Kind() Kind
-				*  Kind·µ»Ø¸Ã½Ó¿ÚµÄ¾ßÌå·ÖÀà
+				*  Kindè¿”å›žè¯¥æŽ¥å£çš„å…·ä½“åˆ†ç±»
 
 			Implements(u Type) bool
-				* Èç¹û¸ÃÀàÐÍÊµÏÖÁËu´ú±íµÄ½Ó¿Ú£¬»á·µ»ØÕæ
+				* å¦‚æžœè¯¥ç±»åž‹å®žçŽ°äº†uä»£è¡¨çš„æŽ¥å£ï¼Œä¼šè¿”å›žçœŸ
 			
 			AssignableTo(u Type) bool
-				* Èç¹û¸ÃÀàÐÍµÄÖµ¿ÉÒÔÖ±½Ó¸³Öµ¸øu´ú±íµÄÀàÐÍ£¬·µ»ØÕæ
+				* å¦‚æžœè¯¥ç±»åž‹çš„å€¼å¯ä»¥ç›´æŽ¥èµ‹å€¼ç»™uä»£è¡¨çš„ç±»åž‹ï¼Œè¿”å›žçœŸ
 			
 			ConvertibleTo(u Type) bool
-				* Èç¸ÃÀàÐÍµÄÖµ¿ÉÒÔ×ª»»Îªu´ú±íµÄÀàÐÍ£¬·µ»ØÕæ
+				* å¦‚è¯¥ç±»åž‹çš„å€¼å¯ä»¥è½¬æ¢ä¸ºuä»£è¡¨çš„ç±»åž‹ï¼Œè¿”å›žçœŸ
 			
 			Comparable() bool
-				* µ±Ç°ÀàÐÍÊÇ·ñ¿ÉÒÔºÍµ±Ç°ÀàÐÍ½øÐÐ == ±È½Ï
+				* å½“å‰ç±»åž‹æ˜¯å¦å¯ä»¥å’Œå½“å‰ç±»åž‹è¿›è¡Œ == æ¯”è¾ƒ
 
 			Bits() int
-				* ·µ»Ø¸ÃÀàÐÍµÄ×ÖÎ»Êý¡£Èç¹û¸ÃÀàÐÍµÄKind²»ÊÇInt¡¢Uint¡¢Float»òComplex£¬»ápanic
+				* è¿”å›žè¯¥ç±»åž‹çš„å­—ä½æ•°ã€‚å¦‚æžœè¯¥ç±»åž‹çš„Kindä¸æ˜¯Intã€Uintã€Floatæˆ–Complexï¼Œä¼španic
 			
 			ChanDir() ChanDir
-				* ·µ»ØÒ»¸öchannelÀàÐÍµÄ·½Ïò£¬Èç·ÇÍ¨µÀÀàÐÍ½«»ápanic
+				* è¿”å›žä¸€ä¸ªchannelç±»åž‹çš„æ–¹å‘ï¼Œå¦‚éžé€šé“ç±»åž‹å°†ä¼španic
 			
 			IsVariadic() bool
-				* Èç¹ûº¯ÊýÀàÐÍµÄ×îºóÒ»¸öÊäÈë²ÎÊýÊÇ"..."ÐÎÊ½µÄ²ÎÊý£¬IsVariadic·µ»ØÕæ
-				* Èç·Çº¯ÊýÀàÐÍ½«panic
+				* å¦‚æžœå‡½æ•°ç±»åž‹çš„æœ€åŽä¸€ä¸ªè¾“å…¥å‚æ•°æ˜¯"..."å½¢å¼çš„å‚æ•°ï¼ŒIsVariadicè¿”å›žçœŸ
+				* å¦‚éžå‡½æ•°ç±»åž‹å°†panic
 			
 			Elem() Type
-				* ·µ»Ø¸ÃÀàÐÍµÄÔªËØÀàÐÍ£¬Èç¹û¸ÃÀàÐÍµÄKind²»ÊÇArray¡¢Chan¡¢Map¡¢Ptr»òSlice£¬»ápanic
+				* è¿”å›žè¯¥ç±»åž‹çš„å…ƒç´ ç±»åž‹ï¼Œå¦‚æžœè¯¥ç±»åž‹çš„Kindä¸æ˜¯Arrayã€Chanã€Mapã€Ptræˆ–Sliceï¼Œä¼španic
 			
 			Field(i int) StructField
-				* ·µ»ØstructÀàÐÍµÄµÚi¸ö×Ö¶ÎµÄÀàÐÍ£¬Èç·Ç½á¹¹Ìå»òÕßi²»ÔÚ[0, NumField())ÄÚ½«»ápanic
+				* è¿”å›žstructç±»åž‹çš„ç¬¬iä¸ªå­—æ®µçš„ç±»åž‹ï¼Œå¦‚éžç»“æž„ä½“æˆ–è€…iä¸åœ¨[0, NumField())å†…å°†ä¼španic
 
 			FieldByIndex(index []int) StructField	
-				* ·µ»ØË÷ÒýÐòÁÐÖ¸¶¨µÄÇ¶Ì××Ö¶ÎµÄÀàÐÍ£¬
-				* µÈ¼ÛÓÚÓÃË÷ÒýÖÐÃ¿¸öÖµÁ´Ê½µ÷ÓÃ±¾·½·¨£¬Èç·Ç½á¹¹Ìå½«»ápanic
-				* ÔÚ½á¹¹ÌåAÖÐÕÒindex[0]ÊôÐÔ£¬ÔÙ´ÓÕâ¸öÊôÐÔÖÐÕÒindex[1]ÊôÐÔ...
+				* è¿”å›žç´¢å¼•åºåˆ—æŒ‡å®šçš„åµŒå¥—å­—æ®µçš„ç±»åž‹ï¼Œ
+				* ç­‰ä»·äºŽç”¨ç´¢å¼•ä¸­æ¯ä¸ªå€¼é“¾å¼è°ƒç”¨æœ¬æ–¹æ³•ï¼Œå¦‚éžç»“æž„ä½“å°†ä¼španic
+				* åœ¨ç»“æž„ä½“Aä¸­æ‰¾index[0]å±žæ€§ï¼Œå†ä»Žè¿™ä¸ªå±žæ€§ä¸­æ‰¾index[1]å±žæ€§...
 
 			FieldByName(name string) (StructField, bool)
-				* ·µ»Ø¸ÃÀàÐÍÃûÎªnameµÄ×Ö¶Î£¨»á²éÕÒÄäÃû×Ö¶Î¼°Æä×Ó×Ö¶Î£©£¬
-				* ²¼¶ûÖµËµÃ÷ÊÇ·ñÕÒµ½£¬Èç·Ç½á¹¹Ìå½«panic
+				* è¿”å›žè¯¥ç±»åž‹åä¸ºnameçš„å­—æ®µï¼ˆä¼šæŸ¥æ‰¾åŒ¿åå­—æ®µåŠå…¶å­å­—æ®µï¼‰ï¼Œ
+				* å¸ƒå°”å€¼è¯´æ˜Žæ˜¯å¦æ‰¾åˆ°ï¼Œå¦‚éžç»“æž„ä½“å°†panic
 			
 			FieldByNameFunc(match func(string) bool) (StructField, bool)
-				* ·µ»Ø¸ÃÀàÐÍµÚÒ»¸ö×Ö¶ÎÃûÂú×ãº¯ÊýmatchµÄ×Ö¶Î£¬²¼¶ûÖµËµÃ÷ÊÇ·ñÕÒµ½£¬Èç·Ç½á¹¹Ìå½«»ápanic
+				* è¿”å›žè¯¥ç±»åž‹ç¬¬ä¸€ä¸ªå­—æ®µåæ»¡è¶³å‡½æ•°matchçš„å­—æ®µï¼Œå¸ƒå°”å€¼è¯´æ˜Žæ˜¯å¦æ‰¾åˆ°ï¼Œå¦‚éžç»“æž„ä½“å°†ä¼španic
 
 			In(i int) Type
-				* ·µ»ØfuncÀàÐÍµÄµÚi¸ö²ÎÊýµÄÀàÐÍ£¬Èç·Çº¯Êý»òÕßi²»ÔÚ[0, NumIn())ÄÚ½«»ápanic
+				* è¿”å›žfuncç±»åž‹çš„ç¬¬iä¸ªå‚æ•°çš„ç±»åž‹ï¼Œå¦‚éžå‡½æ•°æˆ–è€…iä¸åœ¨[0, NumIn())å†…å°†ä¼španic
 			
 			Key() Type
-				* ·µ»ØmapÀàÐÍµÄ¼üµÄÀàÐÍ¡£Èç·ÇÓ³ÉäÀàÐÍ½«panic
+				* è¿”å›žmapç±»åž‹çš„é”®çš„ç±»åž‹ã€‚å¦‚éžæ˜ å°„ç±»åž‹å°†panic
 			
 			Len() int
-				* »ØarrayÀàÐÍµÄ³¤¶È£¬Èç·ÇÊý×éÀàÐÍ½«panic
+				* å›žarrayç±»åž‹çš„é•¿åº¦ï¼Œå¦‚éžæ•°ç»„ç±»åž‹å°†panic
 			
 			NumField() int
-				* ·µ»ØstructÀàÐÍµÄ×Ö¶ÎÊý£¨ÄäÃû×Ö¶ÎËã×÷Ò»¸ö×Ö¶Î£©£¬Èç·Ç½á¹¹ÌåÀàÐÍ½«panic
+				* è¿”å›žstructç±»åž‹çš„å­—æ®µæ•°ï¼ˆåŒ¿åå­—æ®µç®—ä½œä¸€ä¸ªå­—æ®µï¼‰ï¼Œå¦‚éžç»“æž„ä½“ç±»åž‹å°†panic
 
 			NumIn() int
-				* ·µ»ØfuncÀàÐÍµÄ²ÎÊý¸öÊý£¬Èç¹û²»ÊÇº¯Êý£¬½«»ápanic
+				* è¿”å›žfuncç±»åž‹çš„å‚æ•°ä¸ªæ•°ï¼Œå¦‚æžœä¸æ˜¯å‡½æ•°ï¼Œå°†ä¼španic
 
 			NumOut() int
-				* ·µ»ØfuncÀàÐÍµÄ·µ»ØÖµ¸öÊý£¬Èç¹û²»ÊÇº¯Êý£¬½«»ápanic
+				* è¿”å›žfuncç±»åž‹çš„è¿”å›žå€¼ä¸ªæ•°ï¼Œå¦‚æžœä¸æ˜¯å‡½æ•°ï¼Œå°†ä¼španic
 			
 			Out(i int) Type
-				* ·µ»ØfuncÀàÐÍµÄµÚi¸ö·µ»ØÖµµÄÀàÐÍ£¬Èç·Çº¯Êý»òÕßi²»ÔÚ[0, NumOut())ÄÚ½«»ápanic
+				* è¿”å›žfuncç±»åž‹çš„ç¬¬iä¸ªè¿”å›žå€¼çš„ç±»åž‹ï¼Œå¦‚éžå‡½æ•°æˆ–è€…iä¸åœ¨[0, NumOut())å†…å°†ä¼španic
 		}
 		
-		* ÀàÐÍ£¬ÀàÐÍÖ¸µÄÊÇ£¬¡°Êý¾Ý¡±ÊÇÄ³ÖÖ¡°Àà±ð¡±ÏÂµÄÄ³ÖÖ¡°ÀàÐÍ¡±
+		* ç±»åž‹ï¼Œç±»åž‹æŒ‡çš„æ˜¯ï¼Œâ€œæ•°æ®â€æ˜¯æŸç§â€œç±»åˆ«â€ä¸‹çš„æŸç§â€œç±»åž‹â€
 			type User struct {
-				// struct Àà±ðÏÂµÄ UserÀàÐÍ
+				// struct ç±»åˆ«ä¸‹çš„ Userç±»åž‹
 			}
 		
 
@@ -247,259 +247,259 @@ type
 	
 	# type Value struct {}
 		func Append(s Value, x ...Value) Value
-			* ÏòÇÐÆ¬ÀàÐÍµÄValueÖµsÖÐÌí¼ÓÒ»ÏµÁÐÖµ£¬xµÈValueÖµ³ÖÓÐµÄÖµ±ØÐëÄÜÖ±½Ó¸³Öµ¸øs³ÖÓÐµÄÇÐÆ¬µÄÔªËØÀàÐÍ¡£
+			* å‘åˆ‡ç‰‡ç±»åž‹çš„Valueå€¼sä¸­æ·»åŠ ä¸€ç³»åˆ—å€¼ï¼Œxç­‰Valueå€¼æŒæœ‰çš„å€¼å¿…é¡»èƒ½ç›´æŽ¥èµ‹å€¼ç»™sæŒæœ‰çš„åˆ‡ç‰‡çš„å…ƒç´ ç±»åž‹ã€‚
 		
 		func AppendSlice(s, t Value) Value
-			* ÀàËÆAppendº¯Êý£¬µ«½ÓÊÜÒ»¸öÇÐÆ¬ÀàÐÍµÄValueÖµ¡£½«ÇÐÆ¬tµÄÃ¿Ò»¸öÖµÌí¼Óµ½s¡£
+			* ç±»ä¼¼Appendå‡½æ•°ï¼Œä½†æŽ¥å—ä¸€ä¸ªåˆ‡ç‰‡ç±»åž‹çš„Valueå€¼ã€‚å°†åˆ‡ç‰‡tçš„æ¯ä¸€ä¸ªå€¼æ·»åŠ åˆ°sã€‚
 		
 		func Indirect(v Value) Value
-			* ·µ»Ø³ÖÓÐv³ÖÓÐµÄÖ¸ÕëÖ¸ÏòµÄÖµµÄValue¡£Èç¹ûv³ÖÓÐnilÖ¸Õë£¬»á·µ»ØValueÁãÖµ£»Èç¹ûv²»³ÖÓÐÖ¸Õë£¬»á·µ»Øv¡£
+			* è¿”å›žæŒæœ‰væŒæœ‰çš„æŒ‡é’ˆæŒ‡å‘çš„å€¼çš„Valueã€‚å¦‚æžœvæŒæœ‰nilæŒ‡é’ˆï¼Œä¼šè¿”å›žValueé›¶å€¼ï¼›å¦‚æžœvä¸æŒæœ‰æŒ‡é’ˆï¼Œä¼šè¿”å›žvã€‚
 
 		func MakeChan(typ Type, buffer int) Value
-			* MakeChan´´½¨Ò»¸öÔªËØÀàÐÍÎªtyp¡¢ÓÐbuffer¸ö»º´æµÄÍ¨µÀÀàÐÍµÄValueÖµ¡£
+			* MakeChanåˆ›å»ºä¸€ä¸ªå…ƒç´ ç±»åž‹ä¸ºtypã€æœ‰bufferä¸ªç¼“å­˜çš„é€šé“ç±»åž‹çš„Valueå€¼ã€‚
 		
 		func MakeFunc(typ Type, fn func(args []Value) (results []Value)) Value
-			* MakeFunc·µ»ØÒ»¸ö¾ßÓÐ¸ø¶¨ÀàÐÍ¡¢°ü×°º¯ÊýfnµÄº¯ÊýµÄValue·â×°¡£µ±±»µ÷ÓÃÊ±£¬¸Ãº¯Êý»á£º
-				- ½«Ìá¹©¸øËüµÄ²ÎÊý×ª»¯ÎªValueÇÐÆ¬
-				- Ö´ÐÐresults := fn(args)
-				- ½«resultsÖÐÃ¿Ò»¸öresultÒÀ´ÎÅÅÁÐ×÷Îª·µ»ØÖµ
+			* MakeFuncè¿”å›žä¸€ä¸ªå…·æœ‰ç»™å®šç±»åž‹ã€åŒ…è£…å‡½æ•°fnçš„å‡½æ•°çš„Valueå°è£…ã€‚å½“è¢«è°ƒç”¨æ—¶ï¼Œè¯¥å‡½æ•°ä¼šï¼š
+				- å°†æä¾›ç»™å®ƒçš„å‚æ•°è½¬åŒ–ä¸ºValueåˆ‡ç‰‡
+				- æ‰§è¡Œresults := fn(args)
+				- å°†resultsä¸­æ¯ä¸€ä¸ªresultä¾æ¬¡æŽ’åˆ—ä½œä¸ºè¿”å›žå€¼
 			
 		func MakeMap(typ Type) Value
-			* MakeMap´´½¨Ò»¸öÌØ¶¨Ó³ÉäÀàÐÍµÄValueÖµ¡£
+			* MakeMapåˆ›å»ºä¸€ä¸ªç‰¹å®šæ˜ å°„ç±»åž‹çš„Valueå€¼ã€‚
 		
 		func MakeMapWithSize(typ Type, n int) Value
 		func MakeSlice(typ Type, len, cap int) Value
-			* MakeSlice´´½¨Ò»¸öÐÂÉêÇëµÄÔªËØÀàÐÍÎªtyp£¬³¤¶ÈlenÈÝÁ¿capµÄÇÐÆ¬ÀàÐÍµÄValueÖµ¡£
+			* MakeSliceåˆ›å»ºä¸€ä¸ªæ–°ç”³è¯·çš„å…ƒç´ ç±»åž‹ä¸ºtypï¼Œé•¿åº¦lenå®¹é‡capçš„åˆ‡ç‰‡ç±»åž‹çš„Valueå€¼ã€‚
 		
 		func New(typ Type) Value
-			* New·µ»ØÒ»¸öValueÀàÐÍÖµ£¬¸ÃÖµ³ÖÓÐÒ»¸öÖ¸ÏòÀàÐÍÎªtypµÄÐÂÉêÇëµÄÁãÖµµÄÖ¸Õë£¬·µ»ØÖµµÄTypeÎªPtrTo(typ)¡£
+			* Newè¿”å›žä¸€ä¸ªValueç±»åž‹å€¼ï¼Œè¯¥å€¼æŒæœ‰ä¸€ä¸ªæŒ‡å‘ç±»åž‹ä¸ºtypçš„æ–°ç”³è¯·çš„é›¶å€¼çš„æŒ‡é’ˆï¼Œè¿”å›žå€¼çš„Typeä¸ºPtrTo(typ)ã€‚
 
 		func NewAt(typ Type, p unsafe.Pointer) Value
-			* NewAt·µ»ØÒ»¸öValueÀàÐÍÖµ£¬¸ÃÖµ³ÖÓÐÒ»¸öÖ¸ÏòÀàÐÍÎªtyp¡¢µØÖ·ÎªpµÄÖµµÄÖ¸Õë¡£
+			* NewAtè¿”å›žä¸€ä¸ªValueç±»åž‹å€¼ï¼Œè¯¥å€¼æŒæœ‰ä¸€ä¸ªæŒ‡å‘ç±»åž‹ä¸ºtypã€åœ°å€ä¸ºpçš„å€¼çš„æŒ‡é’ˆã€‚
 
 		func Select(cases []SelectCase) (chosen int, recv Value, recvOK bool)
 		func ValueOf(i interface{}) Value
 		func Zero(typ Type) Value
-			* Zero·µ»ØÒ»¸ö³ÖÓÐÀàÐÍtypµÄÁãÖµµÄValue¡£
-			* ×¢Òâ³ÖÓÐÁãÖµµÄValueºÍValueÁãÖµÊÇÁ½»ØÊÂ¡£ValueÁãÖµ±íÊ¾²»³ÖÓÐÈÎºÎÖµ¡£ÀýÈçZero(TypeOf(42))·µ»ØÒ»¸öKindÎªInt¡¢ÖµÎª0µÄValue¡£ZeroµÄ·µ»ØÖµ²»ÄÜÉèÖÃÒ²²»»áÑ°Ö·¡£
+			* Zeroè¿”å›žä¸€ä¸ªæŒæœ‰ç±»åž‹typçš„é›¶å€¼çš„Valueã€‚
+			* æ³¨æ„æŒæœ‰é›¶å€¼çš„Valueå’ŒValueé›¶å€¼æ˜¯ä¸¤å›žäº‹ã€‚Valueé›¶å€¼è¡¨ç¤ºä¸æŒæœ‰ä»»ä½•å€¼ã€‚ä¾‹å¦‚Zero(TypeOf(42))è¿”å›žä¸€ä¸ªKindä¸ºIntã€å€¼ä¸º0çš„Valueã€‚Zeroçš„è¿”å›žå€¼ä¸èƒ½è®¾ç½®ä¹Ÿä¸ä¼šå¯»å€ã€‚
 
 
 		func (v Value) Addr() Value
-			* º¯Êý·µ»ØÒ»¸ö³ÖÓÐÖ¸Ïòv³ÖÓÐÕßµÄÖ¸ÕëµÄValue·â×°¡£
-			* Èç¹ûv.CanAddr()·µ»Ø¼Ù£¬µ÷ÓÃ±¾·½·¨»ápanic¡£AddrÒ»°ãÓÃÓÚ»ñÈ¡½á¹¹Ìå×Ö¶ÎµÄÖ¸Õë»òÕßÇÐÆ¬µÄÔªËØ£¨µÄValue·â×°£©ÒÔ±ãµ÷ÓÃÐèÒªÖ¸ÕëÀàÐÍ½ÓÊÕÕßµÄ·½·¨¡£
+			* å‡½æ•°è¿”å›žä¸€ä¸ªæŒæœ‰æŒ‡å‘væŒæœ‰è€…çš„æŒ‡é’ˆçš„Valueå°è£…ã€‚
+			* å¦‚æžœv.CanAddr()è¿”å›žå‡ï¼Œè°ƒç”¨æœ¬æ–¹æ³•ä¼španicã€‚Addrä¸€èˆ¬ç”¨äºŽèŽ·å–ç»“æž„ä½“å­—æ®µçš„æŒ‡é’ˆæˆ–è€…åˆ‡ç‰‡çš„å…ƒç´ ï¼ˆçš„Valueå°è£…ï¼‰ä»¥ä¾¿è°ƒç”¨éœ€è¦æŒ‡é’ˆç±»åž‹æŽ¥æ”¶è€…çš„æ–¹æ³•ã€‚
 
 		func (v Value) Bool() bool
-			* ·µ»Øv³ÖÓÐµÄ²¼¶ûÖµ£¬Èç¹ûvµÄKind²»ÊÇBool»ápanic
+			* è¿”å›žvæŒæœ‰çš„å¸ƒå°”å€¼ï¼Œå¦‚æžœvçš„Kindä¸æ˜¯Boolä¼španic
 
 		func (v Value) Bytes() []byte
-			* ·µ»Øv³ÖÓÐµÄ[]byteÀàÐÍÖµ¡£Èç¹ûv³ÖÓÐµÄÖµµÄÀàÐÍ²»ÊÇ[]byte»ápanic¡£
+			* è¿”å›žvæŒæœ‰çš„[]byteç±»åž‹å€¼ã€‚å¦‚æžœvæŒæœ‰çš„å€¼çš„ç±»åž‹ä¸æ˜¯[]byteä¼španicã€‚
 
 		func (v Value) Call(in []Value) []Value
-			* Ç°Ìá v ÊÇÒ»¸ö func£¬È»ºóµ÷ÓÃ v£¬²¢´«Èë in ²ÎÊý£¬µÚÒ»¸ö²ÎÊýÊÇ in[0]£¬µÚ¶þ¸öÊÇ in[1]£¬ÒÔ´ËÀàÍÆ
-			* Call·½·¨Ê¹ÓÃÊäÈëµÄ²ÎÊýinµ÷ÓÃv³ÖÓÐµÄº¯Êý¡£ÀýÈç£¬Èç¹ûlen(in) == 3£¬v.Call(in)´ú±íµ÷ÓÃv(in[0], in[1], in[2])£¨ÆäÖÐValueÖµ±íÊ¾Æä³ÖÓÐÖµ£©¡£
-			* Èç¹ûvµÄKind²»ÊÇFunc»ápanic¡£Ëü·µ»Øº¯ÊýËùÓÐÊä³ö½á¹ûµÄValue·â×°µÄÇÐÆ¬¡£ºÍgo´úÂëÒ»Ñù£¬Ã¿Ò»¸öÊäÈëÊµ²ÎµÄ³ÖÓÐÖµ¶¼±ØÐë¿ÉÒÔÖ±½Ó¸³Öµ¸øº¯Êý¶ÔÓ¦ÊäÈë²ÎÊýµÄÀàÐÍ¡£Èç¹ûv³ÖÓÐÖµÊÇ¿É±ä²ÎÊýº¯Êý£¬Call·½·¨»á×ÔÐÐ´´½¨Ò»¸ö´ú±í¿É±ä²ÎÊýµÄÇÐÆ¬£¬½«¶ÔÓ¦¿É±ä²ÎÊýµÄÖµ¶¼¿½±´µ½ÀïÃæ¡£
+			* å‰æ v æ˜¯ä¸€ä¸ª funcï¼Œç„¶åŽè°ƒç”¨ vï¼Œå¹¶ä¼ å…¥ in å‚æ•°ï¼Œç¬¬ä¸€ä¸ªå‚æ•°æ˜¯ in[0]ï¼Œç¬¬äºŒä¸ªæ˜¯ in[1]ï¼Œä»¥æ­¤ç±»æŽ¨
+			* Callæ–¹æ³•ä½¿ç”¨è¾“å…¥çš„å‚æ•°inè°ƒç”¨væŒæœ‰çš„å‡½æ•°ã€‚ä¾‹å¦‚ï¼Œå¦‚æžœlen(in) == 3ï¼Œv.Call(in)ä»£è¡¨è°ƒç”¨v(in[0], in[1], in[2])ï¼ˆå…¶ä¸­Valueå€¼è¡¨ç¤ºå…¶æŒæœ‰å€¼ï¼‰ã€‚
+			* å¦‚æžœvçš„Kindä¸æ˜¯Funcä¼španicã€‚å®ƒè¿”å›žå‡½æ•°æ‰€æœ‰è¾“å‡ºç»“æžœçš„Valueå°è£…çš„åˆ‡ç‰‡ã€‚å’Œgoä»£ç ä¸€æ ·ï¼Œæ¯ä¸€ä¸ªè¾“å…¥å®žå‚çš„æŒæœ‰å€¼éƒ½å¿…é¡»å¯ä»¥ç›´æŽ¥èµ‹å€¼ç»™å‡½æ•°å¯¹åº”è¾“å…¥å‚æ•°çš„ç±»åž‹ã€‚å¦‚æžœvæŒæœ‰å€¼æ˜¯å¯å˜å‚æ•°å‡½æ•°ï¼ŒCallæ–¹æ³•ä¼šè‡ªè¡Œåˆ›å»ºä¸€ä¸ªä»£è¡¨å¯å˜å‚æ•°çš„åˆ‡ç‰‡ï¼Œå°†å¯¹åº”å¯å˜å‚æ•°çš„å€¼éƒ½æ‹·è´åˆ°é‡Œé¢ã€‚
 
 		func (v Value) CallSlice(in []Value) []Value
-			* CallSliceµ÷ÓÃv³ÖÓÐµÄ¿É±ä²ÎÊýº¯Êý£¬»á½«ÇÐÆ¬ÀàÐÍµÄin[len(in)-1]£¨µÄ³ÉÔ±£©·ÖÅä¸øvµÄ×îºóµÄ¿É±ä²ÎÊý¡£
-			* ÀýÈç£¬Èç¹ûlen(in) == 3£¬v.Call(in)´ú±íµ÷ÓÃv(in[0], in[1], in[2])£¨ÆäÖÐValueÖµ±íÊ¾Æä³ÖÓÐÖµ£¬¿É±ä²ÎÊýº¯ÊýµÄ¿É±ä²ÎÊýÎ»ÖÃÌá¹©Ò»¸öÇÐÆ¬²¢¸úÈý¸öµãºÅ´ú±í"½âÇÐÆ¬"£©¡£Èç¹ûvµÄKind²»ÊÇFunc»òÕßvµÄ³ÖÓÐÖµ²»ÊÇ¿É±ä²ÎÊýº¯Êý£¬»ápanic¡£Ëü·µ»Øº¯ÊýËùÓÐÊä³ö½á¹ûµÄValue·â×°µÄÇÐÆ¬¡£ºÍgo´úÂëÒ»Ñù£¬Ã¿Ò»¸öÊäÈëÊµ²ÎµÄ³ÖÓÐÖµ¶¼±ØÐë¿ÉÒÔÖ±½Ó¸³Öµ¸øº¯Êý¶ÔÓ¦ÊäÈë²ÎÊýµÄÀàÐÍ¡£
+			* CallSliceè°ƒç”¨væŒæœ‰çš„å¯å˜å‚æ•°å‡½æ•°ï¼Œä¼šå°†åˆ‡ç‰‡ç±»åž‹çš„in[len(in)-1]ï¼ˆçš„æˆå‘˜ï¼‰åˆ†é…ç»™vçš„æœ€åŽçš„å¯å˜å‚æ•°ã€‚
+			* ä¾‹å¦‚ï¼Œå¦‚æžœlen(in) == 3ï¼Œv.Call(in)ä»£è¡¨è°ƒç”¨v(in[0], in[1], in[2])ï¼ˆå…¶ä¸­Valueå€¼è¡¨ç¤ºå…¶æŒæœ‰å€¼ï¼Œå¯å˜å‚æ•°å‡½æ•°çš„å¯å˜å‚æ•°ä½ç½®æä¾›ä¸€ä¸ªåˆ‡ç‰‡å¹¶è·Ÿä¸‰ä¸ªç‚¹å·ä»£è¡¨"è§£åˆ‡ç‰‡"ï¼‰ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Funcæˆ–è€…vçš„æŒæœ‰å€¼ä¸æ˜¯å¯å˜å‚æ•°å‡½æ•°ï¼Œä¼španicã€‚å®ƒè¿”å›žå‡½æ•°æ‰€æœ‰è¾“å‡ºç»“æžœçš„Valueå°è£…çš„åˆ‡ç‰‡ã€‚å’Œgoä»£ç ä¸€æ ·ï¼Œæ¯ä¸€ä¸ªè¾“å…¥å®žå‚çš„æŒæœ‰å€¼éƒ½å¿…é¡»å¯ä»¥ç›´æŽ¥èµ‹å€¼ç»™å‡½æ•°å¯¹åº”è¾“å…¥å‚æ•°çš„ç±»åž‹ã€‚
 
 		func (v Value) CanAddr() bool
-			* ·µ»ØÊÇ·ñ¿ÉÒÔ»ñÈ¡v³ÖÓÐÖµµÄÖ¸Õë¡£¿ÉÒÔ»ñÈ¡Ö¸ÕëµÄÖµ±»³ÆÎª¿ÉÑ°Ö·µÄ¡£
-			* Èç¹ûÒ»¸öÖµÊÇÇÐÆ¬»ò¿ÉÑ°Ö·Êý×éµÄÔªËØ¡¢¿ÉÑ°Ö·½á¹¹ÌåµÄ×Ö¶Î¡¢»ò´ÓÖ¸Õë½âÒýÓÃµÃµ½µÄ£¬¸ÃÖµ¼´Îª¿ÉÑ°Ö·µÄ¡£
+			* è¿”å›žæ˜¯å¦å¯ä»¥èŽ·å–væŒæœ‰å€¼çš„æŒ‡é’ˆã€‚å¯ä»¥èŽ·å–æŒ‡é’ˆçš„å€¼è¢«ç§°ä¸ºå¯å¯»å€çš„ã€‚
+			* å¦‚æžœä¸€ä¸ªå€¼æ˜¯åˆ‡ç‰‡æˆ–å¯å¯»å€æ•°ç»„çš„å…ƒç´ ã€å¯å¯»å€ç»“æž„ä½“çš„å­—æ®µã€æˆ–ä»ŽæŒ‡é’ˆè§£å¼•ç”¨å¾—åˆ°çš„ï¼Œè¯¥å€¼å³ä¸ºå¯å¯»å€çš„ã€‚
 
 		func (v Value) CanInterface() bool
-			* Èç¹ûCanInterface·µ»ØÕæ£¬v¿ÉÒÔ²»µ¼ÖÂpanicµÄµ÷ÓÃInterface·½·¨¡£
+			* å¦‚æžœCanInterfaceè¿”å›žçœŸï¼Œvå¯ä»¥ä¸å¯¼è‡´panicçš„è°ƒç”¨Interfaceæ–¹æ³•ã€‚
 
 		func (v Value) CanSet() bool
-			* Èç¹ûv³ÖÓÐµÄÖµ¿ÉÒÔ±»ÐÞ¸Ä£¬CanSet¾Í»á·µ»ØÕæ¡£
-			* Ö»ÓÐÒ»¸öValue³ÖÓÐÖµ¿ÉÒÔ±»Ñ°Ö·Í¬Ê±ÓÖ²»ÊÇÀ´×Ô·Çµ¼³ö×Ö¶ÎÊ±£¬Ëü²Å¿ÉÒÔ±»ÐÞ¸Ä¡£Èç¹ûCanSet·µ»Ø¼Ù£¬µ÷ÓÃSet»òÈÎºÎÏÞ¶¨ÀàÐÍµÄÉèÖÃº¯Êý£¨ÈçSetBool¡¢SetInt64£©¶¼»ápanic¡£
+			* å¦‚æžœvæŒæœ‰çš„å€¼å¯ä»¥è¢«ä¿®æ”¹ï¼ŒCanSetå°±ä¼šè¿”å›žçœŸã€‚
+			* åªæœ‰ä¸€ä¸ªValueæŒæœ‰å€¼å¯ä»¥è¢«å¯»å€åŒæ—¶åˆä¸æ˜¯æ¥è‡ªéžå¯¼å‡ºå­—æ®µæ—¶ï¼Œå®ƒæ‰å¯ä»¥è¢«ä¿®æ”¹ã€‚å¦‚æžœCanSetè¿”å›žå‡ï¼Œè°ƒç”¨Setæˆ–ä»»ä½•é™å®šç±»åž‹çš„è®¾ç½®å‡½æ•°ï¼ˆå¦‚SetBoolã€SetInt64ï¼‰éƒ½ä¼španicã€‚
 
 		func (v Value) Cap() int
-			* ·µ»Øv³ÖÓÐÖµµÄÈÝÁ¿£¬Èç¹ûvµÄKind²»ÊÇArray¡¢Chan¡¢Slice»ápanic
+			* è¿”å›žvæŒæœ‰å€¼çš„å®¹é‡ï¼Œå¦‚æžœvçš„Kindä¸æ˜¯Arrayã€Chanã€Sliceä¼španic
 
 		func (v Value) Close()
-			* ¹Ø±Õv³ÖÓÐµÄÍ¨µÀ£¬Èç¹ûvµÄKind²»ÊÇChan»ápanic
+			* å…³é—­væŒæœ‰çš„é€šé“ï¼Œå¦‚æžœvçš„Kindä¸æ˜¯Chanä¼španic
 
 		func (v Value) Complex() complex128
 		func (v Value) Convert(t Type) Value
-			* Convert½«v³ÖÓÐµÄÖµ×ª»»ÎªÀàÐÍÎªtµÄÖµ£¬²¢·µ»Ø¸ÃÖµµÄValue·â×°¡£Èç¹ûgo×ª»»¹æÔò²»Ö§³ÖÕâÖÖ×ª»»£¬»ápanic¡£
+			* Convertå°†væŒæœ‰çš„å€¼è½¬æ¢ä¸ºç±»åž‹ä¸ºtçš„å€¼ï¼Œå¹¶è¿”å›žè¯¥å€¼çš„Valueå°è£…ã€‚å¦‚æžœgoè½¬æ¢è§„åˆ™ä¸æ”¯æŒè¿™ç§è½¬æ¢ï¼Œä¼španicã€‚
 
 		func (v Value) Elem() Value
-			* ·µ»ØÖ¸ÕëÖ¸ÏòµÄ¶ÔÏó
+			* è¿”å›žæŒ‡é’ˆæŒ‡å‘çš„å¯¹è±¡
 				i := 1
 				v := reflect.ValueOf(&i)
 				v.Elem().SetInt(10)
 				fmt.Println(i)
 			
-			* Elem·µ»Øv³ÖÓÐµÄ½Ó¿Ú±£¹ÜµÄÖµµÄValue·â×°£¬»òÕßv³ÖÓÐµÄÖ¸ÕëÖ¸ÏòµÄÖµµÄValue·â×°¡£
-			* Èç¹ûvµÄKind²»ÊÇInterface»òPtr»ápanic£»Èç¹ûv³ÖÓÐµÄÖµÎªnil£¬»á·µ»ØValueÁãÖµ¡£
+			* Elemè¿”å›žvæŒæœ‰çš„æŽ¥å£ä¿ç®¡çš„å€¼çš„Valueå°è£…ï¼Œæˆ–è€…væŒæœ‰çš„æŒ‡é’ˆæŒ‡å‘çš„å€¼çš„Valueå°è£…ã€‚
+			* å¦‚æžœvçš„Kindä¸æ˜¯Interfaceæˆ–Pträ¼španicï¼›å¦‚æžœvæŒæœ‰çš„å€¼ä¸ºnilï¼Œä¼šè¿”å›žValueé›¶å€¼ã€‚
 
 		
 		func (v Value) Field(i int) Value
-			* Ç°Ìá v ÊÇÒ»¸ö struct£¬·µ»ØµÚ i ¸ö×Ö¶Î£¬Õâ¸öÖ÷ÒªÓÃÓÚ±éÀú
-			* ·µ»Ø½á¹¹ÌåµÄµÚi¸ö×Ö¶Î£¨µÄValue·â×°£©¡£Èç¹ûvµÄKind²»ÊÇStruct»òi³ö½ç»ápanic
+			* å‰æ v æ˜¯ä¸€ä¸ª structï¼Œè¿”å›žç¬¬ i ä¸ªå­—æ®µï¼Œè¿™ä¸ªä¸»è¦ç”¨äºŽéåŽ†
+			* è¿”å›žç»“æž„ä½“çš„ç¬¬iä¸ªå­—æ®µï¼ˆçš„Valueå°è£…ï¼‰ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Structæˆ–iå‡ºç•Œä¼španic
 
 		func (v Value) FieldByIndex(index []int) Value
-			* ·µ»ØË÷ÒýÐòÁÐÖ¸¶¨µÄÇ¶Ì××Ö¶ÎµÄValue±íÊ¾£¬µÈ¼ÛÓÚÓÃË÷ÒýÖÐµÄÖµÁ´Ê½µ÷ÓÃ±¾·½·¨£¬ÈçvµÄKind·ÇStruct½«»ápanic
+			* è¿”å›žç´¢å¼•åºåˆ—æŒ‡å®šçš„åµŒå¥—å­—æ®µçš„Valueè¡¨ç¤ºï¼Œç­‰ä»·äºŽç”¨ç´¢å¼•ä¸­çš„å€¼é“¾å¼è°ƒç”¨æœ¬æ–¹æ³•ï¼Œå¦‚vçš„KindéžStructå°†ä¼španic
 
 		func (v Value) FieldByName(name string) Value
-			* Ç°Ìá v ÊÇÒ»¸ö struct£¬¸ù¾Ý×Ö¶ÎÃûÖ±½Ó¶¨Î»·µ»Ø
-			* ·µ»Ø¸ÃÀàÐÍÃûÎªnameµÄ×Ö¶Î£¨µÄValue·â×°£©£¨»á²éÕÒÄäÃû×Ö¶Î¼°Æä×Ó×Ö¶Î£©£¬Èç¹ûvµÄKind²»ÊÇStruct»ápanic£»Èç¹ûÎ´ÕÒµ½»á·µ»ØValueÁãÖµ¡£
+			* å‰æ v æ˜¯ä¸€ä¸ª structï¼Œæ ¹æ®å­—æ®µåç›´æŽ¥å®šä½è¿”å›ž
+			* è¿”å›žè¯¥ç±»åž‹åä¸ºnameçš„å­—æ®µï¼ˆçš„Valueå°è£…ï¼‰ï¼ˆä¼šæŸ¥æ‰¾åŒ¿åå­—æ®µåŠå…¶å­å­—æ®µï¼‰ï¼Œå¦‚æžœvçš„Kindä¸æ˜¯Structä¼španicï¼›å¦‚æžœæœªæ‰¾åˆ°ä¼šè¿”å›žValueé›¶å€¼ã€‚
 		
 		func (v Value) FieldByNameFunc(match func(string) bool) Value
-			* ·µ»Ø¸ÃÀàÐÍµÚÒ»¸ö×Ö¶ÎÃûÂú×ãmatchµÄ×Ö¶Î£¨µÄValue·â×°£©£¨»á²éÕÒÄäÃû×Ö¶Î¼°Æä×Ó×Ö¶Î£©£¬Èç¹ûvµÄKind²»ÊÇStruct»ápanic£»Èç¹ûÎ´ÕÒµ½»á·µ»ØValueÁãÖµ¡£
+			* è¿”å›žè¯¥ç±»åž‹ç¬¬ä¸€ä¸ªå­—æ®µåæ»¡è¶³matchçš„å­—æ®µï¼ˆçš„Valueå°è£…ï¼‰ï¼ˆä¼šæŸ¥æ‰¾åŒ¿åå­—æ®µåŠå…¶å­å­—æ®µï¼‰ï¼Œå¦‚æžœvçš„Kindä¸æ˜¯Structä¼španicï¼›å¦‚æžœæœªæ‰¾åˆ°ä¼šè¿”å›žValueé›¶å€¼ã€‚
 
 		func (v Value) Float() float64
-			* ·µ»Øv³ÖÓÐµÄ¸¡µãÊý£¨±íÊ¾Îªfloat64£©£¬Èç¹ûvµÄKind²»ÊÇFloat32¡¢Float64»ápanic
+			* è¿”å›žvæŒæœ‰çš„æµ®ç‚¹æ•°ï¼ˆè¡¨ç¤ºä¸ºfloat64ï¼‰ï¼Œå¦‚æžœvçš„Kindä¸æ˜¯Float32ã€Float64ä¼španic
 		
 		func (v Value) Index(i int) Value
-			* Ç°Ìá v ÊÇ Array, Slice, String Ö®Ò»£¬·µ»ØµÚ i ¸öÔªËØ£¬Ö÷ÒªÒ²ÊÇÓÃÓÚ±éÀú£¬×¢Òâ²»ÄÜÔ½½ç
-			* ·µ»Øv³ÖÓÐÖµµÄµÚi¸öÔªËØ¡£Èç¹ûvµÄKind²»ÊÇArray¡¢Chan¡¢Slice¡¢String£¬»òÕßi³ö½ç£¬»ápanic
+			* å‰æ v æ˜¯ Array, Slice, String ä¹‹ä¸€ï¼Œè¿”å›žç¬¬ i ä¸ªå…ƒç´ ï¼Œä¸»è¦ä¹Ÿæ˜¯ç”¨äºŽéåŽ†ï¼Œæ³¨æ„ä¸èƒ½è¶Šç•Œ
+			* è¿”å›žvæŒæœ‰å€¼çš„ç¬¬iä¸ªå…ƒç´ ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Arrayã€Chanã€Sliceã€Stringï¼Œæˆ–è€…iå‡ºç•Œï¼Œä¼španic
 
 		func (v Value) Int() int64
-			* ·µ»Øv³ÖÓÐµÄÓÐ·ûºÅÕûÊý£¨±íÊ¾Îªint64£©£¬Èç¹ûvµÄKind²»ÊÇInt¡¢Int8¡¢Int16¡¢Int32¡¢Int64»ápanic
+			* è¿”å›žvæŒæœ‰çš„æœ‰ç¬¦å·æ•´æ•°ï¼ˆè¡¨ç¤ºä¸ºint64ï¼‰ï¼Œå¦‚æžœvçš„Kindä¸æ˜¯Intã€Int8ã€Int16ã€Int32ã€Int64ä¼španic
 
 		func (v Value) Interface() (i interface{})
-			* ×ª»»Îª½Ó¿ÚÀàÐÍ
-			* ±¾·½·¨·µ»Øvµ±Ç°³ÖÓÐµÄÖµ£¨±íÊ¾Îª/±£¹ÜÔÚinterface{}ÀàÐÍ£©£¬µÈ¼ÛÓÚ£º
+			* è½¬æ¢ä¸ºæŽ¥å£ç±»åž‹
+			* æœ¬æ–¹æ³•è¿”å›žvå½“å‰æŒæœ‰çš„å€¼ï¼ˆè¡¨ç¤ºä¸º/ä¿ç®¡åœ¨interface{}ç±»åž‹ï¼‰ï¼Œç­‰ä»·äºŽï¼š
 
 		func (v Value) InterfaceData() [2]uintptr
-			* ·µ»Øv³ÖÓÐµÄ½Ó¿ÚÀàÐÍÖµµÄÊý¾Ý¡£Èç¹ûvµÄKind²»ÊÇInterface»ápanic
+			* è¿”å›žvæŒæœ‰çš„æŽ¥å£ç±»åž‹å€¼çš„æ•°æ®ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Interfaceä¼španic
 
 		func (v Value) IsNil() bool
-			* ÅÐ¶Ï v ÊÇ²»ÊÇ nil£¬Ö»ÓÐ chan, func, interface, map, pointer, slice ¿ÉÒÔÓÃ£¬ÆäËûÀàÐÍ»á panic
-			* µ«ÊÇÈç¹ûvÊÇValueÁãÖµ£¬»ápanic¡£
+			* åˆ¤æ–­ v æ˜¯ä¸æ˜¯ nilï¼Œåªæœ‰ chan, func, interface, map, pointer, slice å¯ä»¥ç”¨ï¼Œå…¶ä»–ç±»åž‹ä¼š panic
+			* ä½†æ˜¯å¦‚æžœvæ˜¯Valueé›¶å€¼ï¼Œä¼španicã€‚
 
 		func (v Value) IsValid() bool
-			* IsValid·µ»ØvÊÇ·ñ³ÖÓÐÒ»¸öÖµ¡£Èç¹ûvÊÇValueÁãÖµ»á·µ»Ø¼Ù£¬´ËÊ±v³ýÁËIsValid¡¢String¡¢KindÖ®ÍâµÄ·½·¨¶¼»áµ¼ÖÂpanic¡£
-			* ¾ø´ó¶àÊýº¯ÊýºÍ·½·¨¶¼ÓÀÔ¶²»·µ»ØValueÁãÖµ¡£Èç¹ûÄ³¸öº¯Êý/·½·¨·µ»ØÁË·Ç·¨µÄValue£¬ËüµÄÎÄµµ±ØÐëÏÔÊ½µÄËµÃ÷¾ßÌåÇé¿ö¡£
+			* IsValidè¿”å›žvæ˜¯å¦æŒæœ‰ä¸€ä¸ªå€¼ã€‚å¦‚æžœvæ˜¯Valueé›¶å€¼ä¼šè¿”å›žå‡ï¼Œæ­¤æ—¶vé™¤äº†IsValidã€Stringã€Kindä¹‹å¤–çš„æ–¹æ³•éƒ½ä¼šå¯¼è‡´panicã€‚
+			* ç»å¤§å¤šæ•°å‡½æ•°å’Œæ–¹æ³•éƒ½æ°¸è¿œä¸è¿”å›žValueé›¶å€¼ã€‚å¦‚æžœæŸä¸ªå‡½æ•°/æ–¹æ³•è¿”å›žäº†éžæ³•çš„Valueï¼Œå®ƒçš„æ–‡æ¡£å¿…é¡»æ˜¾å¼çš„è¯´æ˜Žå…·ä½“æƒ…å†µã€‚
 
 
 		func (v Value) IsZero() bool
 		func (v Value) Kind() Kind
-			* Kind·µ»Øv³ÖÓÐµÄÖµµÄ·ÖÀà£¬Èç¹ûvÊÇValueÁãÖµ£¬·µ»ØÖµÎªInvalid
+			* Kindè¿”å›žvæŒæœ‰çš„å€¼çš„åˆ†ç±»ï¼Œå¦‚æžœvæ˜¯Valueé›¶å€¼ï¼Œè¿”å›žå€¼ä¸ºInvalid
 
 		func (v Value) Len() int
-			* ·µ»Øv³ÖÓÐÖµµÄ³¤¶È£¬Èç¹ûvµÄKind²»ÊÇArray¡¢Chan¡¢Slice¡¢Map¡¢String»ápanic
+			* è¿”å›žvæŒæœ‰å€¼çš„é•¿åº¦ï¼Œå¦‚æžœvçš„Kindä¸æ˜¯Arrayã€Chanã€Sliceã€Mapã€Stringä¼španic
 		
 		func (v Value) MapIndex(key Value) Value
-			* Ç°Ìá v ÊÇ¸ö map£¬·µ»Ø¶ÔÓ¦ value
-			* ·µ»Øv³ÖÓÐÖµÀïkey³ÖÓÐÖµÎª¼ü¶ÔÓ¦µÄÖµµÄValue·â×°¡£Èç¹ûvµÄKind²»ÊÇMap»ápanic¡£
-			* Èç¹ûÎ´ÕÒµ½¶ÔÓ¦Öµ»òÕßv³ÖÓÐÖµÊÇnilÓ³Éä£¬»á·µ»ØValueÁãÖµ¡£keyµÄ³ÖÓÐÖµ±ØÐë¿ÉÒÔÖ±½Ó¸³Öµ¸øv³ÖÓÐÖµÀàÐÍµÄ¼üÀàÐÍ¡£
+			* å‰æ v æ˜¯ä¸ª mapï¼Œè¿”å›žå¯¹åº” value
+			* è¿”å›žvæŒæœ‰å€¼é‡ŒkeyæŒæœ‰å€¼ä¸ºé”®å¯¹åº”çš„å€¼çš„Valueå°è£…ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Mapä¼španicã€‚
+			* å¦‚æžœæœªæ‰¾åˆ°å¯¹åº”å€¼æˆ–è€…væŒæœ‰å€¼æ˜¯nilæ˜ å°„ï¼Œä¼šè¿”å›žValueé›¶å€¼ã€‚keyçš„æŒæœ‰å€¼å¿…é¡»å¯ä»¥ç›´æŽ¥èµ‹å€¼ç»™væŒæœ‰å€¼ç±»åž‹çš„é”®ç±»åž‹ã€‚
 
 		func (v Value) MapKeys() []Value
-			* Ç°Ìá v ÊÇ¸ö map£¬·µ»ØËùÓÐ key ×é³ÉµÄÒ»¸ö slice
-			* ·µ»ØÒ»¸ö°üº¬v³ÖÓÐÖµÖÐËùÓÐ¼üµÄValue·â×°µÄÇÐÆ¬£¬¸ÃÇÐÆ¬Î´ÅÅÐò¡£Èç¹ûvµÄKind²»ÊÇMap»ápanic¡£Èç¹ûv³ÖÓÐÖµÊÇnil£¬·µ»Ø¿ÕÇÐÆ¬£¨·Çnil£©¡£
+			* å‰æ v æ˜¯ä¸ª mapï¼Œè¿”å›žæ‰€æœ‰ key ç»„æˆçš„ä¸€ä¸ª slice
+			* è¿”å›žä¸€ä¸ªåŒ…å«væŒæœ‰å€¼ä¸­æ‰€æœ‰é”®çš„Valueå°è£…çš„åˆ‡ç‰‡ï¼Œè¯¥åˆ‡ç‰‡æœªæŽ’åºã€‚å¦‚æžœvçš„Kindä¸æ˜¯Mapä¼španicã€‚å¦‚æžœvæŒæœ‰å€¼æ˜¯nilï¼Œè¿”å›žç©ºåˆ‡ç‰‡ï¼ˆéžnilï¼‰ã€‚
 
 		func (v Value) MapRange() *MapIter
 		func (v Value) Method(i int) Value
-			* ·µ»Øv³ÖÓÐÖµÀàÐÍµÄµÚi¸ö·½·¨µÄÒÑ°ó¶¨£¨µ½vµÄ³ÖÓÐÖµµÄ£©×´Ì¬µÄº¯ÊýÐÎÊ½µÄValue·â×°¡£
-			* ·µ»ØÖµµ÷ÓÃCall·½·¨Ê±²»Ó¦°üº¬½ÓÊÕÕß£»·µ»ØÖµ³ÖÓÐµÄº¯Êý×ÜÊÇÊ¹ÓÃvµÄ³ÖÓÐÕß×÷Îª½ÓÊÕÕß£¨¼´µÚÒ»¸ö²ÎÊý£©¡£Èç¹ûi³ö½ç£¬»òÕßvµÄ³ÖÓÐÖµÊÇ½Ó¿ÚÀàÐÍµÄÁãÖµ£¨nil£©£¬»ápanic¡£
+			* è¿”å›žvæŒæœ‰å€¼ç±»åž‹çš„ç¬¬iä¸ªæ–¹æ³•çš„å·²ç»‘å®šï¼ˆåˆ°vçš„æŒæœ‰å€¼çš„ï¼‰çŠ¶æ€çš„å‡½æ•°å½¢å¼çš„Valueå°è£…ã€‚
+			* è¿”å›žå€¼è°ƒç”¨Callæ–¹æ³•æ—¶ä¸åº”åŒ…å«æŽ¥æ”¶è€…ï¼›è¿”å›žå€¼æŒæœ‰çš„å‡½æ•°æ€»æ˜¯ä½¿ç”¨vçš„æŒæœ‰è€…ä½œä¸ºæŽ¥æ”¶è€…ï¼ˆå³ç¬¬ä¸€ä¸ªå‚æ•°ï¼‰ã€‚å¦‚æžœiå‡ºç•Œï¼Œæˆ–è€…vçš„æŒæœ‰å€¼æ˜¯æŽ¥å£ç±»åž‹çš„é›¶å€¼ï¼ˆnilï¼‰ï¼Œä¼španicã€‚
 
 		func (v Value) MethodByName(name string) Value
-			* ·µ»ØvµÄÃûÎªnameµÄ·½·¨µÄÒÑ°ó¶¨£¨µ½vµÄ³ÖÓÐÖµµÄ£©×´Ì¬µÄº¯ÊýÐÎÊ½µÄValue·â×°¡£
-			* ·µ»ØÖµµ÷ÓÃCall·½·¨Ê±²»Ó¦°üº¬½ÓÊÕÕß£»·µ»ØÖµ³ÖÓÐµÄº¯Êý×ÜÊÇÊ¹ÓÃvµÄ³ÖÓÐÕß×÷Îª½ÓÊÕÕß£¨¼´µÚÒ»¸ö²ÎÊý£©¡£Èç¹ûÎ´ÕÒµ½¸Ã·½·¨£¬»á·µ»ØÒ»¸öValueÁãÖµ¡£
+			* è¿”å›žvçš„åä¸ºnameçš„æ–¹æ³•çš„å·²ç»‘å®šï¼ˆåˆ°vçš„æŒæœ‰å€¼çš„ï¼‰çŠ¶æ€çš„å‡½æ•°å½¢å¼çš„Valueå°è£…ã€‚
+			* è¿”å›žå€¼è°ƒç”¨Callæ–¹æ³•æ—¶ä¸åº”åŒ…å«æŽ¥æ”¶è€…ï¼›è¿”å›žå€¼æŒæœ‰çš„å‡½æ•°æ€»æ˜¯ä½¿ç”¨vçš„æŒæœ‰è€…ä½œä¸ºæŽ¥æ”¶è€…ï¼ˆå³ç¬¬ä¸€ä¸ªå‚æ•°ï¼‰ã€‚å¦‚æžœæœªæ‰¾åˆ°è¯¥æ–¹æ³•ï¼Œä¼šè¿”å›žä¸€ä¸ªValueé›¶å€¼ã€‚
 
 		func (v Value) NumField() int
-			*  Ç°Ìá v ÊÇ¸ö struct£¬·µ»Ø×Ö¶Î¸öÊý
-			* ·µ»Øv³ÖÓÐµÄ½á¹¹ÌåÀàÐÍÖµµÄ×Ö¶ÎÊý£¬Èç¹ûvµÄKind²»ÊÇStruct»ápanic
+			*  å‰æ v æ˜¯ä¸ª structï¼Œè¿”å›žå­—æ®µä¸ªæ•°
+			* è¿”å›žvæŒæœ‰çš„ç»“æž„ä½“ç±»åž‹å€¼çš„å­—æ®µæ•°ï¼Œå¦‚æžœvçš„Kindä¸æ˜¯Structä¼španic
 
 		func (v Value) NumMethod() int
-			* ·µ»Øv³ÖÓÐÖµµÄ·½·¨¼¯µÄ·½·¨ÊýÄ¿¡£
+			* è¿”å›žvæŒæœ‰å€¼çš„æ–¹æ³•é›†çš„æ–¹æ³•æ•°ç›®ã€‚
 
 		func (v Value) OverflowComplex(x complex128) bool
-			* ·µ»Øv³ÖÓÐµÄ¸´Êý£¨±íÊ¾Îªcomplex64£©£¬Èç¹ûvµÄKind²»ÊÇComplex64¡¢Complex128»ápanic
+			* è¿”å›žvæŒæœ‰çš„å¤æ•°ï¼ˆè¡¨ç¤ºä¸ºcomplex64ï¼‰ï¼Œå¦‚æžœvçš„Kindä¸æ˜¯Complex64ã€Complex128ä¼španic
 
 		func (v Value) OverflowFloat(x float64) bool
-			* Èç¹ûv³ÖÓÐÖµµÄÀàÐÍ²»ÄÜÎÞÒç³öµÄ±íÊ¾x£¬»á·µ»ØÕæ¡£Èç¹ûvµÄKind²»ÊÇFloat32¡¢Float64»ápanic
+			* å¦‚æžœvæŒæœ‰å€¼çš„ç±»åž‹ä¸èƒ½æ— æº¢å‡ºçš„è¡¨ç¤ºxï¼Œä¼šè¿”å›žçœŸã€‚å¦‚æžœvçš„Kindä¸æ˜¯Float32ã€Float64ä¼španic
 
 		func (v Value) OverflowInt(x int64) bool
-			* Èç¹ûv³ÖÓÐÖµµÄÀàÐÍ²»ÄÜÎÞÒç³öµÄ±íÊ¾x£¬»á·µ»ØÕæ¡£Èç¹ûvµÄKind²»ÊÇInt¡¢Int8¡¢Int16¡¢Int32¡¢Int64»ápanic
+			* å¦‚æžœvæŒæœ‰å€¼çš„ç±»åž‹ä¸èƒ½æ— æº¢å‡ºçš„è¡¨ç¤ºxï¼Œä¼šè¿”å›žçœŸã€‚å¦‚æžœvçš„Kindä¸æ˜¯Intã€Int8ã€Int16ã€Int32ã€Int64ä¼španic
 		
 		func (v Value) OverflowUint(x uint64) bool	
-			* Èç¹ûv³ÖÓÐÖµµÄÀàÐÍ²»ÄÜÎÞÒç³öµÄ±íÊ¾x£¬»á·µ»ØÕæ¡£Èç¹ûvµÄKind²»ÊÇUint¡¢Uintptr¡¢Uint8¡¢Uint16¡¢Uint32¡¢Uint64»ápanic
+			* å¦‚æžœvæŒæœ‰å€¼çš„ç±»åž‹ä¸èƒ½æ— æº¢å‡ºçš„è¡¨ç¤ºxï¼Œä¼šè¿”å›žçœŸã€‚å¦‚æžœvçš„Kindä¸æ˜¯Uintã€Uintptrã€Uint8ã€Uint16ã€Uint32ã€Uint64ä¼španic
 		
 		func (v Value) Pointer() uintptr
-			* ½«v³ÖÓÐµÄÖµ×÷ÎªÒ»¸öÖ¸Õë·µ»Ø¡£
-			* ±¾·½·¨·µ»ØÖµ²»ÊÇunsafe.PointerÀàÐÍ£¬ÒÔ±ÜÃâ³ÌÐòÔ±²»ÏÔÊ½µ¼Èëunsafe°üÈ´µÃµ½unsafe.PointerÀàÐÍ±íÊ¾µÄÖ¸Õë¡£
-			* Èç¹ûvµÄKind²»ÊÇChan¡¢Func¡¢Map¡¢Ptr¡¢Slice»òUnsafePointer»ápanic¡£
-			* Èç¹ûvµÄKindÊÇFunc£¬·µ»ØÖµÊÇµ×²ã´úÂëµÄÖ¸Õë£¬µ«²¢²»×ãÒÔÓÃÓÚÇø·Ö²»Í¬µÄº¯Êý£»Ö»ÄÜ±£Ö¤µ±ÇÒ½öµ±v³ÖÓÐº¯ÊýÀàÐÍÁãÖµnilÊ±£¬·µ»ØÖµÎª0¡£
-			* Èç¹ûvµÄKindÊÇSlice£¬·µ»ØÖµÊÇÖ¸ÏòÇÐÆ¬µÚÒ»¸öÔªËØµÄÖ¸Õë¡£Èç¹û³ÖÓÐµÄÇÐÆ¬Îªnil£¬·µ»ØÖµÎª0£»Èç¹û³ÖÓÐµÄÇÐÆ¬Ã»ÓÐÔªËØµ«²»ÊÇnil£¬·µ»ØÖµ²»»áÊÇ0¡£
+			* å°†væŒæœ‰çš„å€¼ä½œä¸ºä¸€ä¸ªæŒ‡é’ˆè¿”å›žã€‚
+			* æœ¬æ–¹æ³•è¿”å›žå€¼ä¸æ˜¯unsafe.Pointerç±»åž‹ï¼Œä»¥é¿å…ç¨‹åºå‘˜ä¸æ˜¾å¼å¯¼å…¥unsafeåŒ…å´å¾—åˆ°unsafe.Pointerç±»åž‹è¡¨ç¤ºçš„æŒ‡é’ˆã€‚
+			* å¦‚æžœvçš„Kindä¸æ˜¯Chanã€Funcã€Mapã€Ptrã€Sliceæˆ–UnsafePointerä¼španicã€‚
+			* å¦‚æžœvçš„Kindæ˜¯Funcï¼Œè¿”å›žå€¼æ˜¯åº•å±‚ä»£ç çš„æŒ‡é’ˆï¼Œä½†å¹¶ä¸è¶³ä»¥ç”¨äºŽåŒºåˆ†ä¸åŒçš„å‡½æ•°ï¼›åªèƒ½ä¿è¯å½“ä¸”ä»…å½“væŒæœ‰å‡½æ•°ç±»åž‹é›¶å€¼nilæ—¶ï¼Œè¿”å›žå€¼ä¸º0ã€‚
+			* å¦‚æžœvçš„Kindæ˜¯Sliceï¼Œè¿”å›žå€¼æ˜¯æŒ‡å‘åˆ‡ç‰‡ç¬¬ä¸€ä¸ªå…ƒç´ çš„æŒ‡é’ˆã€‚å¦‚æžœæŒæœ‰çš„åˆ‡ç‰‡ä¸ºnilï¼Œè¿”å›žå€¼ä¸º0ï¼›å¦‚æžœæŒæœ‰çš„åˆ‡ç‰‡æ²¡æœ‰å…ƒç´ ä½†ä¸æ˜¯nilï¼Œè¿”å›žå€¼ä¸ä¼šæ˜¯0ã€‚
 
 		func (v Value) Recv() (x Value, ok bool)
-			* ·½·¨´Óv³ÖÓÐµÄÍ¨µÀ½ÓÊÕ²¢·µ»ØÒ»¸öÖµ£¨µÄValue·â×°£©¡£
-			* Èç¹ûvµÄKind²»ÊÇChan»ápanic¡£·½·¨»á×èÈûÖ±µ½»ñÈ¡µ½Öµ¡£Èç¹û·µ»ØÖµx¶ÔÓ¦ÓÚÄ³¸ö·¢ËÍµ½v³ÖÓÐµÄÍ¨µÀµÄÖµ£¬okÎªÕæ£»Èç¹ûÒòÎªÍ¨µÀ¹Ø±Õ¶ø·µ»Ø£¬xÎªValueÁãÖµ¶øokÎª¼Ù¡£
+			* æ–¹æ³•ä»ŽvæŒæœ‰çš„é€šé“æŽ¥æ”¶å¹¶è¿”å›žä¸€ä¸ªå€¼ï¼ˆçš„Valueå°è£…ï¼‰ã€‚
+			* å¦‚æžœvçš„Kindä¸æ˜¯Chanä¼španicã€‚æ–¹æ³•ä¼šé˜»å¡žç›´åˆ°èŽ·å–åˆ°å€¼ã€‚å¦‚æžœè¿”å›žå€¼xå¯¹åº”äºŽæŸä¸ªå‘é€åˆ°væŒæœ‰çš„é€šé“çš„å€¼ï¼Œokä¸ºçœŸï¼›å¦‚æžœå› ä¸ºé€šé“å…³é—­è€Œè¿”å›žï¼Œxä¸ºValueé›¶å€¼è€Œokä¸ºå‡ã€‚
 
 		func (v Value) Send(x Value)
-			* ·½·¨Ïòv³ÖÓÐµÄÍ¨µÀ·¢ËÍx³ÖÓÐµÄÖµ¡£Èç¹ûvµÄKind²»ÊÇChan£¬»òÕßxµÄ³ÖÓÐÖµ²»ÄÜÖ±½Ó¸³Öµ¸øv³ÖÓÐÍ¨µÀµÄÔªËØÀàÐÍ£¬»ápanic¡£
+			* æ–¹æ³•å‘væŒæœ‰çš„é€šé“å‘é€xæŒæœ‰çš„å€¼ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Chanï¼Œæˆ–è€…xçš„æŒæœ‰å€¼ä¸èƒ½ç›´æŽ¥èµ‹å€¼ç»™væŒæœ‰é€šé“çš„å…ƒç´ ç±»åž‹ï¼Œä¼španicã€‚
 
 		func (v Value) Set(x Value)
-			* ¸³Öµ
-			* ½«vµÄ³ÖÓÐÖµÐÞ¸ÄÎªxµÄ³ÖÓÐÖµ¡£Èç¹ûv.CanSet()·µ»Ø¼Ù£¬»ápanic¡£xµÄ³ÖÓÐÖµ±ØÐëÄÜÖ±½Ó¸³¸øv³ÖÓÐÖµµÄÀàÐÍ¡£
+			* èµ‹å€¼
+			* å°†vçš„æŒæœ‰å€¼ä¿®æ”¹ä¸ºxçš„æŒæœ‰å€¼ã€‚å¦‚æžœv.CanSet()è¿”å›žå‡ï¼Œä¼španicã€‚xçš„æŒæœ‰å€¼å¿…é¡»èƒ½ç›´æŽ¥èµ‹ç»™væŒæœ‰å€¼çš„ç±»åž‹ã€‚
 		
 		func (v Value) SetBool(x bool)
-			* ÉèÖÃvµÄ³ÖÓÐÖµ¡£Èç¹ûvµÄKind²»ÊÇBool»òÕßv.CanSet()·µ»Ø¼Ù£¬»ápanic¡£
+			* è®¾ç½®vçš„æŒæœ‰å€¼ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Boolæˆ–è€…v.CanSet()è¿”å›žå‡ï¼Œä¼španicã€‚
 
 		func (v Value) SetBytes(x []byte)
-			* ÉèÖÃvµÄ³ÖÓÐÖµ¡£Èç¹ûv³ÖÓÐÖµ²»ÊÇ[]byteÀàÐÍ»òÕßv.CanSet()·µ»Ø¼Ù£¬»ápanic¡£
+			* è®¾ç½®vçš„æŒæœ‰å€¼ã€‚å¦‚æžœvæŒæœ‰å€¼ä¸æ˜¯[]byteç±»åž‹æˆ–è€…v.CanSet()è¿”å›žå‡ï¼Œä¼španicã€‚
 
 		func (v Value) SetCap(n int)
-			* Éè¶¨v³ÖÓÐÖµµÄÈÝÁ¿¡£Èç¹ûvµÄKind²»ÊÇSlice»òÕßn³ö½ç£¨Ð¡ÓÚ³¤¶È»ò³¬³öÈÝÁ¿£©£¬½«µ¼ÖÂpanic
+			* è®¾å®švæŒæœ‰å€¼çš„å®¹é‡ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Sliceæˆ–è€…nå‡ºç•Œï¼ˆå°äºŽé•¿åº¦æˆ–è¶…å‡ºå®¹é‡ï¼‰ï¼Œå°†å¯¼è‡´panic
 
 		func (v Value) SetComplex(x complex128)
-			* ÉèÖÃvµÄ³ÖÓÐÖµ¡£Èç¹ûvµÄKind²»ÊÇComplex64¡¢Complex128»òÕßv.CanSet()·µ»Ø¼Ù£¬»ápanic¡£
+			* è®¾ç½®vçš„æŒæœ‰å€¼ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Complex64ã€Complex128æˆ–è€…v.CanSet()è¿”å›žå‡ï¼Œä¼španicã€‚
 
 		func (v Value) SetFloat(x float64)
-			* ÉèÖÃvµÄ³ÖÓÐÖµ¡£Èç¹ûvµÄKind²»ÊÇFloat32¡¢Float64»òÕßv.CanSet()·µ»Ø¼Ù£¬»ápanic¡£
+			* è®¾ç½®vçš„æŒæœ‰å€¼ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Float32ã€Float64æˆ–è€…v.CanSet()è¿”å›žå‡ï¼Œä¼španicã€‚
 
 		func (v Value) SetInt(x int64)
-			* ÉèÖÃvµÄ³ÖÓÐÖµ¡£Èç¹ûvµÄKind²»ÊÇInt¡¢Int8¡¢Int16¡¢Int32¡¢Int64Ö®Ò»»òÕßv.CanSet()·µ»Ø¼Ù£¬»ápanic¡£
+			* è®¾ç½®vçš„æŒæœ‰å€¼ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Intã€Int8ã€Int16ã€Int32ã€Int64ä¹‹ä¸€æˆ–è€…v.CanSet()è¿”å›žå‡ï¼Œä¼španicã€‚
 
 		func (v Value) SetLen(n int)
-			* Éè¶¨v³ÖÓÐÖµµÄ³¤¶È¡£Èç¹ûvµÄKind²»ÊÇSlice»òÕßn³ö½ç£¨Ð¡ÓÚÁã»ò³¬³öÈÝÁ¿£©£¬½«µ¼ÖÂpanic
+			* è®¾å®švæŒæœ‰å€¼çš„é•¿åº¦ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Sliceæˆ–è€…nå‡ºç•Œï¼ˆå°äºŽé›¶æˆ–è¶…å‡ºå®¹é‡ï¼‰ï¼Œå°†å¯¼è‡´panic
 
 		func (v Value) SetMapIndex(key, elem Value)
-			* ÓÃÀ´¸øvµÄÓ³ÉäÀàÐÍ³ÖÓÐÖµÌí¼Ó/ÐÞ¸Ä¼üÖµ¶Ô£¬Èç¹ûvalÊÇValueÁãÖµ£¬ÔòÊÇÉ¾³ý¼üÖµ¶Ô¡£
-			* Èç¹ûvµÄKind²»ÊÇMap£¬»òÕßvµÄ³ÖÓÐÖµÊÇnil£¬½«»ápanic¡£
-			* keyµÄ³ÖÓÐÖµ±ØÐë¿ÉÒÔÖ±½Ó¸³Öµ¸øv³ÖÓÐÖµÀàÐÍµÄ¼üÀàÐÍ¡£valµÄ³ÖÓÐÖµ±ØÐë¿ÉÒÔÖ±½Ó¸³Öµ¸øv³ÖÓÐÖµÀàÐÍµÄÖµÀàÐÍ¡£
+			* ç”¨æ¥ç»™vçš„æ˜ å°„ç±»åž‹æŒæœ‰å€¼æ·»åŠ /ä¿®æ”¹é”®å€¼å¯¹ï¼Œå¦‚æžœvalæ˜¯Valueé›¶å€¼ï¼Œåˆ™æ˜¯åˆ é™¤é”®å€¼å¯¹ã€‚
+			* å¦‚æžœvçš„Kindä¸æ˜¯Mapï¼Œæˆ–è€…vçš„æŒæœ‰å€¼æ˜¯nilï¼Œå°†ä¼španicã€‚
+			* keyçš„æŒæœ‰å€¼å¿…é¡»å¯ä»¥ç›´æŽ¥èµ‹å€¼ç»™væŒæœ‰å€¼ç±»åž‹çš„é”®ç±»åž‹ã€‚valçš„æŒæœ‰å€¼å¿…é¡»å¯ä»¥ç›´æŽ¥èµ‹å€¼ç»™væŒæœ‰å€¼ç±»åž‹çš„å€¼ç±»åž‹ã€‚
 
 
 		func (v Value) SetPointer(x unsafe.Pointer)
-			* ÉèÖÃvµÄ³ÖÓÐÖµ¡£Èç¹ûvµÄKind²»ÊÇUnsafePointer»òÕßv.CanSet()·µ»Ø¼Ù£¬»ápanic¡£
+			* è®¾ç½®vçš„æŒæœ‰å€¼ã€‚å¦‚æžœvçš„Kindä¸æ˜¯UnsafePointeræˆ–è€…v.CanSet()è¿”å›žå‡ï¼Œä¼španicã€‚
 
 		func (v Value) SetString(x string)
-			* ÉèÖÃvµÄ³ÖÓÐÖµ¡£Èç¹ûvµÄKind²»ÊÇString»òÕßv.CanSet()·µ»Ø¼Ù£¬»ápanic¡£
+			* è®¾ç½®vçš„æŒæœ‰å€¼ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Stringæˆ–è€…v.CanSet()è¿”å›žå‡ï¼Œä¼španicã€‚
 		
 		func (v Value) SetUint(x uint64)
-			* ÉèÖÃvµÄ³ÖÓÐÖµ¡£Èç¹ûvµÄKind²»ÊÇUint¡¢Uintptr¡¢Uint8¡¢Uint16¡¢Uint32¡¢Uint64»òÕßv.CanSet()·µ»Ø¼Ù£¬»ápanic¡£
+			* è®¾ç½®vçš„æŒæœ‰å€¼ã€‚å¦‚æžœvçš„Kindä¸æ˜¯Uintã€Uintptrã€Uint8ã€Uint16ã€Uint32ã€Uint64æˆ–è€…v.CanSet()è¿”å›žå‡ï¼Œä¼španicã€‚
 		
 		func (v Value) Slice(i, j int) Value
-			* ·µ»Øv[i:j]£¨v³ÖÓÐµÄÇÐÆ¬µÄ×ÓÇÐÆ¬µÄValue·â×°£©£»Èç¹ûvµÄKind²»ÊÇArray¡¢Slice»òString»ápanic¡£Èç¹ûvÊÇÒ»¸ö²»¿ÉÑ°Ö·µÄÊý×é£¬»òÕßË÷Òý³ö½ç£¬Ò²»ápanic
+			* è¿”å›žv[i:j]ï¼ˆvæŒæœ‰çš„åˆ‡ç‰‡çš„å­åˆ‡ç‰‡çš„Valueå°è£…ï¼‰ï¼›å¦‚æžœvçš„Kindä¸æ˜¯Arrayã€Sliceæˆ–Stringä¼španicã€‚å¦‚æžœvæ˜¯ä¸€ä¸ªä¸å¯å¯»å€çš„æ•°ç»„ï¼Œæˆ–è€…ç´¢å¼•å‡ºç•Œï¼Œä¹Ÿä¼španic
 
 		func (v Value) Slice3(i, j, k int) Value
-			* ÊÇSliceµÄ3²ÎÊý°æ±¾£¬·µ»Øv[i:j:k] £»Èç¹ûvµÄKind²»ÊÇArray¡¢Slice»òString»ápanic¡£Èç¹ûvÊÇÒ»¸ö²»¿ÉÑ°Ö·µÄÊý×é£¬»òÕßË÷Òý³ö½ç£¬Ò²»ápanic¡£
+			* æ˜¯Sliceçš„3å‚æ•°ç‰ˆæœ¬ï¼Œè¿”å›žv[i:j:k] ï¼›å¦‚æžœvçš„Kindä¸æ˜¯Arrayã€Sliceæˆ–Stringä¼španicã€‚å¦‚æžœvæ˜¯ä¸€ä¸ªä¸å¯å¯»å€çš„æ•°ç»„ï¼Œæˆ–è€…ç´¢å¼•å‡ºç•Œï¼Œä¹Ÿä¼španicã€‚
 
 		func (v Value) String() string
-			* ·µ»Øv³ÖÓÐµÄÖµµÄ×Ö·û´®±íÊ¾¡£ÒòÎªgoµÄString·½·¨µÄ¹ßÀý£¬ValueµÄString·½·¨±È½ÏÌØ±ð¡£
-			* ºÍÆäËû»ñÈ¡v³ÖÓÐÖµµÄ·½·¨²»Í¬£ºvµÄKindÊÇStringÊ±£¬·µ»Ø¸Ã×Ö·û´®£»vµÄKind²»ÊÇStringÊ±Ò²²»»ápanic¶øÊÇ·µ»Ø¸ñÊ½Îª"<T value>"µÄ×Ö·û´®£¬ÆäÖÐTÊÇv³ÖÓÐÖµµÄÀàÐÍ¡£
+			* è¿”å›žvæŒæœ‰çš„å€¼çš„å­—ç¬¦ä¸²è¡¨ç¤ºã€‚å› ä¸ºgoçš„Stringæ–¹æ³•çš„æƒ¯ä¾‹ï¼ŒValueçš„Stringæ–¹æ³•æ¯”è¾ƒç‰¹åˆ«ã€‚
+			* å’Œå…¶ä»–èŽ·å–væŒæœ‰å€¼çš„æ–¹æ³•ä¸åŒï¼švçš„Kindæ˜¯Stringæ—¶ï¼Œè¿”å›žè¯¥å­—ç¬¦ä¸²ï¼›vçš„Kindä¸æ˜¯Stringæ—¶ä¹Ÿä¸ä¼španicè€Œæ˜¯è¿”å›žæ ¼å¼ä¸º"<T value>"çš„å­—ç¬¦ä¸²ï¼Œå…¶ä¸­Tæ˜¯væŒæœ‰å€¼çš„ç±»åž‹ã€‚
 
 
 		func (v Value) TryRecv() (x Value, ok bool)
-			* TryRecv³¢ÊÔ´Óv³ÖÓÐµÄÍ¨µÀ½ÓÊÕÒ»¸öÖµ£¬µ«²»»á×èÈû¡£Èç¹ûvµÄKind²»ÊÇChan»ápanic¡£
-			* Èç¹û·½·¨³É¹¦½ÓÊÕµ½Ò»¸öÖµ£¬»á·µ»Ø¸ÃÖµ£¨µÄValue·â×°£©ºÍtrue£»Èç¹û²»ÄÜÎÞ×èÈûµÄ½ÓÊÕµ½Öµ£¬·µ»ØValueÁãÖµºÍfalse£»Èç¹ûÒòÎªÍ¨µÀ¹Ø±Õ¶ø·µ»Ø£¬·µ»ØÖµxÊÇ³ÖÓÐÍ¨µÀÔªËØÀàÐÍµÄÁãÖµµÄValueºÍfalse¡£
+			* TryRecvå°è¯•ä»ŽvæŒæœ‰çš„é€šé“æŽ¥æ”¶ä¸€ä¸ªå€¼ï¼Œä½†ä¸ä¼šé˜»å¡žã€‚å¦‚æžœvçš„Kindä¸æ˜¯Chanä¼španicã€‚
+			* å¦‚æžœæ–¹æ³•æˆåŠŸæŽ¥æ”¶åˆ°ä¸€ä¸ªå€¼ï¼Œä¼šè¿”å›žè¯¥å€¼ï¼ˆçš„Valueå°è£…ï¼‰å’Œtrueï¼›å¦‚æžœä¸èƒ½æ— é˜»å¡žçš„æŽ¥æ”¶åˆ°å€¼ï¼Œè¿”å›žValueé›¶å€¼å’Œfalseï¼›å¦‚æžœå› ä¸ºé€šé“å…³é—­è€Œè¿”å›žï¼Œè¿”å›žå€¼xæ˜¯æŒæœ‰é€šé“å…ƒç´ ç±»åž‹çš„é›¶å€¼çš„Valueå’Œfalseã€‚
 
 		func (v Value) TrySend(x Value) bool
-			* TrySend³¢ÊÔÏòv³ÖÓÐµÄÍ¨µÀ·¢ËÍx³ÖÓÐµÄÖµ£¬µ«²»»á×èÈû¡£Èç¹ûvµÄKind²»ÊÇChan»ápanic¡£
-			* Èç¹û³É¹¦·¢ËÍ»á·µ»ØÕæ£¬·ñÔò·µ»Ø¼Ù¡£xµÄ³ÖÓÐÖµ±ØÐë¿ÉÒÔÖ±½Ó¸³Öµ¸øv³ÖÓÐÍ¨µÀµÄÔªËØÀàÐÍ¡£
+			* TrySendå°è¯•å‘væŒæœ‰çš„é€šé“å‘é€xæŒæœ‰çš„å€¼ï¼Œä½†ä¸ä¼šé˜»å¡žã€‚å¦‚æžœvçš„Kindä¸æ˜¯Chanä¼španicã€‚
+			* å¦‚æžœæˆåŠŸå‘é€ä¼šè¿”å›žçœŸï¼Œå¦åˆ™è¿”å›žå‡ã€‚xçš„æŒæœ‰å€¼å¿…é¡»å¯ä»¥ç›´æŽ¥èµ‹å€¼ç»™væŒæœ‰é€šé“çš„å…ƒç´ ç±»åž‹ã€‚
 
 		func (v Value) Type() Type
-			* ·µ»Øv³ÖÓÐµÄÖµµÄÀàÐÍµÄType±íÊ¾¡£
+			* è¿”å›žvæŒæœ‰çš„å€¼çš„ç±»åž‹çš„Typeè¡¨ç¤ºã€‚
 
 		func (v Value) Uint() uint64
-			* ·µ»Øv³ÖÓÐµÄÎÞ·ûºÅÕûÊý£¨±íÊ¾Îªuint64£©£¬ÈçvµÄKind²»ÊÇUint¡¢Uintptr¡¢Uint8¡¢Uint16¡¢Uint32¡¢Uint64»ápanic
+			* è¿”å›žvæŒæœ‰çš„æ— ç¬¦å·æ•´æ•°ï¼ˆè¡¨ç¤ºä¸ºuint64ï¼‰ï¼Œå¦‚vçš„Kindä¸æ˜¯Uintã€Uintptrã€Uint8ã€Uint16ã€Uint32ã€Uint64ä¼španic
 
 		func (v Value) UnsafeAddr() uintptr
-			* ·µ»ØÖ¸Ïòv³ÖÓÐÊý¾ÝµÄµØÖ·µÄÖ¸Õë£¨±íÊ¾Îªuintptr£©ÒÔÓÃ×÷¸ß¼¶ÓÃÍ¾£¬Èç¹ûv²»¿ÉÑ°Ö·»ápanic¡£
+			* è¿”å›žæŒ‡å‘væŒæœ‰æ•°æ®çš„åœ°å€çš„æŒ‡é’ˆï¼ˆè¡¨ç¤ºä¸ºuintptrï¼‰ä»¥ç”¨ä½œé«˜çº§ç”¨é€”ï¼Œå¦‚æžœvä¸å¯å¯»å€ä¼španicã€‚
 	
 	# type ValueError struct {
 			Method string
@@ -512,15 +512,15 @@ type
 func
 ---------------------
 	func Copy(dst, src Value) int
-		* ½«srcÖÐµÄÖµ¿½±´µ½dst£¬Ö±µ½src±»ºÄ¾¡»òÕßdst±»×°Âú£¬ÒªÇóÕâ¶þÕß¶¼ÊÇslice»òarray£¬ÇÒÔªËØÀàÐÍÏàÍ¬¡£
+		* å°†srcä¸­çš„å€¼æ‹·è´åˆ°dstï¼Œç›´åˆ°srcè¢«è€—å°½æˆ–è€…dstè¢«è£…æ»¡ï¼Œè¦æ±‚è¿™äºŒè€…éƒ½æ˜¯sliceæˆ–arrayï¼Œä¸”å…ƒç´ ç±»åž‹ç›¸åŒã€‚
 	
 	func DeepEqual(x, y interface{}) bool
-		* Éî±È½Ï2¸öÊý¾Ý
-		* ÓÃÀ´ÅÐ¶ÏÁ½¸öÖµÊÇ·ñÉî¶ÈÒ»ÖÂ£º³ýÁËÀàÐÍÏàÍ¬£»ÔÚ¿ÉÒÔÊ±£¨Ö÷ÒªÊÇ»ù±¾ÀàÐÍ£©»áÊ¹ÓÃ==£»µ«»¹»á±È½Ïarray¡¢sliceµÄ³ÉÔ±£¬mapµÄ¼üÖµ¶Ô£¬½á¹¹Ìå×Ö¶Î½øÐÐÉîÈë±È¶Ô¡£
-		* mapµÄ¼üÖµ¶Ô£¬¶Ô¼üÖ»Ê¹ÓÃ==£¬µ«Öµ»á¼ÌÐøÍùÉî²ã±È¶Ô¡£
-		* DeepEqualº¯Êý¿ÉÒÔÕýÈ·´¦ÀíÑ­»·µÄÀàÐÍ¡£º¯ÊýÀàÐÍÖ»ÓÐ¶¼»ánilÊ±²ÅÏàµÈ£»¿ÕÇÐÆ¬²»µÈÓÚnilÇÐÆ¬£»»¹»á¿¼ÂÇarray¡¢sliceµÄ³¤¶È¡¢map¼üÖµ¶ÔÊý¡£
+		* æ·±æ¯”è¾ƒ2ä¸ªæ•°æ®
+		* ç”¨æ¥åˆ¤æ–­ä¸¤ä¸ªå€¼æ˜¯å¦æ·±åº¦ä¸€è‡´ï¼šé™¤äº†ç±»åž‹ç›¸åŒï¼›åœ¨å¯ä»¥æ—¶ï¼ˆä¸»è¦æ˜¯åŸºæœ¬ç±»åž‹ï¼‰ä¼šä½¿ç”¨==ï¼›ä½†è¿˜ä¼šæ¯”è¾ƒarrayã€sliceçš„æˆå‘˜ï¼Œmapçš„é”®å€¼å¯¹ï¼Œç»“æž„ä½“å­—æ®µè¿›è¡Œæ·±å…¥æ¯”å¯¹ã€‚
+		* mapçš„é”®å€¼å¯¹ï¼Œå¯¹é”®åªä½¿ç”¨==ï¼Œä½†å€¼ä¼šç»§ç»­å¾€æ·±å±‚æ¯”å¯¹ã€‚
+		* DeepEqualå‡½æ•°å¯ä»¥æ­£ç¡®å¤„ç†å¾ªçŽ¯çš„ç±»åž‹ã€‚å‡½æ•°ç±»åž‹åªæœ‰éƒ½ä¼šnilæ—¶æ‰ç›¸ç­‰ï¼›ç©ºåˆ‡ç‰‡ä¸ç­‰äºŽnilåˆ‡ç‰‡ï¼›è¿˜ä¼šè€ƒè™‘arrayã€sliceçš„é•¿åº¦ã€mapé”®å€¼å¯¹æ•°ã€‚
 
 	func Swapper(slice interface{}) func(i, j int)
 	func VisibleFields(t Type) []StructField
-		* ·µ»ØÒ»¸ö½á¹¹ÀàÐÍÖÐµÄËùÓÐ¿É¼û×Ö¶Î£¬°üÀ¨ÄäÃû½á¹¹³ÉÔ±ÖÐµÄ×Ö¶Î¡£
+		* è¿”å›žä¸€ä¸ªç»“æž„ç±»åž‹ä¸­çš„æ‰€æœ‰å¯è§å­—æ®µï¼ŒåŒ…æ‹¬åŒ¿åç»“æž„æˆå‘˜ä¸­çš„å­—æ®µã€‚
 	func PointerTo(t Type) Type
