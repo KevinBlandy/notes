@@ -14,12 +14,35 @@
             * 不包括：构造函数，以及仅仅会被构造函数调用到的函数
         * 不允许循环创建合约，因为创建合约的时候，创建方必须知道被创建合约的源码以及二进制代码
     
+    # 构造函数
+        * 格式固定： constructor() {}
+            contract Name {
+                constructor() {}
+            }
+
+        * 如果没有主动声明，系统会默认生成一个空的构造函数
+        * 构造函数可以有参数，引用类型只能是： 
+            * memory 
+            * storage 指针，此时合约必须标记为 abstract，因为这些参数无法从外部赋予有效值，只能通过子合约的构造函数进行赋值。
+        
+                abstract contract A {
+                    uint[] private ids;
+                    constructor(uint[] storage _ids){
+                        ids = _ids;
+                    }
+                }
+                contract B is A {
+                    uint[] ids;
+                    constructor() A(ids) {}
+                }
+    
     # 状态变量的可见性
         public
             * 所有人都可以访问，并且还会生成 getter 方法
 
         internal
             * 合约内部和子合约可见
+            * 默认值
 
         private
             * 仅合约内部可见
@@ -115,6 +138,7 @@
                 _;
             }
         
+        * 不能重载，没有可见性的概念，本质上是一种 语法模板（code wrapper），在编译阶段会被 内联展开（inline expansion） 到函数中。
         * 可以定义参数
             
             // 定义俩参数

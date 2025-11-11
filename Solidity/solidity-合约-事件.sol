@@ -6,8 +6,11 @@
         * 可以定义在文件级别，也可以定义在合约中
         * 日志触发的时候，会把日志数据和关联的合约信息写入到区块链，永久保存
         * 合约内部不能访问日志数据，只能是外部实体（客户端）进行查阅。
-        
-        event Transfer(address indexed from, address indexed to, uint256 value);
+        * 支持重载
+
+        event Transfer(address indexed from, address indexed to, uint amount);
+        event Transfer(address indexed from, address indexed to, uint amount, uint timestamp);
+
 
     # indexed 参数
         * 事件最多可以定义 3 个 indexed 参数，将其存储到名为 topics 的特殊数据结构中。
