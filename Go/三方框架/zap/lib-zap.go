@@ -22,7 +22,7 @@ var
 		FatalLevel = zapcore.FatalLevel
 	)
 
-	* ÈÕÖ¾¼¶±ğ
+	* æ—¥å¿—çº§åˆ«
 
 
 ----------------------------
@@ -32,66 +32,66 @@ struct
 			// contains filtered or unexported fields
 		}
 		func NewAtomicLevel() AtomicLevel	
-			* ´´½¨ĞÂµÄ¶¯Ì¬ÈÕÖ¾¼¶±ğ£¬Ä¬ÈÏ¼¶±ğÊÇ InfoLevel
+			* åˆ›å»ºæ–°çš„åŠ¨æ€æ—¥å¿—çº§åˆ«ï¼Œé»˜è®¤çº§åˆ«æ˜¯ InfoLevel
 
 		func NewAtomicLevelAt(l zapcore.Level) AtomicLevel
-			* ´´½¨ĞÂµÄ¶¯Ì¬ÈÕÖ¾¼¶±ğ£¬²¢ÇÒÉèÖÃ¼¶±ğ
+			* åˆ›å»ºæ–°çš„åŠ¨æ€æ—¥å¿—çº§åˆ«ï¼Œå¹¶ä¸”è®¾ç½®çº§åˆ«
 
 		func (lvl AtomicLevel) Enabled(l zapcore.Level) bool
 		func (lvl AtomicLevel) Level() zapcore.Level
-			* »ñÈ¡ÈÕÖ¾¼¶±ğ
+			* è·å–æ—¥å¿—çº§åˆ«
 
 		func (lvl AtomicLevel) MarshalText() (text []byte, err error)
 		func (lvl AtomicLevel) ServeHTTP(w http.ResponseWriter, r *http.Request)
-			* Ìá¹©ÁË²éÑ¯/ĞŞ¸ÄÈÕÖ¾¼¶±ğµÄAPI
+			* æä¾›äº†æŸ¥è¯¢/ä¿®æ”¹æ—¥å¿—çº§åˆ«çš„API
 
 		func (lvl AtomicLevel) SetLevel(l zapcore.Level)
-			* ÉèÖÃÈÕÖ¾¼¶±ğ
+			* è®¾ç½®æ—¥å¿—çº§åˆ«
 
 		func (lvl AtomicLevel) String() string
 		func (lvl *AtomicLevel) UnmarshalText(text []byte) error
 		
-		* ÊµÏÖÁË LevelEnabler ½Ó¿Ú
-		* Ô­×Ó¿É¸ü¸ÄµÄ¶¯Ì¬ÈÕÖ¾¼ÇÂ¼¼¶±ğ£¬¿ÉÒÔÔÚÔËĞĞÊ±°²È«µØ¸ü¸Ä¼ÇÂ¼Æ÷Ê÷£¨¸ù¼ÇÂ¼Æ÷ºÍÍ¨¹ıÌí¼ÓÉÏÏÂÎÄ´´½¨µÄÈÎºÎ×Ó´ú£©µÄÈÕÖ¾¼¶±ğ¡£
-		* l±¾ÉíÊÇÒ»¸öhttp.Handler£¬ËüÌá¹©JSON¶ËµãÀ´¸ü¸ÄÆä¼¶±ğ
-		* ±ØĞëÊ¹ÓÃ NewAtomicLevel ¹¹Ôìº¯Êı´´½¨AtomicLevels²ÅÄÜ·ÖÅäÆäÄÚ²¿Ô­×ÓÖ¸Õë
+		* å®ç°äº† LevelEnabler æ¥å£
+		* åŸå­å¯æ›´æ”¹çš„åŠ¨æ€æ—¥å¿—è®°å½•çº§åˆ«ï¼Œå¯ä»¥åœ¨è¿è¡Œæ—¶å®‰å…¨åœ°æ›´æ”¹è®°å½•å™¨æ ‘ï¼ˆæ ¹è®°å½•å™¨å’Œé€šè¿‡æ·»åŠ ä¸Šä¸‹æ–‡åˆ›å»ºçš„ä»»ä½•å­ä»£ï¼‰çš„æ—¥å¿—çº§åˆ«ã€‚
+		* læœ¬èº«æ˜¯ä¸€ä¸ªhttp.Handlerï¼Œå®ƒæä¾›JSONç«¯ç‚¹æ¥æ›´æ”¹å…¶çº§åˆ«
+		* å¿…é¡»ä½¿ç”¨ NewAtomicLevel æ„é€ å‡½æ•°åˆ›å»ºAtomicLevelsæ‰èƒ½åˆ†é…å…¶å†…éƒ¨åŸå­æŒ‡é’ˆ
 
 	
 	# type Config struct {
 			Level AtomicLevel `json:"level" yaml:"level"`
-				* ÉèÖÃÈÕÖ¾¼¶±ğ
+				* è®¾ç½®æ—¥å¿—çº§åˆ«
 			
 			Development bool `json:"development" yaml:"development"`
-				* ÉèÖÃÎª¿ª·¢Ä£Ê½£¬Õâ»á¸Ä±äDPanicLevelµÄĞĞÎª£¬²¢ÇÒ¸ü×ÔÓÉµØÊ¹ÓÃstacktraces
+				* è®¾ç½®ä¸ºå¼€å‘æ¨¡å¼ï¼Œè¿™ä¼šæ”¹å˜DPanicLevelçš„è¡Œä¸ºï¼Œå¹¶ä¸”æ›´è‡ªç”±åœ°ä½¿ç”¨stacktraces
 
 			DisableCaller bool `json:"disableCaller" yaml:"disableCaller"`
-				* ½ûÖ¹ÔÚÈÕÖ¾ÖĞÊä³öµ÷ÓÃº¯ÊıµÄÎÄ¼şÃû³ÆºÍĞĞºÅ¡£
-				* Ä¬ÈÏtrue
+				* ç¦æ­¢åœ¨æ—¥å¿—ä¸­è¾“å‡ºè°ƒç”¨å‡½æ•°çš„æ–‡ä»¶åç§°å’Œè¡Œå·ã€‚
+				* é»˜è®¤true
 
 			DisableStacktrace bool `json:"disableStacktrace" yaml:"disableStacktrace"`
-				* ½ûÓÃ¶ÑÕ»¸ú×Ù£¬
-				* Ä¬ÈÏÇé¿öÏÂ£¬»á²¶»ñ¿ª·¢Ä£Ê½ÖĞµÄWarnLevel¼°ÒÔÉÏ¼¶±ğµÄÈÕÖ¾£¬ÒÔ¼°Éú²ú»·¾³ÖĞµÄErrorLevel¼°ÒÔÉÏ¼¶±ğµÄÈÕÖ¾
+				* ç¦ç”¨å †æ ˆè·Ÿè¸ªï¼Œ
+				* é»˜è®¤æƒ…å†µä¸‹ï¼Œä¼šæ•è·å¼€å‘æ¨¡å¼ä¸­çš„WarnLevelåŠä»¥ä¸Šçº§åˆ«çš„æ—¥å¿—ï¼Œä»¥åŠç”Ÿäº§ç¯å¢ƒä¸­çš„ErrorLevelåŠä»¥ä¸Šçº§åˆ«çš„æ—¥å¿—
 
 			Sampling *SamplingConfig `json:"sampling" yaml:"samencoderConfigpling"`	
 				* SamplingConfig
 
 			Encoding string `json:"encoding" yaml:"encoding"`
-				* ÉèÖÃ±àÂëÆ÷ÀàĞÍ£¬Ã¶¾ÙÖµ£ºjson, console
+				* è®¾ç½®ç¼–ç å™¨ç±»å‹ï¼Œæšä¸¾å€¼ï¼šjson, console
 
 			EncoderConfig zapcore.EncoderConfig `json:"encoderConfig" yaml:""`
-				* ±àÂëÆ÷ÅäÖÃ
+				* ç¼–ç å™¨é…ç½®
 			
 			OutputPaths []string `json:"outputPaths" yaml:"outputPaths"`	
-				* ¿ÉÒÔÅäÖÃ¶à¸öÊä³öÂ·¾¶£¬Â·¾¶¿ÉÒÔÊÇÎÄ¼şÂ·¾¶ºÍstdout£¨±ê×¼Êä³ö£©£»
+				* å¯ä»¥é…ç½®å¤šä¸ªè¾“å‡ºè·¯å¾„ï¼Œè·¯å¾„å¯ä»¥æ˜¯æ–‡ä»¶è·¯å¾„å’Œstdoutï¼ˆæ ‡å‡†è¾“å‡ºï¼‰ï¼›
 			
 			ErrorOutputPaths []string `json:"errorOutputPaths" yaml:"errorOutputPaths"`
-				* ´íÎóÊä³öÂ·¾¶£¬Ò²¿ÉÒÔÊÇ¶à¸ö£»
+				* é”™è¯¯è¾“å‡ºè·¯å¾„ï¼Œä¹Ÿå¯ä»¥æ˜¯å¤šä¸ªï¼›
 
 			InitialFields map[string]interface{} `json:"initialFields" yaml:"initialFields"`
-				* Ã¿ÌõÈÕÖ¾ÖĞ¶¼»áÊä³öÕâĞ©Öµ
+				* æ¯æ¡æ—¥å¿—ä¸­éƒ½ä¼šè¾“å‡ºè¿™äº›å€¼
 		}
 		
-		* ÈÕÖ¾µÄÅäÖÃĞÅÏ¢
+		* æ—¥å¿—çš„é…ç½®ä¿¡æ¯
 			
 		func NewDevelopmentConfig() Config
 		func NewProductionConfig() Config
@@ -99,23 +99,23 @@ struct
 	
 	# type Field = zapcore.Field
 
-		* ÓÃÓÚÊä³öµÄ×Ö¶Î
-		* zapÎªÁËÌá¸ßĞÔÄÜ¡¢¼õÉÙÄÚ´æ·ÖÅä´ÎÊı£¬Ã»ÓĞÊ¹ÓÃ·´Éä£¬¶øÇÒÄ¬ÈÏµÄLoggerÖ»Ö§³ÖÇ¿ÀàĞÍµÄ¡¢½á¹¹»¯µÄÈÕÖ¾¡£
-		* ±ØĞëÊ¹ÓÃzapÌá¹©µÄ·½·¨¼ÇÂ¼×Ö¶Î
+		* ç”¨äºè¾“å‡ºçš„å­—æ®µ
+		* zapä¸ºäº†æé«˜æ€§èƒ½ã€å‡å°‘å†…å­˜åˆ†é…æ¬¡æ•°ï¼Œæ²¡æœ‰ä½¿ç”¨åå°„ï¼Œè€Œä¸”é»˜è®¤çš„Loggeråªæ”¯æŒå¼ºç±»å‹çš„ã€ç»“æ„åŒ–çš„æ—¥å¿—ã€‚
+		* å¿…é¡»ä½¿ç”¨zapæä¾›çš„æ–¹æ³•è®°å½•å­—æ®µ
 		
 		func Any(key string, value interface{}) Field
-			* Êä³öÈÎºÎÊı¾İ
+			* è¾“å‡ºä»»ä½•æ•°æ®
 
 		func Array(key string, val zapcore.ArrayMarshaler) Field
 		func Binary(key string, val []byte) Field
-			* Êä³ö¶ş½øÖÆ×Ö¶Î
+			* è¾“å‡ºäºŒè¿›åˆ¶å­—æ®µ
 
 		func Bool(key string, val bool) Field
-			* Êä³öÆÕÍ¨bool×Ö¶Î
+			* è¾“å‡ºæ™®é€šboolå­—æ®µ
 		func Boolp(key string, val *bool) Field
-			* Êä³öboolÖ¸Õë×Ö¶Î
+			* è¾“å‡ºboolæŒ‡é’ˆå­—æ®µ
 		func Bools(key string, bs []bool) Field
-			* Êä³öboolÇĞÆ¬
+			* è¾“å‡ºboolåˆ‡ç‰‡
 		
 		func ByteString(key string, val []byte) Field
 		func ByteStrings(key string, bss [][]byte) Field
@@ -188,30 +188,30 @@ struct
 	# type LevelEnablerFunc func(zapcore.Level) bool
 		func (f LevelEnablerFunc) Enabled(lvl zapcore.Level) bool
 
-		* LevelEnablerµÄÊµÏÖ·½·¨
+		* LevelEnablerçš„å®ç°æ–¹æ³•
 	
 	# type Logger struct {
 			// contains filtered or unexported fields
 		}
 		func L() *Logger
-			* »ñÈ¡È«¾Ö±ê×¼µÄlogger
-			* È«¾ÖµÄLoggerÄ¬ÈÏ²¢²»»á¼ÇÂ¼ÈÕÖ¾£¡ËüÊÇÒ»¸öÎŞÊµ¼ÊĞ§¹ûµÄLogger¡£
+			* è·å–å…¨å±€æ ‡å‡†çš„logger
+			* å…¨å±€çš„Loggeré»˜è®¤å¹¶ä¸ä¼šè®°å½•æ—¥å¿—ï¼å®ƒæ˜¯ä¸€ä¸ªæ— å®é™…æ•ˆæœçš„Loggerã€‚
 
 		func New(core zapcore.Core, options ...Option) *Logger
-			* ´´½¨ĞÂµÄ Logger£¬ĞèÒª×Ô¼º¶¨ÖÆ»¯
+			* åˆ›å»ºæ–°çš„ Loggerï¼Œéœ€è¦è‡ªå·±å®šåˆ¶åŒ–
 
 		func NewDevelopment(options ...Option) (*Logger, error)
-			* ÊÊºÏÔÚ¿ª·¢»·¾³ÖĞÊ¹ÓÃ
+			* é€‚åˆåœ¨å¼€å‘ç¯å¢ƒä¸­ä½¿ç”¨
 
 		func NewExample(options ...Option) *Logger
-			* ÊÊºÏÓÃÔÚ²âÊÔ´úÂëÖĞ
+			* é€‚åˆç”¨åœ¨æµ‹è¯•ä»£ç ä¸­
 
 		func NewNop() *Logger
-			* ´´½¨Ò»¸ö¿ÕÊµÏÖµÄlogger
+			* åˆ›å»ºä¸€ä¸ªç©ºå®ç°çš„logger
 			
 		func NewProduction(options ...Option) (*Logger, error)
-			* Ê¹ÓÃoption´´½¨ĞÂµÄlogger, ÊÊºÏÓÃÔÚÉú³É»·¾³
-			* Ä¬ÈÏ¼ÇÂ¼µ÷ÓÃº¯ÊıĞÅÏ¢¡¢ÈÕÆÚºÍÊ±¼äµÈ
+			* ä½¿ç”¨optionåˆ›å»ºæ–°çš„logger, é€‚åˆç”¨åœ¨ç”Ÿæˆç¯å¢ƒ
+			* é»˜è®¤è®°å½•è°ƒç”¨å‡½æ•°ä¿¡æ¯ã€æ—¥æœŸå’Œæ—¶é—´ç­‰
 
 		func (log *Logger) Check(lvl zapcore.Level, msg string) *zapcore.CheckedEntry
 		func (log *Logger) Core() zapcore.Core
@@ -221,12 +221,12 @@ struct
 		func (log *Logger) Fatal(msg string, fields ...Field)
 		func (log *Logger) Info(msg string, fields ...Field)
 		func (log *Logger) Named(s string) *Logger
-			* copyµ±Ç°ÈÕÖ¾¼ÇÂ¼Æ÷µÄËùÓĞĞÅÏ¢Éú³ÉĞÂµÄ£¬²¢ÇÒ¸øÉèÖÃÒ»¸öÃû³Æ
-			* Èç¹ûÒÑ¾­ÓĞÃû³ÆµÄ»°£¬ÔòÌí¼Ó.·Ö¸î
+			* copyå½“å‰æ—¥å¿—è®°å½•å™¨çš„æ‰€æœ‰ä¿¡æ¯ç”Ÿæˆæ–°çš„ï¼Œå¹¶ä¸”ç»™è®¾ç½®ä¸€ä¸ªåç§°
+			* å¦‚æœå·²ç»æœ‰åç§°çš„è¯ï¼Œåˆ™æ·»åŠ .åˆ†å‰²
 
 		func (log *Logger) Panic(msg string, fields ...Field)
 		func (log *Logger) Sugar() *SugaredLogger
-			* ´Óµ±Ç°Logger´´½¨Ò»¸öSugaredLogger
+			* ä»å½“å‰Loggeråˆ›å»ºä¸€ä¸ªSugaredLogger
 
 		func (log *Logger) Sync() error
 		func (log *Logger) Warn(msg string, fields ...Field)
@@ -239,33 +239,33 @@ struct
 			// contains filtered or unexported methods
 		}
 	
-		* ÈÕÖ¾µÄÅäÖÃĞÅÏ¢
+		* æ—¥å¿—çš„é…ç½®ä¿¡æ¯
 
 		func AddCaller() Option
-			* Ìí¼ÓÈÕÖ¾Êä³öµÄÎÄ¼şĞÅÏ¢
-			* ±¾ÖÊÉÏÊÇÖ´ĞĞÁË:  WithCaller(true)
+			* æ·»åŠ æ—¥å¿—è¾“å‡ºçš„æ–‡ä»¶ä¿¡æ¯
+			* æœ¬è´¨ä¸Šæ˜¯æ‰§è¡Œäº†:  WithCaller(true)
 
 		func AddCallerSkip(skip int) Option
 		func AddStacktrace(lvl zapcore.LevelEnabler) Option
-			* Ìí¼Óµ÷ÓÃÕ»ĞÅÏ¢
-			* ¸Ãº¯ÊıÖ¸¶¨lvlºÍÖ®ÉÏµÄ¼¶±ğ¶¼ĞèÒªÊä³öµ÷ÓÃ¶ÑÕ»£º
+			* æ·»åŠ è°ƒç”¨æ ˆä¿¡æ¯
+			* è¯¥å‡½æ•°æŒ‡å®šlvlå’Œä¹‹ä¸Šçš„çº§åˆ«éƒ½éœ€è¦è¾“å‡ºè°ƒç”¨å †æ ˆï¼š
 
 		func Development() Option
 		func ErrorOutput(w zapcore.WriteSyncer) Option
-			* Òì³£Êä³ö£¬Õâ¸öÖ»»á¼ÇÂ¼ÄÚ²¿µÄÒì³££¬¶ø²»ÊÇERROR¼¶±ğµÄÈÕÖ¾
+			* å¼‚å¸¸è¾“å‡ºï¼Œè¿™ä¸ªåªä¼šè®°å½•å†…éƒ¨çš„å¼‚å¸¸ï¼Œè€Œä¸æ˜¯ERRORçº§åˆ«çš„æ—¥å¿—
 
 		func Fields(fs ...Field) Option
-			* Ô¤ÉèÒ»¶ÑÊä³ö×Ö¶Î£¬Õâ¸öloggerÊä³ö¶¼»á´øÉÏÕâ¸ö
+			* é¢„è®¾ä¸€å †è¾“å‡ºå­—æ®µï¼Œè¿™ä¸ªloggerè¾“å‡ºéƒ½ä¼šå¸¦ä¸Šè¿™ä¸ª
 
 		func Hooks(hooks ...func(zapcore.Entry) error) Option
-			* Ìí¼Ó»Øµ÷
+			* æ·»åŠ å›è°ƒ
 
 		func IncreaseLevel(lvl zapcore.LevelEnabler) Option
 		func OnFatal(action zapcore.CheckWriteAction) Option
-			* ÉèÖÃÔÚ Fatal loggerÊ±µÄ´¦Àí·½·¨
+			* è®¾ç½®åœ¨ Fatal loggeræ—¶çš„å¤„ç†æ–¹æ³•
 
 		func WithCaller(enabled bool) Option	
-			* Ìí¼ÓÈÕÖ¾Êä³öµÄÎÄ¼şĞÅÏ¢
+			* æ·»åŠ æ—¥å¿—è¾“å‡ºçš„æ–‡ä»¶ä¿¡æ¯
 
 		func WrapCore(f func(zapcore.Core) zapcore.Core) Option
 	
@@ -275,7 +275,7 @@ struct
 			Hook       func(zapcore.Entry, zapcore.SamplingDecision) `json:"-" yaml:"-"`
 		}
 
-		* ²ÉÑùÅäÖÃ
+		* é‡‡æ ·é…ç½®
 
 	
 	# type Sink interface {
@@ -287,11 +287,11 @@ struct
 			// contains filtered or unexported fields
 		}
 		
-		* "¼ÓÌÇ"µÄÈÕÖ¾¼ÇÂ¼Æ÷£¬¾ÍÊÇÖ§³Ö fmt ¸ñÊ½»¯Êä³öµÄ³£¹æ¼ÇÂ¼Æ÷
+		* "åŠ ç³–"çš„æ—¥å¿—è®°å½•å™¨ï¼Œå°±æ˜¯æ”¯æŒ fmt æ ¼å¼åŒ–è¾“å‡ºçš„å¸¸è§„è®°å½•å™¨
 
 		func S() *SugaredLogger
-			* »ñÈ¡È«¾ÖµÄSugaredLogger
-			* È«¾ÖµÄLoggerÄ¬ÈÏ²¢²»»á¼ÇÂ¼ÈÕÖ¾£¡ËüÊÇÒ»¸öÎŞÊµ¼ÊĞ§¹ûµÄLogger¡£
+			* è·å–å…¨å±€çš„SugaredLogger
+			* å…¨å±€çš„Loggeré»˜è®¤å¹¶ä¸ä¼šè®°å½•æ—¥å¿—ï¼å®ƒæ˜¯ä¸€ä¸ªæ— å®é™…æ•ˆæœçš„Loggerã€‚
 
 		func (s *SugaredLogger) DPanic(args ...interface{})
 		func (s *SugaredLogger) DPanicf(template string, args ...interface{})
@@ -326,26 +326,26 @@ func
 	func LevelFlag(name string, defaultLevel zapcore.Level, usage string) *zapcore.Level
 
 	func NewDevelopmentEncoderConfig() zapcore.EncoderConfig
-		* ´´½¨ĞÂµÄ±àÂëÆ÷ÅäÖÃ£¬¿ª·¢»·¾³
+		* åˆ›å»ºæ–°çš„ç¼–ç å™¨é…ç½®ï¼Œå¼€å‘ç¯å¢ƒ
 
 	func NewProductionEncoderConfig() zapcore.EncoderConfig
-		* ´´½¨ĞÂµÄ±àÂëÆ÷ÅäÖÃ£¬Éú²ú»·¾³
+		* åˆ›å»ºæ–°çš„ç¼–ç å™¨é…ç½®ï¼Œç”Ÿäº§ç¯å¢ƒ
 		
 	func NewStdLog(l *Logger) *log.Logger
-		* °ü×°Ö¸¶¨µÄlogger£¬Îª±ê×¼¿âµÄlogger
+		* åŒ…è£…æŒ‡å®šçš„loggerï¼Œä¸ºæ ‡å‡†åº“çš„logger
 
 	func NewStdLogAt(l *Logger, level zapcore.Level) (*log.Logger, error)
-		* ÈÃ±ê×¼½Ó¿ÚÒÔlevel¼¶±ğĞ´ÈëÄÚ²¿µÄ*zap.Logger¡£
+		* è®©æ ‡å‡†æ¥å£ä»¥levelçº§åˆ«å†™å…¥å†…éƒ¨çš„*zap.Loggerã€‚
 
 	func Open(paths ...string) (zapcore.WriteSyncer, func(), error)
 	func RedirectStdLog(l *Logger) func()
-		* °ÑÖ¸¶¨LoggerµÄÊä³öÖØ¶¨Ïòµ½±ê×¼µÄlogger(È«¾ÖµÄ)
-		* ·µ»Ø fanc() ÓÃÓÚÈ¡Ïû
+		* æŠŠæŒ‡å®šLoggerçš„è¾“å‡ºé‡å®šå‘åˆ°æ ‡å‡†çš„logger(å…¨å±€çš„)
+		* è¿”å› fanc() ç”¨äºå–æ¶ˆ
 
 	func RedirectStdLogAt(l *Logger, level zapcore.Level) (func(), error)
 	func RegisterEncoder(name string, constructor func(zapcore.EncoderConfig) (zapcore.Encoder, error)) error
 	func RegisterSink(scheme string, factory func(*url.URL) (Sink, error)) error
 
 	func ReplaceGlobals(logger *Logger) func()
-		* ReplaceGlobals Ìæ»»È«¾ÖLoggerºÍSugredLogger£¬²¢·µ»ØÒ»¸öº¯ÊıÀ´»Ö¸´Ô­À´µÄÖµ¡£Ëü¶Ô²¢·¢Ê¹ÓÃÊÇ°²È«µÄ¡£
-		* ½«loggerÉèÖÃÎªÈ«¾ÖµÄLogger£¬¸Ãº¯Êı·µ»ØÒ»¸öÎŞ²Îº¯Êı£¬ÓÃÓÚ»Ö¸´È«¾ÖLoggerÉèÖÃ
+		* ReplaceGlobals æ›¿æ¢å…¨å±€Loggerå’ŒSugredLoggerï¼Œå¹¶è¿”å›ä¸€ä¸ªå‡½æ•°æ¥æ¢å¤åŸæ¥çš„å€¼ã€‚å®ƒå¯¹å¹¶å‘ä½¿ç”¨æ˜¯å®‰å…¨çš„ã€‚
+		* å°†loggerè®¾ç½®ä¸ºå…¨å±€çš„Loggerï¼Œè¯¥å‡½æ•°è¿”å›ä¸€ä¸ªæ— å‚å‡½æ•°ï¼Œç”¨äºæ¢å¤å…¨å±€Loggerè®¾ç½®

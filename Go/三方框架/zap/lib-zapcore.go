@@ -31,27 +31,27 @@ type
 	# type ArrayMarshalerFunc func(ArrayEncoder) error
 		func (f ArrayMarshalerFunc) MarshalLogArray(enc ArrayEncoder) error
 
-		* Êı×éĞòÁĞºÅÆ÷£¬ÓÃÓÚĞòÁĞ»¯Êı×éÀàĞÍµÄ²ÎÊı
+		* æ•°ç»„åºåˆ—å·å™¨ï¼Œç”¨äºåºåˆ—åŒ–æ•°ç»„ç±»å‹çš„å‚æ•°
 	
 	# type CallerEncoder func(EntryCaller, PrimitiveArrayEncoder)
 		func (e *CallerEncoder) UnmarshalText(text []byte) error
 	
 	# type CheckWriteAction uint8
 	
-		* Ò»Ğ©ÈÕÖ¾Ğ´ÈëÊÂ¼ş·¢Éúºó´¥·¢µÄĞĞÎª¶¨Òå
+		* ä¸€äº›æ—¥å¿—å†™å…¥äº‹ä»¶å‘ç”Ÿåè§¦å‘çš„è¡Œä¸ºå®šä¹‰
 		
 		const (
 			WriteThenNoop CheckWriteAction = iota
-				* Ê²Ã´Ò²²»×ö£¬Ä¬ÈÏµÄ
+				* ä»€ä¹ˆä¹Ÿä¸åšï¼Œé»˜è®¤çš„
 
 			WriteThenGoexit
-				* WriteThenGoexitÔÚWriteÖ®ºóÔËĞĞruntime.Goexit
+				* WriteThenGoexitåœ¨Writeä¹‹åè¿è¡Œruntime.Goexit
 			
 			WriteThenPanic
-				* WriteThenPanicµ¼ÖÂWriteÖ®ºóµÄPanic
+				* WriteThenPanicå¯¼è‡´Writeä¹‹åçš„Panic
 
 			WriteThenFatal
-				* WriteThenFatal»áÔÚWriteÖ®ºóÒıÆğÖÂÃüµÄos.Exit¡£
+				* WriteThenFatalä¼šåœ¨Writeä¹‹åå¼•èµ·è‡´å‘½çš„os.Exitã€‚
 		)
 	
 	# type CheckedEntry struct {
@@ -83,20 +83,20 @@ type
 			Sync() error
 		}
 		
-		* ºËĞÄ½Ó¿Ú
+		* æ ¸å¿ƒæ¥å£
 
 		func NewCore(enc Encoder, ws WriteSyncer, enab LevelEnabler) Core
-			* ´´½¨ÊµÏÖ£¬±àÂëÆ÷, WriteSyncer, ÈÕÖ¾¼¶±ğ
+			* åˆ›å»ºå®ç°ï¼Œç¼–ç å™¨, WriteSyncer, æ—¥å¿—çº§åˆ«
 
 		func NewIncreaseLevelCore(core Core, level LevelEnabler) (Core, error)
 		func NewNopCore() Core
-			* ´´½¨Ò»¸ö¿ÕÊµÏÖ
+			* åˆ›å»ºä¸€ä¸ªç©ºå®ç°
 
 		func NewSampler(core Core, tick time.Duration, first, thereafter int) Core
 		func NewSamplerWithOptions(core Core, tick time.Duration, first, thereafter int, opts ...SamplerOption) Core
 		func NewTee(cores ...Core) Core
 		func RegisterHooks(core Core, hooks ...func(Entry) error) Core
-			* Ìí¼Ó»Øµ÷
+			* æ·»åŠ å›è°ƒ
 	
 	# type DurationEncoder func(time.Duration, PrimitiveArrayEncoder)
 		func (e *DurationEncoder) UnmarshalText(text []byte) error
@@ -114,42 +114,42 @@ type
 			EncodeEntry(Entry, []Field) (*buffer.Buffer, error)
 		}
 		
-		* ÈÕÖ¾µÄ±àÂëÆ÷£¬ÓÃÓÚ¸ñÊ½»¯ÈÕÖ¾
+		* æ—¥å¿—çš„ç¼–ç å™¨ï¼Œç”¨äºæ ¼å¼åŒ–æ—¥å¿—
 
 		func NewConsoleEncoder(cfg EncoderConfig) Encoder
-			* ¸ñÊ½»¯ÈÕÖ¾Îª¿ØÖÆÌ¨Ä£Ê½(Ò»ĞĞÒ»ĞĞÊä³ö)
+			* æ ¼å¼åŒ–æ—¥å¿—ä¸ºæ§åˆ¶å°æ¨¡å¼(ä¸€è¡Œä¸€è¡Œè¾“å‡º)
 
 		func NewJSONEncoder(cfg EncoderConfig) Encoder
-			* ¸ñÊ½»¯ÈÕÖ¾ÎªJSON
+			* æ ¼å¼åŒ–æ—¥å¿—ä¸ºJSON
 	
 	# type EncoderConfig struct {
 			MessageKey    string `json:"messageKey" yaml:"messageKey"`
-				* ÈÕÖ¾ÖĞĞÅÏ¢µÄ¼üÃû£¬Ä¬ÈÏÎªmsg
+				* æ—¥å¿—ä¸­ä¿¡æ¯çš„é”®åï¼Œé»˜è®¤ä¸ºmsg
 			LevelKey      string `json:"levelKey" yaml:"levelKey"`
-				* ÈÕÖ¾ÖĞ¼¶±ğµÄ¼üÃû£¬Ä¬ÈÏÎªlevel£»
+				* æ—¥å¿—ä¸­çº§åˆ«çš„é”®åï¼Œé»˜è®¤ä¸ºlevelï¼›
 			TimeKey       string `json:"timeKey" yaml:"timeKey"`
-				* Ê±¼äµÃKEY
+				* æ—¶é—´å¾—KEY
 			NameKey       string `json:"nameKey" yaml:"nameKey"`
-				* logger nameµÄkey
+				* logger nameçš„key
 			CallerKey     string `json:"callerKey" yaml:"callerKey"`
-				* callerµÄkey
+				* callerçš„key
 			FunctionKey   string `json:"functionKey" yaml:"functionKey"`
-				* ·½·¨µÄkey
+				* æ–¹æ³•çš„key
 			StacktraceKey string `json:"stacktraceKey" yaml:"stacktraceKey"`
-				* Õ»¸ú×ÙµÃkey
+				* æ ˆè·Ÿè¸ªå¾—key
 			LineEnding    string `json:"lineEnding" yaml:"lineEnding"`
-				* »»ĞĞ·û?
+				* æ¢è¡Œç¬¦?
 			// Configure the primitive representations of common complex types. For
 			// example, some users may want all time.Times serialized as floating-point
 			// seconds since epoch, while others may prefer ISO8601 strings.
 			EncodeLevel    LevelEncoder    `json:"levelEncoder" yaml:"levelEncoder"`
-				* ÈÕÖ¾ÖĞ¼¶±ğµÄ¸ñÊ½£¬Ä¬ÈÏÎªĞ¡Ğ´£¬Èçdebug/info¡£
+				* æ—¥å¿—ä¸­çº§åˆ«çš„æ ¼å¼ï¼Œé»˜è®¤ä¸ºå°å†™ï¼Œå¦‚debug/infoã€‚
 
 			EncodeTime     TimeEncoder     `json:"timeEncoder" yaml:"timeEncoder"`
-				* Ê±¼ä¸ñÊ½»¯ÉèÖÃ
+				* æ—¶é—´æ ¼å¼åŒ–è®¾ç½®
 			
 			EncodeDuration DurationEncoder `json:"durationEncoder" yaml:"durationEncoder"`
-				* Ê±¼äµ¥Î»µÄ¸ñÊ½»¯
+				* æ—¶é—´å•ä½çš„æ ¼å¼åŒ–
 
 			EncodeCaller   CallerEncoder   `json:"callerEncoder" yaml:"callerEncoder"`
 			// Unlike the other primitive type encoders, EncodeName is optional. The
@@ -160,7 +160,7 @@ type
 			ConsoleSeparator string `json:"consoleSeparator" yaml:"consoleSeparator"`
 		}
 
-		* ±àÂëÆ÷µÄÅäÖÃ£¬ËüÖ÷ÒªÊÇÉè¶¨ÈÕÖ¾ÖĞ¸ø¸öµ¥Î»µÄ¸ñÊ½»¯·½Ê½
+		* ç¼–ç å™¨çš„é…ç½®ï¼Œå®ƒä¸»è¦æ˜¯è®¾å®šæ—¥å¿—ä¸­ç»™ä¸ªå•ä½çš„æ ¼å¼åŒ–æ–¹å¼
 
 	# type Entry struct {
 			Level      Level
@@ -171,7 +171,7 @@ type
 			Stack      string
 		}
 
-		* Ò»ÌõÈÕÖ¾ĞÅÏ¢
+		* ä¸€æ¡æ—¥å¿—ä¿¡æ¯
 	
 	# type EntryCaller struct {
 			Defined  bool
@@ -181,7 +181,7 @@ type
 			Function string
 		}
 		
-		* ÈÕÖ¾µÄµ÷ÓÃĞÅÏ¢
+		* æ—¥å¿—çš„è°ƒç”¨ä¿¡æ¯
 
 		func NewEntryCaller(pc uintptr, file string, line int, ok bool) EntryCaller
 		func (ec EntryCaller) FullPath() string
@@ -287,7 +287,7 @@ type
 			FatalLevel
 		)
 		
-		* ÈÕÖ¾¼¶±ğ
+		* æ—¥å¿—çº§åˆ«
 
 		func (l Level) CapitalString() string
 		func (l Level) Enabled(lvl Level) bool
@@ -301,8 +301,8 @@ type
 			Enabled(Level) bool
 		}
 
-		* ÈÕÖ¾¼¶±ğ½Ó¿Ú
-		* Enabled·½·¨·µ»Øtrue£¬±íÊ¾ÒªÊä³öÈÕÖ¾
+		* æ—¥å¿—çº§åˆ«æ¥å£
+		* Enabledæ–¹æ³•è¿”å›trueï¼Œè¡¨ç¤ºè¦è¾“å‡ºæ—¥å¿—
 	
 	# type LevelEncoder func(Level, PrimitiveArrayEncoder)
 		func (e *LevelEncoder) UnmarshalText(text []byte) error
@@ -338,7 +338,7 @@ type
 		func (m *MapObjectEncoder) AddUint8(k string, v uint8)
 		func (m *MapObjectEncoder) AddUintptr(k string, v uintptr)
 		func (m *MapObjectEncoder) OpenNamespace(k string)
-			* ´ò¿ªnameSpace£¬½ÓÏÂÀ´Ìí¼ÓµÄÊôĞÔ£¬¶¼»áÔÚÕâ¸öNameSpaceÖĞ
+			* æ‰“å¼€nameSpaceï¼Œæ¥ä¸‹æ¥æ·»åŠ çš„å±æ€§ï¼Œéƒ½ä¼šåœ¨è¿™ä¸ªNameSpaceä¸­
 	
 	# type NameEncoder func(string, PrimitiveArrayEncoder)
 		func (e *NameEncoder) UnmarshalText(text []byte) error
@@ -387,7 +387,7 @@ type
 	# type ObjectMarshalerFunc func(ObjectEncoder) error
 		func (f ObjectMarshalerFunc) MarshalLogObject(enc ObjectEncoder) error
 
-		* ¶ÔÏóĞòÁĞ»¯Æ÷
+		* å¯¹è±¡åºåˆ—åŒ–å™¨
 	
 	# type PrimitiveArrayEncoder interface {
 			// Built-in types.
@@ -426,7 +426,7 @@ type
 	
 	# type TimeEncoder func(time.Time, PrimitiveArrayEncoder)
 		func TimeEncoderOfLayout(layout string) TimeEncoder	
-			* ´´½¨ĞÂµÄÊ±¼ä¸ñÊ½»¯Æ÷£¬Ö¸¶¨Layout
+			* åˆ›å»ºæ–°çš„æ—¶é—´æ ¼å¼åŒ–å™¨ï¼ŒæŒ‡å®šLayout
 
 		func (e *TimeEncoder) UnmarshalJSON(data []byte) error
 		func (e *TimeEncoder) UnmarshalText(text []byte) error
@@ -437,24 +437,24 @@ type
 			Sync() error
 		}
 		
-		* ÈÕÖ¾µÄÊä³öÄ¿µÄµØ
+		* æ—¥å¿—çš„è¾“å‡ºç›®çš„åœ°
 
 		func AddSync(w io.Writer) WriteSyncer
-			* Ìí¼ÓioWriter
+			* æ·»åŠ ioWriter
 
 		func Lock(ws WriteSyncer) WriteSyncer
-			* °ü×°Ò»¸öWrtier£¬¼ÓËø£¬ÄÇÃ´Ëü¾Í¿ÉÒÔ°²È«µÄ²¢·¢Ê¹ÓÃÁË
-			* os.File£¬Êä³öµ½ÎÄ¼ş±ØÑ¡Òª¼ÓËø
+			* åŒ…è£…ä¸€ä¸ªWrtierï¼ŒåŠ é”ï¼Œé‚£ä¹ˆå®ƒå°±å¯ä»¥å®‰å…¨çš„å¹¶å‘ä½¿ç”¨äº†
+			* os.Fileï¼Œè¾“å‡ºåˆ°æ–‡ä»¶å¿…é€‰è¦åŠ é”
 
 		func NewMultiWriteSyncer(ws ...WriteSyncer) WriteSyncer
-			* ºÏ²¢¶à¸öWriter
+			* åˆå¹¶å¤šä¸ªWriter
 
 --------------------------
 func
 --------------------------
 	func CapitalColorLevelEncoder(l Level, enc PrimitiveArrayEncoder)
 	func CapitalLevelEncoder(l Level, enc PrimitiveArrayEncoder)
-		* Ê¹ÓÃ´óĞ´×ÖÄ¸£¬¼ÍÂ¼ÈÕÖ¾¼¶±ğ
+		* ä½¿ç”¨å¤§å†™å­—æ¯ï¼Œçºªå½•æ—¥å¿—çº§åˆ«
 
 	func EpochMillisTimeEncoder(t time.Time, enc PrimitiveArrayEncoder)
 	func EpochNanosTimeEncoder(t time.Time, enc PrimitiveArrayEncoder)
@@ -462,7 +462,7 @@ func
 	func FullCallerEncoder(caller EntryCaller, enc PrimitiveArrayEncoder)
 	func FullNameEncoder(loggerName string, enc PrimitiveArrayEncoder)
 	func ISO8601TimeEncoder(t time.Time, enc PrimitiveArrayEncoder)
-		* ·µ»ØISO8601Ê±¼ä¸ñÊ½»¯µÃEncode
+		* è¿”å›ISO8601æ—¶é—´æ ¼å¼åŒ–å¾—Encode
 
 	func LowercaseColorLevelEncoder(l Level, enc PrimitiveArrayEncoder)
 	func LowercaseLevelEncoder(l Level, enc PrimitiveArrayEncoder)

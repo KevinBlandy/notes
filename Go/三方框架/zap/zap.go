@@ -1,11 +1,11 @@
 --------------------
 zap
 --------------------
-	# Uber¿ªÔ´µÄÈÕÖ¾¿ò¼Ü£¬ºÃÏñĞÔÄÜºÜÅ£±Æ
+	# Uberå¼€æºçš„æ—¥å¿—æ¡†æ¶ï¼Œå¥½åƒæ€§èƒ½å¾ˆç‰›é€¼
 		https://github.com/uber-go/zap
 
 	
-	# »ù±¾µÄlogger, °²È«, ¿ìËÙ
+	# åŸºæœ¬çš„logger, å®‰å…¨, å¿«é€Ÿ
 		logger, err := zap.NewProduction()
 		if err != nil {
 			log.Fatalf("logger create err: %s\n", err.Error())
@@ -14,7 +14,7 @@ zap
 		// {"level":"info","ts":1622097413.9677129,"caller":"go-project/main.go:14","msg":"Hello","name":"world"}
 	
 	# SugaredLogger
-		* Ö§³Ö½á¹¹»¯ºÍprintfÑùÊ½µÄÈÕÖ¾
+		* æ”¯æŒç»“æ„åŒ–å’Œprintfæ ·å¼çš„æ—¥å¿—
 
 		logger, err := zap.NewProduction()
 		if err != nil {
@@ -24,8 +24,8 @@ zap
 		sugar.Info("---")
 		sugar.Infof("Hello %s", "world")
 	
-	# Ä¬ÈÏÇé¿öÏÂ£¬¼ÇÂ¼Æ÷ÊÇÎŞ»º³åµÄ
-		* ÓÉÓÚzapµÄµÍ¼¶APIÔÊĞí»º³å£¬Òò´ËÔÚÍË³ö½ø³ÌÖ®Ç°µ÷ÓÃSyncÊÇÒ»¸öºÃÏ°¹ß
+	# é»˜è®¤æƒ…å†µä¸‹ï¼Œè®°å½•å™¨æ˜¯æ— ç¼“å†²çš„
+		* ç”±äºzapçš„ä½çº§APIå…è®¸ç¼“å†²ï¼Œå› æ­¤åœ¨é€€å‡ºè¿›ç¨‹ä¹‹å‰è°ƒç”¨Syncæ˜¯ä¸€ä¸ªå¥½ä¹ æƒ¯
 			logger, err := zap.NewProduction()
 			defer func() {
 				if err := logger.Sync(); err != nil {
@@ -34,20 +34,20 @@ zap
 			}()
 		
 	
-	# ÈÕÖ¾¼ÍÂ¼µÄ²ã¼¶¹ØÏµ
-		* ¿ÉÒÔÊ¹ÓÃ zap.Namespace(key string) Field ¹¹½¨Ò»¸öÃüÃû¿Õ¼ä£¬ºóĞøµÄField¶¼¼ÇÂ¼ÔÚ´ËÃüÃû¿Õ¼äÖĞ
+	# æ—¥å¿—çºªå½•çš„å±‚çº§å…³ç³»
+		* å¯ä»¥ä½¿ç”¨ zap.Namespace(key string) Field æ„å»ºä¸€ä¸ªå‘½åç©ºé—´ï¼Œåç»­çš„Fieldéƒ½è®°å½•åœ¨æ­¤å‘½åç©ºé—´ä¸­
 
-		* Êä³öµÄÊ±ºòÉèÖÃÃüÃû¿Õ¼ä
+		* è¾“å‡ºçš„æ—¶å€™è®¾ç½®å‘½åç©ºé—´
 			  logger := zap.NewExample()
 			  defer logger.Sync()
 
 			  logger.Info("tracked some metrics",
-				zap.Namespace("metrics"),  // ÃüÃû¿Õ¼ä
+				zap.Namespace("metrics"),  // å‘½åç©ºé—´
 				zap.Int("counter", 1),
 			  )
 			  // {"level":"info","msg":"tracked some metrics","metrics":{"counter":1}}
 		
-		* ´´½¨ĞÂµÄloggerÊ±ÉèÖÃÃüÃû¿Õ¼ä
+		* åˆ›å»ºæ–°çš„loggeræ—¶è®¾ç½®å‘½åç©ºé—´
 			  logger2 := logger.With(
 				zap.Namespace("metrics"),
 				zap.Int("counter", 1),
@@ -56,9 +56,9 @@ zap
 			  // {"level":"info","msg":"tracked some metrics","metrics":{"counter":1}}
 
 	
-	# È«¾Ölogger
-		* zapÌá¹©ÁËÁ½¸öÈ«¾ÖµÄLogger£¬Ò»¸öÊÇ*zap.Logger£¬¿Éµ÷ÓÃzap.L()»ñµÃ£»ÁíÒ»¸öÊÇ*zap.SugaredLogger£¬¿Éµ÷ÓÃzap.S()»ñµÃ¡£
-		* ĞèÒª×¢ÒâµÄÊÇ£¬È«¾ÖµÄLoggerÄ¬ÈÏ²¢²»»á¼ÇÂ¼ÈÕÖ¾£¡ËüÊÇÒ»¸öÎŞÊµ¼ÊĞ§¹ûµÄLogger¡£
+	# å…¨å±€logger
+		* zapæä¾›äº†ä¸¤ä¸ªå…¨å±€çš„Loggerï¼Œä¸€ä¸ªæ˜¯*zap.Loggerï¼Œå¯è°ƒç”¨zap.L()è·å¾—ï¼›å¦ä¸€ä¸ªæ˜¯*zap.SugaredLoggerï¼Œå¯è°ƒç”¨zap.S()è·å¾—ã€‚
+		* éœ€è¦æ³¨æ„çš„æ˜¯ï¼Œå…¨å±€çš„Loggeré»˜è®¤å¹¶ä¸ä¼šè®°å½•æ—¥å¿—ï¼å®ƒæ˜¯ä¸€ä¸ªæ— å®é™…æ•ˆæœçš„Loggerã€‚
 			// go.uber.org/zap/global.go
 			var (
 			  _globalMu sync.RWMutex
@@ -66,15 +66,15 @@ zap
 			  _globalS  = _globalL.Sugar()
 			)
 		
-		* ¿ÉÒÔÊ¹ÓÃReplaceGlobals(logger *Logger) func()½«loggerÉèÖÃÎªÈ«¾ÖµÄLogger£¬¸Ãº¯Êı·µ»ØÒ»¸öÎŞ²Îº¯Êı£¬ÓÃÓÚ»Ö¸´È«¾ÖLoggerÉèÖÃ
+		* å¯ä»¥ä½¿ç”¨ReplaceGlobals(logger *Logger) func()å°†loggerè®¾ç½®ä¸ºå…¨å±€çš„Loggerï¼Œè¯¥å‡½æ•°è¿”å›ä¸€ä¸ªæ— å‚å‡½æ•°ï¼Œç”¨äºæ¢å¤å…¨å±€Loggerè®¾ç½®
 			func main() {
 			  zap.L().Info("global Logger before")
-			  zap.S().Info("global SugaredLogger before")  // Ã»ÓĞÊä³ö
+			  zap.S().Info("global SugaredLogger before")  // æ²¡æœ‰è¾“å‡º
 
 			  logger := zap.NewExample()
 			  defer logger.Sync()
 
-			  zap.ReplaceGlobals(logger)				// Ê¹ÓÃÖ¸¶¨µÄlogger´úÌæÈ«¾ÖµÄ
+			  zap.ReplaceGlobals(logger)				// ä½¿ç”¨æŒ‡å®šçš„loggerä»£æ›¿å…¨å±€çš„
 
 			  zap.L().Info("global Logger after")
 			  zap.S().Info("global SugaredLogger after")
@@ -82,7 +82,7 @@ zap
 
 
 	
-	# ´´½¨
+	# åˆ›å»º
 		import (
 			"fmt"
 			"go.uber.org/zap"
@@ -95,7 +95,7 @@ zap
 
 		func main() {
 
-			// ÏûÏ¢±àÂëÆ÷ÅäÖÃ
+			// æ¶ˆæ¯ç¼–ç å™¨é…ç½®
 			encodeConfig := zap.NewProductionEncoderConfig()
 			encodeConfig.MessageKey = "message"
 			encodeConfig.TimeKey = "time"
@@ -103,40 +103,40 @@ zap
 				encoder.AppendString(strings.ToUpper(level.String()))
 			}
 			encodeConfig.CallerKey = "file"
-			// Ê±¼ä¸ñÊ½»¯
+			// æ—¶é—´æ ¼å¼åŒ–
 			encodeConfig.EncodeTime = func(time time.Time, encoder zapcore.PrimitiveArrayEncoder) {
 				encoder.AppendString(time.Format("2006-01-02 15:04:05"))
 			}
 
-			// ÏûÏ¢±àÂëÆ÷
+			// æ¶ˆæ¯ç¼–ç å™¨
 			jsonEncode := zapcore.NewJSONEncoder(encodeConfig)
 
 			jsonEncode.OpenNamespace("foo")
 			jsonEncode.AddString("subFoo", "SubFoo")
 
-			// ÈÕÖ¾Êä³öÄ¿µÄµØ
+			// æ—¥å¿—è¾“å‡ºç›®çš„åœ°
 			writer := zapcore.NewMultiWriteSyncer(zapcore.AddSync(os.Stdout))
 
-			// ¶¯Ì¬µÄÈÕÖ¾¼¶±ğ
+			// åŠ¨æ€çš„æ—¥å¿—çº§åˆ«
 			level := zap.NewAtomicLevelAt(zapcore.DebugLevel)
 
-			// ´´½¨ºËĞÄÅäÖÃ
+			// åˆ›å»ºæ ¸å¿ƒé…ç½®
 			core := zapcore.NewCore(jsonEncode, writer, level)
 
-			// ÈÕÖ¾¼ÇÂ¼Æ÷µÄÒ»Ğ©Ñ¡Ïî
+			// æ—¥å¿—è®°å½•å™¨çš„ä¸€äº›é€‰é¡¹
 			options := []zap.Option {
-				zap.AddCaller(),		// ÈÕÖ¾ÖĞÌí¼Óµ÷ÓÃĞÅÏ¢
-				zap.AddStacktrace(zapcore.ErrorLevel),  // Òì³£¼¶±ğÒÔÉÏ£¬Ìí¼Óµ÷ÓÃÕ»ĞÅÏ¢
-				zap.Hooks(func(entry zapcore.Entry) error {  // Ìí¼Ó¹³×Óº¯Êı
+				zap.AddCaller(),		// æ—¥å¿—ä¸­æ·»åŠ è°ƒç”¨ä¿¡æ¯
+				zap.AddStacktrace(zapcore.ErrorLevel),  // å¼‚å¸¸çº§åˆ«ä»¥ä¸Šï¼Œæ·»åŠ è°ƒç”¨æ ˆä¿¡æ¯
+				zap.Hooks(func(entry zapcore.Entry) error {  // æ·»åŠ é’©å­å‡½æ•°
 					fmt.Println(entry.Stack)
 					return nil
 				}),
 			}
 
-			// ´´½¨ÈÕÖ¾¼ÇÂ¼Æ÷, ÉèÖÃÃû³Æ
+			// åˆ›å»ºæ—¥å¿—è®°å½•å™¨, è®¾ç½®åç§°
 			logger := zap.New(core, options...).Named("root")
 
-			defer logger.Sync() // ×îÖÕË¢³ö»º³åµÄÈÕÖ¾
+			defer logger.Sync() // æœ€ç»ˆåˆ·å‡ºç¼“å†²çš„æ—¥å¿—
 
 			logger.Error("Hello")
 		}
