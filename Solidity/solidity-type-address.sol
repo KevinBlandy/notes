@@ -73,7 +73,7 @@ Address
 			* 为了安全地转账以太币，必须始终检查 send 的返回值。
 		
 		(bool success, bytes memory returnData) call(bytes memory)
-			* 调用目标合约
+			* 调用目标合约，这会转发剩余 Gas
 			* 支持使用 value 和 gas modifier
 			
 		(bool success, bytes memory returnData) delegatecall(bytes memory)
