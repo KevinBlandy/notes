@@ -249,3 +249,27 @@
             function f(uint256 val) public pure returns (uint256 out) 
     
 
+    # 成员类型
+
+        * 对于 struct 和 enum 成员类型，可以直接通过合约名称来访问
+
+        // 定义在接口中的结构体
+        interface A {
+            struct M { address addr;}
+        }
+
+        // 定义在抽象类中的枚举
+        abstract contract B is A {
+            enum Color {Red, Blue}
+        }
+
+        contract C {
+
+            function foo () external view returns (address, uint8) {
+                // 访问接口中的结构体
+                A.M memory m = A.M({addr: msg.sender});
+                // 访问合约中的枚举
+                B.Color c = B.Color.Blue;
+                return (m.addr, uint8(c));
+            }
+        }
