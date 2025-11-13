@@ -5,8 +5,8 @@
         * SOL 事件在 EVM 日志功能之上提供了一层抽象
         * 可以定义在文件级别，也可以定义在合约中
         * 日志触发的时候，会把日志数据和关联的合约信息写入到区块链，永久保存
-        * 合约内部不能访问日志数据，只能是外部实体（客户端）进行查阅。
-        * 支持重载
+        * 合约内部不能访问日志数据，只能是外部实体（客户端）进行查阅
+        * 支持重载，支持继承，不支持覆写，不支持可见性标识符
 
         event Transfer(address indexed from, address indexed to, uint amount);
         event Transfer(address indexed from, address indexed to, uint amount, uint timestamp);

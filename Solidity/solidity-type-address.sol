@@ -62,30 +62,30 @@ Address
 			* 合约可以转换为 address 类型，可以使用 address(this).balance 查询当前合约的余额。
 		
 		transfer(uint256 amount)
-			* 向可支付地址发送以太币（以 wei 为单位）
-			* 如果当前合约的余额不足，或者以太币转账被接收账户拒绝，则 transfer 函数会失败。
+			* 向可支付地址发送以太币（以 wei 为单位），限制了 gas 是 2300。
+			* 如果当前合约的余额不足，或者以太币转账被接收账户拒绝，则 transfer 函数会 revert。
 			* transfer 函数在失败时会回退。
 		
 		send(uint256 amount) returns (bool)
-			* transfer 对应的低级函数。
+			* transfer 对应的低级函数，限制了 gas 是 2300。
 			* 如果执行失败，当前合约不会以异常停止，只是 send 将返回 false。
 			* 注意，如果调用栈深度达到 1024，则转账失败（这总是可以被调用者强制），如果接收者耗尽 gas 也会失败。
 			* 为了安全地转账以太币，必须始终检查 send 的返回值。
 		
 		(bool success, bytes memory returnData) call(bytes memory)
-			* 调用目标合约，这会转发剩余 Gas
-			* 支持使用 value 和 gas modifier
+			* 调用目标合约，没有 gas 限制，还会转发剩余 Gas。
+			* 支持使用 value 和 gas modifier。
 			
 		(bool success, bytes memory returnData) delegatecall(bytes memory)
-			* 调用目标合约
+			* 调用目标合约。
 			* 仅使用给定地址的代码，所有其他方面（存储、余额等）都来自当前合约。
-			* 其目的是使用存储在另一个合约中的库代码。 用户必须确保两个合约中的存储布局适合使用 delegatecall。
-			* 支持使用 gas modifier
+			* 其目的是使用存储在另一个合约中的库代码。 用户必须确保两个合约中的存储布局适合使用 delegatecall（变量类型、顺序，和变量名称无关）。
+			* 支持使用 gas modifier。
 			
 		(bool success, bytes memory returnData) staticcall(bytes memory)
-			* 调用目标合约
+			* 调用目标合约。
 			* 基本上与 call 相同，但如果被调用的函数以任何方式修改状态，则会回退。
-			* 支持使用 gas modifier
+			* 支持使用 gas modifier。
 
 		code (bytes memory)
 			* 获取 EVM 字节码作为 bytes memory，这可能是空的。
@@ -100,9 +100,11 @@ Address
 
 	# 地址字面量
 		* 通过地址校验和测试的十六进制字面量（如：0x00Ff75705c140f92C29F81CD5906C2b499999999）是 address 类型
+		* 注意，可能需要区分大小写
 		* 长度在 39 到 41 位之间且未通过校验和测试的十六进制字面量会产生错误，可以在前面添加（对于整数类型）或在后面添加零（对于 bytesNN 类型）以消除错误。
 		
 			address addr = 0x00Ff75705c140f92C29F81CD5906C2b499999999;
+
 		
 		
 	

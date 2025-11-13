@@ -184,6 +184,10 @@
 		string memory str1 = string(strBytes);
 
 	# bytes
+		* 可以通过 new 初始化
+
+			bytes memory b = new bytes(10);
+
 		* 类似于 bytes1[], 但在 calldata 和 memory 中紧密打包，bytesN 只有在 storage 中才是紧密打包
 		* 在底层存储（storage）中，它有两种不同的布局形式
 

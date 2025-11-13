@@ -114,7 +114,7 @@
             error InsufficientBalance(uint256 available, uint256 required);
         
         * 不支持重载，不支持覆写，支持继承
-
+        * 可以定义在合约之外
         * 必须和 require 或 revert 一起使用，返回错误信息给调用者，并且回滚
 
             // condition 为 false, 抛出异常
