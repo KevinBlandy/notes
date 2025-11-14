@@ -32,7 +32,7 @@
 		* 其中每个源单元被分配一个唯一的 源单元名称，这是一个不透明且无结构的标识符。 
 		* 在 import 语句中指定的导入路径被转换为源单元名称，并用于在该数据库中查找相应的源单元。
 		* 从 http 网络进行导入
-			import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol';
+			import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/Proxy.sol';
 		
 		* 从 npm 进行导入
 			import '@openzeppelin/contracts/access/Ownable.sol';
