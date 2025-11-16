@@ -1,12 +1,12 @@
 -------------------------------
-±àÒë²å¼ş						|
+ç¼–è¯‘æ’ä»¶						|
 -------------------------------
 	<plugin>
 		<groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-compiler-plugin</artifactId>
 		<version>3.7.0</version>
 		<configuration>
-			<!-- ±àÒë²ÎÊı -->
+			<!-- ç¼–è¯‘å‚æ•° -->
 			<compilerArgs>
 				<arg>-parameters</arg>
 			</compilerArgs>
@@ -17,7 +17,7 @@
 	</plugin>
 
 -------------------------------
-×ÊÔ´´¦Àí²å¼ş					|
+èµ„æºå¤„ç†æ’ä»¶					|
 -------------------------------
 <dependency>
 	<groupId>org.apache.maven.plugins</groupId>
@@ -25,9 +25,9 @@
 	<version>3.1.0</version>
 </dependency>
 
-# Ê¹ÓÃmavenÖĞµÄ±äÁ¿,Ìæ»»µôÅäÖÃÎÄ¼şµÄ±äÁ¿
-	* ÔÚ´ò°üÊ±,Ê¹ÓÃpomÀïÃæµÄ±äÁ¿À´Ìæ»»ÅäÖÃÎÄ¼şÖĞµÄ±äÁ¿
-	* pomÅäÖÃ
+# ä½¿ç”¨mavenä¸­çš„å˜é‡,æ›¿æ¢æ‰é…ç½®æ–‡ä»¶çš„å˜é‡
+	* åœ¨æ‰“åŒ…æ—¶,ä½¿ç”¨pomé‡Œé¢çš„å˜é‡æ¥æ›¿æ¢é…ç½®æ–‡ä»¶ä¸­çš„å˜é‡
+	* pomé…ç½®
 		<foo.name>Kevin</foo.name>
 		...
 		<configuration>	
@@ -38,25 +38,25 @@
 			</delimiters>
 		</configuration>
 
-	* yumÅäÖÃ
+	* yumé…ç½®
 		name: $foo.name$
 	
-	* Ö»ÒªÊÇpomÀïÃæÄÜÊ¹ÓÃµÄ±äÁ¿,¶¼¿ÉÒÔÌæ»»
+	* åªè¦æ˜¯pomé‡Œé¢èƒ½ä½¿ç”¨çš„å˜é‡,éƒ½å¯ä»¥æ›¿æ¢
 
 -------------------------------
-Ô¶³Ì²¿Êğ²å¼ş					|
+è¿œç¨‹éƒ¨ç½²æ’ä»¶					|
 -------------------------------
-	1,tomcatÅäÖÃÓÃ»§ÓëÈ¨ÏŞ
-		* Ìí¼ÓÅäÖÃ
+	1,tomcaté…ç½®ç”¨æˆ·ä¸æƒé™
+		* æ·»åŠ é…ç½®
 		* ./conf/tomcat-users.xml
 			<role rolename="manager-script"/>
 			<user username="admin" password="password" roles="manager-script"/>
-		* ¶ÔÓÚtomcat9À´Ëµ£¬²»ÄÜÍ¬Ê±¸³ÓèÓÃ»§manager-scriptºÍmanager-gui½ÇÉ«¡£
-		* Ô¶³Ì²¿Êğ,ÆğÂëĞèÒªµÄ manager-script ½ÇÉ«
+		* å¯¹äºtomcat9æ¥è¯´ï¼Œä¸èƒ½åŒæ—¶èµ‹äºˆç”¨æˆ·manager-scriptå’Œmanager-guiè§’è‰²ã€‚
+		* è¿œç¨‹éƒ¨ç½²,èµ·ç éœ€è¦çš„ manager-script è§’è‰²
 	
-	2,ĞŞ¸ÄIPÏŞÖÆ
-		* ĞŞ¸ÄÅäÖÃ
-		* ¸ÃÅäÖÃÏŞ¶¨ÁËÔ¶³Ì·ÃÎÊmanagerµÄIP
+	2,ä¿®æ”¹IPé™åˆ¶
+		* ä¿®æ”¹é…ç½®
+		* è¯¥é…ç½®é™å®šäº†è¿œç¨‹è®¿é—®managerçš„IP
 		* webapps/manager/META-INF/context.xml
 			<Context antiResourceLocking="false" privileged="true" >
 				<!--
@@ -64,10 +64,10 @@
 					 allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />
 				-->
 			</Context>
-		* ×¢ÊÍµô×Ó±êÇ©
+		* æ³¨é‡Šæ‰å­æ ‡ç­¾
 
 	
-	3,Ìí¼Ó²å¼ş
+	3,æ·»åŠ æ’ä»¶
 		<plugin>
 			<groupId>org.apache.tomcat.maven</groupId>
 			<artifactId>tomcat7-maven-plugin</artifactId>
@@ -77,30 +77,30 @@
 				<username>KevinBlandy</username>
 				<password>F8575532</password>
 				<update>true</update>
-				<!-- ×¢Òâ,¸ÃÂ·¾¶²»ÄÜÖØ¸´ -->
+				<!-- æ³¨æ„,è¯¥è·¯å¾„ä¸èƒ½é‡å¤ -->
 				<path>/teach</path>	
 			</configuration>
 		</plugin>
 	
-	4,ÃüÁî
+	4,å‘½ä»¤
 		tomcat7:deploy
 		tomcat7:redeploy
 		tomcat7:undeploy
 
-		* Èç¹ûÊÇµÚÒ»´Î²¿Êğ£¬ÔËĞĞmvn tomcat7:deploy½øĞĞ×Ô¶¯²¿Êğ(¶ÔÓÚtomcat8,9£¬Ò²ÊÇÊ¹ÓÃtomcat7ÃüÁî)£¬
-		* Èç¹ûÊÇ¸üĞÂÁË´úÂëºóÖØĞÂ²¿Êğ¸üĞÂ£¬ÔËĞĞmvn tomcat7:redeploy£¬
-		* Èç¹ûµÚÒ»´Î²¿ÊğÊ¹ÓÃmvn tomcat7:redeploy£¬ÔòÖ»»áÖ´ĞĞÉÏ´«warÎÄ¼ş£¬·şÎñÆ÷²»»á×Ô¶¯½âÑ¹²¿Êğ¡£
-		* Èç¹ûÂ·¾¶ÔÚtomcat·şÎñÆ÷ÖĞÒÑ´æÔÚ²¢ÇÒÊ¹ÓÃmvn tomcat7:deployÃüÁîµÄ»°£¬ÉÏÃæµÄÅäÖÃÖĞÒ»¶¨ÒªÅäÖÃ<update>true</update>£¬²»È»»á±¨´í¡£
+		* å¦‚æœæ˜¯ç¬¬ä¸€æ¬¡éƒ¨ç½²ï¼Œè¿è¡Œmvn tomcat7:deployè¿›è¡Œè‡ªåŠ¨éƒ¨ç½²(å¯¹äºtomcat8,9ï¼Œä¹Ÿæ˜¯ä½¿ç”¨tomcat7å‘½ä»¤)ï¼Œ
+		* å¦‚æœæ˜¯æ›´æ–°äº†ä»£ç åé‡æ–°éƒ¨ç½²æ›´æ–°ï¼Œè¿è¡Œmvn tomcat7:redeployï¼Œ
+		* å¦‚æœç¬¬ä¸€æ¬¡éƒ¨ç½²ä½¿ç”¨mvn tomcat7:redeployï¼Œåˆ™åªä¼šæ‰§è¡Œä¸Šä¼ waræ–‡ä»¶ï¼ŒæœåŠ¡å™¨ä¸ä¼šè‡ªåŠ¨è§£å‹éƒ¨ç½²ã€‚
+		* å¦‚æœè·¯å¾„åœ¨tomcatæœåŠ¡å™¨ä¸­å·²å­˜åœ¨å¹¶ä¸”ä½¿ç”¨mvn tomcat7:deployå‘½ä»¤çš„è¯ï¼Œä¸Šé¢çš„é…ç½®ä¸­ä¸€å®šè¦é…ç½®<update>true</update>ï¼Œä¸ç„¶ä¼šæŠ¥é”™ã€‚
 	
 
-	5,½â¾öÄÚ´æĞ¹Â©ÎÊÌâ
-		* ÔÚmanagerÒ³ÃæÖĞµã»÷:[find leaks] ŞôÅ¥
-		* Èç¹û¶¥²¿³öÏÖÁËÄÚ´æĞ¹Â©ĞÅÏ¢,ÔòÊÇ·¢ÉúÁËÄÚ´æĞ¹Â©
+	5,è§£å†³å†…å­˜æ³„æ¼é—®é¢˜
+		* åœ¨manageré¡µé¢ä¸­ç‚¹å‡»:[find leaks] æ‘é’®
+		* å¦‚æœé¡¶éƒ¨å‡ºç°äº†å†…å­˜æ³„æ¼ä¿¡æ¯,åˆ™æ˜¯å‘ç”Ÿäº†å†…å­˜æ³„æ¼
 			The following web applications were stopped (reloaded, undeployed), but their
 			classes from previous runs are still loaded in memory, thus causing a memory
 			leak (use a profiler to confirm):
 
-		* ÏîÄ¿Ìí¼ÓÒÀÀµ
+		* é¡¹ç›®æ·»åŠ ä¾èµ–
 			* Servlet2
 				<dependency>
 					<groupId>se.jiderhamn.classloader-leak-prevention</groupId>
@@ -115,25 +115,25 @@
 				</dependency>
 
 
-		* ÔÚÏîÄ¿µÄweb.xmlÖĞÌí¼ÓÒ»¸öListener£¨±ØĞëÈÃ´ËListener³ÉÎªweb.xmlÖĞµÄµÚÒ»¸öListener£¬·ñÔò²»Æğ×÷ÓÃ£©
+		* åœ¨é¡¹ç›®çš„web.xmlä¸­æ·»åŠ ä¸€ä¸ªListenerï¼ˆå¿…é¡»è®©æ­¤Listeneræˆä¸ºweb.xmlä¸­çš„ç¬¬ä¸€ä¸ªListenerï¼Œå¦åˆ™ä¸èµ·ä½œç”¨ï¼‰
 			<listener>
 				<listener-class>se.jiderhamn.classloader.leak.prevention.ClassLoaderLeakPreventorListener</listener-class>
 			</listener>
 
-		*¡¡×¢Òâ
-			1,Ìí¼ÓÕâ¸öListenerºó£¬Ä¬ÈÏÔÚtomcat¹Ø±Õ5sºójvm»á½øĞĞÄÚ´æ»ØÊÕµÄ²Ù×÷£¬¾ßÌåÊ±¼äÉèÖÃ¿ÉÔÚÏÂÃæµÄÁ´½ÓÖĞÕÒµ½£¬ËùÒÔ£¬ÔÚ¹Ø±ÕºóµÄ5sÄÚ£¬ÔÙ´ÎÆô¶¯tomcat£¬¿ÉÄÜ»á´æÔÚÎÊÌâ£¬µ¼ÖÂÆô¶¯ÎŞĞ§£¨Èç¹û³öÏÖtomcatÖØÆôºóÈÕÖ¾ÏÔÊ¾Õı³£µ«ÊÇ·şÎñÆ÷²»¹¤×÷µÄ»°¿¼ÂÇÒ»ÏÂÊÇ²»ÊÇÕâ¸öÎÊÌâ£©¡£
+		*ã€€æ³¨æ„
+			1,æ·»åŠ è¿™ä¸ªListeneråï¼Œé»˜è®¤åœ¨tomcatå…³é—­5såjvmä¼šè¿›è¡Œå†…å­˜å›æ”¶çš„æ“ä½œï¼Œå…·ä½“æ—¶é—´è®¾ç½®å¯åœ¨ä¸‹é¢çš„é“¾æ¥ä¸­æ‰¾åˆ°ï¼Œæ‰€ä»¥ï¼Œåœ¨å…³é—­åçš„5så†…ï¼Œå†æ¬¡å¯åŠ¨tomcatï¼Œå¯èƒ½ä¼šå­˜åœ¨é—®é¢˜ï¼Œå¯¼è‡´å¯åŠ¨æ— æ•ˆï¼ˆå¦‚æœå‡ºç°tomcaté‡å¯åæ—¥å¿—æ˜¾ç¤ºæ­£å¸¸ä½†æ˜¯æœåŠ¡å™¨ä¸å·¥ä½œçš„è¯è€ƒè™‘ä¸€ä¸‹æ˜¯ä¸æ˜¯è¿™ä¸ªé—®é¢˜ï¼‰ã€‚
 				* https://github.com/mjiderhamn/classloader-leak-prevention
-				<!-- ·şÎñÆ÷Í£Ö¹ºó,µÈµÈ¶à¾Ã½øĞĞÀ¬»ø»ØÊÕ -->
+				<!-- æœåŠ¡å™¨åœæ­¢å,ç­‰ç­‰å¤šä¹…è¿›è¡Œåƒåœ¾å›æ”¶ -->
 				<context-param>
 					<param-name>ClassLoaderLeakPreventor.threadWaitMs</param-name>
 					<param-value>1000</param-value>
 				</context-param>
-			2,Õâ¸öListenerÖ»½â¾ö²¿ÊğµÄÄÚ´æĞ¹Â©£¬ÆäËûÎÊÌâ£¨ÈçjdbcµÈ£©²úÉúµÄÄÚ´æĞ¹Â©»¹ĞèÒª×Ô¼º½â¾ö
+			2,è¿™ä¸ªListeneråªè§£å†³éƒ¨ç½²çš„å†…å­˜æ³„æ¼ï¼Œå…¶ä»–é—®é¢˜ï¼ˆå¦‚jdbcç­‰ï¼‰äº§ç”Ÿçš„å†…å­˜æ³„æ¼è¿˜éœ€è¦è‡ªå·±è§£å†³
 
 
-	# ½â³ıTomcatºóÌ¨¹ÜÀíÉÏ´«²¿Êğwar°ü´óĞ¡ÏŞÖÆ
-		* ±à¼­:webapps/manager/WEB-INF/web.xml,´óÔ¼50ĞĞ´¦
-		* Ä¬ÈÏÊÇ50MB,ĞŞ¸Ä.¸Ä´óµã¡£¼Ó¸ö0
+	# è§£é™¤Tomcatåå°ç®¡ç†ä¸Šä¼ éƒ¨ç½²waråŒ…å¤§å°é™åˆ¶
+		* ç¼–è¾‘:webapps/manager/WEB-INF/web.xml,å¤§çº¦50è¡Œå¤„
+		* é»˜è®¤æ˜¯50MB,ä¿®æ”¹.æ”¹å¤§ç‚¹ã€‚åŠ ä¸ª0
 			<multipart-config>
 				<!-- 50MB max -->
 				<max-file-size>524288000</max-file-size>
@@ -141,12 +141,12 @@
 				<file-size-threshold>0</file-size-threshold>
 			</multipart-config>
 
-	# ¿ÉÒÔÉ¾³ıROOTÏîÄ¿
+	# å¯ä»¥åˆ é™¤ROOTé¡¹ç›®
 
 
 
 -------------------------------
-×Ô¶¯Ìí¼Ó°æÈ¨ÉùÃ÷				|
+è‡ªåŠ¨æ·»åŠ ç‰ˆæƒå£°æ˜				|
 -------------------------------
 <plugin>
 	<groupId>com.mycila.maven-license-plugin</groupId>

@@ -1,37 +1,37 @@
 ---------------------
-maven-´´½¨webÏîÄ¿	 |
+maven-åˆ›å»ºwebé¡¹ç›®	 |
 ---------------------
-	1,Eclipse´´½¨MavenÏîÄ¿
-	2,ArchtypeÑ¡Ôñwebapp
-	3,½â¾öÎŞ·¨´´½¨mavenÄ¿Â¼½á¹¹µÄÎÊÌâ
-		* ÓÒ»÷ÏîÄ¿ --> buildpass --> Source --> removeµôËùÓĞµÄÔ´ÎÄ¼ş¼Ğ
-		* ÊÖ¶¯´´½¨OK
-	4,ĞŞ¸Äweb.xml(web-appÌí¼ÓÃüÃû¿Õ¼äÔ¼Êø)
-	5,ÉèÖÃclassesÎÄ¼şµÄÊä³öÂ·¾¶
-		* ÓÒ»÷ÏîÄ¿ --> buildpass --> Source --> output folder...
-		* È·±£mainÂ·¾¶ÏÂµÄclassesÄ¿Â¼ÊÇÔÚ:target/classesÏÂ
-		* È·±£testÂ·¾¶ÏÂµÄclassesÄ¿Â¼ÊÇÔÚ:target/test-classesÏÂ
-	6,ĞŞ¸ÄwebÏîÄ¿µÄÅäÖÃ
-		* ÓÒ»÷ÏîÄ¿ --> peoperties --> Project Facets
-		* Dynamic Web Module ´ò¹´
-	7,ĞŞ¸Ä²¿ÊğÊ±µÄÄ¬ÈÏÅäÖÃ
-		* ÓÒ»÷ÏîÄ¿ --> peoperties --> Deployment Assembly
-		* removeµô:/src/test/java
-		* removeµô:/stc/test/resources
+	1,Eclipseåˆ›å»ºMavené¡¹ç›®
+	2,Archtypeé€‰æ‹©webapp
+	3,è§£å†³æ— æ³•åˆ›å»ºmavenç›®å½•ç»“æ„çš„é—®é¢˜
+		* å³å‡»é¡¹ç›® --> buildpass --> Source --> removeæ‰æ‰€æœ‰çš„æºæ–‡ä»¶å¤¹
+		* æ‰‹åŠ¨åˆ›å»ºOK
+	4,ä¿®æ”¹web.xml(web-appæ·»åŠ å‘½åç©ºé—´çº¦æŸ)
+	5,è®¾ç½®classesæ–‡ä»¶çš„è¾“å‡ºè·¯å¾„
+		* å³å‡»é¡¹ç›® --> buildpass --> Source --> output folder...
+		* ç¡®ä¿mainè·¯å¾„ä¸‹çš„classesç›®å½•æ˜¯åœ¨:target/classesä¸‹
+		* ç¡®ä¿testè·¯å¾„ä¸‹çš„classesç›®å½•æ˜¯åœ¨:target/test-classesä¸‹
+	6,ä¿®æ”¹webé¡¹ç›®çš„é…ç½®
+		* å³å‡»é¡¹ç›® --> peoperties --> Project Facets
+		* Dynamic Web Module æ‰“å‹¾
+	7,ä¿®æ”¹éƒ¨ç½²æ—¶çš„é»˜è®¤é…ç½®
+		* å³å‡»é¡¹ç›® --> peoperties --> Deployment Assembly
+		* removeæ‰:/src/test/java
+		* removeæ‰:/stc/test/resources
 
 
 	
-	8,Ìí¼ÓtomcatµÄ²å¼ş
-		* ÔÚbuild±êÇ©ÏÂÌí¼Ó
+	8,æ·»åŠ tomcatçš„æ’ä»¶
+		* åœ¨buildæ ‡ç­¾ä¸‹æ·»åŠ 
 		<plugins>
 			<plugin>
 	          <groupId>org.apache.tomcat.maven</groupId>
 	          <artifactId>tomcat7-maven-plugin</artifactId>
 	          <version>2.2</version>
 			  <configuraion>
-				<!-- ¶Ë¿Ú -->
+				<!-- ç«¯å£ -->
 				<port>80</port>
-				<!-- Â·¾¶ -->
+				<!-- è·¯å¾„ -->
 				<path>/<path>>
 			  </configuraion>
 	        </plugin>
@@ -39,50 +39,50 @@ maven-´´½¨webÏîÄ¿	 |
 	
 
 	
-	* ÅäÖÃEclipseÖĞmavenÏÂÔØjar°üµÄÊ±ºò´øÔ´Âë
+	* é…ç½®Eclipseä¸­mavenä¸‹è½½jaråŒ…çš„æ—¶å€™å¸¦æºç 
 		* windows --> preferences --> Maven
-		* ÓÒ±ßDownload Artifact Sources
-		* ´ò¹´,Maven»á°ïÄãÏÂÔØÔ´´úÂë
+		* å³è¾¹Download Artifact Sources
+		* æ‰“å‹¾,Mavenä¼šå¸®ä½ ä¸‹è½½æºä»£ç 
 
 
 
 
 
-	9,SVNµ¼Èë±¾µØºóµÄMAVEN
-		* Ò»°ãSVN½ö½öÉÏ´«MAVENµÄ½á¹¹ºÍPOM
-		1,×ª»»ÎªMAVENÏîÄ¿
-		2,¸ü¸ÄJAVA°æ±¾,ÒÔ¼°ÉèÖÃ×Ö·û¼¯ÎªUTF-8
-		3,×ª»»ÎªWEBÏîÄ¿
-			* ÓÒ»÷ÏîÄ¿ --> peoperties --> Project Facets
-			* Dynamic Web Module ´ò¹´(×¢ÒâÑ¡Ôñ°æ±¾µÄÎÊÌâ)
-			* JAVA´òÉÏ¹´
-		4,´ËÊ±»á±¨´í,ÒòÎªxml¹ÒÁË!¶øÇÒ»á¶à³öÒ»¸öwebContentÄ¿Â¼
-			* Ö±½Ó¸ÉµôwebContentÄ¿Â¼
-			* ÓÒ»÷ÏîÄ¿ --> peoperties --> Deployment Assembly
-			* removeµô:/src/test/java
-			* removeµô:/stc/test/resources
+	9,SVNå¯¼å…¥æœ¬åœ°åçš„MAVEN
+		* ä¸€èˆ¬SVNä»…ä»…ä¸Šä¼ MAVENçš„ç»“æ„å’ŒPOM
+		1,è½¬æ¢ä¸ºMAVENé¡¹ç›®
+		2,æ›´æ”¹JAVAç‰ˆæœ¬,ä»¥åŠè®¾ç½®å­—ç¬¦é›†ä¸ºUTF-8
+		3,è½¬æ¢ä¸ºWEBé¡¹ç›®
+			* å³å‡»é¡¹ç›® --> peoperties --> Project Facets
+			* Dynamic Web Module æ‰“å‹¾(æ³¨æ„é€‰æ‹©ç‰ˆæœ¬çš„é—®é¢˜)
+			* JAVAæ‰“ä¸Šå‹¾
+		4,æ­¤æ—¶ä¼šæŠ¥é”™,å› ä¸ºxmlæŒ‚äº†!è€Œä¸”ä¼šå¤šå‡ºä¸€ä¸ªwebContentç›®å½•
+			* ç›´æ¥å¹²æ‰webContentç›®å½•
+			* å³å‡»é¡¹ç›® --> peoperties --> Deployment Assembly
+			* removeæ‰:/src/test/java
+			* removeæ‰:/stc/test/resources
 			* add --> Folder --> src/main/webapp
 			* add --> Java Build Path Entries --> Maven Depend....
-		5,OK,´ËÊ±POMÈç¹û»¹ÓĞ±¨´í
+		5,OK,æ­¤æ—¶POMå¦‚æœè¿˜æœ‰æŠ¥é”™
 			web.xml is missing and <failOnMissingWebXml> is set to true
-			* ³¢ÊÔÌí¼ÓÒ»¸öĞÂµÄÒÀÀµ,»òÕßÉ¾³ıÒ»¸öÒÀÀµÔÙÌí¼Ó¾ÍOKÁË
+			* å°è¯•æ·»åŠ ä¸€ä¸ªæ–°çš„ä¾èµ–,æˆ–è€…åˆ é™¤ä¸€ä¸ªä¾èµ–å†æ·»åŠ å°±OKäº†
 
 	
-	10,ĞŞ¸Ä¶¯Ì¬WEB°æ±¾
-		ÔÚNavigatorÏÂ´ò¿ªÏîÄ¿.settingsÄ¿Â¼ÏÂorg.eclipse.wst.common.component.org.eclipse.wst.common.project.facet.core.xml£¬
-		°Ñ  <installed facet="jst.web" version="3.0"/>¸Ä³É  <installed facet="jst.web" version="2.5"/>
+	10,ä¿®æ”¹åŠ¨æ€WEBç‰ˆæœ¬
+		åœ¨Navigatorä¸‹æ‰“å¼€é¡¹ç›®.settingsç›®å½•ä¸‹org.eclipse.wst.common.component.org.eclipse.wst.common.project.facet.core.xmlï¼Œ
+		æŠŠ  <installed facet="jst.web" version="3.0"/>æ”¹æˆ  <installed facet="jst.web" version="2.5"/>
 
 	
 ---------------------
-maven-½â¾öMavenÎÊÌâ	 |
+maven-è§£å†³Mavené—®é¢˜	 |
 ---------------------
 
-	Èç¹ûËµ´´½¨Maven¹¤³ÌÊ§°Ü,³¢ÊÔÌí¼ÓÒ»¸öcatlog,Ãû³ÆËæÒâ
+	å¦‚æœè¯´åˆ›å»ºMavenå·¥ç¨‹å¤±è´¥,å°è¯•æ·»åŠ ä¸€ä¸ªcatlog,åç§°éšæ„
 	http://repo1.maven.org/maven2/archetype-catalog.xml
 
-	# ÎŞ·¨½¨Á¢ÏîÄ¿Ö®ÀàµÄ
-		* ÒòÎªÍøÂçÎÊÌâ,µ¼ÖÂÒÀÀµ»òÕß²å¼şÃ»ÓĞ³É¹¦ÏÂÔØ.»áÔÚ±¾µØÉú³É.lastUpdatedÎÄ¼ş,ĞèÒªÉ¾³ı
-		* ½øÈë±¾µØmaven²Ö¿â,Ö´ĞĞcmdÃüÁî
+	# æ— æ³•å»ºç«‹é¡¹ç›®ä¹‹ç±»çš„
+		* å› ä¸ºç½‘ç»œé—®é¢˜,å¯¼è‡´ä¾èµ–æˆ–è€…æ’ä»¶æ²¡æœ‰æˆåŠŸä¸‹è½½.ä¼šåœ¨æœ¬åœ°ç”Ÿæˆ.lastUpdatedæ–‡ä»¶,éœ€è¦åˆ é™¤
+		* è¿›å…¥æœ¬åœ°mavenä»“åº“,æ‰§è¡Œcmdå‘½ä»¤
 			for /r %i in (*.lastUpdated)do del %i
-		* Ö±½ÓÃüÁîÉ¾³ı
-		* È»ºóÔÚÏîÄ¿ÉÏÖ´ĞĞmaven update
+		* ç›´æ¥å‘½ä»¤åˆ é™¤
+		* ç„¶ååœ¨é¡¹ç›®ä¸Šæ‰§è¡Œmaven update

@@ -3,13 +3,13 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<!-- ÏîÄ¿×ø±ê -->
-	<groupId>ÏîÄ¿Ãû³Æ</groupI>
-	<artifactId>Ä£¿éµÄÃû³Æ</artifactId>
-	<version>°æ±¾ºÅ</version>
+	<!-- é¡¹ç›®åæ ‡ -->
+	<groupId>é¡¹ç›®åç§°</groupI>
+	<artifactId>æ¨¡å—çš„åç§°</artifactId>
+	<version>ç‰ˆæœ¬å·</version>
 	<dependencies>
 		<!--
-			ÒÀÀµµÄjar°ü
+			ä¾èµ–çš„jaråŒ…
 		-->
 		<dependency>
 			<groupId>com.zhiku</groupId>
@@ -20,8 +20,8 @@
 			<groupId>com.zhiku</groupId>
 			<artifactId>anywhere-web</artifactId>
 			<scope>test</scope>
-			<!--ÒÀÀµÅÅ³ı 
-				¾ÍÊÇ²»ÒªÕâ¸öÒÀÀµÖĞµÄÖ¸¶¨ÒÀÀµ
+			<!--ä¾èµ–æ’é™¤ 
+				å°±æ˜¯ä¸è¦è¿™ä¸ªä¾èµ–ä¸­çš„æŒ‡å®šä¾èµ–
 			-->
 			<exclusions>
 				<exclusion>

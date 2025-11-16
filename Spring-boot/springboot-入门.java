@@ -1,24 +1,24 @@
 ----------------------------
-Spring-Boot ÈëÃÅ			|
+Spring-Boot å…¥é—¨			|
 ----------------------------
 	
-	# ºËĞÄ¹¦ÄÜ
-		* ÈÃwebÓ¦ÓÃ³ÌĞò¿ÉÒÔÒÔ jar µÄĞÎÊ½ÔËĞĞ
-			> ÄÚÖÃ Jetty/Tomcat µÈÈİÆ÷
-		* ÎŞ´úÂëÉú³ÉºÍxmlÅäÖÃ
-			> ²»ĞèÒªxml,Ò²¿ÉÒÔÍê³ÉsprinµÄËùÓĞÅäÖÃ
-		* Ìá¹© spring-boot-starter-web ¼ò»¯mavenÒÀÀµ
-			> mavenÒÀÀµ¸Ã¿â,»á×Ô¶¯µÄÒÀÀµ spring µÄÒ»Ğ©×é¼ş
-		* ×Ô¶¯ÅäÖÃ spring
-		* Ó¦ÓÃ¼à¿Ø
+	# æ ¸å¿ƒåŠŸèƒ½
+		* è®©webåº”ç”¨ç¨‹åºå¯ä»¥ä»¥ jar çš„å½¢å¼è¿è¡Œ
+			> å†…ç½® Jetty/Tomcat ç­‰å®¹å™¨
+		* æ— ä»£ç ç”Ÿæˆå’Œxmlé…ç½®
+			> ä¸éœ€è¦xml,ä¹Ÿå¯ä»¥å®Œæˆsprinçš„æ‰€æœ‰é…ç½®
+		* æä¾› spring-boot-starter-web ç®€åŒ–mavenä¾èµ–
+			> mavenä¾èµ–è¯¥åº“,ä¼šè‡ªåŠ¨çš„ä¾èµ– spring çš„ä¸€äº›ç»„ä»¶
+		* è‡ªåŠ¨é…ç½® spring
+		* åº”ç”¨ç›‘æ§
 		
-	# Ñ§Ï°ÍøÕ¾
+	# å­¦ä¹ ç½‘ç«™
 		https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#getting-started
 		http://www.infoq.com/cn/articles/microframeworks1-spring-boot
 		http://412887952-qq-com.iteye.com/blog/2344171
 		http://i.youku.com/i/UMjM3MTgwNzI4/videos?spm=a2hzp.8244740.0.0&qq-pf-to=pcqq.group
 	
-	# ¸¸¼¶ÓëWEBÒÀÀµ & ²å¼ş - ³£ÓÃ
+	# çˆ¶çº§ä¸WEBä¾èµ– & æ’ä»¶ - å¸¸ç”¨
 			<parent>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-parent</artifactId>
@@ -221,10 +221,10 @@ Spring-Boot ÈëÃÅ			|
 				</plugins>
 			</build>
 	
-	# Èç¹ûĞèÒª×Ô¶¨Òå parentÄ£¿é,µ«ÊÇÓÖÏë¼Ì³ĞspringbootµÄÒÀÀµ
+	# å¦‚æœéœ€è¦è‡ªå®šä¹‰ parentæ¨¡å—,ä½†æ˜¯åˆæƒ³ç»§æ‰¿springbootçš„ä¾èµ–
 		<dependencyManagement>
 			<dependencies>
-				<!-- Spring Boot parent.pom µÄ¸¸¼¶ÒÀÀµ,¸ÃÒÀÀµ¶¨ÒåÁË¿ò¼ÜÒÀÀµµÄËùÓĞ°æ±¾ĞÅÏ¢ -->
+				<!-- Spring Boot parent.pom çš„çˆ¶çº§ä¾èµ–,è¯¥ä¾èµ–å®šä¹‰äº†æ¡†æ¶ä¾èµ–çš„æ‰€æœ‰ç‰ˆæœ¬ä¿¡æ¯ -->
 				<dependency>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-dependencies</artifactId>
@@ -235,7 +235,7 @@ Spring-Boot ÈëÃÅ			|
 			</dependencies>
 		</dependencyManagement>
 
-	# Ö÷º¯Êı,Ö±½ÓÆô¶¯´úÂë
+	# ä¸»å‡½æ•°,ç›´æ¥å¯åŠ¨ä»£ç 
 		import org.springframework.boot.SpringApplication;
 		import org.springframework.boot.autoconfigure.SpringBootApplication;
 		import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -261,24 +261,24 @@ Spring-Boot ÈëÃÅ			|
 		}
 
 
-	# ´«Í³µÄspringÏîÄ¿
+	# ä¼ ç»Ÿçš„springé¡¹ç›®
 		web.xml
-			* Ç°¶Ë¿ØÖÆÆ÷,¼ÓÔØservlet.xml
-			* Spring ±àÂëfilter
-			* Spring IOC ¼àÌı
-			* Druid ¼à¿Ø
+			* å‰ç«¯æ§åˆ¶å™¨,åŠ è½½servlet.xml
+			* Spring ç¼–ç filter
+			* Spring IOC ç›‘å¬
+			* Druid ç›‘æ§
 		servlet.xml
 			* mvc:annotaion
-				* ×Ô¶¨Òåconverter
+				* è‡ªå®šä¹‰converter
 			* interceptor
-			* ÊÓÍ¼½âÎöÆ÷
-			* ÎÄ¼şÉÏ´«Ö§³Ö
+			* è§†å›¾è§£æå™¨
+			* æ–‡ä»¶ä¸Šä¼ æ”¯æŒ
 		application-context.xml
 			* DataSource
-			* ³Ö¾Ã²ã¹¤³§
+			* æŒä¹…å±‚å·¥å‚
 			* 
 	
-	# ½â¾öUndertowÆôÓÃÊ±µÄ¸æ¾¯ÈÕÖ¾, Ìí¼ÓÒ»¸öÅäÖÃÀà
+	# è§£å†³Undertowå¯ç”¨æ—¶çš„å‘Šè­¦æ—¥å¿—, æ·»åŠ ä¸€ä¸ªé…ç½®ç±»
 		import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
 		import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 		import org.springframework.context.annotation.Configuration;
@@ -302,34 +302,34 @@ Spring-Boot ÈëÃÅ			|
 				
 
 ----------------------------
-Spring-Boot Ä£¿é			|
+Spring-Boot æ¨¡å—			|
 ----------------------------
-			spring-boot-starter					ºËĞÄ POM£¬°üº¬×Ô¶¯ÅäÖÃÖ§³Ö¡¢ÈÕÖ¾¿âºÍ¶Ô YAML ÅäÖÃÎÄ¼şµÄÖ§³Ö¡£
-			spring-boot-starter-amqp			Í¨¹ı spring-rabbit Ö§³Ö AMQP¡£
-			spring-boot-starter-aop				°üº¬ spring-aop ºÍ AspectJ À´Ö§³ÖÃæÏòÇĞÃæ±à³Ì£¨AOP£©¡£
-			spring-boot-starter-batch			Ö§³Ö Spring Batch£¬°üº¬ HSQLDB¡£
-			spring-boot-starter-data-jpa		°üº¬ spring-data-jpa¡¢spring-orm ºÍ Hibernate À´Ö§³Ö JPA¡£
-			spring-boot-starter-data-mongodb	°üº¬ spring-data-mongodb À´Ö§³Ö MongoDB¡£
-			spring-boot-starter-data-rest		Í¨¹ı spring-data-rest-webmvc Ö§³ÖÒÔ REST ·½Ê½±©Â¶ Spring Data ²Ö¿â¡£
-			spring-boot-starter-jdbc			Ö§³ÖÊ¹ÓÃ JDBC ·ÃÎÊÊı¾İ¿â¡£
-			spring-boot-starter-security		°üº¬ spring-security¡£
-			spring-boot-starter-test			°üº¬³£ÓÃµÄ²âÊÔËùĞèµÄÒÀÀµ£¬Èç JUnit¡¢Hamcrest¡¢Mockito ºÍ spring-test µÈ¡£
-			spring-boot-starter-velocity		Ö§³ÖÊ¹ÓÃ Velocity ×÷ÎªÄ£°åÒıÇæ¡£
-			spring-boot-starter-web				Ö§³Ö Web Ó¦ÓÃ¿ª·¢£¬°üº¬ Tomcat ºÍ spring-mvc¡£
-			spring-boot-starter-websocket		Ö§³ÖÊ¹ÓÃ Tomcat ¿ª·¢ WebSocket Ó¦ÓÃ¡£
-			spring-boot-starter-ws				Ö§³Ö Spring Web Services¡£
-			spring-boot-starter-actuator		Ìí¼ÓÊÊÓÃÓÚÉú²ú»·¾³µÄ¹¦ÄÜ£¬ÈçĞÔÄÜÖ¸±êºÍ¼à²âµÈ¹¦ÄÜ¡£
-			spring-boot-starter-remote-shell	Ìí¼ÓÔ¶³Ì SSH Ö§³Ö¡£
-			spring-boot-starter-jetty			Ê¹ÓÃ Jetty ¶ø²»ÊÇÄ¬ÈÏµÄ Tomcat ×÷ÎªÓ¦ÓÃ·şÎñÆ÷¡£
-			spring-boot-starter-log4j			Ìí¼Ó Log4j µÄÖ§³Ö¡£
-			spring-boot-starter-logging			Ê¹ÓÃ Spring Boot Ä¬ÈÏµÄÈÕÖ¾¿ò¼Ü Logback¡£
-			spring-boot-starter-tomcat			Ê¹ÓÃ Spring Boot Ä¬ÈÏµÄ Tomcat ×÷ÎªÓ¦ÓÃ·şÎñÆ÷¡£
+			spring-boot-starter					æ ¸å¿ƒ POMï¼ŒåŒ…å«è‡ªåŠ¨é…ç½®æ”¯æŒã€æ—¥å¿—åº“å’Œå¯¹ YAML é…ç½®æ–‡ä»¶çš„æ”¯æŒã€‚
+			spring-boot-starter-amqp			é€šè¿‡ spring-rabbit æ”¯æŒ AMQPã€‚
+			spring-boot-starter-aop				åŒ…å« spring-aop å’Œ AspectJ æ¥æ”¯æŒé¢å‘åˆ‡é¢ç¼–ç¨‹ï¼ˆAOPï¼‰ã€‚
+			spring-boot-starter-batch			æ”¯æŒ Spring Batchï¼ŒåŒ…å« HSQLDBã€‚
+			spring-boot-starter-data-jpa		åŒ…å« spring-data-jpaã€spring-orm å’Œ Hibernate æ¥æ”¯æŒ JPAã€‚
+			spring-boot-starter-data-mongodb	åŒ…å« spring-data-mongodb æ¥æ”¯æŒ MongoDBã€‚
+			spring-boot-starter-data-rest		é€šè¿‡ spring-data-rest-webmvc æ”¯æŒä»¥ REST æ–¹å¼æš´éœ² Spring Data ä»“åº“ã€‚
+			spring-boot-starter-jdbc			æ”¯æŒä½¿ç”¨ JDBC è®¿é—®æ•°æ®åº“ã€‚
+			spring-boot-starter-security		åŒ…å« spring-securityã€‚
+			spring-boot-starter-test			åŒ…å«å¸¸ç”¨çš„æµ‹è¯•æ‰€éœ€çš„ä¾èµ–ï¼Œå¦‚ JUnitã€Hamcrestã€Mockito å’Œ spring-test ç­‰ã€‚
+			spring-boot-starter-velocity		æ”¯æŒä½¿ç”¨ Velocity ä½œä¸ºæ¨¡æ¿å¼•æ“ã€‚
+			spring-boot-starter-web				æ”¯æŒ Web åº”ç”¨å¼€å‘ï¼ŒåŒ…å« Tomcat å’Œ spring-mvcã€‚
+			spring-boot-starter-websocket		æ”¯æŒä½¿ç”¨ Tomcat å¼€å‘ WebSocket åº”ç”¨ã€‚
+			spring-boot-starter-ws				æ”¯æŒ Spring Web Servicesã€‚
+			spring-boot-starter-actuator		æ·»åŠ é€‚ç”¨äºç”Ÿäº§ç¯å¢ƒçš„åŠŸèƒ½ï¼Œå¦‚æ€§èƒ½æŒ‡æ ‡å’Œç›‘æµ‹ç­‰åŠŸèƒ½ã€‚
+			spring-boot-starter-remote-shell	æ·»åŠ è¿œç¨‹ SSH æ”¯æŒã€‚
+			spring-boot-starter-jetty			ä½¿ç”¨ Jetty è€Œä¸æ˜¯é»˜è®¤çš„ Tomcat ä½œä¸ºåº”ç”¨æœåŠ¡å™¨ã€‚
+			spring-boot-starter-log4j			æ·»åŠ  Log4j çš„æ”¯æŒã€‚
+			spring-boot-starter-logging			ä½¿ç”¨ Spring Boot é»˜è®¤çš„æ—¥å¿—æ¡†æ¶ Logbackã€‚
+			spring-boot-starter-tomcat			ä½¿ç”¨ Spring Boot é»˜è®¤çš„ Tomcat ä½œä¸ºåº”ç”¨æœåŠ¡å™¨ã€‚
 
 
 ----------------------------
-Spring-Boot ¹¹½¨¿ÉÔËĞĞjar	|
+Spring-Boot æ„å»ºå¯è¿è¡Œjar	|
 ----------------------------
-	# Ö»ÒªÌí¼ÓÒ»¸ö²å¼ş¼´¿É
+	# åªè¦æ·»åŠ ä¸€ä¸ªæ’ä»¶å³å¯
 		<build> 
 			<plugins>
 				<plugin>
@@ -339,11 +339,11 @@ Spring-Boot ¹¹½¨¿ÉÔËĞĞjar	|
 			</plugins>
 		</build>
 	
-	# ´«Í³·½Ê½
-		<!-- ¹¹½¨ÅäÖÃ -->
+	# ä¼ ç»Ÿæ–¹å¼
+		<!-- æ„å»ºé…ç½® -->
 		<build>
 			<!--
-				jar°üÃû
+				jaråŒ…å
 			-->
 			<finalName>spring-boot</finalName>
 			<plugins>
@@ -354,12 +354,12 @@ Spring-Boot ¹¹½¨¿ÉÔËĞĞjar	|
 						<classesDirectory>target/classes/</classesDirectory>
 						<archive>
 							<manifest>
-								<!-- Ö¸¶¨mainº¯Êı -->
+								<!-- æŒ‡å®šmainå‡½æ•° -->
 								<mainClass>com.kevin.example.springboot.controller.SampleController</mainClass>
-								<!-- ´ò°üÊ± MANIFEST.MFÎÄ¼ş²»¼ÇÂ¼µÄÊ±¼ä´Á°æ±¾ -->
+								<!-- æ‰“åŒ…æ—¶ MANIFEST.MFæ–‡ä»¶ä¸è®°å½•çš„æ—¶é—´æˆ³ç‰ˆæœ¬ -->
 								<useUniqueVersions>false</useUniqueVersions>
 								<addClasspath>true</addClasspath>
-								<!-- ÒÀÀµ°ü¼ÓÔØÄ¿Â¼Ãû³Æ-->
+								<!-- ä¾èµ–åŒ…åŠ è½½ç›®å½•åç§°-->
 								<classpathPrefix>lib/</classpathPrefix>
 							</manifest>
 							<manifestEntries>
@@ -368,7 +368,7 @@ Spring-Boot ¹¹½¨¿ÉÔËĞĞjar	|
 						</archive>
 					</configuration>
 				</plugin>
-				<!-- ÒÀÀµ°üµÄ´¦Àí²å¼ş -->
+				<!-- ä¾èµ–åŒ…çš„å¤„ç†æ’ä»¶ -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
@@ -382,7 +382,7 @@ Spring-Boot ¹¹½¨¿ÉÔËĞĞjar	|
 							<configuration>
 								<type>jar</type>
 								<includeTypes>jar</includeTypes>
-								<!-- ÒÀÀµ°ü´æ·ÅÄ¿Â¼ -->
+								<!-- ä¾èµ–åŒ…å­˜æ”¾ç›®å½• -->
 								<outputDirectory>${project.build.directory}/lib</outputDirectory>
 							</configuration>
 						</execution>
