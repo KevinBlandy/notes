@@ -1,5 +1,5 @@
 ----------------------
-³£Á¿
+å¸¸é‡
 ----------------------
 
 ----------------------
@@ -10,24 +10,24 @@ struct
 		func NewDecoder(r io.Reader) *Decoder
 		func (dec *Decoder) Buffered() io.Reader
 		func (dec *Decoder) Decode(v interface{}) error
-			* ³¢ÊÔ½âÂëÒ»¸öjson£¬Èç¹û¶ÁÈ¡µ½ÁË×îºó£¬·µ»Ø io.EOF
+			* å°è¯•è§£ç ä¸€ä¸ªjsonï¼Œå¦‚æœè¯»å–åˆ°äº†æœ€åï¼Œè¿”å› io.EOF
 
 		func (dec *Decoder) DisallowUnknownFields()
 		func (dec *Decoder) InputOffset() int64
 		func (dec *Decoder) More() bool
-			* ÔÚ½âÎöÊı×éJSONµÄÊ±ºò£¬±¨¸æÊÇ·ñ»¹ÓĞÏÂÒ»¸öÔªËØ
+			* åœ¨è§£ææ•°ç»„JSONçš„æ—¶å€™ï¼ŒæŠ¥å‘Šæ˜¯å¦è¿˜æœ‰ä¸‹ä¸€ä¸ªå…ƒç´ 
 
 		func (dec *Decoder) Token() (Token, error)
-			* ¶ÁÈ¡ÏÂÒ»¸ö·Ö¸ô·û£¬ÔÚÁ÷½áÊøµÄÊ±ºò·µ»Ø io.EOF
-			* ·Ö¸ô·ûÎª£º
-				[/]/{/}£¬ÓÃÓÚ±ê¼ÇÊı×éºÍ¶ÔÏóµÄ¿ªÊ¼ºÍ½áÊø
+			* è¯»å–ä¸‹ä¸€ä¸ªåˆ†éš”ç¬¦ï¼Œåœ¨æµç»“æŸçš„æ—¶å€™è¿”å› io.EOF
+			* åˆ†éš”ç¬¦ä¸ºï¼š
+				[/]/{/}ï¼Œç”¨äºæ ‡è®°æ•°ç»„å’Œå¯¹è±¡çš„å¼€å§‹å’Œç»“æŸ
 				string
 				float64
 				<nil>
 
 		func (dec *Decoder) UseNumber()
-			* ½«Ò»¸öÊı×Ö×÷ÎªNumber¶ø²»ÊÇfloat64½âÂëµ½ interface{}¡£
-			* Ê¹ÓÃNumber´úÌæjsonÖĞµÄfloat64
+			* å°†ä¸€ä¸ªæ•°å­—ä½œä¸ºNumberè€Œä¸æ˜¯float64è§£ç åˆ° interface{}ã€‚
+			* ä½¿ç”¨Numberä»£æ›¿jsonä¸­çš„float64
 				kv := map[string]any{} 
 				d := json.NewDecoder(...)
 				d.UseNumber()
@@ -44,17 +44,17 @@ struct
 		func (enc *Encoder) SetEscapeHTML(on bool)
 		func (enc *Encoder) SetIndent(prefix, indent string)
 
-		* ×Ô¶¨Òå JSON ±àÂëÆ÷
-			// Êä³öµ½ stdout
+		* è‡ªå®šä¹‰ JSON ç¼–ç å™¨
+			// è¾“å‡ºåˆ° stdout
 			encoder := json.NewEncoder(os.Stdout)
-			// Ç°×º & Ëõ½ø
+			// å‰ç¼€ & ç¼©è¿›
 			encoder.SetIndent("", "  ")
-			// ²»±àÂë HTML
+			// ä¸ç¼–ç  HTML
 			encoder.SetEscapeHTML(false)
 
-			// ±àÂë & Êä³ö
+			// ç¼–ç  & è¾“å‡º
 			encoder.Encode(map[string]interface{}{
-				"lang": "GOÓïÑÔ",
+				"lang": "GOè¯­è¨€",
 				"tag":  "<br>",
 			})
 	
@@ -80,7 +80,7 @@ struct
 	
 	# type Number string
 		
-		* JSONÀàĞÍµÄÊı×Ö£¬¿ÉÒÔ×ª»»ÎªGoÖĞµÄ¸÷¸öÀàĞÍ
+		* JSONç±»å‹çš„æ•°å­—ï¼Œå¯ä»¥è½¬æ¢ä¸ºGoä¸­çš„å„ä¸ªç±»å‹
 			
 		func (n Number) Float64() (float64, error)
 		func (n Number) Int64() (int64, error)
@@ -90,7 +90,7 @@ struct
 		func (m RawMessage) MarshalJSON() ([]byte, error)
 		func (m *RawMessage) UnmarshalJSON(data []byte) error
 
-		* jsonÔ­Ê¼×Ö½Ú£¬Ëü×÷Îª½á¹¹ÌåµÄÒ»¸ö×Ö¶Î£¬ĞòÁĞ»¯µÄÊ±ºò£¬»á°ÑËüÕ¹¿ªÎª¶ÀÁ¢µÄjson×Ö¶Î
+		* jsonåŸå§‹å­—èŠ‚ï¼Œå®ƒä½œä¸ºç»“æ„ä½“çš„ä¸€ä¸ªå­—æ®µï¼Œåºåˆ—åŒ–çš„æ—¶å€™ï¼Œä¼šæŠŠå®ƒå±•å¼€ä¸ºç‹¬ç«‹çš„jsonå­—æ®µ
 			h := json.RawMessage(`{"precomputed": true}`)
 			c := struct {
 				Header *json.RawMessage `json:"header"`
@@ -108,7 +108,7 @@ struct
 			// 	"body": "Hello Gophers!"
 			// }
 		
-		* Ëµ°×ÁË£¬ÖªµÀÊÇ¸öJSONµ«ÊÇ²»ÖªµÀJSONµÄÀàĞÍ£¬½á¹¹£¬¾Í¿ÉÒÔÓÃÕâ¸ö
+		* è¯´ç™½äº†ï¼ŒçŸ¥é“æ˜¯ä¸ªJSONä½†æ˜¯ä¸çŸ¥é“JSONçš„ç±»å‹ï¼Œç»“æ„ï¼Œå°±å¯ä»¥ç”¨è¿™ä¸ª
 	
 	# type SyntaxError struct {
 			Offset int64 // error occurred after reading Offset bytes
@@ -149,32 +149,32 @@ struct
 		func (e *UnsupportedValueError) Error() string
 		
 ----------------------
-·½·¨
+æ–¹æ³•
 ----------------------
 	func Compact(dst *bytes.Buffer, src []byte) error
-		* Ñ¹Ëõsrc(json)µ½dst
+		* å‹ç¼©src(json)åˆ°dst
 
 	func HTMLEscape(dst *bytes.Buffer, src []byte)
-		* °Ñsrc£¨json£©½øĞĞHTML±àÂëºó£¬Êä³öµ½dst
+		* æŠŠsrcï¼ˆjsonï¼‰è¿›è¡ŒHTMLç¼–ç åï¼Œè¾“å‡ºåˆ°dst
 			var out bytes.Buffer
 			json.HTMLEscape(&out, []byte(`{"Name":"<b>HTML content</b>"}`))
 			out.WriteTo(os.Stdout)
 
 	func Indent(dst *bytes.Buffer, src []byte, prefix, indent string) error
-		* ¶Ôsrc(json)£¬½øĞĞ¸ñÊ½»¯£¨Ëõ½ø£©´¦Àíºó£¬Êä³öµ½dst
-			prefix	Ö¸¶¨Ç°×º
-			indent	Ö¸¶¨¸ñÊ½»¯×Ö·û
+		* å¯¹src(json)ï¼Œè¿›è¡Œæ ¼å¼åŒ–ï¼ˆç¼©è¿›ï¼‰å¤„ç†åï¼Œè¾“å‡ºåˆ°dst
+			prefix	æŒ‡å®šå‰ç¼€
+			indent	æŒ‡å®šæ ¼å¼åŒ–å­—ç¬¦
 
 	func Marshal(v interface{}) ([]byte, error)
 	func MarshalIndent(v interface{}, prefix, indent string) ([]byte, error)
 	func Unmarshal(data []byte, v interface{}) error
 	func Valid(data []byte) bool
-		* ÅĞ¶ÏÊÇ·ñÊÇºÏ·¨µÄjson
+		* åˆ¤æ–­æ˜¯å¦æ˜¯åˆæ³•çš„json
 
 ----------------------
 demo
 ----------------------
-	# ½âÎö±éÀújsonÎÄ¼şÖĞµÄÊı×é
+	# è§£æéå†jsonæ–‡ä»¶ä¸­çš„æ•°ç»„
 		import (
 			"encoding/json"
 			"log"
@@ -192,7 +192,7 @@ demo
 		`
 			dec := json.NewDecoder(strings.NewReader(val))
 
-			// ¶ÁÈ¡¿ªÊ¼µÄ·Ö¸ô·û
+			// è¯»å–å¼€å§‹çš„åˆ†éš”ç¬¦
 			token, err := dec.Token()
 			if err != nil {
 				log.Fatal(err)
@@ -203,7 +203,7 @@ demo
 				Name, Text string
 			}
 
-			// ±éÀúÊı×éµÄÃ¿Ò»Ïî
+			// éå†æ•°ç»„çš„æ¯ä¸€é¡¹
 			for dec.More() {
 				var user = User{}
 				err := dec.Decode(&user)
@@ -213,7 +213,7 @@ demo
 				log.Println(user)
 			}
 
-			// ¶ÁÈ¡½áÊøµÄ·Ö¸ô·û
+			// è¯»å–ç»“æŸçš„åˆ†éš”ç¬¦
 			token, err = dec.Token()
 			if err != nil {
 				log.Fatal(err)
@@ -221,7 +221,7 @@ demo
 			log.Printf("end token=%s\n", token)		// end token=]
 		}
 	
-	# ½âÎö±éÀúÎÄ¼şÖĞµÄÃ¿Ò»¸öjson
+	# è§£æéå†æ–‡ä»¶ä¸­çš„æ¯ä¸€ä¸ªjson
 		import (
 			"encoding/json"
 			"io"
@@ -242,8 +242,8 @@ demo
 			for {
 				var arr map[string]interface{}
 				if err := dec.Decode(&arr); err == io.EOF {
-					break		// ¶ÁÈ¡µ½ÁË×îºó
-				} else if err != nil {	// ¶ÁÈ¡Òì³£
+					break		// è¯»å–åˆ°äº†æœ€å
+				} else if err != nil {	// è¯»å–å¼‚å¸¸
 					log.Fatal(err)
 				}
 				log.Println(arr)
@@ -258,8 +258,8 @@ demo
 		}
 	
 	
-	# ×Ô¶¨Òå Date ¸ñÊ½»¯
-		* ×Ô¶¨ÒåÒ»¸ö time.Time ÀàĞÍ£¬ÊµÏÖjsonµÄĞòÁĞ»¯ºÍ·´ĞòÁĞ»¯½Ó¿Ú
+	# è‡ªå®šä¹‰ Date æ ¼å¼åŒ–
+		* è‡ªå®šä¹‰ä¸€ä¸ª time.Time ç±»å‹ï¼Œå®ç°jsonçš„åºåˆ—åŒ–å’Œååºåˆ—åŒ–æ¥å£
 			import (
 				"fmt"
 				"time"
@@ -270,11 +270,11 @@ demo
 			var Format = "2006-01-02 15:04:05"
 			var FormatStr = fmt.Sprintf(`"%s"`, Format)
 
-			// ĞòÁĞ»¯Îªjson
+			// åºåˆ—åŒ–ä¸ºjson
 			func (j *LocalDateTime) MarshalJSON () ([]byte, error){
 				return []byte(time.Time(*j).Format(FormatStr)), nil
 			}
-			// ·´ĞòÁĞ»¯Îª¶ÔÏó
+			// ååºåˆ—åŒ–ä¸ºå¯¹è±¡
 			func (j *LocalDateTime) UnmarshalJSON (bytes []byte) error {
 				val, err := time.Parse(FormatStr, string(bytes))
 				if err != nil {
@@ -288,7 +288,7 @@ demo
 				return time.Time(*j).Format(Format)
 			}
 		
-		* Ê¹ÓÃ
+		* ä½¿ç”¨
 			type Foo struct {
 				Id int
 				Date *model.LocalDateTime
