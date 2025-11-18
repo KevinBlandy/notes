@@ -1,45 +1,45 @@
 ---------------------
 sql
 ---------------------
-	# ²Î¿¼
+	# å‚è€ƒ
 		https://github.com/golang/go/wiki/SQLInterface
 		https://www.jianshu.com/p/5e7477649423
 	
-	# Çı¶¯
-		* ËùÓĞÊı¾İ¿â¶ÔÓ¦µÄÇı¶¯ÁĞ±í
+	# é©±åŠ¨
+		* æ‰€æœ‰æ•°æ®åº“å¯¹åº”çš„é©±åŠ¨åˆ—è¡¨
 			https://github.com/golang/go/wiki/SQLDrivers
 		
-		* Çı¶¯µÄ¼ÓÔØ
+		* é©±åŠ¨çš„åŠ è½½
 			_ "github.com/go-sql-driver/mysql"
 	
-	# URL Á´½Ó²ÎÊı
+	# URL é“¾æ¥å‚æ•°
 
 		https://github.com/go-sql-driver/mysql
 			parseTime
-				* parseTime=true »á½« DATE ºÍ DATETIME ÖµµÄÊä³öÀàĞÍ¸ü¸ÄÎª time.Time£¬¶ø²»ÊÇ []byte / string ÈÕÆÚ»òÈÕÆÚÊ±¼ä£¨Èç 0000-00-00 00:00:00£©»á×ª»»Îª time.Time µÄÁãÖµ¡£
-				* Èç¹ûÊÇ false Ôò·µ»Ø []uint8 £¬¾ÍÊÇ×Ö·û´® 2025-01-14 13:43:54
+				* parseTime=true ä¼šå°† DATE å’Œ DATETIME å€¼çš„è¾“å‡ºç±»å‹æ›´æ”¹ä¸º time.Timeï¼Œè€Œä¸æ˜¯ []byte / string æ—¥æœŸæˆ–æ—¥æœŸæ—¶é—´ï¼ˆå¦‚ 0000-00-00 00:00:00ï¼‰ä¼šè½¬æ¢ä¸º time.Time çš„é›¶å€¼ã€‚
+				* å¦‚æœæ˜¯ false åˆ™è¿”å› []uint8 ï¼Œå°±æ˜¯å­—ç¬¦ä¸² 2025-01-14 13:43:54
 			
 			loc
-				* Ö¸¶¨Ê±Çø£¬½âÎö/Ğ´Èë Timestamp Ê±Ê¹ÓÃµÄÊ±Çø
+				* æŒ‡å®šæ—¶åŒºï¼Œè§£æ/å†™å…¥ Timestamp æ—¶ä½¿ç”¨çš„æ—¶åŒº
 
-					loc=UTC		Ê¹ÓÃ UTC Ê±Çø
-					loc=Local	Ê¹ÓÃ±¾µØÊ±Çø
+					loc=UTC		ä½¿ç”¨ UTC æ—¶åŒº
+					loc=Local	ä½¿ç”¨æœ¬åœ°æ—¶åŒº
 
 		
 
 	
 	
-	# ´óÖÂAPIÁ÷³Ì
-		DB Ö´ĞĞSQL
-		DB »ñÈ¡*Stmt	->	*StmtÌî³ä²ÎÊı	-> *StmtÖ´ĞĞSQL
-		DB »ñÈ¡*Tx		->	*TxÖ´ĞĞSQ;
-		DB »ñÈ¡*Tx		->	*Tx»ñÈ¡*Stmt	->	*StmtÌî³ä²ÎÊı -> *StmtÖ´ĞĞSQL
+	# å¤§è‡´APIæµç¨‹
+		DB æ‰§è¡ŒSQL
+		DB è·å–*Stmt	->	*Stmtå¡«å……å‚æ•°	-> *Stmtæ‰§è¡ŒSQL
+		DB è·å–*Tx		->	*Txæ‰§è¡ŒSQ;
+		DB è·å–*Tx		->	*Txè·å–*Stmt	->	*Stmtå¡«å……å‚æ•° -> *Stmtæ‰§è¡ŒSQL
 
-		DB »ñÈ¡*Conn	->	*Conn¿ÉÒÔµ±×öÒ»¸öDB¶ÔÏóÊ¹ÓÃ£¬Ö´ĞĞÉÏÃæµÄÁ÷³Ì
+		DB è·å–*Conn	->	*Connå¯ä»¥å½“åšä¸€ä¸ªDBå¯¹è±¡ä½¿ç”¨ï¼Œæ‰§è¡Œä¸Šé¢çš„æµç¨‹
 
 
-	# Õ¼Î»·û
-		* ²»Í¬ÓïÑÔµÄÕ¼Î»·û²»Í¬
+	# å ä½ç¬¦
+		* ä¸åŒè¯­è¨€çš„å ä½ç¬¦ä¸åŒ
 		MySQL                    
 			WHERE col = ?		VALUES(?, ?, ?)   
 		PostgreSQL       
@@ -48,13 +48,13 @@ sql
 			WHERE col = :col	VALUES(:val1, :val2, :val3)
 		
 	
-	# DBµÄ¶ÔÏóµÄ´´½¨
+	# DBçš„å¯¹è±¡çš„åˆ›å»º
 		const (
-			host string = "localhost"	// Ö÷»ú
-			port int = 3306					// ¶Ë¿Ú
-			db string = "demo"				// Êı¾İ¿â
-			username string = "root"		// ÓÃ»§Ãû
-			password string = "root"		// ÃÜÂë
+			host string = "localhost"	// ä¸»æœº
+			port int = 3306					// ç«¯å£
+			db string = "demo"				// æ•°æ®åº“
+			username string = "root"		// ç”¨æˆ·å
+			password string = "root"		// å¯†ç 
 		)
 		func main() {
 			db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", "root", "root", "localhost", 3306, "demo"))
@@ -64,20 +64,20 @@ sql
 			fmt.Println(db)
 		}
 		
-		* ´´½¨³É¹¦²¢²»´ú±í¿ÉÓÃ£¬µ×²ãÁ¬½ÓÊÇÑÓ³Ù´´½¨µÄ£¬Ö»ÓĞÔÚµÚÒ»´ÎÊ¹ÓÃµÄÊ±ºò²Å»á´´½¨
-		* ¿ÉÒÔÊ¹ÓÃ Ping() À´¼ì²é£¬Á¬½ÓÊÇ·ñÕı³££¬Èç¹ûËü·µ»Ø err Ôò±íÊ¾ÓĞÎÊÌâ
+		* åˆ›å»ºæˆåŠŸå¹¶ä¸ä»£è¡¨å¯ç”¨ï¼Œåº•å±‚è¿æ¥æ˜¯å»¶è¿Ÿåˆ›å»ºçš„ï¼Œåªæœ‰åœ¨ç¬¬ä¸€æ¬¡ä½¿ç”¨çš„æ—¶å€™æ‰ä¼šåˆ›å»º
+		* å¯ä»¥ä½¿ç”¨ Ping() æ¥æ£€æŸ¥ï¼Œè¿æ¥æ˜¯å¦æ­£å¸¸ï¼Œå¦‚æœå®ƒè¿”å› err åˆ™è¡¨ç¤ºæœ‰é—®é¢˜
 	
-	# Í¨¹ıDriverÀ´ÅĞ¶ÏÒì³£ÀàĞÍ
-			if driverErr, ok := err.(*mysql.MySQLError); ok { // È·¶¨ÊÇMYSQLµÄÒì³£
+	# é€šè¿‡Driveræ¥åˆ¤æ–­å¼‚å¸¸ç±»å‹
+			if driverErr, ok := err.(*mysql.MySQLError); ok { // ç¡®å®šæ˜¯MYSQLçš„å¼‚å¸¸
 				if driverErr.Number == 1045 {
-					// Í¨¹ıÒì³£×´Ì¬ÂëÀ´ÅĞ¶Ï
-					var _ string = driverErr.Message // Òì³£µÄÏûÏ¢ÌáÊ¾
+					// é€šè¿‡å¼‚å¸¸çŠ¶æ€ç æ¥åˆ¤æ–­
+					var _ string = driverErr.Message // å¼‚å¸¸çš„æ¶ˆæ¯æç¤º
 				}
 			}
 	
-	# ÊÂÎñ´¦Àí
+	# äº‹åŠ¡å¤„ç†
 		func Service (db *sql.DB) () {
-			// ¿ªÊ¼ÊÂÎñ£¬Ö¸¶¨¸ôÀë¼¶±ğºÍÖ»¶ÁÊôĞÔ
+			// å¼€å§‹äº‹åŠ¡ï¼ŒæŒ‡å®šéš”ç¦»çº§åˆ«å’Œåªè¯»å±æ€§
 			tx, err := db.BeginTx(context.Background(), &sql.TxOptions{
 				Isolation: sql.LevelRepeatableRead,
 				ReadOnly: true,
@@ -86,14 +86,14 @@ sql
 				log.Fatal(err)
 			}
 
-			// TODO Ö´ĞĞÒµÎñ
+			// TODO æ‰§è¡Œä¸šåŠ¡
 			stmt, err := tx.Prepare("SELECT * FROM `user` WHERE `id`= ?;")
 
-			// ×îºó¹Ø±Õstmt£¬Ö®Ç°Golang1.4¹Ø±Õ*sql.Tx½«ÓëÖ®¹ØÁªµÄÁ¬½Ó·µ»¹µ½³ØÖĞ
-			// Èç¹ûËüÏÈÓÚ Rollback Ö®Ç°Ö´ĞĞµÄ»°£¬ÔÚ²¢·¢»·¾³ÏÂ¿ÉÄÜÓĞÎÊÌâ£¨stmt¹Ø±Õºó£¬»»¸øÁËÁ¬½Ó³Ø£¬ÆäËûĞ­³Ì»ñÈ¡ÁËÁ¬½Ó£¬È»ºó´ËÊ±Ö´ĞĞÁË»Ø¹ö£©
+			// æœ€åå…³é—­stmtï¼Œä¹‹å‰Golang1.4å…³é—­*sql.Txå°†ä¸ä¹‹å…³è”çš„è¿æ¥è¿”è¿˜åˆ°æ± ä¸­
+			// å¦‚æœå®ƒå…ˆäº Rollback ä¹‹å‰æ‰§è¡Œçš„è¯ï¼Œåœ¨å¹¶å‘ç¯å¢ƒä¸‹å¯èƒ½æœ‰é—®é¢˜ï¼ˆstmtå…³é—­åï¼Œæ¢ç»™äº†è¿æ¥æ± ï¼Œå…¶ä»–åç¨‹è·å–äº†è¿æ¥ï¼Œç„¶åæ­¤æ—¶æ‰§è¡Œäº†å›æ»šï¼‰
 			defer stmt.Close()
 
-			// Ê¼ÖÕ»Ø¹ö£¬Èç¹ûÒÑ¾­Ìá½»ÁË£¬»Ø¹ö²»ÊÜÈÎºÎÓ°Ïì
+			// å§‹ç»ˆå›æ»šï¼Œå¦‚æœå·²ç»æäº¤äº†ï¼Œå›æ»šä¸å—ä»»ä½•å½±å“
 			defer tx.Rollback()
 
 			if err != nil {
@@ -104,15 +104,15 @@ sql
 				log.Fatal(err)
 			}
 
-			// ÊÍ·Å×ÊÔ´
+			// é‡Šæ”¾èµ„æº
 			defer rows.Close()
 
 			for rows.Next() {
-				// ±éÀúÊı¾İ
+				// éå†æ•°æ®
 				rows.Scan()
 			}
 
-			// ×îºóÌá½»ÊÂÎñ
+			// æœ€åæäº¤äº‹åŠ¡
 			if err := tx.Commit(); err != nil {
 				log.Fatalf("rollback error: %s\n", err.Error())
 			}
@@ -127,11 +127,11 @@ sql
 			"log"
 		)
 		const (
-			host string = "localhost"	// Ö÷»ú
-			port int = 3306					// ¶Ë¿Ú
-			db string = "demo"				// Êı¾İ¿â
-			username string = "root"		// ÓÃ»§Ãû
-			password string = "root"		// ÃÜÂë
+			host string = "localhost"	// ä¸»æœº
+			port int = 3306					// ç«¯å£
+			db string = "demo"				// æ•°æ®åº“
+			username string = "root"		// ç”¨æˆ·å
+			password string = "root"		// å¯†ç 
 		)
 
 		func main() {
@@ -140,12 +140,12 @@ sql
 				log.Panic(err)
 			}
 
-			// Ö´ĞĞSQL»ñÈ¡µ½½á¹û¼¯
+			// æ‰§è¡ŒSQLè·å–åˆ°ç»“æœé›†
 			result, err := db.Query("SELECT * FROM `user` LIMIT ?, ?;", 0, 9)
 			if err != nil {
-				log.Fatal(err)		// Ö´ĞĞÒì³£
+				log.Fatal(err)		// æ‰§è¡Œå¼‚å¸¸
 			}
-			defer func() {	// ¹Ø±Õ£¬ÊÍ·Å×ÊÔ´
+			defer func() {	// å…³é—­ï¼Œé‡Šæ”¾èµ„æº
 				if err := result.Close(); err != nil {
 					log.Println(err)
 				}
@@ -155,27 +155,27 @@ sql
 			var name string
 			var date string
 
-			// ±éÀúÃ¿Ò»ĞĞ
+			// éå†æ¯ä¸€è¡Œ
 			for result.Next() {
 				err := result.Scan(&id, &name, &date)
 				if err != nil {
-					log.Fatal(err) // ·â×°Òì³£
+					log.Fatal(err) // å°è£…å¼‚å¸¸
 				}
 				log.Println(id, name, date)
 			}
 
 			if err := result.Err(); err != nil {
-				log.Fatal(err)	// µü´ú¹ı³ÌÖĞµÄ´íÎó£¬¿ÉÄÜµü´ú¹ı³Ì±»ÖĞ¶ÏÁË
+				log.Fatal(err)	// è¿­ä»£è¿‡ç¨‹ä¸­çš„é”™è¯¯ï¼Œå¯èƒ½è¿­ä»£è¿‡ç¨‹è¢«ä¸­æ–­äº†
 			}
 		}
 
 
 ---------------------
-sql½á¹û¼¯µÄ·â×°
+sqlç»“æœé›†çš„å°è£…
 ---------------------
-	# Scan ·½·¨£¬²ÎÊıÓ¦¸ÃÊÇÖ¸Õë
-		* ²ÎÊıÊıÁ¿±ØĞëÓëRowsÖĞµÄÁĞÊıÏàÍ¬
-		* Êı¾İÀàĞÍ
+	# Scan æ–¹æ³•ï¼Œå‚æ•°åº”è¯¥æ˜¯æŒ‡é’ˆ
+		* å‚æ•°æ•°é‡å¿…é¡»ä¸Rowsä¸­çš„åˆ—æ•°ç›¸åŒ
+		* æ•°æ®ç±»å‹
 			*string
 			*[]byte
 			*int, *int8, *int16, *int32, *int64
@@ -185,10 +185,10 @@ sql½á¹û¼¯µÄ·â×°
 			*interface{}
 			*RawBytes
 			*Rows (cursor value)
-			ÈÎºÎÊµÏÖÁË sql.Scanner µÄÀàĞÍ
+			ä»»ä½•å®ç°äº† sql.Scanner çš„ç±»å‹
 	
-	# NullÖµµÄ´¦Àí
-		* Ê¹ÓÃÔ¤¶¨ÒåµÄ¼¸¸öÀàĞÍÀ´±íÊ¾NullÖµ
+	# Nullå€¼çš„å¤„ç†
+		* ä½¿ç”¨é¢„å®šä¹‰çš„å‡ ä¸ªç±»å‹æ¥è¡¨ç¤ºNullå€¼
 			NullBool
 			NullFloat64
 			NullInt32
@@ -202,8 +202,8 @@ sql½á¹û¼¯µÄ·â×°
 				err := rows.Scan(&s)
 				// check err
 				if s.Valid {
-					// ·Çnull
+					// énull
 				} else {
-					// nullÖµ
+					// nullå€¼
 				}
 			}

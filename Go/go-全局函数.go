@@ -1,40 +1,40 @@
 ---------------------
-È«¾Öº¯Êý
+å…¨å±€å‡½æ•°
 ---------------------
-	# ÔÚ builting Ä£¿éÖÐ
+	# åœ¨ builting æ¨¡å—ä¸­
 
 
 ---------------------
-È«¾Ö±äÁ¿
+å…¨å±€å˜é‡
 ---------------------
 
 ---------------------
-È«¾Öº¯Êý
+å…¨å±€å‡½æ•°
 ---------------------
 	func new(Type) *Type
-		* ¸ù¾Ý²ÎÊýÀàÐÍ£¬´´½¨Ò»¸öÐÂµÄÖµ£¬·µ»ØµÄÊÇËüµÄÖ¸Õë
+		* æ ¹æ®å‚æ•°ç±»åž‹ï¼Œåˆ›å»ºä¸€ä¸ªæ–°çš„å€¼ï¼Œè¿”å›žçš„æ˜¯å®ƒçš„æŒ‡é’ˆ
 	
 	func make(t Type, size ...IntegerType) Type
-		* ÓÃÓÚ´´½¨£ºmap, slice, chan µÄº¯Êý
+		* ç”¨äºŽåˆ›å»ºï¼šmap, slice, chan çš„å‡½æ•°
 		
 	func len(v Type) int
-		* ·µ»ØÖ¸¶¨Êý¾ÝµÄ³¤¶È£¬Èç¹ûÇÐÆ¬ÊÇnil£¬·µ»Ø0
+		* è¿”å›žæŒ‡å®šæ•°æ®çš„é•¿åº¦ï¼Œå¦‚æžœåˆ‡ç‰‡æ˜¯nilï¼Œè¿”å›ž0
 	
 	func cap(v Type) int
-		* ·µ»ØÖ¸¶¨Êý¾ÝµÄcap£¬Èç¹ûÇÐÆ¬ÊÇnil£¬·µ»Ø0
+		* è¿”å›žæŒ‡å®šæ•°æ®çš„capï¼Œå¦‚æžœåˆ‡ç‰‡æ˜¯nilï¼Œè¿”å›ž0
 
 	func append(slice []Type, elems ...Type) []Type
-		* ÍùarrÀïÃæ£¬Ìí¼ÓÒ»¸ö»òÕß¶à¸öval£¬·µ»ØÐÂµÄ¼¯ºÏ
-		* Èç¹ûÇÐÆ¬ÊÇnil£¬Ôò»á´´½¨Ò»¸öÐÂµÄÇÐÆ¬£¬ÔÙÍùÀïÃæÌí¼ÓÊý¾Ý
+		* å¾€arré‡Œé¢ï¼Œæ·»åŠ ä¸€ä¸ªæˆ–è€…å¤šä¸ªvalï¼Œè¿”å›žæ–°çš„é›†åˆ
+		* å¦‚æžœåˆ‡ç‰‡æ˜¯nilï¼Œåˆ™ä¼šåˆ›å»ºä¸€ä¸ªæ–°çš„åˆ‡ç‰‡ï¼Œå†å¾€é‡Œé¢æ·»åŠ æ•°æ®
 	
 	func delete(m map[Type]Type1, key Type)
-		* ´ÓmapÉ¾³ýÔªËØ£¬Èç¹ûÔªËØ²»´æÔÚ£¬²»»áÓÐÈÎºÎ²Ù×÷
+		* ä»Žmapåˆ é™¤å…ƒç´ ï¼Œå¦‚æžœå…ƒç´ ä¸å­˜åœ¨ï¼Œä¸ä¼šæœ‰ä»»ä½•æ“ä½œ
 		
 	func copy(dst, src []Type) int
-		* src ÖÐµÄÔªËØ¿½±´µ½ dst ÖÐ£¬·µ»ØÖµÎª¿½±´³É¹¦µÄÔªËØ¸öÊý
-		* Èç¹ûdstÎªnil£¬Ôò·µ»Ø0£¬²»»áÖ´ÐÐcopy²Ù×÷
-		* Èç¹û src ±È dst ³¤£¬¾Í½Ø¶Ï
-		* Èç¹û src ±È dst ¶Ì£¬ÔòÖ»¿½±´ src ÄÇ²¿·Ö
+		* src ä¸­çš„å…ƒç´ æ‹·è´åˆ° dst ä¸­ï¼Œè¿”å›žå€¼ä¸ºæ‹·è´æˆåŠŸçš„å…ƒç´ ä¸ªæ•°
+		* å¦‚æžœdstä¸ºnilï¼Œåˆ™è¿”å›ž0ï¼Œä¸ä¼šæ‰§è¡Œcopyæ“ä½œ
+		* å¦‚æžœ src æ¯” dst é•¿ï¼Œå°±æˆªæ–­
+		* å¦‚æžœ src æ¯” dst çŸ­ï¼Œåˆ™åªæ‹·è´ src é‚£éƒ¨åˆ†
 	
 	func complex(r, i FloatType) ComplexType
 	func real(c ComplexType) FloatType
@@ -45,15 +45,15 @@
 		
 	func print(args ...Type)
 	func println(args ...Type)
-		* Êä³öÐÅÏ¢µ½±ê×¼´íÎóÁ÷
+		* è¾“å‡ºä¿¡æ¯åˆ°æ ‡å‡†é”™è¯¯æµ
 
 	func clear[T ~[]Type | ~map[Type]Type1](t T)
-		* Çå¿Õ slice£¬»òÕßÊÇ map
-		* ¶ÔÓÚÊý×é£¬»á°ÑËùÓÐÔªËØ¶¼ÉèÖÃÎª0Öµ£¬²»»á¸Ä±ä³¤¶ÈºÍÈÝÁ¿
+		* æ¸…ç©º sliceï¼Œæˆ–è€…æ˜¯ map
+		* å¯¹äºŽæ•°ç»„ï¼Œä¼šæŠŠæ‰€æœ‰å…ƒç´ éƒ½è®¾ç½®ä¸º0å€¼ï¼Œä¸ä¼šæ”¹å˜é•¿åº¦å’Œå®¹é‡
 				arr := []string{"1", "2", "3"}
 				clear(arr)
 				fmt.Println(len(arr)) // 3
-		* ¶ÔÓÚ map£¬»áÇå¿ÕËùÓÐÔªËØ£¬±ä³ÉÒ»¸ö¿Õmap
+		* å¯¹äºŽ mapï¼Œä¼šæ¸…ç©ºæ‰€æœ‰å…ƒç´ ï¼Œå˜æˆä¸€ä¸ªç©ºmap
 				dict := map[string]any{
 					"1": 1,
 					"2": 2,
@@ -63,7 +63,7 @@
 
 	func max[T cmp.Ordered](x T, y ...T) T
 	func min[T cmp.Ordered](x T, y ...T) T
-		* ¼ÆËã×îÐ¡£¬×î´óÖµ
+		* è®¡ç®—æœ€å°ï¼Œæœ€å¤§å€¼
 	
 
 

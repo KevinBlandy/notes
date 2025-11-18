@@ -12,30 +12,30 @@ Go
 
 		https://golangnote.com/
 	
-	# Ñ§Ï°²Î¿¼
+	# å­¦ä¹ å‚è€ƒ
 		https://www.liwenzhou.com/posts/Go/go_menu/
-		¡¶GoÓïÑÔÊ¥¾­¡·		https://github.com/golang-china/gopl-zh
+		ã€ŠGoè¯­è¨€åœ£ç»ã€‹		https://github.com/golang-china/gopl-zh
 
-		¡¶GoÓïÑÔ±à³Ì¡·
+		ã€ŠGoè¯­è¨€ç¼–ç¨‹ã€‹
 
-		¡¶GoÓïÑÔ¸ß¼¶±à³Ì¡·	https://github.com/chai2010/advanced-go-programming-book
+		ã€ŠGoè¯­è¨€é«˜çº§ç¼–ç¨‹ã€‹	https://github.com/chai2010/advanced-go-programming-book
 							https://chai2010.cn/advanced-go-programming-book/
 
-		¡¶Íæ¶ù×ªGO¡·		https://github.com/hantmac/Mastering_Go_ZH_CN
+		ã€Šç©å„¿è½¬GOã€‹		https://github.com/hantmac/Mastering_Go_ZH_CN
 							https://wskdsgcf.gitbook.io/mastering-go-zh-cn/
 
-		¡¶Go ÓïÑÔÉè¼ÆÓëÊµÏÖ¡·https://draveness.me/golang/
+		ã€ŠGo è¯­è¨€è®¾è®¡ä¸å®ç°ã€‹https://draveness.me/golang/
 
 	
-	# ²©¿Í²Î¿¼
-		ÄñÎÑ	https://colobu.com/categories/Go/
+	# åšå®¢å‚è€ƒ
+		é¸Ÿçª	https://colobu.com/categories/Go/
 
 		https://github.com/AnkoGo/Go-Library-Demo
 
 		
 							
 	
-	# ÎÄµµ¿â²Î¿¼
+	# æ–‡æ¡£åº“å‚è€ƒ
 		https://studygolang.com/pkgdoc
 		https://golang.org/pkg/
 		https://pkg.go.dev/
@@ -44,31 +44,31 @@ Go
 	
 
 ---------------------------
-Go °²×°
+Go å®‰è£…
 ---------------------------
-	# ĞèÒªµÄ»·¾³±äÁ¿
-		Path			binÄ¿Â¼
-		GOROOT			go°²×°Ä¿Â¼
-		GOPATH			go¹¤×÷Ä¿Â¼£¬¶à¸öÊ¹ÓÃ·ÖºÅ(:)·Ö¸ô
+	# éœ€è¦çš„ç¯å¢ƒå˜é‡
+		Path			binç›®å½•
+		GOROOT			goå®‰è£…ç›®å½•
+		GOPATH			goå·¥ä½œç›®å½•ï¼Œå¤šä¸ªä½¿ç”¨åˆ†å·(:)åˆ†éš”
 
 	# Windows
-		* Ò»¶ÙÏÂÒ»²½
+		* ä¸€é¡¿ä¸‹ä¸€æ­¥
 	
 	# Linux
-		* ÏÂÔØ½âÑ¹°ü
+		* ä¸‹è½½è§£å‹åŒ…
 			tar -C /usr/local -xzf go1.15.3.linux-amd64.tar.gz
 		
-		* ±à¼­ /etc/profile ÎÄ¼ş£¬ÉèÖÃPATH
+		* ç¼–è¾‘ /etc/profile æ–‡ä»¶ï¼Œè®¾ç½®PATH
 			export PATH=$PATH:/usr/local/go/bin
 			
 		
-		* ²é¿´°æ±¾ºÅ
+		* æŸ¥çœ‹ç‰ˆæœ¬å·
 			go version
 	
 
 
 ---------------------------
-Go ¹¤¾ß
+Go å·¥å…·
 ---------------------------
 	# guru
 		
@@ -81,47 +81,47 @@ Go ¹¤¾ß
 		go get -u -v github.com/rogpeppe/godef
 	
 	# tools
-		* cloneÔ´Âë
+		* cloneæºç 
 			git clone https://github.com/golang/tools.git
 		
-		* ÔÚgoµÄ %GOROOT/srcÏÂ´´½¨golang.org\xÄ¿Â¼
+		* åœ¨goçš„ %GOROOT/srcä¸‹åˆ›å»ºgolang.org\xç›®å½•
 			D:\Go\src\golang.org\x
 		
-		* ²¢½«µÚÒ»²½cloneµÄtoolsµÄ·Åµ½xÄ¿Â¼ÏÂ¡£
+		* å¹¶å°†ç¬¬ä¸€æ­¥cloneçš„toolsçš„æ”¾åˆ°xç›®å½•ä¸‹ã€‚
 			D:\Go\src\golang.org\x\tools\cmd\guru
 
-		* ½øÈëÄ¿Â¼£¬Ö´ĞĞbuild
+		* è¿›å…¥ç›®å½•ï¼Œæ‰§è¡Œbuild
 
 --------------------------
 Go Eclipse
 --------------------------
-	# µØÖ·
+	# åœ°å€
 		https://goclipse.github.io/
 	
-	# °²×°
+	# å®‰è£…
 		
 
 --------------------------
-²¼¾Ö
+å¸ƒå±€
 ---------------------------
-	# ²¼¾ÖËµÃ÷
+	# å¸ƒå±€è¯´æ˜
 		https://github.com/golang-standards/project-layout/blob/master/README_zh-CN.md
 	
-	# GoÄ¿Â¼
+	# Goç›®å½•
 		project
 			|-cmd
 	
-	# ·şÎñ¶ËÓ¦ÓÃ³ÌĞòµÄÄ¿Â¼
+	# æœåŠ¡ç«¯åº”ç”¨ç¨‹åºçš„ç›®å½•
 		
 --------------------------
 Go Todo
 --------------------------
-	# ÓÊ¼ş
+	# é‚®ä»¶
 	# RSA
-	# Ä£°åÒıÇæ/text/html(https://colobu.com/2019/11/05/Golang-Templates-Cheatsheet/)
-	# ÕıÔò
+	# æ¨¡æ¿å¼•æ“/text/html(https://colobu.com/2019/11/05/Golang-Templates-Cheatsheet/)
+	# æ­£åˆ™
 	# SQL(http://go-database-sql.org/)
-	# XML/HTML½âÎö
+	# XML/HTMLè§£æ
 	# Redis
-	# ·´Éä
+	# åå°„
 	# math

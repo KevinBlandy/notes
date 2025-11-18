@@ -1,34 +1,34 @@
 -----------------
-·´Éä
+åå°„
 -----------------
-	# ·´ÉäÖ÷ÒªÓë interface ½Ó¿ÚÓĞ¹Ø£¬Ö»ÓĞinterfaceÀàĞÍ²ÅÓĞ·´ÉäÒ»Ëµ¡£
-		* Ã¿¸öinterface±äÁ¿¶¼ÓĞÒ»¸ö¶ÔÓ¦pair£¬pairÖĞ¼ÇÂ¼ÁËÊµ¼Ê±äÁ¿µÄÖµºÍÀàĞÍ
+	# åå°„ä¸»è¦ä¸ interface æ¥å£æœ‰å…³ï¼Œåªæœ‰interfaceç±»å‹æ‰æœ‰åå°„ä¸€è¯´ã€‚
+		* æ¯ä¸ªinterfaceå˜é‡éƒ½æœ‰ä¸€ä¸ªå¯¹åº”pairï¼Œpairä¸­è®°å½•äº†å®é™…å˜é‡çš„å€¼å’Œç±»å‹
 			(value, type)
 
 			tty, err := os.OpenFile("/dev/tty", os.O_RDWR, 0)
 			var r io.Reader	
 			r = tty
-			// rµÄpair = (tty, *os.File)
+			// rçš„pair = (tty, *os.File)
 		
-		* Õâ¸öpairÔÚ½Ó¿Ú±äÁ¿µÄÁ¬Ğø¸³Öµ¹ı³ÌÖĞÊÇ²»±äµÄ£¬½«½Ó¿Ú±äÁ¿r¸³¸øÁíÒ»¸ö½Ó¿Ú±äÁ¿w:
+		* è¿™ä¸ªpairåœ¨æ¥å£å˜é‡çš„è¿ç»­èµ‹å€¼è¿‡ç¨‹ä¸­æ˜¯ä¸å˜çš„ï¼Œå°†æ¥å£å˜é‡rèµ‹ç»™å¦ä¸€ä¸ªæ¥å£å˜é‡w:
 			var w io.Writer
 			w = r.(io.Writer)
-			// wµÄpair = (tty, *os.File)
+			// wçš„pair = (tty, *os.File)
 		
 
-		* ·´Éä¾ÍÊÇÓÃÀ´¼ì²â´æ´¢ÔÚ½Ó¿Ú±äÁ¿ÄÚ²¿(Öµvalue£»ÀàĞÍconcrete type) pair¶ÔµÄÒ»ÖÖ»úÖÆ¡£
+		* åå°„å°±æ˜¯ç”¨æ¥æ£€æµ‹å­˜å‚¨åœ¨æ¥å£å˜é‡å†…éƒ¨(å€¼valueï¼›ç±»å‹concrete type) pairå¯¹çš„ä¸€ç§æœºåˆ¶ã€‚
 	
-	# reflect.TypeOf() »ñÈ¡ pair ÖĞµÄtype£¬Õâ¸öÊÇÒ»¸öinterface
+	# reflect.TypeOf() è·å– pair ä¸­çš„typeï¼Œè¿™ä¸ªæ˜¯ä¸€ä¸ªinterface
 		func TypeOf(i interface{}) Type
 
 
-	# reflect.ValueOf() »ñÈ¡ pair ÖĞµÄvalue£¬ÕâÊÇÒ»¸östruct
+	# reflect.ValueOf() è·å– pair ä¸­çš„valueï¼Œè¿™æ˜¯ä¸€ä¸ªstruct
 		func ValueOf(i interface{}) Value 
 
-		* Èç¹û²ÎÊıÊÇnil£¬·µ»Ø¿Õ Value
+		* å¦‚æœå‚æ•°æ˜¯nilï¼Œè¿”å›ç©º Value
 	
-	# ±È½Ï³£ÓÃµÄÒ»Ğ©¶ÔÏó
-		* ÃèÊö·½·¨µÄ
+	# æ¯”è¾ƒå¸¸ç”¨çš„ä¸€äº›å¯¹è±¡
+		* æè¿°æ–¹æ³•çš„
 			type Method struct {
 				Name    string
 				PkgPath string
@@ -37,12 +37,12 @@
 				Index int 
 			}
 		
-		* ÃèÊö·½·¨tagµÄ
+		* æè¿°æ–¹æ³•tagçš„
 			type StructTag string {}
 			func (tag StructTag) Get(key string) string 
 			func (tag StructTag) Lookup(key string) (value string, ok bool)
 		
-		* ÃèÊöÊôĞÔ×Ö¶ÎµÄ
+		* æè¿°å±æ€§å­—æ®µçš„
 			type StructField struct {
 				PkgPath string
 				Type      Type		
@@ -53,6 +53,6 @@
 			}
 		
 
-	# GoµÄ·´Éä±È½ÏÂı
-		* Éæ¼°µ½ÄÚ´æ·ÖÅäÒÔ¼°ºóĞøµÄGC
-		* reflectÊµÏÖÀïÃæÓĞ´óÁ¿µÄÃ¶¾Ù£¬Ò²¾ÍÊÇforÑ­»·£¬±ÈÈçÀàĞÍÖ®ÀàµÄ¡£
+	# Goçš„åå°„æ¯”è¾ƒæ…¢
+		* æ¶‰åŠåˆ°å†…å­˜åˆ†é…ä»¥åŠåç»­çš„GC
+		* reflectå®ç°é‡Œé¢æœ‰å¤§é‡çš„æšä¸¾ï¼Œä¹Ÿå°±æ˜¯forå¾ªç¯ï¼Œæ¯”å¦‚ç±»å‹ä¹‹ç±»çš„ã€‚
