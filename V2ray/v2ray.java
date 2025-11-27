@@ -1,7 +1,7 @@
 ----------------------------
 v2ry						|
 ----------------------------
-	# µØÖ·
+	# åœ°å€
 		https://www.v2ray.com
 		https://github.com/v2ray/v2ray-core
 	
@@ -9,32 +9,32 @@ v2ry						|
 		https://guide.v2fly.org/#%E5%A3%B0%E6%98%8E
 	
 ----------------------------
-¹Ù·½°²×°					|
+å®˜æ–¹å®‰è£…					|
 ----------------------------
-	# ÏÂÔØ²¢°²×° V2Ray
+	# ä¸‹è½½å¹¶å®‰è£… V2Ray
 		bash <(curl -s -L https://git.io/v2ray.sh)
 
 
-		* yum »ò apt-get ¿ÉÓÃµÄÇé¿öÏÂ,´Ë½Å±¾»á×Ô¶¯°²×° unzip ºÍ daemon
-		* ÕâÁ½¸ö×é¼şÊÇ°²×° V2Ray µÄ±ØÒª×é¼ş
-		* Èç¹ûÏµÍ³²»Ö§³Ö yum »ò apt-get,Çë×ÔĞĞ°²×° unzip ºÍ daemon
+		* yum æˆ– apt-get å¯ç”¨çš„æƒ…å†µä¸‹,æ­¤è„šæœ¬ä¼šè‡ªåŠ¨å®‰è£… unzip å’Œ daemon
+		* è¿™ä¸¤ä¸ªç»„ä»¶æ˜¯å®‰è£… V2Ray çš„å¿…è¦ç»„ä»¶
+		* å¦‚æœç³»ç»Ÿä¸æ”¯æŒ yum æˆ– apt-get,è¯·è‡ªè¡Œå®‰è£… unzip å’Œ daemon
 	
-		* ´Ë½Å±¾»á×Ô¶¯°²×°ÒÔÏÂÎÄ¼ş
-			/usr/bin/v2ray/v2ray		V2Ray ³ÌĞò
-			/usr/bin/v2ray/v2ctl		V2Ray ¹¤¾ß
-			/etc/v2ray/config.json		ÅäÖÃÎÄ¼ş
-			/usr/bin/v2ray/geoip.dat	IP Êı¾İÎÄ¼ş
-			/usr/bin/v2ray/geosite.dat	ÓòÃûÊı¾İÎÄ¼ş
+		* æ­¤è„šæœ¬ä¼šè‡ªåŠ¨å®‰è£…ä»¥ä¸‹æ–‡ä»¶
+			/usr/bin/v2ray/v2ray		V2Ray ç¨‹åº
+			/usr/bin/v2ray/v2ctl		V2Ray å·¥å…·
+			/etc/v2ray/config.json		é…ç½®æ–‡ä»¶
+			/usr/bin/v2ray/geoip.dat	IP æ•°æ®æ–‡ä»¶
+			/usr/bin/v2ray/geosite.dat	åŸŸåæ•°æ®æ–‡ä»¶
 		
-		* ÔËĞĞ½Å±¾Î»ÓÚÏµÍ³µÄÒÔÏÂÎ»ÖÃ
+		* è¿è¡Œè„šæœ¬ä½äºç³»ç»Ÿçš„ä»¥ä¸‹ä½ç½®
 			/etc/systemd/system/v2ray.service: Systemd
 			/etc/init.d/v2ray: SysV
 		
 	
-	# ÅäÖÃÎÄ¼ş
+	# é…ç½®æ–‡ä»¶
 		/etc/v2ray/config.json
 	
-	# Æô¶¯ºÍÎ¬»¤
+	# å¯åŠ¨å’Œç»´æŠ¤
 		systemctl start v2ray
 
 		start
@@ -42,62 +42,62 @@ v2ry						|
 		status
 		reload
 		restart
-		force-reload // Ç¿ÖÆÖØĞÂ¼ÓÔØ
+		force-reload // å¼ºåˆ¶é‡æ–°åŠ è½½
 
 
 	
-	# Éı¼¶ºÍ¸üĞÂ
-		* ÔÙ´ÎÖ´ĞĞ°²×°½Å±¾, ¾ÍOK
-		* Õâ¸ö½Å±¾»á×Ô¶¯¼ì²âÓĞÃ»ÓĞ°²×°¹ı V2Ray, Èç¹ûÃ»ÓĞ, Ôò½øĞĞÍêÕûµÄ°²×°ºÍÅäÖÃ
-		* Èç¹ûÖ®Ç°°²×°¹ı V2Ray, ÔòÖ»¸üĞÂ V2Ray ¶ş½øÖÆ³ÌĞò¶ø²»¸üĞÂÅäÖÃ
+	# å‡çº§å’Œæ›´æ–°
+		* å†æ¬¡æ‰§è¡Œå®‰è£…è„šæœ¬, å°±OK
+		* è¿™ä¸ªè„šæœ¬ä¼šè‡ªåŠ¨æ£€æµ‹æœ‰æ²¡æœ‰å®‰è£…è¿‡ V2Ray, å¦‚æœæ²¡æœ‰, åˆ™è¿›è¡Œå®Œæ•´çš„å®‰è£…å’Œé…ç½®
+		* å¦‚æœä¹‹å‰å®‰è£…è¿‡ V2Ray, åˆ™åªæ›´æ–° V2Ray äºŒè¿›åˆ¶ç¨‹åºè€Œä¸æ›´æ–°é…ç½®
 	
-	# ¿Í»§¶ËµÄÏÂÔØ
+	# å®¢æˆ·ç«¯çš„ä¸‹è½½
 		windows:
 			https://github.com/2dust/v2rayN
 		android:
 			https://github.com/2dust/v2rayNG
 
 	
-	# ¿Í»§¶ËÃüÁî
+	# å®¢æˆ·ç«¯å‘½ä»¤
 		v2ray info 
-			²é¿´ V2Ray ÅäÖÃĞÅÏ¢
+			æŸ¥çœ‹ V2Ray é…ç½®ä¿¡æ¯
 		v2ray config 
-			ĞŞ¸Ä V2Ray ÅäÖÃ
+			ä¿®æ”¹ V2Ray é…ç½®
 		v2ray link 
-			Éú³É V2Ray ÅäÖÃÎÄ¼şÁ´½Ó
+			ç”Ÿæˆ V2Ray é…ç½®æ–‡ä»¶é“¾æ¥
 		v2ray infolink 
-			Éú³É V2Ray ÅäÖÃĞÅÏ¢Á´½Ó
+			ç”Ÿæˆ V2Ray é…ç½®ä¿¡æ¯é“¾æ¥
 		v2ray qr 
-			Éú³É V2Ray ÅäÖÃ¶şÎ¬ÂëÁ´½Ó
+			ç”Ÿæˆ V2Ray é…ç½®äºŒç»´ç é“¾æ¥
 		v2ray ss 
-			ĞŞ¸Ä Shadowsocks ÅäÖÃ
+			ä¿®æ”¹ Shadowsocks é…ç½®
 		v2ray ssinfo 
-			²é¿´ Shadowsocks ÅäÖÃĞÅÏ¢
+			æŸ¥çœ‹ Shadowsocks é…ç½®ä¿¡æ¯
 		v2ray ssqr 
-			Éú³É Shadowsocks ÅäÖÃ¶şÎ¬ÂëÁ´½Ó
+			ç”Ÿæˆ Shadowsocks é…ç½®äºŒç»´ç é“¾æ¥
 		v2ray status 
-			²é¿´ V2Ray ÔËĞĞ×´Ì¬
+			æŸ¥çœ‹ V2Ray è¿è¡ŒçŠ¶æ€
 		v2ray start 
-			Æô¶¯ V2Ray
+			å¯åŠ¨ V2Ray
 		v2ray stop 
-			Í£Ö¹ V2Ray
+			åœæ­¢ V2Ray
 		v2ray restart 
-			ÖØÆô V2Ray
+			é‡å¯ V2Ray
 		v2ray log 
-			²é¿´ V2Ray ÔËĞĞÈÕÖ¾
+			æŸ¥çœ‹ V2Ray è¿è¡Œæ—¥å¿—
 		v2ray update 
-			¸üĞÂ V2Ray
+			æ›´æ–° V2Ray
 		v2ray update.sh 
-			¸üĞÂ V2Ray ¹ÜÀí½Å±¾
+			æ›´æ–° V2Ray ç®¡ç†è„šæœ¬
 		v2ray uninstall 
-			Ğ¶ÔØ V2Ray
+			å¸è½½ V2Ray
 						
 
 ----------------------------
-v2ray	ÃüÃûĞĞ²ÎÊı			|
+v2ray	å‘½åè¡Œå‚æ•°			|
 ----------------------------
 	-version
-		* Ö»Êä³öµ±Ç°°æ±¾È»ºóÍË³ö,²»ÔËĞĞ V2Ray Ö÷³ÌĞò
+		* åªè¾“å‡ºå½“å‰ç‰ˆæœ¬ç„¶åé€€å‡º,ä¸è¿è¡Œ V2Ray ä¸»ç¨‹åº
 
 
 
