@@ -1,7 +1,7 @@
 
-# collection ±ØÐëÎªÉýÐòÅÅÐòµÄÓÐÐòÊý×é,²»´æÔÚ·µ»Ø¸ºÊý
+# collection å¿…é¡»ä¸ºå‡åºæŽ’åºçš„æœ‰åºæ•°ç»„,ä¸å­˜åœ¨è¿”å›žè´Ÿæ•°
 
-# Ê¹ÓÃÑ­»·ÊµÏÖ
+# ä½¿ç”¨å¾ªçŽ¯å®žçŽ°
 def binary_search(collection, value):
     low = 0
     high = len(collection) - 1
@@ -16,7 +16,7 @@ def binary_search(collection, value):
             return mid
     return -1
 
-# Ê¹ÓÃµÝ¹éÊµÏÖ
+# ä½¿ç”¨é€’å½’å®žçŽ°
 def binary_search(collection, left, right, value):
     if left > right:
         return -1
@@ -36,7 +36,7 @@ ret = binary_search(arr, 0, len(arr) - 1, 15)
 
 print(ret)
 
-# ·µ»Ø¾ßÓÐÏàÍ¬ÔªËØÊýÖµÖÐ£¬Ö¸¶¨ÖµµÄËùÓÐÏÂ±ê
+# è¿”å›žå…·æœ‰ç›¸åŒå…ƒç´ æ•°å€¼ä¸­ï¼ŒæŒ‡å®šå€¼çš„æ‰€æœ‰ä¸‹æ ‡
 
 def binary_search(collection, left, right, value):
     if left > right:
@@ -78,9 +78,9 @@ print(ret) # [9, 10]
 
 
 
-# »ñÈ¡ÖÐÎ»ÊýµÄÏÂ±ê,Èç¹û start ºÍ end ¹ý´óµÄ»°,  ÔÚÄ³Ð©ÓïÑÔÖÐ¿ÉÄÜ»áµ¼ÖÂÒç³ö, ÐèÒª»»Ò»ÖÖ¼ÆËã·½Ê½
+# èŽ·å–ä¸­ä½æ•°çš„ä¸‹æ ‡,å¦‚æžœ start å’Œ end è¿‡å¤§çš„è¯,  åœ¨æŸäº›è¯­è¨€ä¸­å¯èƒ½ä¼šå¯¼è‡´æº¢å‡º, éœ€è¦æ¢ä¸€ç§è®¡ç®—æ–¹å¼
 	mid = low + (high - low) // 2
 	
 
-# Èç¹ûÖ§³ÖÎÞ·ûºÅÎ»ÒÆÔËËã·ûºÅµÄ»°(Java), ¸ü¼òµ¥
+# å¦‚æžœæ”¯æŒæ— ç¬¦å·ä½ç§»è¿ç®—ç¬¦å·çš„è¯(Java), æ›´ç®€å•
 	 mid = (low + high) >>> 1;

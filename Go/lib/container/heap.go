@@ -1,10 +1,10 @@
 ---------------------
 heap
 ---------------------
-	# ¶Ñ
+	# å †
 
 ---------------------
-±äÁ¿
+å˜é‡
 ---------------------
 
 ---------------------
@@ -12,11 +12,11 @@ type
 ---------------------
 	# type Interface interface {
 			sort.Interface
-			Push(x interface{}) // Ìí¼ÓÔªËØµ½ len() Î»ÖÃ
-			Pop() interface{}   // ´Ó Len() - 1 Î»ÖÃÉ¾³ıÔªËØ²¢ÇÒ·µ»Ø
+			Push(x interface{}) // æ·»åŠ å…ƒç´ åˆ° len() ä½ç½®
+			Pop() interface{}   // ä» Len() - 1 ä½ç½®åˆ é™¤å…ƒç´ å¹¶ä¸”è¿”å›
 		}
 		
-		* ËüÊµÏÖÁË sort °üµÄÅÅĞò½Ó¿Ú
+		* å®ƒå®ç°äº† sort åŒ…çš„æ’åºæ¥å£
 
 
 
@@ -34,17 +34,17 @@ func
 
 
 ---------------------
-¶ÑÈİÆ÷µÄÊµÏÖ
+å †å®¹å™¨çš„å®ç°
 ---------------------
 import (
 	"container/heap"
 	"fmt"
 )
 
-// ×Ô¶¨ÒåÀàĞÍ
+// è‡ªå®šä¹‰ç±»å‹
 type Value []int
 
-// ÊµÏÖ heap.Interface ½Ó¿Ú
+// å®ç° heap.Interface æ¥å£
 func (v *Value) Pop() interface{}{
 	arr := *v
 	lastIndex := len(arr) - 1
@@ -56,12 +56,12 @@ func (v *Value) Push(val interface{}){
 	*v = append(*v, val.(int))
 }
 
-// ÊµÏÖ sort.Interface ½Ó¿Ú
+// å®ç° sort.Interface æ¥å£
 func (v Value) Len () int {
 	return len(v)
 }
 
-// Õâ¸ö·½·¨ÊÇ¾ö¶¨´ó¶Ñ»¹ÊÇĞ¡¶ÑµÄ¹Ø¼ü
+// è¿™ä¸ªæ–¹æ³•æ˜¯å†³å®šå¤§å †è¿˜æ˜¯å°å †çš„å…³é”®
 func (v Value) Less(i, j int) bool{
 	return v[i] < v[j]
 }
@@ -71,11 +71,11 @@ func (v Value) Swap(i, j int){
 func main(){
 	h := &Value{1,5,4,7,9,3,6,2,8,0}
 	fmt.Println(h)	// &[1 5 4 7 9 3 6 2 8 0]
-	// ³õÊ¼»¯
+	// åˆå§‹åŒ–
 	heap.Init(h)
-	// ÒÑ¾­°´ÕÕ´óĞ¡¶Ñ½øĞĞÅÅĞòÁË
+	// å·²ç»æŒ‰ç…§å¤§å°å †è¿›è¡Œæ’åºäº†
 	fmt.Println(h)	// &[0 1 3 2 5 4 6 7 8 9]
-	// Ìí¼ÓÔªËØ
+	// æ·»åŠ å…ƒç´ 
 	heap.Push(h, 10)
 	fmt.Println(h)	// &[0 1 3 2 5 4 6 7 8 9 10]
 	for len(*h) > 0 {
