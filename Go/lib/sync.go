@@ -3,7 +3,7 @@ sync
 ----------------------
 
 ----------------------
-±äÁ¿
+å˜é‡
 ----------------------
 
 
@@ -26,33 +26,33 @@ type
 	
 	# type Map struct {}
 		
-		* ²¢·¢°²È«µÄMap
+		* å¹¶å‘å®‰å…¨çš„Map
 
 		func (m *Map) CompareAndDelete(key, old any) (deleted bool)
 		func (m *Map) CompareAndSwap(key, old, new any) bool
 		func (m *Map) Delete(key interface{})
-			* É¾³ıKEY
+			* åˆ é™¤KEY
 
 		func (m *Map) Load(key interface{}) (value interface{}, ok bool)
-			* ¼ìË÷KEY£¬ok ±íÊ¾ÊÇ·ñ´æÔÚ
+			* æ£€ç´¢KEYï¼Œok è¡¨ç¤ºæ˜¯å¦å­˜åœ¨
 
 		func (m *Map) LoadAndDelete(key interface{}) (value interface{}, loaded bool)
-			* É¾³ıKEY£¬²¢ÇÒ·µ»ØÉ¾³ıºóµÄVALUE£¬loaded ±íÊ¾KEYÊÇ·ñ´æÔÚ
+			* åˆ é™¤KEYï¼Œå¹¶ä¸”è¿”å›åˆ é™¤åçš„VALUEï¼Œloaded è¡¨ç¤ºKEYæ˜¯å¦å­˜åœ¨
 			
 		func (m *Map) LoadOrStore(key, value interface{}) (actual interface{}, loaded bool)
-			* Èç¹ûkey²»´æÔÚ£¬·µ»Ø value, false
-			* Èç¹ûkeyÒÑ¾­´æÔÚ£¬Ìæ»»£¬·µ»Ø oldValue, true
+			* å¦‚æœkeyä¸å­˜åœ¨ï¼Œè¿”å› value, false
+			* å¦‚æœkeyå·²ç»å­˜åœ¨ï¼Œæ›¿æ¢ï¼Œè¿”å› oldValue, true
 
 		func (m *Map) Range(f func(key, value interface{}) bool)
-			* ±éÀúËùÓĞKEY/VAKUE
-			* Èç¹û·µ»Øfalse£¬Í£Ö¹±éÀú
+			* éå†æ‰€æœ‰KEY/VAKUE
+			* å¦‚æœè¿”å›falseï¼Œåœæ­¢éå†
 			
 		func (m *Map) Store(key, value interface{})
-			* ´æ´¢KEY
+			* å­˜å‚¨KEY
 		
 		func (m *Map) Swap(key, value any) (previous any, loaded bool)
 		func (m *Map) Clear()
-			* É¾³ıËùÓĞÌõÄ¿£¬Ê¹ Map Îª¿Õ¡£
+			* åˆ é™¤æ‰€æœ‰æ¡ç›®ï¼Œä½¿ Map ä¸ºç©ºã€‚
 	
 	# type Mutex struct {}
 		func (m *Mutex) Lock()
@@ -66,7 +66,7 @@ type
 			New func() interface{} // contains filtered or unexported fields
 		}
 
-		* ¶ÔÏó³Ø£¬ÓÃÀ´±£´æºÍ¸´ÓÃÁÙÊ±¶ÔÏó£¬ÒÔ¼õÉÙÄÚ´æ·ÖÅä£¬½µµÍCGÑ¹Á¦¡£
+		* å¯¹è±¡æ± ï¼Œç”¨æ¥ä¿å­˜å’Œå¤ç”¨ä¸´æ—¶å¯¹è±¡ï¼Œä»¥å‡å°‘å†…å­˜åˆ†é…ï¼Œé™ä½CGå‹åŠ›ã€‚
 
 		func (p *Pool) Get() interface{}
 		func (p *Pool) Put(x interface{})
@@ -85,7 +85,7 @@ type
 		func (wg *WaitGroup) Add(delta int)
 		func (wg *WaitGroup) Done()
 		func (wg *WaitGroup) Go(f func())
-			* ±ã½İ·½Ê½£¬Ô´Âë
+			* ä¾¿æ·æ–¹å¼ï¼Œæºç 
 					wg.Add(1)
 					go func() {
 						defer wg.Done()
@@ -96,12 +96,12 @@ type
 
 
 ----------------------
-·½·¨
+æ–¹æ³•
 ----------------------
 
 	func OnceFunc(f func()) func()
-		* ·µ»ØÒ»¸öº¯Êı g
-		* ½öÖ´ĞĞÒ»´Î
+		* è¿”å›ä¸€ä¸ªå‡½æ•° g
+		* ä»…æ‰§è¡Œä¸€æ¬¡
 			onceFunc := sync.OnceFunc(func() {
 				fmt.Println("Hello World")
 			})
@@ -112,13 +112,13 @@ type
 			go onceFunc()
 			go onceFunc()
 		
-		* Èç¹ûfÖ´ĞĞÊ±panic, ÔòºóĞøµ÷ÓÃÕâ¸öº¯Êıg²»»áÔÙÖ´ĞĞf,µ«ÊÇÃ¿´Îµ÷ÓÃ¶¼»ápanic¡£
+		* å¦‚æœfæ‰§è¡Œæ—¶panic, åˆ™åç»­è°ƒç”¨è¿™ä¸ªå‡½æ•°gä¸ä¼šå†æ‰§è¡Œf,ä½†æ˜¯æ¯æ¬¡è°ƒç”¨éƒ½ä¼španicã€‚
 		
 	func OnceValue(f func() T) func() T
-		* ÀàËÆÓÚ OnceFunc£¬Ö§³Ö·µ»ØÒ»¸ö½á¹û£¬panicÔ­ÀíÍ¬ÉÏ¡£
+		* ç±»ä¼¼äº OnceFuncï¼Œæ”¯æŒè¿”å›ä¸€ä¸ªç»“æœï¼ŒpanicåŸç†åŒä¸Šã€‚
 
 	func OnceValues(f func() (T1, T2)) func() (T1, T2)
-		* Í¬ÉÏ£¬·µ»Ø 2 ¸öÖµ
+		* åŒä¸Šï¼Œè¿”å› 2 ä¸ªå€¼
 
 
 	
