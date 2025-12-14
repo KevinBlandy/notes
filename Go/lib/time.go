@@ -417,3 +417,8 @@ type
 					fmt.Println("Hello World")
 				}
 			}
+	
+	# 非 Duration 类型的结算与转换
+		func Ago(timestamp int64) time.Duration {
+			return time.Duration(time.Now().UnixMilli()-timestamp) * time.Millisecond
+		}
