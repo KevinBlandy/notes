@@ -11,11 +11,11 @@ type LocalDateTime time.Time
 var format = "2006-01-02 15:04:05"
 var formatStr = fmt.Sprintf(`"%s"`, format)
 
-// MarshalJSON ĞòÁĞ»¯Îªjson
+// MarshalJSON åºåˆ—åŒ–ä¸ºjson
 func (l LocalDateTime) MarshalJSON () ([]byte, error){
 	return []byte(time.Time(l).Format(formatStr)), nil
 }
-// UnmarshalJSON ·´ĞòÁĞ»¯Îª¶ÔÏó
+// UnmarshalJSON ååºåˆ—åŒ–ä¸ºå¯¹è±¡
 func (l *LocalDateTime) UnmarshalJSON (bytes []byte) error {
 	val, err := time.Parse(formatStr, string(bytes))
 	if err != nil {
@@ -25,12 +25,12 @@ func (l *LocalDateTime) UnmarshalJSON (bytes []byte) error {
 	return nil
 }
 
-// Value GoÊı¾İ×ª»»ÎªÊı¾İ¿âÊı¾İ
+// Value Goæ•°æ®è½¬æ¢ä¸ºæ•°æ®åº“æ•°æ®
 func (l LocalDateTime) Value() (driver.Value, error) {
 	return time.Time(l), nil
 }
 
-// Scan Êı¾İ¿âÊı¾İ×ª»»ÎªGoÊı¾İ
+// Scan æ•°æ®åº“æ•°æ®è½¬æ¢ä¸ºGoæ•°æ®
 func (l *LocalDateTime) Scan(src interface{}) error {
 	switch t := src.(type) {
 		case time.Time: {
@@ -38,5 +38,5 @@ func (l *LocalDateTime) Scan(src interface{}) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("ÎŞ·¨½âÎö %v ÎªLocalDateTime", src)
+	return fmt.Errorf("æ— æ³•è§£æ %v ä¸ºLocalDateTime", src)
 }

@@ -1,7 +1,7 @@
 ----------------------
 fs
 ----------------------
-	# ¶¨ÒåÁËÎÄ¼şÏµÍ³µÄ»ù±¾½Ó¿Ú¡£ÎÄ¼şÏµÍ³¿ÉÒÔÓÉÖ÷»ú²Ù×÷ÏµÍ³Ìá¹©£¬Ò²¿ÉÒÔÓÉÆäËûÈí¼ş°üÌá¹©¡£
+	# å®šä¹‰äº†æ–‡ä»¶ç³»ç»Ÿçš„åŸºæœ¬æ¥å£ã€‚æ–‡ä»¶ç³»ç»Ÿå¯ä»¥ç”±ä¸»æœºæ“ä½œç³»ç»Ÿæä¾›ï¼Œä¹Ÿå¯ä»¥ç”±å…¶ä»–è½¯ä»¶åŒ…æä¾›ã€‚
 
 ----------------------
 var
@@ -21,22 +21,22 @@ var
 type
 ----------------------
 	# type DirEntry interface {
-			Name() string			// Ãû³Æ£¬²»ÊÇÈ«Â·¾¶
+			Name() string			// åç§°ï¼Œä¸æ˜¯å…¨è·¯å¾„
 			IsDir() bool
 			Type() FileMode
 			Info() (FileInfo, error)
 		}
 		
-		* Ä¿Â¼ÏÂÃæµÄÏî
+		* ç›®å½•ä¸‹é¢çš„é¡¹
 
 		func FileInfoToDirEntry(info FileInfo) DirEntry
-			* ½«Ò»¸öFileInfo ×ª»»ÎªDirEntry
+			* å°†ä¸€ä¸ªFileInfo è½¬æ¢ä¸ºDirEntry
 
 	# type FS interface {
 			Open(name string) (File, error)
 		}
 		
-		* ÎÄ¼şÏµÍ³½Ó¿Ú
+		* æ–‡ä»¶ç³»ç»Ÿæ¥å£
 
 		func Sub(fsys FS, dir string) (FS, error)
 	
@@ -47,18 +47,18 @@ type
 			Close() error
 		}
 		
-		* ÎÄ¼ş½Ó¿Ú
+		* æ–‡ä»¶æ¥å£
 			
 	# type FileInfo interface {
-			Name() string       // ·µ»ØÎÄ¼şÃû³Æ£¬²»´øÂ·¾¶
+			Name() string       // è¿”å›æ–‡ä»¶åç§°ï¼Œä¸å¸¦è·¯å¾„
 			Size() int64        // length in bytes for regular files; system-dependent for others
-			Mode() FileMode     // ÎÄ¼şµÄÈ¨ÏŞĞÅÏ¢
+			Mode() FileMode     // æ–‡ä»¶çš„æƒé™ä¿¡æ¯
 			ModTime() time.Time // modification time
 			IsDir() bool        // abbreviation for Mode().IsDir()
 			Sys() interface{}   // underlying data source (can return nil)
 		}
 		
-		* ÎÄ¼şÏµÍ³½Ó¿Ú
+		* æ–‡ä»¶ç³»ç»Ÿæ¥å£
 
 		func Stat(fsys FS, name string) (FileInfo, error)
 	
@@ -97,7 +97,7 @@ type
 			Glob(pattern string) ([]string, error)
 		}
 
-		* Ö§³Ö¸ù¾İpattern¼ìË÷µÄFS
+		* æ”¯æŒæ ¹æ®patternæ£€ç´¢çš„FS
 	
 	# type PathError struct {
 			Op   string
@@ -147,6 +147,6 @@ func
 	func ReadFile(fsys FS, name string) ([]byte, error)
 	func ValidPath(name string) bool
 	func WalkDir(fsys FS, root string, fn WalkDirFunc) error
-		* µİ¹é±éÀú fsys ÎÄ¼şÏµÍ³ÖĞµÄÎÄ¼ş
-		* root Ö¸¶¨¿ªÊ¼±éÀúµÄ¸ùÎÄ¼ş/Ä¿Â¼¡£¿ÉÒÔÊ¹ÓÃ "." ±íÊ¾´Ó¸ùÂ·¾¶¿ªÊ¼±éÀú
-		* fn ±éÀúµ½µÄÎÄ¼ş¡¢Ä¿Â¼»Øµ÷
+		* é€’å½’éå† fsys æ–‡ä»¶ç³»ç»Ÿä¸­çš„æ–‡ä»¶
+		* root æŒ‡å®šå¼€å§‹éå†çš„æ ¹æ–‡ä»¶/ç›®å½•ã€‚å¯ä»¥ä½¿ç”¨ "." è¡¨ç¤ºä»æ ¹è·¯å¾„å¼€å§‹éå†
+		* fn éå†åˆ°çš„æ–‡ä»¶ã€ç›®å½•å›è°ƒ
