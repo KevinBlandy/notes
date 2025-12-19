@@ -291,6 +291,8 @@ type
 		func (r *Root) Mkdir(name string, perm FileMode) error
 		func (r *Root) MkdirAll(name string, perm FileMode) error
 		func (r *Root) Name() string
+			* 返回名称，即 OpenRoot 时传入的名称
+
 		func (r *Root) Open(name string) (*File, error)
 		func (r *Root) OpenFile(name string, flag int, perm FileMode) (*File, error)
 		func (r *Root) OpenRoot(name string) (*Root, error)
