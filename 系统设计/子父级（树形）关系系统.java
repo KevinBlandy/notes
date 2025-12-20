@@ -1,33 +1,33 @@
 ------------------------------
-Îï»¯Â·¾¶					  |
+ç‰©åŒ–è·¯å¾„					  |
 ------------------------------
-	# Ê¹ÓÃÒ»ÕÅ±íÃèÊö¹ØÏµ
+	# ä½¿ç”¨ä¸€å¼ è¡¨æè¿°å…³ç³»
 
-	# Êı¾İ±í(user)
-		id			int			Ö÷¼ü
-		parent_id	int			¸¸¼¶id
-		name		varchar		Ãû³Æ
+	# æ•°æ®è¡¨(user)
+		id			int			ä¸»é”®
+		parent_id	int			çˆ¶çº§id
+		name		varchar		åç§°
 	
-	# ¹ØÏµ±í(user_chain)
-		id		int		ÓÃ»§id
-		depth	int		Ëù´¦µÄµÈ¼¶
-		chain	text	¹ØÏµÁ´
+	# å…³ç³»è¡¨(user_chain)
+		id		int		ç”¨æˆ·id
+		depth	int		æ‰€å¤„çš„ç­‰çº§
+		chain	text	å…³ç³»é“¾
 		
 		PRIMARY KEY (`id`)
 		UNION KEY(`path`)
 
-		* chain ´æ´¢¹ØÏµÁ´ÁĞ±í, Ê¹ÓÃÈÎÒâ·Ö¸ô·û: | - / 
-		* Èç¹û¹ØÏµ¹ıÉî, chain ×Ö¶Î»áºÜ³¤
+		* chain å­˜å‚¨å…³ç³»é“¾åˆ—è¡¨, ä½¿ç”¨ä»»æ„åˆ†éš”ç¬¦: | - / 
+		* å¦‚æœå…³ç³»è¿‡æ·±, chain å­—æ®µä¼šå¾ˆé•¿
 	
 
-	# Ìí¼ÓÊı¾İ
-		* Ö÷ÒªµÄË¼Ïë¾ÍÊÇ, °Ñ¸¸¼¶ÓÃ»§µÄchain¼ÓÉÏ×Ô¼ºµÄid´æ´¢ÔÚµ±Ç°ÓÃ»§µÄ¼ÇÂ¼ÖĞ, ĞÎ³ÉÒ»¸öÍêÕûµÄ¹ØÏµÁ´
+	# æ·»åŠ æ•°æ®
+		* ä¸»è¦çš„æ€æƒ³å°±æ˜¯, æŠŠçˆ¶çº§ç”¨æˆ·çš„chainåŠ ä¸Šè‡ªå·±çš„idå­˜å‚¨åœ¨å½“å‰ç”¨æˆ·çš„è®°å½•ä¸­, å½¢æˆä¸€ä¸ªå®Œæ•´çš„å…³ç³»é“¾
 	
-	# ²éÑ¯Ö¸¶¨½ÚµãÏÂµÄËùÓĞ/Ö±½Ó½Úµã
+	# æŸ¥è¯¢æŒ‡å®šèŠ‚ç‚¹ä¸‹çš„æ‰€æœ‰/ç›´æ¥èŠ‚ç‚¹
 		SELECT
-			-- ÏÂÏß¼¶±ğ
+			-- ä¸‹çº¿çº§åˆ«
 			`t1`.`level` - `t`.`level` AS `level`,
-			-- ÏÂÏßÓÃ»§ĞÅÏ¢
+			-- ä¸‹çº¿ç”¨æˆ·ä¿¡æ¯
 			`t2`.*,
 		FROM
 			`user_chain` AS `t`
@@ -36,17 +36,17 @@
 		WHERE
 			`t`.`user_id` = #{userId}
 		AND 
-			-- ½ö½ö¼ìË÷Ö¸¶¨µÄÖ¸¶¨ÏÂÏß¼¶±ğ
+			-- ä»…ä»…æ£€ç´¢æŒ‡å®šçš„æŒ‡å®šä¸‹çº¿çº§åˆ«
 			`t1`.`level` = `t`.`level` + #{level}
 		ORDER BY 
 			`level` ASC
 
-	# Í³¼ÆÖ¸¶¨/ËùÓĞÏÂÏß¼¶±ğ×ÜÈËÊı
+	# ç»Ÿè®¡æŒ‡å®š/æ‰€æœ‰ä¸‹çº¿çº§åˆ«æ€»äººæ•°
 		SELECT
-			-- ÏÂÏß¼¶±ğ
+			-- ä¸‹çº¿çº§åˆ«
 			`t1`.`level` - `t`.`level` AS `level`,
 
-			-- ×ÜÈËÊı
+			-- æ€»äººæ•°
 			COUNT(`t1`.`level`) AS `count`
 		FROM
 			`user_chain` AS `t`
@@ -54,47 +54,47 @@
 		WHERE
 			`t`.`user_id` = #{userId}
 		AND 
-			-- ½ö½öÍ³¼ÆÖ¸¶¨µÄÖ¸¶¨ÏÂÏß¼¶±ğ
+			-- ä»…ä»…ç»Ÿè®¡æŒ‡å®šçš„æŒ‡å®šä¸‹çº¿çº§åˆ«
 			`t1`.`level` <= `t`.`level` + #{maxLevel}
 		GROUP 
 			BY `t1`.`level`
 
 
 ------------------------------
-±Õ°ü±í(Closure Table)		  |
+é—­åŒ…è¡¨(Closure Table)		  |
 ------------------------------
-	# ±Õ°ü±íµÄË¼Â·ºÍÎï»¯Â·¾¶²î²»¶à, ¶¼ÊÇ¿Õ¼ä»»Ê±¼ä
+	# é—­åŒ…è¡¨çš„æ€è·¯å’Œç‰©åŒ–è·¯å¾„å·®ä¸å¤š, éƒ½æ˜¯ç©ºé—´æ¢æ—¶é—´
 
-	# Êı¾İ±í(user)
-		id		int			Ö÷¼ü
-		name	varchar		Ãû³Æ
+	# æ•°æ®è¡¨(user)
+		id		int			ä¸»é”®
+		name	varchar		åç§°
 	
-	# ¹ØÏµ±í(user_tree)
-		ancestor			¸¸¼¶id
-		descendant			×Ó¼¶id
-		distance			¸¸¼¶µ½×Ó¼¶µÄÂ·¾¶³¤¶È
+	# å…³ç³»è¡¨(user_tree)
+		ancestor			çˆ¶çº§id
+		descendant			å­çº§id
+		distance			çˆ¶çº§åˆ°å­çº§çš„è·¯å¾„é•¿åº¦
 		PRIMARY KEY (ancestor, descendant, distance)	
 		
-		* Ã¿¸öÓÃ»§, ¶¼»áÔÚÕâ¸ö±íÀïÃæ´æ´¢NÌõ¼ÇÂ¼À´ÃèÊö×Ô¼ºµÄÎ»ÖÃĞÅÏ¢, Ò»Ö±ËİÔ´µ½×î¶¥¼¶½Úµã
-		* ÕâÈı¸ö×Ö¶ÎµÄ×éºÏÊÇÎ¨Ò»µÄ, ÒòÎªÔÚÊ÷ÖĞ, Ò»ÌõÂ·¾¶¿ÉÒÔ±êÊ¶Ò»¸ö½Úµã, ËùÒÔ¿ÉÒÔÖ±½Ó°ÑËüÃÇµÄ×éºÏ×÷ÎªÖ÷¼ü
+		* æ¯ä¸ªç”¨æˆ·, éƒ½ä¼šåœ¨è¿™ä¸ªè¡¨é‡Œé¢å­˜å‚¨Næ¡è®°å½•æ¥æè¿°è‡ªå·±çš„ä½ç½®ä¿¡æ¯, ä¸€ç›´æº¯æºåˆ°æœ€é¡¶çº§èŠ‚ç‚¹
+		* è¿™ä¸‰ä¸ªå­—æ®µçš„ç»„åˆæ˜¯å”¯ä¸€çš„, å› ä¸ºåœ¨æ ‘ä¸­, ä¸€æ¡è·¯å¾„å¯ä»¥æ ‡è¯†ä¸€ä¸ªèŠ‚ç‚¹, æ‰€ä»¥å¯ä»¥ç›´æ¥æŠŠå®ƒä»¬çš„ç»„åˆä½œä¸ºä¸»é”®
 	
 	
-	# Ìí¼ÓÊı¾İ
+	# æ·»åŠ æ•°æ®
 	
 
-	# ²éÑ¯Ö¸¶¨½ÚµãÏÂµÄÖ±½Ó½Úµã
+	# æŸ¥è¯¢æŒ‡å®šèŠ‚ç‚¹ä¸‹çš„ç›´æ¥èŠ‚ç‚¹
 
-	# ²éÑ¯Ö¸¶¨½ÚµãÏÂµÄËùÓĞ½Úµã
+	# æŸ¥è¯¢æŒ‡å®šèŠ‚ç‚¹ä¸‹çš„æ‰€æœ‰èŠ‚ç‚¹
 
-	# ²éÑ¯Ö¸¶¨Çø¼ä
+	# æŸ¥è¯¢æŒ‡å®šåŒºé—´
 
-	# ²éÑ¯Ö¸¶¨½ÚµãËù´¦µÄµÈ¼¶
+	# æŸ¥è¯¢æŒ‡å®šèŠ‚ç‚¹æ‰€å¤„çš„ç­‰çº§
 
-	# É¾³ıÖ¸¶¨µÄ½Úµã
+	# åˆ é™¤æŒ‡å®šçš„èŠ‚ç‚¹
 
 
 ------------------------------
-Ê¹ÓÃ¶ÓÁĞ±éÀú
+ä½¿ç”¨é˜Ÿåˆ—éå†
 ------------------------------
 	class Node {
 		private Integer id;
@@ -105,13 +105,13 @@
 
 	public static List<Node> tree (Collection<Node> nodes, Integer parentId) {
 		
-		// ×î¶¥¼¶µÄ½Úµã
+		// æœ€é¡¶çº§çš„èŠ‚ç‚¹
 		List<Node> retVal = nodes.stream()
 			.filter(node -> node.getParentId().equals(parentId))
 			.collect(Collectors.toList());
 		
 		if (!retVal.isEmpty()) {
-			// Ê¹ÓÃ¶ÓÁĞ±éÀú
+			// ä½¿ç”¨é˜Ÿåˆ—éå†
 			LinkedList<Node> queue = new LinkedList<Node>();
 			
 			queue.addAll(retVal);
@@ -120,7 +120,7 @@
 				
 				Node lastNode = queue.removeLast();
 				
-				// ¼ìË÷×Ó½Úµã
+				// æ£€ç´¢å­èŠ‚ç‚¹
 				List<Node> childNodes = nodes.stream()
 					.filter(node -> node.getParentId().equals(lastNode.getId()))
 					.collect(Collectors.toList());
@@ -136,34 +136,34 @@
 
 
 ------------------------------
-Ò»´ÎĞÔ¼ÓÔØµ½ÄÚ´æºó£¬µİ¹é×éºÏ
+ä¸€æ¬¡æ€§åŠ è½½åˆ°å†…å­˜åï¼Œé€’å½’ç»„åˆ
 ------------------------------
 type menuService struct {}
 
-// Tree ¼ìË÷ÏµÍ³ÖĞÍêÕûµÄ²Ëµ¥Ê÷
+// Tree æ£€ç´¢ç³»ç»Ÿä¸­å®Œæ•´çš„èœå•æ ‘
 func (m menuService) Tree(ctx context.Context) (menus []*model.Menu, err error) {
-	// ²éÑ¯³öËùÓĞµÄ²Ëµ¥¼ÇÂ¼
+	// æŸ¥è¯¢å‡ºæ‰€æœ‰çš„èœå•è®°å½•
 	data := make([]*model.Menu, 0)
 	if err = dao.Tx(ctx).Select(&data, "SELECT `id`, `parent_id`, `name`, `type`, `icon`, `instruction` FROM `menu` ORDER BY `sort` DESC, `create_at` ASC"); err != nil {
 		return
 	}
-	// ÔÚÄÚ´æÖĞ¹¹½¨Ê÷½á¹¹
+	// åœ¨å†…å­˜ä¸­æ„å»ºæ ‘ç»“æ„
 	menus = make([]*model.Menu, 0)
-	// ¶¥¼¶¼ÇÂ¼ID
+	// é¡¶çº§è®°å½•ID
 	for _, v := range data {
 		if v.ParentId.Equals(constant.TreeTopId) {
 			menus = append(menus, v)
 		}
 	}
-	// µİ¹é¼ìË÷×Ó²Ëµ¥
+	// é€’å½’æ£€ç´¢å­èœå•
 	for _, v := range menus {
 		v.Sub = m.subMenus(v.Id, data)
 	}
 	return
 }
 
-// subMenus ¸ù¾İid´ÓmenusÀïÃæÕÒ³öÕâ¸öidÏÂµÄ×Ó¼ÇÂ¼
-// »á½øĞĞµİ¹é²éÕÒ
+// subMenus æ ¹æ®idä»menusé‡Œé¢æ‰¾å‡ºè¿™ä¸ªidä¸‹çš„å­è®°å½•
+// ä¼šè¿›è¡Œé€’å½’æŸ¥æ‰¾
 func (m menuService) subMenus(id t.ID, menus []*model.Menu) (sub []*model.Menu) {
 	sub = make([]*model.Menu, 0)
 	for _, v := range menus {
