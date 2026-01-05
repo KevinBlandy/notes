@@ -95,8 +95,6 @@ HMAC-SHA 签发验证
 			"strconv"
 		)
 
-		var jwtParser = jwt.NewParser()
-
 		// encode 生成Token
 		func encode(id string, subject int64, key []byte) (string, error) {
 			return jwt.NewWithClaims(jwt.SigningMethodHS512, &jwt.RegisteredClaims{
@@ -111,7 +109,7 @@ HMAC-SHA 签发验证
 
 		// decode 解析JWT，会根据key进行校验
 		func decode(signedString string, key []byte) (*jwt.RegisteredClaims, error) {
-			token, err := jwtParser.ParseWithClaims(signedString, &jwt.RegisteredClaims{}, func(token *jwt.Token) (i interface{}, err error) {
+			token, err := jwt.NewParser().ParseWithClaims(signedString, &jwt.RegisteredClaims{}, func(token *jwt.Token) (i interface{}, err error) {
 				return key, nil
 			})
 			if err != nil {
