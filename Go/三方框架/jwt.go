@@ -85,7 +85,7 @@ func
 	func RegisterSigningMethod(alg string, f func() SigningMethod)
 
 ------------------------
-HMAC-SHA Ç©·¢ÑéÖ¤
+HMAC-SHA ç­¾å‘éªŒè¯
 ------------------------
 		package auth
 
@@ -95,33 +95,33 @@ HMAC-SHA Ç©·¢ÑéÖ¤
 			"strconv"
 		)
 
-		// encode Éú³ÉToken
+		// encode ç”ŸæˆToken
 		func encode(id string, subject int64, key []byte) (string, error) {
 			return jwt.NewWithClaims(jwt.SigningMethodHS512, &jwt.RegisteredClaims{
 				//Token Id
 				ID: id,
-				// ÓÃ»§ ID
+				// ç”¨æˆ· ID
 				Subject: strconv.FormatInt(subject, 10),
-				// ¹ıÆÚÊ±¼ä
+				// è¿‡æœŸæ—¶é—´
 				//ExpiresAt: expiresAt.Unix(),
 			}).SignedString(key)
 		}
 
-		// decode ½âÎöJWT£¬»á¸ù¾İkey½øĞĞĞ£Ñé
+		// decode è§£æJWTï¼Œä¼šæ ¹æ®keyè¿›è¡Œæ ¡éªŒ
 		func decode(signedString string, key []byte) (*jwt.RegisteredClaims, error) {
 			token, err := jwt.NewParser().ParseWithClaims(signedString, &jwt.RegisteredClaims{}, func(token *jwt.Token) (i interface{}, err error) {
 				return key, nil
 			})
 			if err != nil {
-				// Èç¹ûTokenÎŞĞ§£¨KEY²»¶Ô£¬¹ıÆÚÁË£¬»¹Î´ÉúĞ§¶¼»á·µ»ØError£©
+				// å¦‚æœTokenæ— æ•ˆï¼ˆKEYä¸å¯¹ï¼Œè¿‡æœŸäº†ï¼Œè¿˜æœªç”Ÿæ•ˆéƒ½ä¼šè¿”å›Errorï¼‰
 				return nil, err
 			}
 			if claims, ok := token.Claims.(*jwt.RegisteredClaims); ok && token.Valid {
-				// ·µ»ØStandardClaims
-				// Token.Valid ÑéÖ¤»ùÓÚÊ±¼äµÄÉùÃ÷£¬ÀıÈç£º¹ıÆÚÊ±¼ä£¨ExpiresAt£©¡¢Ç©·¢Õß£¨Issuer£©¡¢ÉúĞ§Ê±¼ä£¨Not Before£©
-				// ĞèÒª×¢ÒâµÄÊÇ£¬Èç¹ûÃ»ÓĞÈÎºÎÉùÃ÷ÔÚÁîÅÆÖĞ£¬ÈÔÈ»»á±»ÈÏÎªÊÇÓĞĞ§µÄ¡£
+				// è¿”å›StandardClaims
+				// Token.Valid éªŒè¯åŸºäºæ—¶é—´çš„å£°æ˜ï¼Œä¾‹å¦‚ï¼šè¿‡æœŸæ—¶é—´ï¼ˆExpiresAtï¼‰ã€ç­¾å‘è€…ï¼ˆIssuerï¼‰ã€ç”Ÿæ•ˆæ—¶é—´ï¼ˆNot Beforeï¼‰
+				// éœ€è¦æ³¨æ„çš„æ˜¯ï¼Œå¦‚æœæ²¡æœ‰ä»»ä½•å£°æ˜åœ¨ä»¤ç‰Œä¸­ï¼Œä»ç„¶ä¼šè¢«è®¤ä¸ºæ˜¯æœ‰æ•ˆçš„ã€‚
 				return claims, nil
 			}
-			// ·Ç·¨Token
+			// éæ³•Token
 			return nil, errors.New("bad token")
 		}
