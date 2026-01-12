@@ -6,12 +6,12 @@ cobra
 		https://github.com/spf13/cobra
 		https://pkg.go.dev/github.com/spf13/cobra
 	
-	# ²Î¿¼Ñ§Ï°
+	# å‚è€ƒå­¦ä¹ 
 		https://juejin.cn/post/6924541628031959047
 	
 	
-	# ×î¼ÑÊµ¼ù
-		* ÏîÄ¿½á¹¹
+	# æœ€ä½³å®žè·µ
+		* é¡¹ç›®ç»“æž„
 			app
 			  |-cmd
 				|-add.go
@@ -21,10 +21,10 @@ cobra
 				|-root.go
 			  |-main.go
 			
-			* Ã¿¸öÃüÁîÊµÏÖÒ»¸öÎÄ¼þ£¬ËùÓÐÃüÁîÎÄ¼þ´æ·ÅÔÚcmdÄ¿Â¼ÏÂ
-			* Íâ²ãµÄmain.go½ö³õÊ¼»¯ cobra
+			* æ¯ä¸ªå‘½ä»¤å®žçŽ°ä¸€ä¸ªæ–‡ä»¶ï¼Œæ‰€æœ‰å‘½ä»¤æ–‡ä»¶å­˜æ”¾åœ¨cmdç›®å½•ä¸‹
+			* å¤–å±‚çš„main.goä»…åˆå§‹åŒ– cobra
 			
-		* ÔÚmain.go ÖÐ³õÊ¼»¯cobra
+		* åœ¨main.go ä¸­åˆå§‹åŒ–cobra
 			package main
 			import (
 			  "{pathToYourApp}/cmd"
@@ -35,40 +35,40 @@ cobra
 			}
 	
 	
-	# ËµÃ÷
+	# è¯´æ˜Ž
 
 ----------------------
-ºËÐÄ
+æ ¸å¿ƒ
 ----------------------
 
-	# ÃüÁî(Command)£º	¾ÍÊÇÐèÒªÖ´ÐÐµÄ²Ù×÷£¬ÃüÃû¿ÉÒÔÊÇÓÐ×Ó¸¸¼¶¹ØÏµ
-		* ÃüÁîµÄÉúÃüÖÜÆÚ·½·¨£¬»á°´ÕÕÈçÏÂË³ÐòÖ´ÐÐ
+	# å‘½ä»¤(Command)ï¼š	å°±æ˜¯éœ€è¦æ‰§è¡Œçš„æ“ä½œï¼Œå‘½åå¯ä»¥æ˜¯æœ‰å­çˆ¶çº§å…³ç³»
+		* å‘½ä»¤çš„ç”Ÿå‘½å‘¨æœŸæ–¹æ³•ï¼Œä¼šæŒ‰ç…§å¦‚ä¸‹é¡ºåºæ‰§è¡Œ
 			1. PersistentPreRun
 			2. PreRun
 			3. Run
 			4. PostRun
 			5. PersistentPostRun
 
-			* PersistentPreRun ·½·¨ºÍ PersistentPostRun ·½·¨»á°éËæÈÎºÎ×ÓÃüÁîµÄÖ´ÐÐ
+			* PersistentPreRun æ–¹æ³•å’Œ PersistentPostRun æ–¹æ³•ä¼šä¼´éšä»»ä½•å­å‘½ä»¤çš„æ‰§è¡Œ
 
-	# ²ÎÊý(Arg)£º		ÓÃÓÚÑéÖ¤ÃüÁîµÄ²ÎÊý£¬¼´Òª²Ù×÷µÄ¶ÔÏó
-		* Ä¬ÈÏµÄÑéÖ¤·½·¨
+	# å‚æ•°(Arg)ï¼š		ç”¨äºŽéªŒè¯å‘½ä»¤çš„å‚æ•°ï¼Œå³è¦æ“ä½œçš„å¯¹è±¡
+		* é»˜è®¤çš„éªŒè¯æ–¹æ³•
 			NoArgs
-				* Èç¹û´æÔÚÈÎºÎÎ»ÖÃ²ÎÊý£¬¸ÃÃüÁî½«±¨´í
+				* å¦‚æžœå­˜åœ¨ä»»ä½•ä½ç½®å‚æ•°ï¼Œè¯¥å‘½ä»¤å°†æŠ¥é”™
 			ArbitraryArgs
-				* ¸ÃÃüÁî»á½ÓÊÜÈÎºÎÎ»ÖÃ²ÎÊý
+				* è¯¥å‘½ä»¤ä¼šæŽ¥å—ä»»ä½•ä½ç½®å‚æ•°
 			OnlyValidArgs
-				* Èç¹ûÓÐÈÎºÎÎ»ÖÃ²ÎÊý²»ÔÚÃüÁîµÄ ValidArgs ×Ö¶ÎÖÐ£¬¸ÃÃüÁî½«±¨´í
+				* å¦‚æžœæœ‰ä»»ä½•ä½ç½®å‚æ•°ä¸åœ¨å‘½ä»¤çš„ ValidArgs å­—æ®µä¸­ï¼Œè¯¥å‘½ä»¤å°†æŠ¥é”™
 			MinimumNArgs(int)
-				* ÖÁÉÙÒªÓÐ N ¸öÎ»ÖÃ²ÎÊý£¬·ñÔò±¨´í
+				* è‡³å°‘è¦æœ‰ N ä¸ªä½ç½®å‚æ•°ï¼Œå¦åˆ™æŠ¥é”™
 			MaximumNArgs(int)
-				* Èç¹ûÎ»ÖÃ²ÎÊý³¬¹ý N ¸ö½«±¨´í
+				* å¦‚æžœä½ç½®å‚æ•°è¶…è¿‡ N ä¸ªå°†æŠ¥é”™
 			ExactArgs(int)
-				* ±ØÐëÓÐ N ¸öÎ»ÖÃ²ÎÊý£¬·ñÔò±¨´í
+				* å¿…é¡»æœ‰ N ä¸ªä½ç½®å‚æ•°ï¼Œå¦åˆ™æŠ¥é”™
 			ExactValidArgs(int) 
-				* ±ØÐëÓÐ N ¸öÎ»ÖÃ²ÎÊý£¬ÇÒ¶¼ÔÚÃüÁîµÄ ValidArgs ×Ö¶ÎÖÐ£¬·ñÔò±¨´í
+				* å¿…é¡»æœ‰ N ä¸ªä½ç½®å‚æ•°ï¼Œä¸”éƒ½åœ¨å‘½ä»¤çš„ ValidArgs å­—æ®µä¸­ï¼Œå¦åˆ™æŠ¥é”™
 			RangeArgs(min, max)
-				* Èç¹ûÎ»ÖÃ²ÎÊýµÄ¸öÊý²»ÔÚÇø¼ä min ºÍ max Ö®ÖÐ£¬±¨´í
+				* å¦‚æžœä½ç½®å‚æ•°çš„ä¸ªæ•°ä¸åœ¨åŒºé—´ min å’Œ max ä¹‹ä¸­ï¼ŒæŠ¥é”™
 		
 		* demo
 			var cmd = &cobra.Command{
@@ -82,9 +82,9 @@ cobra
 
 		
 		
-	# Ñ¡Ïî(Flag)£º		ÃüÁîÑ¡Ïî¿ÉÒÔµ÷ÕûÃüÁîµÄÐÐÎª
-		* persistent ÀàÐÍµÄÑ¡Ïî£¬¼È¿ÉÒÔÉèÖÃ¸ø¸Ã Command£¬ÓÖ¿ÉÒÔÉèÖÃ¸ø¸Ã Command µÄ×Ó Command
-		* local ÀàÐÍµÄÑ¡ÏîÖ»ÄÜÉèÖÃ¸øÖ¸¶¨µÄ Command
-		* Ä¬ÈÏÇé¿öÏÂµÄÑ¡Ïî¶¼ÊÇ¿ÉÑ¡µÄ£¬Èç¹û±ØÐëÒªÇóÓÃ»§Ìá¹©Ñ¡Ïî£¬¿ÉÒÔÍ¨¹ý MarkFlagRequired Ö¸¶¨
+	# é€‰é¡¹(Flag)ï¼š		å‘½ä»¤é€‰é¡¹å¯ä»¥è°ƒæ•´å‘½ä»¤çš„è¡Œä¸º
+		* persistent ç±»åž‹çš„é€‰é¡¹ï¼Œæ—¢å¯ä»¥è®¾ç½®ç»™è¯¥ Commandï¼Œåˆå¯ä»¥è®¾ç½®ç»™è¯¥ Command çš„å­ Command
+		* local ç±»åž‹çš„é€‰é¡¹åªèƒ½è®¾ç½®ç»™æŒ‡å®šçš„ Command
+		* é»˜è®¤æƒ…å†µä¸‹çš„é€‰é¡¹éƒ½æ˜¯å¯é€‰çš„ï¼Œå¦‚æžœå¿…é¡»è¦æ±‚ç”¨æˆ·æä¾›é€‰é¡¹ï¼Œå¯ä»¥é€šè¿‡ MarkFlagRequired æŒ‡å®š
 
 	

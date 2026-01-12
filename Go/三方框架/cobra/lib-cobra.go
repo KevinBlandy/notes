@@ -24,27 +24,27 @@ type
 ------------------
 	# type Command struct {
 			Use string
-				* ÃüÁîµÄÊ¹ÓÃ·½·¨£¬ÍÆ¼öµÄÓï·¨ÈçÏÂ
-					[ ]±íÊ¾Ò»¸ö¿ÉÑ¡µÄ²ÎÊı¡£Ã»ÓĞÓÃÀ¨ºÅÀ¨ÆğÀ´µÄ²ÎÊıÊÇ±ØĞëµÄ¡£
-					... ±íÊ¾¿ÉÒÔÎªÇ°ÃæµÄ²ÎÊıÖ¸¶¨¶à¸öÖµ¡£
-					| ±íÊ¾Ïà»¥ÅÅ³âµÄĞÅÏ¢¡£Äú¿ÉÒÔÊ¹ÓÃ·Ö¸ô·û×ó±ßµÄ²ÎÊı»òÊ¹ÓÃ
-					 { } µ±ÆäÖĞÒ»¸ö²ÎÊıÎª±ØÌî²ÎÊıÊ±£¬»á¶ÔÒ»×éÏà»¥ÅÅ³âµÄ²ÎÊı½øĞĞ·Ö¸ô¡£Èç¹û²ÎÊıÊÇ
+				* å‘½ä»¤çš„ä½¿ç”¨æ–¹æ³•ï¼Œæ¨èçš„è¯­æ³•å¦‚ä¸‹
+					[ ]è¡¨ç¤ºä¸€ä¸ªå¯é€‰çš„å‚æ•°ã€‚æ²¡æœ‰ç”¨æ‹¬å·æ‹¬èµ·æ¥çš„å‚æ•°æ˜¯å¿…é¡»çš„ã€‚
+					... è¡¨ç¤ºå¯ä»¥ä¸ºå‰é¢çš„å‚æ•°æŒ‡å®šå¤šä¸ªå€¼ã€‚
+					| è¡¨ç¤ºç›¸äº’æ’æ–¥çš„ä¿¡æ¯ã€‚æ‚¨å¯ä»¥ä½¿ç”¨åˆ†éš”ç¬¦å·¦è¾¹çš„å‚æ•°æˆ–ä½¿ç”¨
+					 { } å½“å…¶ä¸­ä¸€ä¸ªå‚æ•°ä¸ºå¿…å¡«å‚æ•°æ—¶ï¼Œä¼šå¯¹ä¸€ç»„ç›¸äº’æ’æ–¥çš„å‚æ•°è¿›è¡Œåˆ†éš”ã€‚å¦‚æœå‚æ•°æ˜¯
 
-				* ÀıÈç£º
+				* ä¾‹å¦‚ï¼š
 					add [-F file | -D dir]... [-f format] profile
 				
 			Aliases []string
-				* ±ğÃûÊı×é£¬¿ÉÒÔÓÃÀ´´úÌæUseÖĞµÄµÚÒ»¸ö´Ê¡£
+				* åˆ«åæ•°ç»„ï¼Œå¯ä»¥ç”¨æ¥ä»£æ›¿Useä¸­çš„ç¬¬ä¸€ä¸ªè¯ã€‚
 
 			SuggestFor []string
 			Short string
-				* ¶ÌµÄËµÃ÷
+				* çŸ­çš„è¯´æ˜
 
 			Long string
-				* ³¤µÄËµÃ÷
+				* é•¿çš„è¯´æ˜
 
 			Example string
-				* Ê¹ÓÃÀı×Ó
+				* ä½¿ç”¨ä¾‹å­
 
 			ValidArgs []string
 			ValidArgsFunction func(cmd *Command, args []string, toComplete string) ([]string, ShellCompDirective)
@@ -57,26 +57,26 @@ type
 
 			PersistentPreRun func(cmd *Command, args []string)
 			PersistentPreRunE func(cmd *Command, args []string) error
-				* ÔÚµ±Ç°ÃüÁîÖ´ĞĞÖ®Ç°Ö´ĞĞ
-				* ×îÏÈÖ´ĞĞ£¬²¢ÇÒÈÎºÎ×ÓÃüÁîÖ´ĞĞËü¶¼»áÖ´ĞĞ
+				* åœ¨å½“å‰å‘½ä»¤æ‰§è¡Œä¹‹å‰æ‰§è¡Œ
+				* æœ€å…ˆæ‰§è¡Œï¼Œå¹¶ä¸”ä»»ä½•å­å‘½ä»¤æ‰§è¡Œå®ƒéƒ½ä¼šæ‰§è¡Œ
 
 			PreRun func(cmd *Command, args []string)
 			PreRunE func(cmd *Command, args []string) error
-				* ÔÚÃüÁîÖ®Ç°Ö´ĞĞ£¬Ò²¾ÍÊÇÔÚ PersistentPreRun Ö®ºóÖ´ĞĞ
+				* åœ¨å‘½ä»¤ä¹‹å‰æ‰§è¡Œï¼Œä¹Ÿå°±æ˜¯åœ¨ PersistentPreRun ä¹‹åæ‰§è¡Œ
 
 			Run func(cmd *Command, args []string)
 			RunE func(cmd *Command, args []string) error
-				* Ö´ĞĞÃüÁîµÄ·½·¨£¬
-				* ²ÎÊı¾ÍÊÇÃüÁî(cmd)£¬ÒÔ¼°³ıÁËÃüÁîÑ¡ÏîÒÔÍâµÄÆäËûËùÓĞ²ÎÊı(args)
+				* æ‰§è¡Œå‘½ä»¤çš„æ–¹æ³•ï¼Œ
+				* å‚æ•°å°±æ˜¯å‘½ä»¤(cmd)ï¼Œä»¥åŠé™¤äº†å‘½ä»¤é€‰é¡¹ä»¥å¤–çš„å…¶ä»–æ‰€æœ‰å‚æ•°(args)
 
 			PostRun func(cmd *Command, args []string)
 			PostRunE func(cmd *Command, args []string) error
-				* ÔÚÖ´ĞĞÃüÁîÖ®ºóÖ´ĞĞ£¬Ò²¾ÍÊÇÔÚRunºó£¬PersistentPostRunÇ°Ö´ĞĞ
+				* åœ¨æ‰§è¡Œå‘½ä»¤ä¹‹åæ‰§è¡Œï¼Œä¹Ÿå°±æ˜¯åœ¨Runåï¼ŒPersistentPostRunå‰æ‰§è¡Œ
 
 			PersistentPostRun func(cmd *Command, args []string)
 			PersistentPostRunE func(cmd *Command, args []string) error
-				* ÔÚÖ´ĞĞÃüÁîÖ®ºóÖ´ĞĞ
-				* ×îºóÖ´ĞĞ£¬²¢ÇÒÈÎºÎ×ÓÃüÁîÖ´ĞĞºóËü¶¼»áÖ´ĞĞ
+				* åœ¨æ‰§è¡Œå‘½ä»¤ä¹‹åæ‰§è¡Œ
+				* æœ€åæ‰§è¡Œï¼Œå¹¶ä¸”ä»»ä½•å­å‘½ä»¤æ‰§è¡Œåå®ƒéƒ½ä¼šæ‰§è¡Œ
 				
 
 			FParseErrWhitelist FParseErrWhitelist
@@ -106,9 +106,9 @@ type
 		func (c *Command) Flag(name string) (flag *flag.Flag)
 		func (c *Command) FlagErrorFunc() (f func(*Command, error) error)
 		func (c *Command) Flags() *flag.FlagSet
-			* ·µ»Ø flagÉèÖÃ£¬Õâ¸öflagÊÇgithub.com/spf13/pflagÖĞµÄflag
-			* ÓÃÓÚÌí¼Ó/¶ÁÈ¡Ñ¡ÏîÖµ
-			* ±¾µØÑ¡Ïî£¬Ö»ÄÜÔÚÕâ¸öÃüÁîÖĞÊ¹ÓÃ
+			* è¿”å› flagè®¾ç½®ï¼Œè¿™ä¸ªflagæ˜¯github.com/spf13/pflagä¸­çš„flag
+			* ç”¨äºæ·»åŠ /è¯»å–é€‰é¡¹å€¼
+			* æœ¬åœ°é€‰é¡¹ï¼Œåªèƒ½åœ¨è¿™ä¸ªå‘½ä»¤ä¸­ä½¿ç”¨
 
 		func (c *Command) GenBashCompletion(w io.Writer) error
 		func (c *Command) GenBashCompletionFile(filename string) error
@@ -153,8 +153,8 @@ type
 		func (c *Command) MarkFlagDirname(name string) error
 		func (c *Command) MarkFlagFilename(name string, extensions ...string) error
 		func (c *Command) MarkFlagRequired(name string) error
-			* Ä¬ÈÏÇé¿öÏÂµÄÑ¡Ïî¶¼ÊÇ¿ÉÑ¡µÄ£¬ÒòÎªÓĞ¸öÄ¬ÈÏÖµ
-			* Èç¹ûĞèÒªÖ¸¶¨Ä³¸öÑ¡Ïî±ØÑ¡£¬ÄÇÃ´¿ÉÒÔÓÃÕâ¸ö·½·¨Ö¸¶¨
+			* é»˜è®¤æƒ…å†µä¸‹çš„é€‰é¡¹éƒ½æ˜¯å¯é€‰çš„ï¼Œå› ä¸ºæœ‰ä¸ªé»˜è®¤å€¼
+			* å¦‚æœéœ€è¦æŒ‡å®šæŸä¸ªé€‰é¡¹å¿…é€‰ï¼Œé‚£ä¹ˆå¯ä»¥ç”¨è¿™ä¸ªæ–¹æ³•æŒ‡å®š
 
 		func (c *Command) MarkPersistentFlagDirname(name string) error
 		func (c *Command) MarkPersistentFlagFilename(name string, extensions ...string) error
@@ -162,7 +162,7 @@ type
 		func (c *Command) MarkZshCompPositionalArgumentFile(argPosition int, patterns ...string) error
 		func (c *Command) MarkZshCompPositionalArgumentWords(argPosition int, words ...string) error
 		func (c *Command) Name() string
-			* ·µ»ØÃüÁîµÄÃû³Æ
+			* è¿”å›å‘½ä»¤çš„åç§°
 
 		func (c *Command) NameAndAliases() string
 		func (c *Command) NamePadding() int
@@ -172,7 +172,7 @@ type
 		func (c *Command) Parent() *Command
 		func (c *Command) ParseFlags(args []string) error
 		func (c *Command) PersistentFlags() *flag.FlagSet
-			* ·µ»ØÓÀ¾ÃflagÉèÖÃ£¬¶¨ÒåËüµÄÃüÁîºÍÆä×ÓÃüÁî¶¼¿ÉÒÔÊ¹ÓÃ
+			* è¿”å›æ°¸ä¹…flagè®¾ç½®ï¼Œå®šä¹‰å®ƒçš„å‘½ä»¤å’Œå…¶å­å‘½ä»¤éƒ½å¯ä»¥ä½¿ç”¨
 
 		func (c *Command) Print(i ...interface{})
 		func (c *Command) PrintErr(i ...interface{})
@@ -194,8 +194,8 @@ type
 		func (c *Command) SetHelpCommand(cmd *Command)
 		func (c *Command) SetHelpFunc(f func(*Command, []string))
 		func (c *Command) SetHelpTemplate(s string)
-			* ÉèÖÃÓÃÓÚÊä³ö°ïÖúĞÅÏ¢µÄ·½·¨
-			* Ö´ĞĞ -h/--help Ê±µÄÊä³ö
+			* è®¾ç½®ç”¨äºè¾“å‡ºå¸®åŠ©ä¿¡æ¯çš„æ–¹æ³•
+			* æ‰§è¡Œ -h/--help æ—¶çš„è¾“å‡º
 		
 		func (c *Command) SetIn(newIn io.Reader)
 		func (c *Command) SetOut(newOut io.Writer)
@@ -203,8 +203,8 @@ type
 
 		func (c *Command) SetUsageFunc(f func(*Command) error)
 		func (c *Command) SetUsageTemplate(s string)
-			* ÉèÖÃÌáÊ¾ĞÅÏ¢
-			* ÌáÊ¾ĞÅÏ¢ºÍ°ïÖúĞÅÏ¢ºÜÏàËÆ£¬Ö»²»¹ıËüÊÇÔÚÄãÊäÈëÁË·Ç·¨µÄ²ÎÊı¡¢Ñ¡Ïî»òÃüÁîÊ±²Å³öÏÖ
+			* è®¾ç½®æç¤ºä¿¡æ¯
+			* æç¤ºä¿¡æ¯å’Œå¸®åŠ©ä¿¡æ¯å¾ˆç›¸ä¼¼ï¼Œåªä¸è¿‡å®ƒæ˜¯åœ¨ä½ è¾“å…¥äº†éæ³•çš„å‚æ•°ã€é€‰é¡¹æˆ–å‘½ä»¤æ—¶æ‰å‡ºç°
 
 		func (c *Command) SetVersionTemplate(s string)
 		func (c *Command) SuggestionsFor(typedName string) []string
@@ -224,15 +224,15 @@ type
 	# type PositionalArgs func(cmd *Command, args []string) error
 
 		func ExactArgs(n int) PositionalArgs
-			* ±ØĞëÓĞ N ¸öÎ»ÖÃ²ÎÊı£¬·ñÔò±¨´í
+			* å¿…é¡»æœ‰ N ä¸ªä½ç½®å‚æ•°ï¼Œå¦åˆ™æŠ¥é”™
 		func ExactValidArgs(n int) PositionalArgs
-			* ±ØĞëÓĞ N ¸öÎ»ÖÃ²ÎÊı£¬ÇÒ¶¼ÔÚÃüÁîµÄ ValidArgs ×Ö¶ÎÖĞ£¬·ñÔò±¨´í
+			* å¿…é¡»æœ‰ N ä¸ªä½ç½®å‚æ•°ï¼Œä¸”éƒ½åœ¨å‘½ä»¤çš„ ValidArgs å­—æ®µä¸­ï¼Œå¦åˆ™æŠ¥é”™
 		func MaximumNArgs(n int) PositionalArgs
-			* Èç¹ûÎ»ÖÃ²ÎÊı³¬¹ı N ¸ö½«±¨´í
+			* å¦‚æœä½ç½®å‚æ•°è¶…è¿‡ N ä¸ªå°†æŠ¥é”™
 		func MinimumNArgs(n int) PositionalArgs
-			* ÖÁÉÙÒªÓĞ N ¸öÎ»ÖÃ²ÎÊı£¬·ñÔò±¨´í
+			* è‡³å°‘è¦æœ‰ N ä¸ªä½ç½®å‚æ•°ï¼Œå¦åˆ™æŠ¥é”™
 		func RangeArgs(min int, max int) PositionalArgs
-			* Èç¹ûÎ»ÖÃ²ÎÊıµÄ¸öÊı²»ÔÚÇø¼ä min ºÍ max Ö®ÖĞ£¬±¨´í
+			* å¦‚æœä½ç½®å‚æ•°çš„ä¸ªæ•°ä¸åœ¨åŒºé—´ min å’Œ max ä¹‹ä¸­ï¼ŒæŠ¥é”™
 
 	# type ShellCompDirective int
 
@@ -242,7 +242,7 @@ func
 	func AddTemplateFunc(name string, tmplFunc interface{})
 	func AddTemplateFuncs(tmplFuncs template.FuncMap)
 	func ArbitraryArgs(cmd *Command, args []string) error
-		* ¸ÃÃüÁî»á½ÓÊÜÈÎºÎÎ»ÖÃ²ÎÊı
+		* è¯¥å‘½ä»¤ä¼šæ¥å—ä»»ä½•ä½ç½®å‚æ•°
 	
 	func CheckErr(msg interface{})
 	func CompDebug(msg string, printToStdErr bool)
@@ -256,17 +256,17 @@ func
 	func MarkFlagFilename(flags *pflag.FlagSet, name string, extensions ...string) error
 	func MarkFlagRequired(flags *pflag.FlagSet, name string) error
 	func NoArgs(cmd *Command, args []string) error
-		* Èç¹û´æÔÚÈÎºÎÎ»ÖÃ²ÎÊı£¬¸ÃÃüÁî½«±¨´í
+		* å¦‚æœå­˜åœ¨ä»»ä½•ä½ç½®å‚æ•°ï¼Œè¯¥å‘½ä»¤å°†æŠ¥é”™
 
 	func OnInitialize(y ...func())
-		* Ã¿µ±Ö´ĞĞ»òÕßµ÷ÓÃÃüÁîµÄÊ±ºò£¬Ëü¶¼»áÏÈÖ´ĞĞ init º¯ÊıÖĞµÄËùÓĞº¯Êı£¬È»ºóÔÙÖ´ĞĞ execute ·½·¨¡£
-		* ¸Ã³õÊ¼»¯¿ÉÓÃÓÚ¼ÓÔØÅäÖÃÎÄ¼ş»òÓÃÓÚ¹¹Ôìº¯ÊıµÈµÈ
+		* æ¯å½“æ‰§è¡Œæˆ–è€…è°ƒç”¨å‘½ä»¤çš„æ—¶å€™ï¼Œå®ƒéƒ½ä¼šå…ˆæ‰§è¡Œ init å‡½æ•°ä¸­çš„æ‰€æœ‰å‡½æ•°ï¼Œç„¶åå†æ‰§è¡Œ execute æ–¹æ³•ã€‚
+		* è¯¥åˆå§‹åŒ–å¯ç”¨äºåŠ è½½é…ç½®æ–‡ä»¶æˆ–ç”¨äºæ„é€ å‡½æ•°ç­‰ç­‰
 
-		* µ± rootCmd µÄÖ´ĞĞ·½·¨ RUN: func ÔËĞĞµÄÊ±ºò£¬rootCmd ¸ùÃüÁî¾Í»áÊ×ÏÈÔËĞĞ initConfig º¯Êı
-		* µ±ËùÓĞµÄ³õÊ¼»¯º¯ÊıÖ´ĞĞÍê³Éºó£¬²Å»áÖ´ĞĞ rootCmd µÄ RUN: func Ö´ĞĞº¯Êı
+		* å½“ rootCmd çš„æ‰§è¡Œæ–¹æ³• RUN: func è¿è¡Œçš„æ—¶å€™ï¼ŒrootCmd æ ¹å‘½ä»¤å°±ä¼šé¦–å…ˆè¿è¡Œ initConfig å‡½æ•°
+		* å½“æ‰€æœ‰çš„åˆå§‹åŒ–å‡½æ•°æ‰§è¡Œå®Œæˆåï¼Œæ‰ä¼šæ‰§è¡Œ rootCmd çš„ RUN: func æ‰§è¡Œå‡½æ•°
 
 
 	func OnlyValidArgs(cmd *Command, args []string) error
-		* Èç¹ûÓĞÈÎºÎÎ»ÖÃ²ÎÊı²»ÔÚÃüÁîµÄ ValidArgs ×Ö¶ÎÖĞ£¬¸ÃÃüÁî½«±¨´í
+		* å¦‚æœæœ‰ä»»ä½•ä½ç½®å‚æ•°ä¸åœ¨å‘½ä»¤çš„ ValidArgs å­—æ®µä¸­ï¼Œè¯¥å‘½ä»¤å°†æŠ¥é”™
 
 	func WriteStringAndCheck(b io.StringWriter, s string)
