@@ -1,0 +1,13 @@
+
+# HomeBrew
+
+    * 安装
+
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    * 默认的软件安装目录
+        /opt/homebrew
+
+## 维护
+    brew --prefix
+        * 查看软件安装目录

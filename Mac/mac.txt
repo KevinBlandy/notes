@@ -1,0 +1,9 @@
+
+
+# Mac
+
+##  ~/.zshrc
+
+# 添加 Home 下的 bin 目录到 path
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+

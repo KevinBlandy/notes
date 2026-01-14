@@ -1,0 +1,20 @@
+
+# NodeJs
+
+## 安装 NodeJs
+
+    * 下载安装
+
+    * 查看默认的全局包安装目录
+        npm config get prefix
+
+    * 把 npm 全局包安装到 Home 下，避免权限问题
+        mkdir -p ~/.npm-global
+        npm config set prefix="$HOME/.npm-global"
+
+    *  在 ~/.zshrc 中配置 PATH
+        export PATH="$HOME/.npm-global/bin:$PATH"
+
+    * 执行生效
+        source ~/.zshrc
+
