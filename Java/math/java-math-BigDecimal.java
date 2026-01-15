@@ -1,7 +1,7 @@
 ------------------------
 BigDecimal				|
 ------------------------
-	# ¾²Ì¬±äÁ¿
+	# é™æ€å˜é‡
 		public final static int ROUND_UP =           0;
 		public final static int ROUND_DOWN =         1;
 		public final static int ROUND_CEILING =      2;
@@ -11,8 +11,8 @@ BigDecimal				|
 		public final static int ROUND_HALF_EVEN =    6;
 		public final static int ROUND_UNNECESSARY =  7;
 
-			* ¸÷ÖÖÉáÈëÄ£Ê½
-	# ¹¹Ôìº¯Êı
+			* å„ç§èˆå…¥æ¨¡å¼
+	# æ„é€ å‡½æ•°
 		BigDecimal(char[] in)
 		BigDecimal(char[] in, int offset, int len)
 		BigDecimal(char[] in, int offset, int len, MathContext mc)
@@ -32,16 +32,16 @@ BigDecimal				|
 	
 
 ------------------------
-BigDecimal-¾²Ì¬·½·¨		|
+BigDecimal-é™æ€æ–¹æ³•		|
 ------------------------
 	BigDecimal valueOf(double val)
-		* Èç¹ûÊÇÍ¨¹ı double ¹¹½¨ BigDecimal, ÄÇÃ´²»ÄÜÖ±½ÓÊ¹ÓÃ¹¹Ôìº¯ÊıÀ´´´½¨, ¿ÉÄÜ»áÓĞ¾«¶È¶ªÊ§µÄÎÊÌâ
+		* å¦‚æœæ˜¯é€šè¿‡ double æ„å»º BigDecimal, é‚£ä¹ˆä¸èƒ½ç›´æ¥ä½¿ç”¨æ„é€ å‡½æ•°æ¥åˆ›å»º, å¯èƒ½ä¼šæœ‰ç²¾åº¦ä¸¢å¤±çš„é—®é¢˜
 			BigDecimal val = new BigDecimal(0.1D); // 0.1000000000000000055511151231257827021181583404541015625
 		
-		* ½¨ÒéÊ¹ÓÃ¸Ã¾²Ì¬·½·¨À´´´½¨
+		* å»ºè®®ä½¿ç”¨è¯¥é™æ€æ–¹æ³•æ¥åˆ›å»º
 			BigDecimal val = BigDecimal.valueOf(0.1D) // 0.1
 		
-		* Ô´Âë, ±¾ÖÊÉÏ¾ÍÊÇ×ª»»Îª×Ö·û´®À´¹¹½¨ BigDecimal 
+		* æºç , æœ¬è´¨ä¸Šå°±æ˜¯è½¬æ¢ä¸ºå­—ç¬¦ä¸²æ¥æ„å»º BigDecimal 
 			public static BigDecimal valueOf(double val) {
 				return new BigDecimal(Double.toString(val));
 			}
@@ -51,7 +51,7 @@ BigDecimal-¾²Ì¬·½·¨		|
 
 
 ------------------------
-BigDecimal-ÊµÀı·½·¨		|
+BigDecimal-å®ä¾‹æ–¹æ³•		|
 ------------------------
 	BigDecimal add(BigDecimal augend)
 	BigDecimal add(BigDecimal augend, MathContext mc)
@@ -68,78 +68,78 @@ BigDecimal-ÊµÀı·½·¨		|
 	BigDecimal divide(BigDecimal divisor, int scale, RoundingMode roundingMode)
 	BigDecimal divide(BigDecimal divisor, MathContext mc)
 	BigDecimal divide(BigDecimal divisor, RoundingMode roundingMode)
-		* ¼Ó¼õ³Ë³ı
-			newScale					±íÊ¾±£ÁôµÄĞ¡ÊıÎ»Êı
-			roundingMode				Ö¸¶¨ÉáÈëÄ£Ê½(¿ÉÒÔÊÇint»òÕßÃ¶¾Ù)
-			mc							Í¨¹ıÖ¸¶¨µÄ MathContext ´¦Àí¾«¶ÈºÍÉáÈë
+		* åŠ å‡ä¹˜é™¤
+			newScale					è¡¨ç¤ºä¿ç•™çš„å°æ•°ä½æ•°
+			roundingMode				æŒ‡å®šèˆå…¥æ¨¡å¼(å¯ä»¥æ˜¯intæˆ–è€…æšä¸¾)
+			mc							é€šè¿‡æŒ‡å®šçš„ MathContext å¤„ç†ç²¾åº¦å’Œèˆå…¥
 	
 	BigDecimal remainder(BigDecimal divisor, MathContext mc)
 	BigDecimal remainder(BigDecimal divisor) 
 	BigDecimal[] divideAndRemainder(BigDecimal divisor) 
-		* ·µ»ØµÄÊı×é°üº¬Á½¸öBigDecimal, ·Ö±ğÊÇÉÌºÍÓàÊı, ÆäÖĞÉÌ×ÜÊÇÕûÊı, ÓàÊı²»»á´óÓÚ³ıÊı
-		* ¿ÉÒÔÀûÓÃÕâ¸ö·½·¨ÅĞ¶ÏÁ½¸öBigDecimalÊÇ·ñÊÇÕûÊı±¶Êı
+		* è¿”å›çš„æ•°ç»„åŒ…å«ä¸¤ä¸ªBigDecimal, åˆ†åˆ«æ˜¯å•†å’Œä½™æ•°, å…¶ä¸­å•†æ€»æ˜¯æ•´æ•°, ä½™æ•°ä¸ä¼šå¤§äºé™¤æ•°
+		* å¯ä»¥åˆ©ç”¨è¿™ä¸ªæ–¹æ³•åˆ¤æ–­ä¸¤ä¸ªBigDecimalæ˜¯å¦æ˜¯æ•´æ•°å€æ•°
 			BigDecimal n = new BigDecimal("12.75");
 			BigDecimal m = new BigDecimal("0.15");
 			BigDecimal[] dr = n.divideAndRemainder(m);
 			if (dr[1].signum() == 0) {
-				// nÊÇmµÄÕûÊı±¶
+				// næ˜¯mçš„æ•´æ•°å€
 			}
 
 	boolean equals(Object x) 
-		* ±È½ÏÏàµÈµÄÊ±ºò, ²»½ö½öÒª±È½ÏÖµ, Á¬Ä©Î²µÄ0³¤¶ÈÒ²ÒªÒ»Ñù
+		* æ¯”è¾ƒç›¸ç­‰çš„æ—¶å€™, ä¸ä»…ä»…è¦æ¯”è¾ƒå€¼, è¿æœ«å°¾çš„0é•¿åº¦ä¹Ÿè¦ä¸€æ ·
 			new BigDecimal("123.456").equals(new BigDecimal("123.45600")) // false
 
 	int compareTo(BigDecimal val)
-		* ±È½Ï´óĞ¡
+		* æ¯”è¾ƒå¤§å°
 
 	int scale()
-		* ·µ»ØĞ¡ÊıÎ»Êı, ¸ÃÖµ°üÀ¨ÁË×îºóÃæµÄ0
+		* è¿”å›å°æ•°ä½æ•°, è¯¥å€¼åŒ…æ‹¬äº†æœ€åé¢çš„0
 			new BigDecimal("123.4500").scale() // 4
 
 	BigDecimal setScale(int newScale, int roundingMode)
-		* ¸ñÊ½»¯Ğ¡Êı
-			newScale		±íÊ¾±£ÁôµÄĞ¡ÊıÎ»Êı
-			roundingMode	ÉáÈëÄ£Ê½
+		* æ ¼å¼åŒ–å°æ•°
+			newScale		è¡¨ç¤ºä¿ç•™çš„å°æ•°ä½æ•°
+			roundingMode	èˆå…¥æ¨¡å¼
 		
 	
 	BigDecimal stripTrailingZeros()
-		* ¿ÉÒÔ½«Ò»¸öBigDecimal¸ñÊ½»¯ÎªÒ»¸öÏàµÈµÄ, µ«È¥µôÁËÄ©Î²0µÄBigDecimal
-		* Öµ²»»áÊÜµ½Ó°Ïì, ÊÜµ½Ó°ÏìµÄÊÇ scale
+		* å¯ä»¥å°†ä¸€ä¸ªBigDecimalæ ¼å¼åŒ–ä¸ºä¸€ä¸ªç›¸ç­‰çš„, ä½†å»æ‰äº†æœ«å°¾0çš„BigDecimal
+		* å€¼ä¸ä¼šå—åˆ°å½±å“, å—åˆ°å½±å“çš„æ˜¯ scale
 
 	long longValue()
-		* ×ª»»Îªlong, Èç¹ûÓĞĞ¡Êı»á±»¶ªÆú, ³¬³ö·¶Î§»áÒç³ö
+		* è½¬æ¢ä¸ºlong, å¦‚æœæœ‰å°æ•°ä¼šè¢«ä¸¢å¼ƒ, è¶…å‡ºèŒƒå›´ä¼šæº¢å‡º
 
 	long longValueExact()
-		* ×ª»»³ÉlongĞÍ, Èç¹ûÓĞĞ¡Êı, »òÕß³¬³öÁË·¶Î§, »áÅ×³öÒì³£	
+		* è½¬æ¢æˆlongå‹, å¦‚æœæœ‰å°æ•°, æˆ–è€…è¶…å‡ºäº†èŒƒå›´, ä¼šæŠ›å‡ºå¼‚å¸¸	
 	
 	String toString();
-		* ÓĞ±ØÒªÊ±Ê¹ÓÃ¿ÆÑ§¼ÆÊı·¨
+		* æœ‰å¿…è¦æ—¶ä½¿ç”¨ç§‘å­¦è®¡æ•°æ³•
 
 	String toPlainString();
-		* ²»Ê¹ÓÃÈÎºÎÖ¸Êı
+		* ä¸ä½¿ç”¨ä»»ä½•æŒ‡æ•°
 
 	String toEngineeringString();
-		* ÓĞ±ØÒªÊ±Ê¹ÓÃ¹¤³Ì¼ÆÊı·¨
-		* ¹¤³Ì¼ÇÊı·¨ÊÇÒ»ÖÖ¹¤³Ì¼ÆËãÖĞ¾­³£Ê¹ÓÃµÄ¼ÇÂ¼Êı×ÖµÄ·½·¨, Óë¿ÆÑ§¼¼Êõ·¨ÀàËÆ. µ«ÒªÇó10µÄÃİ±ØĞëÊÇ3µÄ±¶Êı
+		* æœ‰å¿…è¦æ—¶ä½¿ç”¨å·¥ç¨‹è®¡æ•°æ³•
+		* å·¥ç¨‹è®°æ•°æ³•æ˜¯ä¸€ç§å·¥ç¨‹è®¡ç®—ä¸­ç»å¸¸ä½¿ç”¨çš„è®°å½•æ•°å­—çš„æ–¹æ³•, ä¸ç§‘å­¦æŠ€æœ¯æ³•ç±»ä¼¼. ä½†è¦æ±‚10çš„å¹‚å¿…é¡»æ˜¯3çš„å€æ•°
  
 	BigInteger unscaledValue()
 	BigDecimal ulp()
 	int signum()
 	BigDecimal sqrt(MathContext mc)
-		* ¿ªÆ½·½
+		* å¼€å¹³æ–¹
 	int precision()
 	BigDecimal plus(MathContext mc)
 	BigDecimal plus()
 
 	BigDecimal negate(MathContext mc)
 	BigDecimal negate()
-		* È¡·´
+		* å–å
 
 
 -------------------
-Òªµã
+è¦ç‚¹
 -------------------
-	# BigDecimal ±È½ÏÏàµÈÓÃ compareTo
+	# BigDecimal æ¯”è¾ƒç›¸ç­‰ç”¨ compareTo
 		BigDecimal v1 = new BigDecimal("5.0");
 		BigDecimal v2 = new BigDecimal("5");
 		System.out.println(v1.equals(v2));			// false

@@ -59,7 +59,7 @@ type
 		func (i Accuracy) String() string
 
 
-		* 描述了最近一次生成浮点数值的操作相对于精确数值所产生的舍入误差。
+		* 精度指示器，描述了最近一次生成浮点数值的操作相对于精确数值所产生的舍入误差。
 		
 		* 预定义常量
 			const (
@@ -76,8 +76,17 @@ type
 	# type Float struct
 
 		func NewFloat(x float64) *Float
+			* 和 java 中的 new BigDecimal(0.1) 一样，直接用浮点数构造会产生精度误差
+				// float64:  0.004000000000000000083266726846886740531772375106811523437500
+				fmt.Println("float64: ", big.NewFloat(0.004).Text('f', 60))	
+
 		func ParseFloat(s string, base int, prec uint, mode RoundingMode) (f *Float, b int, err error)
 			* 类似于 f.Parse(s,base)，f 设置为给定精度和四舍五入模式。
+			* 返回 float, 精度指示, 异常
+			* 源码
+				new(Float).SetPrec(prec).SetMode(mode).Parse(s, base)
+
+			* 推荐的初始化方式，不会有精度误差
 
 		func (z *Float) Abs(x *Float) *Float
 		func (x *Float) Acc() Accuracy
@@ -121,6 +130,8 @@ type
 		func (z *Float) Mul(x, y *Float) *Float
 		func (z *Float) Neg(x *Float) *Float
 		func (z *Float) Parse(s string, base int) (f *Float, b int, err error)
+			* 解析字符串为 float，返回精度指示和异常
+
 		func (x *Float) Prec() uint
 		func (z *Float) Quo(x, y *Float) *Float
 			* 除法
@@ -157,8 +168,13 @@ type
 			* 格式化为字符串
 
 				format 指定格式
-					'f' 无指数
-				
+					'f'	标准小数 (Fixed-point)	最常用，适合普通业务、金融显示。
+					'e'	科学计数法 (小写)	适合表示极大或极小的科学数值。
+					'E'	科学计数法 (大写)	同上，只是 E 大写。
+					'g'	最简格式 (General)	自动选择：根据数值大小自动选 'f' 或 'e'，且不输出无意义的 0。
+					'G'	最简格式 (大写)	同上，自动选 'f' 或 'E'。
+					'b'	二进制指数	内部表示形式，人眼难读，适合精确的二进制数据传输。
+
 				prec 指定精度，根据 format 不同意义不同
 					对于 'e'、'E'、'f' 和 'x'，它是小数点后的位数
 					对于 'g'、'G'，则是总位数。
@@ -291,15 +307,24 @@ type
 		* 预定义
 			const (
 				ToNearestEven RoundingMode = iota // == IEEE 754-2008 roundTiesToEven
+					* 最接近偶数舍入（默认模式）。如果距离相等，向偶数舍入。这就是银行家舍入法。
+
 				ToNearestAway                     // == IEEE 754-2008 roundTiesToAway
+					* 最接近舍入（四舍五入）。如果距离相等，向远离 0 的方向进位。
+
 				ToZero                            // == IEEE 754-2008 roundTowardZero
-					* 直接丢弃多余的位
+					* 向零舍入。直接截断小数部分。
 
 				AwayFromZero                      // no IEEE 754-2008 equivalent
+					* 远离零舍入。只要有小数就进位。
+
 				ToNegativeInf                     // == IEEE 754-2008 roundTowardNegative
+					* 向负无穷舍入。数轴向左取整。
+
 				ToPositiveInf                     // == IEEE 754-2008 roundTowardPositive
+					* 向正无穷舍入。数轴向右取整。
 			)
-		
+
 		* 舍入如下
 
 			   x  ToNearestEven  ToNearestAway  ToZero  AwayFromZero  ToNegativeInf  ToPositiveInf

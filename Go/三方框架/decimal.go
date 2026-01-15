@@ -225,7 +225,7 @@ type
 				NewFromFloat(545).StringFixed(-1) // output: "550"
 
 		func (d Decimal) StringFixedBank(places int32) string
-			* 返回一个格式化为固定小数位数的字符串，并使用“银行家舍入（Banker's Rounding）”进行四舍五入。
+			* 返回一个格式化为固定小数位数的字符串，并使用“银行家舍入”进行四舍五入。
 			* 银行家舍入（又称四舍六入五留双）的规则如下：
 				小数 < 0.5 → 舍去
 				小数 > 0.5 → 进位
