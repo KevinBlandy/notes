@@ -1,91 +1,91 @@
 Cookie
-	ÊÇÊôÓÚhttpµÄ¶«Î÷¡£¸úJAVAWEBÎÞ¹Ø¡£
-1,httpÐ­ÒéÓëCookie(ÁË½â)
-   * CookieÊÇHttpÐ­ÒéÖÆ¶¨µÄ!ÏÈÓÉ·þÎñÆ÷±£´æCookieµ½ä¯ÀÀÆ÷,ÔÙÏÂ´Îä¯ÀÀÆ÷ÇëÇó·þÎñÆ÷Ê±°ÑÉÏÒ»´ÎÇëÇóµÃµ½µÄCookieÔÙ¹é»¹¸ø·þÎñÆ÷.
-   *ÓÉ·þÎñÆ÷´´½¨±£´æµ½¿Í»§¶Ëä¯ÀÀÆ÷µÄÒ»¸ö¼üÖµ¶Ô!·þÎñÆ÷±£´æCookieµÄÏìÓ¦Í·:Set-Cookie:aaa=AAA Set-Cookie:bbb=BBB
+	æ˜¯å±žäºŽhttpçš„ä¸œè¥¿ã€‚è·ŸJAVAWEBæ— å…³ã€‚
+1,httpåè®®ä¸ŽCookie(äº†è§£)
+   * Cookieæ˜¯Httpåè®®åˆ¶å®šçš„!å…ˆç”±æœåŠ¡å™¨ä¿å­˜Cookieåˆ°æµè§ˆå™¨,å†ä¸‹æ¬¡æµè§ˆå™¨è¯·æ±‚æœåŠ¡å™¨æ—¶æŠŠä¸Šä¸€æ¬¡è¯·æ±‚å¾—åˆ°çš„Cookieå†å½’è¿˜ç»™æœåŠ¡å™¨.
+   *ç”±æœåŠ¡å™¨åˆ›å»ºä¿å­˜åˆ°å®¢æˆ·ç«¯æµè§ˆå™¨çš„ä¸€ä¸ªé”®å€¼å¯¹!æœåŠ¡å™¨ä¿å­˜Cookieçš„å“åº”å¤´:Set-Cookie:aaa=AAA Set-Cookie:bbb=BBB
 	> response.addHeader("Cookie","aaa=AAA");
 	> response.addHeader("Cookie","bbb=BBB");
-   *µ±ä¯ÀÀÆ÷ÇëÇó·þÎñÆ÷Ê±,»á°Ñ¸Ã·þÎñÆ÷µÄ±£´æµÄCookie,Ëæ×ÅÇëÇó·¢ËÍ¸øä¯ÀÀÆ÷.ä¯ÀÀÆ÷¹é»¹CookieµÄÇëÇóÍ·:Cookie:aaa=AAA;bbb=BBB
-	> ·þÎñÆ÷·¢ËÍCookieµÄÊ±ºòÊÇ°¤¸ö·¢ËÍ,¶øä¯ÀÀÆ÷·µ»ØµÄÊ±ºòÖ»·µ»ØÒ»¸öCookie,°ÑËùÓÐµÄ¼üÖµ¶ÔÒÔ;ºÅÏà¸ô.
+   *å½“æµè§ˆå™¨è¯·æ±‚æœåŠ¡å™¨æ—¶,ä¼šæŠŠè¯¥æœåŠ¡å™¨çš„ä¿å­˜çš„Cookie,éšç€è¯·æ±‚å‘é€ç»™æµè§ˆå™¨.æµè§ˆå™¨å½’è¿˜Cookieçš„è¯·æ±‚å¤´:Cookie:aaa=AAA;bbb=BBB
+	> æœåŠ¡å™¨å‘é€Cookieçš„æ—¶å€™æ˜¯æŒ¨ä¸ªå‘é€,è€Œæµè§ˆå™¨è¿”å›žçš„æ—¶å€™åªè¿”å›žä¸€ä¸ªCookie,æŠŠæ‰€æœ‰çš„é”®å€¼å¯¹ä»¥;å·ç›¸éš”.
 	>
-   *httpÐ­Òé¹æ¶¨(±£Ö¤²»¸øä¯ÀÀÆ÷Ì«´óÑ¹Á¦)
-	> 1¸öCookie×î´ó4kb
-	> 1¸ö·þÎñÆ÷×î¶àÏòÒ»¸öä¯ÀÀÆ÷±£´æ20¸öCookie
-	> 1¸öä¯ÀÀÆ÷×î¶à¿ÉÒÔ±£´æ300¸öCookie
-   *ä¯ÀÀÆ÷´óÕ½:ÒòÎªä¯ÀÀÆ÷¾ºÕùºÜ¼¤ÁÒ,ËùÒÔºÜ¶àä¯ÀÀÆ÷¶¼»áÔÚÒ»¶¨·¶Î§ÄÚÎ¥·´http¹æ¶¨.µ«ÊÇÒ²²»»áÈÃÒ»¸öCookieÎª4GB!
+   *httpåè®®è§„å®š(ä¿è¯ä¸ç»™æµè§ˆå™¨å¤ªå¤§åŽ‹åŠ›)
+	> 1ä¸ªCookieæœ€å¤§4kb
+	> 1ä¸ªæœåŠ¡å™¨æœ€å¤šå‘ä¸€ä¸ªæµè§ˆå™¨ä¿å­˜20ä¸ªCookie
+	> 1ä¸ªæµè§ˆå™¨æœ€å¤šå¯ä»¥ä¿å­˜300ä¸ªCookie
+   *æµè§ˆå™¨å¤§æˆ˜:å› ä¸ºæµè§ˆå™¨ç«žäº‰å¾ˆæ¿€çƒˆ,æ‰€ä»¥å¾ˆå¤šæµè§ˆå™¨éƒ½ä¼šåœ¨ä¸€å®šèŒƒå›´å†…è¿åhttpè§„å®š.ä½†æ˜¯ä¹Ÿä¸ä¼šè®©ä¸€ä¸ªCookieä¸º4GB!
 
-2,CookieµÄÓÃÍ¾
-   *·þÎñÆ÷Ê¹ÓÃCookieÀ´¸ú×Ù¿Í»§¶Ë×´Ì¬
-   *±£´æ¹ºÎï³µ(¹ºÎï³µÖÐµÄÉÌÆ·²»ÄÜÊ¹ÓÃrequestÀ´±£´æ,ÒòÎªËüÊÇÒ»¸öÓÃ»§Ïò·þÎñÆ÷·¢ËÍµÄ¶à¸öÇëÇóÐÅÏ¢)
-   *ÏÔÊ¾ÉÏ½»µÇÂ¼Ãû(Ò²ÊÇÒ»¸öÓÃ»§¶à¸öÇëÇó)
-   ***************	CookieÊÇ²»ÄÜ¿çä¯ÀÀÆ÷µÄ 	************
-3,javawebÖÐÊ¹ÓÃCookie
-   *Ô­Ê¼·½Ê½(ÁË½â)
-	>Ê¹ÓÃresponse·¢ËÍSet-CookieÏìÓ¦Í·
-	>Ê¹ÓÃrequest»ñÈ¡CookieÇëÇóÍ·
-   *±ã½Ý·½Ê½(¾«Í¨)
-	>Ê¹ÓÃresponse.addCookie();·½·¨¿ÉÒÔÏòä¯ÀÀÆ÷±£´æCookie
-	>Ê¹ÓÃrequest.getCookies();·½·¨»ñÈ¡ä¯ÀÀÆ÷¹é»¹µÄCookie
-   CookieµÚÒ»Àý
-	> Ò»¸öJSP±£´æCookie,a.jsp
-	> ÁíÒ»¸öJSP»ñÈ¡ä¯ÀÀÆ÷¹é»¹µÄCookie b.jsp
+2,Cookieçš„ç”¨é€”
+   *æœåŠ¡å™¨ä½¿ç”¨Cookieæ¥è·Ÿè¸ªå®¢æˆ·ç«¯çŠ¶æ€
+   *ä¿å­˜è´­ç‰©è½¦(è´­ç‰©è½¦ä¸­çš„å•†å“ä¸èƒ½ä½¿ç”¨requestæ¥ä¿å­˜,å› ä¸ºå®ƒæ˜¯ä¸€ä¸ªç”¨æˆ·å‘æœåŠ¡å™¨å‘é€çš„å¤šä¸ªè¯·æ±‚ä¿¡æ¯)
+   *æ˜¾ç¤ºä¸Šäº¤ç™»å½•å(ä¹Ÿæ˜¯ä¸€ä¸ªç”¨æˆ·å¤šä¸ªè¯·æ±‚)
+   ***************	Cookieæ˜¯ä¸èƒ½è·¨æµè§ˆå™¨çš„ 	************
+3,javawebä¸­ä½¿ç”¨Cookie
+   *åŽŸå§‹æ–¹å¼(äº†è§£)
+	>ä½¿ç”¨responseå‘é€Set-Cookieå“åº”å¤´
+	>ä½¿ç”¨requestèŽ·å–Cookieè¯·æ±‚å¤´
+   *ä¾¿æ·æ–¹å¼(ç²¾é€š)
+	>ä½¿ç”¨response.addCookie();æ–¹æ³•å¯ä»¥å‘æµè§ˆå™¨ä¿å­˜Cookie
+	>ä½¿ç”¨request.getCookies();æ–¹æ³•èŽ·å–æµè§ˆå™¨å½’è¿˜çš„Cookie
+   Cookieç¬¬ä¸€ä¾‹
+	> ä¸€ä¸ªJSPä¿å­˜Cookie,a.jsp
+	> å¦ä¸€ä¸ªJSPèŽ·å–æµè§ˆå™¨å½’è¿˜çš„Cookie b.jsp
 
-4,CookieÏê½â
-   * Cookie²»Ö»ÓÐnameºÍvalueÁ½¸öÊôÐÔ
-   * CookieµÄmaxAge(ÕÆÎÕ):CookieµÄ×î´óÉúÃü.¼´Cookie¿ÉÒÔ±£´æµÄ×î´óÊ±³¤.ÒÔÃëÎªµ¥Î»,ÀýÈç:cookie.setMaxAge(60)±íÊ¾Õâ¸öCookie»á±»ä¯ÀÀÆ÷±£´æÒ»·ÖÖÓ.µ«ÊÇ»¹ÊÇ»á±£´æµ½Ó²ÅÌ.
-	> maxAge > 0:ä¯ÀÀÆ÷»á°ÑCookie±£´æµ½¿Í»§»úÓ²ÅÌÉÏ,ÓÐÐ§Ê±¼ä³¤ÎªmaxAgeµÄÖµ¾ö¶¨
-	> maxAge < 0:CookieÖ»»áÔÚä¯ÀÀÆ÷ÄÚ´æµ±ÖÐ´æÔÚ,µ±ä¯ÀÀÆ÷¹Ø±ÕµÄÊ±,ä¯ÀÀÆ÷½ø³Ì½áÊøÊ±.CookieÍ¬Ê±ËÀÍö(Ä¬ÈÏ)
-	> maxAge = 0:ä¯ÀÀÆ÷»áÂíÉÏÉ¾³ýÕâ¸öCookie
-   *CookieµÄpath(Àí½â)
-	> CookieµÄpath²¢²»ÊÇÉèÖÃÕâ¸öCookieÔÚ¿Í»§¶ËµÄ±£´æÂ·¾¶(Óë¿Í»§¶ËÎÞ¹Ø)
-	> CookieµÄpathÓÉ·þÎñÆ÷´´½¨CookieÊ±ÉèÖÃ
-	> µ±ä¯ÀÀÆ÷·ÃÎÊ·þÎñÆ÷Ä±¸öÂ·¾¶Ê±,ÐèÒª¹é»¹ÄÄÐ©Cookie¸ø·þÎñÆ÷ÄØ?Õâ¸öÓÉCookieµÄpath¾ö¶¨
-	> µ±ä¯ÀÀÆ÷·ÃÎÊ·þÎñÆ÷µÄÂ·¾¶,Èç¹û°üº¬Ä±¸öCookieµÄÂ·¾¶,ÄÇÃ´¾Í¹é»¹Õâ¸öCookie.
-	> ÀýÈç
+4,Cookieè¯¦è§£
+   * Cookieä¸åªæœ‰nameå’Œvalueä¸¤ä¸ªå±žæ€§
+   * Cookieçš„maxAge(æŽŒæ¡):Cookieçš„æœ€å¤§ç”Ÿå‘½.å³Cookieå¯ä»¥ä¿å­˜çš„æœ€å¤§æ—¶é•¿.ä»¥ç§’ä¸ºå•ä½,ä¾‹å¦‚:cookie.setMaxAge(60)è¡¨ç¤ºè¿™ä¸ªCookieä¼šè¢«æµè§ˆå™¨ä¿å­˜ä¸€åˆ†é’Ÿ.ä½†æ˜¯è¿˜æ˜¯ä¼šä¿å­˜åˆ°ç¡¬ç›˜.
+	> maxAge > 0:æµè§ˆå™¨ä¼šæŠŠCookieä¿å­˜åˆ°å®¢æˆ·æœºç¡¬ç›˜ä¸Š,æœ‰æ•ˆæ—¶é—´é•¿ä¸ºmaxAgeçš„å€¼å†³å®š
+	> maxAge < 0:Cookieåªä¼šåœ¨æµè§ˆå™¨å†…å­˜å½“ä¸­å­˜åœ¨,å½“æµè§ˆå™¨å…³é—­çš„æ—¶,æµè§ˆå™¨è¿›ç¨‹ç»“æŸæ—¶.CookieåŒæ—¶æ­»äº¡(é»˜è®¤)
+	> maxAge = 0:æµè§ˆå™¨ä¼šé©¬ä¸Šåˆ é™¤è¿™ä¸ªCookie
+   *Cookieçš„path(ç†è§£)
+	> Cookieçš„pathå¹¶ä¸æ˜¯è®¾ç½®è¿™ä¸ªCookieåœ¨å®¢æˆ·ç«¯çš„ä¿å­˜è·¯å¾„(ä¸Žå®¢æˆ·ç«¯æ— å…³)
+	> Cookieçš„pathç”±æœåŠ¡å™¨åˆ›å»ºCookieæ—¶è®¾ç½®
+	> å½“æµè§ˆå™¨è®¿é—®æœåŠ¡å™¨è°‹ä¸ªè·¯å¾„æ—¶,éœ€è¦å½’è¿˜å“ªäº›Cookieç»™æœåŠ¡å™¨å‘¢?è¿™ä¸ªç”±Cookieçš„pathå†³å®š
+	> å½“æµè§ˆå™¨è®¿é—®æœåŠ¡å™¨çš„è·¯å¾„,å¦‚æžœåŒ…å«è°‹ä¸ªCookieçš„è·¯å¾„,é‚£ä¹ˆå°±å½’è¿˜è¿™ä¸ªCookie.
+	> ä¾‹å¦‚
 		
-	> CookieµÄpathÄ¬ÈÏÖµ:µ±Ç°·ÃÎÊÂ·¾¶µÄ¸¸Â·¾¶.ÀýÈçÔÚ/Demo/Test/a.jspÊ±.ÏàÓ¦µÄCookie.ÄÇÃ´Õâ¸öCookieµÄÄ¬ÈÏpath¾ÍÊÇ/Demo/Test/
-	> ·ÃÎÊÂ·¾¶ÊÇ·ñ°üº¬ÁËCookieµÄÂ·¾¶¡£Èç¹û°üº¬,¾Í´øÉÏÄã£¡
-   *CookieµÄdomain(ÁË½â)
-	> domainÓÃÀ´Ö¸¶¨CookieµÄÓòÃû!µ±¶à¸ö¶þ¼¶ÓòÖÐ¹²ÏíCookieÊ±²ÅÓÐÓÃ
-	> ÀýÈç:www.baidu.com,zhidao.baidu.com,news.baidu.com,tiba.baidu.comÖ±½Ó¹²ÏíCookieÊ±¿ÉÒÔÊ¹ÓÃdomain
-	> ÉèÖÃdomainÎª:cookie.setDomain(".baidu.com");
-	> ÉèÖÃpathÎª:cookie.setPath("/");	±ØÐëÊÇÐ±¸Ü.²»È»Cookie¾ÍËøËÀÄ±¸öÓòÃûÁË.
+	> Cookieçš„pathé»˜è®¤å€¼:å½“å‰è®¿é—®è·¯å¾„çš„çˆ¶è·¯å¾„.ä¾‹å¦‚åœ¨/Demo/Test/a.jspæ—¶.ç›¸åº”çš„Cookie.é‚£ä¹ˆè¿™ä¸ªCookieçš„é»˜è®¤pathå°±æ˜¯/Demo/Test/
+	> è®¿é—®è·¯å¾„æ˜¯å¦åŒ…å«äº†Cookieçš„è·¯å¾„ã€‚å¦‚æžœåŒ…å«,å°±å¸¦ä¸Šä½ ï¼
+   *Cookieçš„domain(äº†è§£)
+	> domainç”¨æ¥æŒ‡å®šCookieçš„åŸŸå!å½“å¤šä¸ªäºŒçº§åŸŸä¸­å…±äº«Cookieæ—¶æ‰æœ‰ç”¨
+	> ä¾‹å¦‚:www.baidu.com,zhidao.baidu.com,news.baidu.com,tiba.baidu.comç›´æŽ¥å…±äº«Cookieæ—¶å¯ä»¥ä½¿ç”¨domain
+	> è®¾ç½®domainä¸º:cookie.setDomain(".baidu.com");
+	> è®¾ç½®pathä¸º:cookie.setPath("/");	å¿…é¡»æ˜¯æ–œæ .ä¸ç„¶Cookieå°±é”æ­»è°‹ä¸ªåŸŸåäº†.
 	
 
    * setHttpOnly
 	> cookie.setHttpOnly(true);
-	> Ìá¸ßÁË°²È«ÐÔ,JS½«²»»á¶ÁÈ¡µ½CookieÖµ
+	> æé«˜äº†å®‰å…¨æ€§,JSå°†ä¸ä¼šè¯»å–åˆ°Cookieå€¼
 
-   * SameSite (Ä¿Ç°Servlet-api4.1»¹Ã»ÊµÏÖ)
-	> ·ÀÖ¹csrf¹¥»÷
-	> SameSite ÊôÐÔ¿ÉÒÔÉèÖÃ3¸öÖµ
+   * SameSite (ç›®å‰Servlet-api4.1è¿˜æ²¡å®žçŽ°)
+	> é˜²æ­¢csrfæ”»å‡»
+	> SameSite å±žæ€§å¯ä»¥è®¾ç½®3ä¸ªå€¼
 
 	Strict
-		* ×îÎªÑÏ¸ñ£¬ÍêÈ«½ûÖ¹µÚÈý·½ Cookie£¬¿çÕ¾µãÊ±£¬ÈÎºÎÇé¿öÏÂ¶¼²»»á·¢ËÍ Cookie¡£
-		* »»ÑÔÖ®£¬Ö»ÓÐµ±Ç°ÍøÒ³µÄ URL ÓëÇëÇóÄ¿±êÒ»ÖÂ£¬²Å»á´øÉÏ Cookie¡£
+		* æœ€ä¸ºä¸¥æ ¼ï¼Œå®Œå…¨ç¦æ­¢ç¬¬ä¸‰æ–¹ Cookieï¼Œè·¨ç«™ç‚¹æ—¶ï¼Œä»»ä½•æƒ…å†µä¸‹éƒ½ä¸ä¼šå‘é€ Cookieã€‚
+		* æ¢è¨€ä¹‹ï¼Œåªæœ‰å½“å‰ç½‘é¡µçš„ URL ä¸Žè¯·æ±‚ç›®æ ‡ä¸€è‡´ï¼Œæ‰ä¼šå¸¦ä¸Š Cookieã€‚
 
 	Lax
-		* ¹æÔòÉÔÉÔ·Å¿í£¬´ó¶àÊýÇé¿öÒ²ÊÇ²»·¢ËÍµÚÈý·½ Cookie£¬µ«ÊÇµ¼º½µ½Ä¿±êÍøÖ·µÄ Get ÇëÇó³ýÍâ¡£
-		* µ¼º½µ½Ä¿±êÍøÖ·µÄ GET ÇëÇó£¬Ö»°üÀ¨ÈýÖÖÇé¿ö£ºÁ´½Ó£¬Ô¤¼ÓÔØÇëÇó£¬GET ±íµ¥
-		* (Ä¬ÈÏ)
+		* è§„åˆ™ç¨ç¨æ”¾å®½ï¼Œå¤§å¤šæ•°æƒ…å†µä¹Ÿæ˜¯ä¸å‘é€ç¬¬ä¸‰æ–¹ Cookieï¼Œä½†æ˜¯å¯¼èˆªåˆ°ç›®æ ‡ç½‘å€çš„ Get è¯·æ±‚é™¤å¤–ã€‚
+		* å¯¼èˆªåˆ°ç›®æ ‡ç½‘å€çš„ GET è¯·æ±‚ï¼ŒåªåŒ…æ‹¬ä¸‰ç§æƒ…å†µï¼šé“¾æŽ¥ï¼Œé¢„åŠ è½½è¯·æ±‚ï¼ŒGET è¡¨å•
+		* (é»˜è®¤)
 		
-		ÇëÇóÀàÐÍ	Ê¾Àý					Õý³£Çé¿ö	Lax
-		Á´½Ó		<a href="..."></a>			·¢ËÍ Cookie	·¢ËÍ Cookie
-		Ô¤¼ÓÔØ		<link rel="prerender" href="..."/>	·¢ËÍ Cookie	·¢ËÍ Cookie
-		GET ±íµ¥	<form method="GET" action="...">	·¢ËÍ Cookie	·¢ËÍ Cookie
-		POST ±íµ¥	<form method="POST" action="...">	·¢ËÍ Cookie	²»·¢ËÍ
-		iframe		<iframe src="..."></iframe>		·¢ËÍ Cookie	²»·¢ËÍ
-		AJAX		$.get("...")				·¢ËÍ Cookie	²»·¢ËÍ
-		Image		<img src="...">				·¢ËÍ Cookie	²»·¢ËÍ
+		è¯·æ±‚ç±»åž‹	ç¤ºä¾‹					æ­£å¸¸æƒ…å†µ	Lax
+		é“¾æŽ¥		<a href="..."></a>			å‘é€ Cookie	å‘é€ Cookie
+		é¢„åŠ è½½		<link rel="prerender" href="..."/>	å‘é€ Cookie	å‘é€ Cookie
+		GET è¡¨å•	<form method="GET" action="...">	å‘é€ Cookie	å‘é€ Cookie
+		POST è¡¨å•	<form method="POST" action="...">	å‘é€ Cookie	ä¸å‘é€
+		iframe		<iframe src="..."></iframe>		å‘é€ Cookie	ä¸å‘é€
+		AJAX		$.get("...")				å‘é€ Cookie	ä¸å‘é€
+		Image		<img src="...">				å‘é€ Cookie	ä¸å‘é€
 	
 	None
-		* ¹Ø±ÕSameSiteÊôÐÔ£¬½«ÆäÉèÎªNone
-		* Ç°ÌáÊÇ±ØÐëÍ¬Ê±ÉèÖÃSecureÊôÐÔ£¨Cookie Ö»ÄÜÍ¨¹ý HTTPS Ð­Òé·¢ËÍ£©£¬·ñÔòÎÞÐ§¡£
+		* å…³é—­SameSiteå±žæ€§ï¼Œå°†å…¶è®¾ä¸ºNone
+		* å‰ææ˜¯å¿…é¡»åŒæ—¶è®¾ç½®Secureå±žæ€§ï¼ˆCookie åªèƒ½é€šè¿‡ HTTPS åè®®å‘é€ï¼‰ï¼Œå¦åˆ™æ— æ•ˆã€‚
 
-		* ÎÞÐ§ÉèÖÃ
+		* æ— æ•ˆè®¾ç½®
 			Set-Cookie: widget_session=abc123; SameSite=None
 
-		* ÓÐÐ§ÉèÖÃ
+		* æœ‰æ•ˆè®¾ç½®
 			Set-Cookie: widget_session=abc123; SameSite=None; Secure
 	
 

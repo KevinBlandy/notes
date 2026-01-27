@@ -16,6 +16,9 @@ acme
 		* 安装目录
 
 			~/.acme.sh/
+		
+		* 升级
+			./acme.sh --upgrade
 	
 	# 修改CA
 		* acme.sh 脚本默认 CA 服务器是 ZeroSSL，有时可能会导致获取证书的时候一直出现：Pending，The CA is processing your order，please just wait.
