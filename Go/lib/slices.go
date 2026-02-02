@@ -24,6 +24,14 @@ func
 	func Clip[S ~[]E, E any](s S) S
 	func Clone[S ~[]E, E any](s S) S
 	func Collect[E any](seq iter.Seq[E]) []E
+		* 把 seq 转换为 [] 切片
+			// ["a", "b", "c"]
+			slices.Collect(maps.Keys(map[string]any{
+				"a": struct{}{},
+				"b": struct{}{},
+				"c": struct{}{},
+			}))
+
 	func Compact[S ~[]E, E comparable](s S) S
 	func CompactFunc[S ~[]E, E any](s S, eq func(E, E) bool) S
 	func Compare[S ~[]E, E cmp.Ordered](s1, s2 S) int

@@ -1,49 +1,49 @@
 
 ---------------------------
-Go app µÄÄ¿Â¼½á¹¹
+Go app çš„ç›®å½•ç»“æž„
 ---------------------------
-	<ÏîÄ¿Ãû>
-	©À©¤README		# ËµÃ÷
-	©À©¤LICENSE		# ·Ö·¢Ð­Òé
-	©À©¤AUTHORS		# ×÷Õß
-	©À©¤<bin>
-		©À©¤calc
-	©À©¤<pkg>
-		©¸©¤<linux_amd64>
-			©¸©¤simplemath.a
-	©À©¤<src>	
-		©À©¤<calc>
-			©¸©¤calc.go
-		©À©¤<simplemath>
-			©À©¤add.go
-			©À©¤add_test.go
-			©À©¤sqrt.go
-			©À©¤sqrt_test.go
+	<é¡¹ç›®å>
+	â”œâ”€README		# è¯´æ˜Ž
+	â”œâ”€LICENSE		# åˆ†å‘åè®®
+	â”œâ”€AUTHORS		# ä½œè€…
+	â”œâ”€<bin>
+		â”œâ”€calc
+	â”œâ”€<pkg>
+		â””â”€<linux_amd64>
+			â””â”€simplemath.a
+	â”œâ”€<src>	
+		â”œâ”€<calc>
+			â””â”€calc.go
+		â”œâ”€<simplemath>
+			â”œâ”€add.go
+			â”œâ”€add_test.go
+			â”œâ”€sqrt.go
+			â”œâ”€sqrt_test.go
 
 	
-	* pkgºÍbinÔòÎÞÐèÊÖ¶¯´´½¨£¬Èç¹û±ØÒªGotoolÔÚ¹¹½¨¹ý³ÌÖÐ»á×Ô¶¯´´½¨ÕâÐ©Ä¿Â¼
+	* pkgå’Œbinåˆ™æ— éœ€æ‰‹åŠ¨åˆ›å»ºï¼Œå¦‚æžœå¿…è¦Gotoolåœ¨æž„å»ºè¿‡ç¨‹ä¸­ä¼šè‡ªåŠ¨åˆ›å»ºè¿™äº›ç›®å½•
 
 
 ----------------------
-¿çÆ½Ì¨±àÒë
+è·¨å¹³å°ç¼–è¯‘
 ----------------------
-	# ¿çÆ½Ì¨±àÒë(½»²æ±àÒë)
+	# è·¨å¹³å°ç¼–è¯‘(äº¤å‰ç¼–è¯‘)
 		SET CGO_ENABLED=0
-			* ½ûÓÃCGO
-			* ½»²æ±àÒë²»Ö§³Ö CGO ËùÒÔÒª½ûÓÃ
+			* ç¦ç”¨CGO
+			* äº¤å‰ç¼–è¯‘ä¸æ”¯æŒ CGO æ‰€ä»¥è¦ç¦ç”¨
 
 		SET GOOS=linux
-			* Ä¿±ê²Ù×÷ÏµÍ³
-			* Èç
+			* ç›®æ ‡æ“ä½œç³»ç»Ÿ
+			* å¦‚
 				windows
 				linux
 				darwin(unix/mac)
 
 		SET GOARCH=amd64
-			* Ä¿±ê´¦ÀíÆ÷¼Ü¹¹
-			* Èç
+			* ç›®æ ‡å¤„ç†å™¨æž¶æž„
+			* å¦‚
 				amd64
 				arm64
 	
 	
-		* Ö»ÓÐWindowsÆ½Ì¨ÏÂ£¬ÉèÖÃ±äÁ¿ÐèÒª SET Ö¸Áî£¬ÆäËû²»ÐèÒª
+		* åªæœ‰Windowså¹³å°ä¸‹ï¼Œè®¾ç½®å˜é‡éœ€è¦ SET æŒ‡ä»¤ï¼Œå…¶ä»–ä¸éœ€è¦

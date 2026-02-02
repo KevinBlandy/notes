@@ -7,9 +7,9 @@ var
 -----------------
 	const (
 		Store   uint16 = 0 // no compression
-			* ²»Ñ¹Ëõ
+			* ä¸å‹ç¼©
 		Deflate uint16 = 8 // DEFLATE compressed
-			* Ñ¹Ëõ
+			* å‹ç¼©
 	)
 
 
@@ -33,7 +33,7 @@ type
 	
 	# type FileHeader struct {
 			Name string
-				* Ãû³Æ£¬Èç¹ûÊÇ "/" ½áÎ²£¬ÔòÊÇÒ»¸öÄ¿Â¼
+				* åç§°ï¼Œå¦‚æœæ˜¯ "/" ç»“å°¾ï¼Œåˆ™æ˜¯ä¸€ä¸ªç›®å½•
 
 			Comment string
 			NonUTF8 bool
@@ -41,8 +41,8 @@ type
 			ReaderVersion  uint16
 			Flags          uint16
 			Method uint16
-				* Ñ¹Ëõ·½Ê½£¬¶ÔÓÚÄ¿Â¼ÏîÀ´ËµÎŞĞ§
-				* Ò»°ãÉèÖÃ: zip.Deflate
+				* å‹ç¼©æ–¹å¼ï¼Œå¯¹äºç›®å½•é¡¹æ¥è¯´æ— æ•ˆ
+				* ä¸€èˆ¬è®¾ç½®: zip.Deflate
 
 			Modified     time.Time
 			ModifiedTime uint16 // Deprecated: Legacy MS-DOS date; use Modified instead.
@@ -56,10 +56,10 @@ type
 			ExternalAttrs      uint32 // Meaning depends on CreatorVersion
 		}
 		
-		* Ò»¸öZipÑ¹ËõÏî
+		* ä¸€ä¸ªZipå‹ç¼©é¡¹
 
 		func FileInfoHeader(fi fs.FileInfo) (*FileHeader, error)
-			* ¸ù¾İÎÄ¼şµÄ FileInfo ´´½¨
+			* æ ¹æ®æ–‡ä»¶çš„ FileInfo åˆ›å»º
 
 		func (h *FileHeader) FileInfo() fs.FileInfo
 		func (h *FileHeader) ModTime() time.Time
@@ -89,17 +89,17 @@ type
 		func (w *Writer) Create(name string) (io.Writer, error)
 
 		func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error)
-			* Ğ´ÈëÒ»¸ö*FileHeaderÎÄ¼şÏî
+			* å†™å…¥ä¸€ä¸ª*FileHeaderæ–‡ä»¶é¡¹
 		func (w *Writer) AddFS(fsys fs.FS) error
-			* Ğ´ÈëÒ»¸ö FS£¬AddFS
-			* Ëü´ÓÎÄ¼şÏµÍ³µÄ¸ùÄ¿Â¼¿ªÊ¼±éÀúÄ¿Â¼Ê÷£¬Ê¹ÓÃ deflate ½«Ã¿¸öÎÄ¼şÌí¼Óµ½Ñ¹Ëõ°ü£¬Í¬Ê±±£³ÖÄ¿Â¼½á¹¹²»±ä¡£
+			* å†™å…¥ä¸€ä¸ª FSï¼ŒAddFS
+			* å®ƒä»æ–‡ä»¶ç³»ç»Ÿçš„æ ¹ç›®å½•å¼€å§‹éå†ç›®å½•æ ‘ï¼Œä½¿ç”¨ deflate å°†æ¯ä¸ªæ–‡ä»¶æ·»åŠ åˆ°å‹ç¼©åŒ…ï¼ŒåŒæ—¶ä¿æŒç›®å½•ç»“æ„ä¸å˜ã€‚
 
 		func (w *Writer) Flush() error
 		func (w *Writer) RegisterCompressor(method uint16, comp Compressor)
 		func (w *Writer) SetComment(comment string) error
 		func (w *Writer) SetOffset(n int64)
 		func (w *Writer) CreateRaw(fh *FileHeader) (io.Writer, error)
-			* ÓëCreateHeader²»Í¬µÄÊÇ£¬´«µİ¸øWriterµÄ×Ö½ÚÃ»ÓĞ±»Ñ¹Ëõ¡£
+			* ä¸CreateHeaderä¸åŒçš„æ˜¯ï¼Œä¼ é€’ç»™Writerçš„å­—èŠ‚æ²¡æœ‰è¢«å‹ç¼©ã€‚
 		
 		func (w *Writer) Copy(f *File) error
 
@@ -115,7 +115,7 @@ func
 -----------------
 demo
 -----------------
-	# ½âÑ¹Ëõ
+	# è§£å‹ç¼©
 		import (
 			"archive/zip"
 			"log"
@@ -128,19 +128,19 @@ demo
 			}
 			defer reader.Close()
 
-			// ±éÀúÃ¿Ò»¸öÑ¹ËõÏî
+			// éå†æ¯ä¸€ä¸ªå‹ç¼©é¡¹
 			for _, file := range reader.File {
-				log.Println(file.Name)	// Ñ¹ËõÎÄ¼şÃû³Æ£¬È«Â·¾¶
+				log.Println(file.Name)	// å‹ç¼©æ–‡ä»¶åç§°ï¼Œå…¨è·¯å¾„
 				closeReader, err := file.Open()
 				if err != nil {
 					log.Println(err)
 				}
-				// TODO ¶ÁÈ¡´¦Àí reader ÖĞµÄÊı¾İ
+				// TODO è¯»å–å¤„ç† reader ä¸­çš„æ•°æ®
 				closeReader.Close()
 			}
 		}
 	
-	# Ñ¹ËõÎÄ¼ş
+	# å‹ç¼©æ–‡ä»¶
 		import (
 			"archive/zip"
 			"io"
@@ -149,24 +149,24 @@ demo
 
 		func main(){
 
-			// ´´½¨Writer
+			// åˆ›å»ºWriter
 			writer := zip.NewWriter(io.Discard)
 
-			// Ğ´ÈëÒ»¸ö»òÕß¶à¸öÊı¾İ
+			// å†™å…¥ä¸€ä¸ªæˆ–è€…å¤šä¸ªæ•°æ®
 			w, err := writer.Create("index.html")
 			if err != nil {
 				log.Fatal(err)
 			}
 			w.Write([]byte("im html content"))
 
-			// ¹Ø±ÕWriter
+			// å…³é—­Writer
 			err = writer.Close()
 			if err != nil {
 				log.Fatal(err)
 			}
 		}
 	
-	# Ñ¹ËõÕû¸öÄ¿Â¼
+	# å‹ç¼©æ•´ä¸ªç›®å½•
 		package main
 
 		import (
@@ -176,10 +176,10 @@ demo
 		)
 
 		func main() {
-			// Ô¤´´½¨ zip ÎÄ¼ş
+			// é¢„åˆ›å»º zip æ–‡ä»¶
 			zipFile, err := os.Create("D:\\apache-maven.zip")
 			if err != nil {
-				fmt.Printf("´´½¨ÎÄ¼şÒì³£ %s\n", err.Error())
+				fmt.Printf("åˆ›å»ºæ–‡ä»¶å¼‚å¸¸ %s\n", err.Error())
 				return
 			}
 			defer func() {
@@ -192,9 +192,9 @@ demo
 				_ = writer.Close()
 			}()
 
-			// Ñ¹ËõÖ¸¶¨µÄÄ¿Â¼
+			// å‹ç¼©æŒ‡å®šçš„ç›®å½•
 			if err := writer.AddFS(os.DirFS("D:\\apache-maven-3.9.6")); err != nil {
-				fmt.Printf("zip ÎÄ¼şÑ¹ËõÒì³£ %s\n", err.Error())
+				fmt.Printf("zip æ–‡ä»¶å‹ç¼©å¼‚å¸¸ %s\n", err.Error())
 				return
 			}
 		}
