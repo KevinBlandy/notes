@@ -176,6 +176,7 @@ type
 
 		func (t Time) Zone() (name string, offset int)
 			* 获取这个时间的时区，返回名字和偏移量
+			* 返回该时区的缩写名称（如 “CET”）及其相对于协调世界时（UTC）的偏移量（以秒为单位）。
 
 		func (t Time) Unix() int64
 			* 返回unix时间戳的秒数 - 1652946208
