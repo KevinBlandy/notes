@@ -86,6 +86,8 @@ type
 		}
 		func NewWriter(w io.Writer) *Writer
 		func (w *Writer) Close() error
+			* 关闭 gzip 自身的写入流，注意这并不会关闭其底层的 writer。
+
 		func (w *Writer) Create(name string) (io.Writer, error)
 
 		func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error)
