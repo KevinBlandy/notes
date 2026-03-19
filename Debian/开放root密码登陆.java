@@ -9,7 +9,10 @@
     * 编辑文件 /etc/ssh/sshd_config
     
         PermitRootLogin yes
+           * prohibit-password
+
         PasswordAuthentication yes
+         
     
     * 重启服务
         systemctl restart ssh
