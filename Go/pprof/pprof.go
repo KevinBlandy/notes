@@ -6,3 +6,10 @@ pprof
 	
 	# ²Î¿¼
 		https://golang2.eddycjy.com/posts/ch6/01-pprof-1/
+
+
+		 go tool pprof http://host:port/debug/pprof/heap   
+
+		 top
+		 web
+		 
