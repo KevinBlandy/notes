@@ -1,19 +1,32 @@
 ------------------
 proto
 ------------------
-
 	# 编译器下载（不同系统）
 
 		https://github.com/protocolbuffers/protobuf/releases
 
 		protoc-31.1-win64.zip
 		protoc-31.1-linux-x86_64.zip
-	
-	# 添加到 PATH
 
+		* Protobuf 的工作流程是 “编译器 + 语言插件” 的组合，protoc 是用 C++ 编写的二进制程序，不分语言。
+		* protoc 执行的时候会根据参数，在本地 PATH 中寻找对应的插件来执行生成。
+		
+	# 添加到 PATH
+	
 		// 查看版本号
 		protoc --version
 	
+	# 语言插件
+		* Golang
+			* 仓库: https://github.com/protocolbuffers/protobuf-go
+			* 执行: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+		
+		* Python
+			* 执行: pip install protobuf
+		
+		* Java
+			* 通常在 Maven/Gradle 中引入依赖，编译器插件会自动下载。
+
 
 	# 语法
 		

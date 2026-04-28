@@ -4,8 +4,8 @@ GRPC
 	# 站
 		https://grpc.io/
 		https://doc.oschina.net/grpc
-
 	
+
 
 
 -----------------------------
@@ -23,7 +23,7 @@ GRPC
 
 	# 下载对应（语言）的 proto 和 proto-grpc 编译插件
 
-		* Golang
+		* Golang CLI
 
 			// protoc-gen-go
 			go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
