@@ -7,26 +7,33 @@ protobuf-go
 		* 仓库: https://github.com/protocolbuffers/protobuf-go
 		* 安装: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
-		protoc --proto_path=proto --go_out. --go_opt=paths=source_relative *.proto
+		protoc \
+			--proto_path=proto \
+			--go_out=gen \
+			--go_opt=paths=import \
+			--go-grpc_out=gen \
+			--go-grpc_opt=paths=import \
+			proto/**/*.proto
+
 		
 	# 要生成 Go 代码，必须要在 proto 中提供 Go 包的导入路径，有两个方式
 
 		* 在调用编译器时，传递一个或多个参数，在命令行中指定 Go 的导入路径
 
-					// 参数
-					M${PROTO_FILE}=${GO_IMPORT_PATH}
-					// 示例
-					protoc --proto_path=src \
-						--go_opt=Mprotos/buzz.proto=example.com/project/protos/fizz \
-						--go_opt=Mprotos/bar.proto=example.com/project/protos/foo \
-						protos/buzz.proto protos/bar.proto
+			// 参数
+			M${PROTO_FILE}=${GO_IMPORT_PATH}
+			// 示例
+			protoc --proto_path=src \
+				--go_opt=Mprotos/buzz.proto=example.com/project/protos/fizz \
+				--go_opt=Mprotos/bar.proto=example.com/project/protos/foo \
+				protos/buzz.proto protos/bar.proto
 		
-		* 在 .proto 文件内部进行声明（推荐）
+		* 在 .proto 文件内部进行声明（推荐），可以被命令行参数覆盖
 
 			option go_package = "github.com/foo/bar;bar";
 
 				* ';' 前面部分是其他 go 模块 import 当前定义时的 Go 代码导入路径。
-				* ';' 后面部分是 go 当前定义的 package 名称，如果不提供这部分，编译器会根据 “导入路径” 的最后一个部分自动推断（例如路径是 .../api/user，则包名默认为 user）。
+				* ';' 后面部分是 go 当前定义的包名，如果不提供这部分，编译器会根据 “导入路径” 的最后一个部分自动推断（例如路径是 .../api/user，则包名默认为 user）。
 
 	# 参数
 		--go_out=out
@@ -44,7 +51,7 @@ protobuf-go
 						--go_out=gen --go_opt=paths=import
 
 
-						// 最终文件路径
+						// 最终文件所在目录
 						gen/api/foo/bar
 						// 文件 package
 						package zoo;
