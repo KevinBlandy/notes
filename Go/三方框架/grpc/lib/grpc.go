@@ -23,14 +23,10 @@ var
 	const Version = "1.72.2"
 	
 	var (
-		// ErrClientConnClosing indicates that the operation is illegal because
-		// the ClientConn is closing.
-		//
-		// Deprecated: this error should not be relied upon by users; use the status
-		// code of Canceled instead.
+		// 客户端关闭异常，废弃，建议使用 odes.Canceled 状态码头来判断
 		ErrClientConnClosing = status.Error(codes.Canceled, "grpc: the client connection is closing")
 
-		// PickFirstBalancerName is the name of the pick_first balancer.
+		// pick_first 负载均衡器的名称。
 		PickFirstBalancerName = pickfirst.Name
 	)
 
@@ -87,6 +83,9 @@ type
 		func StaticMethod() CallOption
 		func Trailer(md *metadata.MD) CallOption
 		func UseCompressor(name string) CallOption
+			* 压缩请求
+				grpc.UseCompressor(gzip.Name)
+
 		func WaitForReady(waitForReady bool) CallOption
 
 	# type ClientConn struct {
@@ -423,6 +422,7 @@ type
 		}
 
 	# type StreamClientInterceptor func(ctx context.Context, desc *StreamDesc, cc *ClientConn, method string, streamer Streamer, opts ...CallOption) (ClientStream, error)
+		* 流式客户端拦截器
 
 	# type StreamDesc struct {
 			StreamName string        // the name of the method excluding the service
@@ -439,11 +439,19 @@ type
 		}
 
 	# type StreamServerInterceptor func(srv any, ss ServerStream, info *StreamServerInfo, handler StreamHandler) error
+		* 流失服务端拦截器
+		* 继续往下执行，返回 nil
+			handler(ctx, req)
+
 	# type Streamer func(ctx context.Context, desc *StreamDesc, cc *ClientConn, method string, opts ...CallOption) (ClientStream, error)
 	# type TrailerCallOption struct {
 			TrailerAddr *metadata.MD
 		}
 	# type UnaryClientInterceptor func(ctx context.Context, method string, req, reply any, cc *ClientConn, invoker UnaryInvoker, opts ...CallOption) error
+		* 一元客户端拦截器
+		* 服务继续往下执行
+			return invoker(ctx, method, req, reply, cc, opts...)
+
 	# type UnaryHandler func(ctx context.Context, req any) (any, error)
 	# type UnaryInvoker func(ctx context.Context, method string, req, reply any, cc *ClientConn, opts ...CallOption) error
 	# type UnaryServerInfo struct {
@@ -452,6 +460,7 @@ type
 		}
 	
 	# type UnaryServerInterceptor func(ctx context.Context, req any, info *UnaryServerInfo, handler UnaryHandler) (resp any, err error)
+		* 一元服务端拦截器
 
 ------------------
 func

@@ -26,7 +26,7 @@ GRPC 服务类型
 		rpc BidiHello(stream HelloRequest) returns (stream HelloResponse);
 	
 			* 双全工通信，双方都是流式
-	
+
 ----------------------------
 元数据
 ----------------------------
