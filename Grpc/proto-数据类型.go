@@ -102,6 +102,7 @@
 			v := &proto.Member{}
 			v.Meta["_ser"] = "ser"
 		
+		* 不能是 repeated 的
 		* key 对于基础类型来说，可以是数值或者是字符串类型（浮点数和字节数组都不行）。
 		* key 也不能是枚举或另一个 message 
 		* value 则任意，除了 map（map 不能嵌套）

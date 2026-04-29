@@ -102,6 +102,17 @@ proto
 
 				* 注意，文件内容不能使用引号、通配符、转义序列、命令等。
 				* 每行对应一个参数，即使该行包含空格。
+			
+			* 理论上来说 protoc 本身不支持递归搜索子目录的通配符（即它不支持类似 '/*.proto' 的写法）。
+
+				* 在 Linux 或 macOS (使用 find 命令找出 proto 目录下的所有 .proto 文件)
+					protoc  ... $(find proto -name "*.proto")
+				
+				* 在 Zsh 或 现代 Bash (使用递归通配符匹配出 proto 目录下的所有 .proto 文件)
+					protoc ... proto/**/*.proto
+			
+				
+
 		
 		
 		

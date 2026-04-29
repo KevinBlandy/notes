@@ -24,9 +24,8 @@
 
 	# 字段数量
 		* 就是这个字段可以出现多少次
-			repeated int64  id = 1 ;
 		
-			repeated(废弃)
+			required(废弃)
 				* 字段必须存在，且只能出现一次。
 			
 			optional(proto3 默认)
@@ -76,7 +75,7 @@
 			  Color defaultColor = 3 [default = read];
 			}
 		
-		* 枚举的第一个项目值必须是 0
+		* 枚举的第一个项目值必须是 0，并且名称应为 ENUM_TYPE_NAME_UNSPECIFIED 或 ENUM_TYPE_NAME_UNKNOWN。
 		* 值虽然可以是负数但是不建议（效率低），
 		
 		* 通过 allow_alias 属性开启枚举别名，即可以给相同值的枚举定义不同的名称
@@ -90,7 +89,6 @@
 			  // blue 和 skuBlue 的值一样，相互别名
 			  skuBlue = 2;
 			}
-		
 		
 		
 		* 在序列化/反序列化的时候，未识别的非法枚举值会被保留（本质上就是数值），但是具体要看不同语言的处理方式。
