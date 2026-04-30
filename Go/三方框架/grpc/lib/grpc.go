@@ -1,9 +1,3 @@
-------------------
-GRPC
-------------------
-	# Golang 的 GRPC 实现
-
-		https://pkg.go.dev/google.golang.org/grpc
 
 
 ------------------
@@ -67,6 +61,8 @@ type
 	# type CallOption interface {
 		}
 
+		* 请求级别的配置
+
 		func CallAuthority(authority string) CallOption
 		func CallContentSubtype(contentSubtype string) CallOption
 		func CallCustomCodec(codec Codec) CallOption
@@ -80,6 +76,8 @@ type
 		func OnFinish(onFinish func(err error)) CallOption
 		func Peer(p *peer.Peer) CallOption
 		func PerRPCCredentials(creds credentials.PerRPCCredentials) CallOption
+			* 配置调用级别的点对点认证
+
 		func StaticMethod() CallOption
 		func Trailer(md *metadata.MD) CallOption
 		func UseCompressor(name string) CallOption
@@ -215,6 +213,8 @@ type
 		func WithMaxMsgSize(s int) DialOption
 		func WithNoProxy() DialOption
 		func WithPerRPCCredentials(creds credentials.PerRPCCredentials) DialOption
+			* 配置连接级别的点对点认证凭证
+			
 		func WithReadBufferSize(s int) DialOption
 		func WithResolvers(rs ...resolver.Builder) DialOption
 		func WithReturnConnectionError() DialOption
@@ -223,7 +223,20 @@ type
 		func WithStreamInterceptor(f StreamClientInterceptor) DialOption
 		func WithTimeout(d time.Duration) DialOption
 		func WithTransportCredentials(creds credentials.TransportCredentials) DialOption
+			* 配置连接层安全凭据（例如 TLS/SSL）。
+			* 不能和 WithCredentialsBundle 一起使用。
+			* 禁用传输层安全，也就是跳过服务器的证书验证
+				grpc.WithTransportCredentials(insecure.NewCredentials())
+			* 配置服务器证书
+				creds, err := credentials.NewClientTLSFromFile("server.crt", "servername") // 服务器证书和服务器名称
+				if err != nil {
+					panic(err)
+				}
+				grpc.WithTransportCredentials(creds)
+
 		func WithUnaryInterceptor(f UnaryClientInterceptor) DialOption
+			* 添加一元调用拦截器
+
 		func WithUserAgent(s string) DialOption
 		func WithWriteBufferSize(s int) DialOption
 	
@@ -322,19 +335,34 @@ type
 
 		func NewServer(opt ...ServerOption) *Server
 		func (s *Server) GetServiceInfo() map[string]ServiceInfo
+			* 获取服务详情
 		func (s *Server) GracefulStop()
+			* 优雅停止服务
 		func (s *Server) RegisterService(sd *ServiceDesc, ss any)
+			* 注册服务
 		func (s *Server) Serve(lis net.Listener) error
+			* 开启监听
 		func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request)
+			* 响应 HTTP 请求
 		func (s *Server) Stop()
+			* 暴力停止服务
 
 	# type ServerOption interface {
 		}
+
+		* 服务器配置
 
 		func ChainStreamInterceptor(interceptors ...StreamServerInterceptor) ServerOption
 		func ChainUnaryInterceptor(interceptors ...UnaryServerInterceptor) ServerOption
 		func ConnectionTimeout(d time.Duration) ServerOption
 		func Creds(c credentials.TransportCredentials) ServerOption
+			* 服务器证书配置
+				creds, err := credentials.NewServerTLSFromFile("server.crt", "server.key")
+				if err != nil {
+					panic(err)
+				}
+				grpc.Creds(creds)
+
 		func CustomCodec(codec Codec) ServerOption
 		func ForceServerCodec(codec encoding.Codec) ServerOption
 		func ForceServerCodecV2(codecV2 encoding.CodecV2) ServerOption
