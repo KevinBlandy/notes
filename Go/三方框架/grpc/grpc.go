@@ -5,7 +5,7 @@ GRPC
 		* API 文档
 			https://pkg.go.dev/google.golang.org/grpc
 		
-		* 相关稳定
+		* 相关文档
 			https://grpc.io/docs/languages/go/
 
 		* 导入包

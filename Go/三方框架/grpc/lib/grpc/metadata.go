@@ -15,6 +15,11 @@ type
 
 		func FromIncomingContext(ctx context.Context) (MD, bool)
 		func FromOutgoingContext(ctx context.Context) (MD, bool)
+			* 根 In 或 Out 获取到全局上下文，Key 分别是：
+				type mdIncomingKey struct{}
+				type mdOutgoingKey struct{}】
+			* 返回的结果是复制的
+
 		func Join(mds ...MD) MD
 		func New(m map[string]string) MD
 		func Pairs(kv ...string) MD

@@ -65,10 +65,13 @@ type
 	
 	# type RequestInfo struct {
 			Method string
+				* 请求方法
 			AuthInfo AuthInfo
+				* 认证信息
 		}
 
 		func RequestInfoFromContext(ctx context.Context) (ri RequestInfo, ok bool)
+			* 从上下文获取懂啊请求信息
 	
 	# type SecurityLevel int
 		const (

@@ -214,7 +214,10 @@ type
 		func WithNoProxy() DialOption
 		func WithPerRPCCredentials(creds credentials.PerRPCCredentials) DialOption
 			* 配置连接级别的点对点认证凭证
-			
+				grpc.WithPerRPCCredentials(oauth.TokenSource{TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
+					AccessToken: "Access Token",
+				})})
+
 		func WithReadBufferSize(s int) DialOption
 		func WithResolvers(rs ...resolver.Builder) DialOption
 		func WithReturnConnectionError() DialOption
@@ -339,7 +342,9 @@ type
 		func (s *Server) GracefulStop()
 			* 优雅停止服务
 		func (s *Server) RegisterService(sd *ServiceDesc, ss any)
-			* 注册服务
+			* 注册服务,必须在调用 Serve 之前调用此函数，且一般由自动生成后的代码进行被动调用
+			* 如果 ss 不为空（针对旧版代码），则会检查其类型，以确保它实现了 ServiceDesc 中的 HandlerType
+
 		func (s *Server) Serve(lis net.Listener) error
 			* 开启监听
 		func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request)
