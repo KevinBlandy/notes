@@ -82,6 +82,7 @@ type
 		func (rw *RWMutex) Unlock()
 	
 	# type WaitGroup struct {}
+		
 		func (wg *WaitGroup) Add(delta int)
 		func (wg *WaitGroup) Done()
 		func (wg *WaitGroup) Go(f func())
@@ -93,7 +94,7 @@ type
 					}()
 
 		func (wg *WaitGroup) Wait()
-
+			* wg 减到 0 的时候，所有 Wait() 状态的线程都会继续往下执行
 
 ----------------------
 方法
