@@ -82,6 +82,7 @@ type
 
 		func ParseFloat(s string, base int, prec uint, mode RoundingMode) (f *Float, b int, err error)
 			* 类似于 f.Parse(s,base)，f 设置为给定精度和四舍五入模式。
+			* 如果 prce 设置为 0 则表示默认精度为 64
 			* 返回 float, 精度指示, 异常
 			* 源码
 				new(Float).SetPrec(prec).SetMode(mode).Parse(s, base)
@@ -148,6 +149,9 @@ type
 		func (z *Float) SetInt64(x int64) *Float
 		func (z *Float) SetMantExp(mant *Float, exp int) *Float
 		func (z *Float) SetMode(mode RoundingMode) *Float
+			* 设置舍入模式
+			* 这个方法本身不会对数值进行任何修改，也不会执行舍入操作。舍入只在有后续操作时才会进行。
+
 		func (z *Float) SetPrec(prec uint) *Float
 			* 设置浮点数计算的精度。它用于指定 big.Float 类型对象在计算时使用的二进制精度（以位为单位）。
 			* 默认精度值在 Go 中是 64 位二进制精度。这相当于标准的 float64 的精度（约为 16 位十进制有效数字）。
@@ -300,7 +304,7 @@ type
 	
 	# type RoundingMode byte
 
-		* 舍入模式
+		* 舍入模式，是在二进制尾数级别进行的
 
 		func (i RoundingMode) String() string
 
@@ -383,4 +387,21 @@ demo
 				n.Sub(n, two)                                          // 补码转换为负数
 			}
 			return n
+		}
+	
+	# 截断 float，只保留 N 位小数
+
+		// TruncTo 保留 N 位小数
+		func TruncTo(n *big.Float, p int) *big.Float {
+			if p == 0 {
+				r, _ := n.Int(nil)
+				return new(big.Float).SetInt(r)
+			}
+			// 计算 10^p
+			divisor := new(big.Float).SetInt(new(big.Int).Exp(big.NewInt(10), big.NewInt(int64(p)), nil))
+
+			// n * 10^p 然后取整，再除以 10^p
+			multiplied := new(big.Float).Mul(n, divisor)
+			truncated, _ := multiplied.Int(nil)
+			return new(big.Float).Quo(new(big.Float).SetInt(truncated), divisor)
 		}
