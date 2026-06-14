@@ -11,6 +11,9 @@ type
 ----------------------
 	# type Code uint32
 		* 状态码
+		
+		func (c Code) String() string
+		func (c *Code) UnmarshalJSON(b []byte) error
 
 		const (
 			OK Code = 0

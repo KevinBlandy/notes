@@ -1,12 +1,12 @@
 -------------------
 aes
 -------------------
-	# AESËã·¨µÄÊµÏÖ
+	# AESç®—æ³•çš„å®ç°
 
 -------------------
 var
 -------------------
-	# ÃØÔ¿´óĞ¡
+	# ç§˜é’¥å¤§å°
 		const BlockSize = 16
 
 
@@ -20,15 +20,15 @@ type
 func
 -------------------
 	func NewCipher(key []byte) (cipher.Block, error)
-		* ¸ù¾İÃØÔ¿(16¡¢24»ò32¸ö×Ö½Ú)·µ»ØÒ»¸ö cipher
-		* »á¸ù¾İÃØÔ¿µÄ³¤¶È·µ»ØAES-128, AES-192, or AES-256 µÄchipher
+		* æ ¹æ®ç§˜é’¥(16ã€24æˆ–32ä¸ªå­—èŠ‚)è¿”å›ä¸€ä¸ª cipher
+		* ä¼šæ ¹æ®ç§˜é’¥çš„é•¿åº¦è¿”å›AES-128, AES-192, or AES-256 çš„chipher
 	
 
 	
 -------------------
-aesµÄÊµÏÖ
+aesçš„å®ç°
 -------------------
-	# AESÏÂ¸÷¸öÄ£Ê½(CBC/ECB/CFB)µÄ¼ÓÃÜ½âÃÜÊµÏÖ
+	# AESä¸‹å„ä¸ªæ¨¡å¼(CBC/ECB/CFB)çš„åŠ å¯†è§£å¯†å®ç°
 		import (
 			"bytes"
 			"crypto/aes"
@@ -41,49 +41,49 @@ aesµÄÊµÏÖ
 		)
 
 		func main(){
-			origData := []byte("GoÓïÑÔ") // ´ı¼ÓÃÜµÄÊı¾İ
-			key := []byte("1234567899986596") // ¼ÓÃÜµÄÃÜÔ¿
+			origData := []byte("Goè¯­è¨€") // å¾…åŠ å¯†çš„æ•°æ®
+			key := []byte("1234567899986596") // åŠ å¯†çš„å¯†é’¥
 
-			log.Println("------------------ CBCÄ£Ê½ --------------------")
+			log.Println("------------------ CBCæ¨¡å¼ --------------------")
 			encrypted := AesEncryptCBC(origData, key)
-			log.Println("ÃÜÎÄ(hex)£º", hex.EncodeToString(encrypted))
-			log.Println("ÃÜÎÄ(base64)£º", base64.StdEncoding.EncodeToString(encrypted))
+			log.Println("å¯†æ–‡(hex)ï¼š", hex.EncodeToString(encrypted))
+			log.Println("å¯†æ–‡(base64)ï¼š", base64.StdEncoding.EncodeToString(encrypted))
 			decrypted := AesDecryptCBC(encrypted, key)
-			log.Println("½âÃÜ½á¹û£º", string(decrypted))
+			log.Println("è§£å¯†ç»“æœï¼š", string(decrypted))
 
-			log.Println("------------------ ECBÄ£Ê½ --------------------")
+			log.Println("------------------ ECBæ¨¡å¼ --------------------")
 			encrypted = AesEncryptECB(origData, key)
-			log.Println("ÃÜÎÄ(hex)£º", hex.EncodeToString(encrypted))
-			log.Println("ÃÜÎÄ(base64)£º", base64.StdEncoding.EncodeToString(encrypted))
+			log.Println("å¯†æ–‡(hex)ï¼š", hex.EncodeToString(encrypted))
+			log.Println("å¯†æ–‡(base64)ï¼š", base64.StdEncoding.EncodeToString(encrypted))
 			decrypted = AesDecryptECB(encrypted, key)
-			log.Println("½âÃÜ½á¹û£º", string(decrypted))
+			log.Println("è§£å¯†ç»“æœï¼š", string(decrypted))
 
-			log.Println("------------------ CFBÄ£Ê½ --------------------")
+			log.Println("------------------ CFBæ¨¡å¼ --------------------")
 			encrypted = AesEncryptCFB(origData, key)
-			log.Println("ÃÜÎÄ(hex)£º", hex.EncodeToString(encrypted))
-			log.Println("ÃÜÎÄ(base64)£º", base64.StdEncoding.EncodeToString(encrypted))
+			log.Println("å¯†æ–‡(hex)ï¼š", hex.EncodeToString(encrypted))
+			log.Println("å¯†æ–‡(base64)ï¼š", base64.StdEncoding.EncodeToString(encrypted))
 			decrypted = AesDecryptCFB(encrypted, key)
-			log.Println("½âÃÜ½á¹û£º", string(decrypted))
+			log.Println("è§£å¯†ç»“æœï¼š", string(decrypted))
 		}
-		// CBC Ä£Ê½¼ÓÃÜ
+		// CBC æ¨¡å¼åŠ å¯†
 		func AesEncryptCBC(origData []byte, key []byte) (encrypted []byte) {
 			block, _ := aes.NewCipher(key)
-			blockSize := block.BlockSize()                              // »ñÈ¡ÃØÔ¿¿éµÄ³¤¶È
-			origData = pkcs5Padding(origData, blockSize)                // ²¹È«Âë
-			blockMode := cipher.NewCBCEncrypter(block, key[:blockSize]) // ¼ÓÃÜÄ£Ê½
-			encrypted = make([]byte, len(origData))                     // ´´½¨Êı×é
-			blockMode.CryptBlocks(encrypted, origData)                  // ¼ÓÃÜ
+			blockSize := block.BlockSize()                              // è·å–ç§˜é’¥å—çš„é•¿åº¦
+			origData = pkcs5Padding(origData, blockSize)                // è¡¥å…¨ç 
+			blockMode := cipher.NewCBCEncrypter(block, key[:blockSize]) // åŠ å¯†æ¨¡å¼
+			encrypted = make([]byte, len(origData))                     // åˆ›å»ºæ•°ç»„
+			blockMode.CryptBlocks(encrypted, origData)                  // åŠ å¯†
 			return encrypted
 		}
 
-		// CBC Ä£Ê½½âÃÜ
+		// CBC æ¨¡å¼è§£å¯†
 		func AesDecryptCBC(encrypted []byte, key []byte) (decrypted []byte) {
-			block, _ := aes.NewCipher(key)                              // ·Ö×éÃØÔ¿
-			blockSize := block.BlockSize()                              // »ñÈ¡ÃØÔ¿¿éµÄ³¤¶È
-			blockMode := cipher.NewCBCDecrypter(block, key[:blockSize]) // ¼ÓÃÜÄ£Ê½
-			decrypted = make([]byte, len(encrypted))                    // ´´½¨Êı×é
-			blockMode.CryptBlocks(decrypted, encrypted)                 // ½âÃÜ
-			decrypted = pkcs5UnPadding(decrypted)                       // È¥³ı²¹È«Âë
+			block, _ := aes.NewCipher(key)                              // åˆ†ç»„ç§˜é’¥
+			blockSize := block.BlockSize()                              // è·å–ç§˜é’¥å—çš„é•¿åº¦
+			blockMode := cipher.NewCBCDecrypter(block, key[:blockSize]) // åŠ å¯†æ¨¡å¼
+			decrypted = make([]byte, len(encrypted))                    // åˆ›å»ºæ•°ç»„
+			blockMode.CryptBlocks(decrypted, encrypted)                 // è§£å¯†
+			decrypted = pkcs5UnPadding(decrypted)                       // å»é™¤è¡¥å…¨ç 
 			return decrypted
 		}
 		func pkcs5Padding(cipherText []byte, blockSize int) []byte {
@@ -97,7 +97,7 @@ aesµÄÊµÏÖ
 			return origData[:(length - unpadding)]
 		}
 
-		// ECSÄ£Ê½¼ÓÃÜ
+		// ECSæ¨¡å¼åŠ å¯†
 		func AesEncryptECB(origData []byte, key []byte) (encrypted []byte) {
 			cipher, _ := aes.NewCipher(generateKey(key))
 			length := (len(origData) + aes.BlockSize) / aes.BlockSize
@@ -108,14 +108,14 @@ aesµÄÊµÏÖ
 				plain[i] = pad
 			}
 			encrypted = make([]byte, len(plain))
-			// ·Ö×é·Ö¿é¼ÓÃÜ
+			// åˆ†ç»„åˆ†å—åŠ å¯†
 			for bs, be := 0, cipher.BlockSize(); bs <= len(origData); bs, be = bs+cipher.BlockSize(), be+cipher.BlockSize() {
 				cipher.Encrypt(encrypted[bs:be], plain[bs:be])
 			}
 
 			return encrypted
 		}
-		// ECBÄ£Ê½½âÃÜ
+		// ECBæ¨¡å¼è§£å¯†
 		func AesDecryptECB(encrypted []byte, key []byte) (decrypted []byte) {
 			cipher, _ := aes.NewCipher(generateKey(key))
 			decrypted = make([]byte, len(encrypted))
@@ -141,7 +141,7 @@ aesµÄÊµÏÖ
 			return genKey
 		}
 
-		// CFBÄ£Ê½¼ÓÃÜ
+		// CFBæ¨¡å¼åŠ å¯†
 		func AesEncryptCFB(origData []byte, key []byte) (encrypted []byte) {
 			block, err := aes.NewCipher(key)
 			if err != nil {
@@ -156,7 +156,7 @@ aesµÄÊµÏÖ
 			stream.XORKeyStream(encrypted[aes.BlockSize:], origData)
 			return encrypted
 		}
-		// CFBÄ£Ê½½âÃÜ
+		// CFBæ¨¡å¼è§£å¯†
 		func AesDecryptCFB(encrypted []byte, key []byte) (decrypted []byte) {
 			block, _ := aes.NewCipher(key)
 			if len(encrypted) < aes.BlockSize {
@@ -171,7 +171,7 @@ aesµÄÊµÏÖ
 		}
 
 	
-	# ¹¤¾ßÀà
+	# å·¥å…·ç±»
 		package aes
 
 		import (
@@ -183,25 +183,25 @@ aesµÄÊµÏÖ
 		)
 
 
-		// EncryptCBC CBC Ä£Ê½¼ÓÃÜ
+		// EncryptCBC CBC æ¨¡å¼åŠ å¯†
 		func EncryptCBC(origData []byte, key []byte) (encrypted []byte) {
 			block, _ := aes.NewCipher(key)
-			blockSize := block.BlockSize()                              // »ñÈ¡ÃØÔ¿¿éµÄ³¤¶È
-			origData = pkcs5Padding(origData, blockSize)                // ²¹È«Âë
-			blockMode := cipher.NewCBCEncrypter(block, key[:blockSize]) // ¼ÓÃÜÄ£Ê½
-			encrypted = make([]byte, len(origData))                     // ´´½¨Êı×é
-			blockMode.CryptBlocks(encrypted, origData)                  // ¼ÓÃÜ
+			blockSize := block.BlockSize()                              // è·å–ç§˜é’¥å—çš„é•¿åº¦
+			origData = pkcs5Padding(origData, blockSize)                // è¡¥å…¨ç 
+			blockMode := cipher.NewCBCEncrypter(block, key[:blockSize]) // åŠ å¯†æ¨¡å¼
+			encrypted = make([]byte, len(origData))                     // åˆ›å»ºæ•°ç»„
+			blockMode.CryptBlocks(encrypted, origData)                  // åŠ å¯†
 			return encrypted
 		}
 
-		// DecryptCBC CBC Ä£Ê½½âÃÜ
+		// DecryptCBC CBC æ¨¡å¼è§£å¯†
 		func DecryptCBC(encrypted []byte, key []byte) (decrypted []byte) {
-			block, _ := aes.NewCipher(key)                              // ·Ö×éÃØÔ¿
-			blockSize := block.BlockSize()                              // »ñÈ¡ÃØÔ¿¿éµÄ³¤¶È
-			blockMode := cipher.NewCBCDecrypter(block, key[:blockSize]) // ¼ÓÃÜÄ£Ê½
-			decrypted = make([]byte, len(encrypted))                    // ´´½¨Êı×é
-			blockMode.CryptBlocks(decrypted, encrypted)                 // ½âÃÜ
-			decrypted = pkcs5UnPadding(decrypted)                       // È¥³ı²¹È«Âë
+			block, _ := aes.NewCipher(key)                              // åˆ†ç»„ç§˜é’¥
+			blockSize := block.BlockSize()                              // è·å–ç§˜é’¥å—çš„é•¿åº¦
+			blockMode := cipher.NewCBCDecrypter(block, key[:blockSize]) // åŠ å¯†æ¨¡å¼
+			decrypted = make([]byte, len(encrypted))                    // åˆ›å»ºæ•°ç»„
+			blockMode.CryptBlocks(decrypted, encrypted)                 // è§£å¯†
+			decrypted = pkcs5UnPadding(decrypted)                       // å»é™¤è¡¥å…¨ç 
 			return decrypted
 		}
 		func pkcs5Padding(cipherText []byte, blockSize int) []byte {
@@ -215,7 +215,7 @@ aesµÄÊµÏÖ
 			return origData[:(length - unPadding)]
 		}
 
-		// EncryptECB ECSÄ£Ê½¼ÓÃÜ
+		// EncryptECB ECSæ¨¡å¼åŠ å¯†
 		func EncryptECB(origData []byte, key []byte) (encrypted []byte) {
 			cipher, _ := aes.NewCipher(generateKey(key))
 			length := (len(origData) + aes.BlockSize) / aes.BlockSize
@@ -226,14 +226,14 @@ aesµÄÊµÏÖ
 				plain[i] = pad
 			}
 			encrypted = make([]byte, len(plain))
-			// ·Ö×é·Ö¿é¼ÓÃÜ
+			// åˆ†ç»„åˆ†å—åŠ å¯†
 			for bs, be := 0, cipher.BlockSize(); bs <= len(origData); bs, be = bs+cipher.BlockSize(), be+cipher.BlockSize() {
 				cipher.Encrypt(encrypted[bs:be], plain[bs:be])
 			}
 
 			return encrypted
 		}
-		// DecryptECB ECBÄ£Ê½½âÃÜ
+		// DecryptECB ECBæ¨¡å¼è§£å¯†
 		func DecryptECB(encrypted []byte, key []byte) (decrypted []byte) {
 			cipher, _ := aes.NewCipher(generateKey(key))
 			decrypted = make([]byte, len(encrypted))
@@ -259,7 +259,7 @@ aesµÄÊµÏÖ
 			return genKey
 		}
 
-		// EncryptCFB CFBÄ£Ê½¼ÓÃÜ
+		// EncryptCFB CFBæ¨¡å¼åŠ å¯†
 		func EncryptCFB(origData []byte, key []byte) (encrypted []byte) {
 			block, err := aes.NewCipher(key)
 			if err != nil {
@@ -274,7 +274,7 @@ aesµÄÊµÏÖ
 			stream.XORKeyStream(encrypted[aes.BlockSize:], origData)
 			return encrypted
 		}
-		// DecryptCFB CFBÄ£Ê½½âÃÜ
+		// DecryptCFB CFBæ¨¡å¼è§£å¯†
 		func DecryptCFB(encrypted []byte, key []byte) (decrypted []byte) {
 			block, _ := aes.NewCipher(key)
 			if len(encrypted) < aes.BlockSize {

@@ -21,7 +21,7 @@ UnaryClientInterceptor
 		* 在连接级别添加，拦截发出去的请求，在请求发出前/后进行执行。
 		* grpc.WithUnaryInterceptor 添加单个拦截器，多次调用会覆盖前面的
 		* grpc.WithChainUnaryInterceptor 可以添加多个，依次执行，也可以多次调用，深度优先。
-		* 单个拦截器和拦截器链可以并存，最先添加的最先执行。简单理解为
+		* 单个拦截器和拦截器链可以并存，最先添加的最先执行。
 
 		type UnaryClientInterceptor func(ctx context.Context, method string, req, reply any, cc *ClientConn, invoker UnaryInvoker, opts ...CallOption) error
 			ctx
@@ -69,10 +69,10 @@ UnaryServerInterceptor
 --------------------------------------
 	# 一元调用，服务端拦截器
 
-		* 主要作用是在服务端进行拦截，在 Handler/Interceptor 执行之前/后执行。
+		* 在创建服务的时候以 ServerOption 形式进行添加，主要作用是在服务端进行拦截，在 Handler/Interceptor 执行之前/后执行。
 		* grpc.UnaryInterceptor 添加单个拦截器，多次调用会 panic：panic: The unary server interceptor was already set and may not be reset.
 		* grpc.ChainUnaryInterceptor 可以添加多个，按照添加顺序依次执行，可以多次调用。深度优先。
-		* 单个拦截器和拦截器链可以并存，但是注意，在服务端单个拦截器固定会比拦截器链先执行。
+		* 单个拦截器和拦截器链可以并存，按添加顺序执行
 
 		type UnaryServerInterceptor func(ctx context.Context, req any, info *UnaryServerInfo, handler UnaryHandler) (resp any, err error)
 
@@ -98,32 +98,167 @@ UnaryServerInterceptor
 				* 返回给客户端的异常
 	
 	# Demo	
-		grpc.NewServer(grpc.ChainUnaryInterceptor(func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
-			fmt.Println("[filter-1] 执行前", req)
-			ret, err := handler(ctx, req)
-			fmt.Println("[filter-1] 执行后", ret)
-			return ret, err
-		}, func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
-			fmt.Println("[filter-2] 执行前", req)
-			ret, err := handler(ctx, req)
-			fmt.Println("[filter-2] 执行后", ret)
-			return ret, err
-		}))
+		grpc.NewServer(
+			grpc.UnaryInterceptor(func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
+				fmt.Println("[filter-3] 执行前", req)
+				ret, err := handler(ctx, req)
+				fmt.Println("[filter-3] 执行后", ret)
+				return ret, err
+			}),
+			grpc.ChainUnaryInterceptor(
+				func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
+					fmt.Println("[filter-1] 执行前", req)
+					ret, err := handler(ctx, req)
+					fmt.Println("[filter-1] 执行后", ret)
+					return ret, err
+				}, func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
+					fmt.Println("[filter-2] 执行前", req)
+					ret, err := handler(ctx, req)
+					fmt.Println("[filter-2] 执行后", ret)
+					return ret, err
+				},
+			),
+		)
 
+		// [filter-3] 执行前 member:{id:10028}
 		// [filter-1] 执行前 member:{id:10028}
 		// [filter-2] 执行前 member:{id:10028}
 		// [filter-2] 执行后 member:{id:10028}
 		// [filter-1] 执行后 member:{id:10028}
-
+		// [filter-3] 执行后 member:{id:10028}
 
 --------------------------------------
 StreamClientInterceptor
 --------------------------------------
-	type StreamClientInterceptor func(ctx context.Context, desc *StreamDesc, cc *ClientConn, method string, streamer Streamer, opts ...CallOption) (ClientStream, error)
+	# 流式客户端拦截器 
+		* 在流创建前后进行拦截。
+		* 通过 grpc.WithStreamInterceptor 添加单个拦截器，可以多次调用，但是后面的会覆盖前面的。
+		* 通过 grpc.WithChainStreamInterceptor 添加多个拦截器，可以多次调用，深度优先遍历。
+		* 单个、多个都同时存在，则按照添加顺序依次执行。
+
+		type StreamClientInterceptor func(ctx context.Context, desc *StreamDesc, cc *ClientConn, method string, streamer Streamer, opts ...CallOption) (ClientStream, error)
+		
+			ctx
+				* 客户端调用时传进来的 ctx
+			
+			desc
+				* 流描述
+					type StreamDesc struct {
+						StreamName string        // the name of the method excluding the service
+						Handler    StreamHandler // the handler called for the method
+						ServerStreams bool // indicates the server can perform streaming sends
+						ClientStreams bool // indicates the client can perform streaming sends
+					}
+
+			cc
+				* 连接对象
+			
+			method
+				* 方法
+			
+			streamer
+				* 创建流的句柄，用该方法，即创建流
+					func(ctx context.Context, desc *StreamDesc, cc *ClientConn, method string, opts ...CallOption) (ClientStream, error)
+				* 可以对流进行包装
+
+			opts
+				* 设置的选项
+			
+			ClientStream
+			error
+				* 返回创建的流和异常信息
+
+	# Demo
+		grpc.NewClient("localhost:7788",
+			grpc.WithTransportCredentials(insecure.NewCredentials()),
+			grpc.WithStreamInterceptor(func(ctx context.Context, desc *grpc.StreamDesc, cc *grpc.ClientConn, method string, streamer grpc.Streamer, opts ...grpc.CallOption) (grpc.ClientStream, error) {
+				fmt.Println("拦截器1 前置执行")
+				r, err := streamer(ctx, desc, cc, method, opts...)
+				fmt.Println("拦截器1 后置执行")
+				return r, err
+			}),
+			grpc.WithChainStreamInterceptor(func(ctx context.Context, desc *grpc.StreamDesc, cc *grpc.ClientConn, method string, streamer grpc.Streamer, opts ...grpc.CallOption) (grpc.ClientStream, error) {
+				fmt.Println("拦截器2 前置执行")
+				r, err := streamer(ctx, desc, cc, method, opts...)
+				fmt.Println("拦截器2 后置执行")
+				return r, err
+			}, func(ctx context.Context, desc *grpc.StreamDesc, cc *grpc.ClientConn, method string, streamer grpc.Streamer, opts ...grpc.CallOption) (grpc.ClientStream, error) {
+				fmt.Println("拦截器3 前置执行")
+				r, err := streamer(ctx, desc, cc, method, opts...)
+				fmt.Println("拦截器3 后置执行")
+				return r, err
+			}),
+		)
+		// 拦截器1 前置执行
+		// 拦截器2 前置执行
+		// 拦截器3 前置执行
+		// 拦截器4 前置执行
+		// 拦截器4 后置执行
+		// 拦截器3 后置执行
+		// 拦截器2 后置执行
+		// 拦截器1 后置执行
+
 
 --------------------------------------
 StreamServerInterceptor
 --------------------------------------
-	type StreamServerInterceptor func(srv any, ss ServerStream, info *StreamServerInfo, handler StreamHandler) error
-	
+	# 服务端流式拦截器
+		* 在流式 handler 方法执行的钱后执行。
+		* 通过 grpc.StreamInterceptor 方法添加单个拦截器，多次执行会崩溃 panic: The stream server interceptor was already set and may not be reset.
+		* 通过 grpc.ChainStreamInterceptor 添加多个拦截器，可以多次添加，深度优先执行。
+		* 单个、多个拦截器可同时存在。按照添加顺序执行。
 
+		type StreamServerInterceptor func(srv any, ss ServerStream, info *StreamServerInfo, handler StreamHandler) error
+
+			srv
+				*  service 实例（*ServiceServer）   
+			
+			ss
+				*  流对象，用于 Recv/Send/读 ctx/操作 metadata
+			
+			info
+				* 流描述
+					type StreamServerInfo struct {
+						FullMethod string
+						IsClientStream bool
+						IsServerStream bool
+					}
+			
+			handler
+				* 执行 handler 的句柄，执行方法，即开始执行流式服务端方法
+					func(srv any, stream ServerStream) error
+				* 方法结束，即表示流执行结束
+			
+			errror
+				* 最终返回的异常信息
+	
+	# Demo
+		grpc.NewServer(
+			grpc.StreamInterceptor(func(srv any, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+				fmt.Println("拦截器3 前置执行")
+				err := handler(srv, ss)
+				fmt.Println("拦截器3 后执行")
+				return err
+			}),
+			grpc.ChainStreamInterceptor(
+				func(srv any, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+					fmt.Println("拦截器1 前置执行")
+					err := handler(srv, ss)
+					fmt.Println("拦截器1 后执行")
+					return err
+				},
+				func(srv any, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+					fmt.Println("拦截器2 前置执行")
+					err := handler(srv, ss)
+					fmt.Println("拦截器2 后执行")
+					return err
+				},
+			),
+		)
+
+		// 拦截器3 前置执行
+		// 拦截器1 前置执行
+		// 拦截器2 前置执行
+		// 拦截器2 后执行
+		// 拦截器1 后执行
+		// 拦截器3 后执行
