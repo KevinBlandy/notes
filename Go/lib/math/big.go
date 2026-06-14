@@ -252,6 +252,10 @@ type
 		func (z *Int) SetUint64(x uint64) *Int
 		func (x *Int) Sign() int
 		func (z *Int) Sqrt(x *Int) *Int
+			* 将 z 设置为 x 的四舍五入后的平方根，并返回该值。
+			* 如果 z 的精度为 0，则在运算前将其更改为 x 的精度。舍入操作根据 z 的精度和舍入模式进行，但不会计算 z 的精度。具体来说，z.Acc() 的结果未定义。
+			* 若 z < 0，该函数将引发 panic。此时 z 的值未定义。
+
 		func (x *Int) String() string
 		func (z *Int) Sub(x, y *Int) *Int
 		func (x *Int) Text(base int) string
